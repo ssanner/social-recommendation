@@ -67,7 +67,7 @@ import java.util.Random;
    return -sq_error - (regularization_strength * L2_norm);
  * 
  * The program loops until convergence happens where this likelihood is as minimal as possible.
- * I'm guessing minimizing the likelihood is the same as minimizing the square error.
+ * 
  */
 
 public class MF
@@ -267,13 +267,8 @@ public class MF
         	}
         }
         
-        //*****Hang on, the Frobenius norm is the L2 norm when it's just a 1 column matrix?****
+        //Hang on, the Frobenius norm is the L2 norm when it's just a 1 column matrix? That's what I got from reading Wikipedia
 
-        //What formula is this? Where is it in the paper? Need to find out
-        // likelihood = -SQE - (R * L2 norm)
-        // The R should be there just for regularisation right? So likelihood = -SQE - L2 norm?
-        //-SQE - ||F|| ?
-        // How does this return the likelihood?
         return -sq_error - (regularization_strength * L2_norm);
     }
         

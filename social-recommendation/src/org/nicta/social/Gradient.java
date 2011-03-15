@@ -28,14 +28,8 @@ public class Gradient
 		while (Math.abs(xNew - xOld) > precision) {
 			iterations++;
 
-			double tmp = xNew - (eps * fPrime(xNew));
-			//if (tmp < xNew) {
-				xOld = xNew;
-				xNew = tmp;
-			//}
-			//else {
-				//eps *= .1;
-			//}
+			xOld = xNew;
+			xNew = xNew - (eps * fPrime(xNew));
 		}
 
 		System.out.println("Local minimum: " + xNew);
