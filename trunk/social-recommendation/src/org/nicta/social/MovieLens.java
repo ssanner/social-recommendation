@@ -42,6 +42,7 @@ public abstract class MovieLens
 	*/
 	
 	/* 100K Movielens */
+	
 	final String ratingsSource = "/Users/jino/Desktop/Honours/ml-data_0/u.data";
 	final String separator = "\\t";
 	final int MOVIE_COUNT = 1682;
