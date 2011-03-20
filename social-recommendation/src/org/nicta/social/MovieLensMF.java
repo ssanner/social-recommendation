@@ -7,15 +7,15 @@ import java.util.Random;
 
 public class MovieLensMF extends MovieLens
 {
-	final int DIMENSION_COUNT = 10; //Same as used in the paper
+	final int DIMENSION_COUNT = 3; //Ratio of data/params should be over 10. Now we're useing the 100k dataset
 	final Random RANDOM = new Random();
 	final double ERROR_CONVERGENCE = .1;
 	final double STEP_CONVERGENCE = 1e-10;
 	final double K = 5; //Range of rating
 	
 	double stepSize = 0.0001; //learning rate
-	double lambdaU = 0.1; 
-	double lambdaV = 0.1;
+	double lambdaU = 100; // optimal for non-boundedness was 1000. For bounded it seems to be 100
+	double lambdaV = 100; 
 	
 	public void run(int k)
 		throws Exception
@@ -32,7 +32,7 @@ public class MovieLensMF extends MovieLens
 		double rmseSum = 0;
 		for (int x = 0; x < k; x++) {
 			System.out.println("Predict " + (x+1));
-			
+			movieUserRatings.clone();
 			HashMap<Integer[], Double> testData = getTestData(movieUserRatings, userMovies, added);
 			double rmse = predict(movieUserRatings, userMovies, testData);
 			rmseSum += rmse;
@@ -72,18 +72,18 @@ public class MovieLensMF extends MovieLens
 			
 			int testUserId = test[0];
 			int testMovieId = test[1];
-			double testRating = testData.get(test);
 			
-			double prediction = dot(userMatrix.get(testUserId), movieMatrix.get(testMovieId));
+			double testRating = testData.get(test);
+			double prediction = boundPrediction(dot(userMatrix.get(testUserId), movieMatrix.get(testMovieId)));
 			
 			//Bound the range of prediction
-			prediction = 1 / (1 + Math.exp(-prediction));
+			//prediction = 1 / (1 + Math.exp(-prediction));
 			//testRating = (testRating - 1) / (K - 1);
 			
 			prediction *= K;
 			//testRating *= K;
 				
-			se += Math.pow(prediction - testRating, 2);
+			se += Math.pow((prediction - testRating), 2);
 			
 		
 		}
@@ -94,7 +94,7 @@ public class MovieLensMF extends MovieLens
 
 	public void minimize(HashMap<Integer, HashMap<Integer, Double>> movieUserRatings, HashMap<Integer, Double[]> userMatrix, HashMap<Integer, Double[]> movieMatrix)
 	{
-		double oldError = getError(userMatrix, movieMatrix, movieUserRatings);
+		double oldError = getBoundedError(userMatrix, movieMatrix, movieUserRatings);
 		boolean converged = false;
 		
 		int iterations = 0;
@@ -114,7 +114,7 @@ public class MovieLensMF extends MovieLens
 				//updatedUserMatrix.put(k, new Double[DIMENSION_COUNT]);
 				
 				for (int l = 0; l < DIMENSION_COUNT; l++) {
-					userMatrix.get(k)[l] -= stepSize * getErrorDerivativeOverUser(userMatrix, movieMatrix, movieUserRatings, k, l);
+					userMatrix.get(k)[l] -= stepSize * getErrorDerivativeOverUserBoundedWrong(userMatrix, movieMatrix, movieUserRatings, k, l);
 					//updatedUserMatrix.get(k)[l] = userMatrix.get(k)[l] - (stepSize * getErrorDerivativeOverUser(userMatrix, movieMatrix, movieUserRatings, k, l));
 				}
 			}
@@ -124,13 +124,13 @@ public class MovieLensMF extends MovieLens
 				//updatedMovieMatrix.put(q, new Double[DIMENSION_COUNT]);
 				
 				for (int l = 0; l < DIMENSION_COUNT; l++) {
-					movieMatrix.get(q)[l] -= stepSize * getErrorDerivativeOverMovie(userMatrix, movieMatrix, movieUserRatings, q, l);
+					movieMatrix.get(q)[l] -= stepSize * getErrorDerivativeOverMovieBoundedWrong(userMatrix, movieMatrix, movieUserRatings, q, l);
 					//updatedMovieMatrix.get(q)[l] = movieMatrix.get(q)[l] - (stepSize * getErrorDerivativeOverMovie(userMatrix, movieMatrix, movieUserRatings, q, l));
 				}
 			}
 			
 			System.out.println("Get New Error");
-			double newError = getError(userMatrix, movieMatrix, movieUserRatings);
+			double newError = getBoundedError(userMatrix, movieMatrix, movieUserRatings);
 			//double newError = getError(updatedUserMatrix, updatedMovieMatrix, movieUserRatings);
 			
 			System.out.println("Old Error: " + oldError);
@@ -185,6 +185,49 @@ public class MovieLensMF extends MovieLens
 			errorDerivative -= movieUserRatings.get(j).get(k) * movieMatrix.get(j)[l];
 		}
 		
+		//System.out.println("error derivative:" + errorDerivative);
+		return errorDerivative;
+	}
+	
+	//This is with the bounds
+	public double getErrorDerivativeOverUserBoundedWrong(HashMap<Integer, Double[]>userMatrix, HashMap<Integer, Double[]>movieMatrix, HashMap<Integer, HashMap<Integer, Double>> movieUserRatings, int k, int l)
+	{
+		double klUser = userMatrix.get(k)[l];
+		
+		double errorDerivative = klUser * lambdaU;
+		
+		for (int j : movieMatrix.keySet()) {
+			if (!movieUserRatings.get(j).containsKey(k)) continue;
+			
+			double exp = Math.exp(-(klUser * movieMatrix.get(j)[l]));
+			double gx = exp / Math.pow(1 + exp, 2);
+			
+			errorDerivative += gx;
+			errorDerivative -= boundRating(movieUserRatings.get(j).get(k)) * gx;
+		}
+		
+		//System.out.println("error derivative:" + errorDerivative);
+		return errorDerivative;
+	}
+	
+	public double getErrorDerivativeOverUserBounded(HashMap<Integer, Double[]>userMatrix, HashMap<Integer, Double[]>movieMatrix, HashMap<Integer, HashMap<Integer, Double>> movieUserRatings, int k, int l)
+	{
+		double klUser = userMatrix.get(k)[l];
+		
+		double errorDerivative = klUser * lambdaU;
+		
+		for (int j : movieMatrix.keySet()) {
+			if (!movieUserRatings.get(j).containsKey(k)) continue;
+			
+			double exp = Math.exp((klUser * movieMatrix.get(j)[l]));
+			double gx2 = exp / Math.pow(1 + exp, 2);
+			double gx3 = exp / Math.pow(1 + exp, 3);
+			
+			errorDerivative += exp / gx2;
+			errorDerivative -= boundRating(movieUserRatings.get(j).get(k)) * gx3;
+		}
+		
+		//System.out.println("error derivative:" + errorDerivative);
 		return errorDerivative;
 	}
 	
@@ -199,6 +242,55 @@ public class MovieLensMF extends MovieLens
 			
 			errorDerivative += lqMovie * Math.pow(userMatrix.get(i)[l], 2);
 			errorDerivative -= movieUserRatings.get(q).get(i) * userMatrix.get(i)[l];
+		}
+		
+		return errorDerivative;
+	}
+	
+	public double getErrorDerivativeOverMovieBoundedWrong(HashMap<Integer, Double[]> userMatrix, HashMap<Integer, Double[]> movieMatrix, HashMap<Integer, HashMap<Integer, Double>> movieUserRatings, int q, int l)
+	{
+		double lqMovie = movieMatrix.get(q)[l];
+		
+		double errorDerivative = lqMovie * lambdaV;
+		
+		for (int i : userMatrix.keySet()) {
+			if (!movieUserRatings.get(q).containsKey(i)) continue;
+			
+			double exp = Math.exp(-(lqMovie * userMatrix.get(i)[l]));
+			double gx = exp / Math.pow(1 + exp, 2);
+			
+			errorDerivative += gx;
+			errorDerivative -= boundRating(movieUserRatings.get(q).get(i)) * gx;
+		}
+		
+		return errorDerivative;
+	}
+	
+	public double getErrorDerivativeOverMovieBounded(HashMap<Integer, Double[]> userMatrix, HashMap<Integer, Double[]> movieMatrix, HashMap<Integer, HashMap<Integer, Double>> movieUserRatings, int q, int l)
+	{
+		double lqMovie = movieMatrix.get(q)[l];
+		
+		double errorDerivative = lqMovie * lambdaV;
+		
+		for (int i : userMatrix.keySet()) {
+			if (!movieUserRatings.get(q).containsKey(i)) continue;
+			
+			double exp = Math.exp((lqMovie * userMatrix.get(i)[l]));
+			double gx2 = exp / Math.pow(1 + exp, 2);
+			double gx3 = exp / Math.pow(1 + exp, 3);
+			
+			errorDerivative += gx2;
+			errorDerivative -= boundRating(movieUserRatings.get(q).get(i)) * gx3;
+			
+			if (Double.isNaN(errorDerivative)) {
+				System.out.println("FRAK");
+				System.out.println(exp);
+				System.out.println(gx2);
+				System.out.println(gx3);
+				System.out.println(userMatrix.get(i)[l]);
+				System.out.println(lqMovie);
+				System.exit(1);
+			}
 		}
 		
 		return errorDerivative;
@@ -262,9 +354,60 @@ public class MovieLensMF extends MovieLens
         return error / 2;
 	}
 	
+	public double getBoundedError(HashMap<Integer, Double[]> userMatrix, HashMap<Integer, Double[]> movieMatrix, HashMap<Integer, HashMap<Integer, Double>> movieUserRatings)
+	{
+        double error = 0;
+    	
+    	//Get the square error
+        for (int j : movieUserRatings.keySet()) {
+        	HashMap<Integer, Double> userRatings = movieUserRatings.get(j);
+        	
+        	for (int i : userRatings.keySet()) {
+        		double trueRating = boundRating(userRatings.get(i));
+        		double predictedRating = boundPrediction(dot(userMatrix.get(i), movieMatrix.get(j)));
+        		
+        		error += Math.pow(trueRating - predictedRating, 2);
+        	}
+        }
+        
+        
+        //Get User and Movie norms for regularisation
+        double userNorm = 0;
+        double movieNorm = 0;
+        
+        for (int i : userMatrix.keySet()) {
+        	for (int d = 0; d < DIMENSION_COUNT; d++) {
+        		movieNorm += Math.pow(userMatrix.get(i)[d], 2);
+        	}
+        }
+        
+        for (int j : movieMatrix.keySet()) {
+        	for (int d = 0; d < DIMENSION_COUNT; d++) {
+        		movieNorm += Math.pow(movieMatrix.get(j)[d], 2);
+        	}
+        }
+        
+        userNorm *= lambdaU;
+        movieNorm *= lambdaV;
+        
+        error += userNorm + movieNorm;
+
+        return error / 2;
+	}
+	
 	public static void main(String[] args)
 		throws Exception
 	{
 		new MovieLensMF().run(10);
+	}
+	
+	public double boundPrediction(double prediction)
+	{
+		return 1 / (1 + Math.exp(-prediction));
+	}
+	
+	public double boundRating(double rating)
+	{
+		return (rating - 1) / (K - 1);
 	}
 }
