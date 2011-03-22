@@ -1,19 +1,18 @@
 package org.nicta.social;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
-import java.util.ArrayList;
-
+import java.util.Set;
 
 public class MovieLensNN extends MovieLens
-{	
+{
+	private final int ALPHA = 2;
+	private final int K = 50;
+	
 	public static void main(String[] args)
 		throws Exception
 	{
-		new MovieLensNN().run(10);
+		new MovieLensNN().run(1);
 	}
 	
 	//Reference: http://public.research.att.com/~volinsky/netflix/BellKorICDM07.pdf
@@ -32,9 +31,12 @@ public class MovieLensNN extends MovieLens
 		
 		for (int x = 0; x < k; x++) {
 			HashMap<Integer[], Double> testData = getTestData(movieUserRatings, userMovies, added);
+			//HashMap<Integer[], Double> movieSimilarities = getSimilarities(movieUserRatings, userMovies);
+			HashMap<Integer[], Double> movieSimilarities = new HashMap<Integer[], Double>();
 			
 			System.out.println("Predict " + (x+1));
-			double rmse = predict(movieUserRatings, userMovies, testData);
+			//normalize(movieUserRatings, userMovies);
+			double rmse = predict(movieUserRatings, userMovies, testData, movieSimilarities);
 			rmseSum += rmse;
 			
 			for (Integer[] key : testData.keySet()) {
@@ -53,7 +55,30 @@ public class MovieLensNN extends MovieLens
 		System.out.println("Time: " + ((System.currentTimeMillis() - start) / 1000));
 	}
 	
-	public double predict(HashMap<Integer, HashMap<Integer, Double>> movieUserRatings, HashMap<Integer, HashSet<Integer>> userMovies, HashMap<Integer[], Double> testData)
+	//Remove global effects **NOT WORKING***
+	public void normalize(HashMap<Integer, HashMap<Integer, Double>> movieUserRatings, HashMap<Integer, HashSet<Integer>> userMovies)
+	{
+		//user effects
+		for (int userId : userMovies.keySet()) {
+			HashSet<Integer> movies = userMovies.get(userId);
+			int nu = movies.size();
+			
+			double theta = 0;
+			
+			for (int movieId : movies) {
+				double rating = movieUserRatings.get(movieId).get(userId);
+				
+				theta += rating;
+			}
+			theta *= (double)nu / (nu + ALPHA);
+			
+			for (int movieId : movies) {
+				movieUserRatings.get(movieId).put(userId, theta);
+			}
+		}
+	}
+	
+	public double predict(HashMap<Integer, HashMap<Integer, Double>> movieUserRatings, HashMap<Integer, HashSet<Integer>> userMovies, HashMap<Integer[], Double> testData, HashMap<Integer[], Double> similarities)
 	{
 		/*
 		 * Get averages first. Baseline ratings
@@ -98,7 +123,7 @@ public class MovieLensNN extends MovieLens
 		
 		for (Integer[] test : testData.keySet()) {
 			run++;
-			if (run % 1000 == 0) System.out.println("Test: " + run);
+			/*if (run % 1000 == 0)*/ System.out.println("Test: " + run);
 			
 			int testUserId = test[0];
 			int testMovieId = test[1];
@@ -121,8 +146,6 @@ public class MovieLensNN extends MovieLens
 			userIds.addAll(testMovieVector.keySet());
 			
 			//Get all users that rated those movies and their ratings
-			ArrayList<Double> similarities = new ArrayList<Double>();
-			
 			for (int movieId : ratedMovies) {
 				if (movieId == testMovieId || !movieUserRatings.containsKey(movieId)) continue;
 				
@@ -130,15 +153,22 @@ public class MovieLensNN extends MovieLens
 				userIds.addAll(movieVector.keySet());
 				
 				//Get the similarity to the movie vector
-				//Current choices are cosine similarity and sample correlation (an estimate of the pearson correlation)
 				double similarity = getCosineSimilarity(testMovieVector, movieVector, userIds);
-				//double similarity = getSampleCorrelation(testMovieVector, movieVector, userIds);
-				//double similarity = getPearsonCorrelation(testMovieVector, movieVector, userIds);
 				
-				similarities.add(similarity);
-							
+				/*
+				Integer[] key;
+				if (movieId < testMovieId) {
+					key = new Integer[]{movieId, testMovieId};
+					
+				}
+				else {
+					key = new Integer[]{testMovieId, movieId};
+				}
+					
+				double similarity = similarities.containsKey(key) ? similarities.get(key) : 0;
+				*/
 				// k = 10
-				if (kClosestSimilarities.size() < 10) {
+				if (kClosestSimilarities.size() < K) {
 					kClosestSimilarities.put(movieId, similarity);
 					
 					if (similarity < smallestKSimilarity) {
@@ -206,7 +236,7 @@ public class MovieLensNN extends MovieLens
 		return Math.sqrt(mse);
 	}
 	
-	public double getCosineSimilarity(HashMap<Integer, Double> vector1, HashMap<Integer, Double> vector2, HashSet<Integer> keys)
+	public double getCosineSimilarity(HashMap<Integer, Double> vector1, HashMap<Integer, Double> vector2, Set<Integer> keys)
 	{
 		double similarity = 0;
 		double mag1 = 0;
@@ -222,21 +252,11 @@ public class MovieLensNN extends MovieLens
 			}
 		}
 		
-		if (mag1 == 0 && mag2 == 0) {
-			return 0;
-		}
-		
-		double cosine = similarity / (Math.sqrt(mag1) + Math.sqrt(mag2));
-		if (Double.isNaN(cosine)) {
-			return 0;
-		}
-		else {
-			return cosine;
-		}
+		return similarity / ((Math.sqrt(mag1) * Math.sqrt(mag2)));
 	}
 	
 	//This is used to estiomate the Pearson correlation according to http://en.wikipedia.org/wiki/Correlation_and_dependence
-	public double getSampleCorrelation(HashMap<Integer, Double> vector1, HashMap<Integer, Double> vector2, HashSet<Integer> keys)
+	public double getSampleCorrelation(HashMap<Integer, Double> vector1, HashMap<Integer, Double> vector2, Set<Integer> keys)
 	{
 		double vector1Mean = 0;
 		double vector2Mean = 0;
@@ -276,7 +296,7 @@ public class MovieLensNN extends MovieLens
 	}
 	
 	// Formula retrieved from http://algorithmsanalyzed.blogspot.com/2008/07/bellkor-algorithm-pearson-correlation.html
-	public double getPearsonCorrelation(HashMap<Integer, Double> vector1, HashMap<Integer, Double> vector2, HashSet<Integer> keys)
+	public double getPearsonCorrelation(HashMap<Integer, Double> vector1, HashMap<Integer, Double> vector2, Set<Integer> keys)
 	{
 		double sum1 = 0;
 		double sum2 = 0;
@@ -304,5 +324,44 @@ public class MovieLensNN extends MovieLens
 		double denomenator = (sumsq1 - Math.pow(sum1, 2)/n) * (sumsq2 - Math.pow(sum2, 2) / n);
 		
 		return numerator / Math.sqrt(denomenator);
+	}
+	
+	public HashMap<Integer[], Double> getSimilarities(HashMap<Integer, HashMap<Integer, Double>> movieUserRatings, HashMap<Integer, HashSet<Integer>> userMovies)
+	{
+		HashMap<Integer[], Double> similarities = new HashMap<Integer[], Double>();
+		Set<Integer> userIds = userMovies.keySet();
+		Set<Integer> movieIds = movieUserRatings.keySet();
+		
+		int count1 = 0;
+		for (int movieId1 : movieIds) {
+			count1++;
+			
+			//Get the movie vector
+			HashMap<Integer, Double> movieVector1 = movieUserRatings.get(movieId1);
+			int count2 = 0;
+			for (int movieId2 : movieIds) {
+				count2++;
+				//System.out.println(count1 + " : " + count2);
+				
+				if (movieId1 == movieId2) continue;
+				
+				HashMap<Integer, Double> movieVector2 = movieUserRatings.get(movieId2);
+				
+				double similarity = getCosineSimilarity(movieVector1, movieVector2, userIds);
+				//double similarity = getSampleCorrelation(testMovieVector, movieVector, userIds);
+				//double similarity = getPearsonCorrelation(testMovieVector, movieVector, userIds);
+				
+				System.out.println(similarity);
+				
+				if (movieId1 < movieId2) {
+					similarities.put(new Integer[]{movieId1, movieId2}, similarity);
+				}
+				else {
+					similarities.put(new Integer[]{movieId2, movieId1}, similarity);
+				}
+			}	
+		}
+		
+		return similarities;
 	}
 }
