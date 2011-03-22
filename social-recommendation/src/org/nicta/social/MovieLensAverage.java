@@ -20,7 +20,7 @@ public class MovieLensAverage extends MovieLens
 		List<Integer[]> list = new ArrayList<Integer[]>();
 		list.addAll(ratings.keySet());
 		
-		while (testData.size()  < ratings.size() * .1) {
+		while (testData.size()  < ratings.size() * .1 - 1) {
 			int randomIndex = (int)(Math.random() * list.size());
 			if (!added.contains(list.get(randomIndex))) {
 				testData.put(list.get(randomIndex), ratings.get(list.get(randomIndex)));
