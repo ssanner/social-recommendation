@@ -7,7 +7,7 @@ import java.util.Set;
 public class MovieLensNN extends MovieLens
 {
 	private final int ALPHA = 2;
-	private final int K = 50;
+	private final int K = 10;
 	
 	public static void main(String[] args)
 		throws Exception

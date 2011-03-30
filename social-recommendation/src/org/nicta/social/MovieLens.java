@@ -32,24 +32,24 @@ public abstract class MovieLens
 	*/
 	
 	/* 1M MovieLens dataset */
-	
+	/*
 	final String ratingsSource = "/Users/jino/Desktop/Honours/million-ml-data/ratings.dat";
 	final String separator = "::";
 	final int MOVIE_COUNT = 3952;
 	final int USER_COUNT = 6040;
 	final int RATING_COUNT = 1000209;
 	final int LARGEST_MOVIE_ID = 3952;
-	
+	*/
 	
 	/* 100K Movielens */
-	/*
+	
 	final String ratingsSource = "/Users/jino/Desktop/Honours/ml-data_0/u.data";
 	final String separator = "\\t";
 	final int MOVIE_COUNT = 1682;
 	final int USER_COUNT = 943;
 	final int RATING_COUNT = 100000;
 	final int LARGEST_MOVIE_ID = 1682;
-	*/
+	
 	
 	
 	/**
