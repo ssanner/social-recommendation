@@ -7,22 +7,22 @@ import java.util.Random;
 
 public class MovieLensMF extends MovieLens
 {
-	final int DIMENSION_COUNT = 3; 
+	final int DIMENSION_COUNT = 9; 
 	final Random RANDOM = new Random();
 	final double STEP_CONVERGENCE = 1e-5;
 	final double K = 5; //Range of rating
 	final double STEP_SIZE = 0.0001; //learning rate
 	
 	
-	double lambdaU = 10; // optimal for non-boundedness was 1000. For bounded it's 10
-	double lambdaV = 10; 
+	double lambdaU = 1000; // optimal for non-boundedness was 1000. For bounded it's 10
+	double lambdaV = 1000; 
 	
 	//HashMap<Integer, HashMap<Integer, Double>> boundedRatings;
 	
 	
 	public void run(int k)
 		throws Exception
-	{
+	{	
 		long start = System.currentTimeMillis();
 		
 		System.out.println("Get Data");
@@ -57,6 +57,7 @@ public class MovieLensMF extends MovieLens
 			System.out.println("RMSE of Run " + (x+1) + ": " + rmse);
 		}
 		
+		System.out.println("Average MAE: " + mae / k);
 		System.out.println("Average RMSE: " + rmseSum / k);
 		System.out.println("Time: " + ((System.currentTimeMillis() - start) / 1000));
 	}
@@ -68,9 +69,10 @@ public class MovieLensMF extends MovieLens
 		HashMap<Integer, Double[]> movieMatrix = getPriors(movieUserRatings.keySet());
 		
 		//Gradient Descent
-		minimize(movieUserRatings, userMatrix, movieMatrix);
+		minimize(movieUserRatings, userMatrix, movieMatrix, testData);
 		
 		double se = 0;
+		double ae = 0;
 		
 		int count = 0;
 		for (Integer[] test : testData.keySet()) {
@@ -83,17 +85,21 @@ public class MovieLensMF extends MovieLens
 			
 			double testRating = testData.get(test);
 			double prediction = boundPrediction(dot(userMatrix.get(testUserId), movieMatrix.get(testMovieId)));
-			prediction *= K;
+			//prediction *= K;
+			prediction = (K * prediction) - prediction + 1;
 			//double prediction = dot(userMatrix.get(testUserId), movieMatrix.get(testMovieId));
 			
 			se += Math.pow((prediction - testRating), 2);
+			ae += Math.abs(prediction - testRating);
 		}
 		
 		double mse = se / (double)testData.size();
+		mae += ae / (double)testData.size();
+		
 		return Math.sqrt(mse);
 	}
 
-	public void minimize(HashMap<Integer, HashMap<Integer, Double>> movieUserRatings, HashMap<Integer, Double[]> userMatrix, HashMap<Integer, Double[]> movieMatrix)
+	public void minimize(HashMap<Integer, HashMap<Integer, Double>> movieUserRatings, HashMap<Integer, Double[]> userMatrix, HashMap<Integer, Double[]> movieMatrix, HashMap<Integer[], Double> evaluate)
 	{
 		double oldError = getBoundedError(userMatrix, movieMatrix, movieUserRatings);
 		boolean converged = false;
@@ -117,7 +123,7 @@ public class MovieLensMF extends MovieLens
 				updatedUserMatrix.put(k, new Double[DIMENSION_COUNT]);
 				
 				for (int l = 0; l < DIMENSION_COUNT; l++) {
-					updatedUserMatrix.get(k)[l] = userMatrix.get(k)[l] - (stepSize * getNewErrorDerivativeOverUserBounded(userMatrix, movieMatrix, movieUserRatings, k, l));
+					updatedUserMatrix.get(k)[l] = userMatrix.get(k)[l] - (stepSize * getErrorDerivativeOverUserBounded(userMatrix, movieMatrix, movieUserRatings, k, l));
 				}
 			}
 			
@@ -126,27 +132,24 @@ public class MovieLensMF extends MovieLens
 				updatedMovieMatrix.put(q, new Double[DIMENSION_COUNT]);
 				
 				for (int l = 0; l < DIMENSION_COUNT; l++) {
-					updatedMovieMatrix.get(q)[l] = movieMatrix.get(q)[l] - (stepSize * getNewErrorDerivativeOverMovieBounded(userMatrix, movieMatrix, movieUserRatings, q, l));
+					updatedMovieMatrix.get(q)[l] = movieMatrix.get(q)[l] - (stepSize * getErrorDerivativeOverMovieBounded(userMatrix, movieMatrix, movieUserRatings, q, l));
 				}
 			}
 			
 			double newError = getBoundedError(updatedUserMatrix, updatedMovieMatrix, movieUserRatings);
-	
+			double evalRMSE = calculateRMSE(evaluate, updatedUserMatrix, updatedMovieMatrix);
+			
 			System.out.println("Old Error: " + oldError);
 			System.out.println("New Error: " + newError);
 			System.out.println("Diff: " + (oldError - newError));
+			System.out.println("RMSE: " + evalRMSE);
+			
 			System.out.println("");
 		
 			// For some reason making the step size dynamic increases the RMSE.
 			// Over-fitting maybe?
 			if (newError < oldError) {
 				stepSize *= 1.25;
-
-                //Stop once we hit a limit of the speed of changes
-                if (oldError - newError < .1) {
-                    //converged = true;
-                }
-                
                 
                 for (int k : userMatrix.keySet()) {
     				userMatrix.put(k, updatedUserMatrix.get(k));
@@ -225,7 +228,33 @@ public class MovieLensMF extends MovieLens
 			double r = movieUserRatings.get(j).get(k);
 			double g = 1 / (1 + e);
 			
-			errorDerivative += (r - g) * g * (1 - g) * u * v;
+			errorDerivative += (r - g) * -1 * g * (1 - g) * u * v;
+		}
+		
+		//System.out.println("D User: " + errorDerivative);
+		return errorDerivative;
+	}
+	
+	public double getAnotherErrorDerivativeOverUserBounded(HashMap<Integer, Double[]>userMatrix, HashMap<Integer, Double[]>movieMatrix, HashMap<Integer, HashMap<Integer, Double>> movieUserRatings, int k, int l)
+	{
+		double klUser = userMatrix.get(k)[l];
+		
+		double errorDerivative = klUser * lambdaU;
+		
+		
+		for (int i : userMatrix.keySet()) {
+			for (int j : movieMatrix.keySet()) {
+				if (!movieUserRatings.get(j).containsKey(i)) continue;
+			
+				double u = klUser;
+				double v = movieMatrix.get(j)[l];
+				//double e = Math.exp(-(klUser * v));
+				double e = Math.exp(-dot(userMatrix.get(i), movieMatrix.get(j)));
+				double r = movieUserRatings.get(j).get(i);
+				double g = 1 / (1 + e);
+			
+				errorDerivative += (r - g) * g * (1 - g) * u * v;
+			}
 		}
 		
 		//System.out.println("D User: " + errorDerivative);
@@ -274,7 +303,7 @@ public class MovieLensMF extends MovieLens
 		double lqMovie = movieMatrix.get(q)[l];
 		
 		double errorDerivative = lqMovie * lambdaV;
-		
+		 
 		for (int i : userMatrix.keySet()) {
 			if (!movieUserRatings.get(q).containsKey(i)) continue;
 			
@@ -286,7 +315,7 @@ public class MovieLensMF extends MovieLens
 			double g = 1 / (1 + e);
 		
 			
-			errorDerivative += (r - g) * g * (1 - g) * u * v;
+			errorDerivative += (r - g) * -1 * g * (1 - g) * u * v;
 		}
 
 		//System.out.println("D Movie: " + errorDerivative);
@@ -399,7 +428,7 @@ public class MovieLensMF extends MovieLens
 	public static void main(String[] args)
 		throws Exception
 	{
-		new MovieLensMF().run(5);
+		new MovieLensMF().run(10);
 	}
 	
 	public double boundPrediction(double prediction)
@@ -428,5 +457,26 @@ public class MovieLensMF extends MovieLens
 		}
 		
 		return boundedRatings;
+	}
+	
+	public double calculateRMSE(HashMap<Integer[], Double> data,  HashMap<Integer, Double[]> userMatrix, HashMap<Integer, Double[]> movieMatrix)
+	{
+		double se = 0;
+		
+		for (Integer[] test : data.keySet()) {
+			int testUserId = test[0];
+			int testMovieId = test[1];
+			
+			double testRating = data.get(test);
+			double prediction = boundPrediction(dot(userMatrix.get(testUserId), movieMatrix.get(testMovieId)));
+			//prediction *= K;
+			prediction = (K * prediction) - prediction + 1;
+			//double prediction = dot(userMatrix.get(testUserId), movieMatrix.get(testMovieId));
+			
+			se += Math.pow((prediction - testRating), 2);
+		}
+		
+		double mse = se / (double)data.size();
+		return Math.sqrt(mse);
 	}
 }

@@ -6,8 +6,12 @@ import java.util.Set;
 
 public class MovieLensNN extends MovieLens
 {
-	private final int ALPHA = 2;
-	private final int K = 10;
+	private final int MOVIE_ALPHA = 1;
+	private final int USER_ALPHA = 1;
+	
+	private final int K = 25;
+	
+	private double overallAverage;
 	
 	public static void main(String[] args)
 		throws Exception
@@ -35,7 +39,10 @@ public class MovieLensNN extends MovieLens
 			HashMap<Integer[], Double> movieSimilarities = new HashMap<Integer[], Double>();
 			
 			System.out.println("Predict " + (x+1));
-			//normalize(movieUserRatings, userMovies);
+			
+			setAverage(movieUserRatings, userMovies, testData);
+			
+			
 			double rmse = predict(movieUserRatings, userMovies, testData, movieSimilarities);
 			rmseSum += rmse;
 			
@@ -49,70 +56,185 @@ public class MovieLensNN extends MovieLens
 			}
 			
 			System.out.println("RMSE of Run " + (x+1) + ": " + rmse);
+			
+			normalize(movieUserRatings, userMovies, testData);
+			double normalizedRmse = predict(movieUserRatings, userMovies, testData, movieSimilarities);
+			System.out.println("Normalized: " + normalizedRmse);
+			
 		}
 		
 		System.out.println("Average RMSE: " + rmseSum / k);
 		System.out.println("Time: " + ((System.currentTimeMillis() - start) / 1000));
 	}
 	
-	//Remove global effects **NOT WORKING***
-	public void normalize(HashMap<Integer, HashMap<Integer, Double>> movieUserRatings, HashMap<Integer, HashSet<Integer>> userMovies)
+	
+	public void normalize(HashMap<Integer, HashMap<Integer, Double>> movieUserRatings, HashMap<Integer, HashSet<Integer>> userMovies, HashMap<Integer[], Double> testData)
 	{
-		//user effects
+		HashMap<Integer[], Double> predictions = new HashMap<Integer[], Double>();
+		
+		for (Integer[] key : testData.keySet()) {
+			predictions.put(key, testData.get(key));
+		}
+		
+		removeGlobalEffect(movieUserRatings, userMovies, testData, predictions);
+		removeMovieEffect(movieUserRatings, userMovies, testData, predictions);
+		removeUserEffect(movieUserRatings, userMovies, testData, predictions);
+	}
+	
+	
+	public void setAverage(HashMap<Integer, HashMap<Integer, Double>> movieUserRatings, HashMap<Integer, HashSet<Integer>> userMovies, HashMap<Integer[], Double> testData)
+	{
+		double overallRating = 0;
+		int n = 0;
+		
 		for (int userId : userMovies.keySet()) {
 			HashSet<Integer> movies = userMovies.get(userId);
-			int nu = movies.size();
-			
-			double theta = 0;
+			n += movies.size();
 			
 			for (int movieId : movies) {
 				double rating = movieUserRatings.get(movieId).get(userId);
 				
-				theta += rating;
-			}
-			theta *= (double)nu / (nu + ALPHA);
-			
-			for (int movieId : movies) {
-				movieUserRatings.get(movieId).put(userId, theta);
+				overallRating += rating;
 			}
 		}
+		
+		overallRating /= n;
+		overallAverage = overallRating;
+	}
+	
+	public void removeGlobalEffect(HashMap<Integer, HashMap<Integer, Double>> movieUserRatings, HashMap<Integer, HashSet<Integer>> userMovies, HashMap<Integer[], Double> testData, HashMap<Integer[], Double> predictions)
+	{
+		//Global effect
+		
+		double overallRating = 0;
+		int n = 0;
+		
+		for (int userId : userMovies.keySet()) {
+			HashSet<Integer> movies = userMovies.get(userId);
+			n += movies.size();
+			
+			for (int movieId : movies) {
+				double rating = movieUserRatings.get(movieId).get(userId);
+				
+				overallRating += rating;
+			}
+		}
+		
+		overallRating /= n;
+		overallAverage = overallRating;
+		
+		for (HashMap<Integer, Double> ratings : movieUserRatings.values()) {
+			for (int key : ratings.keySet()) {
+				ratings.put(key, ratings.get(key) - overallRating);
+			}
+		}
+		double se = 0;
+		
+		for (Integer[] test : testData.keySet()) {
+			double testRating = testData.get(test);
+			
+			se += Math.pow(testRating - overallRating, 2);
+			
+			predictions.put(test, overallRating);
+		}
+		
+		double mse = se / ((double)testData.size());
+		System.out.println("Global RMSE: " + Math.sqrt(mse));
+	}
+	
+	public void removeMovieEffect(HashMap<Integer, HashMap<Integer, Double>> movieUserRatings, HashMap<Integer, HashSet<Integer>> userMovies, HashMap<Integer[], Double> testData, HashMap<Integer[], Double> predictions)
+	{
+		for (int movieId : movieUserRatings.keySet()) {
+			HashMap<Integer, Double> ratings = movieUserRatings.get(movieId);
+			if (ratings.size() == 0) continue;
+
+			
+			double theta_cat = 0;
+			double ni = ratings.size();
+			
+			for (double val : ratings.values()) {
+				theta_cat += val;
+			}
+			
+			theta_cat /= ni;
+			
+			double movieEffect = (ni * theta_cat) / (ni + MOVIE_ALPHA);
+			
+			for (int key : ratings.keySet()) {
+				ratings.put(key, ratings.get(key) - movieEffect);
+			}
+			
+			for (Integer[] key : predictions.keySet()) {
+				if (key[1] == movieId) {
+					predictions.put(key, predictions.get(key) + movieEffect);
+				}
+			}
+		}	
+			
+		double se = 0;
+		
+		for (Integer[] test : testData.keySet()) {
+			double testRating = testData.get(test);
+			se += Math.pow(testRating - predictions.get(test), 2);
+		}
+		
+		double mse = se / ((double)testData.size());
+		System.out.println("Movie RMSE: " + Math.sqrt(mse));
+	}
+	
+	public void removeUserEffect(HashMap<Integer, HashMap<Integer, Double>> movieUserRatings, HashMap<Integer, HashSet<Integer>> userMovies, HashMap<Integer[], Double> testData, HashMap<Integer[], Double> predictions)
+	{
+		for (int userId : userMovies.keySet()) {
+			HashSet<Integer> movies = userMovies.get(userId);
+			
+			if (movies.size() == 0) continue;
+
+			
+			double theta_cat = 0;
+			double nu = movies.size();
+			
+			for (int movieId : movies) {
+				theta_cat += movieUserRatings.get(movieId).get(userId);
+			}
+			
+			theta_cat /= nu;
+			
+			double userEffect = (nu * theta_cat) / (nu + USER_ALPHA);
+			
+			for (int movieId : movies) {
+				movieUserRatings.get(movieId).put(userId, movieUserRatings.get(movieId).get(userId) - userEffect); 
+			}
+			
+			for (Integer[] key : predictions.keySet()) {
+				if (key[0] == userId) {
+					double newPred = predictions.get(key) + userEffect;
+					
+					if (newPred > 5) {
+						newPred = 5;
+					}
+					else if (newPred < 1) {
+						newPred = 1;
+					}
+					
+					predictions.put(key, newPred);
+				}
+			}
+		}	
+			
+		double se = 0;
+		
+		for (Integer[] test : testData.keySet()) {
+			double testRating = testData.get(test);
+			se += Math.pow(testRating - predictions.get(test), 2);
+		}
+		
+		double mse = se / ((double)testData.size());
+		System.out.println("User RMSE: " + Math.sqrt(mse));
 	}
 	
 	public double predict(HashMap<Integer, HashMap<Integer, Double>> movieUserRatings, HashMap<Integer, HashSet<Integer>> userMovies, HashMap<Integer[], Double> testData, HashMap<Integer[], Double> similarities)
-	{
-		/*
-		 * Get averages first. Baseline ratings
-		 */
-		
-		double total = 0;
-		int totalCount = 0;
-		
+	{	
 		HashMap<Integer, Double> ratingAverages = new HashMap<Integer, Double>();
-		
-		int noTrainCount = 0;
-		
-		for (int movieId : movieUserRatings.keySet()) {
-			HashMap<Integer, Double> rates = movieUserRatings.get(movieId);
-			
-			if (rates.size() == 0) {
-				noTrainCount++;
-				continue;
-			}
-
-			double totalRate = 0;
-			for (double rate : rates.values()) {
-				totalRate += rate;
-			}
-			
-			total += totalRate;
-			totalCount += rates.size();
-			
-			double averageRating = totalRate / rates.size();
-			
-			ratingAverages.put(movieId, averageRating);
-		}
-		
-		double totalAverage = total / totalCount;
 		
 		double se = 0;
 		
@@ -123,7 +245,7 @@ public class MovieLensNN extends MovieLens
 		
 		for (Integer[] test : testData.keySet()) {
 			run++;
-			/*if (run % 1000 == 0)*/ System.out.println("Test: " + run);
+			if (run % 1000 == 0) System.out.println("Test: " + run);
 			
 			int testUserId = test[0];
 			int testMovieId = test[1];
@@ -153,21 +275,10 @@ public class MovieLensNN extends MovieLens
 				userIds.addAll(movieVector.keySet());
 				
 				//Get the similarity to the movie vector
-				double similarity = getCosineSimilarity(testMovieVector, movieVector, userIds);
+				//double similarity = getCosineSimilarity(testMovieVector, movieVector, userIds);
+				//double similarity = getSampleCorrelation(testMovieVector, movieVector, userIds);
+				double similarity = getPearsonCorrelation(testMovieVector, movieVector, userIds);
 				
-				/*
-				Integer[] key;
-				if (movieId < testMovieId) {
-					key = new Integer[]{movieId, testMovieId};
-					
-				}
-				else {
-					key = new Integer[]{testMovieId, movieId};
-				}
-					
-				double similarity = similarities.containsKey(key) ? similarities.get(key) : 0;
-				*/
-				// k = 10
 				if (kClosestSimilarities.size() < K) {
 					kClosestSimilarities.put(movieId, similarity);
 					
@@ -194,7 +305,7 @@ public class MovieLensNN extends MovieLens
 				}
 			}
 			
-			//At this point we have the 10 or less most similar movies to the movie vector.
+			//At this point we have the K or less most similar movies to the movie vector.
 			//Now just need to follow the formula in the paper to get the predicted rating
 			double numerator = 0;
 			double denomenator = 0;
@@ -217,11 +328,11 @@ public class MovieLensNN extends MovieLens
 			double nnRating = numerator / denomenator;
 			
 			if (Double.isNaN(nnRating)) {
-				nnRating = ratingAverages.containsKey(testMovieId) ? ratingAverages.get(testMovieId) : totalAverage;
+				nnRating = ratingAverages.containsKey(testMovieId) ? ratingAverages.get(testMovieId) : overallAverage;
 				nanCount++;
 			}
 			else if (Double.isInfinite(nnRating)) {
-				nnRating = ratingAverages.containsKey(testMovieId) ? ratingAverages.get(testMovieId) : totalAverage;
+				nnRating = ratingAverages.containsKey(testMovieId) ? ratingAverages.get(testMovieId) : overallAverage;
 				infiniteCount++;
 			}
 			
@@ -230,7 +341,6 @@ public class MovieLensNN extends MovieLens
 		
 		System.out.println("NaN: " + nanCount);
 		System.out.println("Infinite: " + infiniteCount);
-		System.out.println("No Training: " + noTrainCount);
 		
 		double mse = se / ((double)testData.size());
 		return Math.sqrt(mse);
@@ -323,7 +433,9 @@ public class MovieLensNN extends MovieLens
 		double numerator = sumpr - ((sum1 * sum2) / n);
 		double denomenator = (sumsq1 - Math.pow(sum1, 2)/n) * (sumsq2 - Math.pow(sum2, 2) / n);
 		
-		return numerator / Math.sqrt(denomenator);
+		double pearson = numerator / Math.sqrt(denomenator);
+		
+		return (pearson * n) / (n + 30);
 	}
 	
 	public HashMap<Integer[], Double> getSimilarities(HashMap<Integer, HashMap<Integer, Double>> movieUserRatings, HashMap<Integer, HashSet<Integer>> userMovies)
@@ -363,5 +475,178 @@ public class MovieLensNN extends MovieLens
 		}
 		
 		return similarities;
+	}
+	
+	
+	public double bellkorSimilarity(HashMap<Integer, Double> vector1, HashMap<Integer, Double> vector2, Set<Integer> keys)
+	{
+		double val = 0;
+		int n = 0;
+		for (int key : keys) {
+			//Currently disregards vectors that have null columns in the similarity calculation.
+			//Basically just treats them as 0.
+			if (vector1.containsKey(key) && vector2.containsKey(key)) {
+				val += Math.pow(vector1.get(key) - vector2.get(key), 2);
+				n++;
+			}
+		}
+		
+		return n / (val + 1);
+	}
+	
+	public double getA(HashMap<Integer, Double> vector1, HashMap<Integer, Double> vector2, Set<Integer> keys)
+	{
+		double val = 0;
+		int n = 0;
+		
+		for (int key : keys) {
+			//Currently disregards vectors that have null columns in the similarity calculation.
+			//Basically just treats them as 0.
+			if (vector1.containsKey(key) && vector2.containsKey(key)) {
+				val += vector1.get(key) * vector2.get(key);
+				n++;
+			}
+		}
+		
+		return val / n;
+	}
+
+	public double getB(HashMap<Integer, Double> vector1, HashMap<Integer, Double> vector2, Set<Integer> keys)
+	{
+		double val = 0;
+		int n = 0;
+		
+		for (int key : keys) {
+			//Currently disregards vectors that have null columns in the similarity calculation.
+			//Basically just treats them as 0.
+			if (vector1.containsKey(key) && vector2.containsKey(key)) {
+				val += vector1.get(key) * vector2.get(key);
+				n++;
+			}
+		}
+		
+		return val / n;
+	}
+	
+	public double newPredict(HashMap<Integer, HashMap<Integer, Double>> movieUserRatings, HashMap<Integer, HashSet<Integer>> userMovies, HashMap<Integer[], Double> testData, HashMap<Integer[], Double> similarities)
+	{
+		HashMap<Integer, Double> ratingAverages = new HashMap<Integer, Double>();
+		
+		double se = 0;
+		
+		int run = 0;
+		int nanCount = 0;
+		int infiniteCount = 0;
+		
+		
+		for (Integer[] test : testData.keySet()) {
+			run++;
+			if (run % 1000 == 0) System.out.println("Test: " + run);
+			
+			int testUserId = test[0];
+			int testMovieId = test[1];
+			double testRating = testData.get(test);
+			
+			//Get all movies rated by User
+			HashSet<Integer> ratedMovies = userMovies.get(testUserId);
+			
+			//Get the movie vector
+			HashMap<Integer, Double> testMovieVector = movieUserRatings.get(testMovieId);
+			
+			//Holds the k=10 nearest neighbors
+			HashMap<Integer, Double> kClosestSimilarities = new HashMap<Integer, Double>();
+			
+			double smallestKSimilarity = 1;			
+			int smallestId = 0;
+			
+			//Used for getting the cosine similarity
+			HashSet<Integer> userIds = new HashSet<Integer>();
+			userIds.addAll(testMovieVector.keySet());
+			
+			//Get all users that rated those movies and their ratings
+			for (int movieId : ratedMovies) {
+				if (movieId == testMovieId || !movieUserRatings.containsKey(movieId)) continue;
+				
+				HashMap<Integer, Double> movieVector = movieUserRatings.get(movieId);
+				userIds.addAll(movieVector.keySet());
+				
+				//Get the similarity to the movie vector
+				//double similarity = getCosineSimilarity(testMovieVector, movieVector, userIds);
+				//double similarity = getSampleCorrelation(testMovieVector, movieVector, userIds);
+				double similarity = getPearsonCorrelation(testMovieVector, movieVector, userIds);
+				
+				if (kClosestSimilarities.size() < K) {
+					kClosestSimilarities.put(movieId, similarity);
+					
+					if (similarity < smallestKSimilarity) {
+						smallestKSimilarity = similarity;
+						smallestId = movieId;
+					}
+				}
+				else if (similarity > smallestKSimilarity) {
+					kClosestSimilarities.remove(smallestId);
+					kClosestSimilarities.put(movieId, similarity);
+					
+					smallestKSimilarity = 1;
+					
+					//reset the smallest similarity again
+					for (int id : kClosestSimilarities.keySet()) {
+						double s = kClosestSimilarities.get(id);
+						
+						if (s < smallestKSimilarity) {
+							smallestKSimilarity = similarity;
+							smallestId = id;
+						}
+					}
+				}
+			}
+			
+			//At this point we have the K or less most similar movies to the movie vector.
+			//Now just need to follow the formula in the paper to get the predicted rating
+			double numerator = 0;
+			double denomenator = 0;
+			
+			for (int neighborId : kClosestSimilarities.keySet()) {				
+				double neighborSimilarity = kClosestSimilarities.get(neighborId);
+				double neighborRating = movieUserRatings.get(neighborId).get(testUserId);
+				
+				numerator += neighborSimilarity * neighborRating;
+				denomenator += neighborSimilarity;
+			}
+			
+			/*
+			 * So far only cosine similarity is working properly.
+			 * When I try to use pearson, it sometimes returns the similarity as a NaN. 
+			 * When I set all NaN similarities to 0, I end up with infinite nnRatings.
+			 * Am I still calculating the correlations incorrectly?.
+			 */
+			
+			double nnRating = numerator / denomenator;
+			
+			if (Double.isNaN(nnRating)) {
+				nnRating = ratingAverages.containsKey(testMovieId) ? ratingAverages.get(testMovieId) : overallAverage;
+				nanCount++;
+			}
+			else if (Double.isInfinite(nnRating)) {
+				nnRating = ratingAverages.containsKey(testMovieId) ? ratingAverages.get(testMovieId) : overallAverage;
+				infiniteCount++;
+			}
+			
+			se += Math.pow(testRating - nnRating, 2);
+		}
+		
+		System.out.println("NaN: " + nanCount);
+		System.out.println("Infinite: " + infiniteCount);
+		
+		double mse = se / ((double)testData.size());
+		return Math.sqrt(mse);
+	}
+	
+	public double getWeight(HashMap<Integer, Double> vector1, HashMap<Integer, Double> vector2, Set<Integer> keys)
+	{
+		double A = getA(vector1, vector2, keys);
+		double b = getA(vector1, vector2, keys);
+		
+		return 0;
 	}
 }
