@@ -50,7 +50,7 @@ public abstract class MovieLens
 	final int RATING_COUNT = 100000;
 	final int LARGEST_MOVIE_ID = 1682;
 	
-	
+	double mae;
 	
 	/**
      * Dot product convenience method
@@ -73,7 +73,7 @@ public abstract class MovieLens
 	{
 		HashMap<Integer[], Double> testData = new HashMap<Integer[], Double>();
 		
-		while (testData.size()  < RATING_COUNT * .01) {
+		while (testData.size()  < RATING_COUNT * .1) {
 			
 			int randomMovie = (int)(Math.random() * (LARGEST_MOVIE_ID + 1));
 			if (matrix.containsKey(randomMovie)) {
