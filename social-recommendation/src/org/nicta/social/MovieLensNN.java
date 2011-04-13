@@ -3,13 +3,14 @@ package org.nicta.social;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
+import Jama.Matrix;
 
 public class MovieLensNN extends MovieLens
 {
 	private final int MOVIE_ALPHA = 1;
 	private final int USER_ALPHA = 1;
 	
-	private final int K = 25;
+	private final int K = 30;
 	
 	private double overallAverage;
 	
@@ -42,8 +43,11 @@ public class MovieLensNN extends MovieLens
 			
 			setAverage(movieUserRatings, userMovies, testData);
 			
+			//System.out.println("New Predict: " + newPredict(movieUserRatings, userMovies, testData, movieSimilarities));
+			
 			
 			double rmse = predict(movieUserRatings, userMovies, testData, movieSimilarities);
+			
 			rmseSum += rmse;
 			
 			for (Integer[] key : testData.keySet()) {
@@ -57,9 +61,11 @@ public class MovieLensNN extends MovieLens
 			
 			System.out.println("RMSE of Run " + (x+1) + ": " + rmse);
 			
-			normalize(movieUserRatings, userMovies, testData);
-			double normalizedRmse = predict(movieUserRatings, userMovies, testData, movieSimilarities);
-			System.out.println("Normalized: " + normalizedRmse);
+			
+			//normalize(movieUserRatings, userMovies, testData);
+			//double normalizedRmse = predict(movieUserRatings, userMovies, testData, movieSimilarities);
+			//System.out.println("Normalized: " + normalizedRmse);
+			//System.out.println("Normalized New Predict: " + newPredict(movieUserRatings, userMovies, testData, movieSimilarities));
 			
 		}
 		
@@ -275,9 +281,9 @@ public class MovieLensNN extends MovieLens
 				userIds.addAll(movieVector.keySet());
 				
 				//Get the similarity to the movie vector
-				//double similarity = getCosineSimilarity(testMovieVector, movieVector, userIds);
+				double similarity = getCosineSimilarity(testMovieVector, movieVector, userIds);
 				//double similarity = getSampleCorrelation(testMovieVector, movieVector, userIds);
-				double similarity = getPearsonCorrelation(testMovieVector, movieVector, userIds);
+				//double similarity = getPearsonCorrelation(testMovieVector, movieVector, userIds);
 				
 				if (kClosestSimilarities.size() < K) {
 					kClosestSimilarities.put(movieId, similarity);
@@ -326,6 +332,8 @@ public class MovieLensNN extends MovieLens
 			 */
 			
 			double nnRating = numerator / denomenator;
+			
+			//System.out.println("Predict: " + nnRating);
 			
 			if (Double.isNaN(nnRating)) {
 				nnRating = ratingAverages.containsKey(testMovieId) ? ratingAverages.get(testMovieId) : overallAverage;
@@ -494,50 +502,83 @@ public class MovieLensNN extends MovieLens
 		return n / (val + 1);
 	}
 	
-	public double getA(HashMap<Integer, Double> vector1, HashMap<Integer, Double> vector2, Set<Integer> keys)
+	public Matrix buildA(Integer[] neighbors, HashMap<Integer, HashMap<Integer, Double>> movieUserRatings, Set<Integer> keys)
 	{
-		double val = 0;
-		int n = 0;
+		double[][] a = new double[neighbors.length][neighbors.length];
 		
-		for (int key : keys) {
-			//Currently disregards vectors that have null columns in the similarity calculation.
-			//Basically just treats them as 0.
-			if (vector1.containsKey(key) && vector2.containsKey(key)) {
-				val += vector1.get(key) * vector2.get(key);
-				n++;
+		
+		int jIndex = 0;
+		for (int j : neighbors) {
+			int kIndex = 0;
+			HashMap<Integer, Double> movieJ = movieUserRatings.get(j);
+			
+			for (int k : neighbors) {
+				HashMap<Integer, Double> movieK = movieUserRatings.get(k);
+				
+				double numerator = 0;
+				int count = 0;
+				
+				for (int v : keys) {
+					if (movieJ.containsKey(v) && movieK.containsKey(v)) {
+						count++;
+						numerator += movieJ.get(v) * movieK.get(v);
+					}
+				}
+				
+				if (count == 0) {
+					a[jIndex][kIndex] = 0;
+				}
+				else {
+					a[jIndex][kIndex] = numerator / count;
+				}
+				
+				kIndex++;
 			}
+			
+			jIndex++;
 		}
 		
-		return val / n;
+		Matrix matrixA = new Matrix(a);
+		return matrixA;
 	}
 
-	public double getB(HashMap<Integer, Double> vector1, HashMap<Integer, Double> vector2, Set<Integer> keys)
+	public Matrix buildB(HashMap<Integer, Double> movieI, Integer[] neighbors, HashMap<Integer, HashMap<Integer, Double>> movieUserRatings, Set<Integer> keys)
 	{
-		double val = 0;
-		int n = 0;
+		double[][] b = new double[neighbors.length][1];
+		int jIndex = 0;
 		
-		for (int key : keys) {
-			//Currently disregards vectors that have null columns in the similarity calculation.
-			//Basically just treats them as 0.
-			if (vector1.containsKey(key) && vector2.containsKey(key)) {
-				val += vector1.get(key) * vector2.get(key);
-				n++;
+		for (int j : neighbors) {
+			HashMap<Integer, Double> movieJ = movieUserRatings.get(j);
+			int count = 0;
+			
+			double numerator = 0;
+			
+			for (int v : keys) {
+				if (movieJ.containsKey(v) && movieI.containsKey(v)) {
+					numerator += movieI.get(v) * movieJ.get(v);
+					count++;
+				}
 			}
+			
+			if (count == 0) {
+				b[jIndex][0] = 0;
+			}
+			else {
+				b[jIndex][0] = numerator / count;
+			}
+			
+			jIndex++;
 		}
 		
-		return val / n;
+		Matrix matrixB = new Matrix(b);
+		return matrixB;
+		
 	}
 	
 	public double newPredict(HashMap<Integer, HashMap<Integer, Double>> movieUserRatings, HashMap<Integer, HashSet<Integer>> userMovies, HashMap<Integer[], Double> testData, HashMap<Integer[], Double> similarities)
 	{
-		HashMap<Integer, Double> ratingAverages = new HashMap<Integer, Double>();
-		
-		double se = 0;
-		
+		double se = 0;	
 		int run = 0;
-		int nanCount = 0;
-		int infiniteCount = 0;
-		
 		
 		for (Integer[] test : testData.keySet()) {
 			run++;
@@ -571,9 +612,9 @@ public class MovieLensNN extends MovieLens
 				userIds.addAll(movieVector.keySet());
 				
 				//Get the similarity to the movie vector
-				//double similarity = getCosineSimilarity(testMovieVector, movieVector, userIds);
+				double similarity = getCosineSimilarity(testMovieVector, movieVector, userIds);
 				//double similarity = getSampleCorrelation(testMovieVector, movieVector, userIds);
-				double similarity = getPearsonCorrelation(testMovieVector, movieVector, userIds);
+				//double similarity = getPearsonCorrelation(testMovieVector, movieVector, userIds);
 				
 				if (kClosestSimilarities.size() < K) {
 					kClosestSimilarities.put(movieId, similarity);
@@ -601,28 +642,35 @@ public class MovieLensNN extends MovieLens
 				}
 			}
 			
-			//At this point we have the K or less most similar movies to the movie vector.
-			//Now just need to follow the formula in the paper to get the predicted rating
-			double numerator = 0;
-			double denomenator = 0;
 			
-			for (int neighborId : kClosestSimilarities.keySet()) {				
-				double neighborSimilarity = kClosestSimilarities.get(neighborId);
-				double neighborRating = movieUserRatings.get(neighborId).get(testUserId);
-				
-				numerator += neighborSimilarity * neighborRating;
-				denomenator += neighborSimilarity;
+			Object[] o = kClosestSimilarities.keySet().toArray();
+			Integer[] neighbors = new Integer[o.length];
+			for (int g = 0; g < o.length; g++) {
+				neighbors[g] = (Integer)o[g];
 			}
 			
+			Matrix A = buildA(neighbors, movieUserRatings, userMovies.keySet());
+			Matrix b = buildB(testMovieVector, neighbors, movieUserRatings, userMovies.keySet());
+			Matrix w = A.inverse().times(b);
+			
+			double prediction = 0;
+			
+			//System.out.println(w);
+			for (int j = 0; j < neighbors.length; j++) {				
+				double weight = w.get(j, 0);
+				//System.out.println("Weight: " + weight);
+				
+				double rating = movieUserRatings.get(neighbors[j]).get(testUserId);
+				
+				prediction += weight * rating;
+			}
+			
+			prediction = boundPrediction(prediction);
+			prediction = (RATING_RANGE * prediction) - prediction + 1;
+			
+			//System.out.println("PREDICTION: " + prediction);
+			
 			/*
-			 * So far only cosine similarity is working properly.
-			 * When I try to use pearson, it sometimes returns the similarity as a NaN. 
-			 * When I set all NaN similarities to 0, I end up with infinite nnRatings.
-			 * Am I still calculating the correlations incorrectly?.
-			 */
-			
-			double nnRating = numerator / denomenator;
-			
 			if (Double.isNaN(nnRating)) {
 				nnRating = ratingAverages.containsKey(testMovieId) ? ratingAverages.get(testMovieId) : overallAverage;
 				nanCount++;
@@ -631,22 +679,15 @@ public class MovieLensNN extends MovieLens
 				nnRating = ratingAverages.containsKey(testMovieId) ? ratingAverages.get(testMovieId) : overallAverage;
 				infiniteCount++;
 			}
+			*/
 			
-			se += Math.pow(testRating - nnRating, 2);
+			se += Math.pow(testRating - prediction, 2);
 		}
 		
-		System.out.println("NaN: " + nanCount);
-		System.out.println("Infinite: " + infiniteCount);
+		//System.out.println("NaN: " + nanCount);
+		//System.out.println("Infinite: " + infiniteCount);
 		
 		double mse = se / ((double)testData.size());
 		return Math.sqrt(mse);
-	}
-	
-	public double getWeight(HashMap<Integer, Double> vector1, HashMap<Integer, Double> vector2, Set<Integer> keys)
-	{
-		double A = getA(vector1, vector2, keys);
-		double b = getA(vector1, vector2, keys);
-		
-		return 0;
 	}
 }
