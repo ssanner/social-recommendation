@@ -34,7 +34,7 @@ public abstract class MovieLens
 	/* 1M MovieLens dataset */
 	/*
 	final String ratingsSource = "/Users/jino/Desktop/Honours/million-ml-data/ratings.dat";
-	final String separator = "::";
+	final String separator = ",";
 	final int MOVIE_COUNT = 3952;
 	final int USER_COUNT = 6040;
 	final int RATING_COUNT = 1000209;
@@ -44,13 +44,15 @@ public abstract class MovieLens
 	/* 100K Movielens */
 	
 	final String ratingsSource = "/Users/jino/Desktop/Honours/ml-data_0/u.data";
-	final String separator = "\\t";
+	final String separator = ",";
 	final int MOVIE_COUNT = 1682;
 	final int USER_COUNT = 943;
 	final int RATING_COUNT = 100000;
 	final int LARGEST_MOVIE_ID = 1682;
 	
+	
 	double mae;
+	final double RATING_RANGE = 5; //Range of rating
 	
 	/**
      * Dot product convenience method
@@ -78,7 +80,7 @@ public abstract class MovieLens
 			int randomMovie = (int)(Math.random() * (LARGEST_MOVIE_ID + 1));
 			if (matrix.containsKey(randomMovie)) {
 				HashMap<Integer, Double> userRatings = matrix.get(randomMovie);
-				if (userRatings.size() == 0) {
+				if (userRatings.size() == 1) {
 					continue;
 				}
 				
@@ -257,5 +259,59 @@ public abstract class MovieLens
 		}
 		
 		return userMovieRatings;
+	}
+	
+	public double boundPrediction(double prediction)
+	{
+		return 1 / (1 + Math.exp(-prediction));
+	}
+	
+	public double boundRating(double rating)
+	{
+		return (rating - 1) / (RATING_RANGE - 1);
+	}
+	
+	public double calculateRMSE(HashMap<Integer[], Double> data,  HashMap<Integer, Double[]> userMatrix, HashMap<Integer, Double[]> movieMatrix)
+	{
+		double se = 0;
+		
+		for (Integer[] test : data.keySet()) {
+			int testUserId = test[0];
+			int testMovieId = test[1];
+			
+			double testRating = data.get(test);
+			double prediction = boundPrediction(dot(userMatrix.get(testUserId), movieMatrix.get(testMovieId)));
+			prediction = (RATING_RANGE * prediction) - prediction + 1;
+			//System.out.println("Prediction: " + prediction);
+			
+			//prediction *= 5;
+			//double prediction = dot(userMatrix.get(testUserId), movieMatrix.get(testMovieId));
+			
+			//double error = prediction - testRating;
+			//error = (RATING_RANGE * error) - error + 1;
+			se += Math.pow((prediction - testRating), 2);
+			//se += Math.pow(error, 2);
+		}
+		
+		double mse = se / (double)data.size();
+		return Math.sqrt(mse);
+	}
+	
+	public HashMap<Integer, HashMap<Integer, Double>> boundRatings(HashMap<Integer, HashMap<Integer, Double>> data)
+	{
+		HashMap<Integer, HashMap<Integer, Double>> boundedRatings = new HashMap<Integer, HashMap<Integer, Double>>();
+		
+		for (int movieId : data.keySet()) {
+			HashMap<Integer, Double> ratings = data.get(movieId);
+			HashMap<Integer, Double> bounded = new HashMap<Integer, Double>();
+			boundedRatings.put(movieId, bounded);
+			
+			for (int userId : ratings.keySet()) {
+				double newRatings = (ratings.get(userId) - 1) / (RATING_RANGE - 1);
+				bounded.put(userId, newRatings);
+			}
+		}
+		
+		return boundedRatings;
 	}
 }
