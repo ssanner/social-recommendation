@@ -42,17 +42,66 @@ public abstract class MovieLens
 	*/
 	
 	/* 100K Movielens */
-	
 	final String ratingsSource = "/Users/jino/Desktop/Honours/ml-data_0/u.data";
+	final String userSource = "/Users/jino/Desktop/Honours/ml-data_0/u.user";
+	final String itemSource = "/Users/jino/Desktop/Honours/ml-data_0/u.item";
 	final String separator = ",";
 	final int MOVIE_COUNT = 1682;
 	final int USER_COUNT = 943;
 	final int RATING_COUNT = 100000;
 	final int LARGEST_MOVIE_ID = 1682;
-	
+	final int USER_FEATURE_COUNT = 3;
+	final int MOVIE_FEATURE_COUNT = 19;
+	final String FEATURE_SEPARATOR = "\\|";
 	
 	double mae;
 	final double RATING_RANGE = 5; //Range of rating
+	
+	final String[] OCCUPATION = {
+		"administrator",
+		"artist",
+		"doctor",
+		"educator",
+		"engineer",
+		"entertainment",
+		"executive",
+		"healthcare",
+		"homemaker",
+		"lawyer",
+		"librarian",
+		"marketing",
+		"none",
+		"other",
+		"programmer",
+		"retired",
+		"salesman",
+		"scientist",
+		"student",
+		"technician",
+		"writer"
+	};
+	
+	final String[] GENRES = {
+		"unknown",
+		"Action",
+		"Adventure",
+		"Animation",
+		"Children's",
+		"Comedy",
+		"Crime",
+		"Documentary",
+		"Drama",
+		"Fantasy",
+		"Film-Noir",
+		"Horror",
+		"Musical",
+		"Mystery",
+		"Romance",
+		"Sci-Fi",
+		"Thriller",
+		"War",
+		"Western"
+	};
 	
 	/**
      * Dot product convenience method
@@ -217,101 +266,56 @@ public abstract class MovieLens
 	 */
 	//public abstract void run() throws Exception; //So imaginative
 	
-	/*******************************************************************************
-	 * The next 3 methods aren't actually being currently used. I'm crazy that way.*
-	 *******************************************************************************/
 	
-	
-	public HashMap<Integer[], Integer> getTrainingData(HashMap<Integer[], Integer> ratings, HashMap<Integer[], Integer> testData)
+	public HashMap<Integer, Double[]> getUserFeatures()
+		throws Exception
 	{
-		HashMap<Integer[], Integer> trainingData = new HashMap<Integer[], Integer>();
+		HashMap<Integer, Double[]> userFeatures = new HashMap<Integer, Double[]>();
 		
-		for (Integer[] key : ratings.keySet()) {
-			if (testData.containsKey(key)) continue;
-	
-			trainingData.put(key, ratings.get(key));
+		BufferedReader reader = new BufferedReader(new FileReader(userSource));
+		String line = reader.readLine();
+		
+		while (line != null) {
+			String[] tokens = line.split(FEATURE_SEPARATOR);
+			Double[] features = new Double[USER_FEATURE_COUNT];
+			
+			features[0] = Double.parseDouble(tokens[1]) / 100;
+			features[1] = tokens[2].equals("M") ? 0.0 : 1.0;
+			for (int x = 0; x < OCCUPATION.length; x++) {
+				if (OCCUPATION[x].equals(tokens[3])) {
+					features[2] = (double)x / OCCUPATION.length;
+				}
+			}
+			userFeatures.put(Integer.parseInt(tokens[0]), features);
+			line = reader.readLine();
 		}
+		reader.close();
 		
-		return trainingData;
+		return userFeatures;
 	}
 	
-	public HashMap<Integer, HashMap<Integer, Integer>> getUserMovieRatings(HashMap<Integer[], Integer> ratings, HashMap<Integer[], Integer> testData)
+	public HashMap<Integer, Double[]> getMovieFeatures()
+		throws Exception
 	{
-		HashMap<Integer, HashMap<Integer, Integer>> userMovieRatings = new HashMap<Integer, HashMap<Integer, Integer>>();
+		HashMap<Integer, Double[]> movieFeatures = new HashMap<Integer, Double[]>();
 		
-		int count = 0;
+		BufferedReader reader = new BufferedReader(new FileReader(itemSource));
+		String line = reader.readLine();
 		
-		for (Integer[] key : ratings.keySet()) {
-			count++;
-			if (count % 1000000 == 0) System.out.println(count + " processed");
+		
+		while (line != null) {
+			Double[] features = new Double[MOVIE_FEATURE_COUNT];
+			String[] tokens = line.split(FEATURE_SEPARATOR);
 			
-			if (testData.containsKey(key)) continue;
-			
-			int rate = ratings.get(key);
-			int itemId = key[1];
-			int userId = key[0];
-			
-			if (!userMovieRatings.containsKey(userId)) {
-				userMovieRatings.put(userId, new HashMap<Integer, Integer>());
+			for (int x = 5; x < tokens.length; x++) {
+				features[x-5] = Double.parseDouble(tokens[x]);
 			}
 			
-			userMovieRatings.get(userId).put(itemId, rate);
+			movieFeatures.put(Integer.parseInt(tokens[0]), features);
+			line = reader.readLine();
 		}
+		reader.close();
 		
-		return userMovieRatings;
-	}
-	
-	public double boundPrediction(double prediction)
-	{
-		return 1 / (1 + Math.exp(-prediction));
-	}
-	
-	public double boundRating(double rating)
-	{
-		return (rating - 1) / (RATING_RANGE - 1);
-	}
-	
-	public double calculateRMSE(HashMap<Integer[], Double> data,  HashMap<Integer, Double[]> userMatrix, HashMap<Integer, Double[]> movieMatrix)
-	{
-		double se = 0;
-		
-		for (Integer[] test : data.keySet()) {
-			int testUserId = test[0];
-			int testMovieId = test[1];
-			
-			double testRating = data.get(test);
-			double prediction = boundPrediction(dot(userMatrix.get(testUserId), movieMatrix.get(testMovieId)));
-			prediction = (RATING_RANGE * prediction) - prediction + 1;
-			//System.out.println("Prediction: " + prediction);
-			
-			//prediction *= 5;
-			//double prediction = dot(userMatrix.get(testUserId), movieMatrix.get(testMovieId));
-			
-			//double error = prediction - testRating;
-			//error = (RATING_RANGE * error) - error + 1;
-			se += Math.pow((prediction - testRating), 2);
-			//se += Math.pow(error, 2);
-		}
-		
-		double mse = se / (double)data.size();
-		return Math.sqrt(mse);
-	}
-	
-	public HashMap<Integer, HashMap<Integer, Double>> boundRatings(HashMap<Integer, HashMap<Integer, Double>> data)
-	{
-		HashMap<Integer, HashMap<Integer, Double>> boundedRatings = new HashMap<Integer, HashMap<Integer, Double>>();
-		
-		for (int movieId : data.keySet()) {
-			HashMap<Integer, Double> ratings = data.get(movieId);
-			HashMap<Integer, Double> bounded = new HashMap<Integer, Double>();
-			boundedRatings.put(movieId, bounded);
-			
-			for (int userId : ratings.keySet()) {
-				double newRatings = (ratings.get(userId) - 1) / (RATING_RANGE - 1);
-				bounded.put(userId, newRatings);
-			}
-		}
-		
-		return boundedRatings;
+		return movieFeatures;
 	}
 }
