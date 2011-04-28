@@ -13,37 +13,22 @@ public class MovieLensAverage extends MovieLens
 		new MovieLensAverage().run(10);
 	}
 	
-	public HashMap<Integer[], Double> getTestData(HashMap<Integer[], Double> ratings, HashSet<Integer[]> added)
-	{
-		HashMap<Integer[], Double> testData = new HashMap<Integer[], Double>();
-		
-		List<Integer[]> list = new ArrayList<Integer[]>();
-		list.addAll(ratings.keySet());
-		
-		while (testData.size()  < ratings.size() * .1 - 1) {
-			int randomIndex = (int)(Math.random() * list.size());
-			if (!added.contains(list.get(randomIndex))) {
-				testData.put(list.get(randomIndex), ratings.get(list.get(randomIndex)));
-				added.add(list.get(randomIndex));
-			}
-		}
-		
-		return testData;
-	}
 	
-	public double predict(HashMap<Integer, HashSet<Double>> trainingData, HashMap<Integer[], Double> testData)
+	public double[] predict(HashMap<Integer, HashMap<Integer, Double>> movieUserRatings, HashMap<Integer, HashSet<Integer>> userMovies, HashMap<Integer[], Double> testData)
 		throws Exception
 	{		
 		double total = 0;
 		int totalCount = 0;
 		
-		HashMap<Integer, Double> ratingAverages = new HashMap<Integer, Double>();
+		HashMap<Integer, Double> itemAverages = new HashMap<Integer, Double>();
 		
-		for (int itemId : trainingData.keySet()) {
-			HashSet<Double> rates = trainingData.get(itemId);
+		for (int itemId : movieUserRatings.keySet()) {
+			HashMap<Integer, Double> rates = movieUserRatings.get(itemId);
+			
 			double totalRate = 0;
-			for (double rate : rates) {
-				totalRate += rate;
+			
+			for (int userId : rates.keySet()) {
+				totalRate += rates.get(userId);
 			}
 			
 			total += totalRate;
@@ -51,23 +36,61 @@ public class MovieLensAverage extends MovieLens
 			
 			double averageRating = totalRate / rates.size();
 			
-			ratingAverages.put(itemId, averageRating);
+			itemAverages.put(itemId, averageRating);
+		}
+		double totalAverage = total / totalCount;
+		
+		
+		HashMap<Integer, Double> userAverages = new HashMap<Integer, Double>();
+		
+		for (int userId : userMovies.keySet()) {
+			HashSet<Integer> movies = userMovies.get(userId);
+			
+			double totalRate = 0;
+	
+			for (int movieId : movies) {
+				totalRate += movieUserRatings.get(movieId).get(userId);
+			}
+			
+			double averageRating = totalRate / movies.size();
+			
+			userAverages.put(userId, averageRating);
 		}
 		
-		double totalAverage = total / totalCount;
+		
 
-		int se = 0;
+		double totalSE = 0;
+		double userSE = 0;
+		double itemSE = 0;
+		double userItemSE = 0;
 		
 		for (Integer[] test : testData.keySet()) {
 			int itemId = test[1];
-			double average = ratingAverages.containsKey(itemId) ? ratingAverages.get(itemId) : totalAverage;
+			int userId = test[0];
 			double rate = testData.get(test);
+				
+			double itemAverage = itemAverages.containsKey(itemId) ? itemAverages.get(itemId) : totalAverage;
+			double userAverage = userAverages.containsKey(userId) ? userAverages.get(userId) : totalAverage;
+			double userItemAverage = userAverage + itemAverage - totalAverage;
 			
-			se += Math.pow(rate - average, 2);
+			//System.out.println("Total Average: " + totalAverage);
+			//System.out.println("Item Average: " + itemAverage);
+			//System.out.println("User Average: " + userAverage);
+			//System.out.println("User-Item Average: " + userItemAverage);
+			//System.out.println("");
+			
+			totalSE += Math.pow(rate - totalAverage, 2);
+			userSE += Math.pow(rate - userAverage, 2);
+			itemSE += Math.pow(rate - itemAverage, 2);
+			userItemSE += Math.pow(rate - userItemAverage, 2);
 		}
 		
-		double mse = se / (double)testData.size();
-		return Math.sqrt(mse);
+		double totalMSE = totalSE / (double)testData.size();
+		double userMSE = userSE / (double)testData.size();
+		double itemMSE = itemSE / (double)testData.size();
+		double userItemMSE = userItemSE / (double)testData.size();
+		
+		return new double[]{Math.sqrt(totalMSE), Math.sqrt(itemMSE), Math.sqrt(userMSE), Math.sqrt(userItemMSE)};
 	}
 	
 	public void run(int k)
@@ -75,9 +98,9 @@ public class MovieLensAverage extends MovieLens
 	{
 		long start = System.currentTimeMillis();
 		
-		System.out.println("Getting ratings");
-		HashMap<Integer[], Double> ratings = getRatings();
-		System.out.println("Ratings: " + ratings.size());
+		Object[] data = getMovieUserRatingsAndUserMoviesData();
+		HashMap<Integer, HashMap<Integer, Double>> movieUserRatings = (HashMap<Integer, HashMap<Integer, Double>>)data[0];
+		HashMap<Integer, HashSet<Integer>> userMovies = (HashMap<Integer, HashSet<Integer>>)data[1];
 		
 		System.out.println("Getting Test data");
 		
@@ -86,15 +109,35 @@ public class MovieLensAverage extends MovieLens
 		
 		System.out.println("Run cross-fold");
 		
-		double rmseSum = 0;
+		double totalAverageSum = 0;
+		double itemAverageSum = 0;
+		double userAverageSum = 0;
+		double userItemAverageSum = 0;
+		
 		for (int x = 0; x < k; x++) {
-			HashMap<Integer[], Double> testData = getTestData(ratings, added);
-			HashMap<Integer, HashSet<Double>> trainingData = getMovieRatingsMap(ratings, testData);
-			double rmse = predict(trainingData, testData);
-			System.out.println("RMSE of run " + (x+1) + ": " + rmse);
-			rmseSum += rmse;
+			HashMap<Integer[], Double> testData = getTestData(movieUserRatings, userMovies, added);
+			
+			double[] rmse = predict(movieUserRatings, userMovies, testData);
+			//System.out.println("RMSE of run " + (x+1) + ": " + rmse);
+			totalAverageSum += rmse[0];
+			itemAverageSum += rmse[1];
+			userAverageSum += rmse[2];
+			userItemAverageSum += rmse[3];
+			
+			for (Integer[] key : testData.keySet()) {
+				int userId = key[0];
+				int movieId = key[1];
+				double rating = testData.get(key);
+				
+				movieUserRatings.get(movieId).put(userId, rating);
+				userMovies.get(userId).add(movieId);
+			}
 		}
-		System.out.println("\nAverage RMSE: " + (rmseSum / k));
+		
+		System.out.println("Total Average RMSE: " + (totalAverageSum / k));
+		System.out.println("Item Average RMSE: " + (itemAverageSum / k));
+		System.out.println("User Average RMSE: " + (userAverageSum / k));
+		System.out.println("User-Item Average RMSE: "  + (userItemAverageSum / k));
 		
 		System.out.println("Time: " + ((System.currentTimeMillis() - start) / 1000));
 	}

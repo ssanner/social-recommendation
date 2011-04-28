@@ -655,37 +655,18 @@ public class MovieLensNN extends MovieLens
 			
 			double prediction = 0;
 			
-			//System.out.println(w);
 			for (int j = 0; j < neighbors.length; j++) {				
 				double weight = w.get(j, 0);
-				//System.out.println("Weight: " + weight);
-				
 				double rating = movieUserRatings.get(neighbors[j]).get(testUserId);
 				
 				prediction += weight * rating;
 			}
 			
-			prediction = boundPrediction(prediction);
-			prediction = (RATING_RANGE * prediction) - prediction + 1;
-			
-			//System.out.println("PREDICTION: " + prediction);
-			
-			/*
-			if (Double.isNaN(nnRating)) {
-				nnRating = ratingAverages.containsKey(testMovieId) ? ratingAverages.get(testMovieId) : overallAverage;
-				nanCount++;
-			}
-			else if (Double.isInfinite(nnRating)) {
-				nnRating = ratingAverages.containsKey(testMovieId) ? ratingAverages.get(testMovieId) : overallAverage;
-				infiniteCount++;
-			}
-			*/
+			if (prediction > 5) prediction = 5;
+			if (prediction < 1) prediction = 1;
 			
 			se += Math.pow(testRating - prediction, 2);
 		}
-		
-		//System.out.println("NaN: " + nanCount);
-		//System.out.println("Infinite: " + infiniteCount);
 		
 		double mse = se / ((double)testData.size());
 		return Math.sqrt(mse);
