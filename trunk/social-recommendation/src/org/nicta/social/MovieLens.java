@@ -286,6 +286,7 @@ public abstract class MovieLens
 					features[2] = (double)x / OCCUPATION.length;
 				}
 			}
+			
 			userFeatures.put(Integer.parseInt(tokens[0]), features);
 			line = reader.readLine();
 		}
@@ -310,6 +311,60 @@ public abstract class MovieLens
 			for (int x = 5; x < tokens.length; x++) {
 				features[x-5] = Double.parseDouble(tokens[x]);
 			}
+			
+			movieFeatures.put(Integer.parseInt(tokens[0]), features);
+			line = reader.readLine();
+		}
+		reader.close();
+		
+		return movieFeatures;
+	}
+	
+	public HashMap<Integer, HashSet<String>> getBernoulliUserFeatures()
+		throws Exception
+	{
+		HashMap<Integer, HashSet<String>> userFeatures = new HashMap<Integer, HashSet<String>>();
+		
+		BufferedReader reader = new BufferedReader(new FileReader(userSource));
+		String line = reader.readLine();
+		
+		while (line != null) {
+			String[] tokens = line.split(FEATURE_SEPARATOR);
+			HashSet<String> features = new HashSet<String>();
+			
+			//features[0] = Double.parseDouble(tokens[1]) / 100;
+			
+			features.add(tokens[2]); //sex
+			features.add(tokens[3]); //occupation
+			features.add(tokens[0]); //id
+			
+			userFeatures.put(Integer.parseInt(tokens[0]), features);
+			line = reader.readLine();
+		}
+		reader.close();
+		
+		return userFeatures;
+	}
+	
+	public HashMap<Integer, HashSet<String>> getBernoulliMovieFeatures()
+		throws Exception
+	{
+		HashMap<Integer, HashSet<String>> movieFeatures = new HashMap<Integer, HashSet<String>>();
+		
+		BufferedReader reader = new BufferedReader(new FileReader(itemSource));
+		String line = reader.readLine();
+		
+		
+		while (line != null) {
+			HashSet<String> features = new HashSet<String>();
+			String[] tokens = line.split(FEATURE_SEPARATOR);
+			
+			for (int x = 5; x < tokens.length; x++) {
+				if (tokens[x].equals("1")) {
+					features.add(GENRES[x - 5]); //genre
+				}
+			}
+			features.add(tokens[0]); //id
 			
 			movieFeatures.put(Integer.parseInt(tokens[0]), features);
 			line = reader.readLine();
