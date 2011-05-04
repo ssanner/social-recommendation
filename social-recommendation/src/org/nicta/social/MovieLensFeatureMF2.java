@@ -2,19 +2,18 @@ package org.nicta.social;
 
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Set;
 import java.util.Random;
 
-public class MovieLensFeatureMF extends MovieLens
+public class MovieLensFeatureMF2 extends MovieLens
 {
 	final int DIMENSION_COUNT = 5; 
 	final Random RANDOM = new Random();
 	final double STEP_CONVERGENCE = 1e-7;
-	final double STEP_SIZE = 0.00001; //learning rate
-	final double MOMENTUM = 0.5;
+	final double STEP_SIZE = 0.1; //learning rate
+	final double MOMENTUM = .5;
 	
-	double lambdaU = 1;
-	double lambdaV = 1; 
+	double lambdaU = 100;
+	double lambdaV = 100; 
 	double totalAverage;
 	HashMap<Integer, Double> itemAverages;
 	HashMap<Integer, Double> userAverages;
@@ -91,7 +90,7 @@ public class MovieLensFeatureMF extends MovieLens
 		}
 		
 		//Gradient Descent
-		minimize(normalizedRatings, userMatrix, movieMatrix, userFeatures, movieFeatures, userTraits, movieTraits, testData);
+		minimize(normalizedRatings, userMatrix, movieMatrix, userFeatures, movieFeatures, userTraits, movieTraits, testData, userMovies);
 		
 		double se = 0;
 		double ae = 0;
@@ -164,7 +163,7 @@ public class MovieLensFeatureMF extends MovieLens
 	public void minimize(HashMap<Integer, HashMap<Integer, Double>> movieUserRatings, Double[][] userMatrix, Double[][] movieMatrix, 
 							HashMap<Integer, Double[]> userFeatures, HashMap<Integer, Double[]> movieFeatures, 
 							HashMap<Integer, Double[]> userTraits, HashMap<Integer, Double[]> movieTraits,
-							HashMap<Integer[], Double> testData)
+							HashMap<Integer[], Double> testData, HashMap<Integer, HashSet<Integer>> userMovies)
 	{
 		double oldError = getError(userMatrix, movieMatrix, userTraits, movieTraits, movieUserRatings);
 		boolean converged = false;
@@ -188,7 +187,7 @@ public class MovieLensFeatureMF extends MovieLens
 			}
 		}
 		
-		while (!converged && iterations <= 500) {
+		while (!converged /*&& iterations <= 500*/) {
 			iterations++;
 		
 			Double[][] updatedUserMatrix = new Double[DIMENSION_COUNT][USER_FEATURE_COUNT + USER_COUNT]; 
@@ -200,38 +199,44 @@ public class MovieLensFeatureMF extends MovieLens
 			System.out.println("Iterations: " + iterations);
 		
 			//Update user matrix
-			System.out.println("Update User Matrix");
 			for (int k = 0; k < DIMENSION_COUNT; k++) {
-				//System.out.println("Dimension: " + k);
 				for (int l = 0; l < USER_FEATURE_COUNT + USER_COUNT; l++) {
-					//System.out.print(l + " ");
-					double update = (stepSize * getErrorDerivativeOverUser(userMatrix, userFeatures, userTraits, movieTraits, movieUserRatings, k, l)) + (MOMENTUM * oldUserDerivative[k][l]);
+					double derive = 0;
+					if (l < USER_FEATURE_COUNT) {
+						derive = getErrorDerivativeOverUserAttribute(userMatrix, userFeatures, userTraits, movieTraits, movieUserRatings, k, l);
+					}
+					else {
+						derive = getErrorDerivativeOverUserId(userMatrix, userTraits, movieTraits, movieUserRatings, userMovies, k, l);
+					}
+					double update = (stepSize * derive ) + (MOMENTUM * oldUserDerivative[k][l]);
 					userDerivative[k][l] = update;
 					
 					updatedUserMatrix[k][l] = userMatrix[k][l] - update;
 				}
-				//System.out.println("");
 			}
 			
 			//Update movie matrix
-			System.out.println("Update Movie Matrix");
 			for (int q = 0; q < DIMENSION_COUNT; q++) {
-				//System.out.println("Dimension: " + q);
 				for (int l = 0; l < MOVIE_FEATURE_COUNT + MOVIE_COUNT; l++) {
-					//System.out.print(l + " ");
-					double update = (stepSize * getErrorDerivativeOverMovie(movieMatrix, movieFeatures, userTraits, movieTraits, movieUserRatings, q, l)) + (MOMENTUM * oldMovieDerivative[q][l]);
+					double derive = 0;
+					
+					if (l < MOVIE_FEATURE_COUNT) {
+						derive = getErrorDerivativeOverMovieAttribute(movieMatrix, movieFeatures, userTraits, movieTraits, movieUserRatings, q, l);
+					}
+					else {
+						derive = getErrorDerivativeOverMovieId(movieMatrix, userTraits, movieTraits, movieUserRatings, q, l);
+					}
+					
+					double update = (stepSize * derive) + (MOMENTUM * oldMovieDerivative[q][l]);
 					movieDerivative[q][l] = update;
 					
 					updatedMovieMatrix[q][l] = movieMatrix[q][l] - update;
 				}
-				//System.out.println("");
 			}
 			
-			System.out.println("Get new trait vectors");
 			HashMap<Integer, Double[]> updateUserTraits = getTraitVectors(updatedUserMatrix, userFeatures);
 			HashMap<Integer, Double[]> updateMovieTraits = getTraitVectors(updatedMovieMatrix, movieFeatures);
 			
-			System.out.println("Get new error");
 			double newError = getError(updatedUserMatrix, updatedMovieMatrix, updateUserTraits, updateMovieTraits, movieUserRatings);
 			double evalRMSE = calculateRMSE(testData, updatedUserMatrix, updatedMovieMatrix, userTraits, movieTraits);
 			
@@ -276,9 +281,9 @@ public class MovieLensFeatureMF extends MovieLens
 	}
 	
 	// Hopefully I did the deriviations right. Again
-	public double getErrorDerivativeOverUser(Double[][] userMatrix, HashMap<Integer, Double[]> userFeatures,
-												HashMap<Integer, Double[]> userTraits, HashMap<Integer, Double[]> movieTraits,
-												HashMap<Integer, HashMap<Integer, Double>> movieUserRatings, int x, int y)
+	public double getErrorDerivativeOverUserAttribute(Double[][] userMatrix, HashMap<Integer, Double[]> userFeatures,
+														HashMap<Integer, Double[]> userTraits, HashMap<Integer, Double[]> movieTraits,
+														HashMap<Integer, HashMap<Integer, Double>> movieUserRatings, int x, int y)
 	{
 		double errorDerivative = userMatrix[x][y] * lambdaU;
 		
@@ -287,17 +292,7 @@ public class MovieLensFeatureMF extends MovieLens
 			
 			for (int userId : userRatings.keySet()) {
 				//System.out.println(movieTraits.get(movieId).length + " " + userFeatures.get(userId).length + " " + x + " " + y);
-				double dst = 0;
-				if (y < USER_FEATURE_COUNT) {
-					dst = movieTraits.get(movieId)[x] * userFeatures.get(userId)[y];				
-				}
-				else if (y == USER_FEATURE_COUNT + userId - 1) {
-					dst = movieTraits.get(movieId)[x];
-				}
-				else {
-					continue;
-				}
-				
+				double dst = movieTraits.get(movieId)[x] * userFeatures.get(userId)[y];				
 				double p = predict(userTraits.get(userId), movieTraits.get(movieId));
 				double r = userRatings.get(userId);
 				
@@ -307,11 +302,29 @@ public class MovieLensFeatureMF extends MovieLens
 		
 		return errorDerivative;
 	}
+	public double getErrorDerivativeOverUserId(Double[][] userMatrix, HashMap<Integer, Double[]> userTraits, HashMap<Integer, Double[]> movieTraits,
+													HashMap<Integer, HashMap<Integer, Double>> movieUserRatings, HashMap<Integer, HashSet<Integer>> userMovies,
+													int x, int y)
+	{
+		double errorDerivative = userMatrix[x][y] * lambdaU;
+		
+		int userId = y - USER_FEATURE_COUNT + 1;
+		HashSet<Integer> movies = userMovies.get(userId);
+		
+		for (int movieId : movies) {
+			double dst = movieTraits.get(movieId)[x];
+			double p = predict(userTraits.get(userId), movieTraits.get(movieId));
+			double r = movieUserRatings.get(movieId).get(userId);
+				
+			errorDerivative += (r - p) * dst * -1;
+		}
+		
+		return errorDerivative;
+	}
 	
-	
-	public double getErrorDerivativeOverMovie(Double[][] movieMatrix, HashMap<Integer, Double[]> movieFeatures,
-												HashMap<Integer, Double[]> userTraits, HashMap<Integer, Double[]> movieTraits,
-												HashMap<Integer, HashMap<Integer, Double>> movieUserRatings, int x, int y)
+	public double getErrorDerivativeOverMovieAttribute(Double[][] movieMatrix, HashMap<Integer, Double[]> movieFeatures,
+														HashMap<Integer, Double[]> userTraits, HashMap<Integer, Double[]> movieTraits,
+														HashMap<Integer, HashMap<Integer, Double>> movieUserRatings, int x, int y)
 	{
 		double errorDerivative = movieMatrix[x][y] * lambdaV;
 		
@@ -319,16 +332,7 @@ public class MovieLensFeatureMF extends MovieLens
 			HashMap<Integer, Double> userRatings = movieUserRatings.get(movieId);
 			
 			for (int userId : userRatings.keySet()) {
-				double dst = 0;
-				if (y < MOVIE_FEATURE_COUNT) {
-					dst = userTraits.get(userId)[x] * movieFeatures.get(movieId)[y];
-				}
-				else if (y == MOVIE_FEATURE_COUNT + movieId - 1) {
-					dst = userTraits.get(userId)[x];
-				}
-				else {
-					continue;
-				}
+				double dst = userTraits.get(userId)[x] * movieFeatures.get(movieId)[y];
 				double p = predict(userTraits.get(userId), movieTraits.get(movieId));
 				double r = movieUserRatings.get(movieId).get(userId);
 		
@@ -339,7 +343,25 @@ public class MovieLensFeatureMF extends MovieLens
 		return errorDerivative;
 	}
 	
+	public double getErrorDerivativeOverMovieId(Double[][] movieMatrix, HashMap<Integer, Double[]> userTraits, HashMap<Integer, Double[]> movieTraits,
+												HashMap<Integer, HashMap<Integer, Double>> movieUserRatings, int x, int y)
+	{
+		double errorDerivative = movieMatrix[x][y] * lambdaV;
+		
+		int movieId = y - MOVIE_FEATURE_COUNT + 1;
 	
+		HashMap<Integer, Double> userRatings = movieUserRatings.get(movieId);
+			
+		for (int userId : userRatings.keySet()) {
+			double dst = userTraits.get(userId)[x];
+			double p = predict(userTraits.get(userId), movieTraits.get(movieId));
+			double r = movieUserRatings.get(movieId).get(userId);
+				
+			errorDerivative += (r - p) * dst * -1;
+		}
+		
+		return errorDerivative;
+	}
 	public Double[][] getPrior(int feature_count)
 	{
 		Double[][] prior = new Double[DIMENSION_COUNT][feature_count];
@@ -398,7 +420,7 @@ public class MovieLensFeatureMF extends MovieLens
 	public static void main(String[] args)
 		throws Exception
 	{
-		new MovieLensFeatureMF().run(10);
+		new MovieLensFeatureMF2().run(10);
 	}
 	
 	

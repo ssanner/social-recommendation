@@ -7,14 +7,14 @@ import java.util.Random;
 
 public class MovieLensMF extends MovieLens
 {
-	final int DIMENSION_COUNT = 5; 
+	final int DIMENSION_COUNT = 3; 
 	final Random RANDOM = new Random();
 	final double STEP_CONVERGENCE = 1e-5;
 	final double STEP_SIZE = 0.0001; //learning rate
 	final double MOMENTUM = 0.8;
 	
-	double lambdaU = 1;
-	double lambdaV = 1; 
+	double lambdaU = 10;
+	double lambdaV = 10; 
 	double totalAverage;
 	HashMap<Integer, Double> itemAverages;
 	HashMap<Integer, Double> userAverages;
@@ -150,7 +150,7 @@ public class MovieLensMF extends MovieLens
 			}
 		}
 		
-		while (!converged && iterations <= 500) {
+		while (!converged /*&& iterations <= 500*/) {
 			iterations++;
 		
 			HashMap<Integer, Double[]> updatedUserMatrix = new HashMap<Integer, Double[]>(); 
