@@ -34,11 +34,16 @@ public abstract class MovieLens
 	/* 1M MovieLens dataset */
 	/*
 	final String ratingsSource = "/Users/jino/Desktop/Honours/million-ml-data/ratings.dat";
+	final String userSource = "/Users/jino/Desktop/Honours/million-ml-data/users.dat";
+	final String itemSource = "/Users/jino/Desktop/Honours/million-ml-data/movies.dat";
 	final String separator = ",";
 	final int MOVIE_COUNT = 3952;
 	final int USER_COUNT = 6040;
 	final int RATING_COUNT = 1000209;
 	final int LARGEST_MOVIE_ID = 3952;
+	final String FEATURE_SEPARATOR = "::";
+	final int USER_FEATURE_COUNT = 3;
+	final int MOVIE_FEATURE_COUNT = 19;
 	*/
 	
 	/* 100K Movielens */
@@ -57,7 +62,7 @@ public abstract class MovieLens
 	double mae;
 	final double RATING_RANGE = 5; //Range of rating
 	
-	final String[] OCCUPATION = {
+	final String[] OCCUPATION10K = {
 		"administrator",
 		"artist",
 		"doctor",
@@ -113,6 +118,8 @@ public abstract class MovieLens
     {
     	double result = 0;
 
+    	//System.out.println(d1.length + " " + d2.length);
+    	
     	for (int x = 0; x < d1.length; x++) {
     		result += d1[x] * d2[x];
     	}
@@ -279,12 +286,20 @@ public abstract class MovieLens
 			String[] tokens = line.split(FEATURE_SEPARATOR);
 			Double[] features = new Double[USER_FEATURE_COUNT];
 			
-			features[0] = Double.parseDouble(tokens[1]) / 100;
-			features[1] = tokens[2].equals("M") ? 0.0 : 1.0;
-			for (int x = 0; x < OCCUPATION.length; x++) {
-				if (OCCUPATION[x].equals(tokens[3])) {
-					features[2] = (double)x / OCCUPATION.length;
+			if (RATING_COUNT == 100000) {
+				features[0] = Double.parseDouble(tokens[1]) / 100;
+				features[1] = tokens[2].equals("M") ? 0.0 : 1.0;
+			
+				for (int x = 0; x < OCCUPATION10K.length; x++) {
+					if (OCCUPATION10K[x].equals(tokens[3])) {
+						features[2] = (double)x / OCCUPATION10K.length;
+					}
 				}
+			}
+			else if (RATING_COUNT == 1000209) {
+				features[0] = tokens[1].equals("M") ? 0.0 : 1.0;
+				features[1] = Double.parseDouble(tokens[2]) / 60;
+				features[2] = Double.parseDouble(tokens[3]) / 20;
 			}
 			
 			userFeatures.put(Integer.parseInt(tokens[0]), features);
@@ -303,17 +318,35 @@ public abstract class MovieLens
 		BufferedReader reader = new BufferedReader(new FileReader(itemSource));
 		String line = reader.readLine();
 		
-		
+		int index = 0;
 		while (line != null) {
 			Double[] features = new Double[MOVIE_FEATURE_COUNT];
 			String[] tokens = line.split(FEATURE_SEPARATOR);
 			
-			for (int x = 5; x < tokens.length; x++) {
-				features[x-5] = Double.parseDouble(tokens[x]);
+			if (RATING_COUNT == 100000) {
+				for (int x = 5; x < tokens.length; x++) {
+					features[x-5] = Double.parseDouble(tokens[x]);
+				}
+			}
+			else if (RATING_COUNT == 1000209) {
+				String[] genres = tokens[2].split("\\|");
+				for (int x = 0; x < GENRES.length; x++) {
+					boolean found = false;
+					for (int y = 0; y < genres.length; y++) {
+						if (genres[y].equals(GENRES[x])) {
+							features[x] = 1.0;
+							found = true;
+							break;
+						}
+					}
+					
+					if (!found) features[x] = 0.0;
+				}
 			}
 			
 			movieFeatures.put(Integer.parseInt(tokens[0]), features);
 			line = reader.readLine();
+			index++;
 		}
 		reader.close();
 		
