@@ -9,11 +9,11 @@ public class MovieLensFeatureMF2 extends MovieLens
 	final int DIMENSION_COUNT = 5; 
 	final Random RANDOM = new Random();
 	final double STEP_CONVERGENCE = 1e-7;
-	final double STEP_SIZE = 0.1; //learning rate
-	final double MOMENTUM = .5;
+	final double STEP_SIZE = 0.0001; //learning rate
+	final double MOMENTUM = .0;
 	
-	double lambdaU = 100;
-	double lambdaV = 100; 
+	double lambdaU = 10;
+	double lambdaV = 10; 
 	double totalAverage;
 	HashMap<Integer, Double> itemAverages;
 	HashMap<Integer, Double> userAverages;
@@ -30,8 +30,11 @@ public class MovieLensFeatureMF2 extends MovieLens
 		
 		HashSet<Integer[]> added = new HashSet<Integer[]>();
 		
+		System.out.println("Got ratings");
 		HashMap<Integer, Double[]> userFeatures = getUserFeatures();
+		System.out.println("Got user features");
 		HashMap<Integer, Double[]> movieFeatures = getMovieFeatures();
+		System.out.println("Got movie features");
 		
 		double rmseSum = 0;
 		for (int x = 0; x < k; x++) {
@@ -83,9 +86,8 @@ public class MovieLensFeatureMF2 extends MovieLens
 			for (int userId : unnormalized.keySet()) {
 				double itemAverage = itemAverages.containsKey(movieId) ? itemAverages.get(movieId) : totalAverage;
 				double userAverage = userAverages.containsKey(userId) ? userAverages.get(userId) : totalAverage;
-				double userItemAverage = userAverage + itemAverage - totalAverage;
 				
-				norms.put(userId, unnormalized.get(userId) - userAverage);
+				norms.put(userId, unnormalized.get(userId) - itemAverage);
 			}
 		}
 		
@@ -109,8 +111,7 @@ public class MovieLensFeatureMF2 extends MovieLens
 			
 			double itemAverage = itemAverages.containsKey(testMovieId) ? itemAverages.get(testMovieId) : totalAverage;
 			double userAverage = userAverages.containsKey(testUserId) ? userAverages.get(testUserId) : totalAverage;
-			double userItemAverage = userAverage + itemAverage - totalAverage;
-			prediction += userAverage;
+			prediction += itemAverage;
 			
 			if (prediction > 5) prediction = 5;
 			if (prediction < 1) prediction = 1;
@@ -346,12 +347,14 @@ public class MovieLensFeatureMF2 extends MovieLens
 	public double getErrorDerivativeOverMovieId(Double[][] movieMatrix, HashMap<Integer, Double[]> userTraits, HashMap<Integer, Double[]> movieTraits,
 												HashMap<Integer, HashMap<Integer, Double>> movieUserRatings, int x, int y)
 	{
-		double errorDerivative = movieMatrix[x][y] * lambdaV;
+		
 		
 		int movieId = y - MOVIE_FEATURE_COUNT + 1;
-	
+		if (!movieUserRatings.containsKey(movieId)) return 0;
+		
+		double errorDerivative = movieMatrix[x][y] * lambdaV;
 		HashMap<Integer, Double> userRatings = movieUserRatings.get(movieId);
-			
+		
 		for (int userId : userRatings.keySet()) {
 			double dst = userTraits.get(userId)[x];
 			double p = predict(userTraits.get(userId), movieTraits.get(movieId));
@@ -362,6 +365,7 @@ public class MovieLensFeatureMF2 extends MovieLens
 		
 		return errorDerivative;
 	}
+	
 	public Double[][] getPrior(int feature_count)
 	{
 		Double[][] prior = new Double[DIMENSION_COUNT][feature_count];
@@ -439,9 +443,8 @@ public class MovieLensFeatureMF2 extends MovieLens
 			
 			double itemAverage = itemAverages.containsKey(testMovieId) ? itemAverages.get(testMovieId) : totalAverage;
 			double userAverage = userAverages.containsKey(testUserId) ? userAverages.get(testUserId) : totalAverage;
-			double userItemAverage = userAverage + itemAverage - totalAverage;
 			
-			prediction += userAverage;
+			prediction += itemAverage;
 			
 			if (prediction > 5) prediction = 5;
 			if (prediction < 1) prediction = 1;

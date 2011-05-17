@@ -5,19 +5,15 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Random;
 
-public class MovieLensMF extends MovieLens
+public class NormalizationTest extends MovieLens
 {
 	final int DIMENSION_COUNT = 5; 
 	final Random RANDOM = new Random();
-	final double STEP_CONVERGENCE = 1e-5;
+	final double STEP_CONVERGENCE = 1e-10;
 	final double STEP_SIZE = 0.0001; //learning rate
-	final double MOMENTUM = 0.8;
 	
 	double lambdaU = 10;
-	double lambdaV = 10; 
-	double totalAverage;
-	HashMap<Integer, Double> itemAverages;
-	HashMap<Integer, Double> userAverages;
+	double lambdaV = 10;
 	
 	public void run(int k)
 		throws Exception
@@ -62,10 +58,8 @@ public class MovieLensMF extends MovieLens
 	public double predict(HashMap<Integer, HashMap<Integer, Double>> ratings, HashMap<Integer, HashSet<Integer>> userMovies, HashMap<Integer[], Double> testData)
 	{
 		//Fill priors
-		HashMap<Integer, Double[]> userMatrix = getPriors(userMovies.keySet());
+		HashMap<Integer, Double[]> userMatrix = getFixedPriors(userMovies.keySet());
 		HashMap<Integer, Double[]> movieMatrix = getPriors(ratings.keySet());
-		
-		getAverages(ratings, userMovies);
 		
 		HashMap<Integer, HashMap<Integer, Double>> normalizedRatings = new HashMap<Integer, HashMap<Integer, Double>>();
 		
@@ -75,11 +69,7 @@ public class MovieLensMF extends MovieLens
 			HashMap<Integer, Double> unnormalized = ratings.get(movieId);
 			
 			for (int userId : unnormalized.keySet()) {
-				double itemAverage = itemAverages.containsKey(movieId) ? itemAverages.get(movieId) : totalAverage;
-				double userAverage = userAverages.containsKey(userId) ? userAverages.get(userId) : totalAverage;
-				double userItemAverage = userAverage + itemAverage - totalAverage;
-				
-				norms.put(userId, unnormalized.get(userId) - userAverage);
+				norms.put(userId, unnormalized.get(userId));
 			}
 		}
 		
@@ -100,11 +90,6 @@ public class MovieLensMF extends MovieLens
 			
 			double testRating = testData.get(test);
 			double prediction = dot(userMatrix.get(testUserId), movieMatrix.get(testMovieId));
-			
-			double itemAverage = itemAverages.containsKey(testMovieId) ? itemAverages.get(testMovieId) : totalAverage;
-			double userAverage = userAverages.containsKey(testUserId) ? userAverages.get(testUserId) : totalAverage;
-			double userItemAverage = userAverage + itemAverage - totalAverage;
-			prediction += userAverage;
 			
 			if (prediction > 5) prediction = 5;
 			if (prediction < 1) prediction = 1;
@@ -130,89 +115,87 @@ public class MovieLensMF extends MovieLens
 		
 		double stepSize = STEP_SIZE;
 		
-		HashMap<Integer, Double[]> oldUserDerivative = new HashMap<Integer, Double[]>();
-		HashMap<Integer, Double[]> oldMovieDerivative = new HashMap<Integer, Double[]>();
+		HashMap<Integer, Double[]> lastGoodUserMatrix = new HashMap<Integer, Double[]>(); 
+		HashMap<Integer, Double[]> lastGoodMovieMatrix = new HashMap<Integer, Double[]>(); 
 		
-		for (int k : userMatrix.keySet()) {
-			Double[] arr = new Double[DIMENSION_COUNT];
-			oldUserDerivative.put(k, arr);
-			
-			for (int l = 0; l < DIMENSION_COUNT; l++) {
-				arr[l] = 0.0;
-			}
-		}
-		for (int q : movieMatrix.keySet()) {
-			Double[] arr = new Double[DIMENSION_COUNT];
-			oldMovieDerivative.put(q, arr);
-			
-			for (int l = 0; l < DIMENSION_COUNT; l++) {
-				arr[l] = 0.0;
-			}
-		}
+		double lastGoodError = 0;
+		int count = 0;
 		
-		while (!converged /*&& iterations <= 500*/) {
-			iterations++;
+		while (!converged && iterations <= 500) {
+			
 		
 			HashMap<Integer, Double[]> updatedUserMatrix = new HashMap<Integer, Double[]>(); 
 			HashMap<Integer, Double[]> updatedMovieMatrix = new HashMap<Integer, Double[]>(); 
 			
-			HashMap<Integer, Double[]> userDerivative = new HashMap<Integer, Double[]>();
-			HashMap<Integer, Double[]> movieDerivative = new HashMap<Integer, Double[]>();
-			
-			System.out.println("Iterations: " + iterations);
-		
 			//Update user matrix
 			for (int k : userMatrix.keySet()) {
 				updatedUserMatrix.put(k, new Double[DIMENSION_COUNT]);
-				userDerivative.put(k, new Double[DIMENSION_COUNT]);
 				
-				for (int l = 0; l < DIMENSION_COUNT; l++) {
-					double update = (stepSize * getErrorDerivativeOverUser(userMatrix, movieMatrix, movieUserRatings, k, l)) + (MOMENTUM * oldUserDerivative.get(k)[l]);
-					userDerivative.get(k)[l] = update;
+				for (int l = 0; l < DIMENSION_COUNT-1; l++) {
+					double update = (stepSize * getErrorDerivativeOverUser(userMatrix, movieMatrix, movieUserRatings, k, l));
 					
 					updatedUserMatrix.get(k)[l] = userMatrix.get(k)[l] - update;
 				}
+				
+				updatedUserMatrix.get(k)[DIMENSION_COUNT-1] = userMatrix.get(k)[DIMENSION_COUNT-1];
 			}
 			
 			//Update movie matrix
 			for (int q : movieMatrix.keySet()) {
 				updatedMovieMatrix.put(q, new Double[DIMENSION_COUNT]);
-				movieDerivative.put(q, new Double[DIMENSION_COUNT]);
 				
 				for (int l = 0; l < DIMENSION_COUNT; l++) {
-					double update = (stepSize * getErrorDerivativeOverMovie(userMatrix, movieMatrix, movieUserRatings, q, l)) + (MOMENTUM * oldMovieDerivative.get(q)[l]);
-					movieDerivative.get(q)[l] = update;
+					double update = (stepSize * getErrorDerivativeOverMovie(userMatrix, movieMatrix, movieUserRatings, q, l));
 					
 					updatedMovieMatrix.get(q)[l] = movieMatrix.get(q)[l] - update;
 				}
+				
+				//updatedMovieMatrix.get(q)[DIMENSION_COUNT-1] = movieMatrix.get(q)[DIMENSION_COUNT-1];
 			}
 			
 			double newError = getError(updatedUserMatrix, updatedMovieMatrix, movieUserRatings);
 			double evalRMSE = calculateRMSE(evaluate, updatedUserMatrix, updatedMovieMatrix);
 			
-			System.out.println("Old Error: " + oldError);
-			System.out.println("New Error: " + newError);
-			System.out.println("Diff: " + (oldError - newError));
-			System.out.println("RMSE: " + evalRMSE);
-			System.out.println("");
 		
 			if (newError < oldError) {
-				stepSize *= 1.25;
+				System.out.println("Stepsize: " + stepSize + " Count: " + count);
+				
+				stepSize *= 2;
+                count++;
                 
                 for (int k : userMatrix.keySet()) {
-    				userMatrix.put(k, updatedUserMatrix.get(k));
-    				oldUserDerivative.put(k, userDerivative.get(k));
+    				lastGoodUserMatrix.put(k, updatedUserMatrix.get(k));
     			}
     			for (int q : movieMatrix.keySet()) {
-    				movieMatrix.put(q, updatedMovieMatrix.get(q));
-    				oldMovieDerivative.put(q, movieDerivative.get(q));
+    				lastGoodMovieMatrix.put(q, updatedMovieMatrix.get(q));
     			}
     			
-                oldError = newError;
+                lastGoodError = newError;
 			}
 			else {
 				//Woops, overshot. Lower step size and try again
-				stepSize *= .5;
+				if (count > 0) {
+					count = 0;
+					
+					for (int k : userMatrix.keySet()) {
+	    				userMatrix.put(k, lastGoodUserMatrix.get(k));
+	    			}
+	    			for (int q : movieMatrix.keySet()) {
+	    				movieMatrix.put(q, lastGoodMovieMatrix.get(q));
+	    			}
+	    			oldError = lastGoodError;
+	    			
+	    			iterations++;
+	    			System.out.println("Iterations: " + iterations);
+	    			System.out.println("Error: " + oldError);
+	    			//System.out.println("New Error: " + newError);
+	    			//System.out.println("Diff: " + (oldError - newError));
+	    			System.out.println("RMSE: " + evalRMSE);
+	    			System.out.println("");
+				}
+				else {
+					stepSize *= .5;
+				}
 			}
 			
 			//Once the learning rate is smaller than a certain size, just stop.
@@ -280,6 +263,25 @@ public class MovieLensMF extends MovieLens
 		return priors;
 	}
 	
+	public HashMap<Integer, Double[]> getFixedPriors(Set<Integer> ids)
+	{
+		HashMap<Integer, Double[]> priors = new HashMap<Integer, Double[]>();
+		
+		for (int id : ids) {
+			Double[] vector = new Double[DIMENSION_COUNT];
+			
+			for (int x = 0; x < DIMENSION_COUNT-1; x++) {
+				vector[x] = RANDOM.nextGaussian();
+			}
+			
+			vector[DIMENSION_COUNT-1] = 1.0;
+			
+			priors.put(id, vector);
+		}
+		
+		return priors;
+	}
+	
 	public double getError(HashMap<Integer, Double[]> userMatrix, HashMap<Integer, Double[]> movieMatrix, HashMap<Integer, HashMap<Integer, Double>> movieUserRatings)
 	{
         double error = 0;
@@ -324,10 +326,8 @@ public class MovieLensMF extends MovieLens
 	public static void main(String[] args)
 		throws Exception
 	{
-		new MovieLensMF().run(10);
+		new NormalizationTest().run(10);
 	}
-	
-	
 	
 	public double calculateRMSE(HashMap<Integer[], Double> data,  HashMap<Integer, Double[]> userMatrix, HashMap<Integer, Double[]> movieMatrix)
 	{
@@ -340,12 +340,6 @@ public class MovieLensMF extends MovieLens
 			double testRating = data.get(test);
 			double prediction = dot(userMatrix.get(testUserId), movieMatrix.get(testMovieId));
 			
-			double itemAverage = itemAverages.containsKey(testMovieId) ? itemAverages.get(testMovieId) : totalAverage;
-			double userAverage = userAverages.containsKey(testUserId) ? userAverages.get(testUserId) : totalAverage;
-			double userItemAverage = userAverage + itemAverage - totalAverage;
-			
-			prediction += userAverage;
-			
 			if (prediction > 5) prediction = 5;
 			if (prediction < 1) prediction = 1;
 			
@@ -354,48 +348,5 @@ public class MovieLensMF extends MovieLens
 		
 		double mse = se / (double)data.size();
 		return Math.sqrt(mse);
-	}
-	
-	public void getAverages(HashMap<Integer, HashMap<Integer, Double>> movieUserRatings, HashMap<Integer, HashSet<Integer>> userMovies)
-	{		
-		double total = 0;
-		int totalCount = 0;
-		
-		itemAverages = new HashMap<Integer, Double>();
-		
-		for (int itemId : movieUserRatings.keySet()) {
-			HashMap<Integer, Double> rates = movieUserRatings.get(itemId);
-			
-			double totalRate = 0;
-			
-			for (int userId : rates.keySet()) {
-				totalRate += rates.get(userId);
-			}
-			
-			total += totalRate;
-			totalCount += rates.size();
-			
-			double averageRating = totalRate / rates.size();
-			
-			itemAverages.put(itemId, averageRating);
-		}
-		totalAverage = total / totalCount;
-		
-		
-		userAverages = new HashMap<Integer, Double>();
-		
-		for (int userId : userMovies.keySet()) {
-			HashSet<Integer> movies = userMovies.get(userId);
-			
-			double totalRate = 0;
-	
-			for (int movieId : movies) {
-				totalRate += movieUserRatings.get(movieId).get(userId);
-			}
-			
-			double averageRating = totalRate / movies.size();
-			
-			userAverages.put(userId, averageRating);
-		}	
 	}
 }

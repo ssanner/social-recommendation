@@ -5,13 +5,12 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Random;
 
-public class MovieLensMF extends MovieLens
+public class LineSearchMovieLensMF extends MovieLens
 {
 	final int DIMENSION_COUNT = 5; 
 	final Random RANDOM = new Random();
-	final double STEP_CONVERGENCE = 1e-5;
+	final double STEP_CONVERGENCE = 1e-10;
 	final double STEP_SIZE = 0.0001; //learning rate
-	final double MOMENTUM = 0.8;
 	
 	double lambdaU = 10;
 	double lambdaV = 10; 
@@ -130,45 +129,24 @@ public class MovieLensMF extends MovieLens
 		
 		double stepSize = STEP_SIZE;
 		
-		HashMap<Integer, Double[]> oldUserDerivative = new HashMap<Integer, Double[]>();
-		HashMap<Integer, Double[]> oldMovieDerivative = new HashMap<Integer, Double[]>();
+		HashMap<Integer, Double[]> lastGoodUserMatrix = new HashMap<Integer, Double[]>(); 
+		HashMap<Integer, Double[]> lastGoodMovieMatrix = new HashMap<Integer, Double[]>(); 
 		
-		for (int k : userMatrix.keySet()) {
-			Double[] arr = new Double[DIMENSION_COUNT];
-			oldUserDerivative.put(k, arr);
-			
-			for (int l = 0; l < DIMENSION_COUNT; l++) {
-				arr[l] = 0.0;
-			}
-		}
-		for (int q : movieMatrix.keySet()) {
-			Double[] arr = new Double[DIMENSION_COUNT];
-			oldMovieDerivative.put(q, arr);
-			
-			for (int l = 0; l < DIMENSION_COUNT; l++) {
-				arr[l] = 0.0;
-			}
-		}
+		double lastGoodError = 0;
+		int count = 0;
 		
 		while (!converged /*&& iterations <= 500*/) {
-			iterations++;
+			
 		
 			HashMap<Integer, Double[]> updatedUserMatrix = new HashMap<Integer, Double[]>(); 
 			HashMap<Integer, Double[]> updatedMovieMatrix = new HashMap<Integer, Double[]>(); 
 			
-			HashMap<Integer, Double[]> userDerivative = new HashMap<Integer, Double[]>();
-			HashMap<Integer, Double[]> movieDerivative = new HashMap<Integer, Double[]>();
-			
-			System.out.println("Iterations: " + iterations);
-		
 			//Update user matrix
 			for (int k : userMatrix.keySet()) {
 				updatedUserMatrix.put(k, new Double[DIMENSION_COUNT]);
-				userDerivative.put(k, new Double[DIMENSION_COUNT]);
 				
 				for (int l = 0; l < DIMENSION_COUNT; l++) {
-					double update = (stepSize * getErrorDerivativeOverUser(userMatrix, movieMatrix, movieUserRatings, k, l)) + (MOMENTUM * oldUserDerivative.get(k)[l]);
-					userDerivative.get(k)[l] = update;
+					double update = (stepSize * getErrorDerivativeOverUser(userMatrix, movieMatrix, movieUserRatings, k, l));
 					
 					updatedUserMatrix.get(k)[l] = userMatrix.get(k)[l] - update;
 				}
@@ -177,11 +155,9 @@ public class MovieLensMF extends MovieLens
 			//Update movie matrix
 			for (int q : movieMatrix.keySet()) {
 				updatedMovieMatrix.put(q, new Double[DIMENSION_COUNT]);
-				movieDerivative.put(q, new Double[DIMENSION_COUNT]);
 				
 				for (int l = 0; l < DIMENSION_COUNT; l++) {
-					double update = (stepSize * getErrorDerivativeOverMovie(userMatrix, movieMatrix, movieUserRatings, q, l)) + (MOMENTUM * oldMovieDerivative.get(q)[l]);
-					movieDerivative.get(q)[l] = update;
+					double update = (stepSize * getErrorDerivativeOverMovie(userMatrix, movieMatrix, movieUserRatings, q, l));
 					
 					updatedMovieMatrix.get(q)[l] = movieMatrix.get(q)[l] - update;
 				}
@@ -190,29 +166,46 @@ public class MovieLensMF extends MovieLens
 			double newError = getError(updatedUserMatrix, updatedMovieMatrix, movieUserRatings);
 			double evalRMSE = calculateRMSE(evaluate, updatedUserMatrix, updatedMovieMatrix);
 			
-			System.out.println("Old Error: " + oldError);
-			System.out.println("New Error: " + newError);
-			System.out.println("Diff: " + (oldError - newError));
-			System.out.println("RMSE: " + evalRMSE);
-			System.out.println("");
 		
 			if (newError < oldError) {
-				stepSize *= 1.25;
+				System.out.println("Stepsize: " + stepSize + " Count: " + count);
+				
+				stepSize *= 2;
+                count++;
                 
                 for (int k : userMatrix.keySet()) {
-    				userMatrix.put(k, updatedUserMatrix.get(k));
-    				oldUserDerivative.put(k, userDerivative.get(k));
+    				lastGoodUserMatrix.put(k, updatedUserMatrix.get(k));
     			}
     			for (int q : movieMatrix.keySet()) {
-    				movieMatrix.put(q, updatedMovieMatrix.get(q));
-    				oldMovieDerivative.put(q, movieDerivative.get(q));
+    				lastGoodMovieMatrix.put(q, updatedMovieMatrix.get(q));
     			}
     			
-                oldError = newError;
+                lastGoodError = newError;
 			}
 			else {
 				//Woops, overshot. Lower step size and try again
-				stepSize *= .5;
+				if (count > 0) {
+					count = 0;
+					
+					for (int k : userMatrix.keySet()) {
+	    				userMatrix.put(k, lastGoodUserMatrix.get(k));
+	    			}
+	    			for (int q : movieMatrix.keySet()) {
+	    				movieMatrix.put(q, lastGoodMovieMatrix.get(q));
+	    			}
+	    			oldError = lastGoodError;
+	    			
+	    			iterations++;
+	    			System.out.println("Iterations: " + iterations);
+	    			System.out.println("Error: " + oldError);
+	    			//System.out.println("New Error: " + newError);
+	    			//System.out.println("Diff: " + (oldError - newError));
+	    			System.out.println("RMSE: " + evalRMSE);
+	    			System.out.println("");
+				}
+				else {
+					stepSize *= .5;
+				}
 			}
 			
 			//Once the learning rate is smaller than a certain size, just stop.
@@ -324,7 +317,7 @@ public class MovieLensMF extends MovieLens
 	public static void main(String[] args)
 		throws Exception
 	{
-		new MovieLensMF().run(10);
+		new LineSearchMovieLensMF().run(10);
 	}
 	
 	

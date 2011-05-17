@@ -142,8 +142,8 @@ public class MovieLensFeatureMFBernoulli extends MovieLens
 					vector[x] += matrix[x][0];
 				}
 				
-				for (int y = 0; y < OCCUPATION.length; y++) {
-					if (feature.contains(OCCUPATION[y])) {
+				for (int y = 0; y < OCCUPATION10K.length; y++) {
+					if (feature.contains(OCCUPATION10K[y])) {
 						vector[x] += matrix[x][y+1];
 						break;
 					}
@@ -323,7 +323,7 @@ public class MovieLensFeatureMFBernoulli extends MovieLens
 			for (int userId : userRatings.keySet()) {
 				//System.out.println(movieTraits.get(movieId).length + " " + userFeatures.get(userId).length + " " + x + " " + y);
 				
-				if ((y == 0) || (y > 0 && y < USER_FEATURE_COUNT && userFeatures.get(userId).contains(OCCUPATION[y-1]))
+				if ((y == 0) || (y > 0 && y < USER_FEATURE_COUNT && userFeatures.get(userId).contains(OCCUPATION10K[y-1]))
 						|| (y >= USER_FEATURE_COUNT && userFeatures.get(userId).contains("" + movieId))) {
 					
 					double dst = movieTraits.get(movieId)[x];			
