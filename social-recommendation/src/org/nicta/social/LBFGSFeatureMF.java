@@ -8,7 +8,7 @@ public class LBFGSFeatureMF extends MovieLens
 {
 	final int DIMENSION_COUNT = 5; 
 	final Random RANDOM = new Random();
-	final double STEP_CONVERGENCE = 1e-10;
+	final double STEP_CONVERGENCE = 1e-2;
 	
 	double lambdaU = 10;
 	double lambdaV = 10; 
@@ -91,8 +91,7 @@ public class LBFGSFeatureMF extends MovieLens
 		
 		//Gradient Descent
 		minimize(normalizedRatings, userMatrix, movieMatrix, userFeatures, movieFeatures, /*userTraits, movieTraits*/ testData, userMovies);
-		minimize(normalizedRatings, userMatrix, movieMatrix, userFeatures, movieFeatures, /*userTraits, movieTraits*/ testData, userMovies);
-		
+
 		HashMap<Integer, Double[]> userTraits = getTraitVectors(userMatrix, userFeatures);
 		HashMap<Integer, Double[]> movieTraits = getTraitVectors(movieMatrix, movieFeatures);
 		
@@ -174,12 +173,14 @@ public class LBFGSFeatureMF extends MovieLens
 		int userVars = DIMENSION_COUNT * (USER_FEATURE_COUNT + USER_COUNT);
 		int movieVars = DIMENSION_COUNT * (MOVIE_FEATURE_COUNT + MOVIE_COUNT);
 		
-		int[] iprint = {1,3};
+		int[] iprint = {0,0};
 		int[] iflag = {0};
 		double[] diag = new double[userVars + movieVars];
 		for (int x = 0; x < diag.length; x++) {
 			diag[x] = 0;
 		}
+		
+		double oldError = Double.MAX_VALUE;
 		
 		while (go) {
 			iterations++;
@@ -189,7 +190,7 @@ public class LBFGSFeatureMF extends MovieLens
 			Double[][] userDerivative = new Double[DIMENSION_COUNT][USER_FEATURE_COUNT + USER_COUNT];
 			Double[][] movieDerivative = new Double[DIMENSION_COUNT][MOVIE_FEATURE_COUNT + MOVIE_COUNT];
 			
-			//System.out.println("Iterations: " + iterations);
+			System.out.println("Iterations: " + iterations);
 		
 			//Get user derivatives
 			for (int k = 0; k < DIMENSION_COUNT; k++) {
@@ -233,12 +234,12 @@ public class LBFGSFeatureMF extends MovieLens
 			index = 0;
 			for (int x = 0; x < DIMENSION_COUNT; x++) {
 				for (int y = 0; y < USER_FEATURE_COUNT + USER_COUNT; y++) {
-					derivatives[index++] = userMatrix[x][y];
+					derivatives[index++] = userDerivative[x][y];
 				}
 			}
 			for (int x = 0; x < DIMENSION_COUNT; x++) {
 				for (int y = 0; y < MOVIE_FEATURE_COUNT + MOVIE_COUNT; y++) {
-					derivatives[index++] = movieMatrix[x][y];
+					derivatives[index++] = movieDerivative[x][y];
 				}
 			}
 			
@@ -248,9 +249,9 @@ public class LBFGSFeatureMF extends MovieLens
 			System.out.println("RMSE: " + evalRMSE);
 			System.out.println("");
 			
-			LBFGS.lbfgs(variables.length, 100, variables, error, derivatives,
+			LBFGS.lbfgs(variables.length, 5, variables, error, derivatives,
 					false, diag, iprint, STEP_CONVERGENCE,
-					1e-256, iflag);
+					1e-15, iflag);
 			
 			index = 0;
 			for (int x = 0; x < DIMENSION_COUNT; x++) {
@@ -264,7 +265,9 @@ public class LBFGSFeatureMF extends MovieLens
 				}
 			}
 			
-			if (iflag[0] == 0) go = false;
+			if (iflag[0] == 0 || Math.abs(oldError - error) < STEP_CONVERGENCE) go = false;
+			
+			oldError = error;
 		}
 	}
 	
@@ -395,7 +398,7 @@ public class LBFGSFeatureMF extends MovieLens
         }
         
         for (int x = 0; x < DIMENSION_COUNT; x++) {
-        	for (int y = 0; y < DIMENSION_COUNT; y++) {
+        	for (int y = 0; y < MOVIE_FEATURE_COUNT; y++) {
         		movieNorm += Math.pow(movieMatrix[x][y], 2);
         	}
         }

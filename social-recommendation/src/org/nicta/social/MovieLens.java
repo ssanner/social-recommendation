@@ -59,6 +59,7 @@ public abstract class MovieLens
 	final int MOVIE_FEATURE_COUNT = 19;
 	final String FEATURE_SEPARATOR = "\\|";
 	
+	
 	double mae;
 	final double RATING_RANGE = 5; //Range of rating
 	
