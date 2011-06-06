@@ -10,7 +10,7 @@ public class MovieLensFeatureMF2 extends MovieLens
 	final Random RANDOM = new Random();
 	final double STEP_CONVERGENCE = 1e-7;
 	final double STEP_SIZE = 0.0001; //learning rate
-	final double MOMENTUM = .0;
+	final double MOMENTUM = 0.0;
 	
 	double lambdaU = 10;
 	double lambdaV = 10; 
