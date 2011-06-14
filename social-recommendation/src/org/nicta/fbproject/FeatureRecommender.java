@@ -2,6 +2,7 @@ package org.nicta.fbproject;
 
 import java.util.HashMap;
 import java.util.HashSet;
+
 import org.nicta.social.LBFGS;
 
 public class FeatureRecommender extends Recommender 
@@ -26,6 +27,9 @@ public class FeatureRecommender extends Recommender
 		
 		HashMap<Long, HashSet<Long>> linkLikes = getLinkLikes(links.keySet());
 		
+		HashMap<Long, HashSet<Long>> friendships = getFriendships();
+		System.out.println("Retrieved friends: " + friendships.size());
+		
 		HashMap<String, Integer> words = getMostCommonWords();
 		System.out.println("Got " + words.size() + " words.");
 		
@@ -35,25 +39,21 @@ public class FeatureRecommender extends Recommender
 		//Double[][] userMatrix = FBMethods.getPrior(Constants.USER_FEATURE_COUNT + users.size());
 		Double[][] userFeatureMatrix = getPrior(Constants.USER_FEATURE_COUNT);
 		HashMap<Long, Double[]> userIdColumns = getMatrixIdColumns(users.keySet());
-		HashMap<Long, Double[]> userTraitVectors = getTraitVectors(userFeatureMatrix, userIdColumns, users);
 		
 		//Double[][] linkMatrix = FBMethods.getPrior(Constants.LINK_FEATURE_COUNT + links.size() + words.size());
 		Double[][] linkFeatureMatrix = getPrior(Constants.LINK_FEATURE_COUNT + words.size());
 		HashMap<Long, Double[]> linkIdColumns = getMatrixIdColumns(links.keySet());
-		HashMap<Long, Double[]> linkTraitVectors = getTraitVectors(linkFeatureMatrix, linkIdColumns, links);
 		
-		double firstError = getError(userFeatureMatrix, linkFeatureMatrix, userIdColumns, linkIdColumns, users, userTraitVectors, linkTraitVectors, linkLikes);
+		HashMap<Long, HashSet<Long>> userLinkSamples = getUserLinksSample(users.keySet(), friendships);
 		
-		System.out.println("First error: " + firstError);
-		
-		minimize(linkLikes, userFeatureMatrix, linkFeatureMatrix, users, links, userIdColumns, linkIdColumns);
+		minimize(linkLikes, userFeatureMatrix, linkFeatureMatrix, users, links, userIdColumns, linkIdColumns, userLinkSamples);
 		
 		System.out.println("Done");
 	}
 	
 	public void minimize(HashMap<Long, HashSet<Long>> linkLikes, Double[][] userFeatureMatrix, Double[][] linkFeatureMatrix, 
 					HashMap<Long, Double[]> userFeatures, HashMap<Long, Double[]> linkFeatures,
-					HashMap<Long, Double[]> userIdColumns, HashMap<Long, Double[]> linkIdColumns)
+					HashMap<Long, Double[]> userIdColumns, HashMap<Long, Double[]> linkIdColumns, HashMap<Long, HashSet<Long>> userLinkSamples)
 		throws Exception
 	{
 		boolean go = true;	
@@ -89,7 +89,7 @@ public class FeatureRecommender extends Recommender
 			//Get user derivatives
 			for (int k = 0; k < Constants.K; k++) {
 				for (int l = 0; l < Constants.USER_FEATURE_COUNT; l++) {
-					userDerivative[k][l] = getErrorDerivativeOverUserAttribute(userFeatureMatrix, userFeatures, userIdColumns, userTraits, linkTraits, linkLikes, k, l);
+					userDerivative[k][l] = getErrorDerivativeOverUserAttribute(userFeatureMatrix, userFeatures, userIdColumns, userTraits, linkTraits, linkLikes, userLinkSamples, k, l);
 				}
 				
 				for (long userId : userIdColumns.keySet()) {
@@ -97,14 +97,14 @@ public class FeatureRecommender extends Recommender
 						userIdDerivative.put(userId, new Double[Constants.K]);
 					}
 					
-					userIdDerivative.get(userId)[k] = getErrorDerivativeOverUserId(userFeatureMatrix, userFeatures, userTraits, linkTraits, userIdColumns, linkLikes, k, userId);
+					userIdDerivative.get(userId)[k] = getErrorDerivativeOverUserId(userFeatureMatrix, userFeatures, userTraits, linkTraits, userIdColumns, linkLikes, userLinkSamples, k, userId);
 				}
 			}
 
 			//Get movie derivatives
 			for (int q = 0; q < Constants.K; q++) {
 				for (int l = 0; l < Constants.LINK_FEATURE_COUNT; l++) {
-					linkDerivative[q][l] = getErrorDerivativeOverLinkAttribute(linkFeatureMatrix, linkFeatures,userTraits, linkTraits, linkFeatures, linkLikes, q, l);
+					linkDerivative[q][l] = getErrorDerivativeOverLinkAttribute(linkFeatureMatrix, userTraits, linkTraits, linkFeatures, linkLikes, userLinkSamples, q, l);
 				}
 				
 				for (long linkId : linkIdColumns.keySet()) {
@@ -112,7 +112,7 @@ public class FeatureRecommender extends Recommender
 						linkIdDerivative.put(linkId, new Double[Constants.K]);
 					}
 									
-					linkIdDerivative.get(linkId)[q] = getErrorDerivativeOverLinkId(linkFeatureMatrix, linkFeatures, linkIdColumns, userTraits, linkTraits, linkFeatures, linkLikes, q, linkId);
+					linkIdDerivative.get(linkId)[q] = getErrorDerivativeOverLinkId(linkFeatureMatrix, linkFeatures, linkIdColumns, userTraits, linkTraits, linkFeatures, linkLikes, userLinkSamples, q, linkId);
 				}
 			}
 
@@ -172,9 +172,9 @@ public class FeatureRecommender extends Recommender
 				}
 			}
 			
-			double error = getError(userFeatureMatrix, linkFeatureMatrix, userIdColumns, linkIdColumns, userFeatures, userTraits, linkTraits, linkLikes);
+			double error = getError(userFeatureMatrix, linkFeatureMatrix, userIdColumns, linkIdColumns, userFeatures, userTraits, linkTraits, linkLikes, userLinkSamples);
 			//if (iterations % 20 == 0) {
-				System.out.println("New Error: " + error + ", RMSE: " + calcRMSE(userTraits, linkTraits, linkLikes));
+				System.out.println("New Error: " + error + ", RMSE: " + calcRMSE(userTraits, linkTraits, linkLikes, userLinkSamples));
 				System.out.println("");
 			//}
 
@@ -217,13 +217,15 @@ public class FeatureRecommender extends Recommender
 			HashMap<Long, Double[]> userIdColumns, HashMap<Long, Double[]> linkIdColumns,
 			HashMap<Long, Double[]> users, 
 			HashMap<Long, Double[]> userTraits, HashMap<Long, Double[]> linkTraits,
-			HashMap<Long, HashSet<Long>> linkLikes)
+			HashMap<Long, HashSet<Long>> linkLikes, HashMap<Long, HashSet<Long>> userLinkSamples)
 	{
 		double error = 0;
 			
 		//Get the square error
 		for (long i : userTraits.keySet()) {
-			for (long j : linkTraits.keySet()) {
+			HashSet<Long> links = userLinkSamples.get(i);
+			
+			for (long j : links) {
 				int liked = 0;
 				if (linkLikes.containsKey(j) && linkLikes.get(j).contains(i)) liked = 1;
 				double predictedLike = dot(userTraits.get(i), linkTraits.get(j));
@@ -274,18 +276,18 @@ public class FeatureRecommender extends Recommender
 	
 	public double getErrorDerivativeOverUserAttribute(Double[][] userFeatureMatrix, HashMap<Long, Double[]> userFeatures, HashMap<Long, Double[]> userIdColumns,
 				HashMap<Long, Double[]> userTraits, HashMap<Long, Double[]> linkTraits,
-				HashMap<Long, HashSet<Long>> linkLikes, int x, int y)
+				HashMap<Long, HashSet<Long>> linkLikes, HashMap<Long, HashSet<Long>> userLinkSamples, int x, int y)
 	{
 		double errorDerivative = userFeatureMatrix[x][y] * Constants.LAMBDA;
 
-		for (long linkId : linkTraits.keySet()) {
-			HashSet<Long> likes = linkLikes.get(linkId);
-
-			for (long userId : userFeatures.keySet()) {
+		for (long userId : userFeatures.keySet()) {
+			HashSet<Long> links = userLinkSamples.get(userId);
+			
+			for (long linkId : links) {
 				double dst = linkTraits.get(linkId)[x] * userFeatures.get(userId)[y];		
 				double p = dot(userTraits.get(userId), linkTraits.get(linkId));
 				double r = 0;
-				if (likes != null && likes.contains(userId)) r = 1;
+				if (linkLikes.get(linkId) != null && linkLikes.get(linkId).contains(userId)) r = 1;
 
 				errorDerivative += (r - p) * dst * -1;
 			}
@@ -296,12 +298,14 @@ public class FeatureRecommender extends Recommender
 
 
 	public double getErrorDerivativeOverUserId(Double[][] userFeatureMatrix, HashMap<Long, Double[]> userFeatures, HashMap<Long, Double[]> userTraits, HashMap<Long, Double[]> linkTraits,
-												HashMap<Long, Double[]> userIdColumns, HashMap<Long, HashSet<Long>> linkLikes, int k, long userId)
+												HashMap<Long, Double[]> userIdColumns, HashMap<Long, HashSet<Long>> linkLikes, HashMap<Long, HashSet<Long>> userLinkSamples, int k, long userId)
 	{
 		Double[] idColumn = userIdColumns.get(userId);
 		double errorDerivative = idColumn[k] * Constants.LAMBDA;
 
-		for (long linkId : linkTraits.keySet()) {
+		HashSet<Long> links = userLinkSamples.get(userId);
+		
+		for (long linkId : links) {
 			HashSet<Long> likes = linkLikes.get(linkId);
 
 			double dst = linkTraits.get(linkId)[k] /* userFeatures.get(userId)[k]*/;
@@ -315,20 +319,20 @@ public class FeatureRecommender extends Recommender
 		return errorDerivative;
 	}
 
-	public double getErrorDerivativeOverLinkAttribute(Double[][] linkFeatureMatrix, HashMap<Long, Double[]> links,
+	public double getErrorDerivativeOverLinkAttribute(Double[][] linkFeatureMatrix, 
 			HashMap<Long, Double[]> userTraits, HashMap<Long, Double[]> linkTraits, HashMap<Long, Double[]> linkFeatures,
-			HashMap<Long, HashSet<Long>> linkLikes, int x, int y)
+			HashMap<Long, HashSet<Long>> linkLikes, HashMap<Long, HashSet<Long>> userLinkSamples, int x, int y)
 	{	
 		double errorDerivative = linkFeatureMatrix[x][y] * Constants.LAMBDA;
 
-		for (long linkId : linkTraits.keySet()) {
-			HashSet<Long> likes = linkLikes.get(linkId);
+		for (long userId : userTraits.keySet()) {
+			HashSet<Long> links = userLinkSamples.get(userId);
 
-			for (long userId : userTraits.keySet()) {
+			for (long linkId : links) {
 				double dst = userTraits.get(userId)[x] * linkFeatures.get(linkId)[y];		
 				double p = dot(userTraits.get(userId), linkTraits.get(linkId));
 				double r = 0;
-				if (likes != null && likes.contains(userId)) r = 1;
+				if (linkLikes.get(linkId) != null && linkLikes.get(linkId).contains(userId)) r = 1;
 
 				errorDerivative += (r - p) * dst * -1;
 			}
@@ -340,13 +344,15 @@ public class FeatureRecommender extends Recommender
 	
 	public double getErrorDerivativeOverLinkId(Double[][] linkFeatureMatrix, HashMap<Long, Double[]> links, HashMap<Long, Double[]> linkIdColumns,
 			HashMap<Long, Double[]> userTraits, HashMap<Long, Double[]> linkTraits, HashMap<Long, Double[]> linkFeatures,
-			HashMap<Long, HashSet<Long>> linkLikes, int x, long linkId)
+			HashMap<Long, HashSet<Long>> linkLikes, HashMap<Long, HashSet<Long>> userLinkSamples, int x, long linkId)
 	{
 		Double[] idColumn = linkIdColumns.get(linkId);
 		double errorDerivative = idColumn[x] * Constants.LAMBDA;
 		HashSet<Long> likes = linkLikes.get(linkId);
 		
 		for (long userId : userTraits.keySet()) {
+			if (! userLinkSamples.get(userId).contains(linkId)) continue;
+			
 			double dst = userTraits.get(userId)[x] * idColumn[x];		
 			double p = dot(userTraits.get(userId), linkTraits.get(linkId));
 			double r = 0;
