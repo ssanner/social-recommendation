@@ -1,6 +1,6 @@
 package org.nicta.fbproject;
 
-public class FBConstants 
+public class Constants 
 {
 	static final String DB_STRING = "jdbc:mysql://localhost/sorec?user=socrec&password=sorec";
 	//public String DB_STRING = "jdbc:mysql://localhost/wiki?user=wiki&password=wiki";
