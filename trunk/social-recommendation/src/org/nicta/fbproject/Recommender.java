@@ -17,13 +17,15 @@ import org.nicta.filters.StopWordChecker;
 
 public abstract class Recommender 
 {
-	public double calcRMSE(HashMap<Long, Double[]> userTraits, HashMap<Long, Double[]> linkTraits, HashMap<Long, HashSet<Long>> linkLikes)
+	public double calcRMSE(HashMap<Long, Double[]> userTraits, HashMap<Long, Double[]> linkTraits, HashMap<Long, HashSet<Long>> linkLikes, HashMap<Long, HashSet<Long>> userLinkSamples)
 	{
 		double error = 0;
 		
 		//Get the square error
 		for (long i : userTraits.keySet()) {
-			for (long j : linkTraits.keySet()) {
+			HashSet<Long> links = userLinkSamples.get(i);
+			
+			for (long j : links) {
 				int liked = 0;
 				
 				if (linkLikes.containsKey(j) && linkLikes.get(j).contains(i)) liked = 1;
@@ -217,8 +219,12 @@ public abstract class Recommender
 			if (!friendships.containsKey(uid1)) {
 				friendships.put(uid1, new HashSet<Long>());
 			}
+			if (!friendships.containsKey(uid2)) {
+				friendships.put(uid2, new HashSet<Long>());
+			}
 			
 			friendships.get(uid1).add(uid2);
+			friendships.get(uid2).add(uid1);
 		}
 		
 		statement.close();
@@ -428,5 +434,48 @@ public abstract class Recommender
 		conn.close();
 		
 		return linkLikes;
+	}
+	
+	public HashMap<Long, HashSet<Long>> getUserLinksSample(Set<Long> userIds, HashMap<Long, HashSet<Long>> friendships)
+		throws SQLException
+	{
+		HashMap<Long, HashSet<Long>> userLinkSamples = new HashMap<Long, HashSet<Long>>();
+		
+		Connection conn = getSqlConnection();
+		Statement statement = conn.createStatement();
+		
+		for (Long id : userIds) {
+			HashSet<Long> samples = new HashSet<Long>();
+			userLinkSamples.put(id, samples);
+			
+			//Get the links that were liked
+			ResultSet result = statement.executeQuery("SELECT l.id FROM linkrlinks l, linkrpostlikes lp WHERE l.id=lp.post_id AND lp.id=l.id");
+			while (result.next()) {
+				samples.add(result.getLong("l.id"));
+			}
+			
+			//Sample links that weren't liked. Will be equal to number of links that were liked.
+			HashSet<Long> friends = friendships.get(id);
+			
+			StringBuilder query = new StringBuilder("SELECT id FROM linkrlinks WHERE uid IN (0");
+			for (Long friendId : friends) {
+				query.append(",");
+				query.append(friendId);
+			}
+			query.append(") AND id NOT IN(0");
+			for (Long likedId : samples) {
+				query.append(",");
+				query.append(likedId);
+			}
+			query.append(") ORDER BY created_time DESC LIMIT ");
+			query.append(samples.size());
+			result = statement.executeQuery(query.toString());
+			
+			while (result.next()) {
+				samples.add(result.getLong("id"));
+			}
+		}
+		
+		return userLinkSamples;
 	}
 }
