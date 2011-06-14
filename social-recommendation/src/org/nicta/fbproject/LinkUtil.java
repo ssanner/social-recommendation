@@ -12,7 +12,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.sql.Date;
 
-public class Link 
+public class LinkUtil 
 {	
 	public static HashMap<Long, Double[]> getLinkFeatures()
 		throws SQLException

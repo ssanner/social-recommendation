@@ -7,7 +7,7 @@ import java.sql.Statement;
 import java.sql.ResultSet;
 import java.util.HashSet;
 
-public class User 
+public class UserUtil
 {	
 	public static HashMap<Long, Double[]> getUserFeatures()
 		throws SQLException

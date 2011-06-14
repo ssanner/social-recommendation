@@ -2,32 +2,34 @@ package org.nicta.fbproject;
 
 import java.util.HashMap;
 import java.util.HashSet;
-
 import org.nicta.social.LBFGS;
-import java.util.Iterator;
 
-public class FBTest 
+public class FeatureRecommender extends Recommender 
 {
 	public static void main(String[] args)
 		throws Exception
 	{
+		FeatureRecommender test = new FeatureRecommender();
+		test.test();
+	}
+	
+	public void test()
+		throws Exception
+	{
 		System.out.println("Start...");
 		
-		HashMap<Long, Double[]> users = User.getUserFeatures();
+		HashMap<Long, Double[]> users = UserUtil.getUserFeatures();
 		System.out.println("Retrieved users: " + users.size());
 		
-		HashMap<Long, HashSet<Long>> friendships = User.getFriendships();
-		System.out.println("Retrieved friends: " + friendships.size());
-		
-		HashMap<Long, Double[]> links = Link.getLinkFeatures();
+		HashMap<Long, Double[]> links = LinkUtil.getLinkFeatures();
 		System.out.println("Retrieved links: " + links.size());
 		
-		HashMap<Long, HashSet<Long>> linkLikes = Link.getLinkLikes(links.keySet());
+		HashMap<Long, HashSet<Long>> linkLikes = LinkUtil.getLinkLikes(links.keySet());
 		
-		HashMap<String, Integer> words = Link.getMostCommonWords();
+		HashMap<String, Integer> words = LinkUtil.getMostCommonWords();
 		System.out.println("Got " + words.size() + " words.");
 		
-		HashMap<Long, HashSet<String>> linkWords = Link.getLinkWordFeatures(words.keySet());
+		HashMap<Long, HashSet<String>> linkWords = LinkUtil.getLinkWordFeatures(words.keySet());
 		System.out.println("Link words: " + linkWords.size());
 		
 		//Double[][] userMatrix = FBMethods.getPrior(FBConstants.USER_FEATURE_COUNT + users.size());
@@ -40,17 +42,17 @@ public class FBTest
 		HashMap<Long, Double[]> linkIdColumns = FBMethods.getMatrixIdColumns(links.keySet());
 		HashMap<Long, Double[]> linkTraitVectors = getTraitVectors(linkFeatureMatrix, linkIdColumns, links);
 		
-		double firstError = getError(userFeatureMatrix, linkFeatureMatrix, userIdColumns, linkIdColumns, users, userTraitVectors, linkTraitVectors, friendships, linkLikes);
+		double firstError = getError(userFeatureMatrix, linkFeatureMatrix, userIdColumns, linkIdColumns, users, userTraitVectors, linkTraitVectors, linkLikes);
 		
 		System.out.println("First error: " + firstError);
 		
-		minimize(linkLikes, userFeatureMatrix, linkFeatureMatrix, users, links, friendships, userIdColumns, linkIdColumns);
+		minimize(linkLikes, userFeatureMatrix, linkFeatureMatrix, users, links, userIdColumns, linkIdColumns);
 		
 		System.out.println("Done");
 	}
 	
-	public static void minimize(HashMap<Long, HashSet<Long>> linkLikes, Double[][] userFeatureMatrix, Double[][] linkFeatureMatrix, 
-					HashMap<Long, Double[]> userFeatures, HashMap<Long, Double[]> linkFeatures, HashMap<Long, HashSet<Long>> friendships,
+	public void minimize(HashMap<Long, HashSet<Long>> linkLikes, Double[][] userFeatureMatrix, Double[][] linkFeatureMatrix, 
+					HashMap<Long, Double[]> userFeatures, HashMap<Long, Double[]> linkFeatures,
 					HashMap<Long, Double[]> userIdColumns, HashMap<Long, Double[]> linkIdColumns)
 		throws Exception
 	{
@@ -87,7 +89,7 @@ public class FBTest
 			//Get user derivatives
 			for (int k = 0; k < FBConstants.K; k++) {
 				for (int l = 0; l < FBConstants.USER_FEATURE_COUNT; l++) {
-					userDerivative[k][l] = getErrorDerivativeOverUserAttribute(userFeatureMatrix, userFeatures, userIdColumns, userTraits, linkTraits, friendships, linkLikes, k, l);
+					userDerivative[k][l] = getErrorDerivativeOverUserAttribute(userFeatureMatrix, userFeatures, userIdColumns, userTraits, linkTraits, linkLikes, k, l);
 				}
 				
 				for (long userId : userIdColumns.keySet()) {
@@ -95,14 +97,14 @@ public class FBTest
 						userIdDerivative.put(userId, new Double[FBConstants.K]);
 					}
 					
-					userIdDerivative.get(userId)[k] = getErrorDerivativeOverUserId(userFeatureMatrix, userFeatures, userTraits, linkTraits, userIdColumns, friendships, linkLikes, k, userId);
+					userIdDerivative.get(userId)[k] = getErrorDerivativeOverUserId(userFeatureMatrix, userFeatures, userTraits, linkTraits, userIdColumns, linkLikes, k, userId);
 				}
 			}
 
 			//Get movie derivatives
 			for (int q = 0; q < FBConstants.K; q++) {
 				for (int l = 0; l < FBConstants.LINK_FEATURE_COUNT; l++) {
-					linkDerivative[q][l] = getErrorDerivativeOverLinkAttribute(linkFeatureMatrix, linkFeatures,userTraits, linkTraits, linkFeatures,friendships, linkLikes, q, l);
+					linkDerivative[q][l] = getErrorDerivativeOverLinkAttribute(linkFeatureMatrix, linkFeatures,userTraits, linkTraits, linkFeatures, linkLikes, q, l);
 				}
 				
 				for (long linkId : linkIdColumns.keySet()) {
@@ -110,15 +112,13 @@ public class FBTest
 						linkIdDerivative.put(linkId, new Double[FBConstants.K]);
 					}
 									
-					linkIdDerivative.get(linkId)[q] = getErrorDerivativeOverLinkId(linkFeatureMatrix, linkFeatures, linkIdColumns, userTraits, linkTraits, linkFeatures, friendships, linkLikes, q, linkId);
+					linkIdDerivative.get(linkId)[q] = getErrorDerivativeOverLinkId(linkFeatureMatrix, linkFeatures, linkIdColumns, userTraits, linkTraits, linkFeatures, linkLikes, q, linkId);
 				}
 			}
 
 
 			double[] variables = new double[userVars + linkVars];
 			int index = 0;
-			Iterator<Long> userIterator = userFeatures.keySet().iterator();
-			
 			
 			for (int x = 0; x < FBConstants.K; x++) {
 				for (int y = 0; y < FBConstants.USER_FEATURE_COUNT; y++) {
@@ -172,9 +172,11 @@ public class FBTest
 				}
 			}
 			
-			double error = getError(userFeatureMatrix, linkFeatureMatrix, userIdColumns, linkIdColumns, userFeatures, userTraits, linkTraits, friendships, linkLikes);
-			System.out.println("New Error: " + error);
-			System.out.println("");
+			double error = getError(userFeatureMatrix, linkFeatureMatrix, userIdColumns, linkIdColumns, userFeatures, userTraits, linkTraits, linkLikes);
+			//if (iterations % 20 == 0) {
+				System.out.println("New Error: " + error + ", RMSE: " + calcRMSE(userTraits, linkTraits, linkLikes));
+				System.out.println("");
+			//}
 
 			LBFGS.lbfgs(variables.length, 5, variables, error, derivatives,
 					false, diag, iprint, FBConstants.STEP_CONVERGENCE,
@@ -211,42 +213,25 @@ public class FBTest
 		}
 	}
 	
-	public static double getError(Double[][] userFeatureMatrix, Double[][] linkFeatureMatrix, 
+	public double getError(Double[][] userFeatureMatrix, Double[][] linkFeatureMatrix, 
 			HashMap<Long, Double[]> userIdColumns, HashMap<Long, Double[]> linkIdColumns,
 			HashMap<Long, Double[]> users, 
 			HashMap<Long, Double[]> userTraits, HashMap<Long, Double[]> linkTraits,
-			HashMap<Long, HashSet<Long>> friendships, HashMap<Long, HashSet<Long>> linkLikes)
+			HashMap<Long, HashSet<Long>> linkLikes)
 	{
 		double error = 0;
-
-		for (long i : userTraits.keySet()) {
-			for (long j : userTraits.keySet()) {
-				if (i == j) continue;
-				
-				int connection = 0;
-				
-				if (User.areFriends(i, j, friendships)) {
-					connection = 1;
-				}
-				
-				double predictConnection = predictConnection(userFeatureMatrix, userIdColumns, users, i, j);
-				error += Math.pow(connection - predictConnection, 2);
-			}
-		}
 			
 		//Get the square error
 		for (long i : userTraits.keySet()) {
 			for (long j : linkTraits.keySet()) {
 				int liked = 0;
-				
 				if (linkLikes.containsKey(j) && linkLikes.get(j).contains(i)) liked = 1;
-				
 				double predictedLike = FBMethods.dot(userTraits.get(i), linkTraits.get(j));
 		
 				error += Math.pow(liked - predictedLike, 2);
 			}
 		}
-
+		
 		//Get User and Movie norms for regularisation
 		double userNorm = 0;
 		double linkNorm = 0;
@@ -280,126 +265,22 @@ public class FBTest
 		userNorm *= FBConstants.LAMBDA;
 		linkNorm *= FBConstants.LAMBDA;
 
+		System.out.println("Sq error: " + error + " uNorm: " + userNorm + " lNorm: " + linkNorm);
+		
 		error += userNorm + linkNorm;
 
 		return error / 2;
 	}
 	
-	public static HashMap<Long, Double[]> getTraitVectors(Double[][] matrix, 
-													HashMap<Long, Double[]> idColumns,
-													HashMap<Long, Double[]> features)
-	{
-		HashMap<Long, Double[]> traitVectors = new HashMap<Long, Double[]>();
-		
-		for (long id : features.keySet()) {
-			Double[] feature = features.get(id);
-			Double[] vector = new Double[FBConstants.K];
-			Double[] idColumn = idColumns.get(id);
-			
-			for (int x = 0; x < FBConstants.K; x++) {
-				vector[x] = 0.0;
-				
-				for (int y = 0; y < feature.length; y++) {
-					vector[x] += matrix[x][y] * feature[y];
-				}
-				
-				//vector[x] += matrix[x][feature.length + (id-1)];
-				vector[x] += idColumn[x];
-			}
-			
-			traitVectors.put(id, vector);
-		}
-		
-		return traitVectors;
-	}
-	
-	public static double predictConnection(Double[][] userMatrix, 
-									HashMap<Long, Double[]> idColumns,
-									HashMap<Long, Double[]> userFeatures,
-									long i, long j)
-	{
-		Double[] iFeature = userFeatures.get(i);
-		Double[] iColumn = idColumns.get(i);
-		Double[] jFeature = userFeatures.get(j);
-		Double[] jColumn = idColumns.get(j);
-		
-		Double[] xU = new Double[FBConstants.K];
-		
-		for (int x = 0; x < xU.length; x++) {
-			xU[x] = 0.0;
-			
-			for (int y = 0; y < iFeature.length; y++) {
-				xU[x] += iFeature[y] * userMatrix[x][y];
-			}
-			
-			xU[x] += iColumn[x];
-			
-		}
-		
-		Double[] xUU = new Double[iFeature.length + 1];
-		
-		for (int x = 0; x < iFeature.length; x++) {
-			xUU[x] = 0.0;
-				
-			for (int y = 0; y < FBConstants.K; y++) {
-				xUU[x] += xU[y] * userMatrix[y][x];
-			}
-				
-			//vector[x] += matrix[x][feature.length + (id-1)];
-		}
-		
-		xUU[iFeature.length] = 0.0;
-		
-		for (int x = 0; x < FBConstants.K; x++) {
-			xUU[iFeature.length] += xU[x] * jColumn[x];
-		}
-		
-		double connection = 0;
-		
-		for (int x = 0; x < jFeature.length; x++) {
-			connection += xUU[x] + jFeature[x];
-		}
-		connection += xUU[jFeature.length];
-		
-		return connection;
-	}
-	
-	public static double getErrorDerivativeOverUserAttribute(Double[][] userFeatureMatrix, HashMap<Long, Double[]> userFeatures, HashMap<Long, Double[]> userIdColumns,
-														HashMap<Long, Double[]> userTraits, HashMap<Long, Double[]> linkTraits,
-														HashMap<Long, HashSet<Long>> friendships, HashMap<Long, HashSet<Long>> linkLikes, int x, int y)
+	public double getErrorDerivativeOverUserAttribute(Double[][] userFeatureMatrix, HashMap<Long, Double[]> userFeatures, HashMap<Long, Double[]> userIdColumns,
+				HashMap<Long, Double[]> userTraits, HashMap<Long, Double[]> linkTraits,
+				HashMap<Long, HashSet<Long>> linkLikes, int x, int y)
 	{
 		double errorDerivative = userFeatureMatrix[x][y] * FBConstants.LAMBDA;
-		
-		for (long uid1 : userTraits.keySet()) {
-			for (long uid2 : userFeatures.keySet()) {
-				if (uid1 == uid2) continue;	
-				
-				Double[] user1 = userFeatures.get(uid1);
-				Double[] user1Id = userIdColumns.get(uid1);
-				Double[] user2 = userFeatures.get(uid2);
-				Double[] user2Id = userIdColumns.get(uid2);
-				
-				int c = 0;
-				if (User.areFriends(uid1, uid2, friendships)) c = 1;
-				double p = predictConnection(userFeatureMatrix, userIdColumns, userFeatures, uid1, uid2);
-				double duu = 2 * user1[y] * user2[y] * userFeatureMatrix[x][y];
-				for (int z = 0; z < user1.length; z++) {
-					if (z != y) {
-						//System.out.println(x + " " + z + " " + user1.length + " " + user2.length);
-						duu += user1[y] * user2[z] * userFeatureMatrix[x][z];
-						duu += user1[z] * user2[y] * userFeatureMatrix[x][z];
-					}
-				}
-				duu += user1Id[y] * user2[y];
-				duu += user2Id[y] * user1[y];
-				
-				errorDerivative += (c - p) * duu * -1;
-			}
-		}
-		
+
 		for (long linkId : linkTraits.keySet()) {
 			HashSet<Long> likes = linkLikes.get(linkId);
-			
+
 			for (long userId : userFeatures.keySet()) {
 				double dst = linkTraits.get(linkId)[x] * userFeatures.get(userId)[y];		
 				double p = FBMethods.dot(userTraits.get(userId), linkTraits.get(linkId));
@@ -412,42 +293,17 @@ public class FBTest
 
 		return errorDerivative;
 	}
-	
-	
-	public static double getErrorDerivativeOverUserId(Double[][] userFeatureMatrix, HashMap<Long, Double[]> userFeatures, HashMap<Long, Double[]> userTraits, HashMap<Long, Double[]> linkTraits,
-												HashMap<Long, Double[]> userIdColumns, HashMap<Long, HashSet<Long>> friendships, HashMap<Long, HashSet<Long>> linkLikes, int k, long userId)
+
+
+	public double getErrorDerivativeOverUserId(Double[][] userFeatureMatrix, HashMap<Long, Double[]> userFeatures, HashMap<Long, Double[]> userTraits, HashMap<Long, Double[]> linkTraits,
+												HashMap<Long, Double[]> userIdColumns, HashMap<Long, HashSet<Long>> linkLikes, int k, long userId)
 	{
 		Double[] idColumn = userIdColumns.get(userId);
 		double errorDerivative = idColumn[k] * FBConstants.LAMBDA;
 
-		Double[] user1 = userFeatures.get(userId);
-		Double[] user1Id = userIdColumns.get(userId);
-		
-		for (long uid2 : userFeatures.keySet()) {
-			if (userId == uid2) continue;	
-			
-			Double[] user2 = userFeatures.get(uid2);
-			Double[] user2Id = userIdColumns.get(uid2);
-				
-			int c = 0;
-			if (User.areFriends(userId, uid2, friendships)) c = 1;
-			double p = predictConnection(userFeatureMatrix, userIdColumns, userFeatures, userId, uid2);
-			double duu = 0;
-			
-			for (int z = 0; z < user1.length; z++) {
-				duu += user2[z] * userFeatureMatrix[k][z];
-				//duu += user1[z] * user2[x] * userFeatureMatrix[k][z];
-			}
-			//duu += user1Id[x] * user2[x];
-			//duu += user2Id[x] * user1[x];
-				
-			errorDerivative += (c - p) * duu * -1;
-		}
-		
-		
 		for (long linkId : linkTraits.keySet()) {
 			HashSet<Long> likes = linkLikes.get(linkId);
-		
+
 			double dst = linkTraits.get(linkId)[k] /* userFeatures.get(userId)[k]*/;
 			double p = FBMethods.dot(userTraits.get(userId), linkTraits.get(linkId));
 			double r = 0;
@@ -455,14 +311,14 @@ public class FBTest
 
 			errorDerivative += (r - p) * dst * -1;
 		}
-		
+
 		return errorDerivative;
 	}
 
-	public static double getErrorDerivativeOverLinkAttribute(Double[][] linkFeatureMatrix, HashMap<Long, Double[]> links,
+	public double getErrorDerivativeOverLinkAttribute(Double[][] linkFeatureMatrix, HashMap<Long, Double[]> links,
 			HashMap<Long, Double[]> userTraits, HashMap<Long, Double[]> linkTraits, HashMap<Long, Double[]> linkFeatures,
-			HashMap<Long, HashSet<Long>> friendships, HashMap<Long, HashSet<Long>> linkLikes, int x, int y)
-	{
+			HashMap<Long, HashSet<Long>> linkLikes, int x, int y)
+	{	
 		double errorDerivative = linkFeatureMatrix[x][y] * FBConstants.LAMBDA;
 
 		for (long linkId : linkTraits.keySet()) {
@@ -481,14 +337,13 @@ public class FBTest
 		return errorDerivative;
 	}
 
-	public static double getErrorDerivativeOverLinkId(Double[][] linkFeatureMatrix, HashMap<Long, Double[]> links, HashMap<Long, Double[]> linkIdColumns,
-												HashMap<Long, Double[]> userTraits, HashMap<Long, Double[]> linkTraits, HashMap<Long, Double[]> linkFeatures,
-												HashMap<Long, HashSet<Long>> friendships, HashMap<Long, HashSet<Long>> linkLikes, int x, long linkId)
+	
+	public double getErrorDerivativeOverLinkId(Double[][] linkFeatureMatrix, HashMap<Long, Double[]> links, HashMap<Long, Double[]> linkIdColumns,
+			HashMap<Long, Double[]> userTraits, HashMap<Long, Double[]> linkTraits, HashMap<Long, Double[]> linkFeatures,
+			HashMap<Long, HashSet<Long>> linkLikes, int x, long linkId)
 	{
 		Double[] idColumn = linkIdColumns.get(linkId);
 		double errorDerivative = idColumn[x] * FBConstants.LAMBDA;
-
-
 		HashSet<Long> likes = linkLikes.get(linkId);
 		
 		for (long userId : userTraits.keySet()) {
