@@ -3,7 +3,6 @@ package org.nicta.fbproject;
 public class Constants 
 {
 	static final String DB_STRING = "jdbc:mysql://localhost/sorec?user=socrec&password=sorec";
-	//public String DB_STRING = "jdbc:mysql://localhost/wiki?user=wiki&password=wiki";
 	
 	static final int LINK_FEATURE_COUNT = 4;
 	static final int MIN_COMMON_WORD_COUNT = 100;

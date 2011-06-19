@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.PreparedStatement;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Random;
@@ -22,6 +23,7 @@ public abstract class Recommender
 		double error = 0;
 		
 		//Get the square error
+		int count = 0;
 		for (long i : userTraits.keySet()) {
 			HashSet<Long> links = userLinkSamples.get(i);
 			
@@ -31,14 +33,16 @@ public abstract class Recommender
 				if (linkLikes.containsKey(j) && linkLikes.get(j).contains(i)) liked = 1;
 				double predictedLike = dot(userTraits.get(i), linkTraits.get(j));
 				if (liked == 1) System.out.println ("Like: " + liked + " Predicted: " + predictedLike);
-				if (predictedLike < 0) predictedLike = 0;
-				if (predictedLike > 1) predictedLike = 1;
+				//if (predictedLike < 0) predictedLike = 0;
+				//if (predictedLike > 1) predictedLike = 1;
 				
 				error += Math.pow(liked - predictedLike, 2);
+				
+				count++;
 			}
 		}
 
-		return Math.sqrt(error / (userTraits.size() * linkTraits.size()));
+		return Math.sqrt(error / count);
 	}
 	
 	public HashMap<Long, Double[]> getTraitVectors(Double[][] matrix, 
@@ -344,7 +348,7 @@ public abstract class Recommender
 		
 		for (String word : words.keySet()) {
 			if (words.get(word) < Constants.MIN_COMMON_WORD_COUNT) {
-				//wordsToRemove.add(word);
+				wordsToRemove.add(word);
 			}
 			else {
 				//System.out.println("Words: " + word + " Count: " + words.get(word));
@@ -449,7 +453,7 @@ public abstract class Recommender
 			userLinkSamples.put(id, samples);
 			
 			//Get the links that were liked
-			ResultSet result = statement.executeQuery("SELECT l.id FROM linkrlinks l, linkrpostlikes lp WHERE l.id=lp.post_id AND lp.id=l.id");
+			ResultSet result = statement.executeQuery("SELECT l.id FROM linkrlinks l, linkrpostlikes lp WHERE l.id=lp.post_id AND lp.id=" + id);
 			while (result.next()) {
 				samples.add(result.getLong("l.id"));
 			}
@@ -468,7 +472,7 @@ public abstract class Recommender
 				query.append(likedId);
 			}
 			query.append(") ORDER BY created_time DESC LIMIT ");
-			query.append(samples.size());
+			query.append(samples.size() * 9);
 			result = statement.executeQuery(query.toString());
 			
 			while (result.next()) {
@@ -477,5 +481,220 @@ public abstract class Recommender
 		}
 		
 		return userLinkSamples;
+	}
+	
+	public HashMap<Long, HashSet<Long>> getLinksForRecommending(Set<Long> userIds, HashMap<Long, HashSet<Long>> friendships)
+		throws SQLException
+	{
+		HashMap<Long, HashSet<Long>> userLinks = new HashMap<Long, HashSet<Long>>();
+		
+		Connection conn = getSqlConnection();
+		Statement statement = conn.createStatement();
+		
+		for (Long id : userIds) {
+			ResultSet result = statement.executeQuery("SELECT l.id FROM linkrlinks l, linkrpostlikes lp WHERE l.id=lp.post_id AND lp.id=" + id);
+
+			HashSet<Long> links = new HashSet<Long>();
+			userLinks.put(id, links);
+			
+			//Sample links that weren't liked. Will be equal to number of links that were liked.
+			HashSet<Long> friends = friendships.get(id);
+			
+			StringBuilder query = new StringBuilder("SELECT id FROM linkrlinks WHERE uid NOT IN (0");
+			for (Long friendId : friends) {
+				query.append(",");
+				query.append(friendId);
+			}
+			query.append(") AND id NOT IN(0");
+			while (result.next()) {
+				query.append(",");
+				query.append(result.getLong("l.id"));
+			}
+			
+			query.append(") ORDER BY created_time DESC LIMIT 30");
+			
+			result = statement.executeQuery(query.toString());
+			
+			while (result.next()) {
+				links.add(result.getLong("id"));
+			}
+		}
+		
+		return userLinks;
+	}
+	
+	public HashMap<Long, HashMap<Long, Double>> recommendLinks(Double[][] userFeatureMatrix, Double[][] linkFeatureMatrix, 
+																HashMap<Long, Double[]> userIdColumns, HashMap<Long, Double[]> linkIdColumns, 
+																HashMap<Long, Double[]> userFeatures, HashMap<Long, Double[]> linkFeatures,
+																HashMap<Long, HashSet<Long>> links)
+	{
+		HashMap<Long, HashMap<Long, Double>> recommendations = new HashMap<Long, HashMap<Long, Double>>();
+		
+		HashMap<Long, Double[]> userTraits = getTraitVectors(userFeatureMatrix, userIdColumns, userFeatures);
+		HashMap<Long, Double[]> linkTraits = getTraitVectors(linkFeatureMatrix, linkIdColumns, linkFeatures);
+		
+		for (long userId : userTraits.keySet()) {
+			HashSet<Long> userLinks = links.get(userId);
+			
+			HashMap<Long, Double> linkValues = new HashMap<Long, Double>();
+			recommendations.put(userId, linkValues);
+			
+			for (long linkId : userLinks) {
+				double prediction = dot(userTraits.get(userId), linkTraits.get(linkId));
+				linkValues.put(linkId, prediction);
+			}
+		}
+		
+		return recommendations;
+	}
+	
+	public void saveLinkRecommendations(HashMap<Long, HashMap<Long, Double>> recommendations, String tableName)
+		throws SQLException
+	{
+		Connection conn = getSqlConnection();
+		
+		Statement statement = conn.createStatement();
+		
+		for (long userId : recommendations.keySet()) {
+			HashMap<Long, Double> recommendedLinks = recommendations.get(userId);
+			
+			statement.executeUpdate("DELETE FROM " + tableName + " WHERE user_id=" + userId);
+			
+			for (long linkId : recommendedLinks.keySet()) {
+				PreparedStatement ps = conn.prepareStatement("INSERT INTO " + tableName + " VALUES(?,?,?)");
+				ps.setLong(1, userId);
+				ps.setLong(2, linkId);
+				ps.setDouble(3, recommendedLinks.get(linkId));
+				
+				ps.executeUpdate();
+				ps.close();
+			}
+		}
+		
+		statement.close();
+		conn.close();
+	}
+	
+	public void saveMatrices(Double[][] userFeatureMatrix, Double[][] linkFeatureMatrix, 
+			HashMap<Long, Double[]> userIdColumns, HashMap<Long, Double[]> linkIdColumns)
+		throws SQLException
+	{
+		Connection conn = getSqlConnection();
+		Statement statement = conn.createStatement();
+		statement.executeUpdate("DELETE FROM userMatrix");
+		statement.executeUpdate("DELETE FROM linkMatrix");
+		
+		for (int x = 0; x < userFeatureMatrix.length; x++) {
+			StringBuilder userBuf = new StringBuilder();
+			for (int y = 0; y < Constants.USER_FEATURE_COUNT; y++) {
+				userBuf.append(userFeatureMatrix[x][y]);
+				userBuf.append(",");
+			}
+			
+			StringBuilder linkBuf = new StringBuilder();
+			for (int y = 0; y < Constants.LINK_FEATURE_COUNT; y++) {
+				linkBuf.append(linkFeatureMatrix[x][y]);
+				linkBuf.append(",");
+			}
+			
+			PreparedStatement userInsert = conn.prepareStatement("INSERT INTO userMatrix VALUES(?,?)");
+			userInsert.setLong(1, x);
+			userInsert.setString(2, userBuf.toString());
+			userInsert.executeUpdate();
+			userInsert.close();
+			
+			PreparedStatement linkInsert = conn.prepareStatement("INSERT INTO linkMatrix VALUES(?,?)");
+			linkInsert.setLong(1, x);
+			linkInsert.setString(2, linkBuf.toString());
+			linkInsert.executeUpdate();
+			linkInsert.close();
+		}
+		
+		for (long userId : userIdColumns.keySet()) {
+			StringBuilder buf = new StringBuilder();
+			
+			Double[] col = userIdColumns.get(userId);
+			for (int x = 0; x < Constants.K; x++) {
+				buf.append(col[x]);
+				buf.append(",");
+			}
+			
+			PreparedStatement userInsert = conn.prepareStatement("INSERT INTO userMatrix VALUES(?,?)");
+			userInsert.setLong(1, userId);
+			userInsert.setString(2, buf.toString());
+			userInsert.executeUpdate();
+			userInsert.close();
+		}
+		
+		for (long linkId : linkIdColumns.keySet()) {
+			StringBuilder buf = new StringBuilder();
+			
+			Double[] col = linkIdColumns.get(linkId);
+			for (int x = 0; x < Constants.K; x++) {
+				buf.append(col[x]);
+				buf.append(",");
+			}
+			
+			PreparedStatement linkInsert = conn.prepareStatement("INSERT INTO linkMatrix VALUES(?,?)");
+			linkInsert.setLong(1, linkId);
+			linkInsert.setString(2, buf.toString());
+			linkInsert.executeUpdate();
+			linkInsert.close();
+		}
+		
+	
+	}
+	
+	public Double[][] loadFeatureMatrix(String tableName, int featureCount)
+		throws SQLException
+	{
+		Connection conn = getSqlConnection();
+		Statement statement = conn.createStatement();
+		
+		Double[][] matrix = new Double[Constants.K][featureCount];
+		
+		ResultSet result = statement.executeQuery("SELECT * FROM " + tableName + " WHERE id < " + Constants.K);
+			
+		while (result.next()) {
+			int id = result.getInt("id");
+			String values = result.getString("value");
+			String[] tokens = values.split(",");
+			
+			for (int x = 0; x < tokens.length; x++) {
+				matrix[id][x] = Double.parseDouble(tokens[x]);
+			}
+		}
+		
+		statement.close();
+		conn.close();
+		
+		return matrix;
+	}
+	
+	public HashMap<Long, Double[]> loadIdColumns(String tableName, int featureCount)
+		throws SQLException
+	{
+		HashMap<Long, Double[]> idColumns = new HashMap<Long, Double[]>();
+		
+		Connection conn = getSqlConnection();
+		Statement statement = conn.createStatement();
+		
+		ResultSet result = statement.executeQuery("SELECT * FROM " + tableName + " WHERE id >" + Constants.K);
+		while (result.next()) {
+			long id = result.getInt("id");
+			String values = result.getString("value");
+			String[] tokens = values.split(",");
+			
+			Double[] val = new Double[Constants.K];
+			for (int x = 0; x < Constants.K; x++) {
+				val[x] = Double.parseDouble(tokens[x]);
+			}
+			
+			idColumns.put(id, val);
+		}
+		
+		statement.close();
+		conn.close();
+		return idColumns;
 	}
 }
