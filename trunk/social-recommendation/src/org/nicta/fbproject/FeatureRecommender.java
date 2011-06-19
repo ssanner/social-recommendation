@@ -2,6 +2,7 @@ package org.nicta.fbproject;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Set;
 
 import org.nicta.social.LBFGS;
 
@@ -47,6 +48,25 @@ public class FeatureRecommender extends Recommender
 		HashMap<Long, HashSet<Long>> userLinkSamples = getUserLinksSample(users.keySet(), friendships);
 		
 		minimize(linkLikes, userFeatureMatrix, linkFeatureMatrix, users, links, userIdColumns, linkIdColumns, userLinkSamples);
+		
+		System.out.println("Getting links to recommend");
+		HashMap<Long, HashSet<Long>> linksToRecommend = getLinksForRecommending(users.keySet(), friendships);
+		System.out.println("Recommending...");
+		HashMap<Long, HashMap<Long, Double>> recommendations = recommendLinks(userFeatureMatrix, linkFeatureMatrix, userIdColumns, linkIdColumns, 
+																				users, links, linksToRecommend);
+		System.out.println("Saving...");
+		saveLinkRecommendations(recommendations, "linkrfeaturerecommendations");
+		
+		System.out.println("Save matrices...");
+		saveMatrices(userFeatureMatrix, linkFeatureMatrix, userIdColumns, linkIdColumns);
+		
+		System.out.println("Load feature matrices");
+		userFeatureMatrix = loadFeatureMatrix("userMatrix", Constants.USER_FEATURE_COUNT);
+		linkFeatureMatrix = loadFeatureMatrix("linkMatrix", Constants.LINK_FEATURE_COUNT);
+		
+		System.out.println("Load id columns");
+		userIdColumns = loadIdColumns("userMatrix", Constants.USER_FEATURE_COUNT);
+		linkIdColumns = loadIdColumns("linkMatrix", Constants.LINK_FEATURE_COUNT);
 		
 		System.out.println("Done");
 	}

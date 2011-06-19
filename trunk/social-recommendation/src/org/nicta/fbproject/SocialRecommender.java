@@ -48,6 +48,22 @@ public class SocialRecommender extends Recommender
 		
 		minimize(linkLikes, userFeatureMatrix, linkFeatureMatrix, users, links, friendships, userIdColumns, linkIdColumns, userLinkSamples);
 		
+		System.out.println("Getting links to recommend");
+		HashMap<Long, HashSet<Long>> linksToRecommend = getLinksForRecommending(users.keySet(), friendships);
+		System.out.println("Recommending...");
+		HashMap<Long, HashMap<Long, Double>> recommendations = recommendLinks(userFeatureMatrix, linkFeatureMatrix, userIdColumns, linkIdColumns, 
+																				users, links, linksToRecommend);
+		System.out.println("Saving...");
+		saveLinkRecommendations(recommendations, "linkrsocialrecommendations");
+		
+		System.out.println("Load feature matrices");
+		userFeatureMatrix = loadFeatureMatrix("userMatrix", Constants.USER_FEATURE_COUNT);
+		linkFeatureMatrix = loadFeatureMatrix("linkMatrix", Constants.LINK_FEATURE_COUNT);
+		
+		System.out.println("Load id columns");
+		userIdColumns = loadIdColumns("userMatrix", Constants.USER_FEATURE_COUNT);
+		linkIdColumns = loadIdColumns("linkMatrix", Constants.LINK_FEATURE_COUNT);
+		
 		System.out.println("Done");
 	}
 	
