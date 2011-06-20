@@ -8,7 +8,8 @@ public class StopWordChecker {
 
 	public HashSet<String> _ignoreWords;
 	public final static String IGNORE_WORDS_ABS = "./src/org/nicta/filters/stopwords.txt";
-
+	//public final static String IGNORE_WORDS_ABS = "/home/u4754420/stopwords.txt";
+	
 	public StopWordChecker() {
 		_ignoreWords = new HashSet<String>();
 		loadStopWords(IGNORE_WORDS_ABS);

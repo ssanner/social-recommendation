@@ -141,9 +141,9 @@ public abstract class Recommender
 		
 		String userQuery = 
 			"SELECT uid, gender, birthday, location.name, hometown.name "
-			+ "FROM linkruser "
-			+ "LEFT JOIN linkrlocation location ON location_id=location.id "
-			+ "LEFT JOIN linkrlocation hometown ON hometown_id=location.id";
+			+ "FROM linkrUser "
+			+ "LEFT JOIN linkrLocation location ON location_id=location.id "
+			+ "LEFT JOIN linkrLocation hometown ON hometown_id=location.id";
 		
 		ResultSet result = statement.executeQuery(userQuery);
 		
@@ -212,7 +212,7 @@ public abstract class Recommender
 		
 		String friendQuery =
 			"SELECT uid1, uid2 "
-			+ "FROM linkrfriends";
+			+ "FROM linkrFriends";
 		
 		ResultSet result = statement.executeQuery(friendQuery);
 		
@@ -256,8 +256,8 @@ public abstract class Recommender
 		
 		String itemQuery = 
 			"SELECT id, created_time, share_count, like_count, comment_count, total_count "
-			+ "FROM linkrlinks, linkrlinkinfo "
-			+ "WHERE linkrlinks.link_id = linkrlinkinfo.link_id";
+			+ "FROM linkrLinks, linkrLinkInfo "
+			+ "WHERE linkrLinks.link_id = linkrLinkInfo.link_id";
 		
 		//System.out.println("Query: " + itemQuery);
 		
@@ -292,7 +292,7 @@ public abstract class Recommender
 		
 		String wordsQuery = 
 			"SELECT name, description, message "
-			+ "FROM linkrlinks";
+			+ "FROM linkrLinks";
 		
 		ResultSet result = statement.executeQuery(wordsQuery);
 		
@@ -373,7 +373,7 @@ public abstract class Recommender
 		
 		String wordQuery = 
 			"SELECT id, message, name, description "
-			+ "FROM linkrlinks";
+			+ "FROM linkrLinks";
 		
 		ResultSet result = statement.executeQuery(wordQuery);
 		
@@ -413,7 +413,7 @@ public abstract class Recommender
 		Connection conn = getSqlConnection();
 		Statement statement = conn.createStatement();
 		
-		StringBuilder likeQuery = new StringBuilder("SELECT id, post_id FROM linkrpostlikes WHERE post_id IN (0");
+		StringBuilder likeQuery = new StringBuilder("SELECT id, post_id FROM linkrPostLikes WHERE post_id IN (0");
 		for (long id : linkIds) {
 			likeQuery.append(",");
 			likeQuery.append(id);
@@ -453,15 +453,16 @@ public abstract class Recommender
 			userLinkSamples.put(id, samples);
 			
 			//Get the links that were liked
-			ResultSet result = statement.executeQuery("SELECT l.id FROM linkrlinks l, linkrpostlikes lp WHERE l.id=lp.post_id AND lp.id=" + id);
+			ResultSet result = statement.executeQuery("SELECT l.id FROM linkrLinks l, linkrPostLikes lp WHERE l.id=lp.post_id AND lp.id=" + id);
 			while (result.next()) {
 				samples.add(result.getLong("l.id"));
 			}
 			
 			//Sample links that weren't liked. Will be equal to number of links that were liked.
 			HashSet<Long> friends = friendships.get(id);
+			if (friends == null) friends = new HashSet<Long>();
 			
-			StringBuilder query = new StringBuilder("SELECT id FROM linkrlinks WHERE uid IN (0");
+			StringBuilder query = new StringBuilder("SELECT id FROM linkrLinks WHERE uid IN (0");
 			for (Long friendId : friends) {
 				query.append(",");
 				query.append(friendId);
@@ -492,15 +493,16 @@ public abstract class Recommender
 		Statement statement = conn.createStatement();
 		
 		for (Long id : userIds) {
-			ResultSet result = statement.executeQuery("SELECT l.id FROM linkrlinks l, linkrpostlikes lp WHERE l.id=lp.post_id AND lp.id=" + id);
+			ResultSet result = statement.executeQuery("SELECT l.id FROM linkrLinks l, linkrPostLikes lp WHERE l.id=lp.post_id AND lp.id=" + id);
 
 			HashSet<Long> links = new HashSet<Long>();
 			userLinks.put(id, links);
 			
 			//Sample links that weren't liked. Will be equal to number of links that were liked.
 			HashSet<Long> friends = friendships.get(id);
+			if (friends == null) friends = new HashSet<Long>();
 			
-			StringBuilder query = new StringBuilder("SELECT id FROM linkrlinks WHERE uid NOT IN (0");
+			StringBuilder query = new StringBuilder("SELECT id FROM linkrLinks WHERE uid NOT IN (0");
 			for (Long friendId : friends) {
 				query.append(",");
 				query.append(friendId);
@@ -540,6 +542,8 @@ public abstract class Recommender
 			recommendations.put(userId, linkValues);
 			
 			for (long linkId : userLinks) {
+				if (!linkTraits.containsKey(linkId)) continue;
+				
 				double prediction = dot(userTraits.get(userId), linkTraits.get(linkId));
 				linkValues.put(linkId, prediction);
 			}
@@ -581,8 +585,8 @@ public abstract class Recommender
 	{
 		Connection conn = getSqlConnection();
 		Statement statement = conn.createStatement();
-		statement.executeUpdate("DELETE FROM userMatrix");
-		statement.executeUpdate("DELETE FROM linkMatrix");
+		statement.executeUpdate("DELETE FROM lrUserMatrix");
+		statement.executeUpdate("DELETE FROM lrLinkMatrix");
 		
 		for (int x = 0; x < userFeatureMatrix.length; x++) {
 			StringBuilder userBuf = new StringBuilder();
@@ -597,13 +601,13 @@ public abstract class Recommender
 				linkBuf.append(",");
 			}
 			
-			PreparedStatement userInsert = conn.prepareStatement("INSERT INTO userMatrix VALUES(?,?)");
+			PreparedStatement userInsert = conn.prepareStatement("INSERT INTO lrUserMatrix VALUES(?,?)");
 			userInsert.setLong(1, x);
 			userInsert.setString(2, userBuf.toString());
 			userInsert.executeUpdate();
 			userInsert.close();
 			
-			PreparedStatement linkInsert = conn.prepareStatement("INSERT INTO linkMatrix VALUES(?,?)");
+			PreparedStatement linkInsert = conn.prepareStatement("INSERT INTO lrLinkMatrix VALUES(?,?)");
 			linkInsert.setLong(1, x);
 			linkInsert.setString(2, linkBuf.toString());
 			linkInsert.executeUpdate();
@@ -619,7 +623,7 @@ public abstract class Recommender
 				buf.append(",");
 			}
 			
-			PreparedStatement userInsert = conn.prepareStatement("INSERT INTO userMatrix VALUES(?,?)");
+			PreparedStatement userInsert = conn.prepareStatement("INSERT INTO lrUserMatrix VALUES(?,?)");
 			userInsert.setLong(1, userId);
 			userInsert.setString(2, buf.toString());
 			userInsert.executeUpdate();
@@ -635,7 +639,7 @@ public abstract class Recommender
 				buf.append(",");
 			}
 			
-			PreparedStatement linkInsert = conn.prepareStatement("INSERT INTO linkMatrix VALUES(?,?)");
+			PreparedStatement linkInsert = conn.prepareStatement("INSERT INTO lrLinkMatrix VALUES(?,?)");
 			linkInsert.setLong(1, linkId);
 			linkInsert.setString(2, buf.toString());
 			linkInsert.executeUpdate();
@@ -696,5 +700,41 @@ public abstract class Recommender
 		statement.close();
 		conn.close();
 		return idColumns;
+	}
+	
+	public void saveLastUpdate(String type, long time)
+		throws SQLException
+	{
+		Connection conn = getSqlConnection();
+		PreparedStatement delete = conn.prepareStatement("DELETE FROM lrLastUpdate WHERE type=?");
+		delete.setString(1, type);
+		delete.executeUpdate();
+		delete.close();
+		
+		PreparedStatement insert = conn.prepareStatement("INSERT INTO lrLastUpdate(?,?)");
+		insert.setString(1, type);
+		insert.setLong(2, time);
+		insert.close();
+		
+		conn.close();
+	}
+	
+	public long getLastUpdate(String type)
+		throws SQLException
+	{
+		Connection conn = getSqlConnection();
+		PreparedStatement ps = conn.prepareStatement("SELECT lastUpdate FROM lrLastUpdate WHERE type=?");
+		ps.setString(1, type);
+		ResultSet result = ps.executeQuery();
+		
+		long lastUpdate = -1;
+		if (result.next()) {
+			lastUpdate = result.getLong("lastUpdate");
+		}
+		
+		ps.close();
+		conn.close();
+		
+		return lastUpdate;
 	}
 }
