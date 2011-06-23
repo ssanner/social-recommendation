@@ -46,5 +46,5 @@ public class Constants
 	
 	static final double STEP_CONVERGENCE = 1e-2;
 	
-	
+	static final int WINDOW_RANGE = 100;
 }
