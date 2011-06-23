@@ -2,7 +2,7 @@ package org.nicta.fbproject;
 
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Date;
+import java.util.Set;
 
 import org.nicta.social.LBFGS;
 
@@ -18,10 +18,6 @@ public class FeatureRecommender extends Recommender
 	public void test()
 		throws Exception
 	{
-		System.out.println("Start...");
-		long startTime = System.currentTimeMillis();
-		long lastUpdate = getLastUpdate("Feature");
-		
 		HashMap<Long, Double[]> users = getUserFeatures();
 		System.out.println("Retrieved users: " + users.size());
 		
@@ -33,60 +29,79 @@ public class FeatureRecommender extends Recommender
 		HashMap<Long, HashSet<Long>> friendships = getFriendships();
 		System.out.println("Retrieved friends: " + friendships.size());
 		
-		HashMap<String, Integer> words = getMostCommonWords();
+		Set<String> words = loadMostCommonWords();
+		if (words.size() == 0) {
+			words = getMostCommonWords();
+		}
 		System.out.println("Got " + words.size() + " words.");
 		
-		HashMap<Long, HashSet<String>> linkWords = getLinkWordFeatures(words.keySet());
+		HashMap<Long, HashSet<String>> linkWords = getLinkWordFeatures(words);
 		System.out.println("Link words: " + linkWords.size());
 		
-		//Double[][] userMatrix = FBMethods.getPrior(Constants.USER_FEATURE_COUNT + users.size());
-		Double[][] userFeatureMatrix = getPrior(Constants.USER_FEATURE_COUNT);
-		HashMap<Long, Double[]> userIdColumns = getMatrixIdColumns(users.keySet());
+		System.out.println("Loading data");
+		Double[][] userFeatureMatrix = loadFeatureMatrix("lrUserMatrix", Constants.USER_FEATURE_COUNT, "Feature");
+		if (userFeatureMatrix == null) {
+			userFeatureMatrix = getPrior(Constants.USER_FEATURE_COUNT);
+		}
 		
-		//Double[][] linkMatrix = FBMethods.getPrior(Constants.LINK_FEATURE_COUNT + links.size() + words.size());
-		Double[][] linkFeatureMatrix = getPrior(Constants.LINK_FEATURE_COUNT + words.size());
-		HashMap<Long, Double[]> linkIdColumns = getMatrixIdColumns(links.keySet());
+		Double[][] linkFeatureMatrix = loadFeatureMatrix("lrLinkMatrix", Constants.LINK_FEATURE_COUNT, "Feature");
+		if (linkFeatureMatrix == null) {
+			linkFeatureMatrix = getPrior(Constants.LINK_FEATURE_COUNT);
+		}
+		
+		HashMap<Long, Double[]> userIdColumns = loadIdColumns("lrUserMatrix", "Feature");
+		if (userIdColumns.size() == 0) {
+			userIdColumns = getMatrixIdColumns(users.keySet());
+		}
+		
+		HashMap<Long, Double[]> linkIdColumns = loadIdColumns("lrLinkMatrix", "Feature");
+		if (linkIdColumns.size() == 0) {
+			linkIdColumns = getMatrixIdColumns(links.keySet());
+		}
+		
+		HashMap<String, Double[]> wordColumns = loadWordColumns("lrWordColumns", "Feature");
+		if (wordColumns.size() == 0) {
+			wordColumns = getWordColumns(words);
+		}
+		
+		updateLinkMatrixColumns(links.keySet(), linkIdColumns);
+	
 		
 		HashMap<Long, HashSet<Long>> userLinkSamples = getUserLinksSample(users.keySet(), friendships);
 		
-		minimize(linkLikes, userFeatureMatrix, linkFeatureMatrix, users, links, userIdColumns, linkIdColumns, userLinkSamples);
+		minimize(linkLikes, userFeatureMatrix, linkFeatureMatrix, users, links, userIdColumns, linkIdColumns, userLinkSamples, wordColumns, linkWords, words);
 		
 		System.out.println("Getting links to recommend");
-		HashMap<Long, HashSet<Long>> linksToRecommend = getLinksForRecommending(users.keySet(), friendships);
+		HashMap<Long, HashSet<Long>> linksToRecommend = getLinksForRecommending(friendships, "Feature");
+		
 		System.out.println("Recommending...");
 		HashMap<Long, HashMap<Long, Double>> recommendations = recommendLinks(userFeatureMatrix, linkFeatureMatrix, userIdColumns, linkIdColumns, 
-																				users, links, linksToRecommend);
+																				users, links, linksToRecommend, linkWords, wordColumns);
+		
 		System.out.println("Saving...");
-		saveLinkRecommendations(recommendations, "lrFeatureRecommendations");
+		saveLinkRecommendations(recommendations, "Feature");
 		
 		System.out.println("Save matrices...");
-		saveMatrices(userFeatureMatrix, linkFeatureMatrix, userIdColumns, linkIdColumns);
+		saveMatrices(userFeatureMatrix, linkFeatureMatrix, userIdColumns, linkIdColumns, wordColumns, "Feature");
 		
-		System.out.println("Load feature matrices");
-		userFeatureMatrix = loadFeatureMatrix("lrUserMatrix", Constants.USER_FEATURE_COUNT);
-		linkFeatureMatrix = loadFeatureMatrix("lrLinkMatrix", Constants.LINK_FEATURE_COUNT);
-		
-		System.out.println("Load id columns");
-		userIdColumns = loadIdColumns("lrUserMatrix", Constants.USER_FEATURE_COUNT);
-		linkIdColumns = loadIdColumns("lrLinkMatrix", Constants.LINK_FEATURE_COUNT);
-		
-		saveLastUpdate("Feature", startTime);
-		
+		closeSqlConnection();
 		System.out.println("Done");
 	}
 	
 	public void minimize(HashMap<Long, HashSet<Long>> linkLikes, Double[][] userFeatureMatrix, Double[][] linkFeatureMatrix, 
 					HashMap<Long, Double[]> userFeatures, HashMap<Long, Double[]> linkFeatures,
-					HashMap<Long, Double[]> userIdColumns, HashMap<Long, Double[]> linkIdColumns, HashMap<Long, HashSet<Long>> userLinkSamples)
+					HashMap<Long, Double[]> userIdColumns, HashMap<Long, Double[]> linkIdColumns, HashMap<Long, HashSet<Long>> userLinkSamples,
+					HashMap<String, Double[]> wordColumns, HashMap<Long, HashSet<String>> linkWords, Set<String> words)
 		throws Exception
 	{
 		boolean go = true;	
 		int iterations = 0;
 		int userVars = Constants.K * (Constants.USER_FEATURE_COUNT + userFeatures.size());
-		int linkVars = Constants.K * (Constants.LINK_FEATURE_COUNT + linkFeatures.size());
+		int linkVars = Constants.K * (Constants.LINK_FEATURE_COUNT + linkFeatures.size() + words.size());
 		
 		Object[] userKeys = userFeatures.keySet().toArray();
 		Object[] linkKeys = linkFeatures.keySet().toArray();
+		Object[] wordKeys = wordColumns.keySet().toArray();
 		
 		int[] iprint = {0,0};
 		int[] iflag = {0};
@@ -98,15 +113,17 @@ public class FeatureRecommender extends Recommender
 
 		double oldError = Double.MAX_VALUE;
 
+		
 		while (go) {
 			iterations++;
-			HashMap<Long, Double[]> userTraits = getTraitVectors(userFeatureMatrix, userIdColumns, userFeatures);
-			HashMap<Long, Double[]> linkTraits = getTraitVectors(linkFeatureMatrix, linkIdColumns, linkFeatures);
+			HashMap<Long, Double[]> userTraits = getUserTraitVectors(userFeatureMatrix, userIdColumns, userFeatures);
+			HashMap<Long, Double[]> linkTraits = getLinkTraitVectors(linkFeatureMatrix, linkIdColumns, linkFeatures, linkWords, wordColumns);
 
 			Double[][] userDerivative = new Double[Constants.K][Constants.USER_FEATURE_COUNT];
 			HashMap<Long, Double[]> userIdDerivative = new HashMap<Long, Double[]>();
 			Double[][] linkDerivative = new Double[Constants.K][Constants.LINK_FEATURE_COUNT];
 			HashMap<Long, Double[]> linkIdDerivative = new HashMap<Long, Double[]>();
+			HashMap<String, Double[]> wordDerivative = new HashMap<String, Double[]>();
 			
 			System.out.println("Iterations: " + iterations);
 
@@ -125,7 +142,7 @@ public class FeatureRecommender extends Recommender
 				}
 			}
 
-			//Get movie derivatives
+			//Get link derivatives
 			for (int q = 0; q < Constants.K; q++) {
 				for (int l = 0; l < Constants.LINK_FEATURE_COUNT; l++) {
 					linkDerivative[q][l] = getErrorDerivativeOverLinkAttribute(linkFeatureMatrix, userTraits, linkTraits, linkFeatures, linkLikes, userLinkSamples, q, l);
@@ -136,7 +153,15 @@ public class FeatureRecommender extends Recommender
 						linkIdDerivative.put(linkId, new Double[Constants.K]);
 					}
 									
-					linkIdDerivative.get(linkId)[q] = getErrorDerivativeOverLinkId(linkFeatureMatrix, linkFeatures, linkIdColumns, userTraits, linkTraits, linkFeatures, linkLikes, userLinkSamples, q, linkId);
+					linkIdDerivative.get(linkId)[q] = getErrorDerivativeOverLinkId(linkIdColumns, userTraits, linkTraits, linkLikes, userLinkSamples, q, linkId);
+				}
+				
+				for (String word : words) {
+					if (!wordDerivative.containsKey(word)) {
+						wordDerivative.put(word, new Double[Constants.K]);
+					}
+					
+					wordDerivative.get(word)[q] = getErrorDerivativeOverWord(wordColumns, linkWords, userTraits, linkTraits, linkLikes, userLinkSamples, q, word);
 				}
 			}
 
@@ -150,8 +175,7 @@ public class FeatureRecommender extends Recommender
 				}
 			}
 			for (Object id : userKeys) {
-				Long userId = (Long)id;
-				Double[] column = userIdColumns.get(userId);
+				Double[] column = userIdColumns.get(id);
 				for (double d : column) {
 					variables[index++] = d;
 				}
@@ -162,13 +186,18 @@ public class FeatureRecommender extends Recommender
 				}
 			}
 			for (Object id : linkKeys) {
-				Long linkId = (Long)id;
-				Double[] column = linkIdColumns.get(linkId);
+				Double[] column = linkIdColumns.get(id);
 				for (double d : column) {
 					variables[index++] = d;
 				}
 			}
-			
+			for (Object word : wordKeys) {
+				Double[] column = wordColumns.get(word);
+				for (double d : column) {
+					variables[index++] = d;
+				}
+				
+			}
 			double[] derivatives = new double[userVars + linkVars];
 			index = 0;
 			for (int x = 0; x < Constants.K; x++) {
@@ -177,8 +206,7 @@ public class FeatureRecommender extends Recommender
 				}
 			}
 			for (Object id : userKeys) {
-				Long userId = (Long)id;
-				Double[] column = userIdDerivative.get(userId);
+				Double[] column = userIdDerivative.get(id);
 				for (double d : column) {
 					derivatives[index++] = d;
 				}
@@ -189,8 +217,13 @@ public class FeatureRecommender extends Recommender
 				}
 			}
 			for (Object id : linkKeys) {
-				Long linkId = (Long)id;
-				Double[] column = linkIdDerivative.get(linkId);
+				Double[] column = linkIdDerivative.get(id);
+				for (double d : column) {
+					derivatives[index++] = d;
+				}
+			}
+			for (Object word : wordKeys) {
+				Double[] column = wordDerivative.get(word);
 				for (double d : column) {
 					derivatives[index++] = d;
 				}
@@ -213,24 +246,30 @@ public class FeatureRecommender extends Recommender
 				}
 			}
 			for (Object id : userKeys) {
-				Long userId = (Long)id;
-				Double[] column = userIdColumns.get(userId);
+				Double[] column = userIdColumns.get(id);
 				for (int d = 0; d < column.length; d++) {
 					column[d] = variables[index++];
 				}
 			}
+			
 			for (int x = 0; x < Constants.K; x++) {
 				for (int y = 0; y < Constants.LINK_FEATURE_COUNT; y++) {
 					linkFeatureMatrix[x][y] = variables[index++];
 				}
 			}
 			for (Object id : linkKeys) {
-				Long linkId = (Long)id;
-				Double[] column = linkIdColumns.get(linkId);
+				Double[] column = linkIdColumns.get(id);
 				for (int d = 0; d < column.length; d++) {
 					column[d] = variables[index++];
 				}
 			}
+			for (Object id : wordKeys) {
+				Double[] column = wordColumns.get(id);
+				for (int d = 0; d < column.length; d++) {
+					column[d] = variables[index++];
+				}
+			}
+			
 			if (iflag[0] == 0 || Math.abs(oldError - error) < Constants.STEP_CONVERGENCE) go = false;
 
 			oldError = error;
@@ -366,9 +405,8 @@ public class FeatureRecommender extends Recommender
 	}
 
 	
-	public double getErrorDerivativeOverLinkId(Double[][] linkFeatureMatrix, HashMap<Long, Double[]> links, HashMap<Long, Double[]> linkIdColumns,
-			HashMap<Long, Double[]> userTraits, HashMap<Long, Double[]> linkTraits, HashMap<Long, Double[]> linkFeatures,
-			HashMap<Long, HashSet<Long>> linkLikes, HashMap<Long, HashSet<Long>> userLinkSamples, int x, long linkId)
+	public double getErrorDerivativeOverLinkId(HashMap<Long, Double[]> linkIdColumns, HashMap<Long, Double[]> userTraits, HashMap<Long, Double[]> linkTraits,
+												HashMap<Long, HashSet<Long>> linkLikes, HashMap<Long, HashSet<Long>> userLinkSamples, int x, long linkId)
 	{
 		Double[] idColumn = linkIdColumns.get(linkId);
 		double errorDerivative = idColumn[x] * Constants.LAMBDA;
@@ -387,4 +425,29 @@ public class FeatureRecommender extends Recommender
 		
 		return errorDerivative;
 	}
+	
+	public double getErrorDerivativeOverWord(HashMap<String, Double[]> wordColumns, HashMap<Long, HashSet<String>> linkWords, 
+												HashMap<Long, Double[]> userTraits, HashMap<Long, Double[]> linkTraits, HashMap<Long, HashSet<Long>> linkLikes,
+												HashMap<Long, HashSet<Long>> userLinkSamples, int x, String word)
+	{
+		Double[] column = wordColumns.get(word);
+		double errorDerivative = column[x] * Constants.LAMBDA;
+		
+		for (long userId : userTraits.keySet()) {
+			HashSet<Long> links = userLinkSamples.get(userId);
+			
+			for (long linkId : links) {
+				double dst = userTraits.get(userId)[x] * column[x];		
+				double p = dot(userTraits.get(userId), linkTraits.get(linkId));
+				double r = 0;
+				if (linkLikes.get(linkId) != null && linkLikes.get(linkId).contains(userId)) r = 1;
+
+				errorDerivative += (r - p) * dst * -1;
+			}
+		}
+
+		return errorDerivative;
+	}
+	
+	
 }

@@ -18,6 +18,8 @@ import org.nicta.filters.StopWordChecker;
 
 public abstract class Recommender 
 {
+	private Connection connection = null;
+	
 	public double calcRMSE(HashMap<Long, Double[]> userTraits, HashMap<Long, Double[]> linkTraits, HashMap<Long, HashSet<Long>> linkLikes, HashMap<Long, HashSet<Long>> userLinkSamples)
 	{
 		double error = 0;
@@ -45,9 +47,9 @@ public abstract class Recommender
 		return Math.sqrt(error / count);
 	}
 	
-	public HashMap<Long, Double[]> getTraitVectors(Double[][] matrix, 
-													HashMap<Long, Double[]> idColumns,
-													HashMap<Long, Double[]> features)
+	public HashMap<Long, Double[]> getUserTraitVectors(Double[][] matrix, 
+														HashMap<Long, Double[]> idColumns,
+														HashMap<Long, Double[]> features)
 	{
 		HashMap<Long, Double[]> traitVectors = new HashMap<Long, Double[]>();
 		
@@ -56,6 +58,8 @@ public abstract class Recommender
 			Double[] vector = new Double[Constants.K];
 			Double[] idColumn = idColumns.get(id);
 		
+			//System.out.println("ID: " + id);
+			//System.out.println(idColumn);
 			for (int x = 0; x < Constants.K; x++) {
 				vector[x] = 0.0;
 		
@@ -72,6 +76,43 @@ public abstract class Recommender
 		return traitVectors;
 	}
 	
+	public HashMap<Long, Double[]> getLinkTraitVectors(Double[][] matrix, 
+														HashMap<Long, Double[]> idColumns,
+														HashMap<Long, Double[]> features,
+														HashMap<Long, HashSet<String>> linkWords,
+														HashMap<String, Double[]> wordColumns)
+	{
+		HashMap<Long, Double[]> traitVectors = new HashMap<Long, Double[]>();
+	
+		for (long id : features.keySet()) {
+			Double[] feature = features.get(id);
+			Double[] idColumn = idColumns.get(id);
+			
+			HashSet<String> words = linkWords.get(id);
+			
+			Double[] vector = new Double[Constants.K];
+			
+			for (int x = 0; x < Constants.K; x++) {
+				vector[x] = 0.0;
+	
+				for (int y = 0; y < feature.length; y++) {
+					vector[x] += matrix[x][y] * feature[y];
+				}
+	
+				for (String word : words) {
+					vector[x] += wordColumns.get(word)[x];
+				}
+				
+				vector[x] += idColumn[x];
+			}
+	
+			traitVectors.put(id, vector);
+		}
+	
+		return traitVectors;
+	}
+
+	
 	public Connection getSqlConnection()
 		throws SQLException
 	{
@@ -83,9 +124,29 @@ public abstract class Recommender
 			System.exit(1);
 		}
 		
-		return DriverManager.getConnection(Constants.DB_STRING);
+		if (connection != null) {
+			return connection;
+		}
+		else {
+			connection = DriverManager.getConnection(Constants.DB_STRING);
+			connection.setAutoCommit(false);
+			return connection;
+		}
 	}
 
+	public void closeSqlConnection()
+		throws SQLException
+	{
+		if (connection != null) {
+			connection.commit();
+			connection.close();
+			connection = null;
+		}
+		else {
+			System.out.println("WTF?");
+		}
+	}
+	
 	public Double[][] getPrior(int featureCount)
 	{
 		Random random = new Random();
@@ -95,12 +156,13 @@ public abstract class Recommender
 		for (int x = 0; x < Constants.K; x++) {
 			for (int y = 0; y < featureCount; y++) {
 				prior[x][y] = random.nextGaussian();
+				//prior[x][y] = 0.0;
 			}
 		}
 		
 		return prior;
 	}
-
+	
 	public HashMap<Long, Double[]> getMatrixIdColumns(Set<Long> ids)
 	{
 		Random random = new Random();
@@ -112,6 +174,7 @@ public abstract class Recommender
 			
 			for (int x = 0; x < column.length; x++) {
 				column[x] = random.nextGaussian();
+				//column[x] = 0.0;
 			}
 			
 			idColumns.put(id, column);
@@ -120,6 +183,26 @@ public abstract class Recommender
 		return idColumns;
 	}
 
+	public HashMap<String, Double[]> getWordColumns(Set<String> words)
+	{
+		Random random = new Random();
+		
+		HashMap<String, Double[]> wordColumns = new HashMap<String, Double[]>();
+		
+		for (String word : words) {
+			Double[] column = new Double[Constants.K];
+			
+			for (int x = 0; x < column.length; x++) {
+				column[x] = random.nextGaussian();
+				//column[x] = 0.0;
+			}
+			
+			wordColumns.put(word, column);
+		}
+		
+		return wordColumns;
+	}
+	
 	public double dot(Double[] vec1, Double[] vec2)
 	{
 		double prod = 0;
@@ -197,7 +280,7 @@ public abstract class Recommender
 		}
 		
 		statement.close();
-		conn.close();
+		;
 		
 		return userFeatures;
 	}
@@ -232,7 +315,7 @@ public abstract class Recommender
 		}
 		
 		statement.close();
-		conn.close();
+		
 		
 		return friendships;
 	}
@@ -257,7 +340,8 @@ public abstract class Recommender
 		String itemQuery = 
 			"SELECT id, created_time, share_count, like_count, comment_count, total_count "
 			+ "FROM linkrLinks, linkrLinkInfo "
-			+ "WHERE linkrLinks.link_id = linkrLinkInfo.link_id";
+			+ "WHERE linkrLinks.link_id = linkrLinkInfo.link_id "
+			+ "AND DATE(created_time) >= DATE(ADDDATE(CURRENT_DATE(), -" + Constants.WINDOW_RANGE + "))";
 		
 		//System.out.println("Query: " + itemQuery);
 		
@@ -275,11 +359,26 @@ public abstract class Recommender
 		}
 		
 		statement.close();
-		conn.close();
+		
 		return linkFeatures;
 	}
 	
-	public HashMap<String, Integer> getMostCommonWords()
+	public HashSet<String> loadMostCommonWords()
+		throws SQLException
+	{
+		HashSet<String> words = new HashSet<String>();
+		Connection conn = getSqlConnection();
+		Statement statement = conn.createStatement();
+		ResultSet result = statement.executeQuery("SELECT DISTINCT word FROM lrWordColumns");
+		while (result.next()) {
+			words.add(result.getString("word"));
+		}
+		
+		statement.close();
+		return words;
+	}
+	
+	public Set<String> getMostCommonWords()
 		throws SQLException, IOException
 	{
 		StopWordChecker swc = new StopWordChecker();
@@ -342,7 +441,7 @@ public abstract class Recommender
 		}
 	
 		statement.close();
-		conn.close();
+		
 		
 		HashSet<String> wordsToRemove = new HashSet<String>();
 		
@@ -359,7 +458,7 @@ public abstract class Recommender
 			words.remove(word);
 		}
 		
-		return words;
+		return words.keySet();
 	}
 	
 	public HashMap<Long, HashSet<String>> getLinkWordFeatures(Set<String> commonWords)
@@ -373,7 +472,8 @@ public abstract class Recommender
 		
 		String wordQuery = 
 			"SELECT id, message, name, description "
-			+ "FROM linkrLinks";
+			+ "FROM linkrLinks "
+			+ "WHERE DATE(created_time) >= DATE(ADDDATE(CURRENT_DATE(), -" + Constants.WINDOW_RANGE + "))";
 		
 		ResultSet result = statement.executeQuery(wordQuery);
 		
@@ -400,7 +500,7 @@ public abstract class Recommender
 		}
 		
 		statement.close();
-		conn.close();
+		
 		
 		return linkWords;
 	}
@@ -413,30 +513,36 @@ public abstract class Recommender
 		Connection conn = getSqlConnection();
 		Statement statement = conn.createStatement();
 		
-		StringBuilder likeQuery = new StringBuilder("SELECT id, post_id FROM linkrPostLikes WHERE post_id IN (0");
+		int count = 0;
+		StringBuilder likeQuery = new StringBuilder("SELECT id, link_id FROM linkrLinkLikes WHERE link_id IN (0");
 		for (long id : linkIds) {
 			likeQuery.append(",");
 			likeQuery.append(id);
+			count++;
 		}
-		likeQuery.append(")");
+		likeQuery.append(") ");
 		
 		System.out.println("Query: " + likeQuery);
 		
 		ResultSet result = statement.executeQuery(likeQuery.toString());
 		
+		int likeCount = 0;
 		while (result.next()) {
 			long uId = result.getLong("id");
-			long postId = result.getLong("post_id");
+			long postId = result.getLong("link_id");
 			
 			if (!linkLikes.containsKey(postId)) {
 				linkLikes.put(postId, new HashSet<Long>());
 			}
 			
+			likeCount++;
 			linkLikes.get(postId).add(uId);
 		}
-		statement.close();
-		conn.close();
 		
+		statement.close();
+		
+		System.out.println("Count: " + count);
+		System.out.println("Like count: " + likeCount);
 		return linkLikes;
 	}
 	
@@ -453,7 +559,8 @@ public abstract class Recommender
 			userLinkSamples.put(id, samples);
 			
 			//Get the links that were liked
-			ResultSet result = statement.executeQuery("SELECT l.id FROM linkrLinks l, linkrPostLikes lp WHERE l.id=lp.post_id AND lp.id=" + id);
+			ResultSet result = statement.executeQuery("SELECT l.id FROM linkrLinks l, linkrLinkLikes lp WHERE l.id=lp.link_id AND lp.id=" + id
+					             						+ " AND DATE(created_time) >= DATE(ADDDATE(CURRENT_DATE(), -" + Constants.WINDOW_RANGE + "))");
 			while (result.next()) {
 				samples.add(result.getLong("l.id"));
 			}
@@ -471,8 +578,9 @@ public abstract class Recommender
 			for (Long likedId : samples) {
 				query.append(",");
 				query.append(likedId);
-			}
-			query.append(") ORDER BY created_time DESC LIMIT ");
+			}	
+			query.append(") AND DATE(created_time) >= DATE(ADDDATE(CURRENT_DATE(), -" + Constants.WINDOW_RANGE + ")) ");
+			query.append("ORDER BY created_time DESC LIMIT ");
 			query.append(samples.size() * 9);
 			result = statement.executeQuery(query.toString());
 			
@@ -484,7 +592,7 @@ public abstract class Recommender
 		return userLinkSamples;
 	}
 	
-	public HashMap<Long, HashSet<Long>> getLinksForRecommending(Set<Long> userIds, HashMap<Long, HashSet<Long>> friendships)
+	public HashMap<Long, HashSet<Long>> getLinksForRecommending(HashMap<Long, HashSet<Long>> friendships, String type)
 		throws SQLException
 	{
 		HashMap<Long, HashSet<Long>> userLinks = new HashMap<Long, HashSet<Long>>();
@@ -492,9 +600,16 @@ public abstract class Recommender
 		Connection conn = getSqlConnection();
 		Statement statement = conn.createStatement();
 		
+		HashSet<Long> userIds = new HashSet<Long>();
+		ResultSet result = statement.executeQuery("SELECT linkrlinks.uid FROM linkrlinks, trackUserUpdates "
+													+ "WHERE linkrlinks.uid=trackUserUpdates.uid "
+													+ "AND priority=1");
+		
+		while (result.next()) {
+			userIds.add(result.getLong("uid"));
+		}
+		
 		for (Long id : userIds) {
-			ResultSet result = statement.executeQuery("SELECT l.id FROM linkrLinks l, linkrPostLikes lp WHERE l.id=lp.post_id AND lp.id=" + id);
-
 			HashSet<Long> links = new HashSet<Long>();
 			userLinks.put(id, links);
 			
@@ -502,18 +617,30 @@ public abstract class Recommender
 			HashSet<Long> friends = friendships.get(id);
 			if (friends == null) friends = new HashSet<Long>();
 			
+			HashSet<Long> dontInclude = new HashSet<Long>();
+			
+			result = statement.executeQuery("SELECT l.id FROM linkrLinks l, linkrPostLikes lp WHERE l.id=lp.post_id AND lp.id=" + id);
+			while (result.next()) {
+				dontInclude.add(result.getLong("l.id"));
+			}
+			
+			result = statement.executeQuery("SELECT link_id FROM lrRecommendations WHERE user_id=" + id + " AND type='" + type + "'");
+			while(result.next()) {
+				dontInclude.add(result.getLong("link_id"));
+			}
+			
 			StringBuilder query = new StringBuilder("SELECT id FROM linkrLinks WHERE uid NOT IN (0");
 			for (Long friendId : friends) {
 				query.append(",");
 				query.append(friendId);
 			}
 			query.append(") AND id NOT IN(0");
-			while (result.next()) {
+			for (long linkIds : dontInclude) {
 				query.append(",");
-				query.append(result.getLong("l.id"));
+				query.append(linkIds);
 			}
 			
-			query.append(") ORDER BY created_time DESC LIMIT 30");
+			query.append(") ORDER BY created_time DESC LIMIT 5");
 			
 			result = statement.executeQuery(query.toString());
 			
@@ -528,15 +655,16 @@ public abstract class Recommender
 	public HashMap<Long, HashMap<Long, Double>> recommendLinks(Double[][] userFeatureMatrix, Double[][] linkFeatureMatrix, 
 																HashMap<Long, Double[]> userIdColumns, HashMap<Long, Double[]> linkIdColumns, 
 																HashMap<Long, Double[]> userFeatures, HashMap<Long, Double[]> linkFeatures,
-																HashMap<Long, HashSet<Long>> links)
+																HashMap<Long, HashSet<Long>> linksToRecommend, HashMap<Long, HashSet<String>> linkWords,
+																HashMap<String, Double[]> wordColumns)
 	{
 		HashMap<Long, HashMap<Long, Double>> recommendations = new HashMap<Long, HashMap<Long, Double>>();
 		
-		HashMap<Long, Double[]> userTraits = getTraitVectors(userFeatureMatrix, userIdColumns, userFeatures);
-		HashMap<Long, Double[]> linkTraits = getTraitVectors(linkFeatureMatrix, linkIdColumns, linkFeatures);
+		HashMap<Long, Double[]> userTraits = getUserTraitVectors(userFeatureMatrix, userIdColumns, userFeatures);
+		HashMap<Long, Double[]> linkTraits = getLinkTraitVectors(linkFeatureMatrix, linkIdColumns, linkFeatures, linkWords, wordColumns);
 		
-		for (long userId : userTraits.keySet()) {
-			HashSet<Long> userLinks = links.get(userId);
+		for (long userId :linksToRecommend.keySet()) {
+			HashSet<Long> userLinks = linksToRecommend.get(userId);
 			
 			HashMap<Long, Double> linkValues = new HashMap<Long, Double>();
 			recommendations.put(userId, linkValues);
@@ -552,7 +680,7 @@ public abstract class Recommender
 		return recommendations;
 	}
 	
-	public void saveLinkRecommendations(HashMap<Long, HashMap<Long, Double>> recommendations, String tableName)
+	public void saveLinkRecommendations(HashMap<Long, HashMap<Long, Double>> recommendations, String type)
 		throws SQLException
 	{
 		Connection conn = getSqlConnection();
@@ -562,13 +690,14 @@ public abstract class Recommender
 		for (long userId : recommendations.keySet()) {
 			HashMap<Long, Double> recommendedLinks = recommendations.get(userId);
 			
-			statement.executeUpdate("DELETE FROM " + tableName + " WHERE user_id=" + userId);
+			//statement.executeUpdate("DELETE FROM " + tableName + " WHERE user_id=" + userId);
 			
 			for (long linkId : recommendedLinks.keySet()) {
-				PreparedStatement ps = conn.prepareStatement("INSERT INTO " + tableName + " VALUES(?,?,?)");
+				PreparedStatement ps = conn.prepareStatement("INSERT INTO lrRecommendations VALUES(?,?,?,CURRENT_DATE(),?)");
 				ps.setLong(1, userId);
 				ps.setLong(2, linkId);
 				ps.setDouble(3, recommendedLinks.get(linkId));
+				ps.setString(4, type);
 				
 				ps.executeUpdate();
 				ps.close();
@@ -576,17 +705,76 @@ public abstract class Recommender
 		}
 		
 		statement.close();
-		conn.close();
+		
 	}
 	
-	public void saveMatrices(Double[][] userFeatureMatrix, Double[][] linkFeatureMatrix, 
-			HashMap<Long, Double[]> userIdColumns, HashMap<Long, Double[]> linkIdColumns)
+	public Double[][] loadFeatureMatrix(String tableName, int featureCount, String type)
 		throws SQLException
 	{
 		Connection conn = getSqlConnection();
 		Statement statement = conn.createStatement();
-		statement.executeUpdate("DELETE FROM lrUserMatrix");
-		statement.executeUpdate("DELETE FROM lrLinkMatrix");
+		
+		Double[][] matrix = new Double[Constants.K][featureCount];
+		
+		ResultSet result = statement.executeQuery("SELECT * FROM " + tableName + " WHERE id < " + Constants.K + " AND type='" + type + "'");
+		
+		int count = 0;
+		
+		while (result.next()) {
+			count++;
+			int id = result.getInt("id");
+			String values = result.getString("value");
+			String[] tokens = values.split(",");
+			
+			for (int x = 0; x < tokens.length; x++) {
+				matrix[id][x] = Double.parseDouble(tokens[x]);
+			}
+		}
+		
+		statement.close();
+		
+		if (count == 0) return null;
+		
+		return matrix;
+	}
+	
+	public HashMap<Long, Double[]> loadIdColumns(String tableName, String type)
+		throws SQLException
+	{
+		HashMap<Long, Double[]> idColumns = new HashMap<Long, Double[]>();
+		
+		Connection conn = getSqlConnection();
+		Statement statement = conn.createStatement();
+		
+		ResultSet result = statement.executeQuery("SELECT * FROM " + tableName + " WHERE id >" + Constants.K + " AND type='" + type + "'");
+		while (result.next()) {
+			long id = result.getLong("id");
+			String values = result.getString("value");
+			String[] tokens = values.split(",");
+			
+			Double[] val = new Double[Constants.K];
+			for (int x = 0; x < Constants.K; x++) {
+				val[x] = Double.parseDouble(tokens[x]);
+			}
+			
+			idColumns.put(id, val);
+		}
+		
+		statement.close();
+		
+		
+		return idColumns;
+	}
+	
+	public void saveMatrices(Double[][] userFeatureMatrix, Double[][] linkFeatureMatrix, 
+			HashMap<Long, Double[]> userIdColumns, HashMap<Long, Double[]> linkIdColumns, HashMap<String, Double[]> wordColumns, String type)
+		throws SQLException
+	{
+		Connection conn = getSqlConnection();
+		Statement statement = conn.createStatement();
+		statement.executeUpdate("DELETE FROM lrUserMatrix WHERE type='" + type + "'");
+		statement.executeUpdate("DELETE FROM lrLinkMatrix WHERE type='" + type + "'");
+		statement.executeUpdate("DELETE FROM lrWordColumns WHERE type='" + type + "'");
 		
 		for (int x = 0; x < userFeatureMatrix.length; x++) {
 			StringBuilder userBuf = new StringBuilder();
@@ -601,15 +789,17 @@ public abstract class Recommender
 				linkBuf.append(",");
 			}
 			
-			PreparedStatement userInsert = conn.prepareStatement("INSERT INTO lrUserMatrix VALUES(?,?)");
+			PreparedStatement userInsert = conn.prepareStatement("INSERT INTO lrUserMatrix VALUES(?,?,?)");
 			userInsert.setLong(1, x);
 			userInsert.setString(2, userBuf.toString());
+			userInsert.setString(3, type);
 			userInsert.executeUpdate();
 			userInsert.close();
 			
-			PreparedStatement linkInsert = conn.prepareStatement("INSERT INTO lrLinkMatrix VALUES(?,?)");
+			PreparedStatement linkInsert = conn.prepareStatement("INSERT INTO lrLinkMatrix VALUES(?,?,?)");
 			linkInsert.setLong(1, x);
 			linkInsert.setString(2, linkBuf.toString());
+			linkInsert.setString(3, type);
 			linkInsert.executeUpdate();
 			linkInsert.close();
 		}
@@ -623,9 +813,10 @@ public abstract class Recommender
 				buf.append(",");
 			}
 			
-			PreparedStatement userInsert = conn.prepareStatement("INSERT INTO lrUserMatrix VALUES(?,?)");
+			PreparedStatement userInsert = conn.prepareStatement("INSERT INTO lrUserMatrix VALUES(?,?,?)");
 			userInsert.setLong(1, userId);
 			userInsert.setString(2, buf.toString());
+			userInsert.setString(3, type);
 			userInsert.executeUpdate();
 			userInsert.close();
 		}
@@ -639,53 +830,43 @@ public abstract class Recommender
 				buf.append(",");
 			}
 			
-			PreparedStatement linkInsert = conn.prepareStatement("INSERT INTO lrLinkMatrix VALUES(?,?)");
+			PreparedStatement linkInsert = conn.prepareStatement("INSERT INTO lrLinkMatrix VALUES(?,?,?)");
 			linkInsert.setLong(1, linkId);
 			linkInsert.setString(2, buf.toString());
+			linkInsert.setString(3, type);
 			linkInsert.executeUpdate();
 			linkInsert.close();
 		}
 		
-	
-	}
-	
-	public Double[][] loadFeatureMatrix(String tableName, int featureCount)
-		throws SQLException
-	{
-		Connection conn = getSqlConnection();
-		Statement statement = conn.createStatement();
-		
-		Double[][] matrix = new Double[Constants.K][featureCount];
-		
-		ResultSet result = statement.executeQuery("SELECT * FROM " + tableName + " WHERE id < " + Constants.K);
+		for (String word : wordColumns.keySet()) {
+			StringBuilder buf = new StringBuilder();
 			
-		while (result.next()) {
-			int id = result.getInt("id");
-			String values = result.getString("value");
-			String[] tokens = values.split(",");
-			
-			for (int x = 0; x < tokens.length; x++) {
-				matrix[id][x] = Double.parseDouble(tokens[x]);
+			Double[] col = wordColumns.get(word);
+			for (int x = 0; x < Constants.K; x++) {
+				buf.append(col[x]);
+				buf.append(",");
 			}
+			
+			PreparedStatement wordInsert = conn.prepareStatement("INSERT INTO lrWordColumns VALUES(?,?,?)");
+			wordInsert.setString(1, word);
+			wordInsert.setString(2, buf.toString());
+			wordInsert.setString(3, type);
+			wordInsert.executeUpdate();
+			wordInsert.close();
 		}
-		
-		statement.close();
-		conn.close();
-		
-		return matrix;
 	}
 	
-	public HashMap<Long, Double[]> loadIdColumns(String tableName, int featureCount)
+	public HashMap<String, Double[]> loadWordColumns(String tableName, String type)
 		throws SQLException
 	{
-		HashMap<Long, Double[]> idColumns = new HashMap<Long, Double[]>();
+		HashMap<String, Double[]> columns = new HashMap<String, Double[]>();
 		
 		Connection conn = getSqlConnection();
 		Statement statement = conn.createStatement();
 		
-		ResultSet result = statement.executeQuery("SELECT * FROM " + tableName + " WHERE id >" + Constants.K);
+		ResultSet result = statement.executeQuery("SELECT * FROM " + tableName + " WHERE type='" + type + "'");
 		while (result.next()) {
-			long id = result.getInt("id");
+			String word = result.getString("word");
 			String values = result.getString("value");
 			String[] tokens = values.split(",");
 			
@@ -694,47 +875,37 @@ public abstract class Recommender
 				val[x] = Double.parseDouble(tokens[x]);
 			}
 			
-			idColumns.put(id, val);
+			columns.put(word, val);
 		}
 		
 		statement.close();
-		conn.close();
-		return idColumns;
+		
+		return columns;
 	}
 	
-	public void saveLastUpdate(String type, long time)
-		throws SQLException
+	public void updateLinkMatrixColumns(Set<Long> linkIds, HashMap<Long, Double[]> linkIdColumns)
 	{
-		Connection conn = getSqlConnection();
-		PreparedStatement delete = conn.prepareStatement("DELETE FROM lrLastUpdate WHERE type=?");
-		delete.setString(1, type);
-		delete.executeUpdate();
-		delete.close();
+		HashSet<Long> columnsToRemove = new HashSet<Long>();
 		
-		PreparedStatement insert = conn.prepareStatement("INSERT INTO lrLastUpdate(?,?)");
-		insert.setString(1, type);
-		insert.setLong(2, time);
-		insert.close();
-		
-		conn.close();
-	}
-	
-	public long getLastUpdate(String type)
-		throws SQLException
-	{
-		Connection conn = getSqlConnection();
-		PreparedStatement ps = conn.prepareStatement("SELECT lastUpdate FROM lrLastUpdate WHERE type=?");
-		ps.setString(1, type);
-		ResultSet result = ps.executeQuery();
-		
-		long lastUpdate = -1;
-		if (result.next()) {
-			lastUpdate = result.getLong("lastUpdate");
+		//Remove columns of links that are past the range
+		for (long id : linkIdColumns.keySet()) {
+			if (!linkIds.contains(id)) {
+				columnsToRemove.add(id);
+			}
+		}
+		for (long id : columnsToRemove) {
+			linkIdColumns.remove(id);
 		}
 		
-		ps.close();
-		conn.close();
+		//Add columns for new links
+		HashSet<Long> columnsToAdd = new HashSet<Long>();
 		
-		return lastUpdate;
+		for (long id : linkIds) {
+			if (!linkIdColumns.containsKey(id)) {
+				columnsToAdd.add(id);
+			}
+		}
+		HashMap<Long, Double[]> newColumns = getMatrixIdColumns(columnsToAdd);
+		linkIdColumns.putAll(newColumns);
 	}
 }
