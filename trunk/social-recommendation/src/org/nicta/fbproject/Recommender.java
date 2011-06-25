@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
+import java.io.File;
 
 import opennlp.tools.lang.english.Tokenizer;
 
@@ -34,7 +35,7 @@ public abstract class Recommender
 				
 				if (linkLikes.containsKey(j) && linkLikes.get(j).contains(i)) liked = 1;
 				double predictedLike = dot(userTraits.get(i), linkTraits.get(j));
-				if (liked == 1) System.out.println ("Like: " + liked + " Predicted: " + predictedLike);
+	
 				//if (predictedLike < 0) predictedLike = 0;
 				//if (predictedLike > 1) predictedLike = 1;
 				
@@ -58,8 +59,6 @@ public abstract class Recommender
 			Double[] vector = new Double[Constants.K];
 			Double[] idColumn = idColumns.get(id);
 		
-			//System.out.println("ID: " + id);
-			//System.out.println(idColumn);
 			for (int x = 0; x < Constants.K; x++) {
 				vector[x] = 0.0;
 		
@@ -120,7 +119,7 @@ public abstract class Recommender
 			Class.forName ("com.mysql.jdbc.Driver");
 		}
 		catch (ClassNotFoundException ce) {
-			System.out.println("Shit");
+			System.out.println("MySQL driver not found");
 			System.exit(1);
 		}
 		
@@ -143,7 +142,7 @@ public abstract class Recommender
 			connection = null;
 		}
 		else {
-			System.out.println("WTF?");
+			System.out.println("Connection died before it could be commited. FAIL");
 		}
 	}
 	
@@ -240,7 +239,6 @@ public abstract class Recommender
 			double currentLocation = 0;
 			String currentLoc = result.getString("location.name");
 			if (currentLoc != null) {
-				//System.out.println(currentLoc);
 				for (int x = 0; x < Constants.COUNTRIES.length; x++) {
 					if (currentLoc.contains(Constants.COUNTRIES[x])) {
 						currentLocation = x;
@@ -342,8 +340,6 @@ public abstract class Recommender
 			+ "FROM linkrLinks, linkrLinkInfo "
 			+ "WHERE linkrLinks.link_id = linkrLinkInfo.link_id "
 			+ "AND DATE(created_time) >= DATE(ADDDATE(CURRENT_DATE(), -" + Constants.WINDOW_RANGE + "))";
-		
-		//System.out.println("Query: " + itemQuery);
 		
 		ResultSet result = statement.executeQuery(itemQuery);
 	
@@ -449,9 +445,6 @@ public abstract class Recommender
 			if (words.get(word) < Constants.MIN_COMMON_WORD_COUNT) {
 				wordsToRemove.add(word);
 			}
-			else {
-				//System.out.println("Words: " + word + " Count: " + words.get(word));
-			}
 		}
 		
 		for (String word : wordsToRemove) {
@@ -464,7 +457,10 @@ public abstract class Recommender
 	public HashMap<Long, HashSet<String>> getLinkWordFeatures(Set<String> commonWords)
 		throws SQLException, IOException
 	{
+		
 		Tokenizer tokenizer = new Tokenizer("./EnglishTok.bin.gz");
+		
+		
 		HashMap<Long, HashSet<String>> linkWords = new HashMap<Long, HashSet<String>>();
 		
 		Connection conn = getSqlConnection();
@@ -522,8 +518,6 @@ public abstract class Recommender
 		}
 		likeQuery.append(") ");
 		
-		System.out.println("Query: " + likeQuery);
-		
 		ResultSet result = statement.executeQuery(likeQuery.toString());
 		
 		int likeCount = 0;
@@ -541,8 +535,6 @@ public abstract class Recommender
 		
 		statement.close();
 		
-		System.out.println("Count: " + count);
-		System.out.println("Like count: " + likeCount);
 		return linkLikes;
 	}
 	
@@ -601,8 +593,8 @@ public abstract class Recommender
 		Statement statement = conn.createStatement();
 		
 		HashSet<Long> userIds = new HashSet<Long>();
-		ResultSet result = statement.executeQuery("SELECT linkrlinks.uid FROM linkrlinks, trackUserUpdates "
-													+ "WHERE linkrlinks.uid=trackUserUpdates.uid "
+		ResultSet result = statement.executeQuery("SELECT linkrLinks.uid FROM linkrLinks, trackUserUpdates "
+													+ "WHERE linkrLinks.uid=trackUserUpdates.uid "
 													+ "AND priority=1");
 		
 		while (result.next()) {
@@ -883,29 +875,31 @@ public abstract class Recommender
 		return columns;
 	}
 	
-	public void updateLinkMatrixColumns(Set<Long> linkIds, HashMap<Long, Double[]> linkIdColumns)
+	public void updateMatrixColumns(Set<Long> ids, HashMap<Long, Double[]> idColumns)
 	{
 		HashSet<Long> columnsToRemove = new HashSet<Long>();
 		
 		//Remove columns of links that are past the range
-		for (long id : linkIdColumns.keySet()) {
-			if (!linkIds.contains(id)) {
+		for (long id : idColumns.keySet()) {
+			if (!ids.contains(id)) {
 				columnsToRemove.add(id);
 			}
 		}
 		for (long id : columnsToRemove) {
-			linkIdColumns.remove(id);
+			idColumns.remove(id);
 		}
 		
 		//Add columns for new links
 		HashSet<Long> columnsToAdd = new HashSet<Long>();
 		
-		for (long id : linkIds) {
-			if (!linkIdColumns.containsKey(id)) {
+		for (long id : ids) {
+			if (!idColumns.containsKey(id)) {
 				columnsToAdd.add(id);
 			}
 		}
 		HashMap<Long, Double[]> newColumns = getMatrixIdColumns(columnsToAdd);
-		linkIdColumns.putAll(newColumns);
+		idColumns.putAll(newColumns);
 	}
+	
+	public abstract void recommend() throws Exception;
 }

@@ -12,12 +12,14 @@ public class FeatureRecommender extends Recommender
 		throws Exception
 	{
 		FeatureRecommender test = new FeatureRecommender();
-		test.test();
+		test.recommend();
 	}
 	
-	public void test()
+	public void recommend()
 		throws Exception
 	{
+		System.out.println("Loading...");
+		
 		HashMap<Long, Double[]> users = getUserFeatures();
 		System.out.println("Retrieved users: " + users.size());
 		
@@ -25,20 +27,16 @@ public class FeatureRecommender extends Recommender
 		System.out.println("Retrieved links: " + links.size());
 		
 		HashMap<Long, HashSet<Long>> linkLikes = getLinkLikes(links.keySet());
-		
 		HashMap<Long, HashSet<Long>> friendships = getFriendships();
-		System.out.println("Retrieved friends: " + friendships.size());
+		
 		
 		Set<String> words = loadMostCommonWords();
 		if (words.size() == 0) {
 			words = getMostCommonWords();
 		}
-		System.out.println("Got " + words.size() + " words.");
-		
 		HashMap<Long, HashSet<String>> linkWords = getLinkWordFeatures(words);
-		System.out.println("Link words: " + linkWords.size());
 		
-		System.out.println("Loading data");
+		
 		Double[][] userFeatureMatrix = loadFeatureMatrix("lrUserMatrix", Constants.USER_FEATURE_COUNT, "Feature");
 		if (userFeatureMatrix == null) {
 			userFeatureMatrix = getPrior(Constants.USER_FEATURE_COUNT);
@@ -63,25 +61,22 @@ public class FeatureRecommender extends Recommender
 		if (wordColumns.size() == 0) {
 			wordColumns = getWordColumns(words);
 		}
-		
-		updateLinkMatrixColumns(links.keySet(), linkIdColumns);
-	
+				
+		updateMatrixColumns(links.keySet(), linkIdColumns);
+		updateMatrixColumns(users.keySet(), userIdColumns);
 		
 		HashMap<Long, HashSet<Long>> userLinkSamples = getUserLinksSample(users.keySet(), friendships);
 		
+		System.out.println("Minimizing...");
 		minimize(linkLikes, userFeatureMatrix, linkFeatureMatrix, users, links, userIdColumns, linkIdColumns, userLinkSamples, wordColumns, linkWords, words);
 		
-		System.out.println("Getting links to recommend");
-		HashMap<Long, HashSet<Long>> linksToRecommend = getLinksForRecommending(friendships, "Feature");
-		
 		System.out.println("Recommending...");
+		HashMap<Long, HashSet<Long>> linksToRecommend = getLinksForRecommending(friendships, "Feature");
 		HashMap<Long, HashMap<Long, Double>> recommendations = recommendLinks(userFeatureMatrix, linkFeatureMatrix, userIdColumns, linkIdColumns, 
 																				users, links, linksToRecommend, linkWords, wordColumns);
 		
 		System.out.println("Saving...");
 		saveLinkRecommendations(recommendations, "Feature");
-		
-		System.out.println("Save matrices...");
 		saveMatrices(userFeatureMatrix, linkFeatureMatrix, userIdColumns, linkIdColumns, wordColumns, "Feature");
 		
 		closeSqlConnection();
