@@ -21,13 +21,21 @@ public abstract class Recommender
 {
 	private Connection connection = null;
 	
+	/**
+	 * Calculates RMSE. Used for cross validation and for comparing different recommenders.
+	 * 
+	 * @param userTraits
+	 * @param linkTraits
+	 * @param linkLikes
+	 * @param userLinkSamples
+	 * @return
+	 */
 	public double calcRMSE(HashMap<Long, Double[]> userTraits, HashMap<Long, Double[]> linkTraits, HashMap<Long, HashSet<Long>> linkLikes, HashMap<Long, HashSet<Long>> userLinkSamples)
 	{
 		double error = 0;
 		
-		//Get the square error
 		int count = 0;
-		for (long i : userTraits.keySet()) {
+		for (long i : userLinkSamples.keySet()) {
 			HashSet<Long> links = userLinkSamples.get(i);
 			
 			for (long j : links) {
@@ -36,6 +44,7 @@ public abstract class Recommender
 				if (linkLikes.containsKey(j) && linkLikes.get(j).contains(i)) liked = 1;
 				double predictedLike = dot(userTraits.get(i), linkTraits.get(j));
 	
+				//Not sure if I want to bounding predictions for now
 				//if (predictedLike < 0) predictedLike = 0;
 				//if (predictedLike > 1) predictedLike = 1;
 				
@@ -48,6 +57,14 @@ public abstract class Recommender
 		return Math.sqrt(error / count);
 	}
 	
+	/**
+	 * Calculates s=Ux where U is the latent matrix and x is the user vector.
+	 * 
+	 * @param matrix
+	 * @param idColumns
+	 * @param features
+	 * @return
+	 */
 	public HashMap<Long, Double[]> getUserTraitVectors(Double[][] matrix, 
 														HashMap<Long, Double[]> idColumns,
 														HashMap<Long, Double[]> features)
@@ -75,6 +92,16 @@ public abstract class Recommender
 		return traitVectors;
 	}
 	
+	/**
+	 * Calculates t=Vy where V is the latent matrix and y is the link feature vector.
+	 * 
+	 * @param matrix
+	 * @param idColumns
+	 * @param features
+	 * @param linkWords
+	 * @param wordColumns
+	 * @return
+	 */
 	public HashMap<Long, Double[]> getLinkTraitVectors(Double[][] matrix, 
 														HashMap<Long, Double[]> idColumns,
 														HashMap<Long, Double[]> features,
@@ -111,7 +138,12 @@ public abstract class Recommender
 		return traitVectors;
 	}
 
-	
+	/**
+	 * Returns the SQL connection Singleton
+	 * 
+	 * @return
+	 * @throws SQLException
+	 */
 	public Connection getSqlConnection()
 		throws SQLException
 	{
@@ -123,16 +155,19 @@ public abstract class Recommender
 			System.exit(1);
 		}
 		
-		if (connection != null) {
-			return connection;
-		}
-		else {
+		if (connection == null) {
 			connection = DriverManager.getConnection(Constants.DB_STRING);
 			connection.setAutoCommit(false);
-			return connection;
 		}
+	
+		return connection;
 	}
 
+	/**
+	 * Cleans up and commits the updates to the database
+	 * 
+	 * @throws SQLException
+	 */
 	public void closeSqlConnection()
 		throws SQLException
 	{
@@ -146,6 +181,12 @@ public abstract class Recommender
 		}
 	}
 	
+	/**
+	 * For creation of the latent matrices.
+	 * 
+	 * @param featureCount
+	 * @return
+	 */
 	public Double[][] getPrior(int featureCount)
 	{
 		Random random = new Random();
@@ -162,6 +203,12 @@ public abstract class Recommender
 		return prior;
 	}
 	
+	/**
+	 * Columns for the ids are placed into a HashMap
+	 * 
+	 * @param ids
+	 * @return
+	 */
 	public HashMap<Long, Double[]> getMatrixIdColumns(Set<Long> ids)
 	{
 		Random random = new Random();
@@ -182,6 +229,12 @@ public abstract class Recommender
 		return idColumns;
 	}
 
+	/**
+	 * Columns for words in the link feature are placed into a HashMap
+	 * 
+	 * @param words
+	 * @return
+	 */
 	public HashMap<String, Double[]> getWordColumns(Set<String> words)
 	{
 		Random random = new Random();
@@ -202,6 +255,13 @@ public abstract class Recommender
 		return wordColumns;
 	}
 	
+	/**
+	 * Calculates the dot product between 2 vectors
+	 * 
+	 * @param vec1
+	 * @param vec2
+	 * @return
+	 */
 	public double dot(Double[] vec1, Double[] vec2)
 	{
 		double prod = 0;
@@ -213,6 +273,13 @@ public abstract class Recommender
 		return prod;
 	}
 	
+	/**
+	 * Retrieves user features from the database and saves them into a HashMap.
+	 * User features are normalized between 0 and 1. Only features that don't grow are currently used.
+	 * 
+	 * @return
+	 * @throws SQLException
+	 */
 	public HashMap<Long, Double[]> getUserFeatures()
 		throws SQLException
 	{
@@ -231,11 +298,15 @@ public abstract class Recommender
 		
 		while (result.next()) {
 			String sex = result.getString("gender");
+			
+			//We're only interested on the age for this one.
 			int birthYear = 0;
 			String birthday = result.getString("birthday");
 			if (birthday.length() == 10) {
 				birthYear = Integer.parseInt(birthday.split("/")[2]);
 			}
+			
+			//Currently hardcoded the countries, but I'll change this eventually to read the countries from the DB
 			double currentLocation = 0;
 			String currentLoc = result.getString("location.name");
 			if (currentLoc != null) {
@@ -258,12 +329,13 @@ public abstract class Recommender
 				}
 			}
 			
+			//Features are normalized between 0 and 1
 			Double[] feature = new Double[Constants.USER_FEATURE_COUNT];
 			if ("male".equals(sex)) {
-				feature[0] = 1.0;
+				feature[0] = 0.5;
 			}
 			else if ("female".equals(sex)){
-				feature[0] = 2.0;
+				feature[0] = 1.0;
 			}
 			else {
 				feature[0] = 0.0;
@@ -278,11 +350,18 @@ public abstract class Recommender
 		}
 		
 		statement.close();
-		;
 		
 		return userFeatures;
 	}
 
+	/**
+	 * Gets all user friendship connections that are saved in the DB.
+	 * Each user will have an entry in the HashMap and a HashSet that will contain the ids of 
+	 * the user's friends.
+	 * 
+	 * @return
+	 * @throws SQLException
+	 */
 	public HashMap<Long, HashSet<Long>> getFriendships()
 		throws SQLException
 	{
@@ -318,6 +397,14 @@ public abstract class Recommender
 		return friendships;
 	}
 
+	/**
+	 * Convenience method for checking friendship connections.
+	 * 
+	 * @param uid1
+	 * @param uid2
+	 * @param friendships
+	 * @return
+	 */
 	public boolean areFriends(Long uid1, Long uid2, HashMap<Long, HashSet<Long>> friendships)
 	{
 		if ((friendships.containsKey(uid1) && friendships.get(uid1).contains(uid2))
@@ -328,7 +415,14 @@ public abstract class Recommender
 		return false;
 	}
 	
-	public HashMap<Long, Double[]> getLinkFeatures()
+	/**
+	 * Gets the link features. Link features are normalized between 0 and 1.
+	 * Because we're doing online updating, get only the most recent links within a specified window.
+	 * 
+	 * @return
+	 * @throws SQLException
+	 */
+	public HashMap<Long, Double[]> getLinkFeatures(boolean limit)
 		throws SQLException
 	{
 		HashMap<Long, Double[]> linkFeatures = new HashMap<Long, Double[]>();
@@ -338,8 +432,11 @@ public abstract class Recommender
 		String itemQuery = 
 			"SELECT id, created_time, share_count, like_count, comment_count, total_count "
 			+ "FROM linkrLinks, linkrLinkInfo "
-			+ "WHERE linkrLinks.link_id = linkrLinkInfo.link_id "
-			+ "AND DATE(created_time) >= DATE(ADDDATE(CURRENT_DATE(), -" + Constants.WINDOW_RANGE + "))";
+			+ "WHERE linkrLinks.link_id = linkrLinkInfo.link_id ";
+		
+		if (limit) {
+			itemQuery += "AND DATE(created_time) >= DATE(ADDDATE(CURRENT_DATE(), -" + Constants.WINDOW_RANGE + "))";
+		}
 		
 		ResultSet result = statement.executeQuery(itemQuery);
 	
@@ -359,6 +456,12 @@ public abstract class Recommender
 		return linkFeatures;
 	}
 	
+	/**
+	 * Load the previously saved most common words from the database.
+	 * 
+	 * @return
+	 * @throws SQLException
+	 */
 	public HashSet<String> loadMostCommonWords()
 		throws SQLException
 	{
@@ -374,6 +477,14 @@ public abstract class Recommender
 		return words;
 	}
 	
+	/**
+	 * Finds the most common words used in link descriptions and messages.
+	 * Words are parsed using the opennlp English dictionary tokenizer.
+	 * Words that reach a minimum occurence count are included
+	 * @return
+	 * @throws SQLException
+	 * @throws IOException
+	 */
 	public Set<String> getMostCommonWords()
 		throws SQLException, IOException
 	{
@@ -394,8 +505,9 @@ public abstract class Recommender
 		while (result.next()) {
 			String title = result.getString("name");
 			String summary = result.getString("description");
-			String ownerComment = result.getString("description");
+			String ownerComment = result.getString("message");
 			
+			//Update word counts for each word
 			String[] titleTokens = tokenizer.tokenize(title.toLowerCase());
 			for (int x = 0; x < titleTokens.length; x++) {
 				if (titleTokens[x].length() == 0 || swc.isStopWord(titleTokens[x])) continue;
@@ -439,6 +551,7 @@ public abstract class Recommender
 		statement.close();
 		
 		
+		//Now remove all words that do not reach the minimum count
 		HashSet<String> wordsToRemove = new HashSet<String>();
 		
 		for (String word : words.keySet()) {
@@ -454,12 +567,18 @@ public abstract class Recommender
 		return words.keySet();
 	}
 	
-	public HashMap<Long, HashSet<String>> getLinkWordFeatures(Set<String> commonWords)
+	/**
+	 * Given a list of most common words, find which words appear in the links.
+	 * Bag-of-Words representation is used to map words and links, we do not care about word counts.
+	 * @param commonWords
+	 * @return
+	 * @throws SQLException
+	 * @throws IOException
+	 */
+	public HashMap<Long, HashSet<String>> getLinkWordFeatures(Set<String> commonWords, boolean limit)
 		throws SQLException, IOException
 	{
-		
 		Tokenizer tokenizer = new Tokenizer("./EnglishTok.bin.gz");
-		
 		
 		HashMap<Long, HashSet<String>> linkWords = new HashMap<Long, HashSet<String>>();
 		
@@ -468,9 +587,11 @@ public abstract class Recommender
 		
 		String wordQuery = 
 			"SELECT id, message, name, description "
-			+ "FROM linkrLinks "
-			+ "WHERE DATE(created_time) >= DATE(ADDDATE(CURRENT_DATE(), -" + Constants.WINDOW_RANGE + "))";
+			+ "FROM linkrLinks ";
 		
+		if (limit) {
+			wordQuery += "WHERE DATE(created_time) >= DATE(ADDDATE(CURRENT_DATE(), -" + Constants.WINDOW_RANGE + "))";
+		}
 		ResultSet result = statement.executeQuery(wordQuery);
 		
 		while (result.next()) {
@@ -501,6 +622,13 @@ public abstract class Recommender
 		return linkWords;
 	}
 	
+	/**
+	 * Given a list of links, get the list of users that have 'liked' that link on FB.
+	 * 
+	 * @param linkIds
+	 * @return
+	 * @throws SQLException
+	 */
 	public HashMap<Long, HashSet<Long>> getLinkLikes(Set<Long> linkIds)
 		throws SQLException
 	{
@@ -509,18 +637,16 @@ public abstract class Recommender
 		Connection conn = getSqlConnection();
 		Statement statement = conn.createStatement();
 		
-		int count = 0;
+		//id is the user_id of the user who liked that link, link_id is the id of the link
 		StringBuilder likeQuery = new StringBuilder("SELECT id, link_id FROM linkrLinkLikes WHERE link_id IN (0");
 		for (long id : linkIds) {
 			likeQuery.append(",");
 			likeQuery.append(id);
-			count++;
 		}
 		likeQuery.append(") ");
 		
 		ResultSet result = statement.executeQuery(likeQuery.toString());
 		
-		int likeCount = 0;
 		while (result.next()) {
 			long uId = result.getLong("id");
 			long postId = result.getLong("link_id");
@@ -529,7 +655,6 @@ public abstract class Recommender
 				linkLikes.put(postId, new HashSet<Long>());
 			}
 			
-			likeCount++;
 			linkLikes.get(postId).add(uId);
 		}
 		
@@ -538,7 +663,18 @@ public abstract class Recommender
 		return linkLikes;
 	}
 	
-	public HashMap<Long, HashSet<Long>> getUserLinksSample(Set<Long> userIds, HashMap<Long, HashSet<Long>> friendships)
+	/**
+	 * For training, get a sample of links for each user.
+	 * We look for links only given a certain date range, and only get 9 times as much 'unliked' links as 'liked' links
+	 * because we do not want the 'liked' links to be drowned out during training.
+	 * This means that if user hasn't liked any links, we do not get any unliked link as well.
+	 * 
+	 * @param userIds
+	 * @param friendships
+	 * @return
+	 * @throws SQLException
+	 */
+	public HashMap<Long, HashSet<Long>> getUserLinksSample(Set<Long> userIds, HashMap<Long, HashSet<Long>> friendships, boolean limit)
 		throws SQLException
 	{
 		HashMap<Long, HashSet<Long>> userLinkSamples = new HashMap<Long, HashSet<Long>>();
@@ -550,14 +686,20 @@ public abstract class Recommender
 			HashSet<Long> samples = new HashSet<Long>();
 			userLinkSamples.put(id, samples);
 			
-			//Get the links that were liked
-			ResultSet result = statement.executeQuery("SELECT l.id FROM linkrLinks l, linkrLinkLikes lp WHERE l.id=lp.link_id AND lp.id=" + id
-					             						+ " AND DATE(created_time) >= DATE(ADDDATE(CURRENT_DATE(), -" + Constants.WINDOW_RANGE + "))");
+			//Get the links that were liked by the user
+			String selectStr = "SELECT l.id FROM linkrLinks l, linkrLinkLikes lp WHERE l.id=lp.link_id AND lp.id=" + id;
+			if (limit) {
+				selectStr += " AND DATE(created_time) >= DATE(ADDDATE(CURRENT_DATE(), -" + Constants.WINDOW_RANGE + "))";
+			}
+			
+			ResultSet result = statement.executeQuery(selectStr);
 			while (result.next()) {
 				samples.add(result.getLong("l.id"));
 			}
 			
-			//Sample links that weren't liked. Will be equal to number of links that were liked.
+			//Sample links that weren't liked.
+			//Links here should be links that were shared by friends to increase the chance that the user has actually seen this and not
+			//liked them
 			HashSet<Long> friends = friendships.get(id);
 			if (friends == null) friends = new HashSet<Long>();
 			
@@ -571,7 +713,10 @@ public abstract class Recommender
 				query.append(",");
 				query.append(likedId);
 			}	
-			query.append(") AND DATE(created_time) >= DATE(ADDDATE(CURRENT_DATE(), -" + Constants.WINDOW_RANGE + ")) ");
+			query.append(") ");
+			if (limit) {
+				query.append("AND DATE(created_time) >= DATE(ADDDATE(CURRENT_DATE(), -" + Constants.WINDOW_RANGE + ")) ");
+			}
 			query.append("ORDER BY created_time DESC LIMIT ");
 			query.append(samples.size() * 9);
 			result = statement.executeQuery(query.toString());
@@ -584,6 +729,18 @@ public abstract class Recommender
 		return userLinkSamples;
 	}
 	
+	/**
+	 * After training, start recommending links to the user. This will get a set of links that haven't been liked by the user and calculate
+	 * their 'like score'. Most likely only the positive scores should be recommended, with a higher score meaning more highly recommended.
+	 * 
+	 * Links to be recommending are those that have not been shared by his friends, to increase the likelihood of the user 
+	 * not having seen these links before.
+	 * 
+	 * @param friendships
+	 * @param type
+	 * @return
+	 * @throws SQLException
+	 */
 	public HashMap<Long, HashSet<Long>> getLinksForRecommending(HashMap<Long, HashSet<Long>> friendships, String type)
 		throws SQLException
 	{
@@ -592,6 +749,8 @@ public abstract class Recommender
 		Connection conn = getSqlConnection();
 		Statement statement = conn.createStatement();
 		
+		//Recommend only for users that have not installed the LinkRecommender app.
+		//These users are distinguished by having priority 1 in the trackUserUpdates table.
 		HashSet<Long> userIds = new HashSet<Long>();
 		ResultSet result = statement.executeQuery("SELECT linkrLinks.uid FROM linkrLinks, trackUserUpdates "
 													+ "WHERE linkrLinks.uid=trackUserUpdates.uid "
@@ -605,22 +764,24 @@ public abstract class Recommender
 			HashSet<Long> links = new HashSet<Long>();
 			userLinks.put(id, links);
 			
-			//Sample links that weren't liked. Will be equal to number of links that were liked.
 			HashSet<Long> friends = friendships.get(id);
 			if (friends == null) friends = new HashSet<Long>();
 			
 			HashSet<Long> dontInclude = new HashSet<Long>();
 			
+			// Don't recommend links that were already liked
 			result = statement.executeQuery("SELECT l.id FROM linkrLinks l, linkrPostLikes lp WHERE l.id=lp.post_id AND lp.id=" + id);
 			while (result.next()) {
 				dontInclude.add(result.getLong("l.id"));
 			}
 			
+			// Don't recommend links have already been recommended
 			result = statement.executeQuery("SELECT link_id FROM lrRecommendations WHERE user_id=" + id + " AND type='" + type + "'");
 			while(result.next()) {
 				dontInclude.add(result.getLong("link_id"));
 			}
 			
+			// Get the most recent links.
 			StringBuilder query = new StringBuilder("SELECT id FROM linkrLinks WHERE uid NOT IN (0");
 			for (Long friendId : friends) {
 				query.append(",");
@@ -632,7 +793,7 @@ public abstract class Recommender
 				query.append(linkIds);
 			}
 			
-			query.append(") ORDER BY created_time DESC LIMIT 5");
+			query.append(") ORDER BY created_time DESC LIMIT 20");
 			
 			result = statement.executeQuery(query.toString());
 			
@@ -644,6 +805,20 @@ public abstract class Recommender
 		return userLinks;
 	}
 	
+	/**
+	 * Calculate the recommendation scores of the link
+	 * 
+	 * @param userFeatureMatrix
+	 * @param linkFeatureMatrix
+	 * @param userIdColumns
+	 * @param linkIdColumns
+	 * @param userFeatures
+	 * @param linkFeatures
+	 * @param linksToRecommend
+	 * @param linkWords
+	 * @param wordColumns
+	 * @return
+	 */
 	public HashMap<Long, HashMap<Long, Double>> recommendLinks(Double[][] userFeatureMatrix, Double[][] linkFeatureMatrix, 
 																HashMap<Long, Double[]> userIdColumns, HashMap<Long, Double[]> linkIdColumns, 
 																HashMap<Long, Double[]> userFeatures, HashMap<Long, Double[]> linkFeatures,
@@ -665,13 +840,46 @@ public abstract class Recommender
 				if (!linkTraits.containsKey(linkId)) continue;
 				
 				double prediction = dot(userTraits.get(userId), linkTraits.get(linkId));
-				linkValues.put(linkId, prediction);
+				
+				//Recommend only if prediction score is a positive value
+				if (prediction > 0) {
+					//We recommend only a set number of links per day/run. 
+					//If the recommended links are more than the max number, recommend only the highest scoring links.
+					if (linkValues.size() < Constants.RECOMMENDATION_COUNT) {
+						linkValues.put(linkId, prediction);
+					}
+					else {
+						//Get the lowest scoring recommended link and replace it with the current link
+						//if this one has a better score.
+						long lowestKey = 0;
+						double lowestValue = Double.MAX_VALUE;
+						
+						for (long id : linkValues.keySet()) {
+							if (linkValues.get(id) < lowestValue) {
+								lowestKey = id;
+								lowestValue = linkValues.get(id);
+							}
+						}
+						
+						if (prediction < lowestValue) {
+							linkValues.remove(lowestKey);
+							linkValues.put(linkId, prediction);
+						}
+					}
+				}
 			}
 		}
 		
 		return recommendations;
 	}
 	
+	/**
+	 * Save the recommended links into the database.
+	 * 
+	 * @param recommendations
+	 * @param type
+	 * @throws SQLException
+	 */
 	public void saveLinkRecommendations(HashMap<Long, HashMap<Long, Double>> recommendations, String type)
 		throws SQLException
 	{
@@ -700,6 +908,15 @@ public abstract class Recommender
 		
 	}
 	
+	/**
+	 * Loads the previously trained matrix from the database
+	 * 
+	 * @param tableName
+	 * @param featureCount
+	 * @param type
+	 * @return
+	 * @throws SQLException
+	 */
 	public Double[][] loadFeatureMatrix(String tableName, int featureCount, String type)
 		throws SQLException
 	{
@@ -712,6 +929,7 @@ public abstract class Recommender
 		
 		int count = 0;
 		
+		//Columns were saved in the database with id being row and the column values as one CSV string
 		while (result.next()) {
 			count++;
 			int id = result.getInt("id");
@@ -730,6 +948,14 @@ public abstract class Recommender
 		return matrix;
 	}
 	
+	/**
+	 * Loads the previously trained matrix id columns from the database.
+	 * 
+	 * @param tableName
+	 * @param type
+	 * @return
+	 * @throws SQLException
+	 */
 	public HashMap<Long, Double[]> loadIdColumns(String tableName, String type)
 		throws SQLException
 	{
@@ -744,6 +970,7 @@ public abstract class Recommender
 			String values = result.getString("value");
 			String[] tokens = values.split(",");
 			
+			//Column valuess were saved as one CSV string
 			Double[] val = new Double[Constants.K];
 			for (int x = 0; x < Constants.K; x++) {
 				val[x] = Double.parseDouble(tokens[x]);
@@ -758,6 +985,17 @@ public abstract class Recommender
 		return idColumns;
 	}
 	
+	/**
+	 * Save the trained matrices into the database.
+	 * 
+	 * @param userFeatureMatrix
+	 * @param linkFeatureMatrix
+	 * @param userIdColumns
+	 * @param linkIdColumns
+	 * @param wordColumns
+	 * @param type
+	 * @throws SQLException
+	 */
 	public void saveMatrices(Double[][] userFeatureMatrix, Double[][] linkFeatureMatrix, 
 			HashMap<Long, Double[]> userIdColumns, HashMap<Long, Double[]> linkIdColumns, HashMap<String, Double[]> wordColumns, String type)
 		throws SQLException
@@ -796,6 +1034,7 @@ public abstract class Recommender
 			linkInsert.close();
 		}
 		
+		//Save the id column values as a CSV string
 		for (long userId : userIdColumns.keySet()) {
 			StringBuilder buf = new StringBuilder();
 			
@@ -830,6 +1069,7 @@ public abstract class Recommender
 			linkInsert.close();
 		}
 		
+		//Save the word column values as a CSV string
 		for (String word : wordColumns.keySet()) {
 			StringBuilder buf = new StringBuilder();
 			
@@ -848,7 +1088,15 @@ public abstract class Recommender
 		}
 	}
 	
-	public HashMap<String, Double[]> loadWordColumns(String tableName, String type)
+	/**
+	 * Loads the previously trained word columns from the database.
+	 * 
+	 * @param tableName
+	 * @param type
+	 * @return
+	 * @throws SQLException
+	 */
+	public HashMap<String, Double[]> loadWordColumns(String type)
 		throws SQLException
 	{
 		HashMap<String, Double[]> columns = new HashMap<String, Double[]>();
@@ -856,7 +1104,7 @@ public abstract class Recommender
 		Connection conn = getSqlConnection();
 		Statement statement = conn.createStatement();
 		
-		ResultSet result = statement.executeQuery("SELECT * FROM " + tableName + " WHERE type='" + type + "'");
+		ResultSet result = statement.executeQuery("SELECT * FROM lrWordColumns WHERE type='" + type + "'");
 		while (result.next()) {
 			String word = result.getString("word");
 			String values = result.getString("value");
@@ -875,11 +1123,18 @@ public abstract class Recommender
 		return columns;
 	}
 	
+	/**
+	 * Since we're doing online updating, we need to update the matrix columns by removing links/users from the previous training that aren't included
+	 * anymore and adding the new ones that weren't existing in the previous training.
+	 * 
+	 * @param ids
+	 * @param idColumns
+	 */
 	public void updateMatrixColumns(Set<Long> ids, HashMap<Long, Double[]> idColumns)
 	{
 		HashSet<Long> columnsToRemove = new HashSet<Long>();
 		
-		//Remove columns of links that are past the range
+		//Remove columns that are past the range
 		for (long id : idColumns.keySet()) {
 			if (!ids.contains(id)) {
 				columnsToRemove.add(id);
@@ -889,7 +1144,7 @@ public abstract class Recommender
 			idColumns.remove(id);
 		}
 		
-		//Add columns for new links
+		//Add columns for the new ones
 		HashSet<Long> columnsToAdd = new HashSet<Long>();
 		
 		for (long id : ids) {
@@ -902,4 +1157,5 @@ public abstract class Recommender
 	}
 	
 	public abstract void recommend() throws Exception;
+	public abstract void crossValidate() throws Exception;
 }

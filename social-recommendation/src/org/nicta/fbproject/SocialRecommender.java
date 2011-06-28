@@ -13,9 +13,92 @@ public class SocialRecommender extends Recommender
 		throws Exception
 	{
 		SocialRecommender test = new SocialRecommender();
-		test.recommend();
+		//test.recommend();
+		test.crossValidate();
 	}
 	
+	public void crossValidate()
+		throws Exception
+	{
+		HashMap<Long, Double[]> users = getUserFeatures();
+		System.out.println("Retrieved users: " + users.size());
+		
+		HashMap<Long, Double[]> links = getLinkFeatures(false);
+		System.out.println("Retrieved links: " + links.size());
+		
+		HashMap<Long, HashSet<Long>> linkLikes = getLinkLikes(links.keySet());
+		HashMap<Long, HashSet<Long>> friendships = getFriendships();
+		
+		HashMap<Long, HashSet<Long>> userLinkSamples = getUserLinksSample(users.keySet(), friendships, false);
+		HashSet<Long> withLikes = new HashSet<Long>();
+		for (long userId : userLinkSamples.keySet()) {
+			if (userLinkSamples.get(userId).size() >= 30) {
+				withLikes.add(userId);
+			}
+		}
+		System.out.println("For Testing: " + withLikes.size());
+		
+		Set<String> words = getMostCommonWords();
+		HashMap<Long, HashSet<String>> linkWords = getLinkWordFeatures(words, false);
+		
+		closeSqlConnection();
+		
+		HashMap<Long, HashSet<Long>> tested = new HashMap<Long, HashSet<Long>>();
+		for (long userId : withLikes) {
+			tested.put(userId, new HashSet<Long>());
+		}
+		
+		double totalRMSE = 0;
+		for (int x = 0; x < 10; x++) {
+			HashMap<Long, HashSet<Long>> forTesting = new HashMap<Long, HashSet<Long>>();
+			
+			for (long userId : withLikes) {
+				HashSet<Long> userTesting = new HashSet<Long>();
+				forTesting.put(userId, userTesting);
+				
+				HashSet<Long> samples = userLinkSamples.get(userId);
+				Object[] sampleArray = samples.toArray();
+				
+				int addedCount = 0;
+				
+				while (addedCount < 3) {
+					int randomIndex = (int)(Math.random() * (sampleArray.length));
+					Long randomLinkId = (Long)sampleArray[randomIndex];
+					
+					if (!tested.get(userId).contains(randomLinkId) && ! userTesting.contains(randomLinkId)) {
+						userTesting.add(randomLinkId);
+						tested.get(userId).add(randomLinkId);
+						samples.remove(randomLinkId);
+						addedCount++;
+					}
+				}		
+			}
+			
+			Double[][] userFeatureMatrix = getPrior(Constants.USER_FEATURE_COUNT);
+			Double[][] linkFeatureMatrix = getPrior(Constants.LINK_FEATURE_COUNT);
+	
+			HashMap<Long, Double[]> userIdColumns = getMatrixIdColumns(users.keySet());
+			HashMap<Long, Double[]> linkIdColumns = getMatrixIdColumns(links.keySet());
+			HashMap<String, Double[]> wordColumns = getWordColumns(words);
+			
+			minimize(linkLikes, userFeatureMatrix, linkFeatureMatrix, users, links, friendships, userIdColumns, linkIdColumns, userLinkSamples, wordColumns, linkWords, words);
+			HashMap<Long, Double[]> userTraits = getUserTraitVectors(userFeatureMatrix, userIdColumns, users);
+			HashMap<Long, Double[]> linkTraits = getLinkTraitVectors(linkFeatureMatrix, linkIdColumns, links, linkWords, wordColumns);
+			double foldRMSE = calcRMSE(userTraits, linkTraits, linkLikes, forTesting);
+			System.out.println("RMSE of Run " + (x+1) + ": " + foldRMSE);
+			totalRMSE += foldRMSE;
+			
+			for (long userId : forTesting.keySet()) {
+				HashSet<Long> tests = forTesting.get(userId);
+				for (long linkId : tests) {
+					userLinkSamples.get(userId).add(linkId);
+				}
+			}
+		}
+		
+		
+		System.out.println("Average RMSE: " + (totalRMSE / 10));
+	}
 	public void recommend()
 		throws Exception
 	{
@@ -24,7 +107,7 @@ public class SocialRecommender extends Recommender
 		HashMap<Long, Double[]> users = getUserFeatures();
 		System.out.println("Retrieved users: " + users.size());
 		
-		HashMap<Long, Double[]> links = getLinkFeatures();
+		HashMap<Long, Double[]> links = getLinkFeatures(true);
 		System.out.println("Retrieved links: " + links.size());
 		
 		HashMap<Long, HashSet<Long>> linkLikes = getLinkLikes(links.keySet());
@@ -34,7 +117,7 @@ public class SocialRecommender extends Recommender
 		if (words.size() == 0) {
 			words = getMostCommonWords();
 		}
-		HashMap<Long, HashSet<String>> linkWords = getLinkWordFeatures(words);
+		HashMap<Long, HashSet<String>> linkWords = getLinkWordFeatures(words, true);
 
 		Double[][] userFeatureMatrix = loadFeatureMatrix("lrUserMatrix", Constants.USER_FEATURE_COUNT, "Social");
 		if (userFeatureMatrix == null) {
@@ -54,7 +137,7 @@ public class SocialRecommender extends Recommender
 			linkIdColumns = getMatrixIdColumns(links.keySet());
 		}
 		
-		HashMap<String, Double[]> wordColumns = loadWordColumns("lrWordColumns", "Social");
+		HashMap<String, Double[]> wordColumns = loadWordColumns("Social");
 		if (wordColumns.size() == 0) {
 			wordColumns = getWordColumns(words);
 		}
@@ -62,7 +145,7 @@ public class SocialRecommender extends Recommender
 		updateMatrixColumns(links.keySet(), linkIdColumns);
 		updateMatrixColumns(users.keySet(), userIdColumns);
 		
-		HashMap<Long, HashSet<Long>> userLinkSamples = getUserLinksSample(users.keySet(), friendships);
+		HashMap<Long, HashSet<Long>> userLinkSamples = getUserLinksSample(users.keySet(), friendships, true);
 		
 		System.out.println("Minimizing...");
 		minimize(linkLikes, userFeatureMatrix, linkFeatureMatrix, users, links, friendships, userIdColumns, linkIdColumns, userLinkSamples, wordColumns, linkWords, words);
