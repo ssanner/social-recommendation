@@ -27,7 +27,10 @@ public class SocialRecommender extends Recommender
 		System.out.println("Retrieved links: " + links.size());
 		
 		HashMap<Long, HashSet<Long>> linkLikes = getLinkLikes(links.keySet());
-		HashMap<Long, HashSet<Long>> friendships = getFriendships();
+		HashMap<Long, HashMap<Long, Double>> friendships = getFriendships();
+		
+		//HashMap<Long, HashMap<Long, Double>> friendConnections = getFriendInteractionMeasure();
+		HashMap<Long, HashMap<Long, Double>> friendConnections = getFriendLikeSimilarity();
 		
 		HashMap<Long, HashSet<Long>> userLinkSamples = getUserLinksSample(users.keySet(), friendships, false);
 		HashSet<Long> withLikes = new HashSet<Long>();
@@ -81,7 +84,7 @@ public class SocialRecommender extends Recommender
 			HashMap<Long, Double[]> linkIdColumns = getMatrixIdColumns(links.keySet());
 			HashMap<String, Double[]> wordColumns = getWordColumns(words);
 			
-			minimize(linkLikes, userFeatureMatrix, linkFeatureMatrix, users, links, friendships, userIdColumns, linkIdColumns, userLinkSamples, wordColumns, linkWords, words);
+			minimize(linkLikes, userFeatureMatrix, linkFeatureMatrix, users, links, friendConnections, userIdColumns, linkIdColumns, userLinkSamples, wordColumns, linkWords, words);
 			HashMap<Long, Double[]> userTraits = getUserTraitVectors(userFeatureMatrix, userIdColumns, users);
 			HashMap<Long, Double[]> linkTraits = getLinkTraitVectors(linkFeatureMatrix, linkIdColumns, links, linkWords, wordColumns);
 			double foldRMSE = calcRMSE(userTraits, linkTraits, linkLikes, forTesting);
@@ -111,7 +114,9 @@ public class SocialRecommender extends Recommender
 		System.out.println("Retrieved links: " + links.size());
 		
 		HashMap<Long, HashSet<Long>> linkLikes = getLinkLikes(links.keySet());
-		HashMap<Long, HashSet<Long>> friendships = getFriendships();
+		HashMap<Long, HashMap<Long, Double>> friendships = getFriendships();
+		HashMap<Long, HashMap<Long, Double>> friendConnections = getFriendInteractionMeasure();
+		//HashMap<Long, HashMap<Long, Double>> friendConnections = getFriendLikeSimilarity();
 		
 		Set<String> words = loadMostCommonWords();
 		if (words.size() == 0) {
@@ -148,7 +153,7 @@ public class SocialRecommender extends Recommender
 		HashMap<Long, HashSet<Long>> userLinkSamples = getUserLinksSample(users.keySet(), friendships, true);
 		
 		System.out.println("Minimizing...");
-		minimize(linkLikes, userFeatureMatrix, linkFeatureMatrix, users, links, friendships, userIdColumns, linkIdColumns, userLinkSamples, wordColumns, linkWords, words);
+		minimize(linkLikes, userFeatureMatrix, linkFeatureMatrix, users, links, friendConnections, userIdColumns, linkIdColumns, userLinkSamples, wordColumns, linkWords, words);
 		
 		System.out.println("Recommending...");
 		HashMap<Long, HashSet<Long>> linksToRecommend = getLinksForRecommending(friendships, "Social");
@@ -165,7 +170,7 @@ public class SocialRecommender extends Recommender
 	}
 	
 	public void minimize(HashMap<Long, HashSet<Long>> linkLikes, Double[][] userFeatureMatrix, Double[][] linkFeatureMatrix, 
-					HashMap<Long, Double[]> userFeatures, HashMap<Long, Double[]> linkFeatures, HashMap<Long, HashSet<Long>> friendships,
+					HashMap<Long, Double[]> userFeatures, HashMap<Long, Double[]> linkFeatures, HashMap<Long, HashMap<Long, Double>> friendships,
 					HashMap<Long, Double[]> userIdColumns, HashMap<Long, Double[]> linkIdColumns, HashMap<Long, HashSet<Long>> userLinkSamples,
 					HashMap<String, Double[]> wordColumns, HashMap<Long, HashSet<String>> linkWords, Set<String> words)
 		throws Exception
@@ -359,7 +364,7 @@ public class SocialRecommender extends Recommender
 			HashMap<Long, Double[]> userIdColumns, HashMap<Long, Double[]> linkIdColumns,
 			HashMap<Long, Double[]> users, 
 			HashMap<Long, Double[]> userTraits, HashMap<Long, Double[]> linkTraits,
-			HashMap<Long, HashSet<Long>> friendships, HashMap<Long, HashSet<Long>> linkLikes, HashMap<Long, HashSet<Long>> userLinkSamples)
+			HashMap<Long, HashMap<Long, Double>> friendships, HashMap<Long, HashSet<Long>> linkLikes, HashMap<Long, HashSet<Long>> userLinkSamples)
 	{
 		double error = 0;
 
@@ -367,11 +372,7 @@ public class SocialRecommender extends Recommender
 			for (long j : userTraits.keySet()) {
 				if (i == j) continue;
 				
-				int connection = 0;
-				
-				if (areFriends(i, j, friendships)) {
-					connection = 1;
-				}
+				double connection = getFriendConnection(i, j, friendships);
 				
 				double predictConnection = predictConnection(userFeatureMatrix, userIdColumns, users, i, j);
 				error += Math.pow(connection - predictConnection, 2);
@@ -482,7 +483,7 @@ public class SocialRecommender extends Recommender
 	
 	public double getErrorDerivativeOverUserAttribute(Double[][] userFeatureMatrix, HashMap<Long, Double[]> userFeatures, HashMap<Long, Double[]> userIdColumns,
 														HashMap<Long, Double[]> userTraits, HashMap<Long, Double[]> linkTraits,
-														HashMap<Long, HashSet<Long>> friendships, HashMap<Long, HashSet<Long>> linkLikes, HashMap<Long, HashSet<Long>> userLinkSamples,
+														HashMap<Long, HashMap<Long, Double>> friendships, HashMap<Long, HashSet<Long>> linkLikes, HashMap<Long, HashSet<Long>> userLinkSamples,
 														int x, int y)
 	{
 		double errorDerivative = userFeatureMatrix[x][y] * Constants.LAMBDA;
@@ -496,8 +497,8 @@ public class SocialRecommender extends Recommender
 				Double[] user2 = userFeatures.get(uid2);
 				Double[] user2Id = userIdColumns.get(uid2);
 				
-				int c = 0;
-				if (areFriends(uid1, uid2, friendships)) c = 1;
+				double c = getFriendConnection(uid1, uid2, friendships);
+				
 				double p = predictConnection(userFeatureMatrix, userIdColumns, userFeatures, uid1, uid2);
 				double duu = 2 * user1[y] * user2[y] * userFeatureMatrix[x][y];
 				for (int z = 0; z < user1.length; z++) {
@@ -532,7 +533,7 @@ public class SocialRecommender extends Recommender
 	
 	
 	public double getErrorDerivativeOverUserId(Double[][] userFeatureMatrix, HashMap<Long, Double[]> userFeatures, HashMap<Long, Double[]> userTraits, HashMap<Long, Double[]> linkTraits,
-												HashMap<Long, Double[]> userIdColumns, HashMap<Long, HashSet<Long>> friendships, HashMap<Long, HashSet<Long>> linkLikes, 
+												HashMap<Long, Double[]> userIdColumns, HashMap<Long, HashMap<Long, Double>> friendships, HashMap<Long, HashSet<Long>> linkLikes, 
 												HashMap<Long, HashSet<Long>> userLinkSamples, int k, long userId)
 	{
 		Double[] idColumn = userIdColumns.get(userId);
@@ -545,8 +546,7 @@ public class SocialRecommender extends Recommender
 			
 			Double[] user2 = userFeatures.get(uid2);
 				
-			int c = 0;
-			if (areFriends(userId, uid2, friendships)) c = 1;
+			double c = getFriendConnection(userId, uid2, friendships);
 			double p = predictConnection(userFeatureMatrix, userIdColumns, userFeatures, userId, uid2);
 			double duu = 0;
 			

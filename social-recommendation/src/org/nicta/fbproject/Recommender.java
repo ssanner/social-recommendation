@@ -289,10 +289,8 @@ public abstract class Recommender
 		Statement statement = conn.createStatement();
 		
 		String userQuery = 
-			"SELECT uid, gender, birthday, location.name, hometown.name "
-			+ "FROM linkrUser "
-			+ "LEFT JOIN linkrLocation location ON location_id=location.id "
-			+ "LEFT JOIN linkrLocation hometown ON hometown_id=location.id";
+			"SELECT uid, gender, birthday, location_id, hometown_id "
+			+ "FROM linkrUser";
 		
 		ResultSet result = statement.executeQuery(userQuery);
 		
@@ -306,28 +304,8 @@ public abstract class Recommender
 				birthYear = Integer.parseInt(birthday.split("/")[2]);
 			}
 			
-			//Currently hardcoded the countries, but I'll change this eventually to read the countries from the DB
-			double currentLocation = 0;
-			String currentLoc = result.getString("location.name");
-			if (currentLoc != null) {
-				for (int x = 0; x < Constants.COUNTRIES.length; x++) {
-					if (currentLoc.contains(Constants.COUNTRIES[x])) {
-						currentLocation = x;
-						break;
-					}
-				}
-			}
-			
-			double hometownLocation = 0;
-			String hometownLoc = result.getString("hometown.name");
-			if (hometownLoc != null) {
-				for (int x = 0; x < Constants.COUNTRIES.length; x++) {
-					if (hometownLoc.contains(Constants.COUNTRIES[x])) {
-						hometownLocation = x;
-						break;
-					}
-				}
-			}
+			double currentLocation = result.getLong("location_id") / 300000000000000.0;
+			double hometownLocation = result.getLong("hometown_id") / 300000000000000.0;
 			
 			//Features are normalized between 0 and 1
 			Double[] feature = new Double[Constants.USER_FEATURE_COUNT];
@@ -343,8 +321,8 @@ public abstract class Recommender
 			
 			feature[1] = birthYear / 2012.0;
 			
-			feature[2] = currentLocation / Constants.COUNTRIES.length;
-			feature[3] = hometownLocation / Constants.COUNTRIES.length;
+			feature[2] = currentLocation;
+			feature[3] = hometownLocation;
 			
 			userFeatures.put(result.getLong("uid"), feature);
 		}
@@ -362,10 +340,10 @@ public abstract class Recommender
 	 * @return
 	 * @throws SQLException
 	 */
-	public HashMap<Long, HashSet<Long>> getFriendships()
+	public HashMap<Long, HashMap<Long, Double>> getFriendships()
 		throws SQLException
 	{
-		HashMap<Long, HashSet<Long>> friendships = new HashMap<Long, HashSet<Long>>();
+		HashMap<Long, HashMap<Long, Double>> friendships = new HashMap<Long, HashMap<Long, Double>>();
 		
 		Connection conn = getSqlConnection();
 		Statement statement = conn.createStatement();
@@ -381,15 +359,16 @@ public abstract class Recommender
 			Long uid2 = result.getLong("uid2");
 			
 			if (!friendships.containsKey(uid1)) {
-				friendships.put(uid1, new HashSet<Long>());
+				friendships.put(uid1, new HashMap<Long, Double>());
 			}
 			if (!friendships.containsKey(uid2)) {
-				friendships.put(uid2, new HashSet<Long>());
+				friendships.put(uid2, new HashMap<Long, Double>());
 			}
 			
-			friendships.get(uid1).add(uid2);
-			friendships.get(uid2).add(uid1);
+			friendships.get(uid1).put(uid2, 1.0);
+			friendships.get(uid2).put(uid1, 1.0);
 		}
+		
 		
 		statement.close();
 		
@@ -397,22 +376,719 @@ public abstract class Recommender
 		return friendships;
 	}
 
+	public HashMap<Long, HashMap<Long, Double>> getFriendInteractionMeasure()
+		throws SQLException
+	{
+		HashMap<Long, HashMap<Long, Double>> friendships = new HashMap<Long, HashMap<Long, Double>>();
+		
+		Connection conn = getSqlConnection();
+		Statement statement = conn.createStatement();
+		
+		String friendQuery =
+			"SELECT uid1, uid2 "
+			+ "FROM linkrFriends";
+		
+		ResultSet result = statement.executeQuery(friendQuery);
+		
+		double max_value = 0;
+		
+		while (result.next()) {
+			Long uid1 = result.getLong("uid1");
+			Long uid2 = result.getLong("uid2");
+			
+			if (!friendships.containsKey(uid1)) {
+				friendships.put(uid1, new HashMap<Long, Double>());
+			}
+			if (!friendships.containsKey(uid2)) {
+				friendships.put(uid2, new HashMap<Long, Double>());
+			}
+			
+			friendships.get(uid1).put(uid2, 1.0);
+			friendships.get(uid2).put(uid1, 1.0);
+		}
+		
+		result = statement.executeQuery("SELECT uid, from_id FROM linkrPhotoComments");
+		while (result.next()) {
+			Long uid1 = result.getLong("uid");
+			Long uid2 = result.getLong("from_id");
+			
+			if (uid1 == uid2) continue;
+			
+			double val = 1;
+		
+			if (!friendships.containsKey(uid1)) {
+				friendships.put(uid1, new HashMap<Long, Double>());
+			}
+			if (!friendships.containsKey(uid2)) {
+				friendships.put(uid2, new HashMap<Long, Double>());
+			}
+			
+			if (friendships.get(uid1).containsKey(uid2)) {
+				val += friendships.get(uid1).get(uid2);
+			}
+			
+			if (val > max_value) max_value = val;
+			
+			friendships.get(uid1).put(uid2, val);
+			friendships.get(uid2).put(uid1, val);
+		}
+		
+		result = statement.executeQuery("SELECT uid, id FROM linkrPhotoLikes");
+		while (result.next()) {
+			Long uid1 = result.getLong("uid");
+			Long uid2 = result.getLong("id");
+			
+			if (uid1 == uid2) continue;
+			
+			double val = 1;
+		
+			if (!friendships.containsKey(uid1)) {
+				friendships.put(uid1, new HashMap<Long, Double>());
+			}
+			if (!friendships.containsKey(uid2)) {
+				friendships.put(uid2, new HashMap<Long, Double>());
+			}
+			
+			if (friendships.get(uid1).containsKey(uid2)) {
+				val += friendships.get(uid1).get(uid2);
+			}
+			
+			if (val > max_value) max_value = val;
+			
+			friendships.get(uid1).put(uid2, val);
+			friendships.get(uid2).put(uid1, val);
+		}
+		
+		result = statement.executeQuery("SELECT uid, from_id FROM linkrPhotos");
+		while (result.next()) {
+			Long uid1 = result.getLong("uid");
+			Long uid2 = result.getLong("from_id");
+			
+			if (uid1 == uid2) continue;
+			
+			double val = 1;
+		
+			if (!friendships.containsKey(uid1)) {
+				friendships.put(uid1, new HashMap<Long, Double>());
+			}
+			if (!friendships.containsKey(uid2)) {
+				friendships.put(uid2, new HashMap<Long, Double>());
+			}
+			
+			if (friendships.get(uid1).containsKey(uid2)) {
+				val += friendships.get(uid1).get(uid2);
+			}
+			
+			if (val > max_value) max_value = val;
+			
+			friendships.get(uid1).put(uid2, val);
+			friendships.get(uid2).put(uid1, val);
+		}
+		
+		result = statement.executeQuery("SELECT l.uid, t.uid FROM linkrPhotos l, linkrPhotoTags t WHERE t.photo_id=l.id");
+		while (result.next()) {
+			Long uid1 = result.getLong("l.uid");
+			Long uid2 = result.getLong("t.uid");
+			
+			if (uid1 == uid2) continue;
+			
+			double val = 1;
+		
+			if (!friendships.containsKey(uid1)) {
+				friendships.put(uid1, new HashMap<Long, Double>());
+			}
+			if (!friendships.containsKey(uid2)) {
+				friendships.put(uid2, new HashMap<Long, Double>());
+			}
+			
+			if (friendships.get(uid1).containsKey(uid2)) {
+				val += friendships.get(uid1).get(uid2);
+			}
+			
+			if (val > max_value) max_value = val;
+			
+			friendships.get(uid1).put(uid2, val);
+			friendships.get(uid2).put(uid1, val);
+		}
+		
+		result = statement.executeQuery("SELECT uid, from_id FROM linkrPost");
+		while (result.next()) {
+			Long uid1 = result.getLong("uid");
+			Long uid2 = result.getLong("from_id");
+			
+			if (uid1 == uid2) continue;
+			
+			double val = 1;
+		
+			if (!friendships.containsKey(uid1)) {
+				friendships.put(uid1, new HashMap<Long, Double>());
+			}
+			if (!friendships.containsKey(uid2)) {
+				friendships.put(uid2, new HashMap<Long, Double>());
+			}
+			
+			if (friendships.get(uid1).containsKey(uid2)) {
+				val += friendships.get(uid1).get(uid2);
+			}
+			
+			if (val > max_value) max_value = val;
+			
+			friendships.get(uid1).put(uid2, val);
+			friendships.get(uid2).put(uid1, val);
+		}
+		
+		result = statement.executeQuery("SELECT uid, from_id FROM linkrPostComments");
+		while (result.next()) {
+			Long uid1 = result.getLong("uid");
+			Long uid2 = result.getLong("from_id");
+			
+			if (uid1 == uid2) continue;
+			
+			double val = 1;
+		
+			if (!friendships.containsKey(uid1)) {
+				friendships.put(uid1, new HashMap<Long, Double>());
+			}
+			if (!friendships.containsKey(uid2)) {
+				friendships.put(uid2, new HashMap<Long, Double>());
+			}
+			
+			if (friendships.get(uid1).containsKey(uid2)) {
+				val += friendships.get(uid1).get(uid2);
+			}
+			
+			if (val > max_value) max_value = val;
+			
+			friendships.get(uid1).put(uid2, val);
+			friendships.get(uid2).put(uid1, val);
+		}
+		
+		result = statement.executeQuery("SELECT uid, id FROM linkrPostLikes");
+		while (result.next()) {
+			Long uid1 = result.getLong("uid");
+			Long uid2 = result.getLong("id");
+			
+			if (uid1 == uid2) continue;
+			
+			double val = 1;
+		
+			if (!friendships.containsKey(uid1)) {
+				friendships.put(uid1, new HashMap<Long, Double>());
+			}
+			if (!friendships.containsKey(uid2)) {
+				friendships.put(uid2, new HashMap<Long, Double>());
+			}
+			
+			if (friendships.get(uid1).containsKey(uid2)) {
+				val += friendships.get(uid1).get(uid2);
+			}
+			
+			if (val > max_value) max_value = val;
+			
+			friendships.get(uid1).put(uid2, val);
+			friendships.get(uid2).put(uid1, val);
+		}
+		
+		result = statement.executeQuery("SELECT uid1, uid2 FROM linkrPostTags");
+		while (result.next()) {
+			Long uid1 = result.getLong("uid1");
+			Long uid2 = result.getLong("uid2");
+			
+			if (uid1 == uid2) continue;
+			
+			double val = 1;
+		
+			if (!friendships.containsKey(uid1)) {
+				friendships.put(uid1, new HashMap<Long, Double>());
+			}
+			if (!friendships.containsKey(uid2)) {
+				friendships.put(uid2, new HashMap<Long, Double>());
+			}
+			
+			if (friendships.get(uid1).containsKey(uid2)) {
+				val += friendships.get(uid1).get(uid2);
+			}
+			
+			if (val > max_value) max_value = val;
+			
+			friendships.get(uid1).put(uid2, val);
+			friendships.get(uid2).put(uid1, val);
+		}
+		
+		result = statement.executeQuery("SELECT uid1, uid2 FROM linkrSchoolClassesWith");
+		while (result.next()) {
+			Long uid1 = result.getLong("uid1");
+			Long uid2 = result.getLong("uid2");
+			
+			if (uid1 == uid2) continue;
+			
+			double val = 1;
+		
+			if (!friendships.containsKey(uid1)) {
+				friendships.put(uid1, new HashMap<Long, Double>());
+			}
+			if (!friendships.containsKey(uid2)) {
+				friendships.put(uid2, new HashMap<Long, Double>());
+			}
+			
+			if (friendships.get(uid1).containsKey(uid2)) {
+				val += friendships.get(uid1).get(uid2);
+			}
+			
+			if (val > max_value) max_value = val;
+			
+			friendships.get(uid1).put(uid2, val);
+			friendships.get(uid2).put(uid1, val);
+		}
+		
+		result = statement.executeQuery("SELECT uid1, uid2 FROM linkrSchoolWith");
+		while (result.next()) {
+			Long uid1 = result.getLong("uid1");
+			Long uid2 = result.getLong("uid2");
+			
+			if (uid1 == uid2) continue;
+			
+			double val = 1;
+		
+			if (!friendships.containsKey(uid1)) {
+				friendships.put(uid1, new HashMap<Long, Double>());
+			}
+			if (!friendships.containsKey(uid2)) {
+				friendships.put(uid2, new HashMap<Long, Double>());
+			}
+			
+			if (friendships.get(uid1).containsKey(uid2)) {
+				val += friendships.get(uid1).get(uid2);
+			}
+			
+			if (val > max_value) max_value = val;
+			
+			friendships.get(uid1).put(uid2, val);
+			friendships.get(uid2).put(uid1, val);
+		}
+		
+		result = statement.executeQuery("SELECT uid1, uid2 FROM linkrSportsWith");
+		while (result.next()) {
+			Long uid1 = result.getLong("uid1");
+			Long uid2 = result.getLong("uid2");
+			
+			if (uid1 == uid2) continue;
+			
+			double val = 1;
+		
+			if (!friendships.containsKey(uid1)) {
+				friendships.put(uid1, new HashMap<Long, Double>());
+			}
+			if (!friendships.containsKey(uid2)) {
+				friendships.put(uid2, new HashMap<Long, Double>());
+			}
+			
+			if (friendships.get(uid1).containsKey(uid2)) {
+				val += friendships.get(uid1).get(uid2);
+			}
+			
+			if (val > max_value) max_value = val;
+			
+			friendships.get(uid1).put(uid2, val);
+			friendships.get(uid2).put(uid1, val);
+		}
+		
+		result = statement.executeQuery("SELECT uid, from_id FROM linkrVideos");
+		while (result.next()) {
+			Long uid1 = result.getLong("uid");
+			Long uid2 = result.getLong("from_id");
+			
+			if (uid1 == uid2) continue;
+			
+			double val = 1;
+		
+			if (!friendships.containsKey(uid1)) {
+				friendships.put(uid1, new HashMap<Long, Double>());
+			}
+			if (!friendships.containsKey(uid2)) {
+				friendships.put(uid2, new HashMap<Long, Double>());
+			}
+			
+			if (friendships.get(uid1).containsKey(uid2)) {
+				val += friendships.get(uid1).get(uid2);
+			}
+			
+			if (val > max_value) max_value = val;
+			
+			friendships.get(uid1).put(uid2, val);
+			friendships.get(uid2).put(uid1, val);
+		}
+		
+		result = statement.executeQuery("SELECT uid, from_id FROM linkrVideoComments");
+		while (result.next()) {
+			Long uid1 = result.getLong("uid");
+			Long uid2 = result.getLong("from_id");
+			
+			if (uid1 == uid2) continue;
+			
+			double val = 1;
+		
+			if (!friendships.containsKey(uid1)) {
+				friendships.put(uid1, new HashMap<Long, Double>());
+			}
+			if (!friendships.containsKey(uid2)) {
+				friendships.put(uid2, new HashMap<Long, Double>());
+			}
+			
+			if (friendships.get(uid1).containsKey(uid2)) {
+				val += friendships.get(uid1).get(uid2);
+			}
+			
+			if (val > max_value) max_value = val;
+			
+			friendships.get(uid1).put(uid2, val);
+			friendships.get(uid2).put(uid1, val);
+		}
+		
+		result = statement.executeQuery("SELECT uid, id FROM linkrVideoLikes");
+		while (result.next()) {
+			Long uid1 = result.getLong("uid");
+			Long uid2 = result.getLong("id");
+			
+			if (uid1 == uid2) continue;
+			
+			double val = 1;
+		
+			if (!friendships.containsKey(uid1)) {
+				friendships.put(uid1, new HashMap<Long, Double>());
+			}
+			if (!friendships.containsKey(uid2)) {
+				friendships.put(uid2, new HashMap<Long, Double>());
+			}
+			
+			if (friendships.get(uid1).containsKey(uid2)) {
+				val += friendships.get(uid1).get(uid2);
+			}
+			
+			if (val > max_value) max_value = val;
+			
+			friendships.get(uid1).put(uid2, val);
+			friendships.get(uid2).put(uid1, val);
+		}
+		
+		result = statement.executeQuery("SELECT t.uid, l.uid FROM linkrVideos l, linkrVideoTags t WHERE t.video_id=l.id");
+		while (result.next()) {
+			Long uid1 = result.getLong("t.uid");
+			Long uid2 = result.getLong("l.uid");
+			
+			if (uid1 == uid2) continue;
+			
+			double val = 1;
+		
+			if (!friendships.containsKey(uid1)) {
+				friendships.put(uid1, new HashMap<Long, Double>());
+			}
+			if (!friendships.containsKey(uid2)) {
+				friendships.put(uid2, new HashMap<Long, Double>());
+			}
+			
+			if (friendships.get(uid1).containsKey(uid2)) {
+				val += friendships.get(uid1).get(uid2);
+			}
+			
+			if (val > max_value) max_value = val;
+			
+			friendships.get(uid1).put(uid2, val);
+			friendships.get(uid2).put(uid1, val);
+		}
+		
+		result = statement.executeQuery("SELECT uid1, uid2 FROM linkrWorkProjectsWith");
+		while (result.next()) {
+			Long uid1 = result.getLong("uid1");
+			Long uid2 = result.getLong("uid2");
+			
+			if (uid1 == uid2) continue;
+			
+			double val = 1;
+		
+			if (!friendships.containsKey(uid1)) {
+				friendships.put(uid1, new HashMap<Long, Double>());
+			}
+			if (!friendships.containsKey(uid2)) {
+				friendships.put(uid2, new HashMap<Long, Double>());
+			}
+			
+			if (friendships.get(uid1).containsKey(uid2)) {
+				val += friendships.get(uid1).get(uid2);
+			}
+			
+			if (val > max_value) max_value = val;
+			
+			friendships.get(uid1).put(uid2, val);
+			friendships.get(uid2).put(uid1, val);
+		}
+		
+		result = statement.executeQuery("SELECT uid1, uid2 FROM linkrWorkWith");
+		while (result.next()) {
+			Long uid1 = result.getLong("uid1");
+			Long uid2 = result.getLong("uid2");
+			
+			if (uid1 == uid2) continue;
+			
+			double val = 1;
+		
+			if (!friendships.containsKey(uid1)) {
+				friendships.put(uid1, new HashMap<Long, Double>());
+			}
+			if (!friendships.containsKey(uid2)) {
+				friendships.put(uid2, new HashMap<Long, Double>());
+			}
+			
+			if (friendships.get(uid1).containsKey(uid2)) {
+				val += friendships.get(uid1).get(uid2);
+			}
+			
+			if (val > max_value) max_value = val;
+			
+			friendships.get(uid1).put(uid2, val);
+			friendships.get(uid2).put(uid1, val);
+		}
+		
+		result = statement.executeQuery("SELECT uid, id FROM linkrLinkLikes");
+		while (result.next()) {
+			Long uid1 = result.getLong("uid");
+			Long uid2 = result.getLong("id");
+			
+			if (uid1 == uid2) continue;
+			
+			double val = 1;
+		
+			if (!friendships.containsKey(uid1)) {
+				friendships.put(uid1, new HashMap<Long, Double>());
+			}
+			if (!friendships.containsKey(uid2)) {
+				friendships.put(uid2, new HashMap<Long, Double>());
+			}
+			
+			if (friendships.get(uid1).containsKey(uid2)) {
+				val += friendships.get(uid1).get(uid2);
+			}
+			
+			if (val > max_value) max_value = val;
+			
+			friendships.get(uid1).put(uid2, val);
+			friendships.get(uid2).put(uid1, val);
+		}
+		
+		result = statement.executeQuery("SELECT uid, from_id FROM linkrLinkComments");
+		while (result.next()) {
+			Long uid1 = result.getLong("uid");
+			Long uid2 = result.getLong("from_id");
+			
+			if (uid1 == uid2) continue;
+			
+			double val = 1;
+		
+			if (!friendships.containsKey(uid1)) {
+				friendships.put(uid1, new HashMap<Long, Double>());
+			}
+			if (!friendships.containsKey(uid2)) {
+				friendships.put(uid2, new HashMap<Long, Double>());
+			}
+			
+			if (friendships.get(uid1).containsKey(uid2)) {
+				val += friendships.get(uid1).get(uid2);
+			}
+			
+			if (val > max_value) max_value = val;
+			
+			friendships.get(uid1).put(uid2, val);
+			friendships.get(uid2).put(uid1, val);
+		}
+		
+		result = statement.executeQuery("SELECT uid, from_id FROM linkrLinks");
+		while (result.next()) {
+			Long uid1 = result.getLong("uid");
+			Long uid2 = result.getLong("from_id");
+			
+			if (uid1 == uid2) continue;
+			
+			double val = 1;
+		
+			if (!friendships.containsKey(uid1)) {
+				friendships.put(uid1, new HashMap<Long, Double>());
+			}
+			if (!friendships.containsKey(uid2)) {
+				friendships.put(uid2, new HashMap<Long, Double>());
+			}
+			
+			if (friendships.get(uid1).containsKey(uid2)) {
+				val += friendships.get(uid1).get(uid2);
+			}
+			
+			if (val > max_value) max_value = val;
+			
+			friendships.get(uid1).put(uid2, val);
+			friendships.get(uid2).put(uid1, val);
+		}
+		
+		for (long uid1 : friendships.keySet()) {
+			HashMap<Long, Double> friendValues = friendships.get(uid1);
+			
+			for (long uid2 : friendValues.keySet()) {
+				double val = friendValues.get(uid2);
+				val /= max_value;
+				
+				friendValues.put(uid2, val);
+			}
+		}
+		
+		statement.close();
+		return friendships;
+	}
+	
+	public HashMap<Long, HashMap<Long, Double>> getFriendLikeSimilarity()
+		throws SQLException
+	{
+		HashMap<Long, HashMap<Long, Double>> friendships = new HashMap<Long, HashMap<Long, Double>>();
+		
+		double max_value = 0;
+		
+		Connection conn = getSqlConnection();
+		Statement statement = conn.createStatement();
+		
+		ResultSet result = statement.executeQuery("SELECT DISTINCT l.id, ll.id FROM linkrPhotoLikes l, linkrPhotoLikes ll WHERE l.photo_id=ll.photo_id");
+		
+		while (result.next()) {
+			Long uid1 = result.getLong("l.id");
+			Long uid2 = result.getLong("ll.id");
+			
+			if (uid1 == uid2) continue;
+			
+			double val = 1;
+		
+			if (!friendships.containsKey(uid1)) {
+				friendships.put(uid1, new HashMap<Long, Double>());
+			}
+			if (!friendships.containsKey(uid2)) {
+				friendships.put(uid2, new HashMap<Long, Double>());
+			}
+			
+			if (friendships.get(uid1).containsKey(uid2)) {
+				val += friendships.get(uid1).get(uid2);
+			}
+			
+			if (val > max_value) max_value = val;
+			
+			friendships.get(uid1).put(uid2, val);
+			friendships.get(uid2).put(uid1, val);
+		}
+		
+		result = statement.executeQuery("SELECT DISTINCT l.id, ll.id FROM linkrPostLikes l, linkrPostLikes ll WHERE l.post_id=ll.post_id");
+		while (result.next()) {
+			Long uid1 = result.getLong("l.id");
+			Long uid2 = result.getLong("ll.id");
+			
+			if (uid1 == uid2) continue;
+			
+			double val = 1;
+		
+			if (!friendships.containsKey(uid1)) {
+				friendships.put(uid1, new HashMap<Long, Double>());
+			}
+			if (!friendships.containsKey(uid2)) {
+				friendships.put(uid2, new HashMap<Long, Double>());
+			}
+			
+			if (friendships.get(uid1).containsKey(uid2)) {
+				val += friendships.get(uid1).get(uid2);
+			}
+			
+			if (val > max_value) max_value = val;
+			
+			friendships.get(uid1).put(uid2, val);
+			friendships.get(uid2).put(uid1, val);
+		}
+		
+		result = statement.executeQuery("SELECT DISTINCT l.id, ll.id FROM linkrVideoLikes l, linkrVideoLikes ll WHERE l.video_id=ll.video_id");
+		while (result.next()) {
+			Long uid1 = result.getLong("l.id");
+			Long uid2 = result.getLong("ll.id");
+			
+			if (uid1 == uid2) continue;
+			
+			double val = 1;
+		
+			if (!friendships.containsKey(uid1)) {
+				friendships.put(uid1, new HashMap<Long, Double>());
+			}
+			if (!friendships.containsKey(uid2)) {
+				friendships.put(uid2, new HashMap<Long, Double>());
+			}
+			
+			if (friendships.get(uid1).containsKey(uid2)) {
+				val += friendships.get(uid1).get(uid2);
+			}
+			
+			if (val > max_value) max_value = val;
+			
+			friendships.get(uid1).put(uid2, val);
+			friendships.get(uid2).put(uid1, val);
+		}
+		
+		result = statement.executeQuery("SELECT DISTINCT l.id, ll.id FROM linkrLinkLikes l, linkrLinkLikes ll WHERE l.link_id=ll.link_id");
+		while (result.next()) {
+			Long uid1 = result.getLong("l.id");
+			Long uid2 = result.getLong("ll.id");
+			
+			if (uid1 == uid2) continue;
+			
+			double val = 1;
+		
+			if (!friendships.containsKey(uid1)) {
+				friendships.put(uid1, new HashMap<Long, Double>());
+			}
+			if (!friendships.containsKey(uid2)) {
+				friendships.put(uid2, new HashMap<Long, Double>());
+			}
+			
+			if (friendships.get(uid1).containsKey(uid2)) {
+				val += friendships.get(uid1).get(uid2);
+			}
+			
+			if (val > max_value) max_value = val;
+			
+			friendships.get(uid1).put(uid2, val);
+			friendships.get(uid2).put(uid1, val);
+		}
+		
+		for (long uid1 : friendships.keySet()) {
+			HashMap<Long, Double> friendValues = friendships.get(uid1);
+			
+			for (long uid2 : friendValues.keySet()) {
+				double val = friendValues.get(uid2);
+				val /= max_value;
+				
+				friendValues.put(uid2, val);
+			}
+		}
+		
+		statement.close();
+		return friendships;
+	}
+	
 	/**
-	 * Convenience method for checking friendship connections.
+	 * Convenience method for getting 'friendship' values.
+	 * 
+	 * Friendship values should be bounded between 0 and 1. Current assumption is values should be equal bidirectionally.
 	 * 
 	 * @param uid1
 	 * @param uid2
 	 * @param friendships
 	 * @return
 	 */
-	public boolean areFriends(Long uid1, Long uid2, HashMap<Long, HashSet<Long>> friendships)
+	public double getFriendConnection(Long uid1, Long uid2, HashMap<Long, HashMap<Long, Double>> friendships)
 	{
-		if ((friendships.containsKey(uid1) && friendships.get(uid1).contains(uid2))
-			|| (friendships.containsKey(uid2) && friendships.get(uid2).contains(uid1))) {
-			return true;
+		if ((friendships.containsKey(uid1) && friendships.get(uid1).containsKey(uid2))) {
+			return friendships.get(uid1).get(uid2);
 		}
 		
-		return false;
+		return 0;
 	}
 	
 	/**
@@ -674,7 +1350,7 @@ public abstract class Recommender
 	 * @return
 	 * @throws SQLException
 	 */
-	public HashMap<Long, HashSet<Long>> getUserLinksSample(Set<Long> userIds, HashMap<Long, HashSet<Long>> friendships, boolean limit)
+	public HashMap<Long, HashSet<Long>> getUserLinksSample(Set<Long> userIds, HashMap<Long, HashMap<Long, Double>> friendships, boolean limit)
 		throws SQLException
 	{
 		HashMap<Long, HashSet<Long>> userLinkSamples = new HashMap<Long, HashSet<Long>>();
@@ -700,8 +1376,13 @@ public abstract class Recommender
 			//Sample links that weren't liked.
 			//Links here should be links that were shared by friends to increase the chance that the user has actually seen this and not
 			//liked them
-			HashSet<Long> friends = friendships.get(id);
-			if (friends == null) friends = new HashSet<Long>();
+			Set<Long> friends;
+			if (friendships.containsKey(id)) {
+				friends = friendships.get(id).keySet();
+			}
+			else {
+				friends = new HashSet<Long>();
+			}
 			
 			StringBuilder query = new StringBuilder("SELECT id FROM linkrLinks WHERE uid IN (0");
 			for (Long friendId : friends) {
@@ -741,7 +1422,7 @@ public abstract class Recommender
 	 * @return
 	 * @throws SQLException
 	 */
-	public HashMap<Long, HashSet<Long>> getLinksForRecommending(HashMap<Long, HashSet<Long>> friendships, String type)
+	public HashMap<Long, HashSet<Long>> getLinksForRecommending(HashMap<Long, HashMap<Long, Double>> friendships, String type)
 		throws SQLException
 	{
 		HashMap<Long, HashSet<Long>> userLinks = new HashMap<Long, HashSet<Long>>();
@@ -764,7 +1445,7 @@ public abstract class Recommender
 			HashSet<Long> links = new HashSet<Long>();
 			userLinks.put(id, links);
 			
-			HashSet<Long> friends = friendships.get(id);
+			Set<Long> friends = friendships.get(id).keySet();
 			if (friends == null) friends = new HashSet<Long>();
 			
 			HashSet<Long> dontInclude = new HashSet<Long>();
