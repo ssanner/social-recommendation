@@ -30,9 +30,9 @@ public class LinkUtil
 		Statement statement = conn.createStatement();
 		
 		String itemQuery = 
-			"SELECT id, created_time, share_count, like_count, comment_count, total_count "
+			"SELECT link_id, created_time, share_count, like_count, comment_count, total_count "
 			+ "FROM linkrLinks, linkrLinkInfo "
-			+ "WHERE linkrLinks.link_id = linkrLinkInfo.link_id ";
+			+ "WHERE linkrLinks.link_hash = linkrLinkInfo.link_hash ";
 		
 		if (limit) {
 			itemQuery += "AND DATE(created_time) >= DATE(ADDDATE(CURRENT_DATE(), -" + Constants.WINDOW_RANGE + "))";
@@ -48,7 +48,7 @@ public class LinkUtil
 			feature[2] = result.getDouble("like_count") / 10000000;
 			feature[3] = result.getDouble("comment_count") / 10000000;
 		   
-			linkFeatures.put(result.getLong("id"), feature);
+			linkFeatures.put(result.getLong("link_id"), feature);
 		}
 		
 		statement.close();
@@ -72,7 +72,8 @@ public class LinkUtil
 		Statement statement = conn.createStatement();
 		
 		//id is the user_id of the user who liked that link, link_id is the id of the link
-		StringBuilder likeQuery = new StringBuilder("SELECT id, link_id FROM linkrLinkLikes WHERE link_id IN (0");
+		StringBuilder likeQuery = new StringBuilder("SELECT ll.id, ll.link_id, l.from_id, l.uid FROM linkrLinkLikes ll, linkrlinks l "
+													+ "WHERE ll.link_id=l.link_id AND ll.link_id IN (0");
 		for (long id : linkIds) {
 			likeQuery.append(",");
 			likeQuery.append(id);
@@ -82,14 +83,20 @@ public class LinkUtil
 		ResultSet result = statement.executeQuery(likeQuery.toString());
 		
 		while (result.next()) {
-			long uId = result.getLong("id");
-			long postId = result.getLong("link_id");
+			long uId = result.getLong("ll.id");
+			long linkId = result.getLong("ll.link_id");
+			long fromId = result.getLong("l.from_id");
+			long uid2 = result.getLong("l.uid");
 			
-			if (!linkLikes.containsKey(postId)) {
-				linkLikes.put(postId, new HashSet<Long>());
+			if (!linkLikes.containsKey(linkId)) {
+				linkLikes.put(linkId, new HashSet<Long>());
 			}
 			
-			linkLikes.get(postId).add(uId);
+			HashSet<Long> likes = linkLikes.get(linkId);
+			
+			likes.add(uId);
+			likes.add(fromId);
+			likes.add(uid2);
 		}
 		
 		statement.close();
@@ -206,7 +213,7 @@ public class LinkUtil
 		Statement statement = conn.createStatement();
 		
 		String wordQuery = 
-			"SELECT id, message, name, description "
+			"SELECT link_id, message, name, description "
 			+ "FROM linkrLinks ";
 		
 		if (limit) {
@@ -233,7 +240,7 @@ public class LinkUtil
 				if (commonWords.contains(s)) words.add(s);
 			}
 			
-			linkWords.put(result.getLong("id"), words);
+			linkWords.put(result.getLong("link_id"), words);
 		}
 		
 		statement.close();

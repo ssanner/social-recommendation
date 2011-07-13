@@ -242,10 +242,10 @@ public class UserUtil
 		//
 		HashMap<Long, HashSet<Long>> photoTags = new HashMap<Long, HashSet<Long>>();
 		
-		result = statement.executeQuery("SELECT l.uid, t.uid, t.photo_id FROM linkrPhotos l, linkrPhotoTags t WHERE t.photo_id=l.id");
+		result = statement.executeQuery("SELECT l.uid, t.uid2, t.photo_id FROM linkrPhotos l, linkrPhotoTags t WHERE t.photo_id=l.id");
 		while (result.next()) {
 			Long uid1 = result.getLong("l.uid");
-			Long uid2 = result.getLong("t.uid");
+			Long uid2 = result.getLong("t.uid2");
 			Long photoId = result.getLong("t.photo_id");
 			
 			if (uid1 == uid2) continue;
@@ -293,6 +293,8 @@ public class UserUtil
 				friendships.get(alreadyTagged).put(uid2, tagVal);
 				friendships.get(uid2).put(alreadyTagged, tagVal);
 			}
+			
+			tagged.add(uid2);
 		}
 		
 		//Users posting on another user's wall
@@ -566,13 +568,13 @@ public class UserUtil
 		}
 		
 		//User's getting tagged in another user's video.
-		//Also get the people that are tagged per photo. Users getting tagged in the same photo is a pretty good measure 
+		//Also get the people that are tagged per video. Users getting tagged in the same video is a pretty good measure 
 		//that they're friends.
 		HashMap<Long, HashSet<Long>> videoTags = new HashMap<Long, HashSet<Long>>();
-		result = statement.executeQuery("SELECT t.uid, l.uid, t.video_id FROM linkrVideos l, linkrVideoTags t WHERE t.video_id=l.id");
+		result = statement.executeQuery("SELECT t.uid2, l.uid, t.video_id FROM linkrVideos l, linkrVideoTags t WHERE t.video_id=l.id");
 		while (result.next()) {
 			Long uid1 = result.getLong("l.uid");
-			Long uid2 = result.getLong("t.uid");
+			Long uid2 = result.getLong("t.uid2");
 			Long videoId = result.getLong("t.video_id");
 			
 			if (uid1 == uid2) continue;
@@ -620,6 +622,8 @@ public class UserUtil
 				friendships.get(alreadyTagged).put(uid2, tagVal);
 				friendships.get(uid2).put(alreadyTagged, tagVal);
 			}
+			
+			tagged.add(uid2);
 		}
 		
 		//User's working in the same project
@@ -783,109 +787,162 @@ public class UserUtil
 		Connection conn = RecommenderUtil.getSqlConnection();
 		Statement statement = conn.createStatement();
 		
-		ResultSet result = statement.executeQuery("SELECT DISTINCT l.id, ll.id FROM linkrPhotoLikes l, linkrPhotoLikes ll WHERE l.photo_id=ll.photo_id");
+		ResultSet result = statement.executeQuery("SELECT id, photo_id FROM linkrPhotoLikes");
+		
+		HashMap<Long, HashSet<Long>> photoLiked = new HashMap<Long, HashSet<Long>>();
 		
 		while (result.next()) {
-			Long uid1 = result.getLong("l.id");
-			Long uid2 = result.getLong("ll.id");
+			Long photoId = result.getLong("photo_id");
+			Long uid = result.getLong("id");
 			
-			if (uid1 == uid2) continue;
+			if (!friendships.containsKey(uid)) {
+				friendships.put(uid, new HashMap<Long, Double>());
+			}
 			
-			double val = 1;
+			HashSet<Long> liked;
+			if (photoLiked.containsKey(photoId)) {
+				liked = photoLiked.get(photoId);
+			}
+			else {
+				liked = new HashSet<Long>();
+				photoLiked.put(photoId, liked);
+			}
+			
+			if (liked.contains(uid)) continue;
+			
+			for (Long id : liked) {
+				if (id == uid) continue;
+				
+				double val = 1;
+			
+				if (friendships.get(uid).containsKey(id)) {
+					val += friendships.get(uid).get(id);
+				}
+			
+				if (val > max_value) max_value = val;
+			
+				friendships.get(uid).put(id, val);
+				friendships.get(id).put(uid, val);
+			}
+			
+			liked.add(uid);
+		}
+	
+		result = statement.executeQuery("SELECT id, post_id FROM linkrPostLikes");
 		
-			if (!friendships.containsKey(uid1)) {
-				friendships.put(uid1, new HashMap<Long, Double>());
-			}
-			if (!friendships.containsKey(uid2)) {
-				friendships.put(uid2, new HashMap<Long, Double>());
+		HashMap<Long, HashSet<Long>> postLiked = new HashMap<Long, HashSet<Long>>();
+		
+		while (result.next()) {
+			Long postId = result.getLong("post_id");
+			Long uid = result.getLong("id");
+			
+			if (!friendships.containsKey(uid)) {
+				friendships.put(uid, new HashMap<Long, Double>());
 			}
 			
-			if (friendships.get(uid1).containsKey(uid2)) {
-				val += friendships.get(uid1).get(uid2);
+			HashSet<Long> liked;
+			if (postLiked.containsKey(postId)) {
+				liked = postLiked.get(postId);
+			}
+			else {
+				liked = new HashSet<Long>();
+				postLiked.put(postId, liked);
 			}
 			
-			if (val > max_value) max_value = val;
+			if (liked.contains(uid)) continue;
 			
-			friendships.get(uid1).put(uid2, val);
-			friendships.get(uid2).put(uid1, val);
+			for (Long id : liked) {
+				double val = 1;
+			
+				if (friendships.get(uid).containsKey(id)) {
+					val += friendships.get(uid).get(id);
+				}
+			
+				if (val > max_value) max_value = val;
+			
+				friendships.get(uid).put(id, val);
+				friendships.get(id).put(uid, val);
+			}
+			
+			liked.add(uid);
+		}
+	
+		result = statement.executeQuery("SELECT id, video_id FROM linkrVideoLikes");
+		
+		HashMap<Long, HashSet<Long>> videoLiked = new HashMap<Long, HashSet<Long>>();
+		
+		while (result.next()) {
+			Long videoId = result.getLong("video_id");
+			Long uid = result.getLong("id");
+			
+			if (!friendships.containsKey(uid)) {
+				friendships.put(uid, new HashMap<Long, Double>());
+			}
+			
+			HashSet<Long> liked;
+			if (videoLiked.containsKey(videoId)) {
+				liked = videoLiked.get(videoId);
+			}
+			else {
+				liked = new HashSet<Long>();
+				videoLiked.put(videoId, liked);
+			}
+			
+			if (liked.contains(uid)) continue;
+			
+			for (Long id : liked) {
+				double val = 1;
+			
+				if (friendships.get(uid).containsKey(id)) {
+					val += friendships.get(uid).get(id);
+				}
+			
+				if (val > max_value) max_value = val;
+			
+				friendships.get(uid).put(id, val);
+				friendships.get(id).put(uid, val);
+			}
+			
+			liked.add(uid);
 		}
 		
-		result = statement.executeQuery("SELECT DISTINCT l.id, ll.id FROM linkrPostLikes l, linkrPostLikes ll WHERE l.post_id=ll.post_id");
+		result = statement.executeQuery("SELECT id, link_id FROM linkrLinkLikes");
+		
+		HashMap<Long, HashSet<Long>> linkLiked = new HashMap<Long, HashSet<Long>>();
+		
 		while (result.next()) {
-			Long uid1 = result.getLong("l.id");
-			Long uid2 = result.getLong("ll.id");
+			Long linkId = result.getLong("link_id");
+			Long uid = result.getLong("id");
 			
-			if (uid1 == uid2) continue;
-			
-			double val = 1;
-		
-			if (!friendships.containsKey(uid1)) {
-				friendships.put(uid1, new HashMap<Long, Double>());
-			}
-			if (!friendships.containsKey(uid2)) {
-				friendships.put(uid2, new HashMap<Long, Double>());
+			if (!friendships.containsKey(uid)) {
+				friendships.put(uid, new HashMap<Long, Double>());
 			}
 			
-			if (friendships.get(uid1).containsKey(uid2)) {
-				val += friendships.get(uid1).get(uid2);
+			HashSet<Long> liked;
+			if (linkLiked.containsKey(linkId)) {
+				liked = linkLiked.get(linkId);
+			}
+			else {
+				liked = new HashSet<Long>();
+				linkLiked.put(linkId, liked);
 			}
 			
-			if (val > max_value) max_value = val;
+			if (liked.contains(uid)) continue;
 			
-			friendships.get(uid1).put(uid2, val);
-			friendships.get(uid2).put(uid1, val);
-		}
-		
-		result = statement.executeQuery("SELECT DISTINCT l.id, ll.id FROM linkrVideoLikes l, linkrVideoLikes ll WHERE l.video_id=ll.video_id");
-		while (result.next()) {
-			Long uid1 = result.getLong("l.id");
-			Long uid2 = result.getLong("ll.id");
+			for (Long id : liked) {
+				double val = 1;
 			
-			if (uid1 == uid2) continue;
+				if (friendships.get(uid).containsKey(id)) {
+					val += friendships.get(uid).get(id);
+				}
 			
-			double val = 1;
-		
-			if (!friendships.containsKey(uid1)) {
-				friendships.put(uid1, new HashMap<Long, Double>());
-			}
-			if (!friendships.containsKey(uid2)) {
-				friendships.put(uid2, new HashMap<Long, Double>());
+				if (val > max_value) max_value = val;
+			
+				friendships.get(uid).put(id, val);
+				friendships.get(id).put(uid, val);
 			}
 			
-			if (friendships.get(uid1).containsKey(uid2)) {
-				val += friendships.get(uid1).get(uid2);
-			}
-			
-			if (val > max_value) max_value = val;
-			
-			friendships.get(uid1).put(uid2, val);
-			friendships.get(uid2).put(uid1, val);
-		}
-		
-		result = statement.executeQuery("SELECT DISTINCT l.id, ll.id FROM linkrLinkLikes l, linkrLinkLikes ll WHERE l.link_id=ll.link_id");
-		while (result.next()) {
-			Long uid1 = result.getLong("l.id");
-			Long uid2 = result.getLong("ll.id");
-			
-			if (uid1 == uid2) continue;
-			
-			double val = 1;
-		
-			if (!friendships.containsKey(uid1)) {
-				friendships.put(uid1, new HashMap<Long, Double>());
-			}
-			if (!friendships.containsKey(uid2)) {
-				friendships.put(uid2, new HashMap<Long, Double>());
-			}
-			
-			if (friendships.get(uid1).containsKey(uid2)) {
-				val += friendships.get(uid1).get(uid2);
-			}
-			
-			if (val > max_value) max_value = val;
-			
-			friendships.get(uid1).put(uid2, val);
-			friendships.get(uid2).put(uid1, val);
+			liked.add(uid);
 		}
 		
 		for (long uid1 : friendships.keySet()) {
