@@ -8,15 +8,15 @@ import org.nicta.lr.util.Constants;
 public class SocialMinimizer extends Minimizer 
 {	
 	public double getError(Double[][] userFeatureMatrix, Double[][] linkFeatureMatrix, 
-			HashMap<Long, Double[]> userIdColumns, HashMap<Long, Double[]> linkIdColumns,
+			HashMap<Long, Double[]> userIdColumns, HashMap<Long, Double[]> linkIdColumns, HashMap<String, Double[]> wordColumns,
 			HashMap<Long, Double[]> users, 
 			HashMap<Long, Double[]> userTraits, HashMap<Long, Double[]> linkTraits,
 			HashMap<Long, HashMap<Long, Double>> friendships, HashMap<Long, HashSet<Long>> linkLikes, HashMap<Long, HashSet<Long>> userLinkSamples)
 	{
 		double error = 0;
 
-		for (long i : userTraits.keySet()) {
-			for (long j : userTraits.keySet()) {
+		for (long i : userLinkSamples.keySet()) {
+			for (long j : userLinkSamples.keySet()) {
 				if (i == j) continue;
 				
 				double connection = getFriendConnection(i, j, friendships);
@@ -25,10 +25,12 @@ public class SocialMinimizer extends Minimizer
 				error += Math.pow(connection - predictConnection, 2);
 			}
 		}
+		
 		error *= Constants.BETA;
+		//System.out.println("Soc Error: " + error);
 		
 		//Get the square error
-		for (long i : userTraits.keySet()) {
+		for (long i : userLinkSamples.keySet()) {
 			HashSet<Long> links = userLinkSamples.get(i);
 			
 			for (long j : links) {
@@ -136,8 +138,8 @@ public class SocialMinimizer extends Minimizer
 	{
 		double errorDerivative = userFeatureMatrix[x][y] * Constants.LAMBDA;
 		
-		for (long uid1 : userTraits.keySet()) {
-			for (long uid2 : userFeatures.keySet()) {
+		for (long uid1 : userLinkSamples.keySet()) {
+			for (long uid2 : userLinkSamples.keySet()) {
 				if (uid1 == uid2) continue;	
 				
 				Double[] user1 = userFeatures.get(uid1);
@@ -156,14 +158,14 @@ public class SocialMinimizer extends Minimizer
 						duu += user1[z] * user2[y] * userFeatureMatrix[x][z];
 					}
 				}
-				duu += user1Id[y] * user2[y];
-				duu += user2Id[y] * user1[y];
+				duu += user1Id[x] * user2[y];
+				duu += user2Id[x] * user1[y];
 				
-				errorDerivative += Constants.BETA * (c - p) * duu * -1;
+				errorDerivative += Constants.BETA * (c - p) * duu;
 			}
 		}
 		
-		for (long userId : userFeatures.keySet()) {
+		for (long userId : userLinkSamples.keySet()) {
 			HashSet<Long> links = userLinkSamples.get(userId);
 			
 			for (long linkId : links) {
@@ -172,11 +174,11 @@ public class SocialMinimizer extends Minimizer
 				double r = 0;
 				if (linkLikes.get(linkId) != null && linkLikes.get(linkId).contains(userId)) r = 1;
 
-				errorDerivative += (r - p) * dst * -1;
+				errorDerivative += (r - p) * dst;
 			}
 		}
 
-		return errorDerivative;
+		return errorDerivative * -1;
 	}
 	
 	
@@ -189,7 +191,7 @@ public class SocialMinimizer extends Minimizer
 
 		Double[] user1 = userFeatures.get(userId);
 		
-		for (long uid2 : userFeatures.keySet()) {
+		for (long uid2 : userLinkSamples.keySet()) {
 			if (userId == uid2) continue;	
 			
 			Double[] user2 = userFeatures.get(uid2);
@@ -202,7 +204,7 @@ public class SocialMinimizer extends Minimizer
 				duu += user2[z] * userFeatureMatrix[k][z];
 			}
 				
-			errorDerivative += Constants.BETA * (c - p) * duu * -1;
+			errorDerivative += Constants.BETA * (c - p) * duu;
 		}
 		
 		HashSet<Long> links = userLinkSamples.get(userId);
@@ -215,10 +217,10 @@ public class SocialMinimizer extends Minimizer
 			double r = 0;
 			if (likes != null && likes.contains(userId)) r = 1;
 
-			errorDerivative += (r - p) * dst * -1;
+			errorDerivative += (r - p) * dst;
 		}
 		
-		return errorDerivative;
+		return errorDerivative * -1;
 	}
 
 	public double getErrorDerivativeOverLinkAttribute(Double[][] linkFeatureMatrix,
@@ -227,7 +229,7 @@ public class SocialMinimizer extends Minimizer
 	{
 		double errorDerivative = linkFeatureMatrix[x][y] * Constants.LAMBDA;
 
-		for (long userId : userTraits.keySet()) {
+		for (long userId : userLinkSamples.keySet()) {
 			HashSet<Long> links = userLinkSamples.get(userId);
 
 			for (long linkId : links) {
@@ -236,11 +238,11 @@ public class SocialMinimizer extends Minimizer
 				double r = 0;
 				if (linkLikes.get(linkId) != null && linkLikes.get(linkId).contains(userId)) r = 1;
 
-				errorDerivative += (r - p) * dst * -1;
+				errorDerivative += (r - p) * dst;
 			}
 		}
 
-		return errorDerivative;
+		return errorDerivative * -1;
 	}
 
 	public double getErrorDerivativeOverLinkId(HashMap<Long, Double[]> linkIdColumns,
@@ -253,7 +255,7 @@ public class SocialMinimizer extends Minimizer
 
 		HashSet<Long> likes = linkLikes.get(linkId);
 		
-		for (long userId : userTraits.keySet()) {
+		for (long userId : userLinkSamples.keySet()) {
 			if (! userLinkSamples.get(userId).contains(linkId)) continue;
 			
 			double dst = userTraits.get(userId)[x] * idColumn[x];		
@@ -261,10 +263,10 @@ public class SocialMinimizer extends Minimizer
 			double r = 0;
 			if (likes != null && likes.contains(userId)) r = 1;
 
-			errorDerivative += (r - p) * dst * -1;
+			errorDerivative += (r - p) * dst;
 		}
 		
-		return errorDerivative;
+		return errorDerivative * -1;
 	}
 	
 	public double getErrorDerivativeOverWord(HashMap<String, Double[]> wordColumns, HashMap<Long, HashSet<String>> linkWords, 
@@ -274,7 +276,7 @@ public class SocialMinimizer extends Minimizer
 		Double[] column = wordColumns.get(word);
 		double errorDerivative = column[x] * Constants.LAMBDA;
 
-		for (long userId : userTraits.keySet()) {
+		for (long userId : userLinkSamples.keySet()) {
 			HashSet<Long> links = userLinkSamples.get(userId);
 
 			for (long linkId : links) {
@@ -284,10 +286,10 @@ public class SocialMinimizer extends Minimizer
 
 				if (linkLikes.get(linkId) != null && linkLikes.get(linkId).contains(userId)) r = 1;
 
-				errorDerivative += (r - p) * dst * -1;
+				errorDerivative += (r - p) * dst;
 			}
 		}
 
-		return errorDerivative;
+		return errorDerivative * -1;
 	}
 }

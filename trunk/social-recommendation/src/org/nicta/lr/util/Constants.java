@@ -10,10 +10,10 @@ public class Constants
 	
 	public final static int USER_FEATURE_COUNT = 4;
 	
-	public static final int K = 5;
+	public static int K = 1;
 	
-	public static final double LAMBDA = 1;
-	public static final double BETA = 1;
+	public static double LAMBDA = .00001;
+	public static double BETA = .001;
 	
 	public static final double STEP_CONVERGENCE = 1e-5;
 	

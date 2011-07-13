@@ -8,7 +8,7 @@ import org.nicta.lr.util.Constants;
 public class FeatureMinimizer extends Minimizer 
 {
 	public double getError(Double[][] userFeatureMatrix, Double[][] linkFeatureMatrix, 
-			HashMap<Long, Double[]> userIdColumns, HashMap<Long, Double[]> linkIdColumns,
+			HashMap<Long, Double[]> userIdColumns, HashMap<Long, Double[]> linkIdColumns, HashMap<String, Double[]> wordColumns,
 			HashMap<Long, Double[]> users, 
 			HashMap<Long, Double[]> userTraits, HashMap<Long, Double[]> linkTraits,
 			HashMap<Long, HashMap<Long, Double>> friendships, HashMap<Long, HashSet<Long>> linkLikes, HashMap<Long, HashSet<Long>> userLinkSamples)
@@ -57,7 +57,14 @@ public class FeatureMinimizer extends Minimizer
 				linkNorm += Math.pow(val, 2);
 			}
 		}
+		for (String id : wordColumns.keySet()) {
+			Double[] column = linkIdColumns.get(id);
 			
+			for (double val : column) {
+				linkNorm += Math.pow(val, 2);
+			}
+		}
+		
 		userNorm *= Constants.LAMBDA;
 		linkNorm *= Constants.LAMBDA;
 

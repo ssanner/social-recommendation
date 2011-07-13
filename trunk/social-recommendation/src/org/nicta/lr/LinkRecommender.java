@@ -41,7 +41,36 @@ public class LinkRecommender
 		throws Exception
 	{
 		//LinkRecommender main = new LinkRecommender(args[1]);
-		LinkRecommender lr = new LinkRecommender("Feature");
+		//LinkRecommender lr = new LinkRecommender("Social");
+		//LinkRecommender lr = new LinkRecommender("MSR");
+		LinkRecommender lr = new LinkRecommender("Social");
+		
+		
+		Constants.LAMBDA = .000001;
+		lr.crossValidate();
+	
+		Constants.LAMBDA = .00001;
+		lr.crossValidate();
+		
+		Constants.LAMBDA = .0001;
+		lr.crossValidate();
+		
+		Constants.LAMBDA = .001;
+		lr.crossValidate();
+		
+		Constants.LAMBDA = .01;
+		lr.crossValidate();
+		
+		Constants.LAMBDA = .1;
+		lr.crossValidate();
+	
+		Constants.LAMBDA = 1;
+		lr.crossValidate();
+		
+		Constants.LAMBDA = 10;
+		lr.crossValidate();
+		
+		Constants.LAMBDA = 100;
 		lr.crossValidate();
 	}
 	
@@ -57,51 +86,51 @@ public class LinkRecommender
 		HashMap<Long, HashSet<Long>> linkLikes = LinkUtil.getLinkLikes(links.keySet());
 		HashMap<Long, HashMap<Long, Double>> friendships = UserUtil.getFriendships();
 		
-		//HashMap<Long, HashMap<Long, Double>> friendConnections = getFriendInteractionMeasure();
-		//HashMap<Long, HashMap<Long, Double>> friendConnections = getFriendLikeSimilarity();
-		HashMap<Long, HashMap<Long, Double>> friendConnections = friendships;
+		//HashMap<Long, HashMap<Long, Double>> friendConnections = UserUtil.getFriendInteractionMeasure();
+		HashMap<Long, HashMap<Long, Double>> friendConnections = UserUtil.getFriendLikeSimilarity();
+		//HashMap<Long, HashMap<Long, Double>> friendConnections = friendships;
 		
 		HashMap<Long, HashSet<Long>> userLinkSamples = getUserLinksSample(users.keySet(), friendships, false);
 		System.out.println("Samples: " + userLinkSamples.size());
 		
-		HashSet<Long> withLikes = new HashSet<Long>();
-
-		for (long userId : userLinkSamples.keySet()) {
-			if (userLinkSamples.get(userId).size() >= 30) {
-				withLikes.add(userId);
-			}
-		}
+		//Set<String> words = LinkUtil.getMostCommonWords();
+		Set<String> words = new HashSet<String>();
 		
-		System.out.println("For Testing: " + withLikes.size());
-		
-		Set<String> words = LinkUtil.getMostCommonWords();
 		System.out.println("Words: " + words.size());
 		HashMap<Long, HashSet<String>> linkWords = LinkUtil.getLinkWordFeatures(words, false);
 
 		RecommenderUtil.closeSqlConnection();
 		
 		HashMap<Long, HashSet<Long>> tested = new HashMap<Long, HashSet<Long>>();
-		for (long userId : withLikes) {
+		for (long userId : userLinkSamples.keySet()) {
 			tested.put(userId, new HashSet<Long>());
 		}
 		
-		double totalRMSE = 0;
+		double totalTestRMSE = 0;
+		double totalTrainRMSE = 0;
+		
 		for (int x = 0; x < 10; x++) {
 			HashMap<Long, HashSet<Long>> forTesting = new HashMap<Long, HashSet<Long>>();
 			
-			for (long userId : withLikes) {
+			for (long userId : userLinkSamples.keySet()) {
 				HashSet<Long> userTesting = new HashSet<Long>();
 				forTesting.put(userId, userTesting);
 				
 				HashSet<Long> samples = userLinkSamples.get(userId);
+				HashSet<Long> userTested = tested.get(userId);
+				
+				
 				Object[] sampleArray = samples.toArray();
 				
 				int addedCount = 0;
 				
-				while (addedCount < 3) {
+				while (addedCount < sampleArray.length * .1) {
+					if (sampleArray.length == userTested.size()) break;
+					
 					int randomIndex = (int)(Math.random() * (sampleArray.length));
 					Long randomLinkId = (Long)sampleArray[randomIndex];
 					
+					//System.out.println("Size: " + samples.size() + " Length: " + sampleArray.length + " Random: " + randomIndex + " User: " + userId + "userTested: " + userTested.size());
 					if (!tested.get(userId).contains(randomLinkId) && ! userTesting.contains(randomLinkId)) {
 						userTesting.add(randomLinkId);
 						tested.get(userId).add(randomLinkId);
@@ -118,14 +147,17 @@ public class LinkRecommender
 			HashMap<Long, Double[]> linkIdColumns = getMatrixIdColumns(links.keySet());
 			HashMap<String, Double[]> wordColumns = getWordColumns(words);
 			
-			minimizer.minimize(linkLikes, userFeatureMatrix, linkFeatureMatrix, users, links, friendConnections, userIdColumns, linkIdColumns, userLinkSamples, wordColumns, linkWords, words);
+			double trainRMSE = minimizer.minimize(linkLikes, userFeatureMatrix, linkFeatureMatrix, users, links, friendConnections, userIdColumns, linkIdColumns, userLinkSamples, wordColumns, linkWords, words);
 			
 			HashMap<Long, Double[]> userTraits = UserUtil.getUserTraitVectors(userFeatureMatrix, userIdColumns, users);
 			HashMap<Long, Double[]> linkTraits = LinkUtil.getLinkTraitVectors(linkFeatureMatrix, linkIdColumns, links, linkWords, wordColumns);
 			
 			double foldRMSE = RecommenderUtil.calcRMSE(userTraits, linkTraits, linkLikes, forTesting);
-			System.out.println("RMSE of Run " + (x+1) + ": " + foldRMSE);
-			totalRMSE += foldRMSE;
+			//System.out.println("Train RMSE of Run " + (x+1) + ": " + trainRMSE);
+			System.out.println("Test RMSE of Run " + (x+1) + ": " + foldRMSE);
+			
+			totalTestRMSE += foldRMSE;
+			totalTrainRMSE += trainRMSE;
 			
 			for (long userId : forTesting.keySet()) {
 				HashSet<Long> tests = forTesting.get(userId);
@@ -135,7 +167,7 @@ public class LinkRecommender
 			}
 		}
 		
-		System.out.println("Average RMSE: " + (totalRMSE / 10));
+		System.out.println("L= " + Constants.LAMBDA + " Average Test RMSE: " + (totalTestRMSE / 10));
 	}
 	
 	public void recommend()
@@ -250,14 +282,14 @@ public class LinkRecommender
 			HashSet<Long> samples = new HashSet<Long>();
 			
 			//Get the links that were liked by the user
-			String selectStr = "SELECT l.id FROM linkrLinks l, linkrLinkLikes lp WHERE l.id=lp.link_id AND lp.id=" + id;
+			String selectStr = "SELECT l.link_id FROM linkrLinks l, linkrLinkLikes lp WHERE l.link_id=lp.link_id AND lp.id=" + id;
 			if (limit) {
 				selectStr += " AND DATE(created_time) >= DATE(ADDDATE(CURRENT_DATE(), -" + Constants.WINDOW_RANGE + "))";
 			}
 			
 			ResultSet result = statement.executeQuery(selectStr);
 			while (result.next()) {
-				samples.add(result.getLong("l.id"));
+				samples.add(result.getLong("l.link_id"));
 			}
 			
 			if (samples.size() == 0) continue;
@@ -273,12 +305,12 @@ public class LinkRecommender
 				friends = new HashSet<Long>();
 			}
 			
-			StringBuilder query = new StringBuilder("SELECT id FROM linkrLinks WHERE uid IN (0");
+			StringBuilder query = new StringBuilder("SELECT link_id FROM linkrLinks WHERE uid IN (0");
 			for (Long friendId : friends) {
 				query.append(",");
 				query.append(friendId);
 			}
-			query.append(") AND id NOT IN(0");
+			query.append(") AND link_id NOT IN(0");
 			for (Long likedId : samples) {
 				query.append(",");
 				query.append(likedId);
@@ -292,7 +324,7 @@ public class LinkRecommender
 			result = statement.executeQuery(query.toString());
 			
 			while (result.next()) {
-				samples.add(result.getLong("id"));
+				samples.add(result.getLong("link_id"));
 			}
 			
 			userLinkSamples.put(id, samples);

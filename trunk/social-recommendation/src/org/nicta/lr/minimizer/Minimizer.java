@@ -49,7 +49,7 @@ public abstract class Minimizer
 		return prod;
 	}
 	
-	public void minimize(HashMap<Long, HashSet<Long>> linkLikes, Double[][] userFeatureMatrix, Double[][] linkFeatureMatrix, 
+	public double minimize(HashMap<Long, HashSet<Long>> linkLikes, Double[][] userFeatureMatrix, Double[][] linkFeatureMatrix, 
 			HashMap<Long, Double[]> userFeatures, HashMap<Long, Double[]> linkFeatures, HashMap<Long, HashMap<Long, Double>> friendships,
 			HashMap<Long, Double[]> userIdColumns, HashMap<Long, Double[]> linkIdColumns, HashMap<Long, HashSet<Long>> userLinkSamples,
 			HashMap<String, Double[]> wordColumns, HashMap<Long, HashSet<String>> linkWords, Set<String> words)
@@ -73,6 +73,7 @@ public abstract class Minimizer
 		}
 		
 		double oldError = Double.MAX_VALUE;
+		double rmse = 0;
 		
 		while (go) {
 			iterations++;
@@ -210,9 +211,13 @@ public abstract class Minimizer
 				}
 			}
 			
-			//System.out.println("Error:");
-			double error = getError(userFeatureMatrix, linkFeatureMatrix, userIdColumns, linkIdColumns, userFeatures, userTraits, linkTraits, friendships, linkLikes, userLinkSamples);
-			System.out.println("New Error: " + error + ", RMSE: " + RecommenderUtil.calcRMSE(userTraits, linkTraits, linkLikes, userLinkSamples));
+			//System.out.println("Foo");
+			double error = getError(userFeatureMatrix, linkFeatureMatrix, userIdColumns, linkIdColumns, wordColumns, userFeatures, userTraits, linkTraits, friendships, linkLikes, userLinkSamples);
+			//System.out.println("Bar");
+			rmse = RecommenderUtil.calcRMSE(userTraits, linkTraits, linkLikes, userLinkSamples);
+			//System.out.println("Baz");
+			
+			System.out.println("New Error: " + error + ", RMSE: " + rmse);
 			System.out.println("");
 		
 			LBFGS.lbfgs(variables.length, 5, variables, error, derivatives,
@@ -256,10 +261,12 @@ public abstract class Minimizer
 		
 			oldError = error;
 		}
+		
+		return rmse;
 	}
 	
 	public abstract double getError(Double[][] userFeatureMatrix, Double[][] linkFeatureMatrix, 
-			HashMap<Long, Double[]> userIdColumns, HashMap<Long, Double[]> linkIdColumns,
+			HashMap<Long, Double[]> userIdColumns, HashMap<Long, Double[]> linkIdColumns, HashMap<String, Double[]> wordColumns,
 			HashMap<Long, Double[]> users, 
 			HashMap<Long, Double[]> userTraits, HashMap<Long, Double[]> linkTraits,
 			HashMap<Long, HashMap<Long, Double>> friendships, HashMap<Long, HashSet<Long>> linkLikes, HashMap<Long, HashSet<Long>> userLinkSamples);
