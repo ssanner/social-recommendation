@@ -67,8 +67,6 @@ public class FeatureMinimizer extends Minimizer
 		
 		userNorm *= Constants.LAMBDA;
 		linkNorm *= Constants.LAMBDA;
-
-		System.out.println("Sq error: " + error + " uNorm: " + userNorm + " lNorm: " + linkNorm);
 		
 		error += userNorm + linkNorm;
 

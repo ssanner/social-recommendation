@@ -10,5 +10,6 @@
 	<classpathentry kind="lib" path="lib/openNLPtools.jar"/>
 	<classpathentry kind="lib" path="lib/maxent-2.5.2.jar"/>
 	<classpathentry kind="lib" path="lib/trove.jar"/>
+	<classpathentry kind="lib" path="lib/libsvm.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
