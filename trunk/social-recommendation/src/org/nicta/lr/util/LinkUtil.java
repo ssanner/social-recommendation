@@ -30,7 +30,7 @@ public class LinkUtil
 		Statement statement = conn.createStatement();
 		
 		String itemQuery = 
-			"SELECT link_id, created_time, share_count, like_count, comment_count, total_count "
+			"SELECT link_id, created_time, share_count, like_count, comment_count, total_count, uid, from_id "
 			+ "FROM linkrLinks, linkrLinkInfo "
 			+ "WHERE linkrLinks.link_hash = linkrLinkInfo.link_hash ";
 		
@@ -43,11 +43,14 @@ public class LinkUtil
 		while (result.next()) {
 			Double[] feature = new Double[Constants.LINK_FEATURE_COUNT];
 			
-			feature[0] = result.getDate("created_time").getTime() / 2000000000.0;
-			feature[1] = result.getDouble("share_count") / 10000000;
-			feature[2] = result.getDouble("like_count") / 10000000;
-			feature[3] = result.getDouble("comment_count") / 10000000;
-		   
+			feature[0] = result.getDouble("share_count") / 10000000;
+			feature[1] = result.getDouble("like_count") / 10000000;
+			feature[2] = result.getDouble("comment_count") / 10000000;
+			feature[3] = result.getDouble("uid") / Double.MAX_VALUE;
+			feature[4] = result.getDouble("from_id") / Double.MAX_VALUE;
+			
+			//feature[3] = result.getDate("created_time").getTime() / 2000000000.0;
+			
 			linkFeatures.put(result.getLong("link_id"), feature);
 		}
 		
@@ -299,6 +302,9 @@ public class LinkUtil
 			for (int x = 0; x < Constants.K; x++) {
 				vector[x] = 0.0;
 	
+				//System.out.println("Feature: " + feature);
+				//System.out.println();
+					
 				for (int y = 0; y < feature.length; y++) {
 					vector[x] += matrix[x][y] * feature[y];
 				}

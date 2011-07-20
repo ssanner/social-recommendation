@@ -217,7 +217,7 @@ public abstract class Minimizer
 			rmse = RecommenderUtil.calcRMSE(userTraits, linkTraits, linkLikes, userLinkSamples);
 			//System.out.println("Baz");
 			
-			System.out.println("New Error: " + error + ", RMSE: " + rmse);
+			System.out.println("New Error: " + error);// + ", RMSE: " + rmse);
 			System.out.println("");
 		
 			LBFGS.lbfgs(variables.length, 5, variables, error, derivatives,
