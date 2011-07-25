@@ -1,5 +1,6 @@
 package org.nicta.lr;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
@@ -14,9 +15,20 @@ import libsvm.svm_model;
 import libsvm.svm_node;
 import libsvm.svm_problem;
 import libsvm.svm_parameter;
+import java.util.ArrayList;
 
 public class SVMRecommender 
 {
+	Object[] userIds;
+	Object[] linkIds;
+	
+	public static void main(String[] args)
+		throws Exception
+	{
+		SVMRecommender svm = new SVMRecommender();
+		svm.crossValidate();
+	}
+	
 	public void crossValidate()
 		throws Exception
 	{
@@ -32,15 +44,8 @@ public class SVMRecommender
 		HashMap<Long, HashSet<Long>> userLinkSamples = RecommenderUtil.getUserLinksSample(users.keySet(), friendships, false);
 		System.out.println("Samples: " + userLinkSamples.size());
 		
-		//HashMap<Long, HashMap<Long, Double>> friendConnections = UserUtil.getFriendInteractionMeasure();
-		HashMap<Long, HashMap<Long, Double>> friendConnections = UserUtil.getFriendLikeSimilarity(userLinkSamples.keySet());
-		//HashMap<Long, HashMap<Long, Double>> friendConnections = friendships;
-		
-		//Set<String> words = LinkUtil.getMostCommonWords();
-		Set<String> words = new HashSet<String>();
-		
-		System.out.println("Words: " + words.size());
-		HashMap<Long, HashSet<String>> linkWords = LinkUtil.getLinkWordFeatures(words, false);
+		userIds = userLinkSamples.keySet().toArray();
+		linkIds = links.keySet().toArray();
 	
 		RecommenderUtil.closeSqlConnection();
 		
@@ -48,9 +53,6 @@ public class SVMRecommender
 		for (long userId : userLinkSamples.keySet()) {
 			tested.put(userId, new HashSet<Long>());
 		}
-		
-		double totalTestRMSE = 0;
-		double[] rmseArr = new double[10];
 		
 		double totalTruePos = 0;
 		double totalFalsePos = 0;
@@ -91,15 +93,9 @@ public class SVMRecommender
 			}
 			
 			
-			double foldRMSE = RecommenderUtil.calcRMSE(userTraits, linkTraits, linkLikes, forTesting);
-			rmseArr[x] = foldRMSE;
+			svm_model model = trainSVM(linkLikes, users, links, friendships, userLinkSamples);
+			int[] stats = testSVM(model, linkLikes, users, links, friendships, forTesting);
 			
-			System.out.println("Test RMSE of Run " + (x+1) + ": " + foldRMSE);
-			
-			totalTestRMSE += foldRMSE;
-			
-			
-			int[] stats = RecommenderUtil.calcStats(userTraits, linkTraits, linkLikes, forTesting);
 			int truePos = stats[0];
 			int falsePos = stats[1];
 			int trueNeg = stats[2];
@@ -115,7 +111,8 @@ public class SVMRecommender
 			double recall = (double)truePos / (double)(truePos + falseNeg);
 			double f1 = 2 * precision * recall / (precision + recall);
 			
-			HashMap<Long, Integer[]> precisions = RecommenderUtil.getPrecision(userTraits, linkTraits, linkLikes, forTesting);
+			
+			HashMap<Long, Integer[]> precisions = getPrecision(model, linkLikes, users, links, friendships, forTesting);
 			
 			for (long u : precisions.keySet()) {
 				Integer[] precisionAt = precisions.get(u);
@@ -129,6 +126,7 @@ public class SVMRecommender
 					userPrecision[z] += precisionAt[z];
 				}
 			}
+			
 			System.out.println("Stats for Run " + (x+1));
 			System.out.println("True Pos: "+ truePos);
 			System.out.println("False Pos: "+ falsePos);
@@ -149,15 +147,6 @@ public class SVMRecommender
 		}
 		
 		
-		double meanRMSE = totalTestRMSE / 10;
-		double standardDev = 0;
-		
-		for (double rmse : rmseArr) {
-			standardDev += Math.pow(rmse - meanRMSE, 2);
-		}
-		standardDev = Math.sqrt(standardDev / 10);
-		double standardError = standardDev / Math.sqrt(10);
-		
 		double accuracy = (double)(totalTruePos + totalTrueNeg) / (double)(totalTruePos + totalFalsePos + totalTrueNeg + totalFalseNeg);
 		double precision = (double)totalTruePos / (double)(totalTruePos + totalFalsePos);
 		double recall = (double)totalTruePos / (double)(totalTruePos + totalFalseNeg);
@@ -177,12 +166,7 @@ public class SVMRecommender
 			map[x] /= (double)totalUserPrecision.size();
 		}
 		
-		System.out.println("L=" + Constants.LAMBDA + ", B=" + Constants.BETA);
-		System.out.println("Mean RMSE: " + (totalTestRMSE / 10));
-		System.out.println("Standard Deviation: " + standardDev);
-		System.out.println("Standard Error: " + standardError);
-		System.out.println("Confidence Interval: +/-" + 2*standardError);
-		System.out.println("");
+		System.out.println("C=" + Constants.C);
 		System.out.println("Accuracy: " + accuracy);
 		System.out.println("Precision: " + precision);
 		System.out.println("Recall: " + recall);
@@ -191,5 +175,296 @@ public class SVMRecommender
 		System.out.println("MAP@2: " + map[1]);
 		System.out.println("MAP@3: " + map[2]);
 		System.out.println("");
+	}
+	
+	public svm_model trainSVM(HashMap<Long, HashSet<Long>> linkLikes, HashMap<Long, Double[]> userFeatures, HashMap<Long, Double[]> linkFeatures, 
+								HashMap<Long, HashMap<Long, Double>> friendships, HashMap<Long, HashSet<Long>> userLinkSamples)
+	{
+		int dataCount = 0;
+		for (long userId : userLinkSamples.keySet()) {
+			dataCount += userLinkSamples.get(userId).size();
+		}
+		
+		svm_problem prob = new svm_problem();
+		prob.y = new double[dataCount];
+		prob.l = dataCount;
+		prob.x = new svm_node[dataCount][];
+		
+		svm_parameter param = new svm_parameter();
+		param.C = Constants.C;
+		param.svm_type = svm_parameter.C_SVC;
+		param.kernel_type = svm_parameter.LINEAR;
+		param.cache_size = 20000;
+		param.eps = 0.001;
+		
+		int index = 0;
+		for (long userId : userLinkSamples.keySet()) {
+			HashSet<Long> samples = userLinkSamples.get(userId);
+			Set<Long> userFriends = friendships.get(userId).keySet();
+			
+			for (long linkId : samples) {
+				double[] combined = combineFeatures(userFeatures.get(userId), linkFeatures.get(linkId));
+				//prob.x[index] = new svm_node[combined.length];
+				
+				ArrayList<svm_node> nodes = new ArrayList<svm_node>();
+				
+				for (int x = 0; x < combined.length; x++) {
+					svm_node node = new svm_node();
+					node.index = x + 1;
+					node.value = combined[x];
+					//prob.x[index][x] = node;
+					nodes.add(node);
+				}
+				
+				//int count = 1;
+				for (int x = 0; x < userIds.length; x++) {
+					if (userIds[x].equals(userId)) {
+						svm_node node = new svm_node();
+						node.index = combined.length + x + 1;
+						node.value = 1;
+						//prob.x[index][combined.length] = node;
+						nodes.add(node);
+					}
+					else if (userFriends.contains(userIds[x]) && linkLikes.containsKey(linkId) && linkLikes.get(linkId).contains(userIds[x])) {
+						svm_node node = new svm_node();
+						node.index = combined.length + userIds.length + x + 1;
+						node.value = 1;
+						//prob.x[index][combined.length + count] = node;
+						//count++;
+						nodes.add(node);
+					}
+				}
+				
+				for (int x = 0; x < linkIds.length; x++) {
+					if (linkIds[x].equals(linkId)) {
+						svm_node node = new svm_node();
+						node.index = combined.length + userIds.length + userIds.length + x + 1;
+						node.value = 1;
+						nodes.add(node);
+						break;
+					}
+				}
+				
+				prob.x[index] = new svm_node[nodes.size()];
+				for (int x = 0; x < nodes.size(); x++) {
+					prob.x[index][x] = nodes.get(x);
+				}
+				
+				if (linkLikes.containsKey(linkId) && linkLikes.get(linkId).contains(userId)) {
+					prob.y[index] = 1;
+				}
+				else {
+					prob.y[index] = -1;
+				}
+				
+				index++;
+			}
+		}
+		
+		System.out.println("Training...");
+		svm_model model = svm.svm_train(prob, param);
+		System.out.println("Done");
+		return model;
+	}
+	
+	public int[] testSVM(svm_model model, HashMap<Long, HashSet<Long>> linkLikes, HashMap<Long, Double[]> userFeatures, HashMap<Long, Double[]> linkFeatures, HashMap<Long, HashMap<Long, Double>> friendships, HashMap<Long, HashSet<Long>> testSamples)
+	{
+		int truePos = 0;
+		int falsePos = 0;
+		int trueNeg = 0;
+		int falseNeg = 0;
+		
+		for (long userId : testSamples.keySet()) {
+			HashSet<Long> samples = testSamples.get(userId);
+			Set<Long> userFriends = friendships.get(userId).keySet();
+			
+			for (long linkId : samples) {
+				double[] features = combineFeatures(userFeatures.get(userId), linkFeatures.get(linkId));
+				ArrayList<svm_node> nodeList = new ArrayList<svm_node>();
+				//svm_node nodes[] = new svm_node[features.length];
+				
+				for (int x = 0; x < features.length; x++) {
+					svm_node node = new svm_node();
+					node.index = x + 1;
+					node.value = features[x];
+					//nodes[x] = node;
+					nodeList.add(node);
+				}
+				
+				for (int x = 0; x < userIds.length; x++) {
+					if (userIds[x].equals(userId)) {
+						svm_node node = new svm_node();
+						node.index = features.length + x + 1;
+						node.value = 1;
+						//prob.x[index][combined.length] = node;
+						nodeList.add(node);
+					}
+					else if (userFriends.contains(userIds[x]) && linkLikes.containsKey(linkId) && linkLikes.get(linkId).contains(userIds[x])) {
+						svm_node node = new svm_node();
+						node.index = features.length + userIds.length + x + 1;
+						node.value = 1;
+						//prob.x[index][combined.length + count] = node;
+						//count++;
+						nodeList.add(node);
+					}
+				}
+				
+				for (int x = 0; x < linkIds.length; x++) {
+					if (linkIds[x].equals(linkId)) {
+						svm_node node = new svm_node();
+						node.index = features.length + userIds.length + userIds.length + x + 1;
+						node.value = 1;
+						nodeList.add(node);
+						break;
+					}
+				}
+				
+				svm_node nodes[] = new svm_node[nodeList.size()];
+				
+				for (int x = 0; x < nodes.length; x++) {
+					nodes[x] = nodeList.get(x);
+				}
+				
+				double prediction = svm.svm_predict(model, nodes);
+				
+				if (linkLikes.containsKey(linkId) && linkLikes.get(linkId).contains(userId)) {
+					if (prediction > 0) {
+						truePos++;
+					}
+					else {
+						falseNeg++;
+					}
+				}
+				else {
+					if (prediction > 0) {
+						falsePos++;
+					}
+					else {
+						trueNeg++;
+					}
+				}
+				
+			}
+		}
+		
+		return new int[]{truePos, falsePos, trueNeg, falseNeg};
+	}
+	
+	public double[] combineFeatures(Double[] user, Double[] link)
+	{
+		double[] feature = new double[user.length + link.length];
+		
+		for (int x = 0; x < user.length; x++) {
+			feature[x] = user[x];
+		}
+		
+		for (int x = 0; x < link.length; x++) {
+			feature[x + user.length] = link[x];
+		}
+		
+		return feature;
+	}
+	
+	public HashMap<Long, Integer[]> getPrecision(svm_model model, HashMap<Long, HashSet<Long>> linkLikes, HashMap<Long, Double[]> userFeatures, HashMap<Long, Double[]> linkFeatures, HashMap<Long, HashMap<Long, Double>> friendships, HashMap<Long, HashSet<Long>> testSamples)
+	{
+		HashMap<Long, Integer[]> userPrecisions = new HashMap<Long, Integer[]>();
+		
+		for (long userId : testSamples.keySet()) {
+			HashSet<Long> samples = testSamples.get(userId);
+			Set<Long> userFriends = friendships.get(userId).keySet();
+			
+			double[] scores = new double[samples.size()];
+			
+			HashMap<Double, Long> linkScores = new HashMap<Double, Long>();
+			
+			int index = 0;
+			for (long linkId : samples) {
+				double[] features = combineFeatures(userFeatures.get(userId), linkFeatures.get(linkId));
+				ArrayList<svm_node> nodeList = new ArrayList<svm_node>();
+				//svm_node nodes[] = new svm_node[features.length];
+				
+				for (int x = 0; x < features.length; x++) {
+					svm_node node = new svm_node();
+					node.index = x + 1;
+					node.value = features[x];
+					//nodes[x] = node;
+					nodeList.add(node);
+				}
+				
+				for (int x = 0; x < userIds.length; x++) {
+					if (userIds[x].equals(userId)) {
+						svm_node node = new svm_node();
+						node.index = features.length + x + 1;
+						node.value = 1;
+						//prob.x[index][combined.length] = node;
+						nodeList.add(node);
+					}
+					else if (userFriends.contains(userIds[x]) && linkLikes.containsKey(linkId) && linkLikes.get(linkId).contains(userIds[x])) {
+						svm_node node = new svm_node();
+						node.index = features.length + userIds.length + x + 1;
+						node.value = 1;
+						//prob.x[index][combined.length + count] = node;
+						//count++;
+						//nodeList.add(node);
+					}
+				}
+				
+				for (int x = 0; x < linkIds.length; x++) {
+					if (linkIds[x].equals(linkId)) {
+						svm_node node = new svm_node();
+						node.index = features.length + userIds.length /*+ userIds.length */ + x + 1;
+						node.value = 1;
+						nodeList.add(node);
+						break;
+					}
+				}
+				
+				svm_node nodes[] = new svm_node[nodeList.size()];
+				
+				for (int x = 0; x < nodes.length; x++) {
+					nodes[x] = nodeList.get(x);
+				}
+				
+				double prediction = svm.svm_predict(model, nodes);
+				
+				scores[index] = prediction;
+				linkScores.put(prediction, linkId);
+				
+				index++;
+			}
+			
+			Arrays.sort(scores);
+			
+			int precisionAt1 = 0;
+			int precisionAt2 = 0;
+			int precisionAt3 = 0;
+			
+			for (int x = 0; x < 3; x++) {
+				if (x >= scores.length) break;
+				
+				long id = linkScores.get(scores[x]);
+			
+				if (linkLikes.containsKey(id) && linkLikes.get(id).contains(userId)) {
+					if (x == 0) {
+						precisionAt1++;
+						precisionAt2++;
+						precisionAt3++;
+					}
+					else if (x == 1) {
+						precisionAt2++;
+						precisionAt3++;
+					}
+					else if (x == 2) {
+						precisionAt3++;
+					}
+				}
+			}
+			
+			System.out.println("User: " + userId + " Precision: " + precisionAt1 + " " + precisionAt2 + " " + precisionAt3);
+			
+			userPrecisions.put(userId, new Integer[]{precisionAt1, precisionAt2, precisionAt3});
+		}
+		
+		return userPrecisions;
 	}
 }

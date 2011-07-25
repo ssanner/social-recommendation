@@ -46,31 +46,31 @@ public class LinkRecommender
 		//LinkRecommender lr = new LinkRecommender("Feature");
 		
 		
-		Constants.BETA = .000001;
+		Constants.LAMBDA = .000001;
 		lr.crossValidate();
 	
-		Constants.BETA = .00001;
+		Constants.LAMBDA = .00001;
 		lr.crossValidate();
 		
-		Constants.BETA = .0001;
+		Constants.LAMBDA = .0001;
 		lr.crossValidate();
 		
-		Constants.BETA = .001;
+		Constants.LAMBDA  = .001;
 		lr.crossValidate();
 		
-		Constants.BETA = .01;
+		Constants.LAMBDA  = .01;
 		lr.crossValidate();
 		
-		Constants.BETA = .1;
-		lr.crossValidate();
-	
-		Constants.BETA = 1;
+		Constants.LAMBDA  = .1;
 		lr.crossValidate();
 		
-		Constants.BETA = 10;
+		Constants.LAMBDA  = 1;
 		lr.crossValidate();
 		
-		Constants.BETA = 100;
+		Constants.LAMBDA  = 10;
+		lr.crossValidate();
+		
+		Constants.LAMBDA  = 100;
 		lr.crossValidate();
 	}
 	
@@ -89,8 +89,8 @@ public class LinkRecommender
 		HashMap<Long, HashSet<Long>> userLinkSamples = RecommenderUtil.getUserLinksSample(users.keySet(), friendships, false);
 		System.out.println("Samples: " + userLinkSamples.size());
 		
-		//HashMap<Long, HashMap<Long, Double>> friendConnections = UserUtil.getFriendInteractionMeasure();
-		HashMap<Long, HashMap<Long, Double>> friendConnections = UserUtil.getFriendLikeSimilarity(userLinkSamples.keySet());
+		HashMap<Long, HashMap<Long, Double>> friendConnections = UserUtil.getFriendInteractionMeasure();
+		//HashMap<Long, HashMap<Long, Double>> friendConnections = UserUtil.getFriendLikeSimilarity(userLinkSamples.keySet());
 		//HashMap<Long, HashMap<Long, Double>> friendConnections = friendships;
 		
 		//Set<String> words = LinkUtil.getMostCommonWords();
@@ -251,11 +251,11 @@ public class LinkRecommender
 		}
 		
 		System.out.println("L=" + Constants.LAMBDA + ", B=" + Constants.BETA);
-		System.out.println("Mean RMSE: " + (totalTestRMSE / 10));
-		System.out.println("Standard Deviation: " + standardDev);
-		System.out.println("Standard Error: " + standardError);
-		System.out.println("Confidence Interval: +/-" + 2*standardError);
-		System.out.println("");
+		//.out.println("Mean RMSE: " + (totalTestRMSE / 10));
+		//System.out.println("Standard Deviation: " + standardDev);
+		//System.out.println("Standard Error: " + standardError);
+		//System.out.println("Confidence Interval: +/-" + 2*standardError);
+		//System.out.println("");
 		System.out.println("Accuracy: " + accuracy);
 		System.out.println("Precision: " + precision);
 		System.out.println("Recall: " + recall);

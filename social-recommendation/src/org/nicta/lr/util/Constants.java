@@ -12,7 +12,7 @@ public class Constants
 	
 	public static int K = 1;
 	
-	public static double LAMBDA = .001;
+	public static double LAMBDA = 1.0e-5;
 	public static double BETA = .001;
 	
 	public static final double STEP_CONVERGENCE = 1e-5;
@@ -20,4 +20,6 @@ public class Constants
 	public static final int WINDOW_RANGE = 100;
 	
 	public static final int RECOMMENDATION_COUNT = 1;
+	
+	public static final double C = Math.pow(2, 9);
 }
