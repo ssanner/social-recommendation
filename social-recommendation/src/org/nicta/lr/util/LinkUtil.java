@@ -55,7 +55,6 @@ public class LinkUtil
 		}
 		
 		statement.close();
-		
 		return linkFeatures;
 	}
 	
@@ -75,13 +74,13 @@ public class LinkUtil
 		Statement statement = conn.createStatement();
 		
 		//id is the user_id of the user who liked that link, link_id is the id of the link
-		StringBuilder likeQuery = new StringBuilder("SELECT ll.id, ll.link_id, l.from_id, l.uid FROM linkrLinkLikes ll, linkrlinks l "
+		StringBuilder likeQuery = new StringBuilder("SELECT ll.id, ll.link_id, l.from_id, l.uid FROM linkrLinkLikes ll, linkrLinks l "
 													+ "WHERE ll.link_id=l.link_id AND ll.link_id IN (0");
 		for (long id : linkIds) {
 			likeQuery.append(",");
 			likeQuery.append(id);
 		}
-		likeQuery.append(") ");
+		likeQuery.append(")");
 		
 		ResultSet result = statement.executeQuery(likeQuery.toString());
 		
@@ -101,6 +100,29 @@ public class LinkUtil
 			likes.add(fromId);
 			likes.add(uid2);
 		}
+		
+		
+		StringBuilder clickQuery = new StringBuilder("SELECT link_id, uid_clicked FROM linkrLinks l, trackLinkClicked t WHERE l.link=t.link AND link_id IN (0");
+		for (long id : linkIds) {
+			clickQuery.append(",");
+			clickQuery.append(id);
+		}
+		clickQuery.append(")");
+		result = statement.executeQuery(clickQuery.toString());
+		
+		while (result.next()) {
+			long linkId = result.getLong("link_id");
+			long userId = result.getLong("uid_clicked");
+			
+			if (!linkLikes.containsKey(linkId)) {
+				linkLikes.put(linkId, new HashSet<Long>());
+			}
+			
+			HashSet<Long> likes = linkLikes.get(linkId);
+			
+			likes.add(userId);
+		}
+		
 		
 		statement.close();
 		

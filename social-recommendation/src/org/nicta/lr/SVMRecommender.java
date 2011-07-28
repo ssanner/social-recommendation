@@ -1,6 +1,11 @@
 package org.nicta.lr;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
@@ -17,16 +22,22 @@ import libsvm.svm_problem;
 import libsvm.svm_parameter;
 import java.util.ArrayList;
 
-public class SVMRecommender 
+public class SVMRecommender extends LinkRecommender
 {
 	Object[] userIds;
 	Object[] linkIds;
+	
+	public SVMRecommender()
+	{
+		super(null);
+	}
 	
 	public static void main(String[] args)
 		throws Exception
 	{
 		SVMRecommender svm = new SVMRecommender();
-		svm.crossValidate();
+		//svm.crossValidate();
+		svm.recommend();
 	}
 	
 	public void crossValidate()
@@ -177,6 +188,41 @@ public class SVMRecommender
 		System.out.println("");
 	}
 	
+	public void recommend()
+		throws Exception
+	{
+		System.out.println("Loading Data..." + new Date());
+		
+		HashMap<Long, Double[]> users = UserUtil.getUserFeatures();
+		System.out.println("Retrieved users: " + users.size());
+		
+		HashMap<Long, Double[]> links = LinkUtil.getLinkFeatures(true);
+		System.out.println("Retrieved links: " + links.size());
+		
+		HashMap<Long, HashSet<Long>> linkLikes = LinkUtil.getLinkLikes(links.keySet());
+		HashMap<Long, HashMap<Long, Double>> friendships = UserUtil.getFriendships();	
+		
+		HashMap<Long, HashSet<Long>> userLinkSamples = RecommenderUtil.getUserLinksSample(users.keySet(), friendships, true);
+		System.out.println("users: " + userLinkSamples.size());
+		
+		userIds = userLinkSamples.keySet().toArray();
+		linkIds = links.keySet().toArray();
+		
+		System.out.println("Training...");
+		svm_model model = trainSVM(linkLikes, users, links, friendships, userLinkSamples);
+		
+		System.out.println("Recommending...");
+		HashMap<Long, HashSet<Long>> linksToRecommend = getLinksForRecommending(friendships, "SVM");
+		HashMap<Long, HashMap<Long, Double>> recommendations = recommendLinks(model, linkLikes, users, links, friendships, linksToRecommend);
+		
+		System.out.println("Saving...");
+		saveLinkRecommendations(recommendations, "SVM");
+		
+		RecommenderUtil.closeSqlConnection();
+		
+		System.out.println("Done");
+	}
+	
 	public svm_model trainSVM(HashMap<Long, HashSet<Long>> linkLikes, HashMap<Long, Double[]> userFeatures, HashMap<Long, Double[]> linkFeatures, 
 								HashMap<Long, HashMap<Long, Double>> friendships, HashMap<Long, HashSet<Long>> userLinkSamples)
 	{
@@ -203,8 +249,9 @@ public class SVMRecommender
 			Set<Long> userFriends = friendships.get(userId).keySet();
 			
 			for (long linkId : samples) {
+				if (!userFeatures.containsKey(userId)) System.out.println("FUCK!");
+				if (!linkFeatures.containsKey(linkId)) System.out.println("Shit!");
 				double[] combined = combineFeatures(userFeatures.get(userId), linkFeatures.get(linkId));
-				//prob.x[index] = new svm_node[combined.length];
 				
 				ArrayList<svm_node> nodes = new ArrayList<svm_node>();
 				
@@ -212,25 +259,23 @@ public class SVMRecommender
 					svm_node node = new svm_node();
 					node.index = x + 1;
 					node.value = combined[x];
-					//prob.x[index][x] = node;
+					
 					nodes.add(node);
 				}
 				
-				//int count = 1;
 				for (int x = 0; x < userIds.length; x++) {
 					if (userIds[x].equals(userId)) {
 						svm_node node = new svm_node();
 						node.index = combined.length + x + 1;
 						node.value = 1;
-						//prob.x[index][combined.length] = node;
+						
 						nodes.add(node);
 					}
 					else if (userFriends.contains(userIds[x]) && linkLikes.containsKey(linkId) && linkLikes.get(linkId).contains(userIds[x])) {
 						svm_node node = new svm_node();
 						node.index = combined.length + userIds.length + x + 1;
 						node.value = 1;
-						//prob.x[index][combined.length + count] = node;
-						//count++;
+						
 						nodes.add(node);
 					}
 				}
@@ -240,6 +285,7 @@ public class SVMRecommender
 						svm_node node = new svm_node();
 						node.index = combined.length + userIds.length + userIds.length + x + 1;
 						node.value = 1;
+						
 						nodes.add(node);
 						break;
 					}
@@ -281,13 +327,12 @@ public class SVMRecommender
 			for (long linkId : samples) {
 				double[] features = combineFeatures(userFeatures.get(userId), linkFeatures.get(linkId));
 				ArrayList<svm_node> nodeList = new ArrayList<svm_node>();
-				//svm_node nodes[] = new svm_node[features.length];
 				
 				for (int x = 0; x < features.length; x++) {
 					svm_node node = new svm_node();
 					node.index = x + 1;
 					node.value = features[x];
-					//nodes[x] = node;
+					
 					nodeList.add(node);
 				}
 				
@@ -296,15 +341,14 @@ public class SVMRecommender
 						svm_node node = new svm_node();
 						node.index = features.length + x + 1;
 						node.value = 1;
-						//prob.x[index][combined.length] = node;
+						
 						nodeList.add(node);
 					}
 					else if (userFriends.contains(userIds[x]) && linkLikes.containsKey(linkId) && linkLikes.get(linkId).contains(userIds[x])) {
 						svm_node node = new svm_node();
 						node.index = features.length + userIds.length + x + 1;
 						node.value = 1;
-						//prob.x[index][combined.length + count] = node;
-						//count++;
+						
 						nodeList.add(node);
 					}
 				}
@@ -343,7 +387,6 @@ public class SVMRecommender
 						trueNeg++;
 					}
 				}
-				
 			}
 		}
 		
@@ -381,13 +424,12 @@ public class SVMRecommender
 			for (long linkId : samples) {
 				double[] features = combineFeatures(userFeatures.get(userId), linkFeatures.get(linkId));
 				ArrayList<svm_node> nodeList = new ArrayList<svm_node>();
-				//svm_node nodes[] = new svm_node[features.length];
 				
 				for (int x = 0; x < features.length; x++) {
 					svm_node node = new svm_node();
 					node.index = x + 1;
 					node.value = features[x];
-					//nodes[x] = node;
+					
 					nodeList.add(node);
 				}
 				
@@ -396,24 +438,24 @@ public class SVMRecommender
 						svm_node node = new svm_node();
 						node.index = features.length + x + 1;
 						node.value = 1;
-						//prob.x[index][combined.length] = node;
+						
 						nodeList.add(node);
 					}
 					else if (userFriends.contains(userIds[x]) && linkLikes.containsKey(linkId) && linkLikes.get(linkId).contains(userIds[x])) {
 						svm_node node = new svm_node();
 						node.index = features.length + userIds.length + x + 1;
 						node.value = 1;
-						//prob.x[index][combined.length + count] = node;
-						//count++;
-						//nodeList.add(node);
+						
+						nodeList.add(node);
 					}
 				}
 				
 				for (int x = 0; x < linkIds.length; x++) {
 					if (linkIds[x].equals(linkId)) {
 						svm_node node = new svm_node();
-						node.index = features.length + userIds.length /*+ userIds.length */ + x + 1;
+						node.index = features.length + userIds.length + userIds.length + x + 1;
 						node.value = 1;
+						
 						nodeList.add(node);
 						break;
 					}
@@ -466,5 +508,110 @@ public class SVMRecommender
 		}
 		
 		return userPrecisions;
+	}
+	
+	public HashMap<Long, HashMap<Long, Double>> recommendLinks(svm_model model, HashMap<Long, HashSet<Long>> linkLikes,
+																HashMap<Long, Double[]> userFeatures, HashMap<Long, Double[]> linkFeatures,
+																HashMap<Long, HashMap<Long, Double>> friendships, HashMap<Long, HashSet<Long>> linksToRecommend)
+		throws SQLException
+	{	
+		HashMap<Long, HashMap<Long, Double>> recommendations = new HashMap<Long, HashMap<Long, Double>>();
+		
+		Connection conn = RecommenderUtil.getSqlConnection();
+		Statement statement = conn.createStatement();
+		
+		for (long userId :linksToRecommend.keySet()) {
+			HashSet<Long> userLinks = linksToRecommend.get(userId);
+			Set<Long> userFriends = friendships.get(userId).keySet();
+			
+			HashMap<Long, Double> linkValues = new HashMap<Long, Double>();
+			recommendations.put(userId, linkValues);
+		
+			ResultSet result = statement.executeQuery("SELECT max_links FROM trackUserUpdates WHERE uid=" + userId);
+			result.next();
+			int maxLinks = result.getInt("max_links");
+		
+			for (long linkId : userLinks) {
+				if (!linkFeatures.containsKey(linkId)) {
+					continue;
+				}
+				
+				double[] features = combineFeatures(userFeatures.get(userId), linkFeatures.get(linkId));
+				ArrayList<svm_node> nodeList = new ArrayList<svm_node>();
+				
+				for (int x = 0; x < features.length; x++) {
+					svm_node node = new svm_node();
+					node.index = x + 1;
+					node.value = features[x];
+					
+					nodeList.add(node);
+				}
+				
+				for (int x = 0; x < userIds.length; x++) {
+					if (userIds[x].equals(userId)) {
+						svm_node node = new svm_node();
+						node.index = features.length + x + 1;
+						node.value = 1;
+						
+						nodeList.add(node);
+					}
+					else if (userFriends.contains(userIds[x]) && linkLikes.containsKey(linkId) && linkLikes.get(linkId).contains(userIds[x])) {
+						svm_node node = new svm_node();
+						node.index = features.length + userIds.length + x + 1;
+						node.value = 1;
+						
+						nodeList.add(node);
+					}
+				}
+				
+				for (int x = 0; x < linkIds.length; x++) {
+					if (linkIds[x].equals(linkId)) {
+						svm_node node = new svm_node();
+						node.index = features.length + userIds.length + userIds.length + x + 1;
+						node.value = 1;
+						
+						nodeList.add(node);
+						break;
+					}
+				}
+				
+				svm_node nodes[] = new svm_node[nodeList.size()];
+				
+				for (int x = 0; x < nodes.length; x++) {
+					nodes[x] = nodeList.get(x);
+				}
+				
+				double prediction = svm.svm_predict(model, nodes);
+				System.out.println("Prediction: " + prediction);
+				//Recommend only if prediction score is greater or equal than the boundary
+				//if (prediction > 0) {
+					//We recommend only a set number of links per day/run. 
+					//If the recommended links are more than the max number, recommend only the highest scoring links.
+					if (linkValues.size() < maxLinks) {
+						linkValues.put(linkId, prediction);
+					}
+					else {
+						//Get the lowest scoring recommended link and replace it with the current link
+						//if this one has a better score.
+						long lowestKey = 0;
+						double lowestValue = Double.MAX_VALUE;
+		
+						for (long id : linkValues.keySet()) {
+							if (linkValues.get(id) < lowestValue) {
+								lowestKey = id;
+								lowestValue = linkValues.get(id);
+							}
+						}
+		
+						if (prediction < lowestValue) {
+							linkValues.remove(lowestKey);
+							linkValues.put(linkId, prediction);
+						}
+					}
+				//}
+			}
+		}
+		
+		return recommendations;
 	}
 }
