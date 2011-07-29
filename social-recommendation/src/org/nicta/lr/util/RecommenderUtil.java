@@ -5,11 +5,10 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Arrays;
 import java.util.Set;
+import java.util.ArrayList;
 
 public class RecommenderUtil
 {
@@ -94,60 +93,111 @@ public class RecommenderUtil
 		return Math.sqrt(error / count);
 	}
 	
-	public static HashMap<Long, Integer[]> getPrecision(HashMap<Long, Double[]> userTraits, HashMap<Long, Double[]> linkTraits, HashMap<Long, HashSet<Long>> linkLikes, HashMap<Long, HashSet<Long>> userLinkSamples)
+	public static Object[] sort(ArrayList<Double> scores, ArrayList<Long> linkIds)
 	{
-		HashMap<Long, Integer[]> userPrecisions = new HashMap<Long, Integer[]>();
+		if (scores.size() <= 1) return new Object[]{scores, linkIds};
 		
-		for (long i : userLinkSamples.keySet()) {
-			HashSet<Long> links = userLinkSamples.get(i);
+		ArrayList<Double> smallerScores = new ArrayList<Double>();
+		ArrayList<Long> smallerIds = new ArrayList<Long>();
+		ArrayList<Double> biggerScores = new ArrayList<Double>();
+		ArrayList<Long> biggerIds = new ArrayList<Long>();
+		
+		int pivot = scores.size() / 2;
+		double val = scores.get(pivot);
+		
+		for (int x = 0; x < scores.size(); x++) {
+			if (x == pivot) continue;
 			
-			double[] scores = new double[links.size()];
+			double score = scores.get(x);
 			
-			HashMap<Double, Long> linkScores = new HashMap<Double, Long>();
+			if (score <= val) {
+				smallerScores.add(score);
+				smallerIds.add(linkIds.get(x));
+			}
+			else {
+				biggerScores.add(score);
+				biggerIds.add(linkIds.get(x));
+			}
+		}
+		
+		Object[] smaller = sort(smallerScores, smallerIds);
+		Object[] bigger = sort(biggerScores, biggerIds);
+		
+		ArrayList<Double> sortedScores = concat((ArrayList<Double>)smaller[0], val, (ArrayList<Double>)bigger[0]);
+		ArrayList<Long> sortedIds = concat((ArrayList<Long>)smaller[1], linkIds.get(pivot), (ArrayList<Long>)bigger[1]);
+		
+		return new Object[]{sortedScores, sortedIds};
+	}
+	
+	
+	public static ArrayList<Double> concat(ArrayList<Double> smaller, double val, ArrayList<Double> bigger)
+	{
+		ArrayList<Double> list = new ArrayList<Double>();
+		
+		list.addAll(smaller);
+		list.add(val);
+		list.addAll(bigger);
+		
+		return list;
+	}
+	
+	public static ArrayList<Long> concat(ArrayList<Long> smaller, long val, ArrayList<Long> bigger)
+	{
+		ArrayList<Long> list = new ArrayList<Long>();
+		
+		list.addAll(smaller);
+		list.add(val);
+		list.addAll(bigger);
+		
+		return list;
+	}
+	
+	public static HashMap<Long, Double> getAveragePrecision(HashMap<Long, Double[]> userTraits, HashMap<Long, Double[]> linkTraits, HashMap<Long, HashSet<Long>> linkLikes, HashMap<Long, HashSet<Long>> testSamples)
+	{
+		HashMap<Long, Double> userAP = new HashMap<Long, Double>();
+		
+		for (long userId : testSamples.keySet()) {
+			HashSet<Long> links = testSamples.get(userId);
 			
-			int index = 0;
+			ArrayList<Double> scores = new ArrayList<Double>();
+			ArrayList<Long> linkIds = new ArrayList<Long>();
+			
 			for (long j : links) {
-				double predictedLike = dot(userTraits.get(i), linkTraits.get(j));
+				double predictedLike = dot(userTraits.get(userId), linkTraits.get(j));
 				
-				scores[index] = predictedLike;
-				linkScores.put(predictedLike, j);
-				
-				index++;
+				scores.add(predictedLike);
+				linkIds.add(j);
 			}
 			
-			Arrays.sort(scores);
+			Object[] sorted = sort(scores, linkIds);
+			ArrayList<Double> sortedScores = (ArrayList<Double>)sorted[0];
+			ArrayList<Long> sortedIds = (ArrayList<Long>)sorted[1];
 			
-			int precisionAt1 = 0;
-			int precisionAt2 = 0;
-			int precisionAt3 = 0;
+			ArrayList<Double> precisions = new ArrayList<Double>();
+			int pos = 0;
+			for (int x = 0; x < sortedScores.size(); x++) {
+				long linkId = sortedIds.get(x);
 			
-			for (int x = 0; x < 3; x++) {
-				if (x >= scores.length) break;
-				
-				long id = linkScores.get(scores[x]);
-			
-				if (linkLikes.containsKey(id) && linkLikes.get(id).contains(i)) {
-					if (x == 0) {
-						precisionAt1++;
-						precisionAt2++;
-						precisionAt3++;
-					}
-					else if (x == 1) {
-						precisionAt2++;
-						precisionAt3++;
-					}
-					else if (x == 2) {
-						precisionAt3++;
-					}
+				if (linkLikes.containsKey(linkId) && linkLikes.get(linkId).contains(userId)) {
+					pos++;
+					precisions.add((double)pos / (double)(x+1));
 				}
 			}
 			
-			System.out.println("User: " + i + " Precision: " + precisionAt1 + " " + precisionAt2 + " " + precisionAt3);
+			double ap = 0;
 			
-			userPrecisions.put(i, new Integer[]{precisionAt1, precisionAt2, precisionAt3});
+			if (precisions.size() > 0) {
+				for (double p : precisions) {
+					ap += p;
+				}
+				
+				ap /= (double)precisions.size();
+			}
+			
+			userAP.put(userId, ap);
 		}
 		
-		return userPrecisions;
+		return userAP;
 	}
 	
 	public static int[] calcStats(HashMap<Long, Double[]> userTraits, HashMap<Long, Double[]> linkTraits, HashMap<Long, HashSet<Long>> linkLikes, HashMap<Long, HashSet<Long>> userLinkSamples)
