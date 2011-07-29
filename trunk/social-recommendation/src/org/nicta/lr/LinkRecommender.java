@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Random;
@@ -48,24 +47,31 @@ public class LinkRecommender
 		//LinkRecommender lr = new LinkRecommender("MSR");
 		
 		LinkRecommender lr = null;
+		String type = "Feature";
+		if (args.length > 0) {
+			type = args[0];
+		}
 		
-		if (args[0].equals("Feature")) {
+		if (type.equals("Feature")) {
 			lr = new LinkRecommender("Feature");
 		}
-		else if (args[0].equals("Social")) {
+		else if (type.equals("Social")) {
 			lr = new LinkRecommender("Social");
 		}
-		else if (args[0].equals("SVM")) {
+		else if (type.equals("SVM")) {
 			lr = new SVMRecommender();
 		}
-		else if (args[0].equals("NN")) {
+		else if (type.equals("NN")) {
 			lr = new NNRecommender();
 		}
 		else {
 			System.out.println("WTF: " + args[0]);
 		}
 		
-		lr.recommend();
+		//lr.recommend();
+		lr.crossValidate();
+		
+		
 		
 		/*
 		Constants.LAMBDA = .000001;
@@ -129,15 +135,13 @@ public class LinkRecommender
 			tested.put(userId, new HashSet<Long>());
 		}
 		
-		double totalTestRMSE = 0;
-		double[] rmseArr = new double[10];
-		
 		double totalTruePos = 0;
 		double totalFalsePos = 0;
 		double totalTrueNeg = 0;
 		double totalFalseNeg = 0;
 		
-		HashMap<Long, Integer[]> totalUserPrecision = new HashMap<Long, Integer[]>();
+		HashMap<Long, Double> averagePrecision = new HashMap<Long, Double>();
+		HashMap<Long, Integer> precisionCount = new HashMap<Long, Integer>();
 		
 		for (int x = 0; x < 10; x++) {
 			HashMap<Long, HashSet<Long>> forTesting = new HashMap<Long, HashSet<Long>>();
@@ -160,7 +164,6 @@ public class LinkRecommender
 					int randomIndex = (int)(Math.random() * (sampleArray.length));
 					Long randomLinkId = (Long)sampleArray[randomIndex];
 					
-					//System.out.println("Size: " + samples.size() + " Length: " + sampleArray.length + " Random: " + randomIndex + " User: " + userId + "userTested: " + userTested.size());
 					if (!tested.get(userId).contains(randomLinkId) && ! userTesting.contains(randomLinkId)) {
 						userTesting.add(randomLinkId);
 						tested.get(userId).add(randomLinkId);
@@ -177,23 +180,10 @@ public class LinkRecommender
 			HashMap<Long, Double[]> linkIdColumns = getMatrixIdColumns(links.keySet());
 			HashMap<String, Double[]> wordColumns = getWordColumns(words);
 			
-			//HashMap<Long, Double[]> userT = UserUtil.getUserTraitVectors(userFeatureMatrix, userIdColumns, users);
-			//HashMap<Long, Double[]> linkT = LinkUtil.getLinkTraitVectors(linkFeatureMatrix, linkIdColumns, links, linkWords, wordColumns);
-			//RecommenderUtil.getPrecision(userT, linkT, linkLikes, forTesting);
-			
 			minimizer.minimize(linkLikes, userFeatureMatrix, linkFeatureMatrix, users, links, friendConnections, userIdColumns, linkIdColumns, userLinkSamples, wordColumns, linkWords, words);
 			
 			HashMap<Long, Double[]> userTraits = UserUtil.getUserTraitVectors(userFeatureMatrix, userIdColumns, users);
 			HashMap<Long, Double[]> linkTraits = LinkUtil.getLinkTraitVectors(linkFeatureMatrix, linkIdColumns, links, linkWords, wordColumns);
-			
-			
-			double foldRMSE = RecommenderUtil.calcRMSE(userTraits, linkTraits, linkLikes, forTesting);
-			rmseArr[x] = foldRMSE;
-			
-			System.out.println("Test RMSE of Run " + (x+1) + ": " + foldRMSE);
-			
-			totalTestRMSE += foldRMSE;
-			
 			
 			int[] stats = RecommenderUtil.calcStats(userTraits, linkTraits, linkLikes, forTesting);
 			int truePos = stats[0];
@@ -206,34 +196,31 @@ public class LinkRecommender
 			totalTrueNeg += trueNeg;
 			totalFalseNeg += falseNeg;
 			
-			double accuracy = (double)(truePos + trueNeg) / (double)(truePos + falsePos + trueNeg + falseNeg);
-			double precision = (double)truePos / (double)(truePos + falsePos);
-			double recall = (double)truePos / (double)(truePos + falseNeg);
-			double f1 = 2 * precision * recall / (precision + recall);
+			HashMap<Long, Double> userAP = RecommenderUtil.getAveragePrecision(userTraits, linkTraits, linkLikes, forTesting);
 			
-			HashMap<Long, Integer[]> precisions = RecommenderUtil.getPrecision(userTraits, linkTraits, linkLikes, forTesting);
-			
-			for (long u : precisions.keySet()) {
-				Integer[] precisionAt = precisions.get(u);
+			for (long userId : userAP.keySet()) {
+				double ap = userAP.get(userId);
+				if (ap == 0) continue;
 				
-				if (!totalUserPrecision.containsKey(u)) {
-					totalUserPrecision.put(u, new Integer[]{0, 0, 0});
+				if (!averagePrecision.containsKey(userId)) {
+					averagePrecision.put(userId, 0.0);
+					precisionCount.put(userId, 0);
 				}
 				
-				Integer[] userPrecision = totalUserPrecision.get(u);
-				for (int z = 0; z < userPrecision.length; z++) {
-					userPrecision[z] += precisionAt[z];
-				}
+				double average = averagePrecision.get(userId);
+				average += ap;
+				averagePrecision.put(userId, average);
+				
+				int count = precisionCount.get(userId);
+				count++;
+				precisionCount.put(userId, count);
 			}
+			
 			System.out.println("Stats for Run " + (x+1));
 			System.out.println("True Pos: "+ truePos);
 			System.out.println("False Pos: "+ falsePos);
 			System.out.println("True Neg: "+ trueNeg);
 			System.out.println("False Neg: "+ falseNeg);
-			System.out.println("Accuracy: " + accuracy);
-			System.out.println("Precision: " + precision);
-			System.out.println("Recall: " + recall);
-			System.out.println("F1: " + f1);
 			System.out.println("");
 			
 			for (long userId : forTesting.keySet()) {
@@ -244,48 +231,27 @@ public class LinkRecommender
 			}
 		}
 		
-		
-		double meanRMSE = totalTestRMSE / 10;
-		double standardDev = 0;
-		
-		for (double rmse : rmseArr) {
-			standardDev += Math.pow(rmse - meanRMSE, 2);
-		}
-		standardDev = Math.sqrt(standardDev / 10);
-		double standardError = standardDev / Math.sqrt(10);
-		
 		double accuracy = (double)(totalTruePos + totalTrueNeg) / (double)(totalTruePos + totalFalsePos + totalTrueNeg + totalFalseNeg);
 		double precision = (double)totalTruePos / (double)(totalTruePos + totalFalsePos);
 		double recall = (double)totalTruePos / (double)(totalTruePos + totalFalseNeg);
 		double f1 = 2 * precision * recall / (precision + recall);
 		
-		double map[] = {0, 0, 0};
-		
-		for (long user : totalUserPrecision.keySet()) {
-			Integer[] precisions = totalUserPrecision.get(user);
+		double map = 0;
+		for (long userId : averagePrecision.keySet()) {
+			double pre = averagePrecision.get(userId);
+			pre /= (double)precisionCount.get(userId);
+			//pre /= (double)10;
 			
-			for (int x = 0; x < precisions.length; x++) {
-				map[x] += (double)precisions[x] / (double)10;
-			}
+			map += pre;
 		}
-		
-		for (int x = 0; x < map.length; x++) {
-			map[x] /= (double)totalUserPrecision.size();
-		}
+		map /= (double)averagePrecision.size();
 		
 		System.out.println("L=" + Constants.LAMBDA + ", B=" + Constants.BETA);
-		//.out.println("Mean RMSE: " + (totalTestRMSE / 10));
-		//System.out.println("Standard Deviation: " + standardDev);
-		//System.out.println("Standard Error: " + standardError);
-		//System.out.println("Confidence Interval: +/-" + 2*standardError);
-		//System.out.println("");
 		System.out.println("Accuracy: " + accuracy);
 		System.out.println("Precision: " + precision);
 		System.out.println("Recall: " + recall);
 		System.out.println("F1: " + f1);
-		System.out.println("MAP@1: " + map[0]);
-		System.out.println("MAP@2: " + map[1]);
-		System.out.println("MAP@3: " + map[2]);
+		System.out.println("MAP: " + map);
 		System.out.println("");
 	}
 	

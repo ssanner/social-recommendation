@@ -49,8 +49,6 @@ public class LinkUtil
 			feature[3] = result.getDouble("uid") / Double.MAX_VALUE;
 			feature[4] = result.getDouble("from_id") / Double.MAX_VALUE;
 			
-			//feature[3] = result.getDate("created_time").getTime() / 2000000000.0;
-			
 			linkFeatures.put(result.getLong("link_id"), feature);
 		}
 		
@@ -123,6 +121,26 @@ public class LinkUtil
 			likes.add(userId);
 		}
 		
+		StringBuilder scoreQuery = new StringBuilder("SELECT l.link_id, t.uid FROM linkrLinks l, trackRecommendedLinks t WHERE l.link_id=t.link_id AND rating=1 AND l.link_id IN (0");
+		for (long id : linkIds) {
+			scoreQuery.append(",");
+			scoreQuery.append(id);
+		}
+		scoreQuery.append(")");
+		result = statement.executeQuery(scoreQuery.toString());
+		
+		while (result.next()) {
+			long linkId = result.getLong("link_id");
+			long userId = result.getLong("uid");
+			
+			if (!linkLikes.containsKey(linkId)) {
+				linkLikes.put(linkId, new HashSet<Long>());
+			}
+			
+			HashSet<Long> likes = linkLikes.get(linkId);
+			
+			likes.add(userId);
+		}
 		
 		statement.close();
 		
