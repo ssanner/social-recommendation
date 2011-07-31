@@ -36,8 +36,8 @@ public class SVMRecommender extends LinkRecommender
 		throws Exception
 	{
 		SVMRecommender svm = new SVMRecommender();
-		//svm.crossValidate();
-		svm.recommend();
+		svm.crossValidate();
+		//svm.recommend();
 	}
 	
 	public void crossValidate()
@@ -52,7 +52,7 @@ public class SVMRecommender extends LinkRecommender
 		HashMap<Long, HashSet<Long>> linkLikes = LinkUtil.getLinkLikes(links.keySet());
 		HashMap<Long, HashMap<Long, Double>> friendships = UserUtil.getFriendships();
 		
-		HashMap<Long, HashSet<Long>> userLinkSamples = RecommenderUtil.getUserLinksSample(users.keySet(), friendships, false);
+		HashMap<Long, HashSet<Long>> userLinkSamples = RecommenderUtil.getUserLinksSample(linkLikes, users.keySet(), friendships, links.keySet(), false);
 		System.out.println("Samples: " + userLinkSamples.size());
 		
 		userIds = userLinkSamples.keySet().toArray();
@@ -70,7 +70,8 @@ public class SVMRecommender extends LinkRecommender
 		double totalTrueNeg = 0;
 		double totalFalseNeg = 0;
 		
-		HashMap<Long, Integer[]> totalUserPrecision = new HashMap<Long, Integer[]>();
+		HashMap<Long, Double> averagePrecision = new HashMap<Long, Double>();
+		HashMap<Long, Integer> precisionCount = new HashMap<Long, Integer>();
 		
 		for (int x = 0; x < 10; x++) {
 			HashMap<Long, HashSet<Long>> forTesting = new HashMap<Long, HashSet<Long>>();
@@ -93,7 +94,6 @@ public class SVMRecommender extends LinkRecommender
 					int randomIndex = (int)(Math.random() * (sampleArray.length));
 					Long randomLinkId = (Long)sampleArray[randomIndex];
 					
-					//System.out.println("Size: " + samples.size() + " Length: " + sampleArray.length + " Random: " + randomIndex + " User: " + userId + "userTested: " + userTested.size());
 					if (!tested.get(userId).contains(randomLinkId) && ! userTesting.contains(randomLinkId)) {
 						userTesting.add(randomLinkId);
 						tested.get(userId).add(randomLinkId);
@@ -117,25 +117,24 @@ public class SVMRecommender extends LinkRecommender
 			totalTrueNeg += trueNeg;
 			totalFalseNeg += falseNeg;
 			
-			double accuracy = (double)(truePos + trueNeg) / (double)(truePos + falsePos + trueNeg + falseNeg);
-			double precision = (double)truePos / (double)(truePos + falsePos);
-			double recall = (double)truePos / (double)(truePos + falseNeg);
-			double f1 = 2 * precision * recall / (precision + recall);
+			HashMap<Long, Double> precisions = getAveragePrecision(model, linkLikes, users, links, friendships, forTesting);
 			
-			
-			HashMap<Long, Integer[]> precisions = getPrecision(model, linkLikes, users, links, friendships, forTesting);
-			
-			for (long u : precisions.keySet()) {
-				Integer[] precisionAt = precisions.get(u);
+			for (long userId : precisions.keySet()) {
+				double ap = precisions.get(userId);
+				if (ap == 0) continue;
 				
-				if (!totalUserPrecision.containsKey(u)) {
-					totalUserPrecision.put(u, new Integer[]{0, 0, 0});
+				if (!averagePrecision.containsKey(userId)) {
+					averagePrecision.put(userId, 0.0);
+					precisionCount.put(userId, 0);
 				}
 				
-				Integer[] userPrecision = totalUserPrecision.get(u);
-				for (int z = 0; z < userPrecision.length; z++) {
-					userPrecision[z] += precisionAt[z];
-				}
+				double average = averagePrecision.get(userId);
+				average += ap;
+				averagePrecision.put(userId, average);
+				
+				int count = precisionCount.get(userId);
+				count++;
+				precisionCount.put(userId, count);
 			}
 			
 			System.out.println("Stats for Run " + (x+1));
@@ -143,10 +142,6 @@ public class SVMRecommender extends LinkRecommender
 			System.out.println("False Pos: "+ falsePos);
 			System.out.println("True Neg: "+ trueNeg);
 			System.out.println("False Neg: "+ falseNeg);
-			System.out.println("Accuracy: " + accuracy);
-			System.out.println("Precision: " + precision);
-			System.out.println("Recall: " + recall);
-			System.out.println("F1: " + f1);
 			System.out.println("");
 			
 			for (long userId : forTesting.keySet()) {
@@ -163,28 +158,23 @@ public class SVMRecommender extends LinkRecommender
 		double recall = (double)totalTruePos / (double)(totalTruePos + totalFalseNeg);
 		double f1 = 2 * precision * recall / (precision + recall);
 		
-		double map[] = {0, 0, 0};
-		
-		for (long user : totalUserPrecision.keySet()) {
-			Integer[] precisions = totalUserPrecision.get(user);
+		double map = 0;
+		for (long userId : averagePrecision.keySet()) {
+			double pre = averagePrecision.get(userId);
+			//pre /= (double)precisionCount.get(userId);
+			pre /= (double)10;
 			
-			for (int x = 0; x < precisions.length; x++) {
-				map[x] += (double)precisions[x] / (double)10;
-			}
+			map += pre;
 		}
-		
-		for (int x = 0; x < map.length; x++) {
-			map[x] /= (double)totalUserPrecision.size();
-		}
+		map /= (double)averagePrecision.size();
 		
 		System.out.println("C=" + Constants.C);
 		System.out.println("Accuracy: " + accuracy);
 		System.out.println("Precision: " + precision);
 		System.out.println("Recall: " + recall);
 		System.out.println("F1: " + f1);
-		System.out.println("MAP@1: " + map[0]);
-		System.out.println("MAP@2: " + map[1]);
-		System.out.println("MAP@3: " + map[2]);
+		System.out.println("MAP: " + map);
+		
 		System.out.println("");
 	}
 	
@@ -202,7 +192,7 @@ public class SVMRecommender extends LinkRecommender
 		HashMap<Long, HashSet<Long>> linkLikes = LinkUtil.getLinkLikes(links.keySet());
 		HashMap<Long, HashMap<Long, Double>> friendships = UserUtil.getFriendships();	
 		
-		HashMap<Long, HashSet<Long>> userLinkSamples = RecommenderUtil.getUserLinksSample(users.keySet(), friendships, true);
+		HashMap<Long, HashSet<Long>> userLinkSamples = RecommenderUtil.getUserLinksSample(linkLikes, users.keySet(), friendships, links.keySet(), true);
 		System.out.println("users: " + userLinkSamples.size());
 		
 		userIds = userLinkSamples.keySet().toArray();
@@ -408,20 +398,18 @@ public class SVMRecommender extends LinkRecommender
 		return feature;
 	}
 	
-	public HashMap<Long, Integer[]> getPrecision(svm_model model, HashMap<Long, HashSet<Long>> linkLikes, HashMap<Long, Double[]> userFeatures, HashMap<Long, Double[]> linkFeatures, HashMap<Long, HashMap<Long, Double>> friendships, HashMap<Long, HashSet<Long>> testSamples)
+	public HashMap<Long, Double> getAveragePrecision(svm_model model, HashMap<Long, HashSet<Long>> linkLikes, HashMap<Long, Double[]> userFeatures, HashMap<Long, Double[]> linkFeatures, HashMap<Long, HashMap<Long, Double>> friendships, HashMap<Long, HashSet<Long>> testSamples)
 	{
-		HashMap<Long, Integer[]> userPrecisions = new HashMap<Long, Integer[]>();
+		HashMap<Long, Double> userAP = new HashMap<Long, Double>();
 		
 		for (long userId : testSamples.keySet()) {
-			HashSet<Long> samples = testSamples.get(userId);
+			HashSet<Long> links = testSamples.get(userId);
 			Set<Long> userFriends = friendships.get(userId).keySet();
 			
-			double[] scores = new double[samples.size()];
+			ArrayList<Double> scores = new ArrayList<Double>();
+			ArrayList<Long> ids = new ArrayList<Long>();
 			
-			HashMap<Double, Long> linkScores = new HashMap<Double, Long>();
-			
-			int index = 0;
-			for (long linkId : samples) {
+			for (long linkId : links) {
 				double[] features = combineFeatures(userFeatures.get(userId), linkFeatures.get(linkId));
 				ArrayList<svm_node> nodeList = new ArrayList<svm_node>();
 				
@@ -469,45 +457,39 @@ public class SVMRecommender extends LinkRecommender
 				
 				double prediction = svm.svm_predict(model, nodes);
 				
-				scores[index] = prediction;
-				linkScores.put(prediction, linkId);
-				
-				index++;
+				scores.add(prediction);
+				ids.add(linkId);
 			}
 			
-			Arrays.sort(scores);
+			Object[] sorted = RecommenderUtil.sort(scores, ids);
+			ArrayList<Double> sortedScores = (ArrayList<Double>)sorted[0];
+			ArrayList<Long> sortedIds = (ArrayList<Long>)sorted[1];
 			
-			int precisionAt1 = 0;
-			int precisionAt2 = 0;
-			int precisionAt3 = 0;
+			ArrayList<Double> precisions = new ArrayList<Double>();
+			int pos = 0;
+			for (int x = 0; x < sortedScores.size(); x++) {
+				long linkId = sortedIds.get(x);
 			
-			for (int x = 0; x < 3; x++) {
-				if (x >= scores.length) break;
-				
-				long id = linkScores.get(scores[x]);
-			
-				if (linkLikes.containsKey(id) && linkLikes.get(id).contains(userId)) {
-					if (x == 0) {
-						precisionAt1++;
-						precisionAt2++;
-						precisionAt3++;
-					}
-					else if (x == 1) {
-						precisionAt2++;
-						precisionAt3++;
-					}
-					else if (x == 2) {
-						precisionAt3++;
-					}
+				if (linkLikes.containsKey(linkId) && linkLikes.get(linkId).contains(userId)) {
+					pos++;
+					precisions.add((double)pos / (double)(x+1));
 				}
 			}
 			
-			System.out.println("User: " + userId + " Precision: " + precisionAt1 + " " + precisionAt2 + " " + precisionAt3);
+			double ap = 0;
 			
-			userPrecisions.put(userId, new Integer[]{precisionAt1, precisionAt2, precisionAt3});
+			if (precisions.size() > 0) {
+				for (double p : precisions) {
+					ap += p;
+				}
+				
+				ap /= (double)precisions.size();
+			}
+			
+			userAP.put(userId, ap);
 		}
 		
-		return userPrecisions;
+		return userAP;
 	}
 	
 	public HashMap<Long, HashMap<Long, Double>> recommendLinks(svm_model model, HashMap<Long, HashSet<Long>> linkLikes,
@@ -521,8 +503,16 @@ public class SVMRecommender extends LinkRecommender
 		Statement statement = conn.createStatement();
 		
 		for (long userId :linksToRecommend.keySet()) {
+			if (userId == 1069065964) System.out.println("RECOMMDING LINK FOR " + 1069065964);
+			
 			HashSet<Long> userLinks = linksToRecommend.get(userId);
-			Set<Long> userFriends = friendships.get(userId).keySet();
+			Set<Long> userFriends;
+			if (friendships.containsKey(userId)) {
+				userFriends = friendships.get(userId).keySet();
+			}
+			else {
+				userFriends = new HashSet<Long>();
+			}
 			
 			HashMap<Long, Double> linkValues = new HashMap<Long, Double>();
 			recommendations.put(userId, linkValues);
@@ -582,7 +572,7 @@ public class SVMRecommender extends LinkRecommender
 				}
 				
 				double prediction = svm.svm_predict(model, nodes);
-				System.out.println("Prediction: " + prediction);
+				System.out.println("Prediction: " + prediction + " ID: " + userId);
 				//Recommend only if prediction score is greater or equal than the boundary
 				//if (prediction > 0) {
 					//We recommend only a set number of links per day/run. 

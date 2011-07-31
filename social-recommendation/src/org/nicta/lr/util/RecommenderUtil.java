@@ -270,7 +270,7 @@ public class RecommenderUtil
 	 * @return
 	 * @throws SQLException
 	 */
-	public static HashMap<Long, HashSet<Long>> getUserLinksSample(Set<Long> userIds, HashMap<Long, HashMap<Long, Double>> friendships, boolean limit)
+	public static HashMap<Long, HashSet<Long>> getUserLinksSample(HashMap<Long, HashSet<Long>> linkLikes, Set<Long> userIds, HashMap<Long, HashMap<Long, Double>> friendships, Set<Long> linkIds, boolean limit)
 		throws SQLException
 	{
 		HashMap<Long, HashSet<Long>> userLinkSamples = new HashMap<Long, HashSet<Long>>();
@@ -278,28 +278,25 @@ public class RecommenderUtil
 		Connection conn = RecommenderUtil.getSqlConnection();
 		Statement statement = conn.createStatement();
 		
-		for (Long id : userIds) {
+		for (Long userId : userIds) {
 			HashSet<Long> samples = new HashSet<Long>();
 			
-			//Get the links that were liked by the user
-			String selectStr = "SELECT l.link_id FROM linkrLinks l, linkrLinkLikes lp WHERE l.link_id=lp.link_id AND lp.id=" + id;
-			if (limit) {
-				selectStr += " AND DATE(created_time) >= DATE(ADDDATE(CURRENT_DATE(), -" + Constants.WINDOW_RANGE + "))";
-			}
-			
-			ResultSet result = statement.executeQuery(selectStr);
-			while (result.next()) {
-				samples.add(result.getLong("l.link_id"));
+			for (long linkId : linkLikes.keySet()) {
+				if (linkLikes.get(linkId).contains(userId)) {
+					if (linkIds.contains(linkId)) samples.add(linkId);
+				}
 			}
 			
 			if (samples.size() == 0) continue;
+			
+			int likeCount = samples.size();
 			
 			//Sample links that weren't liked.
 			//Links here should be links that were shared by friends to increase the chance that the user has actually seen this and not
 			//liked them
 			Set<Long> friends;
-			if (friendships.containsKey(id)) {
-				friends = friendships.get(id).keySet();
+			if (friendships.containsKey(userId)) {
+				friends = friendships.get(userId).keySet();
 			}
 			else {
 				friends = new HashSet<Long>();
@@ -319,15 +316,24 @@ public class RecommenderUtil
 			if (limit) {
 				query.append("AND DATE(created_time) >= DATE(ADDDATE(CURRENT_DATE(), -" + Constants.WINDOW_RANGE + ")) ");
 			}
+		
 			query.append("ORDER BY created_time DESC LIMIT ");
 			query.append(samples.size() * 9);
+			
+			ResultSet result = statement.executeQuery("SELECT link_id FROM trackRecommendedLinks WHERE uid=" + userId + " AND rating=2");
+			while (result.next()) {
+				if (linkIds.contains(result.getLong("link_id"))) samples.add(result.getLong("link_id"));
+			}
+			
 			result = statement.executeQuery(query.toString());
 			
 			while (result.next()) {
-				samples.add(result.getLong("link_id"));
+				if (samples.size() >= likeCount * 10) break;
+				
+				if (linkIds.contains(result.getLong("link_id"))) samples.add(result.getLong("link_id"));
 			}
 			
-			userLinkSamples.put(id, samples);
+			userLinkSamples.put(userId, samples);
 		}
 		
 		return userLinkSamples;

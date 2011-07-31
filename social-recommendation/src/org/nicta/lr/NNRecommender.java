@@ -4,16 +4,19 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
+
+import org.nicta.lr.util.Constants;
 import org.nicta.lr.util.LinkUtil;
 import org.nicta.lr.util.RecommenderUtil;
 import org.nicta.lr.util.UserUtil;
 
 public class NNRecommender extends LinkRecommender
 {
-	private final int K = 150;
+	private final int K = 100;
 	private final double BOUNDARY = 0.5;
 	
 	public NNRecommender()
@@ -25,8 +28,8 @@ public class NNRecommender extends LinkRecommender
 		throws Exception
 	{
 		NNRecommender nn = new NNRecommender();
-		nn.recommend();
-		//nn.crossValidate();
+		//nn.recommend();
+		nn.crossValidate();
 	}
 	
 	public void crossValidate()
@@ -41,7 +44,7 @@ public class NNRecommender extends LinkRecommender
 		HashMap<Long, HashSet<Long>> linkLikes = LinkUtil.getLinkLikes(links.keySet());
 		HashMap<Long, HashMap<Long, Double>> friendships = UserUtil.getFriendships();
 		
-		HashMap<Long, HashSet<Long>> userLinkSamples = RecommenderUtil.getUserLinksSample(users.keySet(), friendships, false);
+		HashMap<Long, HashSet<Long>> userLinkSamples = RecommenderUtil.getUserLinksSample(linkLikes, users.keySet(), friendships, links.keySet(), false);
 		System.out.println("Samples: " + userLinkSamples.size());
 	
 		RecommenderUtil.closeSqlConnection();
@@ -56,7 +59,8 @@ public class NNRecommender extends LinkRecommender
 		double totalTrueNeg = 0;
 		double totalFalseNeg = 0;
 		
-		HashMap<Long, Integer[]> totalUserPrecision = new HashMap<Long, Integer[]>();
+		HashMap<Long, Double> averagePrecision = new HashMap<Long, Double>();
+		HashMap<Long, Integer> precisionCount = new HashMap<Long, Integer>();
 		
 		for (int x = 0; x < 10; x++) {
 			HashMap<Long, HashSet<Long>> forTesting = new HashMap<Long, HashSet<Long>>();
@@ -101,37 +105,31 @@ public class NNRecommender extends LinkRecommender
 			totalTrueNeg += trueNeg;
 			totalFalseNeg += falseNeg;
 			
-			double accuracy = (double)(truePos + trueNeg) / (double)(truePos + falsePos + trueNeg + falseNeg);
-			double precision = (double)truePos / (double)(truePos + falsePos);
-			double recall = (double)truePos / (double)(truePos + falseNeg);
-			double f1 = 2 * precision * recall / (precision + recall);
+			HashMap<Long, Double> precisions = getAveragePrecision(linkLikes, users, links, friendships, userLinkSamples, forTesting);
 			
-			
-			//HashMap<Long, Integer[]> precisions = getPrecision(linkLikes, users, links, userLinkSamples, forTesting);
-			/*
-			for (long u : precisions.keySet()) {
-				Integer[] precisionAt = precisions.get(u);
+			for (long userId : precisions.keySet()) {
+				double ap = precisions.get(userId);
+				if (ap == 0) continue;
 				
-				if (!totalUserPrecision.containsKey(u)) {
-					totalUserPrecision.put(u, new Integer[]{0, 0, 0});
+				if (!averagePrecision.containsKey(userId)) {
+					averagePrecision.put(userId, 0.0);
+					precisionCount.put(userId, 0);
 				}
 				
-				Integer[] userPrecision = totalUserPrecision.get(u);
-				for (int z = 0; z < userPrecision.length; z++) {
-					userPrecision[z] += precisionAt[z];
-				}
+				double average = averagePrecision.get(userId);
+				average += ap;
+				averagePrecision.put(userId, average);
+				
+				int count = precisionCount.get(userId);
+				count++;
+				precisionCount.put(userId, count);
 			}
-			*/
 			
 			System.out.println("Stats for Run " + (x+1));
 			System.out.println("True Pos: "+ truePos);
 			System.out.println("False Pos: "+ falsePos);
 			System.out.println("True Neg: "+ trueNeg);
 			System.out.println("False Neg: "+ falseNeg);
-			System.out.println("Accuracy: " + accuracy);
-			System.out.println("Precision: " + precision);
-			System.out.println("Recall: " + recall);
-			System.out.println("F1: " + f1);
 			System.out.println("");
 			
 			for (long userId : forTesting.keySet()) {
@@ -142,34 +140,27 @@ public class NNRecommender extends LinkRecommender
 			}
 		}
 		
-		
 		double accuracy = (double)(totalTruePos + totalTrueNeg) / (double)(totalTruePos + totalFalsePos + totalTrueNeg + totalFalseNeg);
 		double precision = (double)totalTruePos / (double)(totalTruePos + totalFalsePos);
 		double recall = (double)totalTruePos / (double)(totalTruePos + totalFalseNeg);
 		double f1 = 2 * precision * recall / (precision + recall);
 		
-		double map[] = {0, 0, 0};
-		
-		for (long user : totalUserPrecision.keySet()) {
-			Integer[] precisions = totalUserPrecision.get(user);
+		double map = 0;
+		for (long userId : averagePrecision.keySet()) {
+			double pre = averagePrecision.get(userId);
+			//pre /= (double)precisionCount.get(userId);
+			pre /= (double)10;
 			
-			for (int x = 0; x < precisions.length; x++) {
-				map[x] += (double)precisions[x] / (double)10;
-			}
+			map += pre;
 		}
+		map /= (double)averagePrecision.size();
 		
-		for (int x = 0; x < map.length; x++) {
-			map[x] /= (double)totalUserPrecision.size();
-		}
-		
-		System.out.println("AVERAGE FOR 10 RUNS");
+		System.out.println("K=" + K);
 		System.out.println("Accuracy: " + accuracy);
 		System.out.println("Precision: " + precision);
 		System.out.println("Recall: " + recall);
 		System.out.println("F1: " + f1);
-		//System.out.println("MAP@1: " + map[0]);
-		//System.out.println("MAP@2: " + map[1]);
-		//System.out.println("MAP@3: " + map[2]);
+		System.out.println("MAP: " + map);
 		System.out.println("");
 	}
 
@@ -185,7 +176,7 @@ public class NNRecommender extends LinkRecommender
 		HashMap<Long, HashSet<Long>> linkLikes = LinkUtil.getLinkLikes(links.keySet());
 		HashMap<Long, HashMap<Long, Double>> friendships = UserUtil.getFriendships();	
 		
-		HashMap<Long, HashSet<Long>> userLinkSamples = RecommenderUtil.getUserLinksSample(users.keySet(), friendships, false);
+		HashMap<Long, HashSet<Long>> userLinkSamples = RecommenderUtil.getUserLinksSample(linkLikes, users.keySet(), friendships, links.keySet(), false);
 		System.out.println("users: " + userLinkSamples.size());
 		
 		System.out.println("Recommending...");
@@ -225,17 +216,7 @@ public class NNRecommender extends LinkRecommender
 			Set<Long> userIds = users.keySet();
 			
 			for (long testLinkId : testLinks) {
-				//double testUserIdDbl = links.get(testLinkId)[3];
-				//long testUserId = (long)testUserIdDbl;
-				
-				//if (friendships.containsKey(testUserId)) userIds.addAll(friendships.get(testUserId).keySet());
-				
-				for (long linkId : samples) {
-					//double trainUserIdDbl = links.get(linkId)[3];
-					//long trainUserId = (long)trainUserIdDbl;
-					
-					//if (friendships.containsKey(trainUserId)) userIds.addAll(friendships.get(trainUserId).keySet());
-					
+				for (long linkId : samples) {					
 					double similarity = getCosineSimilarity(testLinkId, linkId, linkLikes, userIds);
 					
 					if (kClosestSimilarities.size() < K) {
@@ -315,6 +296,105 @@ public class NNRecommender extends LinkRecommender
 		return new int[]{truePos, falsePos, trueNeg, falseNeg};
 	}
 	
+	public HashMap<Long, Double> getAveragePrecision(HashMap<Long, HashSet<Long>> linkLikes, HashMap<Long, Double[]> userFeatures, HashMap<Long, Double[]> linkFeatures, HashMap<Long, HashMap<Long, Double>> friendships, HashMap<Long, HashSet<Long>> userLinkSamples, HashMap<Long, HashSet<Long>> testSamples)
+	{
+		HashMap<Long, Double> userAP = new HashMap<Long, Double>();
+		
+		for (long userId : testSamples.keySet()) {
+			HashSet<Long> testLinks = testSamples.get(userId);
+			HashSet<Long> samples = userLinkSamples.get(userId);
+			
+			ArrayList<Double> scores = new ArrayList<Double>();
+			ArrayList<Long> ids = new ArrayList<Long>();
+			
+			//Holds the k=10 nearest neighbors
+			HashMap<Long, Double> kClosestSimilarities = new HashMap<Long, Double>();
+			
+			double smallestKSimilarity = 1;			
+			long smallestId = 0;
+			
+			Set<Long> userIds = userFeatures.keySet();
+			
+			for (long testId : testLinks) {
+				for (long linkId : samples) {
+					double similarity = getCosineSimilarity(testId, linkId, linkLikes, userIds);
+					
+					if (kClosestSimilarities.size() < K) {
+						kClosestSimilarities.put(linkId, similarity);
+						
+						if (similarity < smallestKSimilarity) {
+							smallestKSimilarity = similarity;
+							smallestId = linkId;
+						}
+					}
+					else if (similarity > smallestKSimilarity) {
+						kClosestSimilarities.remove(smallestId);
+						kClosestSimilarities.put(linkId, similarity);
+						
+						smallestKSimilarity = 1;
+						
+						//reset the smallest similarity again
+						for (long id : kClosestSimilarities.keySet()) {
+							double s = kClosestSimilarities.get(id);
+							
+							if (s < smallestKSimilarity) {
+								smallestKSimilarity = similarity;
+								smallestId = id;
+							}
+						}
+					}
+				}
+				
+				double numerator = 0;
+				double denomenator = 0;
+				
+				
+				for (long neighborId : kClosestSimilarities.keySet()) {				
+					double neighborSimilarity = kClosestSimilarities.get(neighborId);
+					double neighborRating = 0;
+					if (linkLikes.containsKey(neighborId) && linkLikes.get(neighborId).contains(userId)) neighborRating = 1;
+					
+					numerator += neighborSimilarity * neighborRating;
+					denomenator += neighborSimilarity;
+				}
+				
+				double prediction = 0;
+				if (denomenator > 0) prediction = numerator / denomenator;
+				
+				scores.add(prediction);
+				ids.add(testId);
+			}
+			
+			Object[] sorted = RecommenderUtil.sort(scores, ids);
+			ArrayList<Double> sortedScores = (ArrayList<Double>)sorted[0];
+			ArrayList<Long> sortedIds = (ArrayList<Long>)sorted[1];
+			
+			ArrayList<Double> precisions = new ArrayList<Double>();
+			int pos = 0;
+			for (int x = 0; x < sortedScores.size(); x++) {
+				long linkId = sortedIds.get(x);
+			
+				if (linkLikes.containsKey(linkId) && linkLikes.get(linkId).contains(userId)) {
+					pos++;
+					precisions.add((double)pos / (double)(x+1));
+				}
+			}
+			
+			double ap = 0;
+			
+			if (precisions.size() > 0) {
+				for (double p : precisions) {
+					ap += p;
+				}
+				
+				ap /= (double)precisions.size();
+			}
+			
+			userAP.put(userId, ap);
+		}
+		
+		return userAP;
+	}
 	public HashMap<Long, HashMap<Long, Double>> recommendLinks(HashMap<Long, HashSet<Long>> linkLikes, HashMap<Long, HashMap<Long, Double>> friendships,
 																HashMap<Long, Double[]> userFeatures, HashMap<Long, Double[]> linkFeatures,
 																HashMap<Long, HashSet<Long>> userLinkSamples, HashMap<Long, HashSet<Long>> linksToRecommend)

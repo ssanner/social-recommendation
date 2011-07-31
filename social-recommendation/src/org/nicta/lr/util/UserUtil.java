@@ -777,6 +777,7 @@ public class UserUtil
 		*/
 		
 		/* NORMALIZING WITH THE AVERAGE */
+		
 		HashSet<Long> done = new HashSet<Long>();
 		double total = 0;
 		int count = 0;

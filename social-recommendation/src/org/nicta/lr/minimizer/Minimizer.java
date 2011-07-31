@@ -79,7 +79,11 @@ public abstract class Minimizer
 			iterations++;
 			HashMap<Long, Double[]> userTraits = UserUtil.getUserTraitVectors(userFeatureMatrix, userIdColumns, userFeatures);
 			HashMap<Long, Double[]> linkTraits = LinkUtil.getLinkTraitVectors(linkFeatureMatrix, linkIdColumns, linkFeatures, linkWords, wordColumns);
-		
+
+			//System.out.println("ID column: " + linkIdColumns.containsKey(178586235541134l));
+			//System.out.println("Feature: " + linkFeatures.containsKey(178586235541134l));
+			//System.out.println("Trait: " + linkTraits.containsKey(178586235541134l));
+			
 			Double[][] userDerivative = new Double[Constants.K][Constants.USER_FEATURE_COUNT];
 			HashMap<Long, Double[]> userIdDerivative = new HashMap<Long, Double[]>();
 			Double[][] linkDerivative = new Double[Constants.K][Constants.LINK_FEATURE_COUNT];
