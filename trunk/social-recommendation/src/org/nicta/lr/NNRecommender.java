@@ -170,21 +170,21 @@ public class NNRecommender extends LinkRecommender
 		HashMap<Long, Double[]> users = UserUtil.getUserFeatures();
 		System.out.println("Retrieved users: " + users.size());
 		
-		HashMap<Long, Double[]> links = LinkUtil.getLinkFeatures(false);
+		HashMap<Long, Double[]> links = LinkUtil.getLinkFeatures(true);
 		System.out.println("Retrieved links: " + links.size());
 		
 		HashMap<Long, HashSet<Long>> linkLikes = LinkUtil.getLinkLikes(links.keySet());
 		HashMap<Long, HashMap<Long, Double>> friendships = UserUtil.getFriendships();	
 		
-		HashMap<Long, HashSet<Long>> userLinkSamples = RecommenderUtil.getUserLinksSample(linkLikes, users.keySet(), friendships, links.keySet(), false);
+		HashMap<Long, HashSet<Long>> userLinkSamples = RecommenderUtil.getUserLinksSample(linkLikes, users.keySet(), friendships, links.keySet(), true);
 		System.out.println("users: " + userLinkSamples.size());
 		
 		System.out.println("Recommending...");
-		HashMap<Long, HashSet<Long>> linksToRecommend = getLinksForRecommending(friendships, "NN");
+		HashMap<Long, HashSet<Long>> linksToRecommend = getLinksForRecommending(friendships, "nn");
 		HashMap<Long, HashMap<Long, Double>> recommendations = recommendLinks(linkLikes, friendships, users, links, userLinkSamples, linksToRecommend);
 		
 		System.out.println("Saving...");
-		saveLinkRecommendations(recommendations, "NN");
+		saveLinkRecommendations(recommendations, "nn");
 		
 		RecommenderUtil.closeSqlConnection();
 		
@@ -491,7 +491,7 @@ public class NNRecommender extends LinkRecommender
 							}
 						}
 		
-						if (prediction < lowestValue) {
+						if (prediction > lowestValue) {
 							linkValues.remove(lowestKey);
 							linkValues.put(recommendId, prediction);
 						}
