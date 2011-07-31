@@ -202,11 +202,11 @@ public class SVMRecommender extends LinkRecommender
 		svm_model model = trainSVM(linkLikes, users, links, friendships, userLinkSamples);
 		
 		System.out.println("Recommending...");
-		HashMap<Long, HashSet<Long>> linksToRecommend = getLinksForRecommending(friendships, "SVM");
+		HashMap<Long, HashSet<Long>> linksToRecommend = getLinksForRecommending(friendships, "svm");
 		HashMap<Long, HashMap<Long, Double>> recommendations = recommendLinks(model, linkLikes, users, links, friendships, linksToRecommend);
 		
 		System.out.println("Saving...");
-		saveLinkRecommendations(recommendations, "SVM");
+		saveLinkRecommendations(recommendations, "svm");
 		
 		RecommenderUtil.closeSqlConnection();
 		
@@ -239,8 +239,6 @@ public class SVMRecommender extends LinkRecommender
 			Set<Long> userFriends = friendships.get(userId).keySet();
 			
 			for (long linkId : samples) {
-				if (!userFeatures.containsKey(userId)) System.out.println("FUCK!");
-				if (!linkFeatures.containsKey(linkId)) System.out.println("Shit!");
 				double[] combined = combineFeatures(userFeatures.get(userId), linkFeatures.get(linkId));
 				
 				ArrayList<svm_node> nodes = new ArrayList<svm_node>();
@@ -503,8 +501,6 @@ public class SVMRecommender extends LinkRecommender
 		Statement statement = conn.createStatement();
 		
 		for (long userId :linksToRecommend.keySet()) {
-			if (userId == 1069065964) System.out.println("RECOMMDING LINK FOR " + 1069065964);
-			
 			HashSet<Long> userLinks = linksToRecommend.get(userId);
 			Set<Long> userFriends;
 			if (friendships.containsKey(userId)) {
@@ -593,7 +589,7 @@ public class SVMRecommender extends LinkRecommender
 							}
 						}
 		
-						if (prediction < lowestValue) {
+						if (prediction > lowestValue) {
 							linkValues.remove(lowestKey);
 							linkValues.put(linkId, prediction);
 						}

@@ -28,13 +28,13 @@ public class LinkRecommender
 	{
 		this.type = type;
 		
-		if ("Feature".equals(type)) {
+		if ("feature".equals(type)) {
 			minimizer = new FeatureMinimizer();
 		}
-		else if ("Social".equals(type)) {
+		else if ("social".equals(type)) {
 			minimizer = new SocialMinimizer();
 		}	
-		else if ("MSR".equals(type)) {
+		else if ("msr".equals(type)) {
 			minimizer = new MSRSocialMinimizer();
 		}
 	}
@@ -43,21 +43,21 @@ public class LinkRecommender
 		throws Exception
 	{
 		LinkRecommender lr = null;
-		String type = "Social";
+		String type = "nn";
 		if (args.length > 0) {
 			type = args[0];
 		}
 		
-		if (type.equals("Feature")) {
-			lr = new LinkRecommender("Feature");
+		if (type.equals("feature")) {
+			lr = new LinkRecommender("feature");
 		}
-		else if (type.equals("Social")) {
-			lr = new LinkRecommender("Social");
+		else if (type.equals("social")) {
+			lr = new LinkRecommender("social");
 		}
-		else if (type.equals("SVM")) {
+		else if (type.equals("svm")) {
 			lr = new SVMRecommender();
 		}
-		else if (type.equals("NN")) {
+		else if (type.equals("nn")) {
 			lr = new NNRecommender();
 		}
 		else {
@@ -376,14 +376,13 @@ public class LinkRecommender
 		HashMap<Long, Integer> userIds = new HashMap<Long, Integer>();
 		ResultSet result = statement.executeQuery("SELECT linkrUser.uid, trackUserUpdates.max_links FROM linkrUser, trackUserUpdates "
 													+ "WHERE linkrUser.uid=trackUserUpdates.uid "
-													+ "AND is_app_user=1");
+													+ "AND is_app_user=1 AND algorithm='" + type + "'");
 		
 		while (result.next()) {
 			userIds.put(result.getLong("uid"), result.getInt("max_links"));
 		}
 		
 		for (Long id : userIds.keySet()) {
-			if ( id == 1069065964) System.out.println("GOING TO RECOMMEND FOR: " + 1069065964);
 			HashSet<Long> links = new HashSet<Long>();
 			userLinks.put(id, links);
 			
@@ -853,7 +852,7 @@ public class LinkRecommender
 							}
 						}
 						
-						if (prediction < lowestValue) {
+						if (prediction > lowestValue) {
 							linkValues.remove(lowestKey);
 							linkValues.put(linkId, prediction);
 						}
