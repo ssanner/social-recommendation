@@ -169,6 +169,10 @@ public class SocialMinimizer extends Minimizer
 			HashSet<Long> links = userLinkSamples.get(userId);
 			
 			for (long linkId : links) {
+				//System.out.println("Link: " + linkId + " " + linkTraits.get(linkId));
+				//System.out.println("User: " + userId + " " + userFeatures.get(userId));
+				//System.out.println("Like: " + linkLikes.containsKey(linkId));
+				//if (!linkTraits.containsKey(linkId)) continue;
 				double dst = linkTraits.get(linkId)[x] * userFeatures.get(userId)[y];		
 				double p = dot(userTraits.get(userId), linkTraits.get(linkId));
 				double r = 0;

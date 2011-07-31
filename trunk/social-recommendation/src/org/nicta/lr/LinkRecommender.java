@@ -42,12 +42,8 @@ public class LinkRecommender
 	public static void main(String[] args)
 		throws Exception
 	{
-		//LinkRecommender main = new LinkRecommender(args[1]);
-		//LinkRecommender lr = new LinkRecommender("Social");
-		//LinkRecommender lr = new LinkRecommender("MSR");
-		
 		LinkRecommender lr = null;
-		String type = "Feature";
+		String type = "Social";
 		if (args.length > 0) {
 			type = args[0];
 		}
@@ -68,37 +64,42 @@ public class LinkRecommender
 			System.out.println("WTF: " + args[0]);
 		}
 		
-		//lr.recommend();
-		lr.crossValidate();
-		
+		lr.recommend();
+		//lr.crossValidate();
 		
 		
 		/*
-		Constants.LAMBDA = .000001;
+		Constants.BETA = .000001;
 		lr.crossValidate();
 	
-		Constants.LAMBDA = .00001;
+		Constants.BETA = .00001;
 		lr.crossValidate();
 		
-		Constants.LAMBDA = .0001;
+		Constants.BETA = .0001;
 		lr.crossValidate();
 		
-		Constants.LAMBDA  = .001;
+		Constants.BETA  = .001;
 		lr.crossValidate();
 		
-		Constants.LAMBDA  = .01;
+		Constants.BETA  = .01;
 		lr.crossValidate();
 		
-		Constants.LAMBDA  = .1;
+		Constants.BETA  = .1;
 		lr.crossValidate();
 		
-		Constants.LAMBDA  = 1;
+		Constants.BETA  = 1;
 		lr.crossValidate();
 		
-		Constants.LAMBDA  = 10;
+		Constants.BETA  = 10;
 		lr.crossValidate();
 		
-		Constants.LAMBDA  = 100;
+		Constants.BETA  = 100;
+		lr.crossValidate();
+		
+		Constants.BETA  = 1000;
+		lr.crossValidate();
+		
+		Constants.BETA  = 10000;
 		lr.crossValidate();
 		*/
 	}
@@ -115,7 +116,7 @@ public class LinkRecommender
 		HashMap<Long, HashSet<Long>> linkLikes = LinkUtil.getLinkLikes(links.keySet());
 		HashMap<Long, HashMap<Long, Double>> friendships = UserUtil.getFriendships();
 		
-		HashMap<Long, HashSet<Long>> userLinkSamples = RecommenderUtil.getUserLinksSample(users.keySet(), friendships, false);
+		HashMap<Long, HashSet<Long>> userLinkSamples = RecommenderUtil.getUserLinksSample(linkLikes, users.keySet(), friendships, links.keySet(), false);
 		System.out.println("Samples: " + userLinkSamples.size());
 		
 		HashMap<Long, HashMap<Long, Double>> friendConnections = UserUtil.getFriendInteractionMeasure();
@@ -239,8 +240,8 @@ public class LinkRecommender
 		double map = 0;
 		for (long userId : averagePrecision.keySet()) {
 			double pre = averagePrecision.get(userId);
-			pre /= (double)precisionCount.get(userId);
-			//pre /= (double)10;
+			//pre /= (double)precisionCount.get(userId);
+			pre /= (double)10;
 			
 			map += pre;
 		}
@@ -307,7 +308,7 @@ public class LinkRecommender
 		updateMatrixColumns(links.keySet(), linkIdColumns);
 		updateMatrixColumns(users.keySet(), userIdColumns);
 		
-		HashMap<Long, HashSet<Long>> userLinkSamples = RecommenderUtil.getUserLinksSample(users.keySet(), friendships, true);
+		HashMap<Long, HashSet<Long>> userLinkSamples = RecommenderUtil.getUserLinksSample(linkLikes, users.keySet(), friendships, links.keySet(), true);
 		System.out.println("users: " + userLinkSamples.size());
 		
 		System.out.println("Minimizing...");
@@ -373,8 +374,8 @@ public class LinkRecommender
 		//Recommend only for users that have installed the LinkRecommender app.
 		//These users are distinguished by having is_app_user=1 in the trackUserUpdates table.
 		HashMap<Long, Integer> userIds = new HashMap<Long, Integer>();
-		ResultSet result = statement.executeQuery("SELECT linkrLinks.uid, trackUserUpdates.max_links FROM linkrLinks, trackUserUpdates "
-													+ "WHERE linkrLinks.uid=trackUserUpdates.uid "
+		ResultSet result = statement.executeQuery("SELECT linkrUser.uid, trackUserUpdates.max_links FROM linkrUser, trackUserUpdates "
+													+ "WHERE linkrUser.uid=trackUserUpdates.uid "
 													+ "AND is_app_user=1");
 		
 		while (result.next()) {
@@ -382,11 +383,17 @@ public class LinkRecommender
 		}
 		
 		for (Long id : userIds.keySet()) {
+			if ( id == 1069065964) System.out.println("GOING TO RECOMMEND FOR: " + 1069065964);
 			HashSet<Long> links = new HashSet<Long>();
 			userLinks.put(id, links);
 			
-			Set<Long> friends = friendships.get(id).keySet();
-			if (friends == null) friends = new HashSet<Long>();
+			Set<Long> friends;
+			if (friendships.containsKey(id)) {
+				friends = friendships.get(id).keySet();
+			}
+			else {
+				friends = new HashSet<Long>();
+			}
 			
 			HashSet<Long> dontInclude = new HashSet<Long>();
 			
