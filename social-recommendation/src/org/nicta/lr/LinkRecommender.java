@@ -47,18 +47,26 @@ public class LinkRecommender
 		throws Exception
 	{
 		LinkRecommender lr = null;
-		String type = "social";
+		String type = "feature";
 		if (args.length > 0) {
 			type = args[0];
 		}
 		
 		if (type.equals("feature")) {
+			Constants.LAMBDA = 10;
+			Constants.K = 4;
 			lr = new LinkRecommender("feature");
 		}
 		else if (type.equals("social")) {
+			Constants.LAMBDA = 10;
+			Constants.BETA = 0.001;
+			Constants.K = 6;
 			lr = new LinkRecommender("social");
 		}
 		else if (type.equals("logistic")) {
+			Constants.LAMBDA = 10;
+			Constants.BETA = 0.001;
+			Constants.K = 1;
 			lr = new LinkRecommender("logistic");
 		}
 		else if (type.equals("svm")) {
@@ -71,8 +79,8 @@ public class LinkRecommender
 			System.out.println("WTF: " + args[0]);
 		}
 		
-		//lr.recommend();
-		lr.crossValidate();
+		lr.recommend();
+		//lr.crossValidate();
 		
 		
 		/*
@@ -362,8 +370,7 @@ public class LinkRecommender
 	 * After training, start recommending links to the user. This will get a set of links that haven't been liked by the user and calculate
 	 * their 'like score'. Most likely only the positive scores should be recommended, with a higher score meaning more highly recommended.
 	 * 
-	 * Links to be recommending are those that have not been shared by his friends, to increase the likelihood of the user 
-	 * not having seen these links before.
+	 * Links to be recommending are those that have been shared by their friends
 	 * 
 	 * @param friendships
 	 * @param type
@@ -428,15 +435,15 @@ public class LinkRecommender
 			}
 			
 			// Get the most recent links.
-			StringBuilder query = new StringBuilder("SELECT link_id FROM linkrLinks WHERE uid NOT IN (");
-			query.append(id);
+			StringBuilder query = new StringBuilder("SELECT link_id FROM linkrLinks WHERE uid IN (0");
+			//query.append(id);
 			for (Long friendId : friends) {
 				query.append(",");
 				query.append(friendId);
 			}
 			
-			query.append(") AND from_id NOT IN (");
-			query.append(id);
+			query.append(") AND from_id IN (0");
+			//query.append(id);
 			for (Long friendId : friends) {
 				query.append(",");
 				query.append(friendId);
