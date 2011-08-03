@@ -298,7 +298,7 @@ public class UserUtil
 		}
 		
 		//Users posting on another user's wall
-		result = statement.executeQuery("SELECT uid, from_id FROM linkrPost");
+		result = statement.executeQuery("SELECT uid, from_id FROM linkrPost WHERE application_id !=" + Constants.APPLICATION_ID);
 		while (result.next()) {
 			Long uid1 = result.getLong("uid");
 			Long uid2 = result.getLong("from_id");
@@ -908,7 +908,7 @@ public class UserUtil
 			
 			liked.add(uid);
 		}
-		result = statement.executeQuery("SELECT post_id, uid, from_id FROM linkrPost" + fromWhere + uidWhere);
+		result = statement.executeQuery("SELECT post_id, uid, from_id FROM linkrPost" + fromWhere + uidWhere + " AND application_id=" + Constants.APPLICATION_ID);
 		while (result.next()) {
 			Long postId = result.getLong("post_id");
 			Long uid = result.getLong("uid");
