@@ -28,8 +28,8 @@ public class NNRecommender extends LinkRecommender
 		throws Exception
 	{
 		NNRecommender nn = new NNRecommender();
-		//nn.recommend();
-		nn.crossValidate();
+		nn.recommend();
+		//nn.crossValidate();
 	}
 	
 	public void crossValidate()
@@ -408,7 +408,8 @@ public class NNRecommender extends LinkRecommender
 		for (long userId :linksToRecommend.keySet()) {
 			HashSet<Long> userLinks = linksToRecommend.get(userId);
 			HashSet<Long> samples = userLinkSamples.get(userId);
-			if (samples == null) continue;
+			//if (samples == null) continue;
+			if (samples == null) samples = new HashSet<Long>();
 			
 			HashMap<Long, Double> linkValues = new HashMap<Long, Double>();
 			recommendations.put(userId, linkValues);

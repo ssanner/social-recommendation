@@ -236,7 +236,13 @@ public class SVMRecommender extends LinkRecommender
 		int index = 0;
 		for (long userId : userLinkSamples.keySet()) {
 			HashSet<Long> samples = userLinkSamples.get(userId);
-			Set<Long> userFriends = friendships.get(userId).keySet();
+			Set<Long> userFriends;
+			if (friendships.containsKey(userId)) {
+				userFriends = friendships.get(userId).keySet();
+			}
+			else {
+				userFriends = new HashSet<Long>();
+			}
 			
 			for (long linkId : samples) {
 				double[] combined = combineFeatures(userFeatures.get(userId), linkFeatures.get(linkId));

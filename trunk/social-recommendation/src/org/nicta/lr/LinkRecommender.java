@@ -14,6 +14,7 @@ import org.nicta.lr.minimizer.FeatureMinimizer;
 import org.nicta.lr.minimizer.MSRSocialMinimizer;
 import org.nicta.lr.minimizer.Minimizer;
 import org.nicta.lr.minimizer.SocialMinimizer;
+import org.nicta.lr.minimizer.LogisticSocialMinimizer;
 import org.nicta.lr.util.Constants;
 import org.nicta.lr.util.LinkUtil;
 import org.nicta.lr.util.RecommenderUtil;
@@ -34,6 +35,9 @@ public class LinkRecommender
 		else if ("social".equals(type)) {
 			minimizer = new SocialMinimizer();
 		}	
+		else if ("logistic".equals(type)) {
+			minimizer = new LogisticSocialMinimizer();
+		}
 		else if ("msr".equals(type)) {
 			minimizer = new MSRSocialMinimizer();
 		}
@@ -43,7 +47,7 @@ public class LinkRecommender
 		throws Exception
 	{
 		LinkRecommender lr = null;
-		String type = "nn";
+		String type = "social";
 		if (args.length > 0) {
 			type = args[0];
 		}
@@ -53,6 +57,9 @@ public class LinkRecommender
 		}
 		else if (type.equals("social")) {
 			lr = new LinkRecommender("social");
+		}
+		else if (type.equals("logistic")) {
+			lr = new LinkRecommender("logistic");
 		}
 		else if (type.equals("svm")) {
 			lr = new SVMRecommender();
@@ -64,8 +71,8 @@ public class LinkRecommender
 			System.out.println("WTF: " + args[0]);
 		}
 		
-		lr.recommend();
-		//lr.crossValidate();
+		//lr.recommend();
+		lr.crossValidate();
 		
 		
 		/*
