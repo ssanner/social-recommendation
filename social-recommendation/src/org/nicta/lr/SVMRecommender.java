@@ -202,11 +202,14 @@ public class SVMRecommender extends LinkRecommender
 		svm_model model = trainSVM(linkLikes, users, links, friendships, userLinkSamples);
 		
 		System.out.println("Recommending...");
-		HashMap<Long, HashSet<Long>> linksToRecommend = getLinksForRecommending(friendships, "svm");
-		HashMap<Long, HashMap<Long, Double>> recommendations = recommendLinks(model, linkLikes, users, links, friendships, linksToRecommend);
+		HashMap<Long, HashSet<Long>> friendLinksToRecommend = getFriendLinksForRecommending(friendships, "svm");
+		HashMap<Long, HashMap<Long, Double>> friendRecommendations = recommendLinks(model, linkLikes, users, links, friendships, friendLinksToRecommend);
+		
+		HashMap<Long, HashSet<Long>> nonFriendLinksToRecommend = getNonFriendLinksForRecommending(friendships, "svm");
+		HashMap<Long, HashMap<Long, Double>> nonFriendRecommendations = recommendLinks(model, linkLikes, users, links, friendships, nonFriendLinksToRecommend);
 		
 		System.out.println("Saving...");
-		saveLinkRecommendations(recommendations, "svm");
+		saveLinkRecommendations(friendRecommendations, nonFriendRecommendations, "svm");
 		
 		RecommenderUtil.closeSqlConnection();
 		

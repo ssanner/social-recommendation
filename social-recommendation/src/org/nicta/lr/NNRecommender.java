@@ -180,11 +180,14 @@ public class NNRecommender extends LinkRecommender
 		System.out.println("users: " + userLinkSamples.size());
 		
 		System.out.println("Recommending...");
-		HashMap<Long, HashSet<Long>> linksToRecommend = getLinksForRecommending(friendships, "nn");
-		HashMap<Long, HashMap<Long, Double>> recommendations = recommendLinks(linkLikes, friendships, users, links, userLinkSamples, linksToRecommend);
+		HashMap<Long, HashSet<Long>> friendLinksToRecommend = getFriendLinksForRecommending(friendships, "nn");
+		HashMap<Long, HashMap<Long, Double>> friendRecommendations = recommendLinks(linkLikes, friendships, users, links, userLinkSamples, friendLinksToRecommend);
+		
+		HashMap<Long, HashSet<Long>> nonFriendLinksToRecommend = getNonFriendLinksForRecommending(friendships, "nn");
+		HashMap<Long, HashMap<Long, Double>> nonFriendRecommendations = recommendLinks(linkLikes, friendships, users, links, userLinkSamples, nonFriendLinksToRecommend);
 		
 		System.out.println("Saving...");
-		saveLinkRecommendations(recommendations, "nn");
+		saveLinkRecommendations(friendRecommendations, nonFriendRecommendations, "nn");
 		
 		RecommenderUtil.closeSqlConnection();
 		

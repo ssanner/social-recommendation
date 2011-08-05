@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
+import java.util.Iterator;
 
 import org.nicta.lr.minimizer.FeatureMinimizer;
 import org.nicta.lr.minimizer.MSRSocialMinimizer;
@@ -47,7 +48,7 @@ public class LinkRecommender
 		throws Exception
 	{
 		LinkRecommender lr = null;
-		String type = "feature";
+		String type = "svm";
 		if (args.length > 0) {
 			type = args[0];
 		}
@@ -330,12 +331,15 @@ public class LinkRecommender
 		minimizer.minimize(linkLikes, userFeatureMatrix, linkFeatureMatrix, users, links, friendConnections, userIdColumns, linkIdColumns, userLinkSamples, wordColumns, linkWords, words);
 		
 		System.out.println("Recommending...");
-		HashMap<Long, HashSet<Long>> linksToRecommend = getLinksForRecommending(friendships, type);
-		HashMap<Long, HashMap<Long, Double>> recommendations = recommendLinks(userFeatureMatrix, linkFeatureMatrix, userIdColumns, linkIdColumns, 
-																							users, links, linksToRecommend, linkWords, wordColumns);
+		HashMap<Long, HashSet<Long>> friendLinksToRecommend = getFriendLinksForRecommending(friendships, type);
+		HashMap<Long, HashMap<Long, Double>> friendRecommendations = recommendLinks(userFeatureMatrix, linkFeatureMatrix, userIdColumns, linkIdColumns, 
+																							users, links, friendLinksToRecommend, linkWords, wordColumns);
+		HashMap<Long, HashSet<Long>> nonFriendLinksToRecommend = getFriendLinksForRecommending(friendships, type);
+		HashMap<Long, HashMap<Long, Double>> nonFriendRecommendations = recommendLinks(userFeatureMatrix, linkFeatureMatrix, userIdColumns, linkIdColumns, 
+																							users, links, nonFriendLinksToRecommend, linkWords, wordColumns);
 		
 		System.out.println("Saving...");
-		saveLinkRecommendations(recommendations, type);
+		saveLinkRecommendations(friendRecommendations, nonFriendRecommendations, type);
 		saveMatrices(userFeatureMatrix, linkFeatureMatrix, userIdColumns, linkIdColumns, wordColumns, type);
 		
 		RecommenderUtil.closeSqlConnection();
@@ -377,7 +381,7 @@ public class LinkRecommender
 	 * @return
 	 * @throws SQLException
 	 */
-	public HashMap<Long, HashSet<Long>> getLinksForRecommending(HashMap<Long, HashMap<Long, Double>> friendships, String type)
+	public HashMap<Long, HashSet<Long>> getFriendLinksForRecommending(HashMap<Long, HashMap<Long, Double>> friendships, String type)
 		throws SQLException
 	{
 		HashMap<Long, HashSet<Long>> userLinks = new HashMap<Long, HashSet<Long>>();
@@ -467,6 +471,96 @@ public class LinkRecommender
 		return userLinks;
 	}
 	
+	public HashMap<Long, HashSet<Long>> getNonFriendLinksForRecommending(HashMap<Long, HashMap<Long, Double>> friendships, String type)
+		throws SQLException
+	{
+		HashMap<Long, HashSet<Long>> userLinks = new HashMap<Long, HashSet<Long>>();
+		
+		Connection conn = RecommenderUtil.getSqlConnection();
+		Statement statement = conn.createStatement();
+		
+		//Recommend only for users that have installed the LinkRecommender app.
+		//These users are distinguished by having is_app_user=1 in the trackUserUpdates table.
+		HashMap<Long, Integer> userIds = new HashMap<Long, Integer>();
+		ResultSet result = statement.executeQuery("SELECT linkrUser.uid, trackUserUpdates.max_links FROM linkrUser, trackUserUpdates "
+													+ "WHERE linkrUser.uid=trackUserUpdates.uid "
+													+ "AND is_app_user=1 AND algorithm='" + type + "'");
+		
+		while (result.next()) {
+			userIds.put(result.getLong("uid"), result.getInt("max_links"));
+		}
+		
+		for (Long id : userIds.keySet()) {
+			HashSet<Long> links = new HashSet<Long>();
+			userLinks.put(id, links);
+			
+			Set<Long> friends;
+			if (friendships.containsKey(id)) {
+				friends = friendships.get(id).keySet();
+			}
+			else {
+				friends = new HashSet<Long>();
+			}
+			
+			HashSet<Long> dontInclude = new HashSet<Long>();
+			
+			// Don't recommend links that were already liked
+			result = statement.executeQuery("SELECT l.link_id FROM linkrLinks l, linkrLikes ll WHERE l.link_id=l.link_id AND ll.id=" + id);
+			while (result.next()) {
+				dontInclude.add(result.getLong("l.link_id"));
+			}
+			
+			// Don't recommend links that are already pending recommendedation
+			result = statement.executeQuery("SELECT link_id FROM lrRecommendations WHERE user_id=" + id + " AND type='" + type + "'");
+			while(result.next()) {
+				dontInclude.add(result.getLong("link_id"));
+			}
+			
+			//Don't recommend links that were already published by the app
+			result = statement.executeQuery("SELECT link_id FROM trackRecommendedLinks WHERE uid=" + id);
+			while (result.next()) {
+				dontInclude.add(result.getLong("link_id"));
+			}
+			
+			//Don't recommend links that were clicked by the user
+			result = statement.executeQuery("SELECT link_id FROM linkrLinks l, trackLinkClicked t WHERE l.link=t.link and uid_clicked=" + id);
+			while (result.next()) {
+				dontInclude.add(result.getLong("link_id"));
+			}
+			
+			// Get the most recent links.
+			StringBuilder query = new StringBuilder("SELECT link_id FROM linkrLinks WHERE uid NOT IN (");
+			query.append(id);
+			for (Long friendId : friends) {
+				query.append(",");
+				query.append(friendId);
+			}
+			
+			query.append(") AND from_id NOT IN (");
+			query.append(id);
+			for (Long friendId : friends) {
+				query.append(",");
+				query.append(friendId);
+			}
+			
+			query.append(") AND link_id NOT IN(0");
+			for (long linkIds : dontInclude) {
+				query.append(",");
+				query.append(linkIds);
+			}
+			
+			query.append(") ORDER BY created_time DESC LIMIT 100");
+			
+			result = statement.executeQuery(query.toString());
+			
+			while (result.next()) {
+				links.add(result.getLong("link_id"));
+			}
+		}
+		
+		return userLinks;
+	}
+	
 	/**
 	 * Save the recommended links into the database.
 	 * 
@@ -474,18 +568,50 @@ public class LinkRecommender
 	 * @param type
 	 * @throws SQLException
 	 */
-	public void saveLinkRecommendations(HashMap<Long, HashMap<Long, Double>> recommendations, String type)
+	public void saveLinkRecommendations(HashMap<Long, HashMap<Long, Double>> friendRecommendations, HashMap<Long, HashMap<Long, Double>> nonFriendRecommendations, String type)
 		throws SQLException
 	{
 		Connection conn = RecommenderUtil.getSqlConnection();
 		
 		Statement statement = conn.createStatement();
 		
-		for (long userId : recommendations.keySet()) {
-			HashMap<Long, Double> recommendedLinks = recommendations.get(userId);
+		for (long userId : friendRecommendations.keySet()) {
+			HashMap<Long, Double> friendLinks = friendRecommendations.get(userId);
+			HashMap<Long, Double> nonFriendLinks = nonFriendRecommendations.get(userId);
 			
-			//statement.executeUpdate("DELETE FROM " + tableName + " WHERE user_id=" + userId);
+			Iterator<Long> friendIterator = friendLinks.keySet().iterator();
+			Iterator<Long> nonFriendIterator = nonFriendLinks.keySet().iterator();
 			
+			int maxLinks = nonFriendLinks.size();
+			
+			for (int x = 0; x < maxLinks; x++) {
+				long linkId;
+				double val;
+				String from;
+				
+				if (Math.random() >= 0.5) {
+					linkId = friendIterator.next();
+					val = friendLinks.get(linkId);
+					from = "Friend";
+				}
+				else {
+					linkId = nonFriendIterator.next();
+					val = nonFriendLinks.get(linkId);
+					from = "NonFriend";
+				}
+				
+				System.out.println("RECOMMENDING LINK: " + from);
+				PreparedStatement ps = conn.prepareStatement("INSERT INTO lrRecommendations VALUES(?,?,?,?,0)");
+				ps.setLong(1, userId);
+				ps.setLong(2, linkId);
+				ps.setDouble(3, val);
+				ps.setString(4, type);
+				
+				ps.executeUpdate();
+				ps.close();
+			}
+			
+			/*
 			for (long linkId : recommendedLinks.keySet()) {
 				System.out.println("RECOMMENDING LINK");
 				PreparedStatement ps = conn.prepareStatement("INSERT INTO lrRecommendations VALUES(?,?,?,?,0)");
@@ -497,6 +623,7 @@ public class LinkRecommender
 				ps.executeUpdate();
 				ps.close();
 			}
+			*/
 		}
 		
 		statement.close();	
