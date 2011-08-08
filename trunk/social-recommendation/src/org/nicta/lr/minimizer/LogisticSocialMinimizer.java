@@ -2,6 +2,7 @@ package org.nicta.lr.minimizer;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Set;
 
 import org.nicta.lr.util.Constants;
 
@@ -273,7 +274,7 @@ public class LogisticSocialMinimizer extends Minimizer
 		return errorDerivative * -1;
 	}
 	
-	public double getErrorDerivativeOverWord(HashMap<String, Double[]> wordColumns, HashMap<Long, HashSet<String>> linkWords, 
+	public double getErrorDerivativeOverWord(HashMap<String, Double[]> wordColumns, HashMap<Long, Set<String>> linkWords, 
 			HashMap<Long, Double[]> userTraits, HashMap<Long, Double[]> linkTraits, HashMap<Long, HashSet<Long>> linkLikes,
 			HashMap<Long, HashSet<Long>> userLinkSamples, int x, String word)
 	{

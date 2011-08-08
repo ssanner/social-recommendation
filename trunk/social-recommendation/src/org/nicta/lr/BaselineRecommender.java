@@ -30,11 +30,13 @@ public class BaselineRecommender extends LinkRecommender
 		HashMap<Long, Double[]> links = LinkUtil.getLinkFeatures(false);
 		System.out.println("Retrieved links: " + links.size());
 		
-		HashMap<Long, HashSet<Long>> linkLikes = LinkUtil.getLinkLikes(links.keySet());
-		//HashMap<Long, HashMap<Long, Double>> friendships = UserUtil.getFriendships();
-		HashMap<Long, HashMap<Long, Double>> friendships = UserUtil.getFriendInteractionMeasure();
+		HashMap<Long, Long[]> linkUsers = LinkUtil.getUnormalizedFeatures(links.keySet());
+		HashMap<Long, HashSet<Long>> linkLikes = LinkUtil.getLinkLikes(linkUsers, false);
+		HashMap<Long, HashMap<Long, Double>> friends = UserUtil.getFriendships();
 		
-		HashMap<Long, HashSet<Long>> userLinkSamples = RecommenderUtil.getUserLinksSample(linkLikes, users.keySet(), friendships, links.keySet(), false);
+		HashMap<Long, HashSet<Long>> userLinkSamples = RecommenderUtil.getUserLinksSample(linkLikes, users.keySet(), friends, linkUsers, false);
+		HashMap<Long, HashMap<Long, Double>> friendships = UserUtil.getFriendInteractionMeasure(userLinkSamples.keySet());
+		
 		System.out.println("Samples: " + userLinkSamples.size());
 	
 		RecommenderUtil.closeSqlConnection();

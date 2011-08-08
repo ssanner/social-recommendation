@@ -52,15 +52,16 @@ public abstract class Minimizer
 	public double minimize(HashMap<Long, HashSet<Long>> linkLikes, Double[][] userFeatureMatrix, Double[][] linkFeatureMatrix, 
 			HashMap<Long, Double[]> userFeatures, HashMap<Long, Double[]> linkFeatures, HashMap<Long, HashMap<Long, Double>> friendships,
 			HashMap<Long, Double[]> userIdColumns, HashMap<Long, Double[]> linkIdColumns, HashMap<Long, HashSet<Long>> userLinkSamples,
-			HashMap<String, Double[]> wordColumns, HashMap<Long, HashSet<String>> linkWords, Set<String> words)
+			HashMap<String, Double[]> wordColumns, HashMap<Long, Set<String>> linkWords, Set<String> words)
 		throws Exception
 	{
 		boolean go = true;	
 		int iterations = 0;
-		int userVars = Constants.K * (Constants.USER_FEATURE_COUNT + userFeatures.size());
+		//int userVars = Constants.K * (Constants.USER_FEATURE_COUNT + userFeatures.size());
+		int userVars = Constants.K * (Constants.USER_FEATURE_COUNT + userLinkSamples.size());
 		int linkVars = Constants.K * (Constants.LINK_FEATURE_COUNT + linkFeatures.size() + words.size());
 		
-		Object[] userKeys = userFeatures.keySet().toArray();
+		Object[] userKeys = userLinkSamples.keySet().toArray();
 		Object[] linkKeys = linkFeatures.keySet().toArray();
 		Object[] wordKeys = wordColumns.keySet().toArray();
 		
@@ -93,13 +94,14 @@ public abstract class Minimizer
 			System.out.println("Iterations: " + iterations);
 		
 			//Get user derivatives
-			//System.out.println("Get user derivatives");
+			System.out.println("Get user derivatives");
 			for (int k = 0; k < Constants.K; k++) {
 				for (int l = 0; l < Constants.USER_FEATURE_COUNT; l++) {
 					userDerivative[k][l] = getErrorDerivativeOverUserAttribute(userFeatureMatrix, userFeatures, userIdColumns, userTraits, linkTraits, friendships, linkLikes, userLinkSamples, k, l);
 				}
 				
-				for (long userId : userIdColumns.keySet()) {
+				//for (long userId : userIdColumns.keySet()) {
+				for (long userId : userLinkSamples.keySet()) {
 					if (!userIdDerivative.containsKey(userId)) {
 						userIdDerivative.put(userId, new Double[Constants.K]);
 					}
@@ -116,9 +118,9 @@ public abstract class Minimizer
 					}
 				}
 			}
-		
+			
 			//Get link derivatives
-			//System.out.println("Get link derivatives");
+			System.out.println("Get link derivatives");
 			for (int q = 0; q < Constants.K; q++) {
 				//System.out.println("K: " + q);
 				for (int l = 0; l < Constants.LINK_FEATURE_COUNT; l++) {
@@ -133,6 +135,7 @@ public abstract class Minimizer
 					linkIdDerivative.get(linkId)[q] = getErrorDerivativeOverLinkId(linkIdColumns, userTraits, linkTraits, linkLikes, userLinkSamples, q, linkId);
 				}
 				//System.out.println("Done ids");
+				/*
 				for (String word : words) {
 					if (!wordDerivative.containsKey(word)) {
 						wordDerivative.put(word, new Double[Constants.K]);
@@ -140,12 +143,12 @@ public abstract class Minimizer
 					
 					wordDerivative.get(word)[q] = getErrorDerivativeOverWord(wordColumns, linkWords, userTraits, linkTraits, linkLikes, userLinkSamples, q, word);
 				}
+				*/
 				//System.out.println("Done words");
 			}
 		
-		
 			double[] variables = new double[userVars + linkVars];
-			//System.out.println("Variables: " + variables.length);
+			System.out.println("Variables: " + variables.length);
 			
 			int index = 0;
 			
@@ -181,7 +184,8 @@ public abstract class Minimizer
 				
 			}
 			
-			//System.out.println("derivatives");
+			
+			System.out.println("derivatives");
 			double[] derivatives = new double[userVars + linkVars];
 			index = 0;
 			for (int x = 0; x < Constants.K; x++) {
@@ -215,13 +219,9 @@ public abstract class Minimizer
 				}
 			}
 			
-			//System.out.println("Foo");
 			double error = getError(userFeatureMatrix, linkFeatureMatrix, userIdColumns, linkIdColumns, wordColumns, userFeatures, userTraits, linkTraits, friendships, linkLikes, userLinkSamples);
-			//System.out.println("Bar");
-			rmse = RecommenderUtil.calcRMSE(userTraits, linkTraits, linkLikes, userLinkSamples);
-			//System.out.println("Baz");
 			
-			System.out.println("New Error: " + error);// + ", RMSE: " + rmse);
+			System.out.println("New Error: " + error);
 			System.out.println("");
 		
 			LBFGS.lbfgs(variables.length, 5, variables, error, derivatives,
@@ -264,6 +264,8 @@ public abstract class Minimizer
 			if (iflag[0] == 0 || Math.abs(oldError - error) < Constants.STEP_CONVERGENCE) go = false;
 		
 			oldError = error;
+			
+			System.gc();
 		}
 		
 		return rmse;
@@ -293,7 +295,7 @@ public abstract class Minimizer
 			HashMap<Long, HashSet<Long>> linkLikes, 
 			HashMap<Long, HashSet<Long>> userLinkSamples, int x, long linkId);
 	
-	public abstract double getErrorDerivativeOverWord(HashMap<String, Double[]> wordColumns, HashMap<Long, HashSet<String>> linkWords, 
+	public abstract double getErrorDerivativeOverWord(HashMap<String, Double[]> wordColumns, HashMap<Long, Set<String>> linkWords, 
 			HashMap<Long, Double[]> userTraits, HashMap<Long, Double[]> linkTraits, HashMap<Long, HashSet<Long>> linkLikes,
 			HashMap<Long, HashSet<Long>> userLinkSamples, int x, String word);
 	

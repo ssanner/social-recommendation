@@ -2,6 +2,7 @@ package org.nicta.lr.minimizer;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Set;
 
 import org.nicta.lr.util.Constants;
 
@@ -20,6 +21,8 @@ public class FeatureMinimizer extends Minimizer
 			HashSet<Long> links = userLinkSamples.get(i);
 			
 			for (long j : links) {
+				if (!linkTraits.containsKey(j)) continue;
+				
 				int liked = 0;
 				if (linkLikes.containsKey(j) && linkLikes.get(j).contains(i)) liked = 1;
 				double predictedLike = dot(userTraits.get(i), linkTraits.get(j));
@@ -84,6 +87,8 @@ public class FeatureMinimizer extends Minimizer
 			HashSet<Long> links = userLinkSamples.get(userId);
 			
 			for (long linkId : links) {
+				if (!linkTraits.containsKey(linkId)) continue;
+				
 				double dst = linkTraits.get(linkId)[x] * userFeatures.get(userId)[y];		
 				double p = dot(userTraits.get(userId), linkTraits.get(linkId));
 				double r = 0;
@@ -106,6 +111,8 @@ public class FeatureMinimizer extends Minimizer
 		HashSet<Long> links = userLinkSamples.get(userId);
 		
 		for (long linkId : links) {
+			if (!linkTraits.containsKey(linkId)) continue;
+			
 			HashSet<Long> likes = linkLikes.get(linkId);
 
 			double dst = linkTraits.get(linkId)[k] /* userFeatures.get(userId)[k]*/;
@@ -129,6 +136,8 @@ public class FeatureMinimizer extends Minimizer
 			HashSet<Long> links = userLinkSamples.get(userId);
 				
 			for (long linkId : links) {
+				if (!linkTraits.containsKey(linkId)) continue;
+				
 				double dst = userTraits.get(userId)[x] * linkFeatures.get(linkId)[y];		
 				double p = dot(userTraits.get(userId), linkTraits.get(linkId));
 				double r = 0;
@@ -163,9 +172,9 @@ public class FeatureMinimizer extends Minimizer
 		return errorDerivative * -1;
 	}
 	
-	public double getErrorDerivativeOverWord(HashMap<String, Double[]> wordColumns, HashMap<Long, HashSet<String>> linkWords, 
-												HashMap<Long, Double[]> userTraits, HashMap<Long, Double[]> linkTraits, HashMap<Long, HashSet<Long>> linkLikes,
-												HashMap<Long, HashSet<Long>> userLinkSamples, int x, String word)
+	public double getErrorDerivativeOverWord(HashMap<String, Double[]> wordColumns, HashMap<Long, Set<String>> linkWords, 
+			HashMap<Long, Double[]> userTraits, HashMap<Long, Double[]> linkTraits, HashMap<Long, HashSet<Long>> linkLikes,
+			HashMap<Long, HashSet<Long>> userLinkSamples, int x, String word)
 	{
 		Double[] column = wordColumns.get(word);
 		double errorDerivative = column[x] * Constants.LAMBDA;

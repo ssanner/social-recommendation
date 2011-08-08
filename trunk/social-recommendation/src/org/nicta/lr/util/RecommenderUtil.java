@@ -163,6 +163,7 @@ public class RecommenderUtil
 			ArrayList<Long> linkIds = new ArrayList<Long>();
 			
 			for (long j : links) {
+				if (!linkTraits.containsKey(j)) continue;
 				double predictedLike = dot(userTraits.get(userId), linkTraits.get(j));
 				
 				scores.add(predictedLike);
@@ -211,6 +212,8 @@ public class RecommenderUtil
 			HashSet<Long> links = userLinkSamples.get(i);
 			
 			for (long j : links) {
+				if (!linkTraits.containsKey(j)) continue;
+				
 				int liked = 0;
 				if (linkLikes.containsKey(j) && linkLikes.get(j).contains(i)) liked = 1;
 				
@@ -270,6 +273,7 @@ public class RecommenderUtil
 	 * @return
 	 * @throws SQLException
 	 */
+	/*
 	public static HashMap<Long, HashSet<Long>> getUserLinksSample(HashMap<Long, HashSet<Long>> linkLikes, Set<Long> userIds, HashMap<Long, HashMap<Long, Double>> friendships, Set<Long> linkIds, boolean limit)
 		throws SQLException
 	{
@@ -278,7 +282,10 @@ public class RecommenderUtil
 		Connection conn = RecommenderUtil.getSqlConnection();
 		Statement statement = conn.createStatement();
 		
+		System.out.println("userIds: " + userIds.size());
+		int count = 0;
 		for (Long userId : userIds) {
+			System.out.println("User: " + ++count);
 			HashSet<Long> samples = new HashSet<Long>();
 			
 			for (long linkId : linkLikes.keySet()) {
@@ -290,6 +297,14 @@ public class RecommenderUtil
 			if (samples.size() == 0) continue;
 			
 			int likeCount = samples.size();
+			
+			
+			ResultSet result = statement.executeQuery("SELECT link_id FROM trackRecommendedLinks WHERE uid=" + userId + " AND rating=2");
+			while (result.next()) {
+				if (linkIds.contains(result.getLong("link_id"))) {
+					samples.add(result.getLong("link_id"));
+				}
+			}
 			
 			//Sample links that weren't liked.
 			//Links here should be links that were shared by friends to increase the chance that the user has actually seen this and not
@@ -320,10 +335,7 @@ public class RecommenderUtil
 			query.append("ORDER BY created_time DESC LIMIT ");
 			query.append(samples.size() * 9);
 			
-			ResultSet result = statement.executeQuery("SELECT link_id FROM trackRecommendedLinks WHERE uid=" + userId + " AND rating=2");
-			while (result.next()) {
-				if (linkIds.contains(result.getLong("link_id"))) samples.add(result.getLong("link_id"));
-			}
+			
 			
 			result = statement.executeQuery(query.toString());
 			
@@ -337,5 +349,193 @@ public class RecommenderUtil
 		}
 		
 		return userLinkSamples;
+	}
+	*/
+	
+	public static HashMap<Long, HashSet<Long>> getUserLinksSample2(HashMap<Long, HashSet<Long>> linkLikes, Set<Long> userIds, HashMap<Long, HashMap<Long, Double>> friendships, Set<Long> linkIds, boolean limit)
+		throws SQLException
+	{
+		HashMap<Long, HashSet<Long>> userLinkSamples = new HashMap<Long, HashSet<Long>>();
+		
+		Connection conn = RecommenderUtil.getSqlConnection();
+		Statement statement = conn.createStatement();
+		
+		System.out.println("userIds: " + userIds.size());
+		System.out.println("linkIds: " + linkIds.size());
+		System.out.println("Likes: " + linkLikes.size());
+		
+		int count = 0;
+		
+		
+		
+		for (long linkId : linkLikes.keySet()) {
+			Set<Long> users = linkLikes.get(linkId);
+			
+			for (long userId : users) {
+				if (!userIds.contains(userId)) continue;
+				HashSet<Long> samples = userLinkSamples.get(userId);
+				if (samples == null) {
+					samples = new HashSet<Long>();
+					userLinkSamples.put(userId, samples);
+				}
+				samples.add(linkId);
+			}
+		}
+		
+		System.out.println("Count: " + userLinkSamples.size());
+		int minCount = 0;
+		for (Long userId : userLinkSamples.keySet()) {
+			HashSet<Long> samples = userLinkSamples.get(userId);
+			if (samples.size() >= 1) {
+				minCount++;
+			}
+		}
+		System.out.println("Min: " + minCount);
+		System.exit(1);
+		
+		for (Long userId : userLinkSamples.keySet()) {
+			System.out.println("User: " + ++count);
+			HashSet<Long> samples = userLinkSamples.get(userId);
+			
+			/*
+			for (long linkId : linkLikes.keySet()) {
+				if (linkLikes.get(linkId).contains(userId)) {
+					if (linkIds.contains(linkId)) samples.add(linkId);
+				}
+			}
+			*/
+			
+			int likeCount = samples.size();
+			
+			
+			ResultSet result = statement.executeQuery("SELECT link_id FROM trackRecommendedLinks WHERE uid=" + userId + " AND rating=2");
+			while (result.next()) {
+				if (linkIds.contains(result.getLong("link_id"))) {
+					samples.add(result.getLong("link_id"));
+				}
+			}
+			
+			//Sample links that weren't liked.
+			//Links here should be links that were shared by friends to increase the chance that the user has actually seen this and not
+			//liked them
+			Set<Long> friends;
+			if (friendships.containsKey(userId)) {
+				friends = friendships.get(userId).keySet();
+			}
+			else {
+				friends = new HashSet<Long>();
+			}
+			
+			StringBuilder query = new StringBuilder("SELECT link_id FROM linkrLinks WHERE uid IN (0");
+			for (Long friendId : friends) {
+				query.append(",");
+				query.append(friendId);
+			}
+			query.append(") AND link_id NOT IN(0");
+			for (Long likedId : samples) {
+				query.append(",");
+				query.append(likedId);
+			}	
+			query.append(") ");
+			if (limit) {
+				query.append("AND DATE(created_time) >= DATE(ADDDATE(CURRENT_DATE(), -" + Constants.WINDOW_RANGE + ")) ");
+			}
+		
+			query.append("ORDER BY created_time DESC LIMIT ");
+			query.append(samples.size() * 9);
+			
+			
+			
+			result = statement.executeQuery(query.toString());
+			
+			while (result.next()) {
+				if (samples.size() >= likeCount * 10) break;
+				
+				if (linkIds.contains(result.getLong("link_id"))) {
+					samples.add(result.getLong("link_id"));
+				}
+			}
+		}
+		
+		return userLinkSamples;
+	}
+	
+	public static HashMap<Long, HashSet<Long>> getUserLinksSample(HashMap<Long, HashSet<Long>> linkLikes, Set<Long> userIds, HashMap<Long, HashMap<Long, Double>> friendships, HashMap<Long, Long[]> links, boolean limit)
+		throws SQLException
+	{
+		HashMap<Long, HashSet<Long>> userLinkSamples = new HashMap<Long, HashSet<Long>>();
+		
+		Connection conn = RecommenderUtil.getSqlConnection();
+		Statement statement = conn.createStatement();
+		
+		System.out.println("userIds: " + userIds.size());
+		System.out.println("links: " + links.size());
+		System.out.println("Likes: " + linkLikes.size());
+		
+		int count = 0;
+		
+		for (long linkId : linkLikes.keySet()) {
+			Set<Long> users = linkLikes.get(linkId);
+			
+			for (long userId : users) {
+				if (!userIds.contains(userId) || ! friendships.containsKey(userId)) continue;
+				HashSet<Long> samples = userLinkSamples.get(userId);
+				if (samples == null) {
+					samples = new HashSet<Long>();
+					userLinkSamples.put(userId, samples);
+				}
+				samples.add(linkId);
+			}
+		}
+		
+		System.out.println("Count: " + userLinkSamples.size());
+		int minCount = 0;
+		for (Long userId : userLinkSamples.keySet()) {
+			HashSet<Long> samples = userLinkSamples.get(userId);
+			if (samples.size() >= 1) {
+				minCount++;
+			}
+		}
+		System.out.println("Min: " + minCount);
+		
+		for (Long userId : userLinkSamples.keySet()) {
+			System.out.println("User: " + ++count);
+			HashSet<Long> samples = userLinkSamples.get(userId);
+			
+			Set<Long> friends = friendships.get(userId).keySet();
+			
+			int likeCount = samples.size();
+			
+			
+			ResultSet result = statement.executeQuery("SELECT link_id FROM trackRecommendedLinks WHERE uid=" + userId + " AND rating=2");
+			while (result.next()) {
+				if (links.containsKey(result.getLong("link_id"))) {
+					samples.add(result.getLong("link_id"));
+				}
+			}
+			
+			//Sample links that weren't liked.
+			//Links here should be links that were shared by friends to increase the chance that the user has actually seen this and not
+			//liked them
+	
+			for (long linkId : links.keySet()) {
+				if (samples.size() >= likeCount * 10) break;
+				Long[] link = links.get(linkId);
+				
+				if (friends.contains(link[1]) && !samples.contains(linkId)) {
+					samples.add(linkId);
+				}
+			}
+		}
+		
+		return userLinkSamples;
+	}
+	public static double getDistance(Double[] d1, Double[] d2)
+	{
+		double distance = 0;
+		for (int x = 0; x < d1.length; x++) {
+			distance += Math.pow(d1[x] - d2[x], 2);
+		}
+		return Math.sqrt(distance);
 	}
 }
