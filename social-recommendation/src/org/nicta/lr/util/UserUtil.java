@@ -17,6 +17,45 @@ public class UserUtil
 	 * @return
 	 * @throws SQLException
 	 */
+	
+	public static Set<Long> getUserIds()
+		throws SQLException
+	{
+		HashSet<Long> userIds = new HashSet<Long>();
+		
+		Connection conn = RecommenderUtil.getSqlConnection();
+		Statement statement = conn.createStatement();
+		
+		String userQuery = "SELECT uid FROM linkrUser";
+		
+		ResultSet result = statement.executeQuery(userQuery);
+		while (result.next()) {
+			userIds.add(result.getLong("uid"));
+		}
+		statement.close();
+		
+		return userIds;
+	}
+	
+	public static Set<Long> getAppUserIds()
+		throws SQLException
+	{
+		HashSet<Long> userIds = new HashSet<Long>();
+		
+		Connection conn = RecommenderUtil.getSqlConnection();
+		Statement statement = conn.createStatement();
+		
+		String userQuery = "SELECT uid FROM trackUserUpdates WHERE is_app_user=1";
+		
+		ResultSet result = statement.executeQuery(userQuery);
+		while (result.next()) {
+			userIds.add(result.getLong("uid"));
+		}
+		statement.close();
+		
+		return userIds;
+	}
+	
 	public static HashMap<Long, Double[]> getUserFeatures()
 		throws SQLException
 	{
@@ -68,6 +107,62 @@ public class UserUtil
 		
 		return userFeatures;
 	}
+	
+	public static HashMap<Long, Double[]> getUserFeatures(Set<Long> userIds)
+		throws SQLException
+	{
+		HashMap<Long, Double[]> userFeatures = new HashMap<Long, Double[]>();
+		
+		Connection conn = RecommenderUtil.getSqlConnection();
+		Statement statement = conn.createStatement();
+		
+		StringBuffer userQuery = new StringBuffer();
+		userQuery.append("SELECT uid, gender, birthday, location_id, hometown_id FROM linkrUser WHERE uid IN (0");
+		for (long id : userIds) {
+			userQuery.append(",");
+			userQuery.append(id);
+		}
+		userQuery.append(")");
+		
+		ResultSet result = statement.executeQuery(userQuery.toString());
+		
+		while (result.next()) {
+			String sex = result.getString("gender");
+			
+			//We're only interested on the age for this one.
+			int birthYear = 0;
+			String birthday = result.getString("birthday");
+			if (birthday.length() == 10) {
+				birthYear = Integer.parseInt(birthday.split("/")[2]);
+			}
+			
+			double currentLocation = result.getLong("location_id") / 300000000000000.0;
+			double hometownLocation = result.getLong("hometown_id") / 300000000000000.0;
+			
+			//Features are normalized between 0 and 1
+			Double[] feature = new Double[Constants.USER_FEATURE_COUNT];
+			if ("male".equals(sex)) {
+				feature[0] = 0.5;
+			}
+			else if ("female".equals(sex)){
+				feature[0] = 1.0;
+			}
+			else {
+				feature[0] = 0.0;
+			}
+			
+			feature[1] = birthYear / 2012.0;
+			
+			feature[2] = currentLocation;
+			feature[3] = hometownLocation;
+			
+			userFeatures.put(result.getLong("uid"), feature);
+		}
+		
+		statement.close();
+		
+		return userFeatures;
+	} 
 	
 	/**
 	 * Gets all user friendship connections that are saved in the DB.
@@ -123,10 +218,18 @@ public class UserUtil
 	 * @return
 	 * @throws SQLException
 	 */
-	public static HashMap<Long, HashMap<Long, Double>> getFriendInteractionMeasure()
+	public static HashMap<Long, HashMap<Long, Double>> getFriendInteractionMeasure(Set<Long> uids)
 		throws SQLException
 	{
 		HashMap<Long, HashMap<Long, Double>> friendships = new HashMap<Long, HashMap<Long, Double>>();
+		
+		StringBuffer idBuf = new StringBuffer("(0");
+		for (Long id : uids) {
+			idBuf.append(",");
+			idBuf.append(id);
+		}
+		idBuf.append(")");
+		String idString = idBuf.toString();
 		
 		Connection conn = RecommenderUtil.getSqlConnection();
 		Statement statement = conn.createStatement();
@@ -134,7 +237,7 @@ public class UserUtil
 		//First interaction is the friend links. Friend links are now just one kind of interaction
 		String friendQuery =
 			"SELECT uid1, uid2 "
-			+ "FROM linkrFriends";
+			+ "FROM linkrFriends WHERE uid1 IN " + idString + " AND uid2 IN " + idString;
 		
 		ResultSet result = statement.executeQuery(friendQuery);
 		
@@ -156,7 +259,7 @@ public class UserUtil
 		}
 		
 		// Comments on photos
-		result = statement.executeQuery("SELECT uid, from_id FROM linkrPhotoComments");
+		result = statement.executeQuery("SELECT uid, from_id FROM linkrPhotoComments WHERE uid IN " + idString + " AND from_id IN " + idString);
 		while (result.next()) {
 			Long uid1 = result.getLong("uid");
 			Long uid2 = result.getLong("from_id");
@@ -183,7 +286,7 @@ public class UserUtil
 		}
 		
 		// Likes on photos
-		result = statement.executeQuery("SELECT uid, id FROM linkrPhotoLikes");
+		result = statement.executeQuery("SELECT uid, id FROM linkrPhotoLikes WHERE uid IN " + idString + " AND id IN " + idString);
 		while (result.next()) {
 			Long uid1 = result.getLong("uid");
 			Long uid2 = result.getLong("id");
@@ -210,7 +313,7 @@ public class UserUtil
 		}
 		
 		// Times a user has posted a photo on someone else's wall
-		result = statement.executeQuery("SELECT uid, from_id FROM linkrPhotos");
+		result = statement.executeQuery("SELECT uid, from_id FROM linkrPhotos WHERE uid IN " + idString + " AND from_id IN " + idString);
 		while (result.next()) {
 			Long uid1 = result.getLong("uid");
 			Long uid2 = result.getLong("from_id");
@@ -242,7 +345,8 @@ public class UserUtil
 		//
 		HashMap<Long, HashSet<Long>> photoTags = new HashMap<Long, HashSet<Long>>();
 		
-		result = statement.executeQuery("SELECT l.uid, t.uid2, t.photo_id FROM linkrPhotos l, linkrPhotoTags t WHERE t.photo_id=l.id");
+		System.out.println("Joining photo tags");
+		result = statement.executeQuery("SELECT l.uid, t.uid2, t.photo_id FROM linkrPhotos l, linkrPhotoTags t WHERE t.photo_id=l.id AND l.uid IN " + idString + " AND t.uid2 IN " + idString);
 		while (result.next()) {
 			Long uid1 = result.getLong("l.uid");
 			Long uid2 = result.getLong("t.uid2");
@@ -297,8 +401,10 @@ public class UserUtil
 			tagged.add(uid2);
 		}
 		
+		System.out.println("Done with photo tags");
+		
 		//Users posting on another user's wall
-		result = statement.executeQuery("SELECT uid, from_id FROM linkrPost WHERE application_id !=" + Constants.APPLICATION_ID);
+		result = statement.executeQuery("SELECT uid, from_id FROM linkrPost WHERE application_id !=" + Constants.APPLICATION_ID + " AND uid IN " + idString + " AND from_id IN " + idString);
 		while (result.next()) {
 			Long uid1 = result.getLong("uid");
 			Long uid2 = result.getLong("from_id");
@@ -325,7 +431,7 @@ public class UserUtil
 		}
 		
 		//Users commenting on another user's posts
-		result = statement.executeQuery("SELECT uid, from_id FROM linkrPostComments");
+		result = statement.executeQuery("SELECT uid, from_id FROM linkrPostComments WHERE uid IN " + idString + " AND from_id IN " + idString);
 		while (result.next()) {
 			Long uid1 = result.getLong("uid");
 			Long uid2 = result.getLong("from_id");
@@ -352,7 +458,7 @@ public class UserUtil
 		}
 		
 		//Users liking another user's posts.
-		result = statement.executeQuery("SELECT uid, id FROM linkrPostLikes");
+		result = statement.executeQuery("SELECT uid, id FROM linkrPostLikes WHERE uid IN " + idString + " AND id IN " + idString);
 		while (result.next()) {
 			Long uid1 = result.getLong("uid");
 			Long uid2 = result.getLong("id");
@@ -379,6 +485,7 @@ public class UserUtil
 		}
 		
 		//Users being tagged in another user's posts.
+		/*
 		result = statement.executeQuery("SELECT uid1, uid2 FROM linkrPostTags");
 		while (result.next()) {
 			Long uid1 = result.getLong("uid1");
@@ -404,9 +511,10 @@ public class UserUtil
 			friendships.get(uid1).put(uid2, val);
 			friendships.get(uid2).put(uid1, val);
 		}
+		*/
 		
 		//Users that went to the same classes
-		result = statement.executeQuery("SELECT uid1, uid2 FROM linkrSchoolClassesWith");
+		result = statement.executeQuery("SELECT uid1, uid2 FROM linkrSchoolClassesWith WHERE uid1 IN " + idString + " AND uid2 IN " + idString);
 		while (result.next()) {
 			Long uid1 = result.getLong("uid1");
 			Long uid2 = result.getLong("uid2");
@@ -433,7 +541,7 @@ public class UserUtil
 		}
 		
 		//Users that went to the same school
-		result = statement.executeQuery("SELECT uid1, uid2 FROM linkrSchoolWith");
+		result = statement.executeQuery("SELECT uid1, uid2 FROM linkrSchoolWith WHERE uid1 IN " + idString + " AND uid2 IN " + idString);
 		while (result.next()) {
 			Long uid1 = result.getLong("uid1");
 			Long uid2 = result.getLong("uid2");
@@ -460,7 +568,7 @@ public class UserUtil
 		}
 		
 		//Users playing the same sports
-		result = statement.executeQuery("SELECT uid1, uid2 FROM linkrSportsWith");
+		result = statement.executeQuery("SELECT uid1, uid2 FROM linkrSportsWith WHERE uid1 IN " + idString + " AND uid2 IN " + idString);
 		while (result.next()) {
 			Long uid1 = result.getLong("uid1");
 			Long uid2 = result.getLong("uid2");
@@ -487,7 +595,7 @@ public class UserUtil
 		}
 		
 		//Posting videos into another user's wall
-		result = statement.executeQuery("SELECT uid, from_id FROM linkrVideos");
+		result = statement.executeQuery("SELECT uid, from_id FROM linkrVideos WHERE uid IN " + idString + " AND from_id IN " + idString);
 		while (result.next()) {
 			Long uid1 = result.getLong("uid");
 			Long uid2 = result.getLong("from_id");
@@ -514,7 +622,7 @@ public class UserUtil
 		}
 		
 		//Commenting on another user's video
-		result = statement.executeQuery("SELECT uid, from_id FROM linkrVideoComments");
+		result = statement.executeQuery("SELECT uid, from_id FROM linkrVideoComments WHERE uid IN " + idString + " AND from_id IN " + idString);
 		while (result.next()) {
 			Long uid1 = result.getLong("uid");
 			Long uid2 = result.getLong("from_id");
@@ -541,7 +649,7 @@ public class UserUtil
 		}
 		
 		//Liking another user's video
-		result = statement.executeQuery("SELECT uid, id FROM linkrVideoLikes");
+		result = statement.executeQuery("SELECT uid, id FROM linkrVideoLikes WHERE uid IN " + idString + " AND id IN " + idString);
 		while (result.next()) {
 			Long uid1 = result.getLong("uid");
 			Long uid2 = result.getLong("id");
@@ -571,7 +679,8 @@ public class UserUtil
 		//Also get the people that are tagged per video. Users getting tagged in the same video is a pretty good measure 
 		//that they're friends.
 		HashMap<Long, HashSet<Long>> videoTags = new HashMap<Long, HashSet<Long>>();
-		result = statement.executeQuery("SELECT t.uid2, l.uid, t.video_id FROM linkrVideos l, linkrVideoTags t WHERE t.video_id=l.id");
+		System.out.println("Getting video tags");
+		result = statement.executeQuery("SELECT t.uid2, l.uid, t.video_id FROM linkrVideos l, linkrVideoTags t WHERE t.video_id=l.id AND t.uid2 IN " + idString + " AND l.uid IN " + idString);
 		while (result.next()) {
 			Long uid1 = result.getLong("l.uid");
 			Long uid2 = result.getLong("t.uid2");
@@ -625,9 +734,10 @@ public class UserUtil
 			
 			tagged.add(uid2);
 		}
+		System.out.println("Done with video tags");
 		
 		//User's working in the same project
-		result = statement.executeQuery("SELECT uid1, uid2 FROM linkrWorkProjectsWith");
+		result = statement.executeQuery("SELECT uid1, uid2 FROM linkrWorkProjectsWith WHERE uid1 IN " + idString + " AND uid2 IN " + idString);
 		while (result.next()) {
 			Long uid1 = result.getLong("uid1");
 			Long uid2 = result.getLong("uid2");
@@ -654,7 +764,7 @@ public class UserUtil
 		}
 		
 		//User's working in the same company
-		result = statement.executeQuery("SELECT uid1, uid2 FROM linkrWorkWith");
+		result = statement.executeQuery("SELECT uid1, uid2 FROM linkrWorkWith WHERE uid1 IN " + idString + " AND uid2 IN " + idString);
 		while (result.next()) {
 			Long uid1 = result.getLong("uid1");
 			Long uid2 = result.getLong("uid2");
@@ -681,7 +791,7 @@ public class UserUtil
 		}
 		
 		//User's liking a persons's link.
-		result = statement.executeQuery("SELECT uid, id FROM linkrLinkLikes");
+		result = statement.executeQuery("SELECT uid, id FROM linkrLinkLikes WHERE uid IN " + idString + " AND id IN " + idString);
 		while (result.next()) {
 			Long uid1 = result.getLong("uid");
 			Long uid2 = result.getLong("id");
@@ -708,7 +818,7 @@ public class UserUtil
 		}
 		
 		//User's commenting on a person's link
-		result = statement.executeQuery("SELECT uid, from_id FROM linkrLinkComments");
+		result = statement.executeQuery("SELECT uid, from_id FROM linkrLinkComments WHERE uid IN " + idString + " AND from_id IN " + idString);
 		while (result.next()) {
 			Long uid1 = result.getLong("uid");
 			Long uid2 = result.getLong("from_id");
@@ -735,7 +845,7 @@ public class UserUtil
 		}
 		
 		//User's posting a link on someone else's wall
-		result = statement.executeQuery("SELECT uid, from_id FROM linkrLinks");
+		result = statement.executeQuery("SELECT uid, from_id FROM linkrLinks WHERE uid IN " + idString + " AND from_id IN " + idString);
 		while (result.next()) {
 			Long uid1 = result.getLong("uid");
 			Long uid2 = result.getLong("from_id");

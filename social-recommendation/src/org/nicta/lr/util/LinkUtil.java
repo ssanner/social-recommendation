@@ -56,6 +56,92 @@ public class LinkUtil
 		return linkFeatures;
 	}
 	
+	public static HashMap<Long, Long[]> getUnormalizedFeatures(Set<Long> ids)
+		throws SQLException
+	{
+		HashMap<Long, Long[]> feature = new HashMap<Long, Long[]>();
+		
+		StringBuffer buf = new StringBuffer("SELECT from_id, uid, link_id FROM linkrLinks WHERE link_id IN (0");
+		for (long id : ids) {
+			buf.append(",");
+			buf.append(id);
+		}
+		buf.append(")");
+		
+		Connection conn = RecommenderUtil.getSqlConnection();
+		Statement statement = conn.createStatement();
+		ResultSet result = statement.executeQuery(buf.toString());
+		while (result.next()) {
+			Long[] link = new Long[2];
+			link[0] = result.getLong("from_id");
+			link[1] = result.getLong("uid");
+			
+			feature.put(result.getLong("link_id"), link);
+		}
+		
+		statement.close();
+		return feature;
+	}
+	
+	public static HashMap<Long, Double[]> getLinkFeatures(Set<Long> limit)
+		throws SQLException
+	{
+		HashMap<Long, Double[]> linkFeatures = new HashMap<Long, Double[]>();
+		Connection conn = RecommenderUtil.getSqlConnection();
+		Statement statement = conn.createStatement();
+		
+		StringBuffer itemQuery = new StringBuffer(
+			"SELECT link_id, created_time, share_count, like_count, comment_count, total_count, uid, from_id "
+			+ "FROM linkrLinks, linkrLinkInfo "
+			+ "WHERE linkrLinks.link_hash = linkrLinkInfo.link_hash AND link_id IN (0");
+		for (long id : limit) {
+			itemQuery.append(",");
+			itemQuery.append(id);
+		}
+		itemQuery.append(")");
+		
+		ResultSet result = statement.executeQuery(itemQuery.toString());
+	
+		while (result.next()) {
+			Double[] feature = new Double[Constants.LINK_FEATURE_COUNT];
+			
+			feature[0] = result.getDouble("share_count") / 10000000;
+			feature[1] = result.getDouble("like_count") / 10000000;
+			feature[2] = result.getDouble("comment_count") / 10000000;
+			feature[3] = result.getDouble("uid") / Double.MAX_VALUE;
+			feature[4] = result.getDouble("from_id") / Double.MAX_VALUE;
+			
+			linkFeatures.put(result.getLong("link_id"), feature);
+		}
+		
+		statement.close();
+		return linkFeatures;
+	}
+	
+	public static Set<Long> getLinkIds(boolean limit)
+		throws SQLException
+	{
+		HashSet<Long> linkIds = new HashSet<Long>();
+		Connection conn = RecommenderUtil.getSqlConnection();
+		Statement statement = conn.createStatement();
+		
+		String itemQuery = 
+			"SELECT link_id FROM linkrLinks";
+		
+		if (limit) {
+			itemQuery += " WHERE DATE(created_time) >= DATE(ADDDATE(CURRENT_DATE(), -" + Constants.WINDOW_RANGE + "))";
+		}
+		
+		ResultSet result = statement.executeQuery(itemQuery);
+	
+		while (result.next()) {
+			linkIds.add(result.getLong("link_id"));
+		}
+		
+		statement.close();
+		return linkIds;
+	}
+	
 	/**
 	 * Given a list of links, get the list of users that have 'liked' that link on FB.
 	 * 
@@ -63,7 +149,7 @@ public class LinkUtil
 	 * @return
 	 * @throws SQLException
 	 */
-	public static HashMap<Long, HashSet<Long>> getLinkLikes(Set<Long> linkIds)
+	public static HashMap<Long, HashSet<Long>> getLinkLikes(HashMap<Long, Long[]> links, boolean includeFrom)
 		throws SQLException
 	{
 		HashMap<Long, HashSet<Long>> linkLikes = new HashMap<Long, HashSet<Long>>();
@@ -71,42 +157,46 @@ public class LinkUtil
 		Connection conn = RecommenderUtil.getSqlConnection();
 		Statement statement = conn.createStatement();
 		
-		//id is the user_id of the user who liked that link, link_id is the id of the link
-		StringBuilder likeQuery = new StringBuilder("SELECT ll.id, ll.link_id, l.from_id, l.uid FROM linkrLinkLikes ll, linkrLinks l "
-													+ "WHERE ll.link_id=l.link_id AND ll.link_id IN (0");
-		for (long id : linkIds) {
-			likeQuery.append(",");
-			likeQuery.append(id);
-		}
-		likeQuery.append(")");
+		StringBuffer idBuf = new StringBuffer("(0");
 		
+		for (long linkId : links.keySet()) {
+			if (includeFrom) {
+				Long[] feature = links.get(linkId);
+				
+				if (!linkLikes.containsKey(linkId)) {
+					linkLikes.put(linkId, new HashSet<Long>());
+				}
+				
+				HashSet<Long> likes = linkLikes.get(linkId);
+				
+				likes.add(feature[0]);
+			}
+						
+			idBuf.append(",");
+			idBuf.append(linkId);
+		}
+		
+		idBuf.append(")");
+		String idString = idBuf.toString();
+		
+		String likeQuery = "SELECT id, link_id FROM linkrLinkLikes WHERE link_id IN " + idString;
 		ResultSet result = statement.executeQuery(likeQuery.toString());
 		
 		while (result.next()) {
-			long uId = result.getLong("ll.id");
-			long linkId = result.getLong("ll.link_id");
-			long fromId = result.getLong("l.from_id");
-			long uid2 = result.getLong("l.uid");
+			long id = result.getLong("id");
+			long linkId = result.getLong("link_id");
 			
 			if (!linkLikes.containsKey(linkId)) {
 				linkLikes.put(linkId, new HashSet<Long>());
 			}
 			
 			HashSet<Long> likes = linkLikes.get(linkId);
-			
-			likes.add(uId);
-			likes.add(fromId);
-			likes.add(uid2);
+			likes.add(id);
 		}
 		
 		
-		StringBuilder clickQuery = new StringBuilder("SELECT link_id, uid_clicked FROM linkrLinks l, trackLinkClicked t WHERE l.link=t.link AND link_id IN (0");
-		for (long id : linkIds) {
-			clickQuery.append(",");
-			clickQuery.append(id);
-		}
-		clickQuery.append(")");
-		result = statement.executeQuery(clickQuery.toString());
+		String clickQuery = "SELECT link_id, uid_clicked FROM linkrLinks l, trackLinkClicked t WHERE l.link=t.link AND link_id IN " + idString;
+		result = statement.executeQuery(clickQuery);
 		
 		while (result.next()) {
 			long linkId = result.getLong("link_id");
@@ -121,13 +211,8 @@ public class LinkUtil
 			likes.add(userId);
 		}
 		
-		StringBuilder scoreQuery = new StringBuilder("SELECT l.link_id, t.uid FROM linkrLinks l, trackRecommendedLinks t WHERE l.link_id=t.link_id AND rating=1 AND l.link_id IN (0");
-		for (long id : linkIds) {
-			scoreQuery.append(",");
-			scoreQuery.append(id);
-		}
-		scoreQuery.append(")");
-		result = statement.executeQuery(scoreQuery.toString());
+		String scoreQuery = "SELECT l.link_id, t.uid FROM linkrLinks l, trackRecommendedLinks t WHERE l.link_id=t.link_id AND rating=1 AND l.link_id IN " + idString;
+		result = statement.executeQuery(scoreQuery);
 		
 		while (result.next()) {
 			long linkId = result.getLong("link_id");
@@ -245,12 +330,12 @@ public class LinkUtil
 	 * @throws SQLException
 	 * @throws IOException
 	 */
-	public static HashMap<Long, HashSet<String>> getLinkWordFeatures(Set<String> commonWords, boolean limit)
+	public static HashMap<Long, Set<String>> getLinkWordFeatures(Set<String> commonWords, boolean limit)
 		throws SQLException, IOException
 	{
 		Tokenizer tokenizer = new Tokenizer("./EnglishTok.bin.gz");
 		
-		HashMap<Long, HashSet<String>> linkWords = new HashMap<Long, HashSet<String>>();
+		HashMap<Long, Set<String>> linkWords = new HashMap<Long, Set<String>>();
 		
 		Connection conn = RecommenderUtil.getSqlConnection();
 		Statement statement = conn.createStatement();
@@ -326,7 +411,7 @@ public class LinkUtil
 	public static HashMap<Long, Double[]> getLinkTraitVectors(Double[][] matrix, 
 														HashMap<Long, Double[]> idColumns,
 														HashMap<Long, Double[]> features,
-														HashMap<Long, HashSet<String>> linkWords,
+														HashMap<Long, Set<String>> linkWords,
 														HashMap<String, Double[]> wordColumns)
 	{
 		HashMap<Long, Double[]> traitVectors = new HashMap<Long, Double[]>();
@@ -335,7 +420,7 @@ public class LinkUtil
 			Double[] feature = features.get(id);
 			Double[] idColumn = idColumns.get(id);
 			
-			HashSet<String> words = linkWords.get(id);
+			//Set<String> words = linkWords.get(id);
 			
 			Double[] vector = new Double[Constants.K];
 			
@@ -345,13 +430,15 @@ public class LinkUtil
 				//System.out.println("Feature: " + feature);
 				//System.out.println();
 					
-				for (int y = 0; y < feature.length; y++) {
+				for (int y = 0; y < Constants.LINK_FEATURE_COUNT; y++) {
 					vector[x] += matrix[x][y] * feature[y];
 				}
 	
+				/*
 				for (String word : words) {
 					vector[x] += wordColumns.get(word)[x];
 				}
+				*/
 				
 				vector[x] += idColumn[x];
 			}

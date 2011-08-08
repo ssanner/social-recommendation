@@ -48,20 +48,20 @@ public class LinkRecommender
 		throws Exception
 	{
 		LinkRecommender lr = null;
-		String type = "svm";
+		String type = "feature";
 		if (args.length > 0) {
 			type = args[0];
 		}
 		
 		if (type.equals("feature")) {
 			Constants.LAMBDA = 10;
-			Constants.K = 4;
+			Constants.K = 1;
 			lr = new LinkRecommender("feature");
 		}
 		else if (type.equals("social")) {
 			Constants.LAMBDA = 10;
 			Constants.BETA = 0.001;
-			Constants.K = 6;
+			//Constants.K = 6;
 			lr = new LinkRecommender("social");
 		}
 		else if (type.equals("logistic")) {
@@ -80,8 +80,8 @@ public class LinkRecommender
 			System.out.println("WTF: " + args[0]);
 		}
 		
-		lr.recommend();
-		//lr.crossValidate();
+		//lr.recommend();
+		lr.crossValidate();
 		
 		
 		/*
@@ -123,19 +123,32 @@ public class LinkRecommender
 	public void crossValidate()
 		throws Exception
 	{
-		HashMap<Long, Double[]> users = UserUtil.getUserFeatures();
-		System.out.println("Retrieved users: " + users.size());
+		Set<Long> userIds = UserUtil.getUserIds();
+		Set<Long> linkIds = LinkUtil.getLinkIds(false);
 		
-		HashMap<Long, Double[]> links = LinkUtil.getLinkFeatures(false);
-		System.out.println("Retrieved links: " + links.size());
+		//HashMap<Long, Double[]> users = UserUtil.getUserFeatures();
+		//System.out.println("Retrieved users: " + users.size());
 		
-		HashMap<Long, HashSet<Long>> linkLikes = LinkUtil.getLinkLikes(links.keySet());
+		//HashMap<Long, Double[]> links = LinkUtil.getLinkFeatures(false);
+		//System.out.println("Retrieved links: " + links.size());
+		
+		HashMap<Long, Long[]> linkUsers = LinkUtil.getUnormalizedFeatures(linkIds);
+		HashMap<Long, HashSet<Long>> linkLikes = LinkUtil.getLinkLikes(linkUsers, false);
 		HashMap<Long, HashMap<Long, Double>> friendships = UserUtil.getFriendships();
 		
-		HashMap<Long, HashSet<Long>> userLinkSamples = RecommenderUtil.getUserLinksSample(linkLikes, users.keySet(), friendships, links.keySet(), false);
+		HashMap<Long, HashSet<Long>> userLinkSamples = RecommenderUtil.getUserLinksSample(linkLikes, userIds, friendships, linkUsers, false);
 		System.out.println("Samples: " + userLinkSamples.size());
 		
-		HashMap<Long, HashMap<Long, Double>> friendConnections = UserUtil.getFriendInteractionMeasure();
+		HashMap<Long, Double[]> users = UserUtil.getUserFeatures(userLinkSamples.keySet());
+		
+		Set<Long> linksNeeded = new HashSet<Long>();
+		for (long id : userLinkSamples.keySet()) {
+			linksNeeded.addAll(userLinkSamples.get(id));
+		}
+		
+		HashMap<Long, Double[]> links = LinkUtil.getLinkFeatures(linksNeeded);
+		
+		HashMap<Long, HashMap<Long, Double>> friendConnections = UserUtil.getFriendInteractionMeasure(userLinkSamples.keySet());
 		//HashMap<Long, HashMap<Long, Double>> friendConnections = UserUtil.getFriendLikeSimilarity(userLinkSamples.keySet());
 		//HashMap<Long, HashMap<Long, Double>> friendConnections = friendships;
 		
@@ -143,7 +156,7 @@ public class LinkRecommender
 		Set<String> words = new HashSet<String>();
 		
 		System.out.println("Words: " + words.size());
-		HashMap<Long, HashSet<String>> linkWords = LinkUtil.getLinkWordFeatures(words, false);
+		HashMap<Long, Set<String>> linkWords = LinkUtil.getLinkWordFeatures(words, false);
 
 		RecommenderUtil.closeSqlConnection();
 		
@@ -193,8 +206,11 @@ public class LinkRecommender
 			Double[][] userFeatureMatrix = getPrior(Constants.USER_FEATURE_COUNT);
 			Double[][] linkFeatureMatrix = getPrior(Constants.LINK_FEATURE_COUNT);
 	
-			HashMap<Long, Double[]> userIdColumns = getMatrixIdColumns(users.keySet());
+			//HashMap<Long, Double[]> userIdColumns = getMatrixIdColumns(users.keySet());
+			HashMap<Long, Double[]> userIdColumns = getMatrixIdColumns(userLinkSamples.keySet());
 			HashMap<Long, Double[]> linkIdColumns = getMatrixIdColumns(links.keySet());
+			//HashMap<Long, Double[]> linkIdColumns = getMatrixIdColumns(links.keySet());
+			
 			HashMap<String, Double[]> wordColumns = getWordColumns(words);
 			
 			minimizer.minimize(linkLikes, userFeatureMatrix, linkFeatureMatrix, users, links, friendConnections, userIdColumns, linkIdColumns, userLinkSamples, wordColumns, linkWords, words);
@@ -256,7 +272,6 @@ public class LinkRecommender
 		double map = 0;
 		for (long userId : averagePrecision.keySet()) {
 			double pre = averagePrecision.get(userId);
-			//pre /= (double)precisionCount.get(userId);
 			pre /= (double)10;
 			
 			map += pre;
@@ -275,15 +290,20 @@ public class LinkRecommender
 	public void recommend()
 		throws Exception
 	{
-		HashMap<Long, Double[]> users = UserUtil.getUserFeatures();
-		System.out.println("Retrieved users: " + users.size());
+		Set<Long> userIds = UserUtil.getUserIds();
+		Set<Long> linkIds = LinkUtil.getLinkIds(true);
 		
-		HashMap<Long, Double[]> links = LinkUtil.getLinkFeatures(true);
-		System.out.println("Retrieved links: " + links.size());
+		//HashMap<Long, Double[]> users = UserUtil.getUserFeatures();
+		//System.out.println("Retrieved users: " + users.size());
 		
-		HashMap<Long, HashSet<Long>> linkLikes = LinkUtil.getLinkLikes(links.keySet());
+		//HashMap<Long, Double[]> links = LinkUtil.getLinkFeatures(true);
+		//System.out.println("Retrieved links: " + links.size());
+		
+		HashMap<Long, Long[]> linkUsers = LinkUtil.getUnormalizedFeatures(linkIds);
+		HashMap<Long, HashSet<Long>> linkLikes = LinkUtil.getLinkLikes(linkUsers, false);
 		HashMap<Long, HashMap<Long, Double>> friendships = UserUtil.getFriendships();
-		HashMap<Long, HashMap<Long, Double>> friendConnections = UserUtil.getFriendInteractionMeasure();
+		
+		//HashMap<Long, HashMap<Long, Double>> friendConnections = friendships;
 		//HashMap<Long, HashMap<Long, Double>> friendConnections = UserUtil.getFriendLikeSimilarity();
 		
 		/*
@@ -292,11 +312,39 @@ public class LinkRecommender
 			words = LinkUtil.getMostCommonWords();
 		}
 		*/
-		
 		Set<String> words = new HashSet<String>();
-		HashMap<Long, HashSet<String>> linkWords = LinkUtil.getLinkWordFeatures(words, true);
+		
+		System.out.println("Huh");
+		//Set<String> words = new HashSet<String>();
+		//HashMap<Long, HashSet<String>> linkWords = LinkUtil.getLinkWordFeatures(words, true);
+		HashMap<Long, Set<String>> linkWords = new HashMap<Long, Set<String>>();
+		
+		System.out.println("Fuck");
+		HashMap<Long, HashSet<Long>> userLinkSamples = RecommenderUtil.getUserLinksSample(linkLikes, userIds, friendships, linkUsers, true);
+		System.out.println("users: " + userLinkSamples.size());
 		
 		
+		System.out.println("Foo");
+		HashMap<Long, HashMap<Long, Double>> friendConnections = UserUtil.getFriendInteractionMeasure(userLinkSamples.keySet());
+		System.out.println("Bar");
+		
+		//Get links that we will be recommending later
+		HashMap<Long, HashSet<Long>> friendLinksToRecommend = getFriendLinksForRecommending(friendships, type);
+		HashMap<Long, HashSet<Long>> nonFriendLinksToRecommend = getNonFriendLinksForRecommending(friendships, type);
+		
+		Set<Long> usersNeeded = UserUtil.getAppUserIds();
+		usersNeeded.addAll(userLinkSamples.keySet());
+		HashMap<Long, Double[]> users = UserUtil.getUserFeatures(usersNeeded);
+		
+		Set<Long> linksNeeded = new HashSet<Long>();
+		for (long id : userLinkSamples.keySet()) {
+			linksNeeded.addAll(userLinkSamples.get(id));
+		}
+		for (long id : nonFriendLinksToRecommend.keySet()) {
+			linksNeeded.addAll(nonFriendLinksToRecommend.get(id));
+			linksNeeded.addAll(friendLinksToRecommend.get(id));
+		}
+		HashMap<Long, Double[]> links = LinkUtil.getLinkFeatures(linksNeeded);
 		
 		Double[][] userFeatureMatrix = loadFeatureMatrix("lrUserMatrix", Constants.USER_FEATURE_COUNT, type);
 		if (userFeatureMatrix == null) {
@@ -316,25 +364,24 @@ public class LinkRecommender
 			linkIdColumns = getMatrixIdColumns(links.keySet());
 		}
 		
-		HashMap<String, Double[]> wordColumns = loadWordColumns(type);
-		if (wordColumns.size() == 0) {
-			wordColumns = getWordColumns(words);
-		}
+		//HashMap<String, Double[]> wordColumns = loadWordColumns(type);
+		//if (wordColumns.size() == 0) {
+			//wordColumns = getWordColumns(words);
+		//}
+		HashMap<String, Double[]> wordColumns = new HashMap<String, Double[]>();
 		
 		updateMatrixColumns(links.keySet(), linkIdColumns);
 		updateMatrixColumns(users.keySet(), userIdColumns);
 		
-		HashMap<Long, HashSet<Long>> userLinkSamples = RecommenderUtil.getUserLinksSample(linkLikes, users.keySet(), friendships, links.keySet(), true);
-		System.out.println("users: " + userLinkSamples.size());
 		
 		System.out.println("Minimizing...");
 		minimizer.minimize(linkLikes, userFeatureMatrix, linkFeatureMatrix, users, links, friendConnections, userIdColumns, linkIdColumns, userLinkSamples, wordColumns, linkWords, words);
 		
 		System.out.println("Recommending...");
-		HashMap<Long, HashSet<Long>> friendLinksToRecommend = getFriendLinksForRecommending(friendships, type);
+		
 		HashMap<Long, HashMap<Long, Double>> friendRecommendations = recommendLinks(userFeatureMatrix, linkFeatureMatrix, userIdColumns, linkIdColumns, 
 																							users, links, friendLinksToRecommend, linkWords, wordColumns);
-		HashMap<Long, HashSet<Long>> nonFriendLinksToRecommend = getFriendLinksForRecommending(friendships, type);
+		
 		HashMap<Long, HashMap<Long, Double>> nonFriendRecommendations = recommendLinks(userFeatureMatrix, linkFeatureMatrix, userIdColumns, linkIdColumns, 
 																							users, links, nonFriendLinksToRecommend, linkWords, wordColumns);
 		
@@ -400,7 +447,10 @@ public class LinkRecommender
 			userIds.put(result.getLong("uid"), result.getInt("max_links"));
 		}
 		
+		System.out.println("Recommending for: " + userIds.size());
+		int count = 0;
 		for (Long id : userIds.keySet()) {
+			System.out.println("User: " + id + " " + ++count);
 			HashSet<Long> links = new HashSet<Long>();
 			userLinks.put(id, links);
 			
@@ -415,28 +465,33 @@ public class LinkRecommender
 			HashSet<Long> dontInclude = new HashSet<Long>();
 			
 			// Don't recommend links that were already liked
-			result = statement.executeQuery("SELECT l.link_id FROM linkrLinks l, linkrLikes ll WHERE l.link_id=l.link_id AND ll.id=" + id);
+			result = statement.executeQuery("SELECT link_id FROM linkrLinkLikes WHERE id=" + id);
 			while (result.next()) {
-				dontInclude.add(result.getLong("l.link_id"));
+				dontInclude.add(result.getLong("link_id"));
 			}
 			
+			System.out.println("First don't include: " + dontInclude.size());
 			// Don't recommend links that are already pending recommendedation
 			result = statement.executeQuery("SELECT link_id FROM lrRecommendations WHERE user_id=" + id + " AND type='" + type + "'");
 			while(result.next()) {
 				dontInclude.add(result.getLong("link_id"));
 			}
+			System.out.println("Second don't include: " + dontInclude.size());
 			
 			//Don't recommend links that were already published by the app
 			result = statement.executeQuery("SELECT link_id FROM trackRecommendedLinks WHERE uid=" + id);
 			while (result.next()) {
 				dontInclude.add(result.getLong("link_id"));
 			}
+			System.out.println("Third don't include: " + dontInclude.size());
 			
 			//Don't recommend links that were clicked by the user
-			result = statement.executeQuery("SELECT link_id FROM linkrLinks l, trackLinkClicked t WHERE l.link=t.link and uid_clicked=" + id);
+			HashSet<String> linkClicked = new HashSet<String>();
+			result = statement.executeQuery("SELECT link FROM trackLinkClicked WHERE uid_clicked=" + id);
 			while (result.next()) {
-				dontInclude.add(result.getLong("link_id"));
+				linkClicked.add(result.getString("link"));
 			}
+			System.out.println("Fourth don't include: " + dontInclude.size());
 			
 			// Get the most recent links.
 			StringBuilder query = new StringBuilder("SELECT link_id FROM linkrLinks WHERE uid IN (0");
@@ -459,8 +514,16 @@ public class LinkRecommender
 				query.append(linkIds);
 			}
 			
+			query.append(") AND link NOT IN(''");
+			for (String link : linkClicked) {
+				query.append(",'");
+				query.append(link);
+				query.append("'");
+			}
+			
 			query.append(") ORDER BY created_time DESC LIMIT 100");
 			
+			System.out.println("whoa");
 			result = statement.executeQuery(query.toString());
 			
 			while (result.next()) {
@@ -491,6 +554,7 @@ public class LinkRecommender
 		}
 		
 		for (Long id : userIds.keySet()) {
+			System.out.println("Id: " + id);
 			HashSet<Long> links = new HashSet<Long>();
 			userLinks.put(id, links);
 			
@@ -505,9 +569,9 @@ public class LinkRecommender
 			HashSet<Long> dontInclude = new HashSet<Long>();
 			
 			// Don't recommend links that were already liked
-			result = statement.executeQuery("SELECT l.link_id FROM linkrLinks l, linkrLikes ll WHERE l.link_id=l.link_id AND ll.id=" + id);
+			result = statement.executeQuery("SELECT link_id FROM linkrLinkLikes WHERE id=" + id);
 			while (result.next()) {
-				dontInclude.add(result.getLong("l.link_id"));
+				dontInclude.add(result.getLong("link_id"));
 			}
 			
 			// Don't recommend links that are already pending recommendedation
@@ -523,9 +587,10 @@ public class LinkRecommender
 			}
 			
 			//Don't recommend links that were clicked by the user
-			result = statement.executeQuery("SELECT link_id FROM linkrLinks l, trackLinkClicked t WHERE l.link=t.link and uid_clicked=" + id);
+			HashSet<String> linkClicked = new HashSet<String>();
+			result = statement.executeQuery("SELECT link FROM trackLinkClicked WHERE uid_clicked=" + id);
 			while (result.next()) {
-				dontInclude.add(result.getLong("link_id"));
+				linkClicked.add(result.getString("link"));
 			}
 			
 			// Get the most recent links.
@@ -547,6 +612,13 @@ public class LinkRecommender
 			for (long linkIds : dontInclude) {
 				query.append(",");
 				query.append(linkIds);
+			}
+			
+			query.append(") AND link NOT IN(''");
+			for (String link : linkClicked) {
+				query.append(",'");
+				query.append(link);
+				query.append("'");
 			}
 			
 			query.append(") ORDER BY created_time DESC LIMIT 100");
@@ -583,22 +655,27 @@ public class LinkRecommender
 			Iterator<Long> nonFriendIterator = nonFriendLinks.keySet().iterator();
 			
 			int maxLinks = nonFriendLinks.size();
+			int count = 0;
 			
-			for (int x = 0; x < maxLinks; x++) {
-				long linkId;
-				double val;
-				String from;
+			while (count < maxLinks) {
+				long linkId = 0;
+				double val = 0;
+				String from = null;
 				
-				if (Math.random() >= 0.5) {
+				if (Math.random() >= 0.5 && friendIterator.hasNext()) {
 					linkId = friendIterator.next();
 					val = friendLinks.get(linkId);
 					from = "Friend";
+					count++;
 				}
-				else {
+				else if (nonFriendIterator.hasNext()){
 					linkId = nonFriendIterator.next();
 					val = nonFriendLinks.get(linkId);
 					from = "NonFriend";
+					count++;
 				}
+				
+				if (from == null) continue;
 				
 				System.out.println("RECOMMENDING LINK: " + from);
 				PreparedStatement ps = conn.prepareStatement("INSERT INTO lrRecommendations VALUES(?,?,?,?,0)");
@@ -946,7 +1023,7 @@ public class LinkRecommender
 	public HashMap<Long, HashMap<Long, Double>> recommendLinks(Double[][] userFeatureMatrix, Double[][] linkFeatureMatrix, 
 																HashMap<Long, Double[]> userIdColumns, HashMap<Long, Double[]> linkIdColumns, 
 																HashMap<Long, Double[]> userFeatures, HashMap<Long, Double[]> linkFeatures,
-																HashMap<Long, HashSet<Long>> linksToRecommend, HashMap<Long, HashSet<String>> linkWords,
+																HashMap<Long, HashSet<Long>> linksToRecommend, HashMap<Long, Set<String>> linkWords,
 																HashMap<String, Double[]> wordColumns)
 		throws SQLException
 	{	

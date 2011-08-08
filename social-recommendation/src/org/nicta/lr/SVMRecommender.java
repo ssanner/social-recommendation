@@ -49,10 +49,11 @@ public class SVMRecommender extends LinkRecommender
 		HashMap<Long, Double[]> links = LinkUtil.getLinkFeatures(false);
 		System.out.println("Retrieved links: " + links.size());
 		
-		HashMap<Long, HashSet<Long>> linkLikes = LinkUtil.getLinkLikes(links.keySet());
+		HashMap<Long, Long[]> linkUsers = LinkUtil.getUnormalizedFeatures(links.keySet());
+		HashMap<Long, HashSet<Long>> linkLikes = LinkUtil.getLinkLikes(linkUsers, false);
 		HashMap<Long, HashMap<Long, Double>> friendships = UserUtil.getFriendships();
 		
-		HashMap<Long, HashSet<Long>> userLinkSamples = RecommenderUtil.getUserLinksSample(linkLikes, users.keySet(), friendships, links.keySet(), false);
+		HashMap<Long, HashSet<Long>> userLinkSamples = RecommenderUtil.getUserLinksSample(linkLikes, users.keySet(), friendships, linkUsers, false);
 		System.out.println("Samples: " + userLinkSamples.size());
 		
 		userIds = userLinkSamples.keySet().toArray();
@@ -103,19 +104,19 @@ public class SVMRecommender extends LinkRecommender
 				}		
 			}
 			
-			
+			System.out.println("Training");
 			svm_model model = trainSVM(linkLikes, users, links, friendships, userLinkSamples);
-			int[] stats = testSVM(model, linkLikes, users, links, friendships, forTesting);
+			//int[] stats = testSVM(model, linkLikes, users, links, friendships, forTesting);
 			
-			int truePos = stats[0];
-			int falsePos = stats[1];
-			int trueNeg = stats[2];
-			int falseNeg = stats[3];
+			//int truePos = stats[0];
+			//int falsePos = stats[1];
+			//int trueNeg = stats[2];
+			//int falseNeg = stats[3];
 			
-			totalTruePos += truePos;
-			totalFalsePos += falsePos;
-			totalTrueNeg += trueNeg;
-			totalFalseNeg += falseNeg;
+			//totalTruePos += truePos;
+			//totalFalsePos += falsePos;
+			//totalTrueNeg += trueNeg;
+			//totalFalseNeg += falseNeg;
 			
 			HashMap<Long, Double> precisions = getAveragePrecision(model, linkLikes, users, links, friendships, forTesting);
 			
@@ -138,10 +139,10 @@ public class SVMRecommender extends LinkRecommender
 			}
 			
 			System.out.println("Stats for Run " + (x+1));
-			System.out.println("True Pos: "+ truePos);
-			System.out.println("False Pos: "+ falsePos);
-			System.out.println("True Neg: "+ trueNeg);
-			System.out.println("False Neg: "+ falseNeg);
+			//System.out.println("True Pos: "+ truePos);
+			//System.out.println("False Pos: "+ falsePos);
+			//System.out.println("True Neg: "+ trueNeg);
+			//System.out.println("False Neg: "+ falseNeg);
 			System.out.println("");
 			
 			for (long userId : forTesting.keySet()) {
@@ -161,7 +162,6 @@ public class SVMRecommender extends LinkRecommender
 		double map = 0;
 		for (long userId : averagePrecision.keySet()) {
 			double pre = averagePrecision.get(userId);
-			//pre /= (double)precisionCount.get(userId);
 			pre /= (double)10;
 			
 			map += pre;
@@ -189,10 +189,11 @@ public class SVMRecommender extends LinkRecommender
 		HashMap<Long, Double[]> links = LinkUtil.getLinkFeatures(true);
 		System.out.println("Retrieved links: " + links.size());
 		
-		HashMap<Long, HashSet<Long>> linkLikes = LinkUtil.getLinkLikes(links.keySet());
+		HashMap<Long, Long[]> linkUsers = LinkUtil.getUnormalizedFeatures(links.keySet());
+		HashMap<Long, HashSet<Long>> linkLikes = LinkUtil.getLinkLikes(linkUsers, false);
 		HashMap<Long, HashMap<Long, Double>> friendships = UserUtil.getFriendships();	
 		
-		HashMap<Long, HashSet<Long>> userLinkSamples = RecommenderUtil.getUserLinksSample(linkLikes, users.keySet(), friendships, links.keySet(), true);
+		HashMap<Long, HashSet<Long>> userLinkSamples = RecommenderUtil.getUserLinksSample(linkLikes, users.keySet(), friendships, linkUsers, true);
 		System.out.println("users: " + userLinkSamples.size());
 		
 		userIds = userLinkSamples.keySet().toArray();
@@ -203,9 +204,11 @@ public class SVMRecommender extends LinkRecommender
 		
 		System.out.println("Recommending...");
 		HashMap<Long, HashSet<Long>> friendLinksToRecommend = getFriendLinksForRecommending(friendships, "svm");
+		System.out.println("Got: " + friendLinksToRecommend.size());
 		HashMap<Long, HashMap<Long, Double>> friendRecommendations = recommendLinks(model, linkLikes, users, links, friendships, friendLinksToRecommend);
-		
+		System.out.println("foo");
 		HashMap<Long, HashSet<Long>> nonFriendLinksToRecommend = getNonFriendLinksForRecommending(friendships, "svm");
+		System.out.println("non: " + nonFriendLinksToRecommend.size());
 		HashMap<Long, HashMap<Long, Double>> nonFriendRecommendations = recommendLinks(model, linkLikes, users, links, friendships, nonFriendLinksToRecommend);
 		
 		System.out.println("Saving...");
@@ -237,7 +240,9 @@ public class SVMRecommender extends LinkRecommender
 		param.eps = 0.001;
 		
 		int index = 0;
+		int count = 0;
 		for (long userId : userLinkSamples.keySet()) {
+			System.out.println("User: " + ++count);
 			HashSet<Long> samples = userLinkSamples.get(userId);
 			Set<Long> userFriends;
 			if (friendships.containsKey(userId)) {
@@ -319,7 +324,14 @@ public class SVMRecommender extends LinkRecommender
 		
 		for (long userId : testSamples.keySet()) {
 			HashSet<Long> samples = testSamples.get(userId);
-			Set<Long> userFriends = friendships.get(userId).keySet();
+			//System.out.println("User Id : " + userId + " " + friendships.containsKey(userId));
+			Set<Long> userFriends;
+			if (friendships.containsKey(userId)) {
+				userFriends = friendships.get(userId).keySet();
+			}
+			else {
+				userFriends = new HashSet<Long>();
+			}
 			
 			for (long linkId : samples) {
 				double[] features = combineFeatures(userFeatures.get(userId), linkFeatures.get(linkId));
@@ -367,6 +379,9 @@ public class SVMRecommender extends LinkRecommender
 				}
 				
 				double prediction = svm.svm_predict(model, nodes);
+				double[] dbl = new double[1]; 
+				svm.svm_predict_values(model, nodes, dbl);
+				prediction=dbl[0];
 				
 				if (linkLikes.containsKey(linkId) && linkLikes.get(linkId).contains(userId)) {
 					if (prediction > 0) {
@@ -409,9 +424,19 @@ public class SVMRecommender extends LinkRecommender
 	{
 		HashMap<Long, Double> userAP = new HashMap<Long, Double>();
 		
+		System.out.println("Test size: " + testSamples.size());
+		int count = 0;
 		for (long userId : testSamples.keySet()) {
+			System.out.println("User " + ++count);
+			
 			HashSet<Long> links = testSamples.get(userId);
-			Set<Long> userFriends = friendships.get(userId).keySet();
+			Set<Long> userFriends;
+			if (friendships.containsKey(userId)) {
+				userFriends = friendships.get(userId).keySet();
+			}
+			else {
+				userFriends = new HashSet<Long>();
+			}
 			
 			ArrayList<Double> scores = new ArrayList<Double>();
 			ArrayList<Long> ids = new ArrayList<Long>();
@@ -463,8 +488,12 @@ public class SVMRecommender extends LinkRecommender
 				}
 				
 				double prediction = svm.svm_predict(model, nodes);
+				double[] dbl = new double[1]; 
+				svm.svm_predict_values(model, nodes, dbl);
+				System.out.println("Prediction: " + prediction + " Value: " + dbl[0]);
 				
-				scores.add(prediction);
+				//scores.add(prediction);
+				scores.add(dbl[0]);
 				ids.add(linkId);
 			}
 			
@@ -576,34 +605,35 @@ public class SVMRecommender extends LinkRecommender
 					nodes[x] = nodeList.get(x);
 				}
 				
-				double prediction = svm.svm_predict(model, nodes);
+				double[] dbl = new double[1]; 
+				svm.svm_predict_values(model, nodes, dbl);
+				double prediction = dbl[0];
+				
 				System.out.println("Prediction: " + prediction + " ID: " + userId);
-				//Recommend only if prediction score is greater or equal than the boundary
-				//if (prediction > 0) {
-					//We recommend only a set number of links per day/run. 
-					//If the recommended links are more than the max number, recommend only the highest scoring links.
-					if (linkValues.size() < maxLinks) {
+		
+				//We recommend only a set number of links per day/run. 
+				//If the recommended links are more than the max number, recommend only the highest scoring links.
+				if (linkValues.size() < maxLinks) {
+					linkValues.put(linkId, prediction);
+				}
+				else {
+					//Get the lowest scoring recommended link and replace it with the current link
+					//if this one has a better score.
+					long lowestKey = 0;
+					double lowestValue = Double.MAX_VALUE;
+		
+					for (long id : linkValues.keySet()) {
+						if (linkValues.get(id) < lowestValue) {
+							lowestKey = id;
+							lowestValue = linkValues.get(id);
+						}
+					}
+		
+					if (prediction > lowestValue) {
+						linkValues.remove(lowestKey);
 						linkValues.put(linkId, prediction);
 					}
-					else {
-						//Get the lowest scoring recommended link and replace it with the current link
-						//if this one has a better score.
-						long lowestKey = 0;
-						double lowestValue = Double.MAX_VALUE;
-		
-						for (long id : linkValues.keySet()) {
-							if (linkValues.get(id) < lowestValue) {
-								lowestKey = id;
-								lowestValue = linkValues.get(id);
-							}
-						}
-		
-						if (prediction > lowestValue) {
-							linkValues.remove(lowestKey);
-							linkValues.put(linkId, prediction);
-						}
-					}
-				//}
+				}
 			}
 		}
 		
