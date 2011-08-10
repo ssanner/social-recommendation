@@ -96,6 +96,7 @@ public abstract class Minimizer
 			//Get user derivatives
 			System.out.println("Get user derivatives");
 			for (int k = 0; k < Constants.K; k++) {
+				//System.out.println();
 				for (int l = 0; l < Constants.USER_FEATURE_COUNT; l++) {
 					userDerivative[k][l] = getErrorDerivativeOverUserAttribute(userFeatureMatrix, userFeatures, userIdColumns, userTraits, linkTraits, friendships, linkLikes, userLinkSamples, k, l);
 				}
