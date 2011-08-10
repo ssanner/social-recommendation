@@ -5,27 +5,26 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.nicta.lr.util.Constants;
+import org.nicta.lr.util.RecommenderUtil;
 
 public class FeatureMinimizer extends Minimizer 
 {
 	public double getError(Double[][] userFeatureMatrix, Double[][] linkFeatureMatrix, 
 			HashMap<Long, Double[]> userIdColumns, HashMap<Long, Double[]> linkIdColumns, HashMap<String, Double[]> wordColumns,
-			HashMap<Long, Double[]> users, 
-			HashMap<Long, Double[]> userTraits, HashMap<Long, Double[]> linkTraits,
-			HashMap<Long, HashMap<Long, Double>> friendships, HashMap<Long, HashSet<Long>> linkLikes, HashMap<Long, HashSet<Long>> userLinkSamples)
+			HashMap<Long, HashMap<Long, Double>> friendships, HashMap<Long, HashSet<Long>> linkLikes, 
+			HashMap<Long, HashMap<Long, Double>> predictions, HashMap<Long, HashMap<Long, Double>> connections)
 	{
 		double error = 0;
-			
+		
 		//Get the square error
-		for (long i : userLinkSamples.keySet()) {
-			HashSet<Long> links = userLinkSamples.get(i);
+		for (long i : predictions.keySet()) {
+			Set<Long> links = predictions.get(i).keySet();
 			
 			for (long j : links) {
-				if (!linkTraits.containsKey(j)) continue;
-				
 				int liked = 0;
-				if (linkLikes.containsKey(j) && linkLikes.get(j).contains(i)) liked = 1;
-				double predictedLike = dot(userTraits.get(i), linkTraits.get(j));
+				if (linkLikes.get(j).contains(i)) liked = 1;
+				
+				double predictedLike = predictions.get(i).get(j);
 		
 				error += Math.pow(liked - predictedLike, 2);
 			}
@@ -77,20 +76,18 @@ public class FeatureMinimizer extends Minimizer
 	}
 	
 	public double getErrorDerivativeOverUserAttribute(Double[][] userFeatureMatrix, HashMap<Long, Double[]> userFeatures, HashMap<Long, Double[]> userIdColumns,
-			HashMap<Long, Double[]> userTraits, HashMap<Long, Double[]> linkTraits,
-			HashMap<Long, HashMap<Long, Double>> friendships, HashMap<Long, HashSet<Long>> linkLikes, HashMap<Long, HashSet<Long>> userLinkSamples,
+			HashMap<Long, Double[]> linkTraits, HashMap<Long, HashMap<Long, Double>> friendships, HashMap<Long, HashSet<Long>> linkLikes, 
+			HashMap<Long, HashMap<Long, Double>> predictions, HashMap<Long, HashMap<Long, Double>> connections,
 			int x, int y)
 	{
 		double errorDerivative = userFeatureMatrix[x][y] * Constants.LAMBDA;
 
-		for (long userId : userLinkSamples.keySet()) {
-			HashSet<Long> links = userLinkSamples.get(userId);
+		for (long userId : predictions.keySet()) {
+			Set<Long> links = predictions.get(userId).keySet();
 			
 			for (long linkId : links) {
-				if (!linkTraits.containsKey(linkId)) continue;
-				
 				double dst = linkTraits.get(linkId)[x] * userFeatures.get(userId)[y];		
-				double p = dot(userTraits.get(userId), linkTraits.get(linkId));
+				double p = predictions.get(userId).get(linkId);
 				double r = 0;
 				if (linkLikes.get(linkId) != null && linkLikes.get(linkId).contains(userId)) r = 1;
 
@@ -101,22 +98,21 @@ public class FeatureMinimizer extends Minimizer
 		return errorDerivative * -1;
 	}
 
-	public double getErrorDerivativeOverUserId(Double[][] userFeatureMatrix, HashMap<Long, Double[]> userFeatures, HashMap<Long, Double[]> userTraits, HashMap<Long, Double[]> linkTraits,
+	public double getErrorDerivativeOverUserId(Double[][] userFeatureMatrix, HashMap<Long, Double[]> userFeatures, HashMap<Long, Double[]> linkTraits,
 			HashMap<Long, Double[]> userIdColumns, HashMap<Long, HashMap<Long, Double>> friendships, HashMap<Long, HashSet<Long>> linkLikes, 
-			HashMap<Long, HashSet<Long>> userLinkSamples, int k, long userId)
+			HashMap<Long, HashMap<Long, Double>> predictions, HashMap<Long, HashMap<Long, Double>> connections,
+			int k, long userId)
 	{
 		Double[] idColumn = userIdColumns.get(userId);
 		double errorDerivative = idColumn[k] * Constants.LAMBDA;
 
-		HashSet<Long> links = userLinkSamples.get(userId);
+		Set<Long> links = predictions.get(userId).keySet();
 		
 		for (long linkId : links) {
-			if (!linkTraits.containsKey(linkId)) continue;
-			
 			HashSet<Long> likes = linkLikes.get(linkId);
 
 			double dst = linkTraits.get(linkId)[k] /* userFeatures.get(userId)[k]*/;
-			double p = dot(userTraits.get(userId), linkTraits.get(linkId));
+			double p = predictions.get(userId).get(linkId);
 			double r = 0;
 			if (likes != null && likes.contains(userId)) r = 1;
 
@@ -126,22 +122,20 @@ public class FeatureMinimizer extends Minimizer
 		return errorDerivative * -1;
 	}
 
-	public double getErrorDerivativeOverLinkAttribute(Double[][] linkFeatureMatrix, 
-			HashMap<Long, Double[]> userTraits, HashMap<Long, Double[]> linkTraits, HashMap<Long, Double[]> linkFeatures,
-			HashMap<Long, HashSet<Long>> linkLikes, HashMap<Long, HashSet<Long>> userLinkSamples, int x, int y)
+	public double getErrorDerivativeOverLinkAttribute(Double[][] linkFeatureMatrix,
+			HashMap<Long, Double[]> userTraits, HashMap<Long, Double[]> linkFeatures,
+			HashMap<Long, HashSet<Long>> linkLikes, HashMap<Long, HashMap<Long, Double>> predictions, int x, int y)
 	{	
 		double errorDerivative = linkFeatureMatrix[x][y] * Constants.LAMBDA;
 
-		for (long userId : userLinkSamples.keySet()) {
-			HashSet<Long> links = userLinkSamples.get(userId);
+		for (long userId : predictions.keySet()) {
+			Set<Long> links = predictions.get(userId).keySet();
 				
-			for (long linkId : links) {
-				if (!linkTraits.containsKey(linkId)) continue;
-				
+			for (long linkId : links) {			
 				double dst = userTraits.get(userId)[x] * linkFeatures.get(linkId)[y];		
-				double p = dot(userTraits.get(userId), linkTraits.get(linkId));
+				double p = predictions.get(userId).get(linkId);
 				double r = 0;
-				if (linkLikes.get(linkId) != null && linkLikes.get(linkId).contains(userId)) r = 1;
+				if (linkLikes.get(linkId).contains(userId)) r = 1;
 
 				errorDerivative += (r - p) * dst;
 			}
@@ -151,18 +145,25 @@ public class FeatureMinimizer extends Minimizer
 	}
 
 	
-	public double getErrorDerivativeOverLinkId(HashMap<Long, Double[]> linkIdColumns, HashMap<Long, Double[]> userTraits, HashMap<Long, Double[]> linkTraits,
-												HashMap<Long, HashSet<Long>> linkLikes, HashMap<Long, HashSet<Long>> userLinkSamples, int x, long linkId)
+	public double getErrorDerivativeOverLinkId(HashMap<Long, Double[]> linkIdColumns,
+			HashMap<Long, Double[]> userTraits,
+			HashMap<Long, HashSet<Long>> linkLikes, 
+			HashMap<Long, HashMap<Long, Double>> predictions, 
+			int x, long linkId)
 	{
 		Double[] idColumn = linkIdColumns.get(linkId);
 		double errorDerivative = idColumn[x] * Constants.LAMBDA;
 		HashSet<Long> likes = linkLikes.get(linkId);
 		
-		for (long userId : userLinkSamples.keySet()) {
-			if (! userLinkSamples.get(userId).contains(linkId)) continue;
+		for (Long userId : predictions.keySet()) {
+			if (! predictions.get(userId).containsKey(linkId)) continue;
+			
+			//System.out.println("Contains: " + userTraits.containsKey(1669989910l));
+			//System.out.println("User: " + userTraits.containsKey(userId) + " : " + userId);
+			//System.out.println("Link: " + idColumn);
 			
 			double dst = userTraits.get(userId)[x] * idColumn[x];		
-			double p = dot(userTraits.get(userId), linkTraits.get(linkId));
+			double p = predictions.get(userId).get(linkId);
 			double r = 0;
 			if (likes != null && likes.contains(userId)) r = 1;
 
@@ -173,20 +174,21 @@ public class FeatureMinimizer extends Minimizer
 	}
 	
 	public double getErrorDerivativeOverWord(HashMap<String, Double[]> wordColumns, HashMap<Long, Set<String>> linkWords, 
-			HashMap<Long, Double[]> userTraits, HashMap<Long, Double[]> linkTraits, HashMap<Long, HashSet<Long>> linkLikes,
-			HashMap<Long, HashSet<Long>> userLinkSamples, int x, String word)
+			HashMap<Long, Double[]> userTraits, HashMap<Long, HashSet<Long>> linkLikes,
+			HashMap<Long, HashMap<Long, Double>> predictions,  
+			int x, String word)
 	{
 		Double[] column = wordColumns.get(word);
 		double errorDerivative = column[x] * Constants.LAMBDA;
 		
-		for (long userId : userLinkSamples.keySet()) {
-			HashSet<Long> links = userLinkSamples.get(userId);
+		for (long userId : predictions.keySet()) {
+			Set<Long> links = predictions.get(userId).keySet();
 			
 			for (long linkId : links) {
 				double dst = userTraits.get(userId)[x] * column[x];		
-				double p = dot(userTraits.get(userId), linkTraits.get(linkId));
+				double p = predictions.get(userId).get(linkId);
 				double r = 0;
-				if (linkLikes.get(linkId) != null && linkLikes.get(linkId).contains(userId)) r = 1;
+				if (linkLikes.get(linkId).contains(userId)) r = 1;
 
 				errorDerivative += (r - p) * dst;
 			}

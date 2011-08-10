@@ -79,11 +79,13 @@ public abstract class Minimizer
 		while (go) {
 			iterations++;
 			HashMap<Long, Double[]> userTraits = UserUtil.getUserTraitVectors(userFeatureMatrix, userIdColumns, userFeatures);
+			
 			HashMap<Long, Double[]> linkTraits = LinkUtil.getLinkTraitVectors(linkFeatureMatrix, linkIdColumns, linkFeatures, linkWords, wordColumns);
 
-			//System.out.println("ID column: " + linkIdColumns.containsKey(178586235541134l));
-			//System.out.println("Feature: " + linkFeatures.containsKey(178586235541134l));
-			//System.out.println("Trait: " + linkTraits.containsKey(178586235541134l));
+			System.out.println("Getting Connections");
+			HashMap<Long, HashMap<Long, Double>> connections = RecommenderUtil.getConnections(userFeatureMatrix, userIdColumns, userFeatures, userLinkSamples);
+			System.out.println("Getting Predictions");
+			HashMap<Long, HashMap<Long, Double>> predictions = RecommenderUtil.getPredictions(userTraits, linkTraits, userLinkSamples);
 			
 			Double[][] userDerivative = new Double[Constants.K][Constants.USER_FEATURE_COUNT];
 			HashMap<Long, Double[]> userIdDerivative = new HashMap<Long, Double[]>();
@@ -96,53 +98,44 @@ public abstract class Minimizer
 			//Get user derivatives
 			System.out.println("Get user derivatives");
 			for (int k = 0; k < Constants.K; k++) {
-				//System.out.println();
+				System.out.println("K: " + k);
 				for (int l = 0; l < Constants.USER_FEATURE_COUNT; l++) {
-					userDerivative[k][l] = getErrorDerivativeOverUserAttribute(userFeatureMatrix, userFeatures, userIdColumns, userTraits, linkTraits, friendships, linkLikes, userLinkSamples, k, l);
+					userDerivative[k][l] = getErrorDerivativeOverUserAttribute(userFeatureMatrix, userFeatures, userIdColumns, linkTraits, friendships, linkLikes, predictions, connections, k, l);
 				}
 				
-				//for (long userId : userIdColumns.keySet()) {
 				for (long userId : userLinkSamples.keySet()) {
 					if (!userIdDerivative.containsKey(userId)) {
 						userIdDerivative.put(userId, new Double[Constants.K]);
 					}
 					
-					//If no link samples for user, do not change?
-					//Did this for optmization, hopefully this doesn't screw up anything. Much.
-					if (userLinkSamples.containsKey(userId)) {
-						userIdDerivative.get(userId)[k] = getErrorDerivativeOverUserId(userFeatureMatrix, userFeatures, userTraits, linkTraits, userIdColumns, friendships, linkLikes, userLinkSamples, k, userId);
-					}
-					else {
-						Double[] idColumn = userIdColumns.get(userId);
-						userIdDerivative.get(userId)[k] = idColumn[k] * Constants.LAMBDA * -1;
-						//userIdDerivative.get(userId)[k] = 0.0;
-					}
+					userIdDerivative.get(userId)[k] = getErrorDerivativeOverUserId(userFeatureMatrix, userFeatures, linkTraits, userIdColumns, friendships, linkLikes, predictions, connections, k, userId);
 				}
 			}
 			
 			//Get link derivatives
 			System.out.println("Get link derivatives");
 			for (int q = 0; q < Constants.K; q++) {
-				//System.out.println("K: " + q);
+				System.out.println("K: " + q);
 				for (int l = 0; l < Constants.LINK_FEATURE_COUNT; l++) {
-					linkDerivative[q][l] = getErrorDerivativeOverLinkAttribute(linkFeatureMatrix, userTraits, linkTraits, linkFeatures, linkLikes, userLinkSamples, q, l);
+					linkDerivative[q][l] = getErrorDerivativeOverLinkAttribute(linkFeatureMatrix, userTraits, linkFeatures, linkLikes, predictions, q, l);
 				}
-				//System.out.println("Done features");
+				System.out.println("Done features");
 				for (long linkId : linkIdColumns.keySet()) {
 					if (!linkIdDerivative.containsKey(linkId)) {
 						linkIdDerivative.put(linkId, new Double[Constants.K]);
 					}
 									
-					linkIdDerivative.get(linkId)[q] = getErrorDerivativeOverLinkId(linkIdColumns, userTraits, linkTraits, linkLikes, userLinkSamples, q, linkId);
+					linkIdDerivative.get(linkId)[q] = getErrorDerivativeOverLinkId(linkIdColumns, userTraits, linkLikes, predictions, q, linkId);
 				}
-				//System.out.println("Done ids");
+				System.out.println("Done ids");
+				
 				/*
 				for (String word : words) {
 					if (!wordDerivative.containsKey(word)) {
 						wordDerivative.put(word, new Double[Constants.K]);
 					}
 					
-					wordDerivative.get(word)[q] = getErrorDerivativeOverWord(wordColumns, linkWords, userTraits, linkTraits, linkLikes, userLinkSamples, q, word);
+					wordDerivative.get(word)[q] = getErrorDerivativeOverWord(wordColumns, linkWords, linkTraits, linkLikes, predictions, q, word);
 				}
 				*/
 				//System.out.println("Done words");
@@ -220,7 +213,7 @@ public abstract class Minimizer
 				}
 			}
 			
-			double error = getError(userFeatureMatrix, linkFeatureMatrix, userIdColumns, linkIdColumns, wordColumns, userFeatures, userTraits, linkTraits, friendships, linkLikes, userLinkSamples);
+			double error = getError(userFeatureMatrix, linkFeatureMatrix, userIdColumns, linkIdColumns, wordColumns, friendships, linkLikes, predictions, connections);
 			
 			System.out.println("New Error: " + error);
 			System.out.println("");
@@ -229,7 +222,7 @@ public abstract class Minimizer
 					false, diag, iprint, Constants.STEP_CONVERGENCE,
 					1e-15, iflag);
 		
-			//System.out.println("Setting again");
+			System.out.println("Setting again");
 			index = 0;
 			for (int x = 0; x < Constants.K; x++) {
 				for (int y = 0; y < Constants.USER_FEATURE_COUNT; y++) {
@@ -265,8 +258,6 @@ public abstract class Minimizer
 			if (iflag[0] == 0 || Math.abs(oldError - error) < Constants.STEP_CONVERGENCE) go = false;
 		
 			oldError = error;
-			
-			System.gc();
 		}
 		
 		return rmse;
@@ -274,30 +265,33 @@ public abstract class Minimizer
 	
 	public abstract double getError(Double[][] userFeatureMatrix, Double[][] linkFeatureMatrix, 
 			HashMap<Long, Double[]> userIdColumns, HashMap<Long, Double[]> linkIdColumns, HashMap<String, Double[]> wordColumns,
-			HashMap<Long, Double[]> users, 
-			HashMap<Long, Double[]> userTraits, HashMap<Long, Double[]> linkTraits,
-			HashMap<Long, HashMap<Long, Double>> friendships, HashMap<Long, HashSet<Long>> linkLikes, HashMap<Long, HashSet<Long>> userLinkSamples);
+			HashMap<Long, HashMap<Long, Double>> friendships, HashMap<Long, HashSet<Long>> linkLikes, 
+			HashMap<Long, HashMap<Long, Double>> predictions, HashMap<Long, HashMap<Long, Double>> connections);
 	
 	public abstract double getErrorDerivativeOverUserAttribute(Double[][] userFeatureMatrix, HashMap<Long, Double[]> userFeatures, HashMap<Long, Double[]> userIdColumns,
-			HashMap<Long, Double[]> userTraits, HashMap<Long, Double[]> linkTraits,
-			HashMap<Long, HashMap<Long, Double>> friendships, HashMap<Long, HashSet<Long>> linkLikes, HashMap<Long, HashSet<Long>> userLinkSamples,
+			HashMap<Long, Double[]> linkTraits,
+			HashMap<Long, HashMap<Long, Double>> friendships, HashMap<Long, HashSet<Long>> linkLikes,
+			HashMap<Long, HashMap<Long, Double>> predictions, HashMap<Long, HashMap<Long, Double>> connections,
 			int x, int y);
 	
-	public abstract double getErrorDerivativeOverUserId(Double[][] userFeatureMatrix, HashMap<Long, Double[]> userFeatures, HashMap<Long, Double[]> userTraits, HashMap<Long, Double[]> linkTraits,
+	public abstract double getErrorDerivativeOverUserId(Double[][] userFeatureMatrix, HashMap<Long, Double[]> userFeatures, HashMap<Long, Double[]> linkTraits,
 			HashMap<Long, Double[]> userIdColumns, HashMap<Long, HashMap<Long, Double>> friendships, HashMap<Long, HashSet<Long>> linkLikes, 
-			HashMap<Long, HashSet<Long>> userLinkSamples, int k, long userId);
+			HashMap<Long, HashMap<Long, Double>> predictions, HashMap<Long, HashMap<Long, Double>> connections,
+			int k, long userId);
 	
 	public abstract double getErrorDerivativeOverLinkAttribute(Double[][] linkFeatureMatrix,
-			HashMap<Long, Double[]> userTraits, HashMap<Long, Double[]> linkTraits, HashMap<Long, Double[]> linkFeatures,
-			HashMap<Long, HashSet<Long>> linkLikes, HashMap<Long, HashSet<Long>> userLinkSamples, int x, int y);
+			HashMap<Long, Double[]> userTraits, HashMap<Long, Double[]> linkFeatures,
+			HashMap<Long, HashSet<Long>> linkLikes, HashMap<Long, HashMap<Long, Double>> predictions, int x, int y);
 	
 	public abstract double getErrorDerivativeOverLinkId(HashMap<Long, Double[]> linkIdColumns,
-			HashMap<Long, Double[]> userTraits, HashMap<Long, Double[]> linkTraits,
+			HashMap<Long, Double[]> userTraits,
 			HashMap<Long, HashSet<Long>> linkLikes, 
-			HashMap<Long, HashSet<Long>> userLinkSamples, int x, long linkId);
+			HashMap<Long, HashMap<Long, Double>> predictions, 
+			int x, long linkId);
 	
 	public abstract double getErrorDerivativeOverWord(HashMap<String, Double[]> wordColumns, HashMap<Long, Set<String>> linkWords, 
-			HashMap<Long, Double[]> userTraits, HashMap<Long, Double[]> linkTraits, HashMap<Long, HashSet<Long>> linkLikes,
-			HashMap<Long, HashSet<Long>> userLinkSamples, int x, String word);
+			HashMap<Long, Double[]> userTraits, HashMap<Long, HashSet<Long>> linkLikes,
+			HashMap<Long, HashMap<Long, Double>> predictions,  
+			int x, String word);
 	
 }
