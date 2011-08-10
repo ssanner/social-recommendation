@@ -9,14 +9,13 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.nicta.lr.util.Constants;
 import org.nicta.lr.util.LinkUtil;
 import org.nicta.lr.util.RecommenderUtil;
 import org.nicta.lr.util.UserUtil;
 
 public class NNRecommender extends LinkRecommender
 {
-	private final int K = 5;
+	private final int K = 1;
 	private final double BOUNDARY = 0.5;
 	
 	public NNRecommender()
@@ -43,6 +42,7 @@ public class NNRecommender extends LinkRecommender
 		
 		HashMap<Long, Long[]> linkUsers = LinkUtil.getUnormalizedFeatures(links.keySet());
 		HashMap<Long, HashSet<Long>> linkLikes = LinkUtil.getLinkLikes(linkUsers, false);
+		System.out.println("Likes: " + linkLikes.size());
 		HashMap<Long, HashMap<Long, Double>> friendships = UserUtil.getFriendships();
 		
 		HashMap<Long, HashSet<Long>> userLinkSamples = RecommenderUtil.getUserLinksSample(linkLikes, users.keySet(), friendships, linkUsers, false);
@@ -151,6 +151,7 @@ public class NNRecommender extends LinkRecommender
 		double map = 0;
 		for (long userId : averagePrecision.keySet()) {
 			double pre = averagePrecision.get(userId);
+			//pre /= (double)precisionCount.get(userId);
 			pre /= (double)10;
 			
 			map += pre;
@@ -172,14 +173,14 @@ public class NNRecommender extends LinkRecommender
 		HashMap<Long, Double[]> users = UserUtil.getUserFeatures();
 		System.out.println("Retrieved users: " + users.size());
 		
-		HashMap<Long, Double[]> links = LinkUtil.getLinkFeatures(false);
+		HashMap<Long, Double[]> links = LinkUtil.getLinkFeatures(true);
 		System.out.println("Retrieved links: " + links.size());
 		
 		HashMap<Long, Long[]> linkUsers = LinkUtil.getUnormalizedFeatures(links.keySet());
-		HashMap<Long, HashSet<Long>> linkLikes = LinkUtil.getLinkLikes(linkUsers, false);
+		HashMap<Long, HashSet<Long>> linkLikes = LinkUtil.getLinkLikes(linkUsers, true);
 		HashMap<Long, HashMap<Long, Double>> friendships = UserUtil.getFriendships();	
 		
-		HashMap<Long, HashSet<Long>> userLinkSamples = RecommenderUtil.getUserLinksSample(linkLikes, users.keySet(), friendships, linkUsers, false);
+		HashMap<Long, HashSet<Long>> userLinkSamples = RecommenderUtil.getUserLinksSample(linkLikes, users.keySet(), friendships, linkUsers, true);
 		System.out.println("users: " + userLinkSamples.size());
 		
 		System.out.println("Recommending...");
@@ -219,11 +220,10 @@ public class NNRecommender extends LinkRecommender
 			double smallestKSimilarity = 1;			
 			long smallestId = 0;
 			
-			Set<Long> userIds = users.keySet();
-			
 			for (long testLinkId : testLinks) {
+				
 				for (long linkId : samples) {					
-					double similarity = getCosineSimilarity(testLinkId, linkId, linkLikes, userIds);
+					double similarity = 0;//getCosineSimilarity(testLinkId, linkId, linkLikes, userIds);
 					
 					if (kClosestSimilarities.size() < K) {
 						kClosestSimilarities.put(linkId, similarity);
@@ -304,60 +304,69 @@ public class NNRecommender extends LinkRecommender
 	
 	public HashMap<Long, Double> getAveragePrecision(HashMap<Long, HashSet<Long>> linkLikes, HashMap<Long, Double[]> userFeatures, HashMap<Long, Double[]> linkFeatures, HashMap<Long, HashMap<Long, Double>> friendships, HashMap<Long, HashSet<Long>> userLinkSamples, HashMap<Long, HashSet<Long>> testSamples)
 	{
-		System.out.println("Getting AP");
 		HashMap<Long, Double> userAP = new HashMap<Long, Double>();
 		
 		for (long userId : testSamples.keySet()) {
 			HashSet<Long> testLinks = testSamples.get(userId);
-			HashSet<Long> samples = userLinkSamples.get(userId);
+			//HashSet<Long> samples = userLinkSamples.get(userId);
+			Double[] userFeature = userFeatures.get(userId);
 			
 			ArrayList<Double> scores = new ArrayList<Double>();
 			ArrayList<Long> ids = new ArrayList<Long>();
 			
-			//Holds the k=10 nearest neighbors
-			HashMap<Long, Double> kClosestSimilarities = new HashMap<Long, Double>();
-			
-			double smallestKSimilarity = 1;			
-			long smallestId = 0;
-			
-			Set<Long> userIds = userFeatures.keySet();
-			
 			for (long testId : testLinks) {
-				for (long linkId : samples) {
-					double similarity = getCosineSimilarity(testId, linkId, linkLikes, userIds);
+				Set<Long> likedUsers = linkLikes.get(testId);
+				if (likedUsers == null) {
+					scores.add(0.0);
+					ids.add(testId);
+					continue;
+				}
+				
+				//Holds the k=10 nearest neighbors
+				HashMap<Long, Double> kClosestDistance = new HashMap<Long, Double>();
+				
+				double biggestKDistance = 0;			
+				long biggestId = 0;
+				
+				for (long user : likedUsers) {
+					if (user == userId || !userFeatures.containsKey(user)) continue;
 					
-					if (kClosestSimilarities.size() < K) {
-						kClosestSimilarities.put(linkId, similarity);
+					Double[] likedFeature = userFeatures.get(user);
+					
+					double distance = RecommenderUtil.getDistance(userFeature, likedFeature);
+					
+					if (kClosestDistance.size() < K) {
+						kClosestDistance.put(user, distance);
 						
-						if (similarity < smallestKSimilarity) {
-							smallestKSimilarity = similarity;
-							smallestId = linkId;
+						if (distance > biggestKDistance) {
+							biggestKDistance = distance;
+							biggestId = user;
 						}
 					}
-					else if (similarity > smallestKSimilarity) {
-						kClosestSimilarities.remove(smallestId);
-						kClosestSimilarities.put(linkId, similarity);
+					else if (distance < biggestKDistance) {
+						kClosestDistance.remove(biggestId);
+						kClosestDistance.put(user, distance);
 						
-						smallestKSimilarity = 1;
+						biggestKDistance = 0;
 						
-						//reset the smallest similarity again
-						for (long id : kClosestSimilarities.keySet()) {
-							double s = kClosestSimilarities.get(id);
+						//reset the biggest distance again
+						for (long id : kClosestDistance.keySet()) {
+							double d = kClosestDistance.get(id);
 							
-							if (s < smallestKSimilarity) {
-								smallestKSimilarity = similarity;
-								smallestId = id;
+							if (d > biggestKDistance) {
+								biggestKDistance = distance;
+								biggestId = id;
 							}
 						}
 					}
 				}
 				
+				
 				double numerator = 0;
 				double denomenator = 0;
 				
-				
-				for (long neighborId : kClosestSimilarities.keySet()) {				
-					double neighborSimilarity = kClosestSimilarities.get(neighborId);
+				for (long neighborId : kClosestDistance.keySet()) {				
+					double neighborSimilarity = kClosestDistance.get(neighborId);
 					double neighborRating = 0;
 					if (linkLikes.containsKey(neighborId) && linkLikes.get(neighborId).contains(userId)) neighborRating = 1;
 					
@@ -415,75 +424,71 @@ public class NNRecommender extends LinkRecommender
 		Statement statement = conn.createStatement();
 		
 		for (long userId :linksToRecommend.keySet()) {
+			System.out.println("For user: " + userId);
 			HashSet<Long> userLinks = linksToRecommend.get(userId);
-			HashSet<Long> samples = userLinkSamples.get(userId);
-			
-			//if (samples == null) continue;
-			if (samples == null) samples = new HashSet<Long>();
-			
-			System.out.println(userId + " USER SAMPLE: " + samples.size());
+			Double[] userFeature = userFeatures.get(userId);
 			
 			HashMap<Long, Double> linkValues = new HashMap<Long, Double>();
 			recommendations.put(userId, linkValues);
-			
-			Set<Long> userIds = userFeatures.keySet();
 			
 			ResultSet result = statement.executeQuery("SELECT max_links FROM trackUserUpdates WHERE uid=" + userId);
 			result.next();
 			int maxLinks = result.getInt("max_links");
 			
 			for (long recommendId : userLinks) {
+				Set<Long> likedUsers = linkLikes.get(recommendId);
+				
+				if (likedUsers == null) {
+					System.out.println("Nobody liked");
+					continue;
+				}
+				
 				//Holds the k=10 nearest neighbors
-				HashMap<Long, Double> kClosestSimilarities = new HashMap<Long, Double>();
+				HashMap<Long, Double> kClosestDistance = new HashMap<Long, Double>();
 				
-				double smallestKSimilarity = 1;			
-				long smallestId = 0;
+				double biggestKDistance = 0;			
+				long biggestId = 0;
 				
-				for (long linkId : samples) {
-					double similarity = getCosineSimilarity(recommendId, linkId, linkLikes, userIds);
+				for (long user : likedUsers) {
+					if (user == userId || !userFeatures.containsKey(user)) continue;
 					
-					if (kClosestSimilarities.size() < K) {
-						kClosestSimilarities.put(linkId, similarity);
+					Double[] likedFeature = userFeatures.get(user);
+					
+					double distance = RecommenderUtil.getDistance(userFeature, likedFeature);
+					
+					if (kClosestDistance.size() < K) {
+						kClosestDistance.put(user, distance);
 						
-						if (similarity < smallestKSimilarity) {
-							smallestKSimilarity = similarity;
-							smallestId = linkId;
+						if (distance > biggestKDistance) {
+							biggestKDistance = distance;
+							biggestId = user;
 						}
 					}
-					else if (similarity > smallestKSimilarity) {
-						kClosestSimilarities.remove(smallestId);
-						kClosestSimilarities.put(linkId, similarity);
+					else if (distance < biggestKDistance) {
+						kClosestDistance.remove(biggestId);
+						kClosestDistance.put(user, distance);
 						
-						smallestKSimilarity = 1;
+						biggestKDistance = 0;
 						
-						//reset the smallest similarity again
-						for (long id : kClosestSimilarities.keySet()) {
-							double s = kClosestSimilarities.get(id);
+						//reset the biggest distance again
+						for (long id : kClosestDistance.keySet()) {
+							double d = kClosestDistance.get(id);
 							
-							if (s < smallestKSimilarity) {
-								smallestKSimilarity = similarity;
-								smallestId = id;
+							if (d > biggestKDistance) {
+								biggestKDistance = distance;
+								biggestId = id;
 							}
 						}
 					}
 				}
 				
-				double numerator = 0;
-				double denomenator = 0;
-				
-				
-				for (long neighborId : kClosestSimilarities.keySet()) {				
-					double neighborSimilarity = kClosestSimilarities.get(neighborId);
-					double neighborRating = 0;
-					if (linkLikes.containsKey(neighborId) && linkLikes.get(neighborId).contains(userId)) neighborRating = 1;
-					
-					numerator += neighborSimilarity * neighborRating;
-					denomenator += neighborSimilarity;
-				}
 				
 				double prediction = 0;
-				if (denomenator > 0) prediction = numerator / denomenator;
-				System.out.println("Prediction: " + prediction + " Denominator: " + denomenator);
+				for (long neighborId : kClosestDistance.keySet()) {				
+					prediction += 1 / kClosestDistance.get(neighborId);
+				}
+				
+				System.out.println("Prediction: " + prediction + " Liked: " + likedUsers.size() + " Closest: " + kClosestDistance.size());
 				//Recommend only if prediction score is greater or equal than the boundary
 				//if (prediction > BOUNDARY) {
 					//We recommend only a set number of links per day/run. 
@@ -514,38 +519,5 @@ public class NNRecommender extends LinkRecommender
 		}
 	
 		return recommendations;
-	}
-	
-	public double getCosineSimilarity(long testLinkId, long trainLinkId, HashMap<Long, HashSet<Long>> linkLikes, Set<Long> userIds)
-	{
-		double similarity = 0;
-		double mag1 = 0;
-		double mag2 = 0;
-		
-		HashSet<Long> testLikes = linkLikes.get(testLinkId);
-		HashSet<Long> trainLikes = linkLikes.get(trainLinkId);
-		
-		if (testLikes == null || trainLikes == null) return 0;
-		
-		for (long userId : userIds) {
-			int testVal = 0;
-			int trainVal = 0;
-			
-			if (testLikes.contains(userId)) testVal = 1;
-			if (trainLikes.contains(userId)) trainVal = 1;
-			
-			if (testVal != 0 && trainVal != 0) {
-				similarity += testVal * trainVal;
-				mag1 += Math.pow(testVal, 2);
-				mag2 += Math.pow(trainVal, 2);
-			}
-		}
-		
-		if (mag1 == 0 || mag2 == 0) {
-			return 0;
-		}
-		else {
-			return similarity / ((Math.sqrt(mag1) * Math.sqrt(mag2)));
-		}
 	}
 }

@@ -48,20 +48,20 @@ public class LinkRecommender
 		throws Exception
 	{
 		LinkRecommender lr = null;
-		String type = "feature";
+		String type = "social";
 		if (args.length > 0) {
 			type = args[0];
 		}
 		
 		if (type.equals("feature")) {
 			Constants.LAMBDA = 10;
-			Constants.K = 1;
+			Constants.K = 5;
 			lr = new LinkRecommender("feature");
 		}
 		else if (type.equals("social")) {
-			Constants.LAMBDA = 10;
+			Constants.LAMBDA = 1;
 			Constants.BETA = 0.001;
-			//Constants.K = 6;
+			Constants.K = 5;
 			lr = new LinkRecommender("social");
 		}
 		else if (type.equals("logistic")) {
@@ -83,39 +83,38 @@ public class LinkRecommender
 		//lr.recommend();
 		lr.crossValidate();
 		
-		
 		/*
-		Constants.BETA = .000001;
+		Constants.LAMBDA = .000001;
 		lr.crossValidate();
 	
-		Constants.BETA = .00001;
+		Constants.LAMBDA = .00001;
 		lr.crossValidate();
 		
-		Constants.BETA = .0001;
+		Constants.LAMBDA = .0001;
 		lr.crossValidate();
 		
-		Constants.BETA  = .001;
+		Constants.LAMBDA = .001;
 		lr.crossValidate();
 		
-		Constants.BETA  = .01;
+		Constants.LAMBDA = .01;
 		lr.crossValidate();
 		
-		Constants.BETA  = .1;
+		Constants.LAMBDA = .1;
 		lr.crossValidate();
 		
-		Constants.BETA  = 1;
+		Constants.LAMBDA = 1;
 		lr.crossValidate();
 		
-		Constants.BETA  = 10;
+		Constants.LAMBDA = 10;
 		lr.crossValidate();
 		
-		Constants.BETA  = 100;
+		Constants.LAMBDA = 100;
 		lr.crossValidate();
 		
-		Constants.BETA  = 1000;
+		Constants.LAMBDA = 1000;
 		lr.crossValidate();
 		
-		Constants.BETA  = 10000;
+		Constants.LAMBDA = 10000;
 		lr.crossValidate();
 		*/
 	}
@@ -133,7 +132,7 @@ public class LinkRecommender
 		//System.out.println("Retrieved links: " + links.size());
 		
 		HashMap<Long, Long[]> linkUsers = LinkUtil.getUnormalizedFeatures(linkIds);
-		HashMap<Long, HashSet<Long>> linkLikes = LinkUtil.getLinkLikes(linkUsers, false);
+		HashMap<Long, HashSet<Long>> linkLikes = LinkUtil.getLinkLikes(linkUsers, true);
 		HashMap<Long, HashMap<Long, Double>> friendships = UserUtil.getFriendships();
 		
 		HashMap<Long, HashSet<Long>> userLinkSamples = RecommenderUtil.getUserLinksSample(linkLikes, userIds, friendships, linkUsers, false);
@@ -218,16 +217,16 @@ public class LinkRecommender
 			HashMap<Long, Double[]> userTraits = UserUtil.getUserTraitVectors(userFeatureMatrix, userIdColumns, users);
 			HashMap<Long, Double[]> linkTraits = LinkUtil.getLinkTraitVectors(linkFeatureMatrix, linkIdColumns, links, linkWords, wordColumns);
 			
-			int[] stats = RecommenderUtil.calcStats(userTraits, linkTraits, linkLikes, forTesting);
-			int truePos = stats[0];
-			int falsePos = stats[1];
-			int trueNeg = stats[2];
-			int falseNeg = stats[3];
+			//int[] stats = RecommenderUtil.calcStats(userTraits, linkTraits, linkLikes, forTesting);
+			//int truePos = stats[0];
+			//int falsePos = stats[1];
+			//int trueNeg = stats[2];
+			//int falseNeg = stats[3];
 			
-			totalTruePos += truePos;
-			totalFalsePos += falsePos;
-			totalTrueNeg += trueNeg;
-			totalFalseNeg += falseNeg;
+			//totalTruePos += truePos;
+			//totalFalsePos += falsePos;
+			//totalTrueNeg += trueNeg;
+			//totalFalseNeg += falseNeg;
 			
 			HashMap<Long, Double> userAP = RecommenderUtil.getAveragePrecision(userTraits, linkTraits, linkLikes, forTesting);
 			
@@ -249,12 +248,12 @@ public class LinkRecommender
 				precisionCount.put(userId, count);
 			}
 			
-			System.out.println("Stats for Run " + (x+1));
-			System.out.println("True Pos: "+ truePos);
-			System.out.println("False Pos: "+ falsePos);
-			System.out.println("True Neg: "+ trueNeg);
-			System.out.println("False Neg: "+ falseNeg);
-			System.out.println("");
+			//System.out.println("Stats for Run " + (x+1));
+			//System.out.println("True Pos: "+ truePos);
+			//System.out.println("False Pos: "+ falsePos);
+			//System.out.println("True Neg: "+ trueNeg);
+			//System.out.println("False Neg: "+ falseNeg);
+			//System.out.println("");
 			
 			for (long userId : forTesting.keySet()) {
 				HashSet<Long> tests = forTesting.get(userId);
@@ -279,10 +278,10 @@ public class LinkRecommender
 		map /= (double)averagePrecision.size();
 		
 		System.out.println("L=" + Constants.LAMBDA + ", B=" + Constants.BETA);
-		System.out.println("Accuracy: " + accuracy);
-		System.out.println("Precision: " + precision);
-		System.out.println("Recall: " + recall);
-		System.out.println("F1: " + f1);
+		//System.out.println("Accuracy: " + accuracy);
+		//System.out.println("Precision: " + precision);
+		//System.out.println("Recall: " + recall);
+		//System.out.println("F1: " + f1);
 		System.out.println("MAP: " + map);
 		System.out.println("");
 	}
@@ -1050,32 +1049,29 @@ public class LinkRecommender
 				
 				double prediction = RecommenderUtil.dot(userTraits.get(userId), linkTraits.get(linkId));
 				
-				//Recommend only if prediction score is greater or equal than the boundary
-				//if (prediction > Constants.BOUNDARY) {
-					//We recommend only a set number of links per day/run. 
-					//If the recommended links are more than the max number, recommend only the highest scoring links.
-					if (linkValues.size() < maxLinks) {
+				//We recommend only a set number of links per day/run. 
+				//If the recommended links are more than the max number, recommend only the highest scoring links.
+				if (linkValues.size() < maxLinks) {
+					linkValues.put(linkId, prediction);
+				}
+				else {
+					//Get the lowest scoring recommended link and replace it with the current link
+					//if this one has a better score.
+					long lowestKey = 0;
+					double lowestValue = Double.MAX_VALUE;
+						
+					for (long id : linkValues.keySet()) {
+						if (linkValues.get(id) < lowestValue) {
+							lowestKey = id;
+							lowestValue = linkValues.get(id);
+						}
+					}
+						
+					if (prediction > lowestValue) {
+						linkValues.remove(lowestKey);
 						linkValues.put(linkId, prediction);
 					}
-					else {
-						//Get the lowest scoring recommended link and replace it with the current link
-						//if this one has a better score.
-						long lowestKey = 0;
-						double lowestValue = Double.MAX_VALUE;
-						
-						for (long id : linkValues.keySet()) {
-							if (linkValues.get(id) < lowestValue) {
-								lowestKey = id;
-								lowestValue = linkValues.get(id);
-							}
-						}
-						
-						if (prediction > lowestValue) {
-							linkValues.remove(lowestKey);
-							linkValues.put(linkId, prediction);
-						}
-					}
-				//}
+				}
 			}
 		}
 		
