@@ -12,7 +12,6 @@ import java.util.Set;
 import java.util.Iterator;
 
 import org.nicta.lr.minimizer.FeatureMinimizer;
-import org.nicta.lr.minimizer.MSRSocialMinimizer;
 import org.nicta.lr.minimizer.Minimizer;
 import org.nicta.lr.minimizer.SocialMinimizer;
 import org.nicta.lr.minimizer.LogisticSocialMinimizer;
@@ -39,16 +38,13 @@ public class LinkRecommender
 		else if ("logistic".equals(type)) {
 			minimizer = new LogisticSocialMinimizer();
 		}
-		else if ("msr".equals(type)) {
-			minimizer = new MSRSocialMinimizer();
-		}
 	}
 	
 	public static void main(String[] args)
 		throws Exception
 	{
 		LinkRecommender lr = null;
-		String type = "social";
+		String type = "feature";
 		if (args.length > 0) {
 			type = args[0];
 		}
@@ -80,8 +76,8 @@ public class LinkRecommender
 			System.out.println("WTF: " + args[0]);
 		}
 		
-		//lr.recommend();
-		lr.crossValidate();
+		lr.recommend();
+		//lr.crossValidate();
 		
 		/*
 		Constants.LAMBDA = .000001;
@@ -123,7 +119,7 @@ public class LinkRecommender
 		throws Exception
 	{
 		Set<Long> userIds = UserUtil.getUserIds();
-		Set<Long> linkIds = LinkUtil.getLinkIds(false);
+		Set<Long> linkIds = LinkUtil.getLinkIds(true);
 		
 		//HashMap<Long, Double[]> users = UserUtil.getUserFeatures();
 		//System.out.println("Retrieved users: " + users.size());
@@ -135,7 +131,7 @@ public class LinkRecommender
 		HashMap<Long, HashSet<Long>> linkLikes = LinkUtil.getLinkLikes(linkUsers, true);
 		HashMap<Long, HashMap<Long, Double>> friendships = UserUtil.getFriendships();
 		
-		HashMap<Long, HashSet<Long>> userLinkSamples = RecommenderUtil.getUserLinksSample(linkLikes, userIds, friendships, linkUsers, false);
+		HashMap<Long, HashSet<Long>> userLinkSamples = RecommenderUtil.getUserLinksSample(linkLikes, userIds, friendships, linkUsers, true);
 		System.out.println("Samples: " + userLinkSamples.size());
 		
 		HashMap<Long, Double[]> users = UserUtil.getUserFeatures(userLinkSamples.keySet());
@@ -155,7 +151,7 @@ public class LinkRecommender
 		Set<String> words = new HashSet<String>();
 		
 		System.out.println("Words: " + words.size());
-		HashMap<Long, Set<String>> linkWords = LinkUtil.getLinkWordFeatures(words, false);
+		HashMap<Long, Set<String>> linkWords = LinkUtil.getLinkWordFeatures(words, true);
 
 		RecommenderUtil.closeSqlConnection();
 		
@@ -299,7 +295,7 @@ public class LinkRecommender
 		//System.out.println("Retrieved links: " + links.size());
 		
 		HashMap<Long, Long[]> linkUsers = LinkUtil.getUnormalizedFeatures(linkIds);
-		HashMap<Long, HashSet<Long>> linkLikes = LinkUtil.getLinkLikes(linkUsers, false);
+		HashMap<Long, HashSet<Long>> linkLikes = LinkUtil.getLinkLikes(linkUsers, true);
 		HashMap<Long, HashMap<Long, Double>> friendships = UserUtil.getFriendships();
 		
 		//HashMap<Long, HashMap<Long, Double>> friendConnections = friendships;
@@ -520,7 +516,7 @@ public class LinkRecommender
 				query.append("'");
 			}
 			
-			query.append(") ORDER BY created_time DESC LIMIT 100");
+			query.append(") ORDER BY created_time DESC LIMIT 20");
 			
 			System.out.println("whoa");
 			result = statement.executeQuery(query.toString());
@@ -620,7 +616,7 @@ public class LinkRecommender
 				query.append("'");
 			}
 			
-			query.append(") ORDER BY created_time DESC LIMIT 100");
+			query.append(") ORDER BY created_time DESC LIMIT 20");
 			
 			result = statement.executeQuery(query.toString());
 			

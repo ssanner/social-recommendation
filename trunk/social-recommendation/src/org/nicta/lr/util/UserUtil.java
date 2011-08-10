@@ -516,13 +516,9 @@ public class UserUtil
 		}
 		
 		//Users that went to the same classes
-		
-		int scCount = 0;
 		System.out.println("linkrSchoolClassesWith");
 		result = statement.executeQuery("SELECT uid1, uid2 FROM linkrSchoolClassesWith");// WHERE uid1 IN " + idString + " AND uid2 IN " + idString);
-		System.out.println("Whyyyyyy");
 		while (result.next()) {
-			System.out.println("Count: " + ++scCount);
 			Long uid1 = result.getLong("uid1");
 			Long uid2 = result.getLong("uid2");
 			

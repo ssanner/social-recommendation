@@ -10,36 +10,44 @@ public class LogisticSocialMinimizer extends Minimizer
 {	
 	public double getError(Double[][] userFeatureMatrix, Double[][] linkFeatureMatrix, 
 			HashMap<Long, Double[]> userIdColumns, HashMap<Long, Double[]> linkIdColumns, HashMap<String, Double[]> wordColumns,
-			HashMap<Long, Double[]> users, 
-			HashMap<Long, Double[]> userTraits, HashMap<Long, Double[]> linkTraits,
-			HashMap<Long, HashMap<Long, Double>> friendships, HashMap<Long, HashSet<Long>> linkLikes, HashMap<Long, HashSet<Long>> userLinkSamples)
+			HashMap<Long, HashMap<Long, Double>> friendships, HashMap<Long, HashSet<Long>> linkLikes, 
+			HashMap<Long, HashMap<Long, Double>> predictions, HashMap<Long, HashMap<Long, Double>> connections)
 	{
 		double error = 0;
 
-		for (long i : userLinkSamples.keySet()) {
-			for (long j : userLinkSamples.keySet()) {
-				if (i == j) continue;
+		Object[] keys = connections.keySet().toArray();
+		
+		for (int a = 0; a < keys.length-1; a++) {
+			Long i = (Long)keys[a];
+			                 
+			for (int b = a+1; b < keys.length; b++) {
+				Long j = (Long)keys[b];
+				
+		//for (long i : userIds) {
+			//for (long j : userIds) {
+				//if (i == j) continue;
 				
 				double connection = getFriendConnection(i, j, friendships);
-				double predictConnection = predictConnection(userFeatureMatrix, userIdColumns, users, i, j);
 				
+				double predictConnection = connections.get(i).containsKey(j) ? connections.get(i).get(j) : connections.get(j).get(i);
 				error += Math.pow(connection - predictConnection, 2);
 			}
 		}
+		
 		
 		error *= Constants.BETA;
 		//System.out.println("Soc Error: " + error);
 		
 		//Get the square error
-		for (long i : userLinkSamples.keySet()) {
-			HashSet<Long> links = userLinkSamples.get(i);
+		for (long i : predictions.keySet()) {
+			Set<Long> links = predictions.get(i).keySet();
 			
 			for (long j : links) {
 				int liked = 0;
 				
 				if (linkLikes.containsKey(j) && linkLikes.get(j).contains(i)) liked = 1;
 				
-				double predictedLike = logistic(dot(userTraits.get(i), linkTraits.get(j)));
+				double predictedLike = logistic(predictions.get(i).get(j));
 		
 				error += Math.pow(liked - predictedLike, 2);
 			}
@@ -83,65 +91,26 @@ public class LogisticSocialMinimizer extends Minimizer
 		return error / 2;
 	}
 	
-	public double predictConnection(Double[][] userMatrix, 
-									HashMap<Long, Double[]> idColumns,
-									HashMap<Long, Double[]> userFeatures,
-									long i, long j)
-	{
-		Double[] iFeature = userFeatures.get(i);
-		Double[] iColumn = idColumns.get(i);
-		Double[] jFeature = userFeatures.get(j);
-		Double[] jColumn = idColumns.get(j);
-		
-		Double[] xU = new Double[Constants.K];
-		
-		for (int x = 0; x < xU.length; x++) {
-			xU[x] = 0.0;
-			
-			for (int y = 0; y < iFeature.length; y++) {
-				xU[x] += iFeature[y] * userMatrix[x][y];
-			}
-			
-			xU[x] += iColumn[x];
-			
-		}
-		
-		Double[] xUU = new Double[iFeature.length + 1];
-		
-		for (int x = 0; x < iFeature.length; x++) {
-			xUU[x] = 0.0;
-				
-			for (int y = 0; y < Constants.K; y++) {
-				xUU[x] += xU[y] * userMatrix[y][x];
-			}
-		}
-		
-		xUU[iFeature.length] = 0.0;
-		
-		for (int x = 0; x < Constants.K; x++) {
-			xUU[iFeature.length] += xU[x] * jColumn[x];
-		}
-		
-		double connection = 0;
-		
-		for (int x = 0; x < jFeature.length; x++) {
-			connection += xUU[x] + jFeature[x];
-		}
-		connection += xUU[jFeature.length];
-		
-		return connection;
-	}
-	
 	public double getErrorDerivativeOverUserAttribute(Double[][] userFeatureMatrix, HashMap<Long, Double[]> userFeatures, HashMap<Long, Double[]> userIdColumns,
-														HashMap<Long, Double[]> userTraits, HashMap<Long, Double[]> linkTraits,
-														HashMap<Long, HashMap<Long, Double>> friendships, HashMap<Long, HashSet<Long>> linkLikes, HashMap<Long, HashSet<Long>> userLinkSamples,
-														int x, int y)
+			HashMap<Long, Double[]> linkTraits,
+			HashMap<Long, HashMap<Long, Double>> friendships, HashMap<Long, HashSet<Long>> linkLikes,
+			HashMap<Long, HashMap<Long, Double>> predictions, HashMap<Long, HashMap<Long, Double>> connections,
+			int x, int y)
 	{
 		double errorDerivative = userFeatureMatrix[x][y] * Constants.LAMBDA;
 		
-		for (long uid1 : userLinkSamples.keySet()) {
-			for (long uid2 : userLinkSamples.keySet()) {
-				if (uid1 == uid2) continue;	
+		Object[] keys = connections.keySet().toArray();
+		
+		for (int a = 0; a < keys.length-1; a++) {
+			Long uid1 = (Long)keys[a];
+			                 
+			for (int b = a+1; b < keys.length; b++) {
+				Long uid2 = (Long)keys[b];
+			//}
+		//}
+		//for (long uid1 : connections.keySet()) {
+			//for (long uid2 : connections.keySet()) {
+				//if (uid1 == uid2) continue;	
 				
 				Double[] user1 = userFeatures.get(uid1);
 				Double[] user1Id = userIdColumns.get(uid1);
@@ -149,8 +118,8 @@ public class LogisticSocialMinimizer extends Minimizer
 				Double[] user2Id = userIdColumns.get(uid2);
 				
 				double c = getFriendConnection(uid1, uid2, friendships);
+				double p = connections.get(uid1).containsKey(uid2) ? connections.get(uid1).get(uid2) : connections.get(uid2).get(uid1);
 				
-				double p = predictConnection(userFeatureMatrix, userIdColumns, userFeatures, uid1, uid2);
 				double duu = 2 * user1[y] * user2[y] * userFeatureMatrix[x][y];
 				for (int z = 0; z < user1.length; z++) {
 					if (z != y) {
@@ -166,11 +135,11 @@ public class LogisticSocialMinimizer extends Minimizer
 			}
 		}
 		
-		for (long userId : userLinkSamples.keySet()) {
-			HashSet<Long> links = userLinkSamples.get(userId);
+		for (long userId : predictions.keySet()) {
+			Set<Long> links = predictions.get(userId).keySet();
 			
 			for (long linkId : links) {
-				double dot = dot(userTraits.get(userId), linkTraits.get(linkId));
+				double dot = predictions.get(userId).get(linkId);
 				double dst = linkTraits.get(linkId)[x] * userFeatures.get(userId)[y] * logisticDerivative(dot);	
 				double p = logistic(dot);
 				double r = 0;
@@ -184,22 +153,23 @@ public class LogisticSocialMinimizer extends Minimizer
 	}
 	
 	
-	public double getErrorDerivativeOverUserId(Double[][] userFeatureMatrix, HashMap<Long, Double[]> userFeatures, HashMap<Long, Double[]> userTraits, HashMap<Long, Double[]> linkTraits,
-												HashMap<Long, Double[]> userIdColumns, HashMap<Long, HashMap<Long, Double>> friendships, HashMap<Long, HashSet<Long>> linkLikes, 
-												HashMap<Long, HashSet<Long>> userLinkSamples, int k, long userId)
+	public double getErrorDerivativeOverUserId(Double[][] userFeatureMatrix, HashMap<Long, Double[]> userFeatures, HashMap<Long, Double[]> linkTraits,
+			HashMap<Long, Double[]> userIdColumns, HashMap<Long, HashMap<Long, Double>> friendships, HashMap<Long, HashSet<Long>> linkLikes, 
+			HashMap<Long, HashMap<Long, Double>> predictions, HashMap<Long, HashMap<Long, Double>> connections,
+			int k, long userId)
 	{
 		Double[] idColumn = userIdColumns.get(userId);
 		double errorDerivative = idColumn[k] * Constants.LAMBDA;
 
 		Double[] user1 = userFeatures.get(userId);
 		
-		for (long uid2 : userLinkSamples.keySet()) {
+		for (long uid2 : connections.keySet()) {
 			if (userId == uid2) continue;	
 			
 			Double[] user2 = userFeatures.get(uid2);
 				
 			double c = getFriendConnection(userId, uid2, friendships);
-			double p = predictConnection(userFeatureMatrix, userIdColumns, userFeatures, userId, uid2);
+			double p = connections.get(userId).containsKey(uid2) ? connections.get(userId).get(uid2) : connections.get(uid2).get(userId);
 			double duu = 0;
 			
 			for (int z = 0; z < user1.length; z++) {
@@ -209,12 +179,12 @@ public class LogisticSocialMinimizer extends Minimizer
 			errorDerivative += Constants.BETA * (c - p) * duu;
 		}
 		
-		HashSet<Long> links = userLinkSamples.get(userId);
+		Set<Long> links = predictions.get(userId).keySet();
 		
 		for (long linkId : links) {
 			HashSet<Long> likes = linkLikes.get(linkId);
 		
-			double dot = dot(userTraits.get(userId), linkTraits.get(linkId));
+			double dot = predictions.get(userId).get(linkId);
 			double dst = linkTraits.get(linkId)[k] * logisticDerivative(dot);
 			double p = logistic(dot);
 			double r = 0;
@@ -227,16 +197,16 @@ public class LogisticSocialMinimizer extends Minimizer
 	}
 
 	public double getErrorDerivativeOverLinkAttribute(Double[][] linkFeatureMatrix,
-			HashMap<Long, Double[]> userTraits, HashMap<Long, Double[]> linkTraits, HashMap<Long, Double[]> linkFeatures,
-			HashMap<Long, HashSet<Long>> linkLikes, HashMap<Long, HashSet<Long>> userLinkSamples, int x, int y)
+			HashMap<Long, Double[]> userTraits, HashMap<Long, Double[]> linkFeatures,
+			HashMap<Long, HashSet<Long>> linkLikes, HashMap<Long, HashMap<Long, Double>> predictions, int x, int y)
 	{
 		double errorDerivative = linkFeatureMatrix[x][y] * Constants.LAMBDA;
 
-		for (long userId : userLinkSamples.keySet()) {
-			HashSet<Long> links = userLinkSamples.get(userId);
+		for (long userId : predictions.keySet()) {
+			Set<Long> links = predictions.get(userId).keySet();
 
 			for (long linkId : links) {
-				double dot = dot(userTraits.get(userId), linkTraits.get(linkId));
+				double dot = predictions.get(userId).get(linkId);
 				double dst = userTraits.get(userId)[x] * linkFeatures.get(linkId)[y] * logisticDerivative(dot);		
 				double p = logistic(dot);
 				double r = 0;
@@ -250,19 +220,20 @@ public class LogisticSocialMinimizer extends Minimizer
 	}
 
 	public double getErrorDerivativeOverLinkId(HashMap<Long, Double[]> linkIdColumns,
-												HashMap<Long, Double[]> userTraits, HashMap<Long, Double[]> linkTraits,
-												HashMap<Long, HashSet<Long>> linkLikes, 
-												HashMap<Long, HashSet<Long>> userLinkSamples, int x, long linkId)
+			HashMap<Long, Double[]> userTraits,
+			HashMap<Long, HashSet<Long>> linkLikes, 
+			HashMap<Long, HashMap<Long, Double>> predictions, 
+			int x, long linkId)
 	{
 		Double[] idColumn = linkIdColumns.get(linkId);
 		double errorDerivative = idColumn[x] * Constants.LAMBDA;
 
 		HashSet<Long> likes = linkLikes.get(linkId);
 		
-		for (long userId : userLinkSamples.keySet()) {
-			if (! userLinkSamples.get(userId).contains(linkId)) continue;
+		for (long userId : predictions.keySet()) {
+			if (! predictions.get(userId).containsKey(linkId)) continue;
 			
-			double dot = dot(userTraits.get(userId), linkTraits.get(linkId));
+			double dot = predictions.get(userId).get(linkId);
 			double dst = userTraits.get(userId)[x] * idColumn[x] * logisticDerivative(dot);		
 			double p = logistic(dot);
 			double r = 0;
@@ -275,17 +246,18 @@ public class LogisticSocialMinimizer extends Minimizer
 	}
 	
 	public double getErrorDerivativeOverWord(HashMap<String, Double[]> wordColumns, HashMap<Long, Set<String>> linkWords, 
-			HashMap<Long, Double[]> userTraits, HashMap<Long, Double[]> linkTraits, HashMap<Long, HashSet<Long>> linkLikes,
-			HashMap<Long, HashSet<Long>> userLinkSamples, int x, String word)
+			HashMap<Long, Double[]> userTraits, HashMap<Long, HashSet<Long>> linkLikes,
+			HashMap<Long, HashMap<Long, Double>> predictions,  
+			int x, String word)
 	{
 		Double[] column = wordColumns.get(word);
 		double errorDerivative = column[x] * Constants.LAMBDA;
 
-		for (long userId : userLinkSamples.keySet()) {
-			HashSet<Long> links = userLinkSamples.get(userId);
+		for (long userId : predictions.keySet()) {
+			Set<Long> links = predictions.get(userId).keySet();
 
 			for (long linkId : links) {
-				double dot = dot(userTraits.get(userId), linkTraits.get(linkId));
+				double dot = predictions.get(userId).get(linkId);
 				double dst = userTraits.get(userId)[x] * column[x] * logisticDerivative(dot);		
 				double p = logistic(dot);
 				double r = 0;

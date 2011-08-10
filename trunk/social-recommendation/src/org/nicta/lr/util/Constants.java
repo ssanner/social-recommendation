@@ -18,12 +18,12 @@ public class Constants
 	
 	public static final double STEP_CONVERGENCE = 1e-5;
 	
-	public static final int WINDOW_RANGE = 100;
+	public static final int WINDOW_RANGE = 14;
 	
-	public static double C = Math.pow(2, 1);
+	public static double C = Math.pow(2, -1);
 	
 	public static final double BOUNDARY = 0.5;
 	
-	public static final long APPLICATION_ID = 136622929736439l; //OLD
-	//public static final long APPLICATION_ID = 149458388467879l; //NEW
+	//public static final long APPLICATION_ID = 136622929736439l; //OLD
+	public static final long APPLICATION_ID = 149458388467879l; //NEW
 }

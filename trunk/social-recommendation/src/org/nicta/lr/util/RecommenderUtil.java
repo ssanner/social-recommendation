@@ -538,4 +538,92 @@ public class RecommenderUtil
 		}
 		return Math.sqrt(distance);
 	}
+	
+	public static HashMap<Long, HashMap<Long, Double>> getPredictions(HashMap<Long, Double[]> userTraits, HashMap<Long, Double[]> linkTraits, HashMap<Long, HashSet<Long>> userLinkSamples)
+	{
+		HashMap<Long, HashMap<Long, Double>> predictions = new HashMap<Long, HashMap<Long, Double>>();
+		
+		for (long userId : userLinkSamples.keySet()) {
+			Set<Long> links = userLinkSamples.get(userId);
+			HashMap<Long, Double> preds = new HashMap<Long, Double>();
+			
+			for (long linkId : links) {
+				if (!linkTraits.containsKey(linkId)) continue;
+				preds.put(linkId, dot(userTraits.get(userId), linkTraits.get(linkId)));
+			}
+			
+			predictions.put(userId, preds);
+		}
+		
+		return predictions;
+	}
+	
+	public static HashMap<Long, HashMap<Long, Double>> getConnections(Double[][] userMatrix, HashMap<Long, Double[]> idColumns, HashMap<Long, Double[]> userFeatures, HashMap<Long, HashSet<Long>> userLinkSamples)
+	{
+		Set<Long> users = userLinkSamples.keySet();
+		HashMap<Long, HashMap<Long, Double>> connections = new HashMap<Long, HashMap<Long, Double>>();
+		
+		for (long user1 : users) {
+			HashMap<Long, Double> conn = new HashMap<Long, Double>();
+			
+			for (long user2 : users) {
+				if (user1 == user2 || connections.containsKey(user2)) continue;
+				
+				conn.put(user2, predictConnection(userMatrix, idColumns, userFeatures, user1, user2));		
+			}
+			
+			connections.put(user1, conn);
+		}
+		
+		return connections;
+	}
+	
+	public static double predictConnection(Double[][] userMatrix, 
+									HashMap<Long, Double[]> idColumns,
+									HashMap<Long, Double[]> userFeatures,
+									long i, long j)
+	{
+		Double[] iFeature = userFeatures.get(i);
+		Double[] iColumn = idColumns.get(i);
+		Double[] jFeature = userFeatures.get(j);
+		Double[] jColumn = idColumns.get(j);
+	
+		Double[] xU = new Double[Constants.K];
+	
+		for (int x = 0; x < xU.length; x++) {
+			xU[x] = 0.0;
+	
+			for (int y = 0; y < iFeature.length; y++) {
+				xU[x] += iFeature[y] * userMatrix[x][y];
+			}
+	
+			xU[x] += iColumn[x];
+	
+		}
+	
+		Double[] xUU = new Double[iFeature.length + 1];
+	
+		for (int x = 0; x < iFeature.length; x++) {
+			xUU[x] = 0.0;
+	
+			for (int y = 0; y < Constants.K; y++) {
+				xUU[x] += xU[y] * userMatrix[y][x];
+			}
+		}
+	
+		xUU[iFeature.length] = 0.0;
+	
+		for (int x = 0; x < Constants.K; x++) {
+			xUU[iFeature.length] += xU[x] * jColumn[x];
+		}
+	
+		double connection = 0;
+	
+		for (int x = 0; x < jFeature.length; x++) {
+			connection += xUU[x] + jFeature[x];
+		}
+		connection += xUU[jFeature.length];
+	
+		return connection;
+	}
 }

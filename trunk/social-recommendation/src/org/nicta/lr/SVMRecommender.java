@@ -46,14 +46,14 @@ public class SVMRecommender extends LinkRecommender
 		HashMap<Long, Double[]> users = UserUtil.getUserFeatures();
 		System.out.println("Retrieved users: " + users.size());
 		
-		HashMap<Long, Double[]> links = LinkUtil.getLinkFeatures(false);
+		HashMap<Long, Double[]> links = LinkUtil.getLinkFeatures(true);
 		System.out.println("Retrieved links: " + links.size());
 		
 		HashMap<Long, Long[]> linkUsers = LinkUtil.getUnormalizedFeatures(links.keySet());
-		HashMap<Long, HashSet<Long>> linkLikes = LinkUtil.getLinkLikes(linkUsers, false);
+		HashMap<Long, HashSet<Long>> linkLikes = LinkUtil.getLinkLikes(linkUsers, true);
 		HashMap<Long, HashMap<Long, Double>> friendships = UserUtil.getFriendships();
 		
-		HashMap<Long, HashSet<Long>> userLinkSamples = RecommenderUtil.getUserLinksSample(linkLikes, users.keySet(), friendships, linkUsers, false);
+		HashMap<Long, HashSet<Long>> userLinkSamples = RecommenderUtil.getUserLinksSample(linkLikes, users.keySet(), friendships, linkUsers, true);
 		System.out.println("Samples: " + userLinkSamples.size());
 		
 		userIds = userLinkSamples.keySet().toArray();
@@ -190,7 +190,7 @@ public class SVMRecommender extends LinkRecommender
 		System.out.println("Retrieved links: " + links.size());
 		
 		HashMap<Long, Long[]> linkUsers = LinkUtil.getUnormalizedFeatures(links.keySet());
-		HashMap<Long, HashSet<Long>> linkLikes = LinkUtil.getLinkLikes(linkUsers, false);
+		HashMap<Long, HashSet<Long>> linkLikes = LinkUtil.getLinkLikes(linkUsers, true);
 		HashMap<Long, HashMap<Long, Double>> friendships = UserUtil.getFriendships();	
 		
 		HashMap<Long, HashSet<Long>> userLinkSamples = RecommenderUtil.getUserLinksSample(linkLikes, users.keySet(), friendships, linkUsers, true);
