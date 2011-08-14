@@ -44,7 +44,7 @@ public class LinkRecommender
 		throws Exception
 	{
 		LinkRecommender lr = null;
-		String type = "feature";
+		String type = "social";
 		if (args.length > 0) {
 			type = args[0];
 		}
@@ -56,7 +56,7 @@ public class LinkRecommender
 		}
 		else if (type.equals("social")) {
 			Constants.LAMBDA = 1;
-			Constants.BETA = 0.001;
+			Constants.BETA = 10;
 			Constants.K = 5;
 			lr = new LinkRecommender("social");
 		}
@@ -213,16 +213,16 @@ public class LinkRecommender
 			HashMap<Long, Double[]> userTraits = UserUtil.getUserTraitVectors(userFeatureMatrix, userIdColumns, users);
 			HashMap<Long, Double[]> linkTraits = LinkUtil.getLinkTraitVectors(linkFeatureMatrix, linkIdColumns, links, linkWords, wordColumns);
 			
-			//int[] stats = RecommenderUtil.calcStats(userTraits, linkTraits, linkLikes, forTesting);
-			//int truePos = stats[0];
-			//int falsePos = stats[1];
-			//int trueNeg = stats[2];
-			//int falseNeg = stats[3];
+			int[] stats = RecommenderUtil.calcStats(userTraits, linkTraits, linkLikes, forTesting);
+			int truePos = stats[0];
+			int falsePos = stats[1];
+			int trueNeg = stats[2];
+			int falseNeg = stats[3];
 			
-			//totalTruePos += truePos;
-			//totalFalsePos += falsePos;
-			//totalTrueNeg += trueNeg;
-			//totalFalseNeg += falseNeg;
+			totalTruePos += truePos;
+			totalFalsePos += falsePos;
+			totalTrueNeg += trueNeg;
+			totalFalseNeg += falseNeg;
 			
 			HashMap<Long, Double> userAP = RecommenderUtil.getAveragePrecision(userTraits, linkTraits, linkLikes, forTesting);
 			
@@ -273,11 +273,11 @@ public class LinkRecommender
 		}
 		map /= (double)averagePrecision.size();
 		
-		System.out.println("L=" + Constants.LAMBDA + ", B=" + Constants.BETA);
-		//System.out.println("Accuracy: " + accuracy);
-		//System.out.println("Precision: " + precision);
-		//System.out.println("Recall: " + recall);
-		//System.out.println("F1: " + f1);
+		System.out.println("L=" + Constants.LAMBDA + ", B=" + Constants.BETA + ", K=" + Constants.K);
+		System.out.println("Accuracy: " + accuracy);
+		System.out.println("Precision: " + precision);
+		System.out.println("Recall: " + recall);
+		System.out.println("F1: " + f1);
 		System.out.println("MAP: " + map);
 		System.out.println("");
 	}
@@ -516,7 +516,7 @@ public class LinkRecommender
 				query.append("'");
 			}
 			
-			query.append(") ORDER BY created_time DESC LIMIT 20");
+			query.append(") ORDER BY created_time DESC LIMIT 40");
 			
 			System.out.println("whoa");
 			result = statement.executeQuery(query.toString());
@@ -616,7 +616,7 @@ public class LinkRecommender
 				query.append("'");
 			}
 			
-			query.append(") ORDER BY created_time DESC LIMIT 20");
+			query.append(") ORDER BY created_time DESC LIMIT 40");
 			
 			result = statement.executeQuery(query.toString());
 			

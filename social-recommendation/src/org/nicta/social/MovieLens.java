@@ -33,9 +33,9 @@ public abstract class MovieLens
 	
 	/* 1M MovieLens dataset */
 	/*
-	final String ratingsSource = "/Users/jino/Desktop/Honours/million-ml-data/ratings.dat";
-	final String userSource = "/Users/jino/Desktop/Honours/million-ml-data/users.dat";
-	final String itemSource = "/Users/jino/Desktop/Honours/million-ml-data/movies.dat";
+	final String ratingsSource = "/Users/jino/Desktop/FBProject/million-ml-data/ratings.dat";
+	final String userSource = "/Users/jino/Desktop/FBProject/million-ml-data/users.dat";
+	final String itemSource = "/Users/jino/Desktop/FBProject/million-ml-data/movies.dat";
 	final String separator = ",";
 	final int MOVIE_COUNT = 3952;
 	final int USER_COUNT = 6040;
@@ -47,9 +47,9 @@ public abstract class MovieLens
 	*/
 	
 	/* 100K Movielens */
-	final String ratingsSource = "/Users/jino/Desktop/Honours/ml-data_0/u.data";
-	final String userSource = "/Users/jino/Desktop/Honours/ml-data_0/u.user";
-	final String itemSource = "/Users/jino/Desktop/Honours/ml-data_0/u.item";
+	final String ratingsSource = "/Users/jino/Desktop/FBProject/ml-data_0/u.data";
+	final String userSource = "/Users/jino/Desktop/FBProject/ml-data_0/u.user";
+	final String itemSource = "/Users/jino/Desktop/FBProject/ml-data_0/u.item";
 	final String separator = ",";
 	final int MOVIE_COUNT = 1682;
 	final int USER_COUNT = 943;
@@ -58,7 +58,6 @@ public abstract class MovieLens
 	final int USER_FEATURE_COUNT = 3;
 	final int MOVIE_FEATURE_COUNT = 19;
 	final String FEATURE_SEPARATOR = "\\|";
-	
 	
 	double mae;
 	final double RATING_RANGE = 5; //Range of rating

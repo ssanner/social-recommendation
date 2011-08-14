@@ -532,7 +532,7 @@ public class RecommenderUtil
 	}
 	public static double getDistance(Double[] d1, Double[] d2)
 	{
-		double distance = 0;
+		double distance = 1;
 		for (int x = 0; x < d1.length; x++) {
 			distance += Math.pow(d1[x] - d2[x], 2);
 		}

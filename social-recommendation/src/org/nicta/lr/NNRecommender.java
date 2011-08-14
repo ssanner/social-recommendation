@@ -15,7 +15,7 @@ import org.nicta.lr.util.UserUtil;
 
 public class NNRecommender extends LinkRecommender
 {
-	private final int K = 5;
+	private final int K = 10;
 	private final double BOUNDARY = 0.5;
 	
 	public NNRecommender()

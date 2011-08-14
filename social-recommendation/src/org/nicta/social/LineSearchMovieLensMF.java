@@ -9,7 +9,7 @@ public class LineSearchMovieLensMF extends MovieLens
 {
 	final int DIMENSION_COUNT = 5; 
 	final Random RANDOM = new Random();
-	final double STEP_CONVERGENCE = 1e-10;
+	final double STEP_CONVERGENCE = 1e-5;
 	final double STEP_SIZE = 0.0001; //learning rate
 	
 	double lambdaU = 10;
@@ -135,9 +135,7 @@ public class LineSearchMovieLensMF extends MovieLens
 		double lastGoodError = 0;
 		int count = 0;
 		
-		while (!converged /*&& iterations <= 500*/) {
-			
-		
+		while (!converged && iterations <= 500) {
 			HashMap<Integer, Double[]> updatedUserMatrix = new HashMap<Integer, Double[]>(); 
 			HashMap<Integer, Double[]> updatedMovieMatrix = new HashMap<Integer, Double[]>(); 
 			
@@ -166,9 +164,8 @@ public class LineSearchMovieLensMF extends MovieLens
 			double newError = getError(updatedUserMatrix, updatedMovieMatrix, movieUserRatings);
 			double evalRMSE = calculateRMSE(evaluate, updatedUserMatrix, updatedMovieMatrix);
 			
-		
 			if (newError < oldError) {
-				System.out.println("Stepsize: " + stepSize + " Count: " + count);
+				//System.out.println("Stepsize: " + stepSize + " Count: " + count);
 				
 				stepSize *= 2;
                 count++;

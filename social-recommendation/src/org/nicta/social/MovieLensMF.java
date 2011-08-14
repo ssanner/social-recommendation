@@ -246,7 +246,6 @@ public class MovieLensMF extends MovieLens
 	public double getErrorDerivativeOverMovie(HashMap<Integer, Double[]> userMatrix, HashMap<Integer, Double[]> movieMatrix, HashMap<Integer, HashMap<Integer, Double>> movieUserRatings, int q, int l)
 	{
 		double lqMovie = movieMatrix.get(q)[l];
-		
 		double errorDerivative = lqMovie * lambdaV;
 		
 		for (int i : userMatrix.keySet()) {
