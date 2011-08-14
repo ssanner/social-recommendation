@@ -263,6 +263,153 @@ public abstract class Minimizer
 		return rmse;
 	}
 	
+	public double minimize2(HashMap<Long, HashSet<Long>> linkLikes, Double[][] userFeatureMatrix, Double[][] linkFeatureMatrix, 
+			HashMap<Long, Double[]> userFeatures, HashMap<Long, Double[]> linkFeatures, HashMap<Long, HashMap<Long, Double>> friendships,
+			HashMap<Long, Double[]> userIdColumns, HashMap<Long, Double[]> linkIdColumns, HashMap<Long, HashSet<Long>> userLinkSamples,
+			HashMap<String, Double[]> wordColumns, HashMap<Long, Set<String>> linkWords, Set<String> words)
+		throws Exception
+	{
+		boolean converged = false;	
+		int iterations = 0;
+		
+		double stepSize = Constants.STEP_SIZE;
+		int count = 0;
+		double lastGoodError = 0;
+		
+		Double[][] lastGoodUserMatrix = new Double[Constants.K][Constants.USER_FEATURE_COUNT];
+		Double[][] lastGoodLinkMatrix = new Double[Constants.K][Constants.LINK_FEATURE_COUNT]; 
+		HashMap<Long, Double[]> lastGoodUserIdColumns = new HashMap<Long, Double[]>();
+		HashMap<Long, Double[]> lastGoodLinkIdColumns = new HashMap<Long, Double[]>();
+		HashMap<String, Double[]> lastGoodWordColumns = new HashMap<String, Double[]>();
+		
+		HashMap<Long, Double[]> userTraits = UserUtil.getUserTraitVectors(userFeatureMatrix, userIdColumns, userFeatures);
+		HashMap<Long, Double[]> linkTraits = LinkUtil.getLinkTraitVectors(linkFeatureMatrix, linkIdColumns, linkFeatures, linkWords, wordColumns);
+		HashMap<Long, HashMap<Long, Double>> connections = RecommenderUtil.getConnections(userFeatureMatrix, userIdColumns, userFeatures, userLinkSamples);
+		HashMap<Long, HashMap<Long, Double>> predictions = RecommenderUtil.getPredictions(userTraits, linkTraits, userLinkSamples);
+		
+		double oldError = getError(userFeatureMatrix, linkFeatureMatrix, userIdColumns, linkIdColumns, wordColumns, friendships, linkLikes, predictions, connections);
+		
+		while (!converged && iterations <= 500) {
+			Double[][] updatedUserMatrix = new Double[Constants.K][Constants.USER_FEATURE_COUNT];
+			Double[][] updatedLinkMatrix = new Double[Constants.K][Constants.LINK_FEATURE_COUNT]; 
+			HashMap<Long, Double[]> updatedUserIdColumns = new HashMap<Long, Double[]>();
+			HashMap<Long, Double[]> updatedLinkIdColumns = new HashMap<Long, Double[]>();
+			HashMap<String, Double[]> updatedWordColumns = new HashMap<String, Double[]>();
+		
+			//Get user derivatives
+			System.out.println("Get user derivatives");
+			for (int k = 0; k < Constants.K; k++) {
+				System.out.println("K: " + k);
+				for (int l = 0; l < Constants.USER_FEATURE_COUNT; l++) {
+					double update = stepSize * getErrorDerivativeOverUserAttribute(userFeatureMatrix, userFeatures, userIdColumns, linkTraits, friendships, linkLikes, predictions, connections, k, l);
+					updatedUserMatrix[k][l] = userFeatureMatrix[k][l] - update;
+				}
+				
+				for (long userId : userLinkSamples.keySet()) {
+					if (!updatedUserIdColumns.containsKey(userId)) {
+						updatedUserIdColumns.put(userId, new Double[Constants.K]);
+					}
+					
+					double update = stepSize * getErrorDerivativeOverUserId(userFeatureMatrix, userFeatures, linkTraits, userIdColumns, friendships, linkLikes, predictions, connections, k, userId);
+					updatedUserIdColumns.get(userId)[k] = userIdColumns.get(userId)[k] - update;
+				}
+			}
+			
+			//Get link derivatives
+			System.out.println("Get link derivatives");
+			for (int q = 0; q < Constants.K; q++) {
+				System.out.println("K: " + q);
+				for (int l = 0; l < Constants.LINK_FEATURE_COUNT; l++) {
+					double update = stepSize * getErrorDerivativeOverLinkAttribute(linkFeatureMatrix, userTraits, linkFeatures, linkLikes, predictions, q, l);
+					updatedLinkMatrix[q][l] = linkFeatureMatrix[q][l] - update;
+				}
+				System.out.println("Done features");
+				
+				for (long linkId : linkIdColumns.keySet()) {
+					if (!updatedLinkIdColumns.containsKey(linkId)) {
+						updatedLinkIdColumns.put(linkId, new Double[Constants.K]);
+					}
+					
+					double update = stepSize * getErrorDerivativeOverLinkId(linkIdColumns, userTraits, linkLikes, predictions, q, linkId);
+					updatedLinkIdColumns.get(linkId)[q] = linkIdColumns.get(linkId)[q] = update;
+				}
+				System.out.println("Done ids");
+				
+				for (String word : words) {
+					if (!updatedWordColumns.containsKey(word)) {
+						updatedWordColumns.put(word, new Double[Constants.K]);
+					}
+					
+					double update = stepSize * getErrorDerivativeOverWord(wordColumns, linkWords, linkTraits, linkLikes, predictions, q, word);
+					updatedWordColumns.get(word)[q] = wordColumns.get(word)[q] - update;
+				}
+				System.out.println("Done words");
+			}
+			
+			userTraits = UserUtil.getUserTraitVectors(updatedUserMatrix, updatedUserIdColumns, userFeatures);
+			linkTraits = LinkUtil.getLinkTraitVectors(updatedLinkMatrix, updatedLinkIdColumns, linkFeatures, linkWords, updatedWordColumns);
+			connections = RecommenderUtil.getConnections(updatedUserMatrix, updatedUserIdColumns, userFeatures, userLinkSamples);
+			predictions = RecommenderUtil.getPredictions(userTraits, linkTraits, userLinkSamples);
+			
+			double newError = getError(userFeatureMatrix, linkFeatureMatrix, userIdColumns, linkIdColumns, wordColumns, friendships, linkLikes, predictions, connections);
+
+			if (newError < oldError) {
+				//System.out.println("Stepsize: " + stepSize + " Count: " + count);
+				
+				stepSize *= 2;
+                count++;
+                
+                lastGoodUserMatrix = updatedUserMatrix;
+                lastGoodUserIdColumns = updatedUserIdColumns;
+                lastGoodLinkMatrix = updatedLinkMatrix;
+                lastGoodLinkIdColumns = updatedLinkIdColumns;
+                lastGoodWordColumns = updatedWordColumns;
+    			
+                lastGoodError = newError;
+			}
+			else {
+				if (count > 0) {
+					count = 0;
+					
+					for (int k = 0; k < Constants.K; k++) {
+						userFeatureMatrix[k] = lastGoodUserMatrix[k];
+						linkFeatureMatrix[k] = lastGoodLinkMatrix[k];
+					}
+					
+					for (long userId : userLinkSamples.keySet()) {
+						userIdColumns.put(userId, lastGoodUserIdColumns.get(userId));
+					}
+					
+					for (long linkId : linkIdColumns.keySet()) {
+						linkIdColumns.put(linkId, lastGoodLinkIdColumns.get(linkId));
+					}
+					
+					for (String word : wordColumns.keySet()) {
+						wordColumns.put(word, lastGoodWordColumns.get(word));
+					}
+					
+	    			oldError = lastGoodError;
+	    			
+	    			iterations++;
+	    			System.out.println("Iterations: " + iterations);
+	    			System.out.println("Error: " + oldError);
+	    			System.out.println("");
+				}
+				else {
+					stepSize *= .5;
+				}
+			}
+			
+			//Once the learning rate is smaller than a certain size, just stop.
+            //We get here after a few failures in the previous if statement.
+            if (stepSize < Constants.STEP_CONVERGENCE) {
+                converged = true;
+            }
+		}
+		
+		return oldError;
+	}
+	
 	public abstract double getError(Double[][] userFeatureMatrix, Double[][] linkFeatureMatrix, 
 			HashMap<Long, Double[]> userIdColumns, HashMap<Long, Double[]> linkIdColumns, HashMap<String, Double[]> wordColumns,
 			HashMap<Long, HashMap<Long, Double>> friendships, HashMap<Long, HashSet<Long>> linkLikes, 

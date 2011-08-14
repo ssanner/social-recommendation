@@ -31,14 +31,12 @@ public class BaselineGlobalRecommender extends LinkRecommender
 		System.out.println("Retrieved links: " + links.size());
 		
 		HashMap<Long, Long[]> linkUsers = LinkUtil.getUnormalizedFeatures(links.keySet());
-		HashMap<Long, HashSet<Long>> linkLikes = LinkUtil.getLinkLikes(linkUsers, false);
+		HashMap<Long, HashSet<Long>> linkLikes = LinkUtil.getLinkLikes(linkUsers, true);
 		HashMap<Long, HashMap<Long, Double>> friends = UserUtil.getFriendships();
 		
 		
 		HashMap<Long, HashSet<Long>> userLinkSamples = RecommenderUtil.getUserLinksSample(linkLikes, users.keySet(), friends, linkUsers, false);
 		System.out.println("Samples: " + userLinkSamples.size());
-	
-		HashMap<Long, HashMap<Long, Double>> friendships = UserUtil.getFriendInteractionMeasure(userLinkSamples.keySet());
 		
 		RecommenderUtil.closeSqlConnection();
 		
