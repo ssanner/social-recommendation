@@ -91,11 +91,11 @@ public class FeatureMinimizer extends Minimizer
 				double r = 0;
 				if (linkLikes.get(linkId) != null && linkLikes.get(linkId).contains(userId)) r = 1;
 
-				errorDerivative += (r - p) * dst;
+				errorDerivative += (r - p) * dst * -1;
 			}
 		}
 
-		return errorDerivative * -1;
+		return errorDerivative;
 	}
 
 	public double getErrorDerivativeOverUserId(Double[][] userFeatureMatrix, HashMap<Long, Double[]> userFeatures, HashMap<Long, Double[]> linkTraits,
@@ -116,10 +116,10 @@ public class FeatureMinimizer extends Minimizer
 			double r = 0;
 			if (likes != null && likes.contains(userId)) r = 1;
 
-			errorDerivative += (r - p) * dst;
+			errorDerivative += (r - p) * dst * -1;
 		}
 
-		return errorDerivative * -1;
+		return errorDerivative;
 	}
 
 	public double getErrorDerivativeOverLinkAttribute(Double[][] linkFeatureMatrix,
@@ -137,11 +137,11 @@ public class FeatureMinimizer extends Minimizer
 				double r = 0;
 				if (linkLikes.get(linkId).contains(userId)) r = 1;
 
-				errorDerivative += (r - p) * dst;
+				errorDerivative += (r - p) * dst * -1;
 			}
 		}
 
-		return errorDerivative * -1;
+		return errorDerivative;
 	}
 
 	
@@ -158,19 +158,15 @@ public class FeatureMinimizer extends Minimizer
 		for (Long userId : predictions.keySet()) {
 			if (! predictions.get(userId).containsKey(linkId)) continue;
 			
-			//System.out.println("Contains: " + userTraits.containsKey(1669989910l));
-			//System.out.println("User: " + userTraits.containsKey(userId) + " : " + userId);
-			//System.out.println("Link: " + idColumn);
-			
-			double dst = userTraits.get(userId)[x] * idColumn[x];		
+			double dst = userTraits.get(userId)[x] /* idColumn[x]*/;		
 			double p = predictions.get(userId).get(linkId);
 			double r = 0;
 			if (likes != null && likes.contains(userId)) r = 1;
 
-			errorDerivative += (r - p) * dst;
+			errorDerivative += (r - p) * dst * -1;
 		}
 		
-		return errorDerivative * -1;
+		return errorDerivative;
 	}
 	
 	public double getErrorDerivativeOverWord(HashMap<String, Double[]> wordColumns, HashMap<Long, Set<String>> linkWords, 
@@ -190,10 +186,10 @@ public class FeatureMinimizer extends Minimizer
 				double r = 0;
 				if (linkLikes.get(linkId).contains(userId)) r = 1;
 
-				errorDerivative += (r - p) * dst;
+				errorDerivative += (r - p) * dst * -1;
 			}
 		}
 
-		return errorDerivative * -1;
+		return errorDerivative;
 	}
 }

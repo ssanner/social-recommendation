@@ -128,7 +128,7 @@ public class SocialMinimizer extends Minimizer
 				duu += user1Id[x] * user2[y];
 				duu += user2Id[x] * user1[y];
 				
-				errorDerivative += Constants.BETA * (c - p) * duu;
+				errorDerivative += Constants.BETA * (c - p) * duu * -1;
 			}
 		}
 		
@@ -141,11 +141,11 @@ public class SocialMinimizer extends Minimizer
 				double r = 0;
 				if (linkLikes.get(linkId).contains(userId)) r = 1;
 
-				errorDerivative += (r - p) * dst;
+				errorDerivative += (r - p) * dst * -1;
 			}
 		}
 
-		return errorDerivative * -1;
+		return errorDerivative;
 	}
 	
 	
@@ -163,16 +163,25 @@ public class SocialMinimizer extends Minimizer
 			if (userId == uid2) continue;	
 			
 			Double[] user2 = userFeatures.get(uid2);
-				
+			
+			Double[] user2Column = userIdColumns.get(uid2);
+			
 			double c = getFriendConnection(userId, uid2, friendships);
 			double p = connections.get(userId).containsKey(uid2) ? connections.get(userId).get(uid2) : connections.get(uid2).get(userId);
+			
 			double duu = 0;
 			
 			for (int z = 0; z < user1.length; z++) {
-				duu += user2[z] * userFeatureMatrix[k][z];
+				duu += /*user1[y] * */ user2[z] *  userFeatureMatrix[k][z];
+
 			}
-				
-			errorDerivative += Constants.BETA * (c - p) * duu;
+			//duu += user1Id[x] * user2[y];
+			//duu += user2Id[x] * user1[y];
+			
+			//duu += idColumn[k];
+			duu += user2Column[k];
+			
+			errorDerivative += Constants.BETA * (c - p) * duu * -1;
 		}
 		
 		Set<Long> links = predictions.get(userId).keySet();
@@ -186,10 +195,10 @@ public class SocialMinimizer extends Minimizer
 			double r = 0;
 			if (likes.contains(userId)) r = 1;
 
-			errorDerivative += (r - p) * dst;
+			errorDerivative += (r - p) * dst * -1;
 		}
 		
-		return errorDerivative * -1;
+		return errorDerivative;
 	}
 
 	public double getErrorDerivativeOverLinkAttribute(Double[][] linkFeatureMatrix,
@@ -207,11 +216,11 @@ public class SocialMinimizer extends Minimizer
 				double r = 0;
 				if (linkLikes.get(linkId).contains(userId)) r = 1;
 
-				errorDerivative += (r - p) * dst;
+				errorDerivative += (r - p) * dst * -1;
 			}
 		}
 
-		return errorDerivative * -1;
+		return errorDerivative;
 	}
 
 	public double getErrorDerivativeOverLinkId(HashMap<Long, Double[]> linkIdColumns,
@@ -228,15 +237,15 @@ public class SocialMinimizer extends Minimizer
 		for (long userId : predictions.keySet()) {
 			if (! predictions.get(userId).containsKey(linkId)) continue;
 			
-			double dst = userTraits.get(userId)[x] * idColumn[x];		
+			double dst = userTraits.get(userId)[x] /* * idColumn[x]*/;		
 			double p = predictions.get(userId).get(linkId);
 			double r = 0;
 			if (likes.contains(userId)) r = 1;
 
-			errorDerivative += (r - p) * dst;
+			errorDerivative += (r - p) * dst * -1;
 		}
 		
-		return errorDerivative * -1;
+		return errorDerivative;
 	}
 	
 	
@@ -258,10 +267,10 @@ public class SocialMinimizer extends Minimizer
 
 				if (linkLikes.get(linkId).contains(userId)) r = 1;
 
-				errorDerivative += (r - p) * dst;
+				errorDerivative += (r - p) * dst * -1;
 			}
 		}
 
-		return errorDerivative * -1;
+		return errorDerivative;
 	}
 }

@@ -346,13 +346,14 @@ public class UserUtil
 		HashMap<Long, HashSet<Long>> photoTags = new HashMap<Long, HashSet<Long>>();
 		
 		System.out.println("Joining photo tags");
-		result = statement.executeQuery("SELECT l.uid, t.uid2, t.photo_id FROM linkrPhotos l, linkrPhotoTags t WHERE t.photo_id=l.id AND l.uid IN " + idString + " AND t.uid2 IN " + idString);
+		result = statement.executeQuery("SELECT uid1, uid2, photo_id FROM linkrPhotoTags WHERE uid1 IN " + idString + " AND uid2 IN " + idString);
 		while (result.next()) {
-			Long uid1 = result.getLong("l.uid");
-			Long uid2 = result.getLong("t.uid2");
-			Long photoId = result.getLong("t.photo_id");
+			Long uid1 = result.getLong("uid1");
+			Long uid2 = result.getLong("uid2");
+			Long photoId = result.getLong("photo_id");
 			
 			if (uid1 == uid2) continue;
+			//if (!uids.contains(uid1) || !uids.contains(uid2)) continue;
 			
 			double val = 1;
 		
