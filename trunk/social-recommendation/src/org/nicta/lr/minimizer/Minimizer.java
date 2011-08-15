@@ -276,11 +276,15 @@ public abstract class Minimizer
 		int count = 0;
 		double lastGoodError = 0;
 		
-		Double[][] lastGoodUserMatrix = new Double[Constants.K][Constants.USER_FEATURE_COUNT];
-		Double[][] lastGoodLinkMatrix = new Double[Constants.K][Constants.LINK_FEATURE_COUNT]; 
-		HashMap<Long, Double[]> lastGoodUserIdColumns = new HashMap<Long, Double[]>();
-		HashMap<Long, Double[]> lastGoodLinkIdColumns = new HashMap<Long, Double[]>();
-		HashMap<String, Double[]> lastGoodWordColumns = new HashMap<String, Double[]>();
+		Double[][] lastGoodUserMatrix = null;
+		Double[][] lastGoodLinkMatrix = null; 
+		HashMap<Long, Double[]> lastGoodUserIdColumns = null;
+		HashMap<Long, Double[]> lastGoodLinkIdColumns = null;
+		HashMap<String, Double[]> lastGoodWordColumns = null;
+		HashMap<Long, Double[]> lastGoodUserTraits = null;
+		HashMap<Long, Double[]> lastGoodLinkTraits = null;
+		HashMap<Long, HashMap<Long, Double>> lastGoodConnections = null;
+		HashMap<Long, HashMap<Long, Double>> lastGoodPredictions = null;
 		
 		HashMap<Long, Double[]> userTraits = UserUtil.getUserTraitVectors(userFeatureMatrix, userIdColumns, userFeatures);
 		HashMap<Long, Double[]> linkTraits = LinkUtil.getLinkTraitVectors(linkFeatureMatrix, linkIdColumns, linkFeatures, linkWords, wordColumns);
@@ -295,11 +299,11 @@ public abstract class Minimizer
 			HashMap<Long, Double[]> updatedUserIdColumns = new HashMap<Long, Double[]>();
 			HashMap<Long, Double[]> updatedLinkIdColumns = new HashMap<Long, Double[]>();
 			HashMap<String, Double[]> updatedWordColumns = new HashMap<String, Double[]>();
-		
+			
 			//Get user derivatives
-			System.out.println("Get user derivatives");
+			//System.out.println("Get user derivatives");
 			for (int k = 0; k < Constants.K; k++) {
-				System.out.println("K: " + k);
+				//System.out.println("K: " + k);
 				for (int l = 0; l < Constants.USER_FEATURE_COUNT; l++) {
 					double update = stepSize * getErrorDerivativeOverUserAttribute(userFeatureMatrix, userFeatures, userIdColumns, linkTraits, friendships, linkLikes, predictions, connections, k, l);
 					updatedUserMatrix[k][l] = userFeatureMatrix[k][l] - update;
@@ -316,14 +320,14 @@ public abstract class Minimizer
 			}
 			
 			//Get link derivatives
-			System.out.println("Get link derivatives");
+			//System.out.println("Get link derivatives");
 			for (int q = 0; q < Constants.K; q++) {
-				System.out.println("K: " + q);
+				//System.out.println("K: " + q);
 				for (int l = 0; l < Constants.LINK_FEATURE_COUNT; l++) {
 					double update = stepSize * getErrorDerivativeOverLinkAttribute(linkFeatureMatrix, userTraits, linkFeatures, linkLikes, predictions, q, l);
 					updatedLinkMatrix[q][l] = linkFeatureMatrix[q][l] - update;
 				}
-				System.out.println("Done features");
+				//System.out.println("Done features");
 				
 				for (long linkId : linkIdColumns.keySet()) {
 					if (!updatedLinkIdColumns.containsKey(linkId)) {
@@ -331,9 +335,9 @@ public abstract class Minimizer
 					}
 					
 					double update = stepSize * getErrorDerivativeOverLinkId(linkIdColumns, userTraits, linkLikes, predictions, q, linkId);
-					updatedLinkIdColumns.get(linkId)[q] = linkIdColumns.get(linkId)[q] = update;
+					updatedLinkIdColumns.get(linkId)[q] = linkIdColumns.get(linkId)[q] - update;
 				}
-				System.out.println("Done ids");
+				//System.out.println("Done ids");
 				
 				for (String word : words) {
 					if (!updatedWordColumns.containsKey(word)) {
@@ -343,18 +347,27 @@ public abstract class Minimizer
 					double update = stepSize * getErrorDerivativeOverWord(wordColumns, linkWords, linkTraits, linkLikes, predictions, q, word);
 					updatedWordColumns.get(word)[q] = wordColumns.get(word)[q] - update;
 				}
-				System.out.println("Done words");
+				//System.out.println("Done words");
 			}
 			
-			userTraits = UserUtil.getUserTraitVectors(updatedUserMatrix, updatedUserIdColumns, userFeatures);
-			linkTraits = LinkUtil.getLinkTraitVectors(updatedLinkMatrix, updatedLinkIdColumns, linkFeatures, linkWords, updatedWordColumns);
-			connections = RecommenderUtil.getConnections(updatedUserMatrix, updatedUserIdColumns, userFeatures, userLinkSamples);
-			predictions = RecommenderUtil.getPredictions(userTraits, linkTraits, userLinkSamples);
+			HashMap<Long, Double[]> updatedUserTraits = UserUtil.getUserTraitVectors(updatedUserMatrix, updatedUserIdColumns, userFeatures);
+			HashMap<Long, Double[]> updatedLinkTraits = LinkUtil.getLinkTraitVectors(updatedLinkMatrix, updatedLinkIdColumns, linkFeatures, linkWords, updatedWordColumns);
+			HashMap<Long, HashMap<Long, Double>> updatedConnections = RecommenderUtil.getConnections(updatedUserMatrix, updatedUserIdColumns, userFeatures, userLinkSamples);
+			HashMap<Long, HashMap<Long, Double>> updatedPredictions = RecommenderUtil.getPredictions(updatedUserTraits, updatedLinkTraits, userLinkSamples);
 			
-			double newError = getError(userFeatureMatrix, linkFeatureMatrix, userIdColumns, linkIdColumns, wordColumns, friendships, linkLikes, predictions, connections);
-
+			//userTraits = UserUtil.getUserTraitVectors(updatedUserMatrix, updatedUserIdColumns, userFeatures);
+			//linkTraits = LinkUtil.getLinkTraitVectors(updatedLinkMatrix, updatedLinkIdColumns, linkFeatures, linkWords, updatedWordColumns);
+			//connections = RecommenderUtil.getConnections(updatedUserMatrix, updatedUserIdColumns, userFeatures, userLinkSamples);
+			//predictions = RecommenderUtil.getPredictions(userTraits, linkTraits, userLinkSamples);
+			
+			double newError = getError(updatedUserMatrix, updatedLinkMatrix, updatedUserIdColumns, updatedLinkIdColumns, updatedWordColumns, friendships, linkLikes, updatedPredictions, updatedConnections);
+			//double newError = getError(updatedUserMatrix, updatedLinkMatrix, updatedUserIdColumns, updatedLinkIdColumns, updatedWordColumns, friendships, linkLikes, predictions, connections);
+			
+			//System.out.println("Old: " + oldError);
+			//System.out.println("New: " + newError);
+			
 			if (newError < oldError) {
-				//System.out.println("Stepsize: " + stepSize + " Count: " + count);
+				//System.out.println("Increasing Stepsize: " + stepSize + " Count: " + count);
 				
 				stepSize *= 2;
                 count++;
@@ -364,6 +377,10 @@ public abstract class Minimizer
                 lastGoodLinkMatrix = updatedLinkMatrix;
                 lastGoodLinkIdColumns = updatedLinkIdColumns;
                 lastGoodWordColumns = updatedWordColumns;
+    			lastGoodUserTraits = updatedUserTraits;
+    			lastGoodLinkTraits = updatedLinkTraits;
+    			lastGoodConnections = updatedConnections;
+    			lastGoodPredictions = updatedPredictions;
     			
                 lastGoodError = newError;
 			}
@@ -389,6 +406,10 @@ public abstract class Minimizer
 					}
 					
 	    			oldError = lastGoodError;
+	    			userTraits = lastGoodUserTraits;
+	    			linkTraits = lastGoodLinkTraits;
+	    			connections = lastGoodConnections;
+	    			predictions = lastGoodPredictions;
 	    			
 	    			iterations++;
 	    			System.out.println("Iterations: " + iterations);
@@ -396,6 +417,7 @@ public abstract class Minimizer
 	    			System.out.println("");
 				}
 				else {
+					//System.out.println("Decreasing Stepsize: " + stepSize);
 					stepSize *= .5;
 				}
 			}
@@ -408,6 +430,350 @@ public abstract class Minimizer
 		}
 		
 		return oldError;
+	}
+	
+	public double minimize3(HashMap<Long, HashSet<Long>> linkLikes, Double[][] userFeatureMatrix, Double[][] linkFeatureMatrix, 
+			HashMap<Long, Double[]> userFeatures, HashMap<Long, Double[]> linkFeatures, HashMap<Long, HashMap<Long, Double>> friendships,
+			HashMap<Long, Double[]> userIdColumns, HashMap<Long, Double[]> linkIdColumns, HashMap<Long, HashSet<Long>> userLinkSamples,
+			HashMap<String, Double[]> wordColumns, HashMap<Long, Set<String>> linkWords, Set<String> words)
+		throws Exception
+	{
+		boolean converged = false;	
+		int iterations = 0;
+		
+		double stepSize = Constants.STEP_SIZE;
+		int count = 0;
+		double lastGoodError = 0;
+		
+		Double[][] lastGoodUserMatrix = null;
+		Double[][] lastGoodLinkMatrix = null; 
+		HashMap<Long, Double[]> lastGoodUserIdColumns = null;
+		HashMap<Long, Double[]> lastGoodLinkIdColumns = null;
+		HashMap<String, Double[]> lastGoodWordColumns = null;
+		HashMap<Long, Double[]> lastGoodUserTraits = null;
+		HashMap<Long, Double[]> lastGoodLinkTraits = null;
+		HashMap<Long, HashMap<Long, Double>> lastGoodConnections = null;
+		HashMap<Long, HashMap<Long, Double>> lastGoodPredictions = null;
+		
+		HashMap<Long, Double[]> userTraits = UserUtil.getUserTraitVectors(userFeatureMatrix, userIdColumns, userFeatures);
+		HashMap<Long, Double[]> linkTraits = LinkUtil.getLinkTraitVectors(linkFeatureMatrix, linkIdColumns, linkFeatures, linkWords, wordColumns);
+		HashMap<Long, HashMap<Long, Double>> connections = RecommenderUtil.getConnections(userFeatureMatrix, userIdColumns, userFeatures, userLinkSamples);
+		HashMap<Long, HashMap<Long, Double>> predictions = RecommenderUtil.getPredictions(userTraits, linkTraits, userLinkSamples);
+		
+		double oldError = getError(userFeatureMatrix, linkFeatureMatrix, userIdColumns, linkIdColumns, wordColumns, friendships, linkLikes, predictions, connections);
+		
+		while (!converged && iterations <= 500) {
+			Double[][] userDerivative = new Double[Constants.K][Constants.USER_FEATURE_COUNT];
+			HashMap<Long, Double[]> userIdDerivative = new HashMap<Long, Double[]>();
+			Double[][] linkDerivative = new Double[Constants.K][Constants.LINK_FEATURE_COUNT];
+			HashMap<Long, Double[]> linkIdDerivative = new HashMap<Long, Double[]>();
+			HashMap<String, Double[]> wordDerivative = new HashMap<String, Double[]>();
+			
+			//Get user derivatives
+			//System.out.println("Get user derivatives");
+			for (int k = 0; k < Constants.K; k++) {
+				//System.out.println("K: " + k);
+				for (int l = 0; l < Constants.USER_FEATURE_COUNT; l++) {
+					userDerivative[k][l] = getErrorDerivativeOverUserAttribute(userFeatureMatrix, userFeatures, userIdColumns, linkTraits, friendships, linkLikes, predictions, connections, k, l);
+				}
+				
+				for (long userId : userLinkSamples.keySet()) {
+					if (!userIdDerivative.containsKey(userId)) {
+						userIdDerivative.put(userId, new Double[Constants.K]);
+					}
+					
+					userIdDerivative.get(userId)[k] = getErrorDerivativeOverUserId(userFeatureMatrix, userFeatures, linkTraits, userIdColumns, friendships, linkLikes, predictions, connections, k, userId);
+				}
+			}
+			
+			//Get link derivatives
+			//System.out.println("Get link derivatives");
+			for (int q = 0; q < Constants.K; q++) {
+				//System.out.println("K: " + q);
+				for (int l = 0; l < Constants.LINK_FEATURE_COUNT; l++) {
+					linkDerivative[q][l] = getErrorDerivativeOverLinkAttribute(linkFeatureMatrix, userTraits, linkFeatures, linkLikes, predictions, q, l);
+				}
+				//System.out.println("Done features");
+				
+				for (long linkId : linkIdColumns.keySet()) {
+					if (!linkIdDerivative.containsKey(linkId)) {
+						linkIdDerivative.put(linkId, new Double[Constants.K]);
+					}
+					
+					linkIdDerivative.get(linkId)[q] = getErrorDerivativeOverLinkId(linkIdColumns, userTraits, linkLikes, predictions, q, linkId);
+				}
+				//System.out.println("Done ids");
+				
+				for (String word : words) {
+					if (!wordDerivative.containsKey(word)) {
+						wordDerivative.put(word, new Double[Constants.K]);
+					}
+					
+					wordDerivative.get(word)[q] = getErrorDerivativeOverWord(wordColumns, linkWords, linkTraits, linkLikes, predictions, q, word);
+				}
+				//System.out.println("Done words");
+			}
+			
+			boolean go = true;
+			
+			while (go) {
+				System.out.println("Step size: " + stepSize);
+				
+				Double[][] updatedUserMatrix = new Double[Constants.K][Constants.USER_FEATURE_COUNT];
+				Double[][] updatedLinkMatrix = new Double[Constants.K][Constants.LINK_FEATURE_COUNT]; 
+				HashMap<Long, Double[]> updatedUserIdColumns = new HashMap<Long, Double[]>();
+				HashMap<Long, Double[]> updatedLinkIdColumns = new HashMap<Long, Double[]>();
+				HashMap<String, Double[]> updatedWordColumns = new HashMap<String, Double[]>();
+			
+				for (int k = 0; k < Constants.K; k++) {
+					//System.out.println("K: " + k);
+					for (int l = 0; l < Constants.USER_FEATURE_COUNT; l++) {
+						updatedUserMatrix[k][l] = userFeatureMatrix[k][l] - (stepSize * userDerivative[k][l]);
+					}
+				
+					for (long userId : userLinkSamples.keySet()) {
+						if (!updatedUserIdColumns.containsKey(userId)) {
+							updatedUserIdColumns.put(userId, new Double[Constants.K]);
+						}
+					
+						updatedUserIdColumns.get(userId)[k] = userIdColumns.get(userId)[k] - stepSize * userIdDerivative.get(userId)[k];
+					}
+				}
+			
+				//Get link derivatives
+				//System.out.println("Get link derivatives");
+				for (int q = 0; q < Constants.K; q++) {
+					//System.out.println("K: " + q);
+					for (int l = 0; l < Constants.LINK_FEATURE_COUNT; l++) {
+						updatedLinkMatrix[q][l] = linkFeatureMatrix[q][l] - stepSize * linkDerivative[q][l];
+					}
+					//System.out.println("Done features");
+				
+					for (long linkId : linkIdColumns.keySet()) {
+						if (!updatedLinkIdColumns.containsKey(linkId)) {
+							updatedLinkIdColumns.put(linkId, new Double[Constants.K]);
+						}
+					
+						updatedLinkIdColumns.get(linkId)[q] = linkIdColumns.get(linkId)[q] - stepSize * linkIdDerivative.get(linkId)[q];
+					}
+					//System.out.println("Done ids");
+				
+					for (String word : words) {
+						if (!updatedWordColumns.containsKey(word)) {
+							updatedWordColumns.put(word, new Double[Constants.K]);
+						}
+					
+						updatedWordColumns.get(word)[q] = wordColumns.get(word)[q] - stepSize * wordDerivative.get(word)[q];
+					}
+					//System.out.println("Done words");
+				}
+			
+				HashMap<Long, Double[]> updatedUserTraits = UserUtil.getUserTraitVectors(updatedUserMatrix, updatedUserIdColumns, userFeatures);
+				HashMap<Long, Double[]> updatedLinkTraits = LinkUtil.getLinkTraitVectors(updatedLinkMatrix, updatedLinkIdColumns, linkFeatures, linkWords, updatedWordColumns);
+				HashMap<Long, HashMap<Long, Double>> updatedConnections = RecommenderUtil.getConnections(updatedUserMatrix, updatedUserIdColumns, userFeatures, userLinkSamples);
+				HashMap<Long, HashMap<Long, Double>> updatedPredictions = RecommenderUtil.getPredictions(updatedUserTraits, updatedLinkTraits, userLinkSamples);
+			
+				double newError = getError(updatedUserMatrix, updatedLinkMatrix, updatedUserIdColumns, updatedLinkIdColumns, updatedWordColumns, friendships, linkLikes, updatedPredictions, updatedConnections);
+			
+				if (newError < oldError) {
+					//System.out.println("Increasing Stepsize: " + stepSize + " Count: " + count);
+				
+					stepSize *= 2;
+					count++;
+                
+					lastGoodUserMatrix = updatedUserMatrix;
+					lastGoodUserIdColumns = updatedUserIdColumns;
+					lastGoodLinkMatrix = updatedLinkMatrix;
+					lastGoodLinkIdColumns = updatedLinkIdColumns;
+                	lastGoodWordColumns = updatedWordColumns;
+                	lastGoodUserTraits = updatedUserTraits;
+                	lastGoodLinkTraits = updatedLinkTraits;
+                	lastGoodConnections = updatedConnections;
+                	lastGoodPredictions = updatedPredictions;
+    			
+                	lastGoodError = newError;
+				}
+				else {
+					if (count > 0) {
+						count = 0;
+					
+						for (int k = 0; k < Constants.K; k++) {
+							userFeatureMatrix[k] = lastGoodUserMatrix[k];
+							linkFeatureMatrix[k] = lastGoodLinkMatrix[k];
+						}
+					
+						for (long userId : userLinkSamples.keySet()) {
+							userIdColumns.put(userId, lastGoodUserIdColumns.get(userId));
+						}
+					
+						for (long linkId : linkIdColumns.keySet()) {
+							linkIdColumns.put(linkId, lastGoodLinkIdColumns.get(linkId));
+						}
+					
+						for (String word : wordColumns.keySet()) {
+							wordColumns.put(word, lastGoodWordColumns.get(word));
+						}
+					
+						oldError = lastGoodError;
+						userTraits = lastGoodUserTraits;
+						linkTraits = lastGoodLinkTraits;
+						connections = lastGoodConnections;
+						predictions = lastGoodPredictions;
+	    			
+						iterations++;
+						System.out.println("Iterations: " + iterations);
+						System.out.println("Error: " + oldError);
+						System.out.println("");
+						
+						go = false;
+					}
+					else {
+						//System.out.println("Decreasing Stepsize: " + stepSize);
+						stepSize *= .5;
+					}
+				}
+			
+				//Once the learning rate is smaller than a certain size, just stop.
+				//We get here after a few failures in the previous if statement.
+				if (stepSize < Constants.STEP_CONVERGENCE) {
+					converged = true;
+					go = false;
+				}
+			}
+		}
+		
+		return oldError;
+	}
+	
+	public void checkDerivative(HashMap<Long, HashSet<Long>> linkLikes, Double[][] userFeatureMatrix, Double[][] linkFeatureMatrix, 
+			HashMap<Long, Double[]> userFeatures, HashMap<Long, Double[]> linkFeatures, HashMap<Long, HashMap<Long, Double>> friendships,
+			HashMap<Long, Double[]> userIdColumns, HashMap<Long, Double[]> linkIdColumns, HashMap<Long, HashSet<Long>> userLinkSamples,
+			HashMap<String, Double[]> wordColumns, HashMap<Long, Set<String>> linkWords, Set<String> words)
+	{	
+		double H = 1e-5;
+		
+		for (int k = 0; k < Constants.K; k++) {
+			/*
+			for (int l = 0; l < Constants.USER_FEATURE_COUNT; l++) {
+				HashMap<Long, Double[]> userTraits = UserUtil.getUserTraitVectors(userFeatureMatrix, userIdColumns, userFeatures);
+				HashMap<Long, Double[]> linkTraits = LinkUtil.getLinkTraitVectors(linkFeatureMatrix, linkIdColumns, linkFeatures, linkWords, wordColumns);
+				HashMap<Long, HashMap<Long, Double>> connections = RecommenderUtil.getConnections(userFeatureMatrix, userIdColumns, userFeatures, userLinkSamples);
+				HashMap<Long, HashMap<Long, Double>> predictions = RecommenderUtil.getPredictions(userTraits, linkTraits, userLinkSamples);
+				
+				double calculatedDerivative = getErrorDerivativeOverUserAttribute(userFeatureMatrix, userFeatures, userIdColumns, linkTraits, friendships, linkLikes, predictions, connections, k, l);
+				double oldError = getError(userFeatureMatrix, linkFeatureMatrix, userIdColumns, linkIdColumns, wordColumns, friendships, linkLikes, predictions, connections);
+				
+				double tmp = userFeatureMatrix[k][l];
+				userFeatureMatrix[k][l] += H;
+				
+				userTraits = UserUtil.getUserTraitVectors(userFeatureMatrix, userIdColumns, userFeatures);
+				linkTraits = LinkUtil.getLinkTraitVectors(linkFeatureMatrix, linkIdColumns, linkFeatures, linkWords, wordColumns);
+				connections = RecommenderUtil.getConnections(userFeatureMatrix, userIdColumns, userFeatures, userLinkSamples);
+				predictions = RecommenderUtil.getPredictions(userTraits, linkTraits, userLinkSamples);
+				
+				double newError = getError(userFeatureMatrix, linkFeatureMatrix, userIdColumns, linkIdColumns, wordColumns, friendships, linkLikes, predictions, connections);
+				userFeatureMatrix[k][l] = tmp;
+				double diff = (newError - oldError) / H;
+				
+				System.out.println("Calc: " + calculatedDerivative);
+				System.out.println("FDApprox: " + diff);
+				System.out.println("Diff: " + (calculatedDerivative - diff));
+				System.out.println("");
+			}
+			*/
+			
+			for (long userId : userLinkSamples.keySet()) {
+				HashMap<Long, Double[]> userTraits = UserUtil.getUserTraitVectors(userFeatureMatrix, userIdColumns, userFeatures);
+				HashMap<Long, Double[]> linkTraits = LinkUtil.getLinkTraitVectors(linkFeatureMatrix, linkIdColumns, linkFeatures, linkWords, wordColumns);
+				HashMap<Long, HashMap<Long, Double>> connections = RecommenderUtil.getConnections(userFeatureMatrix, userIdColumns, userFeatures, userLinkSamples);
+				HashMap<Long, HashMap<Long, Double>> predictions = RecommenderUtil.getPredictions(userTraits, linkTraits, userLinkSamples);
+				
+				double calculatedDerivative = getErrorDerivativeOverUserId(userFeatureMatrix, userFeatures, linkTraits, userIdColumns, friendships, linkLikes, predictions, connections, k, userId);
+				
+				double oldError = getError(userFeatureMatrix, linkFeatureMatrix, userIdColumns, linkIdColumns, wordColumns, friendships, linkLikes, predictions, connections);
+				
+				double tmp = userIdColumns.get(userId)[k];
+				userIdColumns.get(userId)[k] += H;
+				
+				userTraits = UserUtil.getUserTraitVectors(userFeatureMatrix, userIdColumns, userFeatures);
+				linkTraits = LinkUtil.getLinkTraitVectors(linkFeatureMatrix, linkIdColumns, linkFeatures, linkWords, wordColumns);
+				connections = RecommenderUtil.getConnections(userFeatureMatrix, userIdColumns, userFeatures, userLinkSamples);
+				predictions = RecommenderUtil.getPredictions(userTraits, linkTraits, userLinkSamples);
+				
+				double newError = getError(userFeatureMatrix, linkFeatureMatrix, userIdColumns, linkIdColumns, wordColumns, friendships, linkLikes, predictions, connections);
+				userIdColumns.get(userId)[k] = tmp;
+				double diff = (newError - oldError) / H;
+				
+				System.out.println("Calc: " + calculatedDerivative);
+				System.out.println("FDApprox: " + diff);
+				System.out.println("Diff: " + (calculatedDerivative - diff));
+				System.out.println("");
+			}
+		}
+		
+		for (int q = 0; q < Constants.K; q++) {
+			/*
+			for (int l = 0; l < Constants.LINK_FEATURE_COUNT; l++) {
+				HashMap<Long, Double[]> userTraits = UserUtil.getUserTraitVectors(userFeatureMatrix, userIdColumns, userFeatures);
+				HashMap<Long, Double[]> linkTraits = LinkUtil.getLinkTraitVectors(linkFeatureMatrix, linkIdColumns, linkFeatures, linkWords, wordColumns);
+				HashMap<Long, HashMap<Long, Double>> connections = RecommenderUtil.getConnections(userFeatureMatrix, userIdColumns, userFeatures, userLinkSamples);
+				HashMap<Long, HashMap<Long, Double>> predictions = RecommenderUtil.getPredictions(userTraits, linkTraits, userLinkSamples);
+				
+				double calculatedDerivative = getErrorDerivativeOverLinkAttribute(linkFeatureMatrix, userTraits, linkFeatures, linkLikes, predictions, q, l);
+				double oldError = getError(userFeatureMatrix, linkFeatureMatrix, userIdColumns, linkIdColumns, wordColumns, friendships, linkLikes, predictions, connections);
+				
+				double tmp = linkFeatureMatrix[q][l];
+				linkFeatureMatrix[q][l] += H;
+				
+				userTraits = UserUtil.getUserTraitVectors(userFeatureMatrix, userIdColumns, userFeatures);
+				linkTraits = LinkUtil.getLinkTraitVectors(linkFeatureMatrix, linkIdColumns, linkFeatures, linkWords, wordColumns);
+				connections = RecommenderUtil.getConnections(userFeatureMatrix, userIdColumns, userFeatures, userLinkSamples);
+				predictions = RecommenderUtil.getPredictions(userTraits, linkTraits, userLinkSamples);
+				
+				double newError = getError(userFeatureMatrix, linkFeatureMatrix, userIdColumns, linkIdColumns, wordColumns, friendships, linkLikes, predictions, connections);
+				linkFeatureMatrix[q][l] = tmp;
+				
+				double diff = (newError - oldError) / H;
+				
+				System.out.println("Calc: " + calculatedDerivative);
+				System.out.println("FDApprox: " + diff);
+				System.out.println("Diff: " + (calculatedDerivative - diff));
+				System.out.println("");
+			}
+			*/
+			
+			/*
+			for (long linkId : linkIdColumns.keySet()) {
+				HashMap<Long, Double[]> userTraits = UserUtil.getUserTraitVectors(userFeatureMatrix, userIdColumns, userFeatures);
+				HashMap<Long, Double[]> linkTraits = LinkUtil.getLinkTraitVectors(linkFeatureMatrix, linkIdColumns, linkFeatures, linkWords, wordColumns);
+				HashMap<Long, HashMap<Long, Double>> connections = RecommenderUtil.getConnections(userFeatureMatrix, userIdColumns, userFeatures, userLinkSamples);
+				HashMap<Long, HashMap<Long, Double>> predictions = RecommenderUtil.getPredictions(userTraits, linkTraits, userLinkSamples);
+				
+				double calculatedDerivative = getErrorDerivativeOverLinkId(linkIdColumns, userTraits, linkLikes, predictions, q, linkId);
+				double oldError = getError(userFeatureMatrix, linkFeatureMatrix, userIdColumns, linkIdColumns, wordColumns, friendships, linkLikes, predictions, connections);
+				
+				double tmp = linkIdColumns.get(linkId)[q];
+				linkIdColumns.get(linkId)[q] += H;
+				
+				userTraits = UserUtil.getUserTraitVectors(userFeatureMatrix, userIdColumns, userFeatures);
+				linkTraits = LinkUtil.getLinkTraitVectors(linkFeatureMatrix, linkIdColumns, linkFeatures, linkWords, wordColumns);
+				connections = RecommenderUtil.getConnections(userFeatureMatrix, userIdColumns, userFeatures, userLinkSamples);
+				predictions = RecommenderUtil.getPredictions(userTraits, linkTraits, userLinkSamples);
+				
+				double newError = getError(userFeatureMatrix, linkFeatureMatrix, userIdColumns, linkIdColumns, wordColumns, friendships, linkLikes, predictions, connections);
+				linkIdColumns.get(linkId)[q] = tmp;
+				
+				double diff = (newError - oldError) / H;
+				
+				System.out.println("Calc: " + calculatedDerivative);
+				System.out.println("FDApprox: " + diff);
+				System.out.println("Diff: " + (calculatedDerivative - diff));
+				System.out.println("");
+				
+			}
+			*/
+		}
+	
 	}
 	
 	public abstract double getError(Double[][] userFeatureMatrix, Double[][] linkFeatureMatrix, 

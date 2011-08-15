@@ -578,6 +578,26 @@ public class RecommenderUtil
 		return connections;
 	}
 	
+	public static void main(String[] args)
+	{
+		Double[][] userMatrix = {
+				{6d, 7d},
+				{10d, 11d},
+				{14d, 15d}
+		};
+		
+		HashMap<Long, Double[]> idColumns = new HashMap<Long, Double[]>();
+		idColumns.put(2l, new Double[]{8d, 12d, 16d});
+		idColumns.put(1l, new Double[]{9d, 13d, 17d});
+		
+		HashMap<Long, Double[]> userFeatures = new HashMap<Long, Double[]>();
+		userFeatures.put(1l, new Double[]{1d, 2d});
+		userFeatures.put(2l, new Double[]{3d, 4d});
+		
+		Constants.K = 3;
+		System.out.println("Connection: " + predictConnection(userMatrix, idColumns, userFeatures, 1, 2));
+	}
+	
 	public static double predictConnection(Double[][] userMatrix, 
 									HashMap<Long, Double[]> idColumns,
 									HashMap<Long, Double[]> userFeatures,
@@ -590,37 +610,64 @@ public class RecommenderUtil
 	
 		Double[] xU = new Double[Constants.K];
 	
-		for (int x = 0; x < xU.length; x++) {
+		for (int x = 0; x < Constants.K; x++) {
 			xU[x] = 0.0;
 	
 			for (int y = 0; y < iFeature.length; y++) {
+				//System.out.println(iFeature[y] * userMatrix[x][y]);
+				//System.out.println("iFeature[y]: " + iFeature[y]);
+				//System.out.println("userMatrix[x][y] " + userMatrix[x][y]);
+				//System.out.println("xU[x]: " + xU[x]);
+				
 				xU[x] += iFeature[y] * userMatrix[x][y];
 			}
 	
+			//System.out.println(iColumn[x]);
 			xU[x] += iColumn[x];
 	
+			//System.out.print(xU[x] + " ");
 		}
 	
+		/*
+		xU[Constants.K] = 0.0;
+		for (int y = 0; y < iFeature.length; y++) {
+			xU[Constants.K] += iFeature[y] * userMatrix[x][y];
+		}
+		xU[Constants.K] += iColumn[x];
+		*/
+		
+		//System.out.println("");
+		
 		Double[] xUU = new Double[iFeature.length + 1];
 	
 		for (int x = 0; x < iFeature.length; x++) {
 			xUU[x] = 0.0;
 	
-			for (int y = 0; y < Constants.K; y++) {
+			for (int y = 0; y < xU.length; y++) {
+				//System.out.println("xU[y]: " + xU[y] + " userMatrix[y][x]: " + userMatrix[y][x]);
 				xUU[x] += xU[y] * userMatrix[y][x];
 			}
+			//System.out.print(xUU[x] + " ");
 		}
 	
-		xUU[iFeature.length] = 0.0;
-	
-		for (int x = 0; x < Constants.K; x++) {
-			xUU[iFeature.length] += xU[x] * jColumn[x];
+		int index = iFeature.length;
+		xUU[index] = 0d;
+			
+		for (int y = 0; y < xU.length; y++) {
+			//System.out.println("xU[y]: " + xU[y] + " userMatrix[y][x]: " + jColumn[y]);
+			xUU[index] += xU[y] * jColumn[y];
 		}
+		
+		//System.out.print(xUU[index] + " ");
+		
+		//System.out.println("");
 	
+		
 		double connection = 0;
 	
 		for (int x = 0; x < jFeature.length; x++) {
-			connection += xUU[x] + jFeature[x];
+			//System.out.println("xUU[x]: " + xUU[x] + " jFeature[x]: " + jFeature[x]);
+			connection += xUU[x] * jFeature[x];
 		}
 		connection += xUU[jFeature.length];
 	

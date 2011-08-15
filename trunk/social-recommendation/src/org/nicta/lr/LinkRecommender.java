@@ -44,14 +44,14 @@ public class LinkRecommender
 		throws Exception
 	{
 		LinkRecommender lr = null;
-		String type = "social";
+		String type = "feature";
 		if (args.length > 0) {
 			type = args[0];
 		}
 		
 		if (type.equals("feature")) {
 			Constants.LAMBDA = 10;
-			Constants.K = 5;
+			Constants.K = 1;
 			lr = new LinkRecommender("feature");
 		}
 		else if (type.equals("social")) {
@@ -76,8 +76,8 @@ public class LinkRecommender
 			System.out.println("WTF: " + args[0]);
 		}
 		
-		lr.recommend();
-		//lr.crossValidate();
+		//lr.recommend();
+		lr.crossValidate();
 		
 		/*
 		Constants.LAMBDA = .000001;
@@ -166,7 +166,6 @@ public class LinkRecommender
 		double totalFalseNeg = 0;
 		
 		HashMap<Long, Double> averagePrecision = new HashMap<Long, Double>();
-		HashMap<Long, Integer> precisionCount = new HashMap<Long, Integer>();
 		
 		for (int x = 0; x < 10; x++) {
 			HashMap<Long, HashSet<Long>> forTesting = new HashMap<Long, HashSet<Long>>();
@@ -208,6 +207,10 @@ public class LinkRecommender
 			
 			HashMap<String, Double[]> wordColumns = getWordColumns(words);
 			
+			//System.out.println("Run : " + (x+1));
+			//minimizer.checkDerivative(linkLikes, userFeatureMatrix, linkFeatureMatrix, users, links, friendConnections, userIdColumns, linkIdColumns, userLinkSamples, wordColumns, linkWords, words);
+			//if (true) continue;
+			
 			minimizer.minimize(linkLikes, userFeatureMatrix, linkFeatureMatrix, users, links, friendConnections, userIdColumns, linkIdColumns, userLinkSamples, wordColumns, linkWords, words);
 			
 			HashMap<Long, Double[]> userTraits = UserUtil.getUserTraitVectors(userFeatureMatrix, userIdColumns, users);
@@ -232,16 +235,11 @@ public class LinkRecommender
 				
 				if (!averagePrecision.containsKey(userId)) {
 					averagePrecision.put(userId, 0.0);
-					precisionCount.put(userId, 0);
 				}
 				
 				double average = averagePrecision.get(userId);
 				average += ap;
 				averagePrecision.put(userId, average);
-				
-				int count = precisionCount.get(userId);
-				count++;
-				precisionCount.put(userId, count);
 			}
 			
 			//System.out.println("Stats for Run " + (x+1));

@@ -161,6 +161,25 @@ public class LineSearchFeatureMF extends MovieLens
 		return prediction;
 	}
 	
+	public void checkDerivative(HashMap<Integer, HashMap<Integer, Double>> movieUserRatings, Double[][] userMatrix, Double[][] movieMatrix, 
+					HashMap<Integer, Double[]> userFeatures, HashMap<Integer, Double[]> movieFeatures, 
+					//HashMap<Integer, Double[]> userTraits, HashMap<Integer, Double[]> movieTraits,
+					HashMap<Integer[], Double> testData, HashMap<Integer, HashSet<Integer>> userMovies)
+		throws Exception
+	{
+		HashMap<Integer, Double[]> userTraits = getTraitVectors(userMatrix, userFeatures);
+		HashMap<Integer, Double[]> movieTraits = getTraitVectors(movieMatrix, movieFeatures);
+		
+		for (int k = 0; k < DIMENSION_COUNT; k++) {
+			for (int l = 0; l < USER_FEATURE_COUNT + USER_COUNT; l++) {
+				if (l < USER_FEATURE_COUNT) {
+					double calcDeriv = getErrorDerivativeOverUserAttribute(userMatrix, userFeatures, userTraits, movieTraits, movieUserRatings, k, l);
+					double oldError = getError(userMatrix, movieMatrix, userTraits, movieTraits, movieUserRatings);
+				}
+			}
+		}
+	}
+	
 	public void minimize(HashMap<Integer, HashMap<Integer, Double>> movieUserRatings, Double[][] userMatrix, Double[][] movieMatrix, 
 							HashMap<Integer, Double[]> userFeatures, HashMap<Integer, Double[]> movieFeatures, 
 							//HashMap<Integer, Double[]> userTraits, HashMap<Integer, Double[]> movieTraits,
