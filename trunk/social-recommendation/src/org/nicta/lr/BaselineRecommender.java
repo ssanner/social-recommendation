@@ -50,7 +50,7 @@ public class BaselineRecommender extends LinkRecommender
 		HashMap<Long, Double> averagePrecision = new HashMap<Long, Double>();
 		HashMap<Long, Integer> precisionCount = new HashMap<Long, Integer>();
 		
-		for (int x = 0; x < 10; x++) {
+		//for (int x = 0; x < 10; x++) {
 			HashMap<Long, HashSet<Long>> forTesting = new HashMap<Long, HashSet<Long>>();
 			
 			for (long userId : userLinkSamples.keySet()) {
@@ -65,7 +65,7 @@ public class BaselineRecommender extends LinkRecommender
 				
 				int addedCount = 0;
 				
-				while (addedCount < sampleArray.length * .1) {
+				while (addedCount < sampleArray.length * .2 || addedCount < 2) {
 					if (sampleArray.length == userTested.size()) break;
 					
 					int randomIndex = (int)(Math.random() * (sampleArray.length));
@@ -85,7 +85,7 @@ public class BaselineRecommender extends LinkRecommender
 			
 			for (long userId : precisions.keySet()) {
 				double ap = precisions.get(userId);
-				if (ap == 0) continue;
+				//if (ap == 0) continue;
 				
 				if (!averagePrecision.containsKey(userId)) {
 					averagePrecision.put(userId, 0.0);
@@ -107,18 +107,28 @@ public class BaselineRecommender extends LinkRecommender
 					userLinkSamples.get(userId).add(linkId);
 				}
 			}
-		}
+		//}
 		
 		double map = 0;
 		for (long userId : averagePrecision.keySet()) {
 			double pre = averagePrecision.get(userId);
-			pre /= (double)10;
+			//pre /= (double)10;
 			
 			map += pre;
 		}
 		map /= (double)averagePrecision.size();
+		double standardDev = 0;
+		for (long userId : averagePrecision.keySet()) {
+			double pre = averagePrecision.get(userId);
+			standardDev += Math.pow(pre - map, 2);
+		}
+		standardDev /= (double)averagePrecision.size();
+		standardDev = Math.sqrt(standardDev);
+		double standardError = standardDev / Math.sqrt(averagePrecision.size());
 		
 		System.out.println("MAP: " + map);
+		System.out.println("SD: " + standardDev);
+		System.out.println("SE: " + standardError);
 		System.out.println("");
 	}
 	

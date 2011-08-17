@@ -15,9 +15,9 @@ public class Constants
 	public static double LAMBDA = 10;
 	public static double BETA = 10;
 	
-	public static final double STEP_CONVERGENCE = 1e-5;
+	public static final double STEP_CONVERGENCE = 1e-2;
 	
-	public static final int WINDOW_RANGE = 30;
+	public static final int WINDOW_RANGE = 21;
 	
 	public static double C = Math.pow(2, 1);
 	

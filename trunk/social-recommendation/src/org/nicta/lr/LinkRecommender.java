@@ -44,19 +44,19 @@ public class LinkRecommender
 		throws Exception
 	{
 		LinkRecommender lr = null;
-		String type = "feature";
+		String type = "social";
 		if (args.length > 0) {
 			type = args[0];
 		}
 		
 		if (type.equals("feature")) {
-			Constants.LAMBDA = 10;
-			Constants.K = 1;
+			Constants.LAMBDA = 100;
+			Constants.K = 5;
 			lr = new LinkRecommender("feature");
 		}
 		else if (type.equals("social")) {
-			Constants.LAMBDA = 1;
-			Constants.BETA = 10;
+			Constants.LAMBDA = 100;
+			Constants.BETA = 1.0E-6;
 			Constants.K = 5;
 			lr = new LinkRecommender("social");
 		}
@@ -80,39 +80,38 @@ public class LinkRecommender
 		lr.crossValidate();
 		
 		/*
-		Constants.LAMBDA = .000001;
+		Constants.BETA = .000001;
 		lr.crossValidate();
 	
-		Constants.LAMBDA = .00001;
+		Constants.BETA = .00001;
 		lr.crossValidate();
 		
-		Constants.LAMBDA = .0001;
+		Constants.BETA = .0001;
 		lr.crossValidate();
 		
-		Constants.LAMBDA = .001;
+		Constants.BETA = .001;
 		lr.crossValidate();
 		
-		Constants.LAMBDA = .01;
+		Constants.BETA = .01;
 		lr.crossValidate();
 		
-		Constants.LAMBDA = .1;
+		Constants.BETA = .1;
 		lr.crossValidate();
 		
-		Constants.LAMBDA = 1;
+		Constants.BETA = 1;
 		lr.crossValidate();
 		
-		Constants.LAMBDA = 10;
+		Constants.BETA = 10;
 		lr.crossValidate();
 		
-		Constants.LAMBDA = 100;
+		Constants.BETA = 100;
 		lr.crossValidate();
 		
-		Constants.LAMBDA = 1000;
-		lr.crossValidate();
-		
-		Constants.LAMBDA = 10000;
+		Constants.BETA = 1000;
 		lr.crossValidate();
 		*/
+		//Constants.LAMBDA = 10000;
+		//lr.crossValidate();
 	}
 	
 	public void crossValidate()
@@ -167,7 +166,7 @@ public class LinkRecommender
 		
 		HashMap<Long, Double> averagePrecision = new HashMap<Long, Double>();
 		
-		for (int x = 0; x < 10; x++) {
+		//for (int x = 0; x < 10; x++) {
 			HashMap<Long, HashSet<Long>> forTesting = new HashMap<Long, HashSet<Long>>();
 			
 			for (long userId : userLinkSamples.keySet()) {
@@ -181,14 +180,41 @@ public class LinkRecommender
 				Object[] sampleArray = samples.toArray();
 				
 				int addedCount = 0;
+				int likeCount = 0;
 				
-				while (addedCount < sampleArray.length * .1) {
+				while (addedCount < sampleArray.length * .2 || addedCount < 2) {
 					if (sampleArray.length == userTested.size()) break;
 					
 					int randomIndex = (int)(Math.random() * (sampleArray.length));
 					Long randomLinkId = (Long)sampleArray[randomIndex];
 					
 					if (!tested.get(userId).contains(randomLinkId) && ! userTesting.contains(randomLinkId)) {
+						
+						
+						if (likeCount == 0) {
+							if (!linkLikes.get(randomLinkId).contains(userId)) {
+								continue;
+							}
+							else {
+								likeCount++;
+							}
+						}
+						else {		
+							if (linkLikes.get(randomLinkId).contains(userId)) {
+								int remainingLike = 0;
+								for (long remainingId : samples) {
+									if (linkLikes.get(remainingId).contains(userId)) remainingLike++;
+								}
+								
+								if (remainingLike == 1) {
+									continue;
+								}
+								else {
+									likeCount++;
+								}
+							}
+						}
+						
 						userTesting.add(randomLinkId);
 						tested.get(userId).add(randomLinkId);
 						samples.remove(randomLinkId);
@@ -231,7 +257,7 @@ public class LinkRecommender
 			
 			for (long userId : userAP.keySet()) {
 				double ap = userAP.get(userId);
-				if (ap == 0) continue;
+				//if (ap == 0) continue;
 				
 				if (!averagePrecision.containsKey(userId)) {
 					averagePrecision.put(userId, 0.0);
@@ -255,7 +281,7 @@ public class LinkRecommender
 					userLinkSamples.get(userId).add(linkId);
 				}
 			}
-		}
+		//}
 		
 		double accuracy = (double)(totalTruePos + totalTrueNeg) / (double)(totalTruePos + totalFalsePos + totalTrueNeg + totalFalseNeg);
 		double precision = (double)totalTruePos / (double)(totalTruePos + totalFalsePos);
@@ -265,18 +291,29 @@ public class LinkRecommender
 		double map = 0;
 		for (long userId : averagePrecision.keySet()) {
 			double pre = averagePrecision.get(userId);
-			pre /= (double)10;
+			//pre /= (double)10;
 			
 			map += pre;
 		}
 		map /= (double)averagePrecision.size();
 		
+		double standardDev = 0;
+		for (long userId : averagePrecision.keySet()) {
+			double pre = averagePrecision.get(userId);
+			standardDev += Math.pow(pre - map, 2);
+		}
+		standardDev /= (double)averagePrecision.size();
+		standardDev = Math.sqrt(standardDev);
+		double standardError = standardDev / Math.sqrt(averagePrecision.size());
+		
 		System.out.println("L=" + Constants.LAMBDA + ", B=" + Constants.BETA + ", K=" + Constants.K);
-		System.out.println("Accuracy: " + accuracy);
-		System.out.println("Precision: " + precision);
-		System.out.println("Recall: " + recall);
-		System.out.println("F1: " + f1);
+		//System.out.println("Accuracy: " + accuracy);
+		//System.out.println("Precision: " + precision);
+		//System.out.println("Recall: " + recall);
+		//System.out.println("F1: " + f1);
 		System.out.println("MAP: " + map);
+		System.out.println("SD: " + standardDev);
+		System.out.println("SE: " + standardError);
 		System.out.println("");
 	}
 	
@@ -366,6 +403,7 @@ public class LinkRecommender
 		updateMatrixColumns(links.keySet(), linkIdColumns);
 		updateMatrixColumns(users.keySet(), userIdColumns);
 		
+		RecommenderUtil.closeSqlConnection();
 		
 		System.out.println("Minimizing...");
 		minimizer.minimize(linkLikes, userFeatureMatrix, linkFeatureMatrix, users, links, friendConnections, userIdColumns, linkIdColumns, userLinkSamples, wordColumns, linkWords, words);
