@@ -60,7 +60,7 @@ public class FeatureMinimizer extends Minimizer
 			}
 		}
 		for (String id : wordColumns.keySet()) {
-			Double[] column = linkIdColumns.get(id);
+			Double[] column = wordColumns.get(id);
 			
 			for (double val : column) {
 				linkNorm += Math.pow(val, 2);
@@ -173,7 +173,7 @@ public class FeatureMinimizer extends Minimizer
 			HashMap<Long, Double[]> userTraits, HashMap<Long, HashSet<Long>> linkLikes,
 			HashMap<Long, HashMap<Long, Double>> predictions,  
 			int x, String word)
-	{
+	{	
 		Double[] column = wordColumns.get(word);
 		double errorDerivative = column[x] * Constants.LAMBDA;
 		
@@ -181,7 +181,8 @@ public class FeatureMinimizer extends Minimizer
 			Set<Long> links = predictions.get(userId).keySet();
 			
 			for (long linkId : links) {
-				double dst = userTraits.get(userId)[x] * column[x];		
+				//System.out.println(userId + " " + userTraits.containsKey(userId) + " " + userTraits.get(userId) + " " + column);
+				double dst = userTraits.get(userId)[x] ;//* column[x];		
 				double p = predictions.get(userId).get(linkId);
 				double r = 0;
 				if (linkLikes.get(linkId).contains(userId)) r = 1;

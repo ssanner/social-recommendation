@@ -176,12 +176,14 @@ public class RecommenderUtil
 			
 			ArrayList<Double> precisions = new ArrayList<Double>();
 			int pos = 0;
+			System.out.println("Testing: " + sortedScores.size());
 			for (int x = 0; x < sortedScores.size(); x++) {
 				long linkId = sortedIds.get(x);
 			
 				if (linkLikes.containsKey(linkId) && linkLikes.get(linkId).contains(userId)) {
 					pos++;
 					precisions.add((double)pos / (double)(x+1));
+					System.out.println("Pos: " + pos + " / " + (x+1));
 				}
 			}
 			
@@ -490,17 +492,28 @@ public class RecommenderUtil
 		
 		System.out.println("Count: " + userLinkSamples.size());
 		int minCount = 0;
+		HashSet<Long> remove = new HashSet<Long>();
 		for (Long userId : userLinkSamples.keySet()) {
 			HashSet<Long> samples = userLinkSamples.get(userId);
-			if (samples.size() >= 1) {
+			if (samples.size() >= 2) {
 				minCount++;
 			}
+			else {
+				remove.add(userId);
+			}
 		}
+		
+		for (Long removeId : remove) {
+			userLinkSamples.remove(removeId);
+		}
+		
 		System.out.println("Min: " + minCount);
 		
+		remove = new HashSet<Long>();
+		
 		for (Long userId : userLinkSamples.keySet()) {
-			System.out.println("User: " + ++count);
 			HashSet<Long> samples = userLinkSamples.get(userId);
+			System.out.println("User: " + ++count + " " + samples.size());
 			
 			Set<Long> friends = friendships.get(userId).keySet();
 			
@@ -526,8 +539,17 @@ public class RecommenderUtil
 					samples.add(linkId);
 				}
 			}
+			
+			if (samples.size() < 4) {
+				remove.add(userId);
+			}
 		}
 		
+		for (Long removeId : remove) {
+			userLinkSamples.remove(removeId);
+		}
+		
+		System.out.println("New Min: " + minCount);
 		return userLinkSamples;
 	}
 	public static double getDistance(Double[] d1, Double[] d2)

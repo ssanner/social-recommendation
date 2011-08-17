@@ -255,9 +255,13 @@ public class LinkUtil
 			"SELECT name, description, message "
 			+ "FROM linkrLinks";
 		
+		wordsQuery += " WHERE DATE(created_time) >= DATE(ADDDATE(CURRENT_DATE(), -" + Constants.WINDOW_RANGE + "))";
+		
 		ResultSet result = statement.executeQuery(wordsQuery);
 		
+		int wCount = 0;
 		while (result.next()) {
+			System.out.println("LinkW: " + ++wCount);
 			String title = result.getString("name");
 			String summary = result.getString("description");
 			String ownerComment = result.getString("message");
@@ -434,11 +438,11 @@ public class LinkUtil
 					vector[x] += matrix[x][y] * feature[y];
 				}
 	
-				/*
-				for (String word : words) {
+				
+				for (String word : wordColumns.keySet()) {
 					vector[x] += wordColumns.get(word)[x];
 				}
-				*/
+				
 				
 				vector[x] += idColumn[x];
 			}

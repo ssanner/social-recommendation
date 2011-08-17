@@ -53,7 +53,7 @@ public class SVMRecommender extends LinkRecommender
 		HashMap<Long, HashSet<Long>> linkLikes = LinkUtil.getLinkLikes(linkUsers, true);
 		HashMap<Long, HashMap<Long, Double>> friendships = UserUtil.getFriendships();
 		
-		HashMap<Long, HashSet<Long>> userLinkSamples = RecommenderUtil.getUserLinksSample(linkLikes, users.keySet(), friendships, linkUsers, true);
+		HashMap<Long, HashSet<Long>> userLinkSamples = RecommenderUtil.getUserLinksSample(linkLikes, users.keySet(), friendships, linkUsers, false);
 		System.out.println("Samples: " + userLinkSamples.size());
 		
 		userIds = userLinkSamples.keySet().toArray();
@@ -72,9 +72,8 @@ public class SVMRecommender extends LinkRecommender
 		double totalFalseNeg = 0;
 		
 		HashMap<Long, Double> averagePrecision = new HashMap<Long, Double>();
-		HashMap<Long, Integer> precisionCount = new HashMap<Long, Integer>();
 		
-		for (int x = 0; x < 10; x++) {
+		//for (int x = 0; x < 10; x++) {
 			HashMap<Long, HashSet<Long>> forTesting = new HashMap<Long, HashSet<Long>>();
 			
 			for (long userId : userLinkSamples.keySet()) {
@@ -89,19 +88,62 @@ public class SVMRecommender extends LinkRecommender
 				
 				int addedCount = 0;
 				
-				while (addedCount < sampleArray.length * .1) {
+				int likeCount = 0;
+				
+				System.out.println("Size: " + sampleArray.length);
+				while (addedCount < sampleArray.length * .2 || addedCount < 2) {
+					
 					if (sampleArray.length == userTested.size()) break;
 					
 					int randomIndex = (int)(Math.random() * (sampleArray.length));
-					Long randomLinkId = (Long)sampleArray[randomIndex];
+					Long randomLinkId = (Long)sampleArray[randomIndex];	
 					
 					if (!tested.get(userId).contains(randomLinkId) && ! userTesting.contains(randomLinkId)) {
+						
+						if (likeCount == 0) {
+							if (!linkLikes.get(randomLinkId).contains(userId)) {
+								continue;
+							}
+							else {
+								likeCount++;
+							}
+						}
+						else {		
+							if (linkLikes.get(randomLinkId).contains(userId)) {
+								int remainingLike = 0;
+								for (long remainingId : samples) {
+									if (linkLikes.get(remainingId).contains(userId)) remainingLike++;
+								}
+								
+								if (remainingLike == 1) {
+									continue;
+								}
+								else {
+									likeCount++;
+								}
+							}
+						}
+						
+						
 						userTesting.add(randomLinkId);
 						tested.get(userId).add(randomLinkId);
 						samples.remove(randomLinkId);
 						addedCount++;
 					}
-				}		
+				}
+				
+				System.out.println("ADDED: " + userTesting.size() + "     " + addedCount);
+				if (addedCount != userTesting.size()) {
+					System.out.println("Taninga");
+					System.exit(1);
+				}
+				
+				if (addedCount <= 1) {
+					System.out.println("WHAT THE FUCK");
+					System.out.println("Samples: " + samples.size());
+					System.exit(1);
+				}
+				System.out.println();
 			}
 			
 			System.out.println("Training");
@@ -122,28 +164,26 @@ public class SVMRecommender extends LinkRecommender
 			
 			for (long userId : precisions.keySet()) {
 				double ap = precisions.get(userId);
-				if (ap == 0) continue;
+				//if (ap == 0) continue;
 				
 				if (!averagePrecision.containsKey(userId)) {
 					averagePrecision.put(userId, 0.0);
-					precisionCount.put(userId, 0);
 				}
 				
 				double average = averagePrecision.get(userId);
 				average += ap;
-				averagePrecision.put(userId, average);
 				
-				int count = precisionCount.get(userId);
-				count++;
-				precisionCount.put(userId, count);
+				//System.out.println("average: " + average);
+				
+				averagePrecision.put(userId, average);
 			}
 			
-			System.out.println("Stats for Run " + (x+1));
+			//System.out.println("Stats for Run " + (x+1));
 			//System.out.println("True Pos: "+ truePos);
 			//System.out.println("False Pos: "+ falsePos);
 			//System.out.println("True Neg: "+ trueNeg);
 			//System.out.println("False Neg: "+ falseNeg);
-			System.out.println("");
+			//System.out.println("");
 			
 			for (long userId : forTesting.keySet()) {
 				HashSet<Long> tests = forTesting.get(userId);
@@ -151,7 +191,7 @@ public class SVMRecommender extends LinkRecommender
 					userLinkSamples.get(userId).add(linkId);
 				}
 			}
-		}
+		//}
 		
 		
 		double accuracy = (double)(totalTruePos + totalTrueNeg) / (double)(totalTruePos + totalFalsePos + totalTrueNeg + totalFalseNeg);
@@ -162,19 +202,29 @@ public class SVMRecommender extends LinkRecommender
 		double map = 0;
 		for (long userId : averagePrecision.keySet()) {
 			double pre = averagePrecision.get(userId);
-			pre /= (double)10;
+			//pre /= (double)10;
 			
 			map += pre;
 		}
 		map /= (double)averagePrecision.size();
+		double standardDev = 0;
+		for (long userId : averagePrecision.keySet()) {
+			double pre = averagePrecision.get(userId);
+			standardDev += Math.pow(pre - map, 2);
+		}
+		standardDev /= (double)averagePrecision.size();
+		standardDev = Math.sqrt(standardDev);
+		double standardError = standardDev / Math.sqrt(averagePrecision.size());
+		
 		
 		System.out.println("C=" + Constants.C);
-		System.out.println("Accuracy: " + accuracy);
-		System.out.println("Precision: " + precision);
-		System.out.println("Recall: " + recall);
-		System.out.println("F1: " + f1);
+		//System.out.println("Accuracy: " + accuracy);
+		//System.out.println("Precision: " + precision);
+		//System.out.println("Recall: " + recall);
+		//System.out.println("F1: " + f1);
 		System.out.println("MAP: " + map);
-		
+		System.out.println("SD: " + standardDev);
+		System.out.println("SE: " + standardError);
 		System.out.println("");
 	}
 	
@@ -198,6 +248,8 @@ public class SVMRecommender extends LinkRecommender
 		
 		userIds = userLinkSamples.keySet().toArray();
 		linkIds = links.keySet().toArray();
+		
+		RecommenderUtil.closeSqlConnection();
 		
 		System.out.println("Training...");
 		svm_model model = trainSVM(linkLikes, users, links, friendships, userLinkSamples);
@@ -490,7 +542,7 @@ public class SVMRecommender extends LinkRecommender
 				double prediction = svm.svm_predict(model, nodes);
 				double[] dbl = new double[1]; 
 				svm.svm_predict_values(model, nodes, dbl);
-				System.out.println("Prediction: " + prediction + " Value: " + dbl[0]);
+				//System.out.println("Prediction: " + prediction + " Value: " + dbl[0]);
 				
 				//scores.add(prediction);
 				scores.add(dbl[0]);
@@ -503,12 +555,16 @@ public class SVMRecommender extends LinkRecommender
 			
 			ArrayList<Double> precisions = new ArrayList<Double>();
 			int pos = 0;
+			System.out.println("Testing: " + sortedScores.size());
+			
 			for (int x = 0; x < sortedScores.size(); x++) {
 				long linkId = sortedIds.get(x);
 			
 				if (linkLikes.containsKey(linkId) && linkLikes.get(linkId).contains(userId)) {
 					pos++;
 					precisions.add((double)pos / (double)(x+1));
+					
+					System.out.println("Pos: " + pos + " / " + (x+1));
 				}
 			}
 			

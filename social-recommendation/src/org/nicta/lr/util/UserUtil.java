@@ -928,8 +928,8 @@ public class UserUtil
 			
 			for (long uid2 : friendValues.keySet()) {
 				double val = friendValues.get(uid2);
-				val /= average;
-				val = Math.log(val);
+				//val /= average;
+				//val = Math.log(val);
 				
 				friendValues.put(uid2, val);
 			}

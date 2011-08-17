@@ -78,6 +78,7 @@ public abstract class Minimizer
 		
 		while (go) {
 			iterations++;
+			//if (iterations > 5) break;
 			HashMap<Long, Double[]> userTraits = UserUtil.getUserTraitVectors(userFeatureMatrix, userIdColumns, userFeatures);
 			
 			HashMap<Long, Double[]> linkTraits = LinkUtil.getLinkTraitVectors(linkFeatureMatrix, linkIdColumns, linkFeatures, linkWords, wordColumns);
@@ -129,16 +130,13 @@ public abstract class Minimizer
 				}
 				System.out.println("Done ids");
 				
-				/*
 				for (String word : words) {
 					if (!wordDerivative.containsKey(word)) {
 						wordDerivative.put(word, new Double[Constants.K]);
 					}
 					
-					wordDerivative.get(word)[q] = getErrorDerivativeOverWord(wordColumns, linkWords, linkTraits, linkLikes, predictions, q, word);
+					wordDerivative.get(word)[q] = getErrorDerivativeOverWord(wordColumns, linkWords, userTraits, linkLikes, predictions, q, word);
 				}
-				*/
-				//System.out.println("Done words");
 			}
 		
 			double[] variables = new double[userVars + linkVars];
@@ -682,6 +680,7 @@ public abstract class Minimizer
 			}
 			*/
 			
+			/*
 			for (long userId : userLinkSamples.keySet()) {
 				HashMap<Long, Double[]> userTraits = UserUtil.getUserTraitVectors(userFeatureMatrix, userIdColumns, userFeatures);
 				HashMap<Long, Double[]> linkTraits = LinkUtil.getLinkTraitVectors(linkFeatureMatrix, linkIdColumns, linkFeatures, linkWords, wordColumns);
@@ -709,6 +708,7 @@ public abstract class Minimizer
 				System.out.println("Diff: " + (calculatedDerivative - diff));
 				System.out.println("");
 			}
+			*/
 		}
 		
 		for (int q = 0; q < Constants.K; q++) {
@@ -771,7 +771,35 @@ public abstract class Minimizer
 				System.out.println("");
 				
 			}
+			
 			*/
+			for (String word : words) {
+				HashMap<Long, Double[]> userTraits = UserUtil.getUserTraitVectors(userFeatureMatrix, userIdColumns, userFeatures);
+				HashMap<Long, Double[]> linkTraits = LinkUtil.getLinkTraitVectors(linkFeatureMatrix, linkIdColumns, linkFeatures, linkWords, wordColumns);
+				HashMap<Long, HashMap<Long, Double>> connections = RecommenderUtil.getConnections(userFeatureMatrix, userIdColumns, userFeatures, userLinkSamples);
+				HashMap<Long, HashMap<Long, Double>> predictions = RecommenderUtil.getPredictions(userTraits, linkTraits, userLinkSamples);
+				
+				double calculatedDerivative = getErrorDerivativeOverWord(wordColumns, linkWords, userTraits, linkLikes, predictions, q, word);
+				double oldError = getError(userFeatureMatrix, linkFeatureMatrix, userIdColumns, linkIdColumns, wordColumns, friendships, linkLikes, predictions, connections);
+				
+				double tmp = wordColumns.get(word)[q];
+				wordColumns.get(word)[q] += H;
+				
+				userTraits = UserUtil.getUserTraitVectors(userFeatureMatrix, userIdColumns, userFeatures);
+				linkTraits = LinkUtil.getLinkTraitVectors(linkFeatureMatrix, linkIdColumns, linkFeatures, linkWords, wordColumns);
+				connections = RecommenderUtil.getConnections(userFeatureMatrix, userIdColumns, userFeatures, userLinkSamples);
+				predictions = RecommenderUtil.getPredictions(userTraits, linkTraits, userLinkSamples);
+				
+				double newError = getError(userFeatureMatrix, linkFeatureMatrix, userIdColumns, linkIdColumns, wordColumns, friendships, linkLikes, predictions, connections);
+				wordColumns.get(word)[q] = tmp;
+				
+				double diff = (newError - oldError) / H;
+				
+				System.out.println("Calc: " + calculatedDerivative);
+				System.out.println("FDApprox: " + diff);
+				System.out.println("Diff: " + (calculatedDerivative - diff));
+				System.out.println("");
+			}
 		}
 	
 	}
