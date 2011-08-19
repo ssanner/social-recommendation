@@ -7,6 +7,7 @@ import java.sql.Statement;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Map;
 
 public class UserUtil 
 {
@@ -23,7 +24,7 @@ public class UserUtil
 	{
 		HashSet<Long> userIds = new HashSet<Long>();
 		
-		Connection conn = RecommenderUtil.getSqlConnection();
+		Connection conn = SQLUtil.getSqlConnection();
 		Statement statement = conn.createStatement();
 		
 		String userQuery = "SELECT uid FROM linkrUser";
@@ -42,7 +43,7 @@ public class UserUtil
 	{
 		HashSet<Long> userIds = new HashSet<Long>();
 		
-		Connection conn = RecommenderUtil.getSqlConnection();
+		Connection conn = SQLUtil.getSqlConnection();
 		Statement statement = conn.createStatement();
 		
 		String userQuery = "SELECT uid FROM trackUserUpdates WHERE is_app_user=1";
@@ -56,12 +57,12 @@ public class UserUtil
 		return userIds;
 	}
 	
-	public static HashMap<Long, Double[]> getUserFeatures()
+	public static Map<Long, Double[]> getUserFeatures()
 		throws SQLException
 	{
 		HashMap<Long, Double[]> userFeatures = new HashMap<Long, Double[]>();
 		
-		Connection conn = RecommenderUtil.getSqlConnection();
+		Connection conn = SQLUtil.getSqlConnection();
 		Statement statement = conn.createStatement();
 		
 		String userQuery = 
@@ -108,12 +109,12 @@ public class UserUtil
 		return userFeatures;
 	}
 	
-	public static HashMap<Long, Double[]> getUserFeatures(Set<Long> userIds)
+	public static Map<Long, Double[]> getUserFeatures(Set<Long> userIds)
 		throws SQLException
 	{
 		HashMap<Long, Double[]> userFeatures = new HashMap<Long, Double[]>();
 		
-		Connection conn = RecommenderUtil.getSqlConnection();
+		Connection conn = SQLUtil.getSqlConnection();
 		Statement statement = conn.createStatement();
 		
 		StringBuffer userQuery = new StringBuffer();
@@ -172,12 +173,12 @@ public class UserUtil
 	 * @return
 	 * @throws SQLException
 	 */
-	public static HashMap<Long, HashMap<Long, Double>> getFriendships()
+	public static Map<Long, Map<Long, Double>> getFriendships()
 		throws SQLException
 	{
-		HashMap<Long, HashMap<Long, Double>> friendships = new HashMap<Long, HashMap<Long, Double>>();
+		HashMap<Long, Map<Long, Double>> friendships = new HashMap<Long, Map<Long, Double>>();
 		
-		Connection conn = RecommenderUtil.getSqlConnection();
+		Connection conn = SQLUtil.getSqlConnection();
 		Statement statement = conn.createStatement();
 		
 		String friendQuery =
@@ -218,10 +219,10 @@ public class UserUtil
 	 * @return
 	 * @throws SQLException
 	 */
-	public static HashMap<Long, HashMap<Long, Double>> getFriendInteractionMeasure(Set<Long> uids)
+	public static Map<Long, Map<Long, Double>> getFriendInteractionMeasure(Set<Long> uids)
 		throws SQLException
 	{
-		HashMap<Long, HashMap<Long, Double>> friendships = new HashMap<Long, HashMap<Long, Double>>();
+		HashMap<Long, Map<Long, Double>> friendships = new HashMap<Long, Map<Long, Double>>();
 		
 		StringBuffer idBuf = new StringBuffer("(0");
 		for (Long id : uids) {
@@ -231,7 +232,7 @@ public class UserUtil
 		idBuf.append(")");
 		String idString = idBuf.toString();
 		
-		Connection conn = RecommenderUtil.getSqlConnection();
+		Connection conn = SQLUtil.getSqlConnection();
 		Statement statement = conn.createStatement();
 		
 		//First interaction is the friend links. Friend links are now just one kind of interaction
@@ -912,7 +913,7 @@ public class UserUtil
 		for (long uid1 : friendships.keySet()) {
 			done.add(uid1);
 			
-			HashMap<Long, Double> friendValues = friendships.get(uid1);
+			Map<Long, Double> friendValues = friendships.get(uid1);
 			
 			for (long uid2 : friendValues.keySet()) {
 				if (done.contains(uid2)) continue;
@@ -924,12 +925,12 @@ public class UserUtil
 		double average = total / count;
 		
 		for (long uid1 : friendships.keySet()) {
-			HashMap<Long, Double> friendValues = friendships.get(uid1);
+			Map<Long, Double> friendValues = friendships.get(uid1);
 			
 			for (long uid2 : friendValues.keySet()) {
 				double val = friendValues.get(uid2);
-				//val /= average;
-				//val = Math.log(val);
+				val /= average;
+				val = Math.log(val);
 				
 				friendValues.put(uid2, val);
 			}
@@ -944,10 +945,10 @@ public class UserUtil
 	 * @return
 	 * @throws SQLException
 	 */
-	public static HashMap<Long, HashMap<Long, Double>> getFriendLikeSimilarity(Set<Long> uids)
+	public static Map<Long, Map<Long, Double>> getFriendLikeSimilarity(Set<Long> uids)
 		throws SQLException
 	{
-		HashMap<Long, HashMap<Long, Double>> friendships = new HashMap<Long, HashMap<Long, Double>>();
+		HashMap<Long, Map<Long, Double>> friendships = new HashMap<Long, Map<Long, Double>>();
 		
 		double max_value = 0;
 		
@@ -976,7 +977,7 @@ public class UserUtil
 		uidWhereBuf.append(")");
 		String uidWhere = uidWhereBuf.toString();
 		
-		Connection conn = RecommenderUtil.getSqlConnection();
+		Connection conn = SQLUtil.getSqlConnection();
 		Statement statement = conn.createStatement();
 		
 		HashMap<Long, HashSet<Long>> photoLiked = new HashMap<Long, HashSet<Long>>();
@@ -1195,7 +1196,7 @@ public class UserUtil
 		for (long uid1 : friendships.keySet()) {
 			done.add(uid1);
 			
-			HashMap<Long, Double> friendValues = friendships.get(uid1);
+			Map<Long, Double> friendValues = friendships.get(uid1);
 			
 			for (long uid2 : friendValues.keySet()) {
 				if (done.contains(uid2)) continue;
@@ -1207,7 +1208,7 @@ public class UserUtil
 		double average = total / count;
 		
 		for (long uid1 : friendships.keySet()) {
-			HashMap<Long, Double> friendValues = friendships.get(uid1);
+			Map<Long, Double> friendValues = friendships.get(uid1);
 			
 			for (long uid2 : friendValues.keySet()) {
 				double val = friendValues.get(uid2);
@@ -1230,9 +1231,9 @@ public class UserUtil
 	 * @param features
 	 * @return
 	 */
-	public static HashMap<Long, Double[]> getUserTraitVectors(Double[][] matrix, 
-														HashMap<Long, Double[]> idColumns,
-														HashMap<Long, Double[]> features)
+	public static Map<Long, Double[]> getUserTraitVectors(Double[][] matrix, 
+														Map<Long, Double[]> idColumns,
+														Map<Long, Double[]> features)
 	{
 		HashMap<Long, Double[]> traitVectors = new HashMap<Long, Double[]>();
 		
