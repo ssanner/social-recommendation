@@ -425,7 +425,10 @@ public class LineSearchFeatureMF extends MovieLens
 	public static void main(String[] args)
 		throws Exception
 	{
+		System.out.println("Line search");
 		new LineSearchFeatureMF().run(10);
+		System.out.println("LBFGS");
+		new LBFGSFeatureMF().run(10);
 	}
 	
 	
