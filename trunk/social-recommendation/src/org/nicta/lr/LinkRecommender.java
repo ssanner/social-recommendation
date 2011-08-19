@@ -39,7 +39,7 @@ public class LinkRecommender
 	public static void main(String[] args)
 		throws Exception
 	{
-		String type = "svm";
+		String type = "nn";
 		if (args.length > 0) {
 			type = args[0];
 		}
@@ -590,7 +590,6 @@ public class LinkRecommender
 			userLinkSamples.remove(removeId);
 		}
 		
-		System.out.println("New Min: " + minCount);
 		return userLinkSamples;
 	}
 }
