@@ -9,9 +9,14 @@ import org.nicta.lr.util.UserUtil;
 
 public class SocialRecommender extends MFRecommender
 {	
+	double beta = 1.0E-6;
+	
 	public SocialRecommender(Map<Long, Set<Long>> linkLikes, Map<Long, Double[]> userFeatures, Map<Long, Double[]> linkFeatures, Map<Long, Map<Long, Double>> friends)
 	{
 		super(linkLikes, userFeatures, linkFeatures, friends);
+		
+		K = 5;
+		lambda = 100;
 		
 		type = "social";
 		friendships = friends;
@@ -63,7 +68,7 @@ public class SocialRecommender extends MFRecommender
 			}
 		}
 		
-		error *= Constants.BETA;
+		error *= beta;
 		
 		for (long i : predictions.keySet()) {
 			Set<Long> links = predictions.get(i).keySet();
@@ -82,7 +87,7 @@ public class SocialRecommender extends MFRecommender
 		double userNorm = 0;
 		double linkNorm = 0;
 
-		for (int x = 0; x < Constants.K; x++) {
+		for (int x = 0; x < K; x++) {
 			for (int y = 0; y < Constants.USER_FEATURE_COUNT; y++) {
 				userNorm += Math.pow(userFeatureMatrix[x][y], 2);
 			}
@@ -95,7 +100,7 @@ public class SocialRecommender extends MFRecommender
 			}
 		}
 
-		for (int x = 0; x < Constants.K; x++) {
+		for (int x = 0; x < K; x++) {
 			for (int y = 0; y < Constants.LINK_FEATURE_COUNT; y++) {
 				linkNorm += Math.pow(linkFeatureMatrix[x][y], 2);
 			}
@@ -108,8 +113,8 @@ public class SocialRecommender extends MFRecommender
 			}
 		}
 			
-		userNorm *= Constants.LAMBDA;
-		linkNorm *= Constants.LAMBDA;
+		userNorm *= lambda;
+		linkNorm *= lambda;
 
 		error += userNorm + linkNorm;
 
@@ -119,7 +124,7 @@ public class SocialRecommender extends MFRecommender
 	public double getErrorDerivativeOverUserAttribute(Map<Long, Double[]> linkTraits, Map<Long, Map<Long, Double>> predictions, 
 														Map<Long, Map<Long, Double>> connections, int x, int y)
 	{
-		double errorDerivative = userFeatureMatrix[x][y] * Constants.LAMBDA;
+		double errorDerivative = userFeatureMatrix[x][y] * lambda;
 		
 		Object[] keys = connections.keySet().toArray();
 		
@@ -152,7 +157,7 @@ public class SocialRecommender extends MFRecommender
 				duu += user1Id[x] * user2[y];
 				duu += user2Id[x] * user1[y];
 				
-				errorDerivative += Constants.BETA * (c - p) * duu * -1;
+				errorDerivative += beta * (c - p) * duu * -1;
 			}
 		}
 		
@@ -177,7 +182,7 @@ public class SocialRecommender extends MFRecommender
 												Map<Long, Map<Long, Double>> connections, int k, long userId)
 	{
 		Double[] idColumn = userIdColumns.get(userId);
-		double errorDerivative = idColumn[k] * Constants.LAMBDA;
+		double errorDerivative = idColumn[k] * lambda;
 
 		Double[] user1 = userFeatures.get(userId);
 		
@@ -203,7 +208,7 @@ public class SocialRecommender extends MFRecommender
 			//duu += idColumn[k];
 			duu += user2Column[k];
 			
-			errorDerivative += Constants.BETA * (c - p) * duu * -1;
+			errorDerivative += beta * (c - p) * duu * -1;
 		}
 		
 		Set<Long> links = predictions.get(userId).keySet();
@@ -225,7 +230,7 @@ public class SocialRecommender extends MFRecommender
 
 	public double getErrorDerivativeOverLinkAttribute(Map<Long, Double[]> userTraits, Map<Long, Map<Long, Double>> predictions, int x, int y)
 	{
-		double errorDerivative = linkFeatureMatrix[x][y] * Constants.LAMBDA;
+		double errorDerivative = linkFeatureMatrix[x][y] * lambda;
 
 		for (long userId : predictions.keySet()) {
 			Set<Long> links = predictions.get(userId).keySet();
@@ -246,7 +251,7 @@ public class SocialRecommender extends MFRecommender
 	public double getErrorDerivativeOverLinkId(Map<Long, Double[]> userTraits, Map<Long, Map<Long, Double>> predictions, int x, long linkId)
 	{
 		Double[] idColumn = linkIdColumns.get(linkId);
-		double errorDerivative = idColumn[x] * Constants.LAMBDA;
+		double errorDerivative = idColumn[x] * lambda;
 
 		Set<Long> likes = linkLikes.get(linkId);
 		

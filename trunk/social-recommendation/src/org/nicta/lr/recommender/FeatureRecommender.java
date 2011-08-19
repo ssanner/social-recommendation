@@ -11,6 +11,7 @@ public class FeatureRecommender extends MFRecommender
 	{
 		super(linkLikes, userFeatures, linkFeatures, null);
 		
+		lambda = 100;
 		type = "feature";
 		
 		if (Constants.DEPLOYMENT_TYPE == Constants.TEST || Constants.INITIALIZE) {
@@ -55,7 +56,7 @@ public class FeatureRecommender extends MFRecommender
 		double userNorm = 0;
 		double linkNorm = 0;
 
-		for (int x = 0; x < Constants.K; x++) {
+		for (int x = 0; x < K; x++) {
 			for (int y = 0; y < Constants.USER_FEATURE_COUNT; y++) {
 				userNorm += Math.pow(userFeatureMatrix[x][y], 2);
 			}
@@ -68,7 +69,7 @@ public class FeatureRecommender extends MFRecommender
 			}
 		}
 
-		for (int x = 0; x < Constants.K; x++) {
+		for (int x = 0; x < K; x++) {
 			for (int y = 0; y < Constants.LINK_FEATURE_COUNT; y++) {
 				linkNorm += Math.pow(linkFeatureMatrix[x][y], 2);
 			}
@@ -81,8 +82,8 @@ public class FeatureRecommender extends MFRecommender
 			}
 		}
 		
-		userNorm *= Constants.LAMBDA;
-		linkNorm *= Constants.LAMBDA;
+		userNorm *= lambda;
+		linkNorm *= lambda;
 		
 		error += userNorm + linkNorm;
 
@@ -92,7 +93,7 @@ public class FeatureRecommender extends MFRecommender
 	public double getErrorDerivativeOverUserAttribute(Map<Long, Double[]> linkTraits, Map<Long, Map<Long, Double>> predictions, 
 														Map<Long, Map<Long, Double>> connections, int x, int y)
 	{
-		double errorDerivative = userFeatureMatrix[x][y] * Constants.LAMBDA;
+		double errorDerivative = userFeatureMatrix[x][y] * lambda;
 
 		for (long userId : predictions.keySet()) {
 			Set<Long> links = predictions.get(userId).keySet();
@@ -114,7 +115,7 @@ public class FeatureRecommender extends MFRecommender
 												Map<Long, Map<Long, Double>> connections, int k, long userId)
 	{
 		Double[] idColumn = userIdColumns.get(userId);
-		double errorDerivative = idColumn[k] * Constants.LAMBDA;
+		double errorDerivative = idColumn[k] * lambda;
 
 		Set<Long> links = predictions.get(userId).keySet();
 		
@@ -134,7 +135,7 @@ public class FeatureRecommender extends MFRecommender
 
 	public double getErrorDerivativeOverLinkAttribute(Map<Long, Double[]> userTraits, Map<Long, Map<Long, Double>> predictions, int x, int y)
 	{	
-		double errorDerivative = linkFeatureMatrix[x][y] * Constants.LAMBDA;
+		double errorDerivative = linkFeatureMatrix[x][y] * lambda;
 
 		for (long userId : predictions.keySet()) {
 			Set<Long> links = predictions.get(userId).keySet();
@@ -155,7 +156,7 @@ public class FeatureRecommender extends MFRecommender
 	public double getErrorDerivativeOverLinkId(Map<Long, Double[]> userTraits, Map<Long, Map<Long, Double>> predictions, int x, long linkId)
 	{
 		Double[] idColumn = linkIdColumns.get(linkId);
-		double errorDerivative = idColumn[x] * Constants.LAMBDA;
+		double errorDerivative = idColumn[x] * lambda;
 		Set<Long> likes = linkLikes.get(linkId);
 		
 		for (Long userId : predictions.keySet()) {
