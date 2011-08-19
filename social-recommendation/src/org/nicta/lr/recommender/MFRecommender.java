@@ -79,6 +79,8 @@ public abstract class MFRecommender extends Recommender
 
 	public double minimizeByLBFGS(Map<Long, Set<Long>> userLinkSamples)
 	{
+		//checkDerivative(userLinkSamples);
+
 		boolean go = true;	
 		int iterations = 0;
 		

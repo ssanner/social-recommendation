@@ -11,6 +11,7 @@ public class FeatureRecommender extends MFRecommender
 	{
 		super(linkLikes, userFeatures, linkFeatures, null);
 		
+		K = 5;
 		lambda = 100;
 		type = "feature";
 		
