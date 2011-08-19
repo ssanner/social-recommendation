@@ -31,7 +31,7 @@ public class LinkUtil
 			+ "WHERE linkrLinks.link_hash = linkrLinkInfo.link_hash ";
 		
 		if (limit) {
-			itemQuery += "AND DATE(created_time) >= DATE(ADDDATE(CURRENT_DATE(), -" + Constants.WINDOW_RANGE + "))";
+			itemQuery += "AND DATE(created_time) >= DATE(ADDDATE(CURRENT_DATE(), -" + Constants.TRAINING_WINDOW_RANGE + "))";
 		}
 		
 		ResultSet result = statement.executeQuery(itemQuery);
@@ -125,7 +125,7 @@ public class LinkUtil
 			"SELECT link_id FROM linkrLinks";
 		
 		if (limit) {
-			itemQuery += " WHERE DATE(created_time) >= DATE(ADDDATE(CURRENT_DATE(), -" + Constants.WINDOW_RANGE + "))";
+			itemQuery += " WHERE DATE(created_time) >= DATE(ADDDATE(CURRENT_DATE(), -" + Constants.TRAINING_WINDOW_RANGE + "))";
 		}
 		
 		ResultSet result = statement.executeQuery(itemQuery);
@@ -226,45 +226,5 @@ public class LinkUtil
 		statement.close();
 		
 		return linkLikes;
-	}
-	
-	/**
-	 * Calculates t=Vy where V is the latent matrix and y is the link feature vector.
-	 * 
-	 * @param matrix
-	 * @param idColumns
-	 * @param features
-	 * @param linkWords
-	 * @param wordColumns
-	 * @return
-	 */
-	public static Map<Long, Double[]> getLinkTraitVectors(Double[][] matrix, 
-														Map<Long, Double[]> idColumns,
-														Map<Long, Double[]> features)
-	{
-		HashMap<Long, Double[]> traitVectors = new HashMap<Long, Double[]>();
-	
-		for (long id : features.keySet()) {
-			Double[] feature = features.get(id);
-			Double[] idColumn = idColumns.get(id);
-			
-			//Set<String> words = linkWords.get(id);
-			
-			Double[] vector = new Double[Constants.K];
-			
-			for (int x = 0; x < Constants.K; x++) {
-				vector[x] = 0.0;
-	
-				for (int y = 0; y < Constants.LINK_FEATURE_COUNT; y++) {
-					vector[x] += matrix[x][y] * feature[y];
-				}
-				
-				vector[x] += idColumn[x];
-			}
-	
-			traitVectors.put(id, vector);
-		}
-	
-		return traitVectors;
 	}
 }

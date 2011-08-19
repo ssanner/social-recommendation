@@ -1222,39 +1222,4 @@ public class UserUtil
 		statement.close();
 		return friendships;
 	}
-	
-	/**
-	 * Calculates s=Ux where U is the latent matrix and x is the user vector.
-	 * 
-	 * @param matrix
-	 * @param idColumns
-	 * @param features
-	 * @return
-	 */
-	public static Map<Long, Double[]> getUserTraitVectors(Double[][] matrix, 
-														Map<Long, Double[]> idColumns,
-														Map<Long, Double[]> features)
-	{
-		HashMap<Long, Double[]> traitVectors = new HashMap<Long, Double[]>();
-		
-		for (long id : features.keySet()) {
-			Double[] feature = features.get(id);
-			Double[] vector = new Double[Constants.K];
-			Double[] idColumn = idColumns.get(id);
-		
-			for (int x = 0; x < Constants.K; x++) {
-				vector[x] = 0.0;
-		
-				for (int y = 0; y < feature.length; y++) {
-					vector[x] += matrix[x][y] * feature[y];
-				}
-		
-				vector[x] += idColumn[x];
-			}
-		
-			traitVectors.put(id, vector);
-		}
-		
-		return traitVectors;
-	}
 }

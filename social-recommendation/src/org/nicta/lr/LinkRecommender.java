@@ -17,6 +17,8 @@ import org.nicta.lr.recommender.NNRecommender;
 import org.nicta.lr.recommender.Recommender;
 import org.nicta.lr.recommender.SVMRecommender;
 import org.nicta.lr.recommender.SocialRecommender;
+import org.nicta.lr.recommender.BaselineGlobalRecommender;
+import org.nicta.lr.recommender.BaselineRecommender;
 import org.nicta.lr.util.Constants;
 import org.nicta.lr.util.LinkUtil;
 import org.nicta.lr.util.UserUtil;
@@ -37,45 +39,19 @@ public class LinkRecommender
 	public static void main(String[] args)
 		throws Exception
 	{
-		String type = "social";
+		String type = "svm";
 		if (args.length > 0) {
 			type = args[0];
 		}
 		
+		Constants.DEPLOYMENT_TYPE = Constants.RECOMMEND;
 		LinkRecommender lr = new LinkRecommender(type);
-		
-		/*
-		if (type.equals("feature")) {
-			Constants.LAMBDA = 100;
-			Constants.K = 5;
-			lr = new LinkRecommender("feature");
-		}
-		else if (type.equals("social")) {
-			Constants.LAMBDA = 100;
-			Constants.BETA = 1.0E-6;
-			Constants.K = 5;
-			lr = new LinkRecommender("social");
-		}
-		else if (type.equals("logistic")) {
-			Constants.LAMBDA = 10;
-			Constants.BETA = 0.001;
-			Constants.K = 1;
-			lr = new LinkRecommender("logistic");
-		}
-		else {
-			System.out.println("WTF: " + args[0]);
-		}
-		*/
-		
-		//lr.run(Constants.RECOMMEND);
-		lr.run(Constants.TEST);
+		lr.run();
 	}
 	
-	public void run(int action)
+	public void run()
 		throws SQLException, IOException
 	{	
-		Constants.DEPLOYMENT_TYPE = action;
-		
 		Set<Long> userIds = UserUtil.getUserIds();
 		Set<Long> linkIds = LinkUtil.getLinkIds(true);
 		
@@ -113,19 +89,7 @@ public class LinkRecommender
 		Map<Long, Double[]> links = LinkUtil.getLinkFeatures(linksNeeded);
 		SQLUtil.closeSqlConnection();
 		
-		Recommender recommender = null;
-		if ("social".equals(type)) {
-			recommender = new SocialRecommender(linkLikes, users, links, friendships);
-		}
-		else if ("feature".equals(type)) {
-			recommender = new FeatureRecommender(linkLikes, users, links);
-		}
-		else if ("svm".equals(type)) {
-			recommender = new SVMRecommender(linkLikes, users, links, friendships);
-		}
-		else if ("nn".equals(type)) {
-			recommender = new NNRecommender(linkLikes, users, links, friendships);
-		}
+		Recommender recommender = getRecommender(type, linkLikes, users, links, friendships);
 		
 		Map<Long, Set<Long>> testData = null;
 		
@@ -333,9 +297,8 @@ public class LinkRecommender
 				query.append("'");
 			}
 			
-			query.append(") ORDER BY created_time DESC LIMIT 40");
+			query.append(") AND DATE(created_time) >= DATE(ADDDATE(CURRENT_DATE(), -" + Constants.TRAINING_WINDOW_RANGE + "))");
 			
-			System.out.println("whoa");
 			result = statement.executeQuery(query.toString());
 			
 			while (result.next()) {
@@ -433,8 +396,7 @@ public class LinkRecommender
 				query.append("'");
 			}
 			
-			query.append(") ORDER BY created_time DESC LIMIT 40");
-			
+			query.append(") AND DATE(created_time) >= DATE(ADDDATE(CURRENT_DATE(), -" + Constants.TRAINING_WINDOW_RANGE + "))");
 			result = statement.executeQuery(query.toString());
 			
 			while (result.next()) {
@@ -443,6 +405,32 @@ public class LinkRecommender
 		}
 		
 		return userLinks;
+	}
+	
+	public Recommender getRecommender(String type, Map<Long, Set<Long>> linkLikes, Map<Long, Double[]> users, Map<Long, Double[]> links, Map<Long, Map<Long, Double>> friendships)
+	{
+		Recommender recommender = null;
+		
+		if (Constants.SOCIAL.equals(type)) {
+			recommender = new SocialRecommender(linkLikes, users, links, friendships);
+		}
+		else if (Constants.FEATURE.equals(type)) {
+			recommender = new FeatureRecommender(linkLikes, users, links);
+		}
+		else if (Constants.SVM.equals(type)) {
+			recommender = new SVMRecommender(linkLikes, users, links, friendships);
+		}
+		else if (Constants.NN.equals(type)) {
+			recommender = new NNRecommender(linkLikes, users, links, friendships);
+		}
+		else if (Constants.GLOBAL.equals(type)) {
+			recommender = new BaselineGlobalRecommender(linkLikes, users, links);
+		}
+		else if (Constants.FUW.equals(type) || Constants.FIW.equals(type)) {
+			recommender = new BaselineRecommender(linkLikes, users, links, friendships, type);
+		}
+		
+		return recommender;
 	}
 	
 	/**

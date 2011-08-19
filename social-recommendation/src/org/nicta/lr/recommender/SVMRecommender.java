@@ -4,16 +4,14 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
-
-import org.nicta.lr.util.Constants;
+import java.util.ArrayList;
+import java.util.Map;
 
 import libsvm.svm;
 import libsvm.svm_model;
 import libsvm.svm_node;
 import libsvm.svm_problem;
 import libsvm.svm_parameter;
-import java.util.ArrayList;
-import java.util.Map;
 
 public class SVMRecommender extends Recommender
 {
@@ -21,6 +19,8 @@ public class SVMRecommender extends Recommender
 	Object[] linkIds;
 	
 	svm_model model;
+	
+	double C = Math.pow(2, 1);
 	
 	public SVMRecommender(Map<Long, Set<Long>> linkLikes, Map<Long, Double[]> userFeatures, Map<Long, Double[]> linkFeatures, Map<Long, Map<Long, Double>> friendships)
 	{
@@ -31,7 +31,7 @@ public class SVMRecommender extends Recommender
 	}
 	
 	public void train(Map<Long, Set<Long>> trainSamples) 
-	{	//userIds = trainSamples.keySet().toArray();
+	{
 		model = trainSVMModel(trainSamples);	
 	}
 	
@@ -132,7 +132,7 @@ public class SVMRecommender extends Recommender
 		prob.x = new svm_node[dataCount][];
 		
 		svm_parameter param = new svm_parameter();
-		param.C = Constants.C;
+		param.C = C;
 		param.svm_type = svm_parameter.C_SVC;
 		param.kernel_type = svm_parameter.LINEAR;
 		param.cache_size = 20000;
@@ -152,8 +152,6 @@ public class SVMRecommender extends Recommender
 			}
 			
 			for (long linkId : samples) {
-				//if (! linkFeatures.containsKey(linkId)) continue;
-		
 				double[] combined = combineFeatures(userFeatures.get(userId), linkFeatures.get(linkId));
 				
 				ArrayList<svm_node> nodes = new ArrayList<svm_node>();
@@ -195,7 +193,7 @@ public class SVMRecommender extends Recommender
 				}
 				
 				prob.x[index] = new svm_node[nodes.size()];
-				//System.out.println("Node size: " + nodes.size());
+				
 				for (int x = 0; x < nodes.size(); x++) {
 					prob.x[index][x] = nodes.get(x);
 				}

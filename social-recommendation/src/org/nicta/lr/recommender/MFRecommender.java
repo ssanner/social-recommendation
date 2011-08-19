@@ -13,14 +13,17 @@ import java.util.Set;
 import java.util.Map;
 
 import org.nicta.lr.util.Constants;
-import org.nicta.lr.util.LinkUtil;
-import org.nicta.lr.util.UserUtil;
 import org.nicta.lr.util.SQLUtil;
 import org.nicta.social.LBFGS;
 
 public abstract class MFRecommender extends Recommender 
 {
+	int K;
+	double lambda;
 	String type = "";
+	
+	double learningRate = 0.0001; //learning rate for line search
+	double convergence = 1e-2;
 	
 	Double[][] userFeatureMatrix;
 	Double[][] linkFeatureMatrix;
@@ -61,9 +64,9 @@ public abstract class MFRecommender extends Recommender
 	{
 		Random random = new Random();
 		
-		Double[][] prior = new Double[Constants.K][featureCount];
+		Double[][] prior = new Double[K][featureCount];
 		
-		for (int x = 0; x < Constants.K; x++) {
+		for (int x = 0; x < K; x++) {
 			for (int y = 0; y < featureCount; y++) {
 				prior[x][y] = random.nextGaussian();
 				//prior[x][y] = 0.0;
@@ -79,8 +82,8 @@ public abstract class MFRecommender extends Recommender
 		boolean go = true;	
 		int iterations = 0;
 		
-		int userVars = Constants.K * (Constants.USER_FEATURE_COUNT + userLinkSamples.size());
-		int linkVars = Constants.K * (Constants.LINK_FEATURE_COUNT + linkFeatures.size());
+		int userVars = K * (Constants.USER_FEATURE_COUNT + userLinkSamples.size());
+		int linkVars = K * (Constants.LINK_FEATURE_COUNT + linkFeatures.size());
 		
 		Object[] userKeys = userLinkSamples.keySet().toArray();
 		Object[] linkKeys = linkFeatures.keySet().toArray();
@@ -99,42 +102,42 @@ public abstract class MFRecommender extends Recommender
 		while (go) {
 			iterations++;
 			
-			Map<Long, Double[]> userTraits = UserUtil.getUserTraitVectors(userFeatureMatrix, userIdColumns, userFeatures);
+			Map<Long, Double[]> userTraits = getUserTraitVectors(userFeatureMatrix, userIdColumns, userFeatures);
 			
-			Map<Long, Double[]> linkTraits = LinkUtil.getLinkTraitVectors(linkFeatureMatrix, linkIdColumns, linkFeatures);
+			Map<Long, Double[]> linkTraits = getLinkTraitVectors(linkFeatureMatrix, linkIdColumns, linkFeatures);
 
 			System.out.println("Getting Connections");
 			Map<Long, Map<Long, Double>> connections = getConnections(userFeatureMatrix, userIdColumns, userFeatures, userLinkSamples);
 			System.out.println("Getting Predictions");
 			Map<Long, Map<Long, Double>> predictions = getPredictions(userTraits, linkTraits, userLinkSamples);
 			
-			Double[][] userDerivative = new Double[Constants.K][Constants.USER_FEATURE_COUNT];
+			Double[][] userDerivative = new Double[K][Constants.USER_FEATURE_COUNT];
 			HashMap<Long, Double[]> userIdDerivative = new HashMap<Long, Double[]>();
-			Double[][] linkDerivative = new Double[Constants.K][Constants.LINK_FEATURE_COUNT];
+			Double[][] linkDerivative = new Double[K][Constants.LINK_FEATURE_COUNT];
 			HashMap<Long, Double[]> linkIdDerivative = new HashMap<Long, Double[]>();
 			
 			System.out.println("Iterations: " + iterations);
 		
 			//Get user derivatives
 			System.out.println("Get user derivatives");
-			for (int k = 0; k < Constants.K; k++) {
-				System.out.println("K: " + k);
+			for (int K = 0; K < K; K++) {
+				System.out.println("K: " + K);
 				for (int l = 0; l < Constants.USER_FEATURE_COUNT; l++) {
-					userDerivative[k][l] = getErrorDerivativeOverUserAttribute(linkTraits, predictions, connections, k, l);
+					userDerivative[K][l] = getErrorDerivativeOverUserAttribute(linkTraits, predictions, connections, K, l);
 				}
 				
 				for (long userId : userLinkSamples.keySet()) {
 					if (!userIdDerivative.containsKey(userId)) {
-						userIdDerivative.put(userId, new Double[Constants.K]);
+						userIdDerivative.put(userId, new Double[K]);
 					}
 					
-					userIdDerivative.get(userId)[k] = getErrorDerivativeOverUserId(linkTraits, predictions, connections, k, userId);
+					userIdDerivative.get(userId)[K] = getErrorDerivativeOverUserId(linkTraits, predictions, connections, K, userId);
 				}
 			}
 			
 			//Get link derivatives
 			System.out.println("Get link derivatives");
-			for (int q = 0; q < Constants.K; q++) {
+			for (int q = 0; q < K; q++) {
 				System.out.println("K: " + q);
 				for (int l = 0; l < Constants.LINK_FEATURE_COUNT; l++) {
 					linkDerivative[q][l] = getErrorDerivativeOverLinkAttribute(userTraits, predictions, q, l);
@@ -142,7 +145,7 @@ public abstract class MFRecommender extends Recommender
 				System.out.println("Done features");
 				for (long linkId : linkIdColumns.keySet()) {
 					if (!linkIdDerivative.containsKey(linkId)) {
-						linkIdDerivative.put(linkId, new Double[Constants.K]);
+						linkIdDerivative.put(linkId, new Double[K]);
 					}
 									
 					linkIdDerivative.get(linkId)[q] = getErrorDerivativeOverLinkId(userTraits, predictions, q, linkId);
@@ -155,7 +158,7 @@ public abstract class MFRecommender extends Recommender
 			
 			int index = 0;
 			
-			for (int x = 0; x < Constants.K; x++) {
+			for (int x = 0; x < K; x++) {
 				for (int y = 0; y < Constants.USER_FEATURE_COUNT; y++) {
 					variables[index++] = userFeatureMatrix[x][y];
 				}
@@ -167,7 +170,7 @@ public abstract class MFRecommender extends Recommender
 					variables[index++] = d;
 				}
 			}
-			for (int x = 0; x < Constants.K; x++) {
+			for (int x = 0; x < K; x++) {
 				for (int y = 0; y < Constants.LINK_FEATURE_COUNT; y++) {
 					variables[index++] = linkFeatureMatrix[x][y];
 				}
@@ -184,7 +187,7 @@ public abstract class MFRecommender extends Recommender
 			System.out.println("derivatives");
 			double[] derivatives = new double[userVars + linkVars];
 			index = 0;
-			for (int x = 0; x < Constants.K; x++) {
+			for (int x = 0; x < K; x++) {
 				for (int y = 0; y < Constants.USER_FEATURE_COUNT; y++) {
 					derivatives[index++] = userDerivative[x][y];
 				}
@@ -196,7 +199,7 @@ public abstract class MFRecommender extends Recommender
 					derivatives[index++] = d;
 				}
 			}
-			for (int x = 0; x < Constants.K; x++) {
+			for (int x = 0; x < K; x++) {
 				for (int y = 0; y < Constants.LINK_FEATURE_COUNT; y++) {
 					derivatives[index++] = linkDerivative[x][y];
 				}
@@ -216,7 +219,7 @@ public abstract class MFRecommender extends Recommender
 		
 			try {
 				LBFGS.lbfgs(variables.length, 5, variables, error, derivatives,
-						false, diag, iprint, Constants.STEP_CONVERGENCE,
+						false, diag, iprint, convergence,
 						1e-15, iflag);
 			}
 			catch (LBFGS.ExceptionWithIflag f) {
@@ -225,7 +228,7 @@ public abstract class MFRecommender extends Recommender
 			
 			System.out.println("Setting again");
 			index = 0;
-			for (int x = 0; x < Constants.K; x++) {
+			for (int x = 0; x < K; x++) {
 				for (int y = 0; y < Constants.USER_FEATURE_COUNT; y++) {
 					userFeatureMatrix[x][y] = variables[index++];
 				}
@@ -237,7 +240,7 @@ public abstract class MFRecommender extends Recommender
 					column[d] = variables[index++];
 				}
 			}
-			for (int x = 0; x < Constants.K; x++) {
+			for (int x = 0; x < K; x++) {
 				for (int y = 0; y < Constants.LINK_FEATURE_COUNT; y++) {
 					linkFeatureMatrix[x][y] = variables[index++];
 				}
@@ -250,7 +253,7 @@ public abstract class MFRecommender extends Recommender
 				}
 			}
 			
-			if (iflag[0] == 0 || Math.abs(oldError - error) < Constants.STEP_CONVERGENCE) go = false;
+			if (iflag[0] == 0 || Math.abs(oldError - error) < convergence) go = false;
 		
 			oldError = error;
 		}
@@ -263,7 +266,7 @@ public abstract class MFRecommender extends Recommender
 		boolean converged = false;	
 		int iterations = 0;
 		
-		double stepSize = Constants.STEP_SIZE;
+		double stepSize = learningRate;
 		int count = 0;
 		double lastGoodError = 0;
 		
@@ -276,39 +279,39 @@ public abstract class MFRecommender extends Recommender
 		Map<Long, Map<Long, Double>> lastGoodConnections = null;
 		Map<Long, Map<Long, Double>> lastGoodPredictions = null;
 		
-		Map<Long, Double[]> userTraits = UserUtil.getUserTraitVectors(userFeatureMatrix, userIdColumns, userFeatures);
-		Map<Long, Double[]> linkTraits = LinkUtil.getLinkTraitVectors(linkFeatureMatrix, linkIdColumns, linkFeatures);
+		Map<Long, Double[]> userTraits = getUserTraitVectors(userFeatureMatrix, userIdColumns, userFeatures);
+		Map<Long, Double[]> linkTraits = getLinkTraitVectors(linkFeatureMatrix, linkIdColumns, linkFeatures);
 		Map<Long, Map<Long, Double>> connections = getConnections(userFeatureMatrix, userIdColumns, userFeatures, userLinkSamples);
 		Map<Long, Map<Long, Double>> predictions = getPredictions(userTraits, linkTraits, userLinkSamples);
 		
 		double oldError = getError(userFeatureMatrix, linkFeatureMatrix, userIdColumns, linkIdColumns, predictions, connections);
 		
 		while (!converged && iterations <= 500) {
-			Double[][] userDerivative = new Double[Constants.K][Constants.USER_FEATURE_COUNT];
+			Double[][] userDerivative = new Double[K][Constants.USER_FEATURE_COUNT];
 			HashMap<Long, Double[]> userIdDerivative = new HashMap<Long, Double[]>();
-			Double[][] linkDerivative = new Double[Constants.K][Constants.LINK_FEATURE_COUNT];
+			Double[][] linkDerivative = new Double[K][Constants.LINK_FEATURE_COUNT];
 			HashMap<Long, Double[]> linkIdDerivative = new HashMap<Long, Double[]>();
 			
 			//Get user derivatives
 			//System.out.println("Get user derivatives");
-			for (int k = 0; k < Constants.K; k++) {
-				//System.out.println("K: " + k);
+			for (int K = 0; K < K; K++) {
+				//System.out.println("K: " + K);
 				for (int l = 0; l < Constants.USER_FEATURE_COUNT; l++) {
-					userDerivative[k][l] = getErrorDerivativeOverUserAttribute(linkTraits, predictions, connections, k, l);
+					userDerivative[K][l] = getErrorDerivativeOverUserAttribute(linkTraits, predictions, connections, K, l);
 				}
 				
 				for (long userId : userLinkSamples.keySet()) {
 					if (!userIdDerivative.containsKey(userId)) {
-						userIdDerivative.put(userId, new Double[Constants.K]);
+						userIdDerivative.put(userId, new Double[K]);
 					}
 					
-					userIdDerivative.get(userId)[k] = getErrorDerivativeOverUserId(linkTraits, predictions, connections, k, userId);
+					userIdDerivative.get(userId)[K] = getErrorDerivativeOverUserId(linkTraits, predictions, connections, K, userId);
 				}
 			}
 			
 			//Get link derivatives
 			//System.out.println("Get link derivatives");
-			for (int q = 0; q < Constants.K; q++) {
+			for (int q = 0; q < K; q++) {
 				//System.out.println("K: " + q);
 				for (int l = 0; l < Constants.LINK_FEATURE_COUNT; l++) {
 					linkDerivative[q][l] = getErrorDerivativeOverLinkAttribute(userTraits, predictions, q, l);
@@ -317,7 +320,7 @@ public abstract class MFRecommender extends Recommender
 				
 				for (long linkId : linkIdColumns.keySet()) {
 					if (!linkIdDerivative.containsKey(linkId)) {
-						linkIdDerivative.put(linkId, new Double[Constants.K]);
+						linkIdDerivative.put(linkId, new Double[K]);
 					}
 					
 					linkIdDerivative.get(linkId)[q] = getErrorDerivativeOverLinkId(userTraits, predictions, q, linkId);
@@ -330,29 +333,29 @@ public abstract class MFRecommender extends Recommender
 			while (go) {
 				System.out.println("Step size: " + stepSize);
 				
-				Double[][] updatedUserMatrix = new Double[Constants.K][Constants.USER_FEATURE_COUNT];
-				Double[][] updatedLinkMatrix = new Double[Constants.K][Constants.LINK_FEATURE_COUNT]; 
+				Double[][] updatedUserMatrix = new Double[K][Constants.USER_FEATURE_COUNT];
+				Double[][] updatedLinkMatrix = new Double[K][Constants.LINK_FEATURE_COUNT]; 
 				HashMap<Long, Double[]> updatedUserIdColumns = new HashMap<Long, Double[]>();
 				HashMap<Long, Double[]> updatedLinkIdColumns = new HashMap<Long, Double[]>();
 			
-				for (int k = 0; k < Constants.K; k++) {
-					//System.out.println("K: " + k);
+				for (int K = 0; K < K; K++) {
+					//System.out.println("K: " + K);
 					for (int l = 0; l < Constants.USER_FEATURE_COUNT; l++) {
-						updatedUserMatrix[k][l] = userFeatureMatrix[k][l] - (stepSize * userDerivative[k][l]);
+						updatedUserMatrix[K][l] = userFeatureMatrix[K][l] - (stepSize * userDerivative[K][l]);
 					}
 				
 					for (long userId : userLinkSamples.keySet()) {
 						if (!updatedUserIdColumns.containsKey(userId)) {
-							updatedUserIdColumns.put(userId, new Double[Constants.K]);
+							updatedUserIdColumns.put(userId, new Double[K]);
 						}
 					
-						updatedUserIdColumns.get(userId)[k] = userIdColumns.get(userId)[k] - stepSize * userIdDerivative.get(userId)[k];
+						updatedUserIdColumns.get(userId)[K] = userIdColumns.get(userId)[K] - stepSize * userIdDerivative.get(userId)[K];
 					}
 				}
 			
 				//Get link derivatives
 				//System.out.println("Get link derivatives");
-				for (int q = 0; q < Constants.K; q++) {
+				for (int q = 0; q < K; q++) {
 					//System.out.println("K: " + q);
 					for (int l = 0; l < Constants.LINK_FEATURE_COUNT; l++) {
 						updatedLinkMatrix[q][l] = linkFeatureMatrix[q][l] - stepSize * linkDerivative[q][l];
@@ -361,7 +364,7 @@ public abstract class MFRecommender extends Recommender
 				
 					for (long linkId : linkIdColumns.keySet()) {
 						if (!updatedLinkIdColumns.containsKey(linkId)) {
-							updatedLinkIdColumns.put(linkId, new Double[Constants.K]);
+							updatedLinkIdColumns.put(linkId, new Double[K]);
 						}
 					
 						updatedLinkIdColumns.get(linkId)[q] = linkIdColumns.get(linkId)[q] - stepSize * linkIdDerivative.get(linkId)[q];
@@ -369,8 +372,8 @@ public abstract class MFRecommender extends Recommender
 					//System.out.println("Done ids");
 				}
 			
-				Map<Long, Double[]> updatedUserTraits = UserUtil.getUserTraitVectors(updatedUserMatrix, updatedUserIdColumns, userFeatures);
-				Map<Long, Double[]> updatedLinkTraits = LinkUtil.getLinkTraitVectors(updatedLinkMatrix, updatedLinkIdColumns, linkFeatures);
+				Map<Long, Double[]> updatedUserTraits = getUserTraitVectors(updatedUserMatrix, updatedUserIdColumns, userFeatures);
+				Map<Long, Double[]> updatedLinkTraits = getLinkTraitVectors(updatedLinkMatrix, updatedLinkIdColumns, linkFeatures);
 				Map<Long, Map<Long, Double>> updatedConnections = getConnections(updatedUserMatrix, updatedUserIdColumns, userFeatures, userLinkSamples);
 				Map<Long, Map<Long, Double>> updatedPredictions = getPredictions(updatedUserTraits, updatedLinkTraits, userLinkSamples);
 			
@@ -397,9 +400,9 @@ public abstract class MFRecommender extends Recommender
 					if (count > 0) {
 						count = 0;
 					
-						for (int k = 0; k < Constants.K; k++) {
-							userFeatureMatrix[k] = lastGoodUserMatrix[k];
-							linkFeatureMatrix[k] = lastGoodLinkMatrix[k];
+						for (int K = 0; K < K; K++) {
+							userFeatureMatrix[K] = lastGoodUserMatrix[K];
+							linkFeatureMatrix[K] = lastGoodLinkMatrix[K];
 						}
 					
 						for (long userId : userLinkSamples.keySet()) {
@@ -431,7 +434,7 @@ public abstract class MFRecommender extends Recommender
 			
 				//Once the learning rate is smaller than a certain size, just stop.
 				//We get here after a few failures in the previous if statement.
-				if (stepSize < Constants.STEP_CONVERGENCE) {
+				if (stepSize < convergence) {
 					converged = true;
 					go = false;
 				}
@@ -456,9 +459,9 @@ public abstract class MFRecommender extends Recommender
 		Connection conn = SQLUtil.getSqlConnection();
 		Statement statement = conn.createStatement();
 		
-		Double[][] matrix = new Double[Constants.K][featureCount];
+		Double[][] matrix = new Double[K][featureCount];
 		
-		ResultSet result = statement.executeQuery("SELECT * FROM " + tableName + " WHERE id < " + Constants.K + " AND type='" + type + "'");
+		ResultSet result = statement.executeQuery("SELECT * FROM " + tableName + " WHERE id < " + K + " AND type='" + type + "'");
 		
 		int count = 0;
 		
@@ -497,15 +500,15 @@ public abstract class MFRecommender extends Recommender
 		Connection conn = SQLUtil.getSqlConnection();
 		Statement statement = conn.createStatement();
 		
-		ResultSet result = statement.executeQuery("SELECT * FROM " + tableName + " WHERE id >" + Constants.K + " AND type='" + type + "'");
+		ResultSet result = statement.executeQuery("SELECT * FROM " + tableName + " WHERE id >" + K + " AND type='" + type + "'");
 		while (result.next()) {
 			long id = result.getLong("id");
 			String values = result.getString("value");
 			String[] tokens = values.split(",");
 			
 			//Column valuess were saved as one CSV string
-			Double[] val = new Double[Constants.K];
-			for (int x = 0; x < Constants.K; x++) {
+			Double[] val = new Double[K];
+			for (int x = 0; x < K; x++) {
 				val[x] = Double.parseDouble(tokens[x]);
 			}
 			
@@ -531,7 +534,7 @@ public abstract class MFRecommender extends Recommender
 		HashMap<Long, Double[]> idColumns = new HashMap<Long, Double[]>();
 		
 		for (long id : ids) {
-			Double[] column = new Double[Constants.K];
+			Double[] column = new Double[K];
 			
 			for (int x = 0; x < column.length; x++) {
 				column[x] = random.nextGaussian();
@@ -545,8 +548,8 @@ public abstract class MFRecommender extends Recommender
 
 	public Map<Long, Double> getAveragePrecisions(Map<Long, Set<Long>> testData)
 	{
-		Map<Long, Double[]> userTraits = UserUtil.getUserTraitVectors(userFeatureMatrix, userIdColumns, userFeatures);
-		Map<Long, Double[]> linkTraits = LinkUtil.getLinkTraitVectors(linkFeatureMatrix, linkIdColumns, linkFeatures);
+		Map<Long, Double[]> userTraits = getUserTraitVectors(userFeatureMatrix, userIdColumns, userFeatures);
+		Map<Long, Double[]> linkTraits = getLinkTraitVectors(linkFeatureMatrix, linkIdColumns, linkFeatures);
 		
 		HashMap<Long, Double> averagePrecisions = new HashMap<Long, Double>();
 		
@@ -587,7 +590,7 @@ public abstract class MFRecommender extends Recommender
 																Map<Long, Map<Long, Double>> connections, int x, int y);
 	
 	public abstract double getErrorDerivativeOverUserId(Map<Long, Double[]> linkTraits, Map<Long, Map<Long, Double>> predictions, 
-														Map<Long, Map<Long, Double>> connections, int k, long userId);
+														Map<Long, Map<Long, Double>> connections, int K, long userId);
 	
 	public abstract double getErrorDerivativeOverLinkAttribute(Map<Long, Double[]> userTraits, Map<Long, Map<Long, Double>> predictions, int x, int y);
 	
@@ -597,26 +600,26 @@ public abstract class MFRecommender extends Recommender
 	{	
 		double H = 1e-5;
 		
-		for (int k = 0; k < Constants.K; k++) {
+		for (int K = 0; K < K; K++) {
 			for (int l = 0; l < Constants.USER_FEATURE_COUNT; l++) {
-				Map<Long, Double[]> userTraits = UserUtil.getUserTraitVectors(userFeatureMatrix, userIdColumns, userFeatures);
-				Map<Long, Double[]> linkTraits = LinkUtil.getLinkTraitVectors(linkFeatureMatrix, linkIdColumns, linkFeatures);
+				Map<Long, Double[]> userTraits = getUserTraitVectors(userFeatureMatrix, userIdColumns, userFeatures);
+				Map<Long, Double[]> linkTraits = getLinkTraitVectors(linkFeatureMatrix, linkIdColumns, linkFeatures);
 				Map<Long, Map<Long, Double>> connections = getConnections(userFeatureMatrix, userIdColumns, userFeatures, userLinkSamples);
 				Map<Long, Map<Long, Double>> predictions = getPredictions(userTraits, linkTraits, userLinkSamples);
 				
-				double calculatedDerivative = getErrorDerivativeOverUserAttribute(linkTraits, predictions, connections, k, l);
+				double calculatedDerivative = getErrorDerivativeOverUserAttribute(linkTraits, predictions, connections, K, l);
 				double oldError = getError(userFeatureMatrix, linkFeatureMatrix, userIdColumns, linkIdColumns, predictions, connections);
 				
-				double tmp = userFeatureMatrix[k][l];
-				userFeatureMatrix[k][l] += H;
+				double tmp = userFeatureMatrix[K][l];
+				userFeatureMatrix[K][l] += H;
 				
-				userTraits = UserUtil.getUserTraitVectors(userFeatureMatrix, userIdColumns, userFeatures);
-				linkTraits = LinkUtil.getLinkTraitVectors(linkFeatureMatrix, linkIdColumns, linkFeatures);
+				userTraits = getUserTraitVectors(userFeatureMatrix, userIdColumns, userFeatures);
+				linkTraits = getLinkTraitVectors(linkFeatureMatrix, linkIdColumns, linkFeatures);
 				connections = getConnections(userFeatureMatrix, userIdColumns, userFeatures, userLinkSamples);
 				predictions = getPredictions(userTraits, linkTraits, userLinkSamples);
 				
 				double newError = getError(userFeatureMatrix, linkFeatureMatrix, userIdColumns, linkIdColumns, predictions, connections);
-				userFeatureMatrix[k][l] = tmp;
+				userFeatureMatrix[K][l] = tmp;
 				double diff = (newError - oldError) / H;
 				
 				System.out.println("Calc: " + calculatedDerivative);
@@ -626,25 +629,25 @@ public abstract class MFRecommender extends Recommender
 			}
 			
 			for (long userId : userLinkSamples.keySet()) {
-				Map<Long, Double[]> userTraits = UserUtil.getUserTraitVectors(userFeatureMatrix, userIdColumns, userFeatures);
-				Map<Long, Double[]> linkTraits = LinkUtil.getLinkTraitVectors(linkFeatureMatrix, linkIdColumns, linkFeatures);
+				Map<Long, Double[]> userTraits = getUserTraitVectors(userFeatureMatrix, userIdColumns, userFeatures);
+				Map<Long, Double[]> linkTraits = getLinkTraitVectors(linkFeatureMatrix, linkIdColumns, linkFeatures);
 				Map<Long, Map<Long, Double>> connections = getConnections(userFeatureMatrix, userIdColumns, userFeatures, userLinkSamples);
 				Map<Long, Map<Long, Double>> predictions = getPredictions(userTraits, linkTraits, userLinkSamples);
 				
-				double calculatedDerivative = getErrorDerivativeOverUserId(linkTraits, predictions, connections, k, userId);
+				double calculatedDerivative = getErrorDerivativeOverUserId(linkTraits, predictions, connections, K, userId);
 				
 				double oldError = getError(userFeatureMatrix, linkFeatureMatrix, userIdColumns, linkIdColumns, predictions, connections);
 				
-				double tmp = userIdColumns.get(userId)[k];
-				userIdColumns.get(userId)[k] += H;
+				double tmp = userIdColumns.get(userId)[K];
+				userIdColumns.get(userId)[K] += H;
 				
-				userTraits = UserUtil.getUserTraitVectors(userFeatureMatrix, userIdColumns, userFeatures);
-				linkTraits = LinkUtil.getLinkTraitVectors(linkFeatureMatrix, linkIdColumns, linkFeatures);
+				userTraits = getUserTraitVectors(userFeatureMatrix, userIdColumns, userFeatures);
+				linkTraits = getLinkTraitVectors(linkFeatureMatrix, linkIdColumns, linkFeatures);
 				connections = getConnections(userFeatureMatrix, userIdColumns, userFeatures, userLinkSamples);
 				predictions = getPredictions(userTraits, linkTraits, userLinkSamples);
 				
 				double newError = getError(userFeatureMatrix, linkFeatureMatrix, userIdColumns, linkIdColumns, predictions, connections);
-				userIdColumns.get(userId)[k] = tmp;
+				userIdColumns.get(userId)[K] = tmp;
 				double diff = (newError - oldError) / H;
 				
 				System.out.println("Calc: " + calculatedDerivative);
@@ -654,10 +657,10 @@ public abstract class MFRecommender extends Recommender
 			}
 		}
 		
-		for (int q = 0; q < Constants.K; q++) {
+		for (int q = 0; q < K; q++) {
 			for (int l = 0; l < Constants.LINK_FEATURE_COUNT; l++) {
-				Map<Long, Double[]> userTraits = UserUtil.getUserTraitVectors(userFeatureMatrix, userIdColumns, userFeatures);
-				Map<Long, Double[]> linkTraits = LinkUtil.getLinkTraitVectors(linkFeatureMatrix, linkIdColumns, linkFeatures);
+				Map<Long, Double[]> userTraits = getUserTraitVectors(userFeatureMatrix, userIdColumns, userFeatures);
+				Map<Long, Double[]> linkTraits = getLinkTraitVectors(linkFeatureMatrix, linkIdColumns, linkFeatures);
 				Map<Long, Map<Long, Double>> connections = getConnections(userFeatureMatrix, userIdColumns, userFeatures, userLinkSamples);
 				Map<Long, Map<Long, Double>> predictions = getPredictions(userTraits, linkTraits, userLinkSamples);
 				
@@ -667,8 +670,8 @@ public abstract class MFRecommender extends Recommender
 				double tmp = linkFeatureMatrix[q][l];
 				linkFeatureMatrix[q][l] += H;
 				
-				userTraits = UserUtil.getUserTraitVectors(userFeatureMatrix, userIdColumns, userFeatures);
-				linkTraits = LinkUtil.getLinkTraitVectors(linkFeatureMatrix, linkIdColumns, linkFeatures);
+				userTraits = getUserTraitVectors(userFeatureMatrix, userIdColumns, userFeatures);
+				linkTraits = getLinkTraitVectors(linkFeatureMatrix, linkIdColumns, linkFeatures);
 				connections = getConnections(userFeatureMatrix, userIdColumns, userFeatures, userLinkSamples);
 				predictions = getPredictions(userTraits, linkTraits, userLinkSamples);
 				
@@ -684,8 +687,8 @@ public abstract class MFRecommender extends Recommender
 			}
 			
 			for (long linkId : linkIdColumns.keySet()) {
-				Map<Long, Double[]> userTraits = UserUtil.getUserTraitVectors(userFeatureMatrix, userIdColumns, userFeatures);
-				Map<Long, Double[]> linkTraits = LinkUtil.getLinkTraitVectors(linkFeatureMatrix, linkIdColumns, linkFeatures);
+				Map<Long, Double[]> userTraits = getUserTraitVectors(userFeatureMatrix, userIdColumns, userFeatures);
+				Map<Long, Double[]> linkTraits = getLinkTraitVectors(linkFeatureMatrix, linkIdColumns, linkFeatures);
 				Map<Long, Map<Long, Double>> connections = getConnections(userFeatureMatrix, userIdColumns, userFeatures, userLinkSamples);
 				Map<Long, Map<Long, Double>> predictions = getPredictions(userTraits, linkTraits, userLinkSamples);
 				
@@ -695,8 +698,8 @@ public abstract class MFRecommender extends Recommender
 				double tmp = linkIdColumns.get(linkId)[q];
 				linkIdColumns.get(linkId)[q] += H;
 				
-				userTraits = UserUtil.getUserTraitVectors(userFeatureMatrix, userIdColumns, userFeatures);
-				linkTraits = LinkUtil.getLinkTraitVectors(linkFeatureMatrix, linkIdColumns, linkFeatures);
+				userTraits = getUserTraitVectors(userFeatureMatrix, userIdColumns, userFeatures);
+				linkTraits = getLinkTraitVectors(linkFeatureMatrix, linkIdColumns, linkFeatures);
 				connections = getConnections(userFeatureMatrix, userIdColumns, userFeatures, userLinkSamples);
 				predictions = getPredictions(userTraits, linkTraits, userLinkSamples);
 				
@@ -732,7 +735,7 @@ public abstract class MFRecommender extends Recommender
 		return prod;
 	}
 	
-	public static Map<Long, Map<Long, Double>> getConnections(Double[][] userMatrix, Map<Long, Double[]> idColumns, Map<Long, Double[]> userFeatures, Map<Long, Set<Long>> userLinkSamples)
+	public Map<Long, Map<Long, Double>> getConnections(Double[][] userMatrix, Map<Long, Double[]> idColumns, Map<Long, Double[]> userFeatures, Map<Long, Set<Long>> userLinkSamples)
 	{
 		Set<Long> users = userLinkSamples.keySet();
 		HashMap<Long, Map<Long, Double>> connections = new HashMap<Long, Map<Long, Double>>();
@@ -752,7 +755,7 @@ public abstract class MFRecommender extends Recommender
 		return connections;
 	}
 	
-	public static Map<Long, Map<Long, Double>> getPredictions(Map<Long, Double[]> userTraits, Map<Long, Double[]> linkTraits, Map<Long, Set<Long>> userLinkSamples)
+	public Map<Long, Map<Long, Double>> getPredictions(Map<Long, Double[]> userTraits, Map<Long, Double[]> linkTraits, Map<Long, Set<Long>> userLinkSamples)
 	{
 		HashMap<Long, Map<Long, Double>> predictions = new HashMap<Long, Map<Long, Double>>();
 		
@@ -773,7 +776,7 @@ public abstract class MFRecommender extends Recommender
 	
 	
 	
-	public static void main(String[] args)
+	public void testPrediction()
 	{
 		Double[][] userMatrix = {
 				{6d, 7d},
@@ -789,11 +792,11 @@ public abstract class MFRecommender extends Recommender
 		userFeatures.put(1l, new Double[]{1d, 2d});
 		userFeatures.put(2l, new Double[]{3d, 4d});
 		
-		Constants.K = 3;
+		K = 3;
 		System.out.println("Connection: " + predictConnection(userMatrix, idColumns, userFeatures, 1, 2));
 	}
 	
-	public static double predictConnection(Double[][] userMatrix, 
+	public double predictConnection(Double[][] userMatrix, 
 									Map<Long, Double[]> idColumns,
 									Map<Long, Double[]> userFeatures,
 									long i, long j)
@@ -803,9 +806,9 @@ public abstract class MFRecommender extends Recommender
 		Double[] jFeature = userFeatures.get(j);
 		Double[] jColumn = idColumns.get(j);
 	
-		Double[] xU = new Double[Constants.K];
+		Double[] xU = new Double[K];
 	
-		for (int x = 0; x < Constants.K; x++) {
+		for (int x = 0; x < K; x++) {
 			xU[x] = 0.0;
 	
 			for (int y = 0; y < iFeature.length; y++) {
@@ -824,11 +827,11 @@ public abstract class MFRecommender extends Recommender
 		}
 	
 		/*
-		xU[Constants.K] = 0.0;
+		xU[K] = 0.0;
 		for (int y = 0; y < iFeature.length; y++) {
-			xU[Constants.K] += iFeature[y] * userMatrix[x][y];
+			xU[K] += iFeature[y] * userMatrix[x][y];
 		}
-		xU[Constants.K] += iColumn[x];
+		xU[K] += iColumn[x];
 		*/
 		
 		//System.out.println("");
@@ -922,7 +925,7 @@ public abstract class MFRecommender extends Recommender
 			StringBuilder buf = new StringBuilder();
 			
 			Double[] col = userIdColumns.get(userId);
-			for (int x = 0; x < Constants.K; x++) {
+			for (int x = 0; x < K; x++) {
 				buf.append(col[x]);
 				buf.append(",");
 			}
@@ -939,7 +942,7 @@ public abstract class MFRecommender extends Recommender
 			StringBuilder buf = new StringBuilder();
 			
 			Double[] col = linkIdColumns.get(linkId);
-			for (int x = 0; x < Constants.K; x++) {
+			for (int x = 0; x < K; x++) {
 				buf.append(col[x]);
 				buf.append(",");
 			}
@@ -1000,8 +1003,8 @@ public abstract class MFRecommender extends Recommender
 		
 		Map<Long, Map<Long, Double>> recommendations = new HashMap<Long, Map<Long, Double>>();
 		
-		Map<Long, Double[]> userTraits = UserUtil.getUserTraitVectors(userFeatureMatrix, userIdColumns, userFeatures);
-		Map<Long, Double[]> linkTraits = LinkUtil.getLinkTraitVectors(linkFeatureMatrix, linkIdColumns, linkFeatures);
+		Map<Long, Double[]> userTraits = getUserTraitVectors(userFeatureMatrix, userIdColumns, userFeatures);
+		Map<Long, Double[]> linkTraits = getLinkTraitVectors(linkFeatureMatrix, linkIdColumns, linkFeatures);
 		
 		for (long userId :linksToRecommend.keySet()) {
 			Set<Long> userLinks = linksToRecommend.get(userId);
@@ -1043,5 +1046,80 @@ public abstract class MFRecommender extends Recommender
 		}
 		
 		return recommendations;
+	}
+	
+	/**
+	 * Calculates s=Ux where U is the latent matrix and x is the user vector.
+	 * 
+	 * @param matrix
+	 * @param idColumns
+	 * @param features
+	 * @return
+	 */
+	public Map<Long, Double[]> getUserTraitVectors(Double[][] matrix, 
+														Map<Long, Double[]> idColumns,
+														Map<Long, Double[]> features)
+	{
+		HashMap<Long, Double[]> traitVectors = new HashMap<Long, Double[]>();
+		
+		for (long id : features.keySet()) {
+			Double[] feature = features.get(id);
+			Double[] vector = new Double[K];
+			Double[] idColumn = idColumns.get(id);
+		
+			for (int x = 0; x < K; x++) {
+				vector[x] = 0.0;
+		
+				for (int y = 0; y < feature.length; y++) {
+					vector[x] += matrix[x][y] * feature[y];
+				}
+		
+				vector[x] += idColumn[x];
+			}
+		
+			traitVectors.put(id, vector);
+		}
+		
+		return traitVectors;
+	}
+	
+	/**
+	 * Calculates t=Vy where V is the latent matrix and y is the link feature vector.
+	 * 
+	 * @param matrix
+	 * @param idColumns
+	 * @param features
+	 * @param linkWords
+	 * @param wordColumns
+	 * @return
+	 */
+	public Map<Long, Double[]> getLinkTraitVectors(Double[][] matrix, 
+														Map<Long, Double[]> idColumns,
+														Map<Long, Double[]> features)
+	{
+		HashMap<Long, Double[]> traitVectors = new HashMap<Long, Double[]>();
+	
+		for (long id : features.keySet()) {
+			Double[] feature = features.get(id);
+			Double[] idColumn = idColumns.get(id);
+			
+			//Set<String> words = linkWords.get(id);
+			
+			Double[] vector = new Double[K];
+			
+			for (int x = 0; x < K; x++) {
+				vector[x] = 0.0;
+	
+				for (int y = 0; y < Constants.LINK_FEATURE_COUNT; y++) {
+					vector[x] += matrix[x][y] * feature[y];
+				}
+				
+				vector[x] += idColumn[x];
+			}
+	
+			traitVectors.put(id, vector);
+		}
+	
+		return traitVectors;
 	}
 }
