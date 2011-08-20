@@ -52,6 +52,9 @@ public abstract class MFRecommender extends Recommender
 		linkFeatureMatrix = loadFeatureMatrix("lrLinkMatrix", Constants.LINK_FEATURE_COUNT, type);
 		userIdColumns = loadIdColumns("lrUserMatrix", type);
 		linkIdColumns = loadIdColumns("lrLinkMatrix", type);
+		
+		updateMatrixColumns(userFeatures.keySet(), userIdColumns);
+		updateMatrixColumns(linkFeatures.keySet(), linkIdColumns);
 	}
 	
 	/**
@@ -122,10 +125,11 @@ public abstract class MFRecommender extends Recommender
 		
 			//Get user derivatives
 			System.out.println("Get user derivatives");
-			for (int K = 0; K < K; K++) {
-				System.out.println("K: " + K);
+			for (int k = 0; k < K; k++) {
+				System.out.println("K: " + k);
 				for (int l = 0; l < Constants.USER_FEATURE_COUNT; l++) {
-					userDerivative[K][l] = getErrorDerivativeOverUserAttribute(linkTraits, predictions, connections, K, l);
+					userDerivative[k][l] = getErrorDerivativeOverUserAttribute(linkTraits, predictions, connections, k, l);
+					
 				}
 				
 				for (long userId : userLinkSamples.keySet()) {
@@ -133,7 +137,7 @@ public abstract class MFRecommender extends Recommender
 						userIdDerivative.put(userId, new Double[K]);
 					}
 					
-					userIdDerivative.get(userId)[K] = getErrorDerivativeOverUserId(linkTraits, predictions, connections, K, userId);
+					userIdDerivative.get(userId)[k] = getErrorDerivativeOverUserId(linkTraits, predictions, connections, k, userId);
 				}
 			}
 			
@@ -191,6 +195,9 @@ public abstract class MFRecommender extends Recommender
 			index = 0;
 			for (int x = 0; x < K; x++) {
 				for (int y = 0; y < Constants.USER_FEATURE_COUNT; y++) {
+					//System.out.println("x y: " + x + " " + y);
+					//System.out.println("d: " + derivatives[index+1]);
+					//System.out.println("u: " + userDerivative[x][y]);
 					derivatives[index++] = userDerivative[x][y];
 				}
 			}
@@ -894,7 +901,7 @@ public abstract class MFRecommender extends Recommender
 		statement.executeUpdate("DELETE FROM lrLinkMatrix WHERE type='" + type + "'");
 		statement.executeUpdate("DELETE FROM lrWordColumns WHERE type='" + type + "'");
 		
-		for (int x = 0; x < userFeatureMatrix.length; x++) {
+		for (int x = 0; x < K; x++) {
 			StringBuilder userBuf = new StringBuilder();
 			for (int y = 0; y < Constants.USER_FEATURE_COUNT; y++) {
 				userBuf.append(userFeatureMatrix[x][y]);
@@ -966,7 +973,7 @@ public abstract class MFRecommender extends Recommender
 	 * @param ids
 	 * @param idColumns
 	 */
-	public void updateMatrixColumns(Set<Long> ids, HashMap<Long, Double[]> idColumns)
+	public void updateMatrixColumns(Set<Long> ids, Map<Long, Double[]> idColumns)
 	{
 		HashSet<Long> columnsToRemove = new HashSet<Long>();
 		

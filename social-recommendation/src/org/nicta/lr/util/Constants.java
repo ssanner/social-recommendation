@@ -3,8 +3,8 @@ package org.nicta.lr.util;
 public class Constants 
 {
 	public static final long APPLICATION_ID = 149458388467879l;
-	//public static final String DB_STRING = "jdbc:mysql://localhost/sorec?user=socrec&password=sorec";
-	static final String DB_STRING = "jdbc:mysql://localhost/linkrData?user=linkrAdmin&password=w39ve5S97GjtATP7";
+	public static final String DB_STRING = "jdbc:mysql://localhost/sorec?user=socrec&password=sorec";
+	//static final String DB_STRING = "jdbc:mysql://localhost/linkrData?user=linkrAdmin&password=w39ve5S97GjtATP7";
 	
 	public static final int LINK_FEATURE_COUNT = 3;
 	public final static int USER_FEATURE_COUNT = 4;
