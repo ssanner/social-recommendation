@@ -39,7 +39,7 @@ public class LinkRecommender
 	public static void main(String[] args)
 		throws Exception
 	{
-		String type = "nn";
+		String type = "social";
 		if (args.length > 0) {
 			type = args[0];
 		}
@@ -87,6 +87,18 @@ public class LinkRecommender
 		}
 		
 		Map<Long, Double[]> links = LinkUtil.getLinkFeatures(linksNeeded);
+		for (long userId : userLinkSamples.keySet()) {
+			Set<Long> samples = userLinkSamples.get(userId);
+			HashSet<Long> remove = new HashSet<Long>();
+			for (long linkId : samples) {
+				if (!links.containsKey(linkId)) {
+					remove.add(linkId);
+				}
+			}
+			
+			samples.removeAll(remove);
+		}
+		
 		SQLUtil.closeSqlConnection();
 		
 		Recommender recommender = getRecommender(type, linkLikes, users, links, friendships);
@@ -297,7 +309,7 @@ public class LinkRecommender
 				query.append("'");
 			}
 			
-			query.append(") AND DATE(created_time) >= DATE(ADDDATE(CURRENT_DATE(), -" + Constants.TRAINING_WINDOW_RANGE + "))");
+			query.append(") AND DATE(created_time) >= DATE(ADDDATE(CURRENT_DATE(), -" + Constants.RECOMMENDING_WINDOW_RANGE + "))");
 			
 			result = statement.executeQuery(query.toString());
 			
@@ -396,7 +408,7 @@ public class LinkRecommender
 				query.append("'");
 			}
 			
-			query.append(") AND DATE(created_time) >= DATE(ADDDATE(CURRENT_DATE(), -" + Constants.TRAINING_WINDOW_RANGE + "))");
+			query.append(") AND DATE(created_time) >= DATE(ADDDATE(CURRENT_DATE(), -" + Constants.RECOMMENDING_WINDOW_RANGE + "))");
 			result = statement.executeQuery(query.toString());
 			
 			while (result.next()) {
