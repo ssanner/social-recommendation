@@ -44,7 +44,6 @@ public class LinkRecommender
 			type = args[0];
 		}
 		
-		Constants.DEPLOYMENT_TYPE = Constants.RECOMMEND;
 		LinkRecommender lr = new LinkRecommender(type);
 		lr.run();
 	}
@@ -86,7 +85,9 @@ public class LinkRecommender
 			}
 		}
 		
+		//Clean up links that are not in the linkrLinkInfo table. Clean up users after
 		Map<Long, Double[]> links = LinkUtil.getLinkFeatures(linksNeeded);
+		Set<Long> userRemove = new HashSet<Long>();
 		for (long userId : userLinkSamples.keySet()) {
 			Set<Long> samples = userLinkSamples.get(userId);
 			HashSet<Long> remove = new HashSet<Long>();
@@ -95,9 +96,13 @@ public class LinkRecommender
 					remove.add(linkId);
 				}
 			}
-			
 			samples.removeAll(remove);
+			if (samples.size() < 4) userRemove.add(userId);
 		}
+		for (long userId : userRemove) {
+			userLinkSamples.remove(userId);
+		}
+		System.out.println("Remaining: " + userLinkSamples.size());
 		
 		SQLUtil.closeSqlConnection();
 		
@@ -126,9 +131,9 @@ public class LinkRecommender
 			double map = 0;
 			for (long userId : averagePrecisions.keySet()) {
 				double pre = averagePrecisions.get(userId);
-				
 				map += pre;
 			}
+			
 			map /= (double)averagePrecisions.size();
 			
 			double standardDev = 0;
@@ -164,8 +169,10 @@ public class LinkRecommender
 			int addedCount = 0;
 			int likeCount = 0;
 			
+			System.out.println("samples: " + samples.size());
 			while (addedCount < sampleArray.length * .2 || addedCount < 2) {
 				int randomIndex = (int)(Math.random() * (sampleArray.length));
+				
 				Long randomLinkId = (Long)sampleArray[randomIndex];
 				
 				if (!userTesting.contains(randomLinkId)) {
@@ -445,13 +452,6 @@ public class LinkRecommender
 		return recommender;
 	}
 	
-	/**
-	 * Save the recommended links into the database.
-	 * 
-	 * @param recommendations
-	 * @param type
-	 * @throws SQLException
-	 */
 	public void saveLinkRecommendations(Map<Long, Map<Long, Double>> friendRecommendations, Map<Long, Map<Long, Double>> nonFriendRecommendations, String type)
 		throws SQLException
 	{
