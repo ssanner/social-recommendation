@@ -41,7 +41,10 @@ public class SocialRecommender extends MFRecommender
 			//friendConnections = UserUtil.getFriendLikeSimilarity(userLinkSamples.keySet());
 			//friendConnections = friendships;
 			
-			minimizeByLBFGS(trainSamples);
+			//checkDerivative(trainSamples);
+			
+			minimizeByThreadedLBFGS(trainSamples);
+			//minimizeByLBFGS(trainSamples);
 		}
 		catch (SQLException ex) {
 			ex.printStackTrace();

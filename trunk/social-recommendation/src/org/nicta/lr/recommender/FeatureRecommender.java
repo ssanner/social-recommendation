@@ -30,7 +30,7 @@ public class FeatureRecommender extends MFRecommender
 	
 	public void train(Map<Long, Set<Long>> trainSamples) 
 	{
-		minimizeByLBFGS(trainSamples);
+		minimizeByThreadedLBFGS(trainSamples);
 	}
 	
 	public double getError(Double[][] userFeatureMatrix, Double[][] linkFeatureMatrix, 

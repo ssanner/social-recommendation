@@ -15,7 +15,7 @@ public class Constants
 
 	public static int TEST = 0;
 	public static int RECOMMEND = 1;
-	public static int DEPLOYMENT_TYPE = TEST;
+	public static int DEPLOYMENT_TYPE = RECOMMEND;
 	public static boolean INITIALIZE = false;
 	
 	public static final String SOCIAL = "social";
