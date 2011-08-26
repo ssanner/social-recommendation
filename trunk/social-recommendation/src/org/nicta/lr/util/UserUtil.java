@@ -1222,4 +1222,21 @@ public class UserUtil
 		statement.close();
 		return friendships;
 	}
+	
+	public static Set<Long> getAppUsersWithAlgorithm(String algo)
+		throws SQLException
+	{
+		HashSet<Long> ids = new HashSet<Long>();
+		
+		Connection conn = SQLUtil.getSqlConnection();
+		Statement statement = conn.createStatement();
+		ResultSet result = statement.executeQuery("SELECT uid FROM trackUserUpdates WHERE is_app_user=1 AND algorithm='" + algo + "'");
+		
+		while (result.next()) {
+			ids.add(result.getLong("uid"));
+		}
+		statement.close();
+		
+		return ids;
+	}
 }

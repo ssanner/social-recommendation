@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class NNRecommender extends Recommender
 {
-	private final int K = 5;
+	private int K = 10;
 	
 	Map<Long, Set<Long>> userLinkSamples;
 	
@@ -232,5 +232,10 @@ public class NNRecommender extends Recommender
 		throws SQLException
 	{
 		//do nothing
+	}
+	
+	public void setK(int k)
+	{
+		K = k;
 	}
 }

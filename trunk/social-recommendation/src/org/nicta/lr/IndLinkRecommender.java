@@ -13,13 +13,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.HashMap;
 
-import org.nicta.lr.recommender.BaselineGlobalRecommender;
-import org.nicta.lr.recommender.BaselineRecommender;
-import org.nicta.lr.recommender.FeatureRecommender;
-import org.nicta.lr.recommender.NNRecommender;
 import org.nicta.lr.recommender.Recommender;
-import org.nicta.lr.recommender.SVMRecommender;
-import org.nicta.lr.recommender.SocialRecommender;
 import org.nicta.lr.recommender.IndSocialRecommender;
 import org.nicta.lr.util.Constants;
 import org.nicta.lr.util.LinkUtil;
@@ -43,10 +37,13 @@ public class IndLinkRecommender  extends LinkRecommender
 		}
 		
 		IndLinkRecommender lr = new IndLinkRecommender(type);
-		lr.run();
+		lr.run(1);
+		lr.run(10);
+		lr.run(50);
+		lr.run(100);
 	}
 	
-	public void run()
+	public void run(double arg)
 		throws SQLException, IOException
 	{	
 		Set<Long> userIds = UserUtil.getUserIds();
@@ -70,23 +67,53 @@ public class IndLinkRecommender  extends LinkRecommender
 			}
 		}
 		
-		Set<Long> appUsers = getAppUsersWithAlgorithm(type);
+		Set<Long> appUsers = UserUtil.getAppUsersWithAlgorithm(type);
 		Set<Long> usersNeeded = new HashSet<Long>();
 		usersNeeded.addAll(appUsers);
 		
 			
 		Map<Long, Map<Long, Set<Long>>> appUserLinkSamples = new HashMap<Long, Map<Long, Set<Long>>>();
 		
+		System.out.println("Before app users: " + linksNeeded.size());
 		for (long appUserId : appUsers) {
 			Map<Long, Set<Long>> userLinkSamples = getUserLinksSample(linkLikes, userIds, friendships, linkUsers, true, appUserId);
 			usersNeeded.addAll(userLinkSamples.keySet());
-			
+		
 			for (long id : userLinkSamples.keySet()) {
 				linksNeeded.addAll(userLinkSamples.get(id));
 			}
 			
 			
 			appUserLinkSamples.put(appUserId, userLinkSamples);
+		}
+		
+		System.out.println("After app users: " + linksNeeded.size());
+		
+
+		
+		Map<Long, Set<Long>> appUserTestData = new HashMap<Long, Set<Long>>();
+		
+		if (Constants.DEPLOYMENT_TYPE == Constants.TEST) {
+			Set<Long> testLinkIds = LinkUtil.getTestLinkIds();
+			
+			Map<Long, Long[]> testLinkUsers = LinkUtil.getUnormalizedFeatures(testLinkIds);
+			Map<Long, Set<Long>> testLinkLikes = LinkUtil.getLinkLikes(testLinkUsers, true);
+			
+			System.out.println("Likes: " + linkLikes.size());
+			for (long testId : testLinkLikes.keySet()) {
+				linkLikes.put(testId, testLinkLikes.get(testId));
+			}
+			System.out.println("After: " + linkLikes.size());
+			
+			appUserTestData = getUserLinksSample(testLinkLikes, appUsers, friendships, testLinkUsers, true, true);
+			
+			usersNeeded.addAll(appUserTestData.keySet());
+			
+			System.out.println("Links needed: " + linksNeeded.size());
+			for (long testUserId : appUserTestData.keySet()) {
+				linksNeeded.addAll(appUserTestData.get(testUserId));
+			}
+			System.out.println("After: " + linksNeeded.size());
 		}
 		
 		
@@ -117,17 +144,6 @@ public class IndLinkRecommender  extends LinkRecommender
 		
 		SQLUtil.closeSqlConnection();
 		
-
-		
-		Map<Long, Set<Long>> appUserTestData = new HashMap<Long, Set<Long>>();
-		
-		if (Constants.DEPLOYMENT_TYPE == Constants.TEST) {
-			for (long appUserId : appUsers) {
-				Set<Long> testData = getIndTestData(appUserLinkSamples.get(appUserId), linkLikes, appUserId);
-				if (testData != null) appUserTestData.put(appUserId, testData);
-			}
-		}
-		
 		Map<Long, Recommender> recommenders = new HashMap<Long, Recommender>();
 		
 		double map = 0;
@@ -135,6 +151,7 @@ public class IndLinkRecommender  extends LinkRecommender
 		
 		for (long appUserId : appUsers) {
 			IndSocialRecommender recommender = (IndSocialRecommender)getRecommender(type, linkLikes, users, links, friendships, appUserId);
+			recommender.setC(arg);
 			recommenders.put(appUserId, recommender);
 			recommender.train(appUserLinkSamples.get(appUserId));
 			
@@ -178,23 +195,6 @@ public class IndLinkRecommender  extends LinkRecommender
 		}
 		
 		System.out.println("Done");
-	}
-	
-	public Set<Long> getAppUsersWithAlgorithm(String algo)
-		throws SQLException
-	{
-		HashSet<Long> ids = new HashSet<Long>();
-		
-		Connection conn = SQLUtil.getSqlConnection();
-		Statement statement = conn.createStatement();
-		ResultSet result = statement.executeQuery("SELECT uid FROM trackUserUpdates WHERE is_app_user=1 AND algorithm='" + algo + "'");
-		
-		while (result.next()) {
-			ids.add(result.getLong("uid"));
-		}
-		statement.close();
-		
-		return ids;
 	}
 	
 	public Recommender getRecommender(String type, Map<Long, Set<Long>> linkLikes, Map<Long, Double[]> users, Map<Long, Double[]> links, Map<Long, Map<Long, Double>> friendships, long userId)
@@ -349,62 +349,5 @@ public class IndLinkRecommender  extends LinkRecommender
 		}
 		
 		statement.close();	
-	}
-	
-	public Set<Long> getIndTestData(Map<Long, Set<Long>> userLinkSamples, Map<Long, Set<Long>> linkLikes, long userId)
-	{
-		HashSet<Long> userTesting = new HashSet<Long>();
-			
-		Set<Long> samples = userLinkSamples.get(userId);
-		if (samples == null) {
-			System.out.println("No data!");
-			return null;
-		}
-		
-		Object[] sampleArray = samples.toArray();
-			
-		int addedCount = 0;
-		int likeCount = 0;
-			
-		System.out.println("samples: " + samples.size());
-		while (addedCount < sampleArray.length * .2 || addedCount < 2) {
-			int randomIndex = (int)(Math.random() * (sampleArray.length));
-				
-			Long randomLinkId = (Long)sampleArray[randomIndex];
-				
-			if (!userTesting.contains(randomLinkId)) {			
-					
-				if (likeCount == 0) {
-					if (!linkLikes.get(randomLinkId).contains(userId)) {
-						continue;
-					}
-					else {
-						likeCount++;
-					}
-				}
-				else {		
-					if (linkLikes.get(randomLinkId).contains(userId)) {
-						int remainingLike = 0;
-						for (long remainingId : samples) {
-							if (linkLikes.get(remainingId).contains(userId)) remainingLike++;
-						}
-							
-						if (remainingLike == 1) {
-							continue;
-						}
-						else {
-							likeCount++;
-						}
-					}
-				}
-					
-				userTesting.add(randomLinkId);
-				samples.remove(randomLinkId);
-				addedCount++;
-
-			}		
-		}
-		
-		return userTesting;
 	}
 }

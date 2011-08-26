@@ -1,6 +1,5 @@
 package org.nicta.lr.recommender;
 
-import java.sql.SQLException;
 import java.util.Set;
 import java.util.Map;
 
@@ -9,14 +8,14 @@ import org.nicta.lr.util.UserUtil;
 
 public class SocialRecommender extends MFRecommender
 {	
-	double beta = 1.0E-6;
+	double beta = 1.0E-3;
 	
 	public SocialRecommender(Map<Long, Set<Long>> linkLikes, Map<Long, Double[]> userFeatures, Map<Long, Double[]> linkFeatures, Map<Long, Map<Long, Double>> friends)
 	{
 		super(linkLikes, userFeatures, linkFeatures, friends);
 		
 		K = 5;
-		lambda = 100;
+		lambda = 1000;
 		
 		type = "social";
 		friendships = friends;
@@ -46,7 +45,7 @@ public class SocialRecommender extends MFRecommender
 			minimizeByThreadedLBFGS(trainSamples);
 			//minimizeByLBFGS(trainSamples);
 		}
-		catch (SQLException ex) {
+		catch (Exception ex) {
 			ex.printStackTrace();
 		}
 	}
@@ -291,4 +290,9 @@ public class SocialRecommender extends MFRecommender
 		
 		return 0;
 	}	
+	
+	public void setBeta(double b)
+	{
+		beta = b;
+	}
 }

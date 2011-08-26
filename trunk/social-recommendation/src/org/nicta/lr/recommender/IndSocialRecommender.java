@@ -24,8 +24,8 @@ public class IndSocialRecommender extends SocialRecommender
 		super(linkLikes, userFeatures, linkFeatures, friends);
 		
 		K = 5;
-		lambda = 100;
-		C=10;
+		lambda = 1000;
+		C=50;
 		
 		type = "social";
 		friendships = friends;
@@ -503,5 +503,10 @@ public class IndSocialRecommender extends SocialRecommender
 		}
 		
 		return errorDerivative;
+	}
+	
+	public void setC(double c)
+	{
+		this.C = c;
 	}
 }

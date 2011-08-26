@@ -12,7 +12,7 @@ public class FeatureRecommender extends MFRecommender
 		super(linkLikes, userFeatures, linkFeatures, null);
 		
 		K = 5;
-		lambda = 100;
+		lambda = 1000;
 		type = "feature";
 		
 		if (Constants.DEPLOYMENT_TYPE == Constants.TEST || Constants.INITIALIZE) {
@@ -173,4 +173,6 @@ public class FeatureRecommender extends MFRecommender
 		
 		return errorDerivative;
 	}
+	
+	
 }

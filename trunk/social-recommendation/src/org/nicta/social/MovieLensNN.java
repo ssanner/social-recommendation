@@ -17,7 +17,7 @@ public class MovieLensNN extends MovieLens
 	public static void main(String[] args)
 		throws Exception
 	{
-		new MovieLensNN().run(1);
+		new MovieLensNN().run(10);
 	}
 	
 	//Reference: http://public.research.att.com/~volinsky/netflix/BellKorICDM07.pdf
@@ -281,8 +281,8 @@ public class MovieLensNN extends MovieLens
 				userIds.addAll(movieVector.keySet());
 				
 				//Get the similarity to the movie vector
-				double similarity = getCosineSimilarity(testMovieVector, movieVector, userIds);
-				//double similarity = getSampleCorrelation(testMovieVector, movieVector, userIds);
+				//double similarity = getCosineSimilarity(testMovieVector, movieVector, userIds);
+				double similarity = getSampleCorrelation(testMovieVector, movieVector, userIds);
 				//double similarity = getPearsonCorrelation(testMovieVector, movieVector, userIds);
 				
 				if (kClosestSimilarities.size() < K) {
@@ -467,8 +467,8 @@ public class MovieLensNN extends MovieLens
 				
 				HashMap<Integer, Double> movieVector2 = movieUserRatings.get(movieId2);
 				
-				double similarity = getCosineSimilarity(movieVector1, movieVector2, userIds);
-				//double similarity = getSampleCorrelation(testMovieVector, movieVector, userIds);
+				//double similarity = getCosineSimilarity(movieVector1, movieVector2, userIds);
+				double similarity = getSampleCorrelation(movieVector1, movieVector2, userIds);
 				//double similarity = getPearsonCorrelation(testMovieVector, movieVector, userIds);
 				
 				System.out.println(similarity);
@@ -612,8 +612,8 @@ public class MovieLensNN extends MovieLens
 				userIds.addAll(movieVector.keySet());
 				
 				//Get the similarity to the movie vector
-				double similarity = getCosineSimilarity(testMovieVector, movieVector, userIds);
-				//double similarity = getSampleCorrelation(testMovieVector, movieVector, userIds);
+				//double similarity = getCosineSimilarity(testMovieVector, movieVector, userIds);
+				double similarity = getSampleCorrelation(testMovieVector, movieVector, userIds);
 				//double similarity = getPearsonCorrelation(testMovieVector, movieVector, userIds);
 				
 				if (kClosestSimilarities.size() < K) {
