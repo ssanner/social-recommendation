@@ -349,4 +349,9 @@ public class SVMRecommender extends Recommender
 	{
 		//do nothing
 	}
+	
+	public void setC(double c)
+	{
+		this.C = c;
+	}
 }

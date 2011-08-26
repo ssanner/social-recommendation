@@ -45,10 +45,33 @@ public class LinkRecommender
 		}
 		
 		LinkRecommender lr = new LinkRecommender(type);
+		
 		lr.run();
+		
+		//lr.run(.00001);
+		//lr.run(.000001);
+		//lr.run(.0000001);
+		//lr.run(.00000001);
+		//lr.run(.000000001);
+		//lr.run(.0000000001);
+		
+		//lr.run(Math.pow(2, -5));
+		//lr.run(Math.pow(2, -3));
+		//lr.run(Math.pow(2, -1));
+		//lr.run(Math.pow(2, 1));
+		//lr.run(Math.pow(2, 3));
+		//lr.run(Math.pow(2, 5));
+		
+		//lr.run(1);
+		//lr.run(5);
+		//lr.run(10);
+		//lr.run(20);
+		//lr.run(30);
+		//lr.run(40);
+		//lr.run(50);
 	}
 	
-	public void run()
+	public void run(/*double arg*/)
 		throws SQLException, IOException
 	{	
 		Set<Long> userIds = UserUtil.getUserIds();
@@ -58,21 +81,22 @@ public class LinkRecommender
 		Map<Long, Set<Long>> linkLikes = LinkUtil.getLinkLikes(linkUsers, true);
 		Map<Long, Map<Long, Double>> friendships = UserUtil.getFriendships();
 		
-		Map<Long, Set<Long>> userLinkSamples = getUserLinksSample(linkLikes, userIds, friendships, linkUsers, true);
+		Map<Long, Set<Long>> userLinkSamples = getUserLinksSample(linkLikes, userIds, friendships, linkUsers, true, false);
 		
-		Set<Long> appUsers = UserUtil.getAppUserIds();
+		Set<Long> appUsers = UserUtil.getAppUsersWithAlgorithm(type);   //UserUtil.getAppUserIds();
 		
 		Set<Long> usersNeeded = new HashSet<Long>();
 		usersNeeded.addAll(appUsers);
 		usersNeeded.addAll(userLinkSamples.keySet());
-		Map<Long, Double[]> users = UserUtil.getUserFeatures(usersNeeded);
+		
 		
 		Set<Long> linksNeeded = new HashSet<Long>();
 		linksNeeded.addAll(linkLikes.keySet());
 		for (long id : userLinkSamples.keySet()) {
 			linksNeeded.addAll(userLinkSamples.get(id));
-			
 		}
+		
+		Map<Long, Set<Long>> testData = null;
 		
 		if (Constants.DEPLOYMENT_TYPE == Constants.RECOMMEND) {
 			//Get links that we will be recommending later
@@ -84,10 +108,33 @@ public class LinkRecommender
 				linksNeeded.addAll(friendLinksToRecommend.get(id));
 			}
 		}
+		else {
+			Set<Long> testLinkIds = LinkUtil.getTestLinkIds();
+			
+			Map<Long, Long[]> testLinkUsers = LinkUtil.getUnormalizedFeatures(testLinkIds);
+			Map<Long, Set<Long>> testLinkLikes = LinkUtil.getLinkLikes(testLinkUsers, true);
+			
+			System.out.println("Likes: " + linkLikes.size());
+			for (long testId : testLinkLikes.keySet()) {
+				linkLikes.put(testId, testLinkLikes.get(testId));
+			}
+			System.out.println("After: " + linkLikes.size());
+			
+			testData = getUserLinksSample(testLinkLikes, userIds, friendships, testLinkUsers, true, true);
+			
+			usersNeeded.addAll(testData.keySet());
+			
+			System.out.println("Links needed: " + linksNeeded.size());
+			for (long testUserId : testData.keySet()) {
+				linksNeeded.addAll(testData.get(testUserId));
+			}
+			System.out.println("After: " + linksNeeded.size());
+		}
+		
+		Map<Long, Double[]> users = UserUtil.getUserFeatures(usersNeeded);
+		Map<Long, Double[]> links = LinkUtil.getLinkFeatures(linksNeeded);
 		
 		//Clean up links that are not in the linkrLinkInfo table. Clean up users after
-		Map<Long, Double[]> links = LinkUtil.getLinkFeatures(linksNeeded);
-		Set<Long> userRemove = new HashSet<Long>();
 		for (long userId : userLinkSamples.keySet()) {
 			Set<Long> samples = userLinkSamples.get(userId);
 			HashSet<Long> remove = new HashSet<Long>();
@@ -97,22 +144,38 @@ public class LinkRecommender
 				}
 			}
 			samples.removeAll(remove);
-			if (samples.size() < 4) userRemove.add(userId);
 		}
-		for (long userId : userRemove) {
-			userLinkSamples.remove(userId);
+		
+		Set<Long> dontTest = new HashSet<Long>();
+		if (Constants.DEPLOYMENT_TYPE == Constants.TEST) {
+			for (long userId : testData.keySet()) {
+				if (!userLinkSamples.containsKey(userId)) {
+					dontTest.add(userId);
+					continue;
+				}
+				
+				Set<Long> samples = testData.get(userId);
+				HashSet<Long> remove = new HashSet<Long>();
+				for (long linkId : samples) {
+					if (!links.containsKey(linkId)) {
+						remove.add(linkId);
+					}
+				}
+				samples.removeAll(remove);
+			}
 		}
-		System.out.println("Remaining: " + userLinkSamples.size());
+		for (long removeId : dontTest) {
+			testData.remove(removeId);
+		}
+		
+		System.out.println("For Training: " + userLinkSamples.size());
+		if (Constants.DEPLOYMENT_TYPE == Constants.TEST) System.out.println("For Testing: " + testData.size());
 		
 		SQLUtil.closeSqlConnection();
 		
 		Recommender recommender = getRecommender(type, linkLikes, users, links, friendships);
+		//((SocialRecommender)recommender).setBeta(arg);
 		
-		Map<Long, Set<Long>> testData = null;
-		
-		if (Constants.DEPLOYMENT_TYPE == Constants.TEST) {
-			testData = splitTrainingAndTestingData(userLinkSamples, linkLikes);
-		}
 		
 		recommender.train(userLinkSamples);
 		
@@ -129,12 +192,21 @@ public class LinkRecommender
 			Map<Long, Double> averagePrecisions = recommender.getAveragePrecisions(testData);
 			
 			double map = 0;
+			double appUsersMap = 0;
+			int testedAppUserCount = 0;
 			for (long userId : averagePrecisions.keySet()) {
 				double pre = averagePrecisions.get(userId);
+	
 				map += pre;
+				if (appUsers.contains(userId)) {
+					if (pre == 0) System.out.println("App user 0 precision");
+					appUsersMap += pre;
+					testedAppUserCount++;
+				}
 			}
 			
 			map /= (double)averagePrecisions.size();
+			appUsersMap /= (double)testedAppUserCount;
 			
 			double standardDev = 0;
 			for (long userId : averagePrecisions.keySet()) {
@@ -145,71 +217,16 @@ public class LinkRecommender
 			standardDev = Math.sqrt(standardDev);
 			double standardError = standardDev / Math.sqrt(averagePrecisions.size());
 			
+			
+			//System.out.println("K: " + arg);
 			System.out.println("MAP: " + map);
 			System.out.println("SD: " + standardDev);
 			System.out.println("SE: " + standardError);
+			System.out.println("App Users MAP: "+ appUsersMap);
 		}
 		
 		
 		System.out.println("Done");
-	}
-	
-	public Map<Long, Set<Long>> splitTrainingAndTestingData(Map<Long, Set<Long>> userLinkSamples, Map<Long, Set<Long>> linkLikes)
-	{
-		Map<Long, Set<Long>> testData = new HashMap<Long, Set<Long>>();
-		
-		for (long userId : userLinkSamples.keySet()) {
-			HashSet<Long> userTesting = new HashSet<Long>();
-			testData.put(userId, userTesting);
-			
-			Set<Long> samples = userLinkSamples.get(userId);
-			
-			Object[] sampleArray = samples.toArray();
-			
-			int addedCount = 0;
-			int likeCount = 0;
-			
-			System.out.println("samples: " + samples.size());
-			while (addedCount < sampleArray.length * .2 || addedCount < 2) {
-				int randomIndex = (int)(Math.random() * (sampleArray.length));
-				
-				Long randomLinkId = (Long)sampleArray[randomIndex];
-				
-				if (!userTesting.contains(randomLinkId)) {
-					
-					
-					if (likeCount == 0) {
-						if (!linkLikes.get(randomLinkId).contains(userId)) {
-							continue;
-						}
-						else {
-							likeCount++;
-						}
-					}
-					else {		
-						if (linkLikes.get(randomLinkId).contains(userId)) {
-							int remainingLike = 0;
-							for (long remainingId : samples) {
-								if (linkLikes.get(remainingId).contains(userId)) remainingLike++;
-							}
-							
-							if (remainingLike == 1) {
-								continue;
-							}
-							else {
-								likeCount++;
-							}
-						}
-					}
-					
-					userTesting.add(randomLinkId);
-					samples.remove(randomLinkId);
-					addedCount++;
-				}
-			}		
-		}
-		
-		return testData;
 	}
 	
 	/**
@@ -515,7 +532,7 @@ public class LinkRecommender
 	 * @return
 	 * @throws SQLException
 	 */
-	public static Map<Long, Set<Long>> getUserLinksSample(Map<Long, Set<Long>> linkLikes, Set<Long> userIds, Map<Long, Map<Long, Double>> friendships, Map<Long, Long[]> links, boolean limit)
+	public static Map<Long, Set<Long>> getUserLinksSample(Map<Long, Set<Long>> linkLikes, Set<Long> userIds, Map<Long, Map<Long, Double>> friendships, Map<Long, Long[]> links, boolean limit, boolean forTesting)
 		throws SQLException
 	{
 		HashMap<Long, Set<Long>> userLinkSamples = new HashMap<Long, Set<Long>>();
@@ -523,14 +540,11 @@ public class LinkRecommender
 		Connection conn = SQLUtil.getSqlConnection();
 		Statement statement = conn.createStatement();
 		
-		System.out.println("userIds: " + userIds.size());
-		System.out.println("links: " + links.size());
-		System.out.println("Likes: " + linkLikes.size());
-		
 		int count = 0;
 		
 		for (long linkId : linkLikes.keySet()) {
 			Set<Long> users = linkLikes.get(linkId);
+			//if (users.size() == 1) continue;
 			
 			for (long userId : users) {
 				if (!userIds.contains(userId) || ! friendships.containsKey(userId)) continue;
@@ -542,48 +556,35 @@ public class LinkRecommender
 				samples.add(linkId);
 			}
 		}
+	
 		
-		System.out.println("Count: " + userLinkSamples.size());
-		int minCount = 0;
 		HashSet<Long> remove = new HashSet<Long>();
+		
 		for (Long userId : userLinkSamples.keySet()) {
 			Set<Long> samples = userLinkSamples.get(userId);
-			if (samples.size() >= 2) {
-				minCount++;
-			}
-			else {
+			if (samples.size() < 2) {
 				remove.add(userId);
+				continue;
 			}
-		}
-		
-		for (Long removeId : remove) {
-			userLinkSamples.remove(removeId);
-		}
-		
-		System.out.println("Min: " + minCount);
-		
-		remove = new HashSet<Long>();
-		
-		for (Long userId : userLinkSamples.keySet()) {
-			Set<Long> samples = userLinkSamples.get(userId);
+			
 			System.out.println("User: " + ++count + " " + samples.size());
 			
 			Set<Long> friends = friendships.get(userId).keySet();
 			
 			int likeCount = samples.size();
 			
-			
-			ResultSet result = statement.executeQuery("SELECT link_id FROM trackRecommendedLinks WHERE uid=" + userId + " AND rating=2");
-			while (result.next()) {
-				if (links.containsKey(result.getLong("link_id"))) {
-					samples.add(result.getLong("link_id"));
+			if (!forTesting) {
+				ResultSet result = statement.executeQuery("SELECT link_id FROM trackRecommendedLinks WHERE uid=" + userId + " AND rating=2");
+				while (result.next()) {
+					if (links.containsKey(result.getLong("link_id"))) {
+						samples.add(result.getLong("link_id"));
+					}
 				}
 			}
 			
 			//Sample links that weren't liked.
 			//Links here should be links that were shared by friends to increase the chance that the user has actually seen this and not
 			//liked them
-	
 			for (long linkId : links.keySet()) {
 				if (samples.size() >= likeCount * 10) break;
 				Long[] link = links.get(linkId);
@@ -593,7 +594,7 @@ public class LinkRecommender
 				}
 			}
 			
-			if (samples.size() < 4) {
+			if (forTesting && samples.size() < likeCount * 2) {
 				remove.add(userId);
 			}
 		}
@@ -601,6 +602,8 @@ public class LinkRecommender
 		for (Long removeId : remove) {
 			userLinkSamples.remove(removeId);
 		}
+		
+		System.out.println("Final Sample: " + userLinkSamples.size());
 		
 		return userLinkSamples;
 	}

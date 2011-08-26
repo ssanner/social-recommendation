@@ -18,7 +18,7 @@ public class LinkUtil
 	 * @return
 	 * @throws SQLException
 	 */
-	public static Map<Long, Double[]> getLinkFeatures(boolean limit)
+	public static Map<Long, Double[]> getLinkFeaturesOld(boolean limit)
 		throws SQLException
 	{
 		HashMap<Long, Double[]> linkFeatures = new HashMap<Long, Double[]>();
@@ -125,8 +125,39 @@ public class LinkUtil
 			"SELECT link_id FROM linkrLinks";
 		
 		if (limit) {
-			itemQuery += " WHERE DATE(created_time) >= DATE(ADDDATE(CURRENT_DATE(), -" + Constants.TRAINING_WINDOW_RANGE + "))";
+			String date = "";
+			if (Constants.DEPLOYMENT_TYPE == Constants.TEST) {
+				date = "ADDDATE(CURRENT_DATE(), -14)";
+			}
+			else {
+				date = "CURRENT_DATE()";
+			}
+			
+			itemQuery += " WHERE DATE(created_time) >= ADDDATE(" + date + ", -" + Constants.TRAINING_WINDOW_RANGE + ") ";
+			itemQuery += " AND DATE(created_time) < " + date;
 		}
+		
+		ResultSet result = statement.executeQuery(itemQuery);
+	
+		while (result.next()) {
+			linkIds.add(result.getLong("link_id"));
+		}
+		
+		statement.close();
+		return linkIds;
+	}
+	
+	public static Set<Long> getTestLinkIds()
+		throws SQLException
+	{
+		HashSet<Long> linkIds = new HashSet<Long>();
+		Connection conn = SQLUtil.getSqlConnection();
+		Statement statement = conn.createStatement();
+		
+		String itemQuery = 
+			"SELECT link_id FROM linkrLinks";
+		
+		itemQuery += " WHERE DATE(created_time) >= ADDDATE(CURRENT_DATE(), -14)";
 		
 		ResultSet result = statement.executeQuery(itemQuery);
 	

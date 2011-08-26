@@ -769,7 +769,7 @@ public abstract class MFRecommender extends Recommender
 			for (long j : links) {
 				if (!linkTraits.containsKey(j)) continue;
 				double predictedLike = dot(userTraits.get(userId), linkTraits.get(j));
-				
+				//System.out.println("Scoring: " + predictedLike);
 				scores.add(predictedLike);
 				linkIds.add(j);
 			}
@@ -1345,8 +1345,8 @@ public abstract class MFRecommender extends Recommender
 		return traitVectors;
 	}
 	
-	public int getK()
+	public void setLambda(double l)
 	{
-		return K;
+		lambda = l;
 	}
 }
