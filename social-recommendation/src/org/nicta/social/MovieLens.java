@@ -5,6 +5,8 @@ import java.io.FileReader;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import util.VectorUtils;
+
 /*
  * LATEST NEWS:
  * 
@@ -46,46 +48,46 @@ public abstract class MovieLens
 	final int MOVIE_FEATURE_COUNT = 19;
 	*/
 	
+	final String[] OCCUPATION10K = {
+			"administrator",
+			"artist",
+			"doctor",
+			"educator",
+			"engineer",
+			"entertainment",
+			"executive",
+			"healthcare",
+			"homemaker",
+			"lawyer",
+			"librarian",
+			"marketing",
+			"none",
+			"other",
+			"programmer",
+			"retired",
+			"salesman",
+			"scientist",
+			"student",
+			"technician",
+			"writer"
+		};
+	
 	/* 100K Movielens */
-	final String ratingsSource = "/Users/jino/Desktop/FBProject/ml-data_0/u.data";
-	final String userSource = "/Users/jino/Desktop/FBProject/ml-data_0/u.user";
-	final String itemSource = "/Users/jino/Desktop/FBProject/ml-data_0/u.item";
-	final String separator = ",";
+	final String ratingsSource = "../../../Data/MovieLens/ml-data/u.data";
+	final String userSource = "../../../Data/MovieLens/ml-data/u.user";
+	final String itemSource = "../../../Data/MovieLens/ml-data/u.item";
+	final String separator = "\t";
 	final int MOVIE_COUNT = 1682;
 	final int USER_COUNT = 943;
 	final int RATING_COUNT = 100000;
 	final int LARGEST_MOVIE_ID = 1682;
-	final int USER_FEATURE_COUNT = 3;
+	final int USER_FEATURE_COUNT = 10 + 1 + OCCUPATION10K.length;
 	final int MOVIE_FEATURE_COUNT = 19;
 	final String FEATURE_SEPARATOR = "\\|";
 	
 	double mae;
 	final double RATING_RANGE = 5; //Range of rating
-	
-	final String[] OCCUPATION10K = {
-		"administrator",
-		"artist",
-		"doctor",
-		"educator",
-		"engineer",
-		"entertainment",
-		"executive",
-		"healthcare",
-		"homemaker",
-		"lawyer",
-		"librarian",
-		"marketing",
-		"none",
-		"other",
-		"programmer",
-		"retired",
-		"salesman",
-		"scientist",
-		"student",
-		"technician",
-		"writer"
-	};
-	
+		
 	final String[] GENRES = {
 		"unknown",
 		"Action",
@@ -287,14 +289,18 @@ public abstract class MovieLens
 			Double[] features = new Double[USER_FEATURE_COUNT];
 			
 			if (RATING_COUNT == 100000) {
-				features[0] = Double.parseDouble(tokens[1]) / 100;
-				features[1] = tokens[2].equals("M") ? 0.0 : 1.0;
+				int decade = (int)(Double.parseDouble(tokens[1]) / 10d);
+				for (int i = 0; i < 10; i++)
+					features[i] = (decade == i) ? 1d : 0d;
+
+				features[10] = tokens[2].equals("M") ? 1d : 0d;
 			
-				for (int x = 0; x < OCCUPATION10K.length; x++) {
-					if (OCCUPATION10K[x].equals(tokens[3])) {
-						features[2] = (double)x / OCCUPATION10K.length;
-					}
-				}
+				for (int x = 0; x < OCCUPATION10K.length; x++)
+					features[x + 11] = (OCCUPATION10K[x].equals(tokens[3])) ? 1d : 0d;
+
+				//System.out.println(tokens[1] + " " + tokens[2] + " " + tokens[3]);
+				//System.out.println("Here" + VectorUtils.GetString(features));
+				//System.exit(1);
 			}
 			else if (RATING_COUNT == 1000209) {
 				features[0] = tokens[1].equals("M") ? 0.0 : 1.0;

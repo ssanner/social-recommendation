@@ -4,11 +4,18 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Random;
 
-public class LBFGSFeatureMF extends MovieLens
+// TODO: A good way to initialize LBFGS, vice versa?
+//       Training column-by-column (effectively residual method)
+//       EP?
+public class BayesianFeatureMF extends MovieLens
 {
-	final public boolean USE_ITEM_NORM = false;
+	static final public double MIN_VARIANCE = 1e-4d;
+	static final public boolean USE_ITEM_NORM = false;
+	static final public double PRIOR_VARIANCE = 200d;
+	static final public double BETA = 2.5d;
+	static final public int BAYESIAN_UPDATE_ITER = 10;
 	
-	final int DIMENSION_COUNT = 10; 
+	final int DIMENSION_COUNT = 5; 
 	final Random RANDOM = new Random();
 	final double STEP_CONVERGENCE = 1e-2;
 	
@@ -68,8 +75,11 @@ public class LBFGSFeatureMF extends MovieLens
 		throws Exception
 	{
 		//Fill priors
-		Double[][] userMatrix = getPrior(USER_FEATURE_COUNT + USER_COUNT);
-		Double[][] movieMatrix = getPrior(MOVIE_FEATURE_COUNT + MOVIE_COUNT);
+		Double[][] userMatrix  = getPriorMean(USER_FEATURE_COUNT + USER_COUNT);
+		Double[][] movieMatrix = getPriorMean(MOVIE_FEATURE_COUNT + MOVIE_COUNT);
+		
+		Double[][] userVar  = getPriorVar(USER_FEATURE_COUNT + USER_COUNT);
+		Double[][] movieVar = getPriorVar(MOVIE_FEATURE_COUNT + MOVIE_COUNT);
 		
 		getAverages(ratings, userMovies);
 		
@@ -92,8 +102,8 @@ public class LBFGSFeatureMF extends MovieLens
 			}
 		}
 		
-		//Gradient Descent
-		minimize(normalizedRatings, userMatrix, movieMatrix, userFeatures, movieFeatures, /*userTraits, movieTraits*/ testData, userMovies);
+		// Learning via Bayesian updates
+		bayesianUpdate(normalizedRatings, userMatrix, movieMatrix, userVar, movieVar, userFeatures, movieFeatures, /*userTraits, movieTraits*/ testData, userMovies);
 
 		HashMap<Integer, Double[]> userTraits = getTraitVectors(userMatrix, userFeatures);
 		HashMap<Integer, Double[]> movieTraits = getTraitVectors(movieMatrix, movieFeatures);
@@ -115,7 +125,7 @@ public class LBFGSFeatureMF extends MovieLens
 			
 			double itemAverage = itemAverages.containsKey(testMovieId) ? itemAverages.get(testMovieId) : totalAverage;
 			double userAverage = userAverages.containsKey(testUserId) ? userAverages.get(testUserId) : totalAverage;
-			
+
 			if (USE_ITEM_NORM)
 				prediction += itemAverage;
 			else
@@ -158,6 +168,24 @@ public class LBFGSFeatureMF extends MovieLens
 		return traitVectors;
 	}
 	
+	public Double[] getTraitVector(Double[][] matrix, Double[] feature, int id)
+	{
+		//Double[] feature = features.get(id);
+		Double[] vector = new Double[DIMENSION_COUNT];
+		
+		for (int x = 0; x < DIMENSION_COUNT; x++) {
+			vector[x] = 0.0;
+			
+			for (int y = 0; y < feature.length; y++) {
+				vector[x] += matrix[x][y] * feature[y];
+			}
+			
+			vector[x] += matrix[x][feature.length + (id-1)];
+		}
+			
+		return vector;
+	}
+	
 	public double predict(Double[] userTraitVector, Double[] movieTraitVector)
 	{
 		double prediction = 0;
@@ -169,203 +197,204 @@ public class LBFGSFeatureMF extends MovieLens
 		return prediction;
 	}
 	
-	public void minimize(HashMap<Integer, HashMap<Integer, Double>> movieUserRatings, Double[][] userMatrix, Double[][] movieMatrix, 
+	public void bayesianUpdate(HashMap<Integer, HashMap<Integer, Double>> movieUserRatings, Double[][] userMatrix, Double[][] movieMatrix, 
+							Double[][] userVar, Double[][] movieVar,
 							HashMap<Integer, Double[]> userFeatures, HashMap<Integer, Double[]> movieFeatures, 
 							//HashMap<Integer, Double[]> userTraits, HashMap<Integer, Double[]> movieTraits,
 							HashMap<Integer[], Double> testData, HashMap<Integer, HashSet<Integer>> userMovies)
 		throws Exception
 	{
-		boolean go = true;	
-		int iterations = 0;
-		int userVars = DIMENSION_COUNT * (USER_FEATURE_COUNT + USER_COUNT);
-		int movieVars = DIMENSION_COUNT * (MOVIE_FEATURE_COUNT + MOVIE_COUNT);
-		
-		int[] iprint = {0,0};
-		int[] iflag = {0};
-		double[] diag = new double[userVars + movieVars];
-		for (int x = 0; x < diag.length; x++) {
-			diag[x] = 0;
-		}
-		
-		double oldError = Double.MAX_VALUE;
-		
-		while (go) {
-			iterations++;
+		for (int iter = 0; iter < BAYESIAN_UPDATE_ITER; iter++) {
+			
+			System.out.println("Bayesian update iteration: " + iter);
+			//iterations++;
+					
+			int num_ratings = 0;
+	        for (int j : movieUserRatings.keySet()) {
+	        	HashMap<Integer, Double> userRatings = movieUserRatings.get(j);
+	        	
+	        	for (int i : userRatings.keySet()) {
+	        		double true_rating = userRatings.get(i);
+	        		//double predicted_rating = predict(userTraits.get(i), movieTraits.get(j));	        		
+	        		//error += Math.pow(trueRating - predictedRating, 2);
+	        		
+        			bayUpdateU(userMatrix, userVar, movieMatrix, movieVar, 
+							userFeatures.get(i), i, movieFeatures.get(j), j, 
+							true_rating);
+	        			
+					bayUpdateV(userMatrix, userVar, movieMatrix, movieVar, 
+							userFeatures.get(i), i, movieFeatures.get(j), j, 
+							true_rating);
+					
+					//if (++num_ratings % 1000 == 0) 
+					//	System.out.println("Completed " + num_ratings + " updates!");
+	        	}
+	        }
+
+			// Diagnostics
+			System.out.println("Iterations: " + iter);
 			HashMap<Integer, Double[]> userTraits = getTraitVectors(userMatrix, userFeatures);
 			HashMap<Integer, Double[]> movieTraits = getTraitVectors(movieMatrix, movieFeatures);
-			
-			Double[][] userDerivative = new Double[DIMENSION_COUNT][USER_FEATURE_COUNT + USER_COUNT];
-			Double[][] movieDerivative = new Double[DIMENSION_COUNT][MOVIE_FEATURE_COUNT + MOVIE_COUNT];
-			
-			System.out.println("Iterations: " + iterations);
-		
-			//Get user derivatives
-			for (int k = 0; k < DIMENSION_COUNT; k++) {
-				for (int l = 0; l < USER_FEATURE_COUNT + USER_COUNT; l++) {
-					if (l < USER_FEATURE_COUNT) {
-						userDerivative[k][l] = getErrorDerivativeOverUserAttribute(userMatrix, userFeatures, userTraits, movieTraits, movieUserRatings, k, l);
-					}
-					else {
-						userDerivative[k][l] = getErrorDerivativeOverUserId(userMatrix, userTraits, movieTraits, movieUserRatings, userMovies, k, l);
-					}
-				}
-			}
-			
-			//Get movie derivatives
-			for (int q = 0; q < DIMENSION_COUNT; q++) {
-				for (int l = 0; l < MOVIE_FEATURE_COUNT + MOVIE_COUNT; l++) {
-					if (l < MOVIE_FEATURE_COUNT) {
-						movieDerivative[q][l] = getErrorDerivativeOverMovieAttribute(movieMatrix, movieFeatures, userTraits, movieTraits, movieUserRatings, q, l);
-					}
-					else {
-						movieDerivative[q][l] = getErrorDerivativeOverMovieId(movieMatrix, userTraits, movieTraits, movieUserRatings, q, l);
-					}
-				}
-			}
-			
-			
-			double[] variables = new double[userVars + movieVars];
-			int index = 0;
-			for (int x = 0; x < DIMENSION_COUNT; x++) {
-				for (int y = 0; y < USER_FEATURE_COUNT + USER_COUNT; y++) {
-					variables[index++] = userMatrix[x][y];
-				}
-			}
-			for (int x = 0; x < DIMENSION_COUNT; x++) {
-				for (int y = 0; y < MOVIE_FEATURE_COUNT + MOVIE_COUNT; y++) {
-					variables[index++] = movieMatrix[x][y];
-				}
-			}
-			
-			double[] derivatives = new double[userVars + movieVars];
-			index = 0;
-			for (int x = 0; x < DIMENSION_COUNT; x++) {
-				for (int y = 0; y < USER_FEATURE_COUNT + USER_COUNT; y++) {
-					derivatives[index++] = userDerivative[x][y];
-				}
-			}
-			for (int x = 0; x < DIMENSION_COUNT; x++) {
-				for (int y = 0; y < MOVIE_FEATURE_COUNT + MOVIE_COUNT; y++) {
-					derivatives[index++] = movieDerivative[x][y];
-				}
-			}
-			
 			double error = getError(userMatrix, movieMatrix, userTraits, movieTraits, movieUserRatings);
 			double evalRMSE = calculateRMSE(testData, userMatrix, movieMatrix, userTraits, movieTraits);
 			double evalMAE  = calculateMAE(testData, userMatrix, movieMatrix, userTraits, movieTraits);
 			System.out.println("New Error: " + error);
 			System.out.println("RMSE: " + evalRMSE);
 			System.out.println("MAE:  " + evalMAE);
-			System.out.println("");
+			System.out.println();
+		}
+	}
+	
+	public void bayUpdateU(
+			Double[][] userMatrix, Double[][] userVar, 
+			Double[][] movieMatrix, Double[][] movieVar, 
+			Double[] userFeatures, int user_id, 
+			Double[] movieFeatures, int movie_id,
+			double actual_rating)
+	{
+		// Get latent projections -- note that we do not update these after each U update
+		//                           (this should introduce less ordering bias)
+		Double[] mu_sk  = getTraitVector(userMatrix, userFeatures, user_id);
+		Double[] var_sk = getTraitVector(userVar, userFeatures, user_id);
+		Double[] tk = getTraitVector(movieMatrix, movieFeatures, movie_id);
+
+		// Precompute shared messages
+		double[] mu_zk = new double[DIMENSION_COUNT];
+		double[] var_zk = new double[DIMENSION_COUNT];
+		double sum_mu_zk = 0d;
+		double sum_var_zk = 0d;
+		for (int k = 0; k < DIMENSION_COUNT; k++) {
+			mu_zk[k] = tk[k] * mu_sk[k];
+			var_zk[k] = tk[k] * tk[k] * var_sk[k];
 			
-			LBFGS.lbfgs(variables.length, 5, variables, error, derivatives,
-					false, diag, iprint, STEP_CONVERGENCE,
-					1e-15, iflag);
+			sum_mu_zk += mu_zk[k];
+			sum_var_zk += var_zk[k];
+		}
+
+		// Update each U[k][feature_index]
+		for (int k = 0; k < DIMENSION_COUNT; k++) {
+			double mu_sk_ret  = (actual_rating - (sum_mu_zk - mu_zk[k])) / tk[k];
+			double var_sk_ret = (BETA*BETA + (sum_var_zk - var_zk[k])) / (tk[k] * tk[k]);
 			
-			index = 0;
-			for (int x = 0; x < DIMENSION_COUNT; x++) {
-				for (int y = 0; y < USER_FEATURE_COUNT + USER_COUNT; y++) {
-					userMatrix[x][y] = variables[index++];
+			// Get relevant dimensions for this user_id
+			for (int l = 0; l < USER_FEATURE_COUNT + 1; l++) {
+				int feature_index = -1;
+				if (l < USER_FEATURE_COUNT) {
+					if (userFeatures[l] == 0d)
+						continue; // This feature is zero, no need to update
+
+					if (userFeatures[l] != 1d) {
+						System.out.println("ERROR: User feature[" + l + "] is " + userFeatures[l] + " -- not 0 or 1");
+						System.exit(1);
+					}
+					feature_index = l;
+
+				} else {
+					// int userId = y - USER_FEATURE_COUNT + 1;
+					feature_index = USER_FEATURE_COUNT + user_id - 1;
+				}
+
+				// Compute update -- should we delay these?  Probably won't matter
+				// since this feature_index is only used *here* given the way that
+				// updates are subtracted off.				
+				double mu1  = userMatrix[k][feature_index];
+				double var1 = userVar[k][feature_index];
+
+				double mu2  = mu_sk_ret - (mu_sk[k] - userMatrix[k][feature_index]);
+				double var2 = var_sk_ret + (var_sk[k] - userVar[k][feature_index]);
+
+				userMatrix[k][feature_index] = ((mu1 * var2) + (mu2 * var1)) / (var1 + var2);
+				userVar[k][feature_index] = 1d / ((1d / var1) + (1d / var2));
+				
+				//if (true) continue;
+				if (Math.abs(userMatrix[k][feature_index]) > 100d ||
+					Math.abs(userVar[k][feature_index]) > 100d ||
+					Math.abs(userVar[k][feature_index]) < MIN_VARIANCE) {
+					//System.err.println("WARNING:  Mu U[" + k + "][" + feature_index + "] = " + Math.abs(userMatrix[k][feature_index]));
+					//System.err.println("         Var U[" + k + "][" + feature_index + "] = " + Math.abs(userVar[k][feature_index]));
+					
+					if (Math.abs(userVar[k][feature_index]) < MIN_VARIANCE)
+						userVar[k][feature_index] = MIN_VARIANCE;
 				}
 			}
-			for (int x = 0; x < DIMENSION_COUNT; x++) {
-				for (int y = 0; y < MOVIE_FEATURE_COUNT + MOVIE_COUNT; y++) {
-					 movieMatrix[x][y] = variables[index++];
+		}
+	}
+	
+	public void bayUpdateV(
+			Double[][] userMatrix, Double[][] userVar, 
+			Double[][] movieMatrix, Double[][] movieVar, 
+			Double[] userFeatures, int user_id, 
+			Double[] movieFeatures, int movie_id,
+			double actual_rating)
+	{
+		// Get latent projections -- note that we do not update these after each U update
+		//                           (this should introduce less ordering bias)
+		Double[] mu_tk  = getTraitVector(movieMatrix, movieFeatures, movie_id);
+		Double[] var_tk = getTraitVector(movieVar, movieFeatures, movie_id);
+		Double[] sk = getTraitVector(userMatrix, userFeatures, user_id);
+
+		// Precompute shared messages
+		double[] mu_zk = new double[DIMENSION_COUNT];
+		double[] var_zk = new double[DIMENSION_COUNT];
+		double sum_mu_zk = 0d;
+		double sum_var_zk = 0d;
+		for (int k = 0; k < DIMENSION_COUNT; k++) {
+			mu_zk[k] = sk[k] * mu_tk[k];
+			var_zk[k] = sk[k] * sk[k] * var_tk[k];
+			
+			sum_mu_zk += mu_zk[k];
+			sum_var_zk += var_zk[k];
+		}
+
+		// Update each V[k][feature_index]
+		for (int k = 0; k < DIMENSION_COUNT; k++) {
+			double mu_tk_ret  = (actual_rating - (sum_mu_zk - mu_zk[k])) / sk[k];
+			double var_tk_ret = (BETA*BETA + (sum_var_zk - var_zk[k])) / (sk[k] * sk[k]);
+			
+			// Get relevant dimensions for this movie_id
+			for (int l = 0; l < MOVIE_FEATURE_COUNT + 1; l++) {
+				int feature_index = -1;
+				if (l < MOVIE_FEATURE_COUNT) {
+					if (movieFeatures[l] == 0d)
+						continue; // This feature is zero, no need to update
+
+					if (movieFeatures[l] != 1d) {
+						System.out.println("ERROR:Movie feature[" + l + "] is " + movieFeatures[l] + " -- not 0 or 1");
+						System.exit(1);
+					}
+					feature_index = l;
+
+				} else {
+					feature_index = MOVIE_FEATURE_COUNT + movie_id - 1;
+				}
+
+				// Compute update -- should we delay these?  Probably won't matter
+				// since this feature_index is only used *here* given the way that
+				// updates are subtracted off.				
+				double mu1  = movieMatrix[k][feature_index];
+				double var1 = movieVar[k][feature_index];
+
+				double mu2  = mu_tk_ret - (mu_tk[k] - movieMatrix[k][feature_index]);
+				double var2 = var_tk_ret + (var_tk[k] - movieVar[k][feature_index]);
+
+				movieMatrix[k][feature_index] = ((mu1 * var2) + (mu2 * var1)) / (var1 + var2);
+				movieVar[k][feature_index] = 1d / ((1d / var1) + (1d / var2));
+				
+				if (Math.abs(movieMatrix[k][feature_index]) > 100d ||
+					Math.abs(movieVar[k][feature_index]) > 100d ||
+					Math.abs(movieVar[k][feature_index]) < MIN_VARIANCE) {
+						//System.err.println("WARNING:  Mu V[" + k + "][" + feature_index + "] = " + Math.abs(movieMatrix[k][feature_index]));
+						//System.err.println("         Var V[" + k + "][" + feature_index + "] = " + Math.abs(movieVar[k][feature_index]));
+						
+						if (Math.abs(movieVar[k][feature_index]) < MIN_VARIANCE)
+							movieVar[k][feature_index] = MIN_VARIANCE;
 				}
 			}
-			
-			if (iflag[0] == 0 || Math.abs(oldError - error) < STEP_CONVERGENCE) go = false;
-			
-			oldError = error;
 		}
 	}
+
 	
-	// Hopefully I did the deriviations right. Again
-	public double getErrorDerivativeOverUserAttribute(Double[][] userMatrix, HashMap<Integer, Double[]> userFeatures,
-														HashMap<Integer, Double[]> userTraits, HashMap<Integer, Double[]> movieTraits,
-														HashMap<Integer, HashMap<Integer, Double>> movieUserRatings, int x, int y)
-	{
-		double errorDerivative = userMatrix[x][y] * lambdaU;
-		
-		for (int movieId : movieUserRatings.keySet()) {
-			HashMap<Integer, Double> userRatings = movieUserRatings.get(movieId);
-			
-			for (int userId : userRatings.keySet()) {
-				//System.out.println(movieTraits.get(movieId).length + " " + userFeatures.get(userId).length + " " + x + " " + y);
-				double dst = movieTraits.get(movieId)[x] * userFeatures.get(userId)[y];				
-				double p = predict(userTraits.get(userId), movieTraits.get(movieId));
-				double r = userRatings.get(userId);
-				
-				errorDerivative += (r - p) * dst * -1;
-			}
-		}
-		
-		return errorDerivative;
-	}
-	public double getErrorDerivativeOverUserId(Double[][] userMatrix, HashMap<Integer, Double[]> userTraits, HashMap<Integer, Double[]> movieTraits,
-													HashMap<Integer, HashMap<Integer, Double>> movieUserRatings, HashMap<Integer, HashSet<Integer>> userMovies,
-													int x, int y)
-	{
-		double errorDerivative = userMatrix[x][y] * lambdaU;
-		
-		int userId = y - USER_FEATURE_COUNT + 1;
-		HashSet<Integer> movies = userMovies.get(userId);
-		
-		for (int movieId : movies) {
-			double dst = movieTraits.get(movieId)[x];
-			double p = predict(userTraits.get(userId), movieTraits.get(movieId));
-			double r = movieUserRatings.get(movieId).get(userId);
-				
-			errorDerivative += (r - p) * dst * -1;
-		}
-		
-		return errorDerivative;
-	}
-	
-	public double getErrorDerivativeOverMovieAttribute(Double[][] movieMatrix, HashMap<Integer, Double[]> movieFeatures,
-														HashMap<Integer, Double[]> userTraits, HashMap<Integer, Double[]> movieTraits,
-														HashMap<Integer, HashMap<Integer, Double>> movieUserRatings, int x, int y)
-	{
-		double errorDerivative = movieMatrix[x][y] * lambdaV;
-		
-		for (int movieId : movieUserRatings.keySet()) {
-			HashMap<Integer, Double> userRatings = movieUserRatings.get(movieId);
-			
-			for (int userId : userRatings.keySet()) {
-				double dst = userTraits.get(userId)[x] * movieFeatures.get(movieId)[y];
-				double p = predict(userTraits.get(userId), movieTraits.get(movieId));
-				double r = movieUserRatings.get(movieId).get(userId);
-		
-				errorDerivative += (r - p) * dst * -1;
-			}
-		}
-		
-		return errorDerivative;
-	}
-	
-	public double getErrorDerivativeOverMovieId(Double[][] movieMatrix, HashMap<Integer, Double[]> userTraits, HashMap<Integer, Double[]> movieTraits,
-												HashMap<Integer, HashMap<Integer, Double>> movieUserRatings, int x, int y)
-	{
-		
-		
-		int movieId = y - MOVIE_FEATURE_COUNT + 1;
-		if (!movieUserRatings.containsKey(movieId)) return 0;
-		
-		double errorDerivative = movieMatrix[x][y] * lambdaV;
-		HashMap<Integer, Double> userRatings = movieUserRatings.get(movieId);
-		
-		for (int userId : userRatings.keySet()) {
-			double dst = userTraits.get(userId)[x];
-			double p = predict(userTraits.get(userId), movieTraits.get(movieId));
-			double r = movieUserRatings.get(movieId).get(userId);
-				
-			errorDerivative += (r - p) * dst * -1;
-		}
-		
-		return errorDerivative;
-	}
-	
-	public Double[][] getPrior(int feature_count)
+	public Double[][] getPriorMean(int feature_count)
 	{
 		Double[][] prior = new Double[DIMENSION_COUNT][feature_count];
 		
@@ -376,6 +405,19 @@ public class LBFGSFeatureMF extends MovieLens
 		}
 		
 		return prior;
+	}
+	
+	public Double[][] getPriorVar(int feature_count)
+	{
+		Double[][] priorVar = new Double[DIMENSION_COUNT][feature_count];
+		
+		for (int x = 0; x < DIMENSION_COUNT; x++) {
+			for (int y = 0; y < feature_count; y++) {
+				priorVar[x][y] = PRIOR_VARIANCE;
+			}
+		}
+		
+		return priorVar;
 	}
 	
 	public double getError(Double[][] userMatrix, Double[][] movieMatrix, 
@@ -423,7 +465,8 @@ public class LBFGSFeatureMF extends MovieLens
 	public static void main(String[] args)
 		throws Exception
 	{
-		new LBFGSFeatureMF().run(10);
+		//new BayesianFeatureMF().run(10);
+		new BayesianFeatureMF().run(1);
 	}
 	
 	public double calculateMAE(HashMap<Integer[], Double> data,
