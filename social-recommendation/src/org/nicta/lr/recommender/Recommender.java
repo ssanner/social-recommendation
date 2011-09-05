@@ -2,6 +2,7 @@ package org.nicta.lr.recommender;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -33,6 +34,7 @@ public abstract class Recommender
 	public abstract void train(Map<Long, Set<Long>> trainingSamples);
 	
 	public abstract Map<Long, Double> getAveragePrecisions(Map<Long, Set<Long>> testData);
+	public abstract Map<Long, Double[]> getPrecisionRecall(Map<Long, Set<Long>> testData, int boundary);
 	
 	public abstract Map<Long, Map<Long, Double>> recommend(Map<Long, Set<Long>> linksToRecommend);
 	
@@ -67,6 +69,42 @@ public abstract class Recommender
 		}
 		
 		return ap;
+	}
+	
+	public double getUserPrecision(Long[] ids, long userId)
+	{	
+		int truePos = 0;
+		for (int x = 0; x < ids.length; x++) {
+			long linkId = ids[x];
+		
+			if (linkLikes.containsKey(linkId) && linkLikes.get(linkId).contains(userId)) {
+				truePos++;
+			}
+		}
+	
+		return (double)truePos / (double)ids.length;
+	}
+	
+	public double getUserRecall(Long[] ids, long userId, Set<Long> testLinks)
+	{
+		
+		int truePos = 0;
+		for (int x = 0; x < ids.length; x++) {
+			long linkId = ids[x];
+		
+			if (linkLikes.containsKey(linkId) && linkLikes.get(linkId).contains(userId)) {
+				truePos++;
+			}
+		}
+	
+		int totalPos = 0;
+		for (long linkId : testLinks) {
+			if (linkLikes.containsKey(linkId) && linkLikes.get(linkId).contains(userId)) {
+				totalPos++;
+			}
+		}
+		
+		return (double)truePos / (double)totalPos;
 	}
 	
 	public Object[] sort(List<Double> scores, List<Long> linkIds)

@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
 import java.util.Set;
 import java.util.Map;
@@ -784,6 +785,50 @@ public abstract class MFRecommender extends Recommender
 		return averagePrecisions;
 	}
 	
+	public Map<Long, Double[]> getPrecisionRecall(Map<Long, Set<Long>> testData, int boundary)
+	{
+		Map<Long, Double[]> userTraits = getUserTraitVectors(userFeatureMatrix, userIdColumns, userFeatures);
+		Map<Long, Double[]> linkTraits = getLinkTraitVectors(linkFeatureMatrix, linkIdColumns, linkFeatures);
+		
+		HashMap<Long, Double[]> precisionRecalls = new HashMap<Long, Double[]>();
+		
+		HashSet<Long> combinedTest = new HashSet<Long>();
+		for (long userId : testData.keySet()) {
+			combinedTest.addAll(testData.get(userId));
+		}
+		
+		for (long userId : testData.keySet()) {
+			ArrayList<Double> scores = new ArrayList<Double>();
+			ArrayList<Long> linkIds = new ArrayList<Long>();
+			
+			for (long j : combinedTest) {
+				if (!linkTraits.containsKey(j)) continue;
+				double predictedLike = dot(userTraits.get(userId), linkTraits.get(j));
+			
+				scores.add(predictedLike);
+				linkIds.add(j);
+			}
+			
+			Object[] sorted = sort(scores, linkIds);
+			List<Long> idLength = (List<Long>)sorted[1];
+			
+			int limit = boundary;
+			if (idLength.size() < limit) limit = idLength.size();
+			
+			Long[] top = new Long[limit];
+			for (int x = 0; x < top.length; x++) {
+				top[x] = idLength.get(x);
+			}
+			
+			double precision = getUserPrecision(top, userId);
+			double recall = getUserRecall(top, userId, testData.get(userId));
+			
+			precisionRecalls.put(userId, new Double[]{precision, recall});
+		}
+		
+		return precisionRecalls;
+	}
+	
 	public void save()
 	{
 		
@@ -946,34 +991,22 @@ public abstract class MFRecommender extends Recommender
 		Object[] users = userLinkSamples.keySet().toArray();
 		HashMap<Long, Map<Long, Double>> connections = new HashMap<Long, Map<Long, Double>>();
 		
-		//ConnectionThread[] threads = new ConnectionThread[users.length];
-		
 		for (int x = 0; x < users.length; x++) {
-			//threads[x] = new ConnectionThread(x, users, userMatrix, idColumns, userFeatures, connections, this);
-			//threads[x].start();
-			
 			Long user1 = (Long)users[x];
+			//if (!userFeatures.containsKey(user1)) continue;
+			
 			HashMap<Long, Double> conn = new HashMap<Long, Double>();
 			
 			for (int y = x+1; y < users.length; y++) {
 				Long user2 = (Long)users[y];
+				//if (!userFeatures.containsKey(user2)) continue;
+				
 				conn.put(user2, predictConnection(userMatrix, idColumns, userFeatures, user1, user2));	
 			}
 			
 			connections.put(user1, conn);	
-
 		}
 
-		/*
-		for (int x = 0; x < users.length; x++) {
-			try {
-				threads[x].join();
-			}
-			catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-		*/
 		return connections;
 	}
 	
@@ -982,11 +1015,13 @@ public abstract class MFRecommender extends Recommender
 		HashMap<Long, Map<Long, Double>> predictions = new HashMap<Long, Map<Long, Double>>();
 		
 		for (long userId : userLinkSamples.keySet()) {
+			//if (!userTraits.containsKey(userId)) continue;
+			
 			Set<Long> links = userLinkSamples.get(userId);
 			HashMap<Long, Double> preds = new HashMap<Long, Double>();
 			
 			for (long linkId : links) {
-				if (!linkTraits.containsKey(linkId)) continue;
+				//if (!linkTraits.containsKey(linkId)) continue;
 				preds.put(linkId, dot(userTraits.get(userId), linkTraits.get(linkId)));
 			}
 			
@@ -1034,29 +1069,11 @@ public abstract class MFRecommender extends Recommender
 			xU[x] = 0.0;
 	
 			for (int y = 0; y < iFeature.length; y++) {
-				//System.out.println(iFeature[y] * userMatrix[x][y]);
-				//System.out.println("iFeature[y]: " + iFeature[y]);
-				//System.out.println("userMatrix[x][y] " + userMatrix[x][y]);
-				//System.out.println("xU[x]: " + xU[x]);
-				
 				xU[x] += iFeature[y] * userMatrix[x][y];
 			}
 	
-			//System.out.println(iColumn[x]);
 			xU[x] += iColumn[x];
-	
-			//System.out.print(xU[x] + " ");
 		}
-	
-		/*
-		xU[K] = 0.0;
-		for (int y = 0; y < iFeature.length; y++) {
-			xU[K] += iFeature[y] * userMatrix[x][y];
-		}
-		xU[K] += iColumn[x];
-		*/
-		
-		//System.out.println("");
 		
 		Double[] xUU = new Double[iFeature.length + 1];
 	
@@ -1064,29 +1081,20 @@ public abstract class MFRecommender extends Recommender
 			xUU[x] = 0.0;
 	
 			for (int y = 0; y < xU.length; y++) {
-				//System.out.println("xU[y]: " + xU[y] + " userMatrix[y][x]: " + userMatrix[y][x]);
 				xUU[x] += xU[y] * userMatrix[y][x];
 			}
-			//System.out.print(xUU[x] + " ");
 		}
 	
 		int index = iFeature.length;
 		xUU[index] = 0d;
 			
 		for (int y = 0; y < xU.length; y++) {
-			//System.out.println("xU[y]: " + xU[y] + " userMatrix[y][x]: " + jColumn[y]);
 			xUU[index] += xU[y] * jColumn[y];
 		}
-		
-		//System.out.print(xUU[index] + " ");
-		
-		//System.out.println("");
-	
 		
 		double connection = 0;
 	
 		for (int x = 0; x < jFeature.length; x++) {
-			//System.out.println("xUU[x]: " + xUU[x] + " jFeature[x]: " + jFeature[x]);
 			connection += xUU[x] * jFeature[x];
 		}
 		connection += xUU[jFeature.length];
