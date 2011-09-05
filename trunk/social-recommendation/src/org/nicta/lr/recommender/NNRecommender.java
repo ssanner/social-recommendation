@@ -4,6 +4,8 @@ package org.nicta.lr.recommender;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.Map;
 
@@ -22,6 +24,110 @@ public class NNRecommender extends Recommender
 	public void train(Map<Long, Set<Long>> trainSamples) 
 	{
 		userLinkSamples = trainSamples;
+	}
+	
+	public Map<Long, Double[]> getPrecisionRecall(Map<Long, Set<Long>> testData, int boundary)
+	{
+		HashMap<Long, Double[]> precisionRecalls = new HashMap<Long, Double[]>();
+		
+		HashSet<Long> combinedTest = new HashSet<Long>();
+		for (long userId : testData.keySet()) {
+			combinedTest.addAll(testData.get(userId));
+		}
+		
+		for (long userId : testData.keySet()) {
+			Double[] userFeature = userFeatures.get(userId);
+			
+			ArrayList<Double> scores = new ArrayList<Double>();
+			ArrayList<Long> ids = new ArrayList<Long>();
+			
+			for (long testId : combinedTest) {
+				Set<Long> likedUsers = linkLikes.get(testId);
+				if (likedUsers == null) {
+					scores.add(0.0);
+					ids.add(testId);
+					continue;
+				}
+				
+				//Holds the k=10 nearest neighbors
+				HashMap<Long, Double> kClosestDistance = new HashMap<Long, Double>();
+				
+				double biggestKDistance = 0;			
+				long biggestId = 0;
+				
+				for (long user : likedUsers) {
+					if (user == userId || !userFeatures.containsKey(user)) continue;
+					
+					Double[] likedFeature = userFeatures.get(user);
+					
+					double distance = getDistance(userFeature, likedFeature);
+					
+					if (kClosestDistance.size() < K) {
+						kClosestDistance.put(user, distance);
+						
+						if (distance > biggestKDistance) {
+							biggestKDistance = distance;
+							biggestId = user;
+						}
+					}
+					else if (distance < biggestKDistance) {
+						kClosestDistance.remove(biggestId);
+						kClosestDistance.put(user, distance);
+						
+						biggestKDistance = 0;
+						
+						//reset the biggest distance again
+						for (long id : kClosestDistance.keySet()) {
+							double d = kClosestDistance.get(id);
+							
+							if (d > biggestKDistance) {
+								biggestKDistance = distance;
+								biggestId = id;
+							}
+						}
+					}
+				}
+				
+				
+				double numerator = 0;
+				double denomenator = 0;
+				
+				for (long neighborId : kClosestDistance.keySet()) {				
+					double neighborSimilarity = kClosestDistance.get(neighborId);
+					double neighborRating = 0;
+					if (linkLikes.containsKey(neighborId) && linkLikes.get(neighborId).contains(userId)) neighborRating = 1;
+					
+					numerator += neighborSimilarity * neighborRating;
+					denomenator += neighborSimilarity;
+				}
+				
+				double prediction = 0;
+				if (denomenator > 0) prediction = numerator / denomenator;
+				
+				scores.add(prediction);
+				ids.add(testId);
+			}
+	
+			Object[] sorted = sort(scores, ids);
+			List<Long> idLength = (List<Long>)sorted[1];
+			
+			int limit = boundary;
+			if (idLength.size() < limit) limit = idLength.size();
+		
+			
+			Long[] top = new Long[limit];
+			for (int x = 0; x < top.length; x++) {
+				top[x] = idLength.get(x);
+			}
+			
+			
+			double precision = getUserPrecision(top, userId);
+			double recall = getUserRecall(top, userId, testData.get(userId));
+			
+			precisionRecalls.put(userId, new Double[]{precision, recall});
+		}
+		
+		return precisionRecalls;
 	}
 	
 	public Map<Long, Double> getAveragePrecisions(Map<Long, Set<Long>> testData)

@@ -3,6 +3,7 @@ package org.nicta.lr.recommender;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.ArrayList;
 import java.util.Map;
@@ -33,6 +34,103 @@ public class SVMRecommender extends Recommender
 	public void train(Map<Long, Set<Long>> trainSamples) 
 	{
 		model = trainSVMModel(trainSamples);	
+	}
+	
+	public Map<Long, Double[]> getPrecisionRecall(Map<Long, Set<Long>> testData, int boundary)
+	{
+		HashMap<Long, Double[]> precisionRecalls = new HashMap<Long, Double[]>();
+
+		HashSet<Long> combinedTest = new HashSet<Long>();
+		for (long userId : testData.keySet()) {
+			combinedTest.addAll(testData.get(userId));
+		}
+		
+		int count = 0;
+		for (long userId : testData.keySet()) {
+			count++;
+			System.out.println("Testing user: " + count);
+			Set<Long> userFriends;
+			if (friendships.containsKey(userId)) {
+				userFriends = friendships.get(userId).keySet();
+			}
+			else {
+				userFriends = new HashSet<Long>();
+			}
+			
+			ArrayList<Double> scores = new ArrayList<Double>();
+			ArrayList<Long> ids = new ArrayList<Long>();
+			
+			for (long linkId : combinedTest) {
+				double[] features = combineFeatures(userFeatures.get(userId), linkFeatures.get(linkId));
+				ArrayList<svm_node> nodeList = new ArrayList<svm_node>();
+				
+				for (int x = 0; x < features.length; x++) {
+					svm_node node = new svm_node();
+					node.index = x + 1;
+					node.value = features[x];
+					
+					nodeList.add(node);
+				}
+				
+				for (int x = 0; x < userIds.length; x++) {
+					if (userIds[x].equals(userId)) {
+						svm_node node = new svm_node();
+						node.index = features.length + x + 1;
+						node.value = 1;
+						
+						nodeList.add(node);
+					}
+					else if (userFriends.contains(userIds[x]) && linkLikes.containsKey(linkId) && linkLikes.get(linkId).contains(userIds[x])) {
+						svm_node node = new svm_node();
+						node.index = features.length + userIds.length + x + 1;
+						node.value = 1;
+						
+						nodeList.add(node);
+					}
+				}
+				
+				for (int x = 0; x < linkIds.length; x++) {
+					if (linkIds[x].equals(linkId)) {
+						svm_node node = new svm_node();
+						node.index = features.length + userIds.length + userIds.length + x + 1;
+						node.value = 1;
+						
+						nodeList.add(node);
+						break;
+					}
+				}
+				
+				svm_node nodes[] = new svm_node[nodeList.size()];
+				
+				for (int x = 0; x < nodes.length; x++) {
+					nodes[x] = nodeList.get(x);
+				}
+				
+				double[] dbl = new double[1]; 
+				svm.svm_predict_values(model, nodes, dbl);
+				
+				scores.add(dbl[0]);
+				ids.add(linkId);
+			}
+			
+			Object[] sorted = sort(scores, ids);
+			List<Long> idLength = (List<Long>)sorted[1];
+			
+			int limit = boundary;
+			if (idLength.size() < limit) limit = idLength.size();
+			
+			Long[] top = new Long[limit];
+			for (int x = 0; x < top.length; x++) {
+				top[x] = idLength.get(x);
+			}
+			
+			
+			double precision = getUserPrecision(top, userId);
+			double recall = getUserRecall(top, userId, testData.get(userId));
+			precisionRecalls.put(userId, new Double[]{precision, recall});
+		}
+		
+		return precisionRecalls;
 	}
 	
 	public Map<Long, Double> getAveragePrecisions(Map<Long, Set<Long>> testData)

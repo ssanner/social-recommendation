@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -24,13 +25,16 @@ public class IndSocialRecommender extends SocialRecommender
 		super(linkLikes, userFeatures, linkFeatures, friends);
 		
 		K = 5;
-		lambda = 1000;
-		C=50;
+		lambda = 10000;
+		C=10;
+		//beta = .0000000001;
 		
 		type = "social";
 		friendships = friends;
 		
 		appUserId = userId;
+		
+		System.out.println("APP USER: " + appUserId);
 		
 		if (Constants.DEPLOYMENT_TYPE == Constants.TEST || Constants.INITIALIZE) {
 			initializePriors(userFeatures.keySet(), linkFeatures.keySet());
@@ -267,6 +271,39 @@ public class IndSocialRecommender extends SocialRecommender
 			
 		double ap = getUserAP(sorted, appUserId);
 		return ap;
+	}
+	
+	public Double[] getPrecisionRecall(Set<Long> testLinks, int boundary)
+	{
+		Map<Long, Double[]> userTraits = getUserTraitVectors(userFeatureMatrix, userIdColumns, userFeatures);
+		Map<Long, Double[]> linkTraits = getLinkTraitVectors(linkFeatureMatrix, linkIdColumns, linkFeatures);
+			
+		ArrayList<Double> scores = new ArrayList<Double>();
+		ArrayList<Long> linkIds = new ArrayList<Long>();
+			
+		for (long j : testLinks) {
+			if (!linkTraits.containsKey(j)) continue;
+			double predictedLike = dot(userTraits.get(appUserId), linkTraits.get(j));
+				
+			scores.add(predictedLike);
+			linkIds.add(j);
+		}
+			
+		Object[] sorted = sort(scores, linkIds);
+		
+		List<Long> idLength = (List<Long>)sorted[1];
+		
+		int limit = boundary;
+		if (idLength.size() < limit) limit = idLength.size();
+		
+		Long[] top = new Long[limit];
+		for (int x = 0; x < top.length; x++) {
+			top[x] = idLength.get(x);
+		}
+		
+		double precision = getUserPrecision(top, appUserId);
+		double recall = getUserRecall(top, appUserId, testLinks);
+		return new Double[]{precision, recall};
 	}
 	
 	public double getError(Double[][] userFeatureMatrix, Double[][] linkFeatureMatrix, 

@@ -1,6 +1,7 @@
 package org.nicta.lr.recommender;
 
 import java.util.Set;
+import java.util.HashSet;
 import java.util.Map;
 
 import org.nicta.lr.util.Constants;
@@ -36,11 +37,29 @@ public class SocialRecommender extends MFRecommender
 	public void train(Map<Long, Set<Long>> trainSamples) 
 	{
 		try {
+			int linkCount = 0;
+			HashSet<Long> remove = new HashSet<Long>();
+			for (long trainId : trainSamples.keySet()) {
+				if (! userFeatures.containsKey(trainId)) {
+					remove.add(trainId);
+				}
+				else {
+					linkCount += trainSamples.get(trainId).size();
+				}
+			}
+		
+			for (long userId : remove) {
+				trainSamples.remove(userId);
+			}
+			
+			System.out.println("Train users: " + trainSamples.size());
+			System.out.println("Train links: " + linkCount);
 			friendConnections = UserUtil.getFriendInteractionMeasure(trainSamples.keySet());
 			//friendConnections = UserUtil.getFriendLikeSimilarity(userLinkSamples.keySet());
 			//friendConnections = friendships;
 			
 			//checkDerivative(trainSamples);
+			
 			
 			minimizeByThreadedLBFGS(trainSamples);
 			//minimizeByLBFGS(trainSamples);
@@ -135,11 +154,6 @@ public class SocialRecommender extends MFRecommender
 			                 
 			for (int b = a+1; b < keys.length; b++) {
 				Long uid2 = (Long)keys[b];
-			//}
-		//}
-		//for (long uid1 : connections.keySet()) {
-			//for (long uid2 : connections.keySet()) {
-				//if (uid1 == uid2) continue;	
 				
 				Double[] user1 = userFeatures.get(uid1);
 				Double[] user1Id = userIdColumns.get(uid1);

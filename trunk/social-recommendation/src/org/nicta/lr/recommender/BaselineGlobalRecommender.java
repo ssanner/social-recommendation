@@ -18,6 +18,11 @@ public class BaselineGlobalRecommender extends Recommender
 		//do nothing
 	}
 	
+	public Map<Long, Double[]> getPrecisionRecall(Map<Long, Set<Long>> testData, int boundary)
+	{
+		return null;
+	}
+	
 	public Map<Long, Double> getAveragePrecisions(Map<Long, Set<Long>> testData)
 	{
 		HashMap<Long, Double> averagePrecisions = new HashMap<Long, Double>();
