@@ -27,25 +27,10 @@ public class IndLinkRecommender  extends LinkRecommender
 		super(type);
 	}
 	
-	public static void main(String[] args)
-		throws Exception
-	{
-		System.out.println("Individual");
-		String type = "social";
-		if (args.length > 0) {
-			type = args[0];
-		}
-		
-		IndLinkRecommender lr = new IndLinkRecommender(type);
-		lr.run(1);
-		lr.run(10);
-		lr.run(50);
-		lr.run(100);
-	}
-	
 	public void run(double arg)
 		throws SQLException, IOException
 	{	
+		System.out.println("Individual Rec");
 		Set<Long> userIds = UserUtil.getUserIds();
 		Set<Long> linkIds = LinkUtil.getLinkIds(true);
 		
@@ -67,7 +52,16 @@ public class IndLinkRecommender  extends LinkRecommender
 			}
 		}
 		
-		Set<Long> appUsers = UserUtil.getAppUsersWithAlgorithm(type);
+		Set<Long> appUsers = UserUtil.getAppUserIds();
+		Set<Long> removeAppUsers = new HashSet<Long>();
+		
+		for (long appUserId : appUsers) {
+			if (!userIds.contains(appUserId)) {
+				removeAppUsers.add(appUserId);
+			}
+		}
+		appUsers.removeAll(removeAppUsers);
+		
 		Set<Long> usersNeeded = new HashSet<Long>();
 		usersNeeded.addAll(appUsers);
 		
@@ -77,6 +71,11 @@ public class IndLinkRecommender  extends LinkRecommender
 		System.out.println("Before app users: " + linksNeeded.size());
 		for (long appUserId : appUsers) {
 			Map<Long, Set<Long>> userLinkSamples = getUserLinksSample(linkLikes, userIds, friendships, linkUsers, true, appUserId);
+			
+			if (userLinkSamples == null) {
+				continue;
+			}
+			
 			usersNeeded.addAll(userLinkSamples.keySet());
 		
 			for (long id : userLinkSamples.keySet()) {
@@ -125,7 +124,8 @@ public class IndLinkRecommender  extends LinkRecommender
 		for (long appUserId : appUsers) {
 			Map<Long, Set<Long>> userLinkSamples = appUserLinkSamples.get(appUserId);
 			
-			Set<Long> userRemove = new HashSet<Long>();
+			if (userLinkSamples == null) continue;
+			
 			for (long userId : userLinkSamples.keySet()) {
 				Set<Long> samples = userLinkSamples.get(userId);
 				HashSet<Long> remove = new HashSet<Long>();
@@ -135,24 +135,37 @@ public class IndLinkRecommender  extends LinkRecommender
 					}
 				}
 				samples.removeAll(remove);
-				if (samples.size() < 4) userRemove.add(userId);
-			}
-			for (long userId : userRemove) {
-				userLinkSamples.remove(userId);
 			}
 		}
 		
 		SQLUtil.closeSqlConnection();
 		
-		Map<Long, Recommender> recommenders = new HashMap<Long, Recommender>();
-		
 		double map = 0;
-		Map<Long, Double> averagePrecisions = new HashMap<Long, Double>();
+		double meanPrecision100 = 0;
+		double meanPrecision200 = 0;
+		double meanRecall100 = 0;
+		double meanRecall200 = 0;
+		double meanF100 = 0;
+		double meanF200 = 0;
 		
+		Map<Long, Double> averagePrecisions = new HashMap<Long, Double>();
+		Map<Long, Double[]> precisionRecalls100 = new HashMap<Long, Double[]>();
+		Map<Long, Double[]> precisionRecalls200 = new HashMap<Long, Double[]>();
+		
+		HashSet<Long> combinedTest = new HashSet<Long>();
+		
+		for (long appUserId : appUserTestData.keySet()) {
+			combinedTest.addAll(appUserTestData.get(appUserId));
+		}
+		
+		int count = 0;
 		for (long appUserId : appUsers) {
+			if (! appUserLinkSamples.containsKey(appUserId)) continue;
+			
+			count++;
+			System.out.println("App user " + count + ": " + appUserId);
 			IndSocialRecommender recommender = (IndSocialRecommender)getRecommender(type, linkLikes, users, links, friendships, appUserId);
 			recommender.setC(arg);
-			recommenders.put(appUserId, recommender);
 			recommender.train(appUserLinkSamples.get(appUserId));
 			
 			if (Constants.DEPLOYMENT_TYPE == Constants.RECOMMEND) {
@@ -162,17 +175,31 @@ public class IndLinkRecommender  extends LinkRecommender
 				saveLinkRecommendations(friendRecommendations, nonFriendRecommendations, type, appUserId);
 				recommender.saveModel();
 				
-				SQLUtil.closeSqlConnection();
+				//SQLUtil.closeSqlConnection();
 			}
 			else if (Constants.DEPLOYMENT_TYPE == Constants.TEST){
 				if (! appUserTestData.containsKey(appUserId)) continue;
 				
 				double ap = recommender.getAveragePrecision(appUserTestData.get(appUserId));
+				
+				Double[] precisionRecall100 = recommender.getPrecisionRecall(combinedTest, 100);
+				Double[] precisionRecall200 = recommender.getPrecisionRecall(combinedTest, 200);
+				
 				averagePrecisions.put(appUserId, ap);
+				precisionRecalls100.put(appUserId, precisionRecall100);
+				precisionRecalls200.put(appUserId, precisionRecall200);
 				
 				System.out.println("AP: " + ap);
 				
 				map += ap;
+				
+				meanPrecision100 += precisionRecall100[0];
+				meanPrecision200 += precisionRecall200[0];
+				meanRecall100 += precisionRecall100[1];
+				meanRecall200 += precisionRecall200[1];
+				
+				meanF100 += (precisionRecall100[0] + precisionRecall100[1] > 0) ? 2 * (precisionRecall100[0] * precisionRecall100[1]) / (precisionRecall100[0] + precisionRecall100[1]) : 0;
+				meanF200 += (precisionRecall200[0] + precisionRecall200[1] > 0) ? 2 * (precisionRecall200[0] * precisionRecall200[1]) / (precisionRecall200[0] + precisionRecall200[1]) : 0;
 			}
 			
 		}
@@ -180,18 +207,98 @@ public class IndLinkRecommender  extends LinkRecommender
 		if (Constants.DEPLOYMENT_TYPE == Constants.TEST) {
 			map /= (double)averagePrecisions.size();
 			
+			meanPrecision100 /= (double)averagePrecisions.size();
+			meanPrecision200 /= (double)averagePrecisions.size();
+			meanRecall100 /= (double)averagePrecisions.size();
+			meanRecall200 /= (double)averagePrecisions.size();
+			meanF100 /= (double)averagePrecisions.size();
+			meanF200 /= (double)averagePrecisions.size();
+			
+	
+			double precisionStandardDev100 = 0;
+			double precisionStandardDev200 = 0;
+			double recallStandardDev100 = 0;
+			double recallStandardDev200 = 0;
+			double fStandardDev100 = 0;
+			double fStandardDev200 = 0;
+			
 			double standardDev = 0;
 			for (long userId : averagePrecisions.keySet()) {
 				double pre = averagePrecisions.get(userId);
 				standardDev += Math.pow(pre - map, 2);
+				
+				Double[] precisionRecall100 = precisionRecalls100.get(userId);
+				Double[] precisionRecall200 = precisionRecalls200.get(userId);
+				
+				double precision100 = precisionRecall100[0];
+				double precision200 = precisionRecall200[0];
+				double recall100 = precisionRecall100[1];
+				double recall200 = precisionRecall200[1];
+				
+				double f100 = (precision100 + recall100 > 0) ? 2 * (precision100 * recall100) / (precision100 + recall100) : 0;
+				double f200 = (precision200 + recall200 > 0) ? 2 * (precision200 * recall200) / (precision200 + recall200) : 0;
+				precisionStandardDev100 += Math.pow(precision100 - meanPrecision100, 2);
+				recallStandardDev100 += Math.pow(recall100 - meanRecall100, 2);
+				precisionStandardDev200 += Math.pow(precision200 - meanPrecision200, 2);
+				recallStandardDev200 += Math.pow(recall200 - meanRecall200, 2);
+				
+				fStandardDev100 += Math.pow(f100 - meanF100, 2);
+				fStandardDev200 += Math.pow(f200 - meanF200, 2);
 			}
 			standardDev /= (double)averagePrecisions.size();
 			standardDev = Math.sqrt(standardDev);
+			
+			precisionStandardDev100 /= (double)averagePrecisions.size();
+			precisionStandardDev100 = Math.sqrt(precisionStandardDev100);
+			recallStandardDev100 /= (double)averagePrecisions.size();
+			recallStandardDev100 = Math.sqrt(recallStandardDev100);
+			precisionStandardDev200 /= (double)averagePrecisions.size();
+			precisionStandardDev200 = Math.sqrt(precisionStandardDev200);
+			recallStandardDev200 /= (double)averagePrecisions.size();
+			recallStandardDev200 = Math.sqrt(recallStandardDev200);
+			fStandardDev100 /= (double)averagePrecisions.size();
+			fStandardDev100 = Math.sqrt(fStandardDev100);
+			fStandardDev200 /= (double)averagePrecisions.size();
+			fStandardDev200 = Math.sqrt(fStandardDev200);
+			
 			double standardError = standardDev / Math.sqrt(averagePrecisions.size());
+			
+			double precisionSE100 = precisionStandardDev100 / Math.sqrt(averagePrecisions.size());
+			double precisionSE200 = precisionStandardDev200 / Math.sqrt(averagePrecisions.size());
+			double recallSE100 = recallStandardDev100 / Math.sqrt(averagePrecisions.size());
+			double recallSE200 = recallStandardDev200 / Math.sqrt(averagePrecisions.size());
+			double fSE100 = fStandardDev100 / Math.sqrt(averagePrecisions.size());
+			double fSE200 = fStandardDev200 / Math.sqrt(averagePrecisions.size());
+			
+			
 			
 			System.out.println("MAP: " + map);
 			System.out.println("SD: " + standardDev);
 			System.out.println("SE: " + standardError);
+			
+			System.out.println("Mean Precision 100: " + meanPrecision100);
+			System.out.println("SD: " + precisionStandardDev100);
+			System.out.println("SE: " + precisionSE100);
+			
+			System.out.println("Mean Recall 100: " + meanRecall100);
+			System.out.println("SD: " + recallStandardDev100);
+			System.out.println("SE: " + recallSE100);
+			
+			System.out.println("Mean F1 100: " + meanF100);
+			System.out.println("SD: " + fStandardDev100);
+			System.out.println("SE: " + fSE100);
+			
+			System.out.println("Mean Precision 200: " + meanPrecision200);
+			System.out.println("SD: " + precisionStandardDev200);
+			System.out.println("SE: " + precisionSE200);
+			
+			System.out.println("Mean Recall 200: " + meanRecall200);
+			System.out.println("SD: " + recallStandardDev200);
+			System.out.println("SE: " + recallSE200);
+			
+			System.out.println("Mean F1 200: " + meanF200);
+			System.out.println("SD: " + fStandardDev200);
+			System.out.println("SE: " + fSE200);
 		}
 		
 		System.out.println("Done");
@@ -211,6 +318,8 @@ public class IndLinkRecommender  extends LinkRecommender
 	public static Map<Long, Set<Long>> getUserLinksSample(Map<Long, Set<Long>> linkLikes, Set<Long> userIds, Map<Long, Map<Long, Double>> friendships, Map<Long, Long[]> links, boolean limit, long appUserId)
 		throws SQLException
 	{
+		if (!friendships.containsKey(appUserId)) return null;
+		
 		HashMap<Long, Set<Long>> userLinkSamples = new HashMap<Long, Set<Long>>();
 		
 		Connection conn = SQLUtil.getSqlConnection();
@@ -220,6 +329,7 @@ public class IndLinkRecommender  extends LinkRecommender
 		
 		HashSet<Long> includedUsers = new HashSet<Long>();
 		includedUsers.add(appUserId);
+		
 		Set<Long> appUserFriends = friendships.get(appUserId).keySet();
 		includedUsers.addAll(appUserFriends);
 		for (long friendId : appUserFriends) {

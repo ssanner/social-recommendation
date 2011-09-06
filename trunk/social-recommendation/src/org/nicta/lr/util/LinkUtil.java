@@ -79,6 +79,34 @@ public class LinkUtil
 		return feature;
 	}
 	
+	public static Map<Long, String[]> getLinkText(Set<Long> ids)
+		throws SQLException
+	{
+		HashMap<Long, String[]> feature = new HashMap<Long, String[]>();
+		
+		StringBuffer buf = new StringBuffer("SELECT message, description, link_id FROM linkrLinks WHERE link_id IN (0");
+		for (long id : ids) {
+			buf.append(",");
+			buf.append(id);
+		}
+		buf.append(")");
+		
+		Connection conn = SQLUtil.getSqlConnection();
+		Statement statement = conn.createStatement();
+		ResultSet result = statement.executeQuery(buf.toString());
+		while (result.next()) {
+			String[] link = new String[2];
+			link[0] = result.getString("message");
+			link[1] = result.getString("description");
+			
+			feature.put(result.getLong("link_id"), link);
+		}
+		
+		statement.close();
+		return feature;
+	}
+
+	
 	public static Map<Long, Double[]> getLinkFeatures(Set<Long> limit)
 		throws SQLException
 	{

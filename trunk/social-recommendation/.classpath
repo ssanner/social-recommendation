@@ -11,5 +11,7 @@
 	<classpathentry kind="lib" path="lib/maxent-2.5.2.jar"/>
 	<classpathentry kind="lib" path="lib/trove.jar"/>
 	<classpathentry kind="lib" path="lib/libsvm.jar"/>
+	<classpathentry kind="lib" path="lib/jsonic-1.2.6.jar"/>
+	<classpathentry kind="lib" path="lib/langdetect.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

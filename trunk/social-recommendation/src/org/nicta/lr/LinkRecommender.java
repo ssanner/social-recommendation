@@ -24,6 +24,10 @@ import org.nicta.lr.util.LinkUtil;
 import org.nicta.lr.util.UserUtil;
 import org.nicta.lr.util.SQLUtil;
 
+import com.cybozu.labs.langdetect.DetectorFactory;
+import com.cybozu.labs.langdetect.Detector;
+import com.cybozu.labs.langdetect.LangDetectException;
+
 public class LinkRecommender 
 {
 	String type;
@@ -44,9 +48,19 @@ public class LinkRecommender
 			type = args[0];
 		}
 		
+		//IndLinkRecommender lr = new IndLinkRecommender(type);
 		LinkRecommender lr = new LinkRecommender(type);
-		
 		lr.run();
+		
+		//lr.run(1);
+		//lr.run(10);
+		//lr.run(20);
+		//lr.run(50);
+		
+		//lr.run(1);
+		//lr.run(10);
+		//lr.run(50);
+		//lr.run(100);
 		
 		//lr.run(.00001);
 		//lr.run(.000001);
@@ -54,6 +68,11 @@ public class LinkRecommender
 		//lr.run(.00000001);
 		//lr.run(.000000001);
 		//lr.run(.0000000001);
+	
+		//lr.run(100);
+		//lr.run(1000);
+		//lr.run(10000);
+		//lr.run(100000);
 		
 		//lr.run(Math.pow(2, -5));
 		//lr.run(Math.pow(2, -3));
@@ -83,7 +102,7 @@ public class LinkRecommender
 		
 		Map<Long, Set<Long>> userLinkSamples = getUserLinksSample(linkLikes, userIds, friendships, linkUsers, true, false);
 		
-		Set<Long> appUsers = UserUtil.getAppUsersWithAlgorithm(type);   //UserUtil.getAppUserIds();
+		Set<Long> appUsers = /*UserUtil.getAppUsersWithAlgorithm(type); */ UserUtil.getAppUserIds();
 		
 		Set<Long> usersNeeded = new HashSet<Long>();
 		usersNeeded.addAll(appUsers);
@@ -103,9 +122,61 @@ public class LinkRecommender
 			friendLinksToRecommend = getFriendLinksForRecommending(friendships, type);
 			nonFriendLinksToRecommend = getNonFriendLinksForRecommending(friendships, type);
 			
+			
+			HashSet<Long> recommendingIds = new HashSet<Long>();
+			
 			for (long id : nonFriendLinksToRecommend.keySet()) {
-				linksNeeded.addAll(nonFriendLinksToRecommend.get(id));
-				linksNeeded.addAll(friendLinksToRecommend.get(id));
+				recommendingIds.addAll(nonFriendLinksToRecommend.get(id));
+				recommendingIds.addAll(friendLinksToRecommend.get(id));
+			}
+			
+			Map<Long, String[]> linkWords = LinkUtil.getLinkText(recommendingIds);
+			try {
+				DetectorFactory.loadProfile(Constants.LANG_PROFILE_FOLDER);
+			}
+			catch(LangDetectException e) {
+				e.printStackTrace();
+			}
+			
+			//Remove non-English links
+			HashSet<Long> removeNonEnglish = new HashSet<Long>();
+			for (long id : linkWords.keySet()) {
+				String[] words = linkWords.get(id);
+				String message = words[0];
+				String description = words[1];
+				
+				try {
+					Detector messageDetector = DetectorFactory.create();
+					messageDetector.append(message);				
+					String messageLang = messageDetector.detect();
+					if (!messageLang.equals("en")) {
+						removeNonEnglish.add(id);
+						continue;
+					}
+						
+					Detector descriptionDetector = DetectorFactory.create();
+					descriptionDetector.append(description);
+					String descriptionLang = descriptionDetector.detect();
+					
+					if (!descriptionLang.equals("en")) {
+						removeNonEnglish.add(id);
+					}
+				}
+				catch (LangDetectException e) {
+					continue;
+				}
+			}
+			
+			System.out.println("Removing " + removeNonEnglish.size() + " non-English from " + recommendingIds.size() + " links");
+			for (long id : nonFriendLinksToRecommend.keySet()) {
+				Set<Long> nonFriendLinks = nonFriendLinksToRecommend.get(id);
+				Set<Long> friendLinks = friendLinksToRecommend.get(id);
+				
+				nonFriendLinks.removeAll(removeNonEnglish);
+				friendLinks.removeAll(removeNonEnglish);
+				
+				linksNeeded.addAll(nonFriendLinks);
+				linksNeeded.addAll(friendLinks);
 			}
 		}
 		else {
@@ -113,6 +184,7 @@ public class LinkRecommender
 			
 			Map<Long, Long[]> testLinkUsers = LinkUtil.getUnormalizedFeatures(testLinkIds);
 			Map<Long, Set<Long>> testLinkLikes = LinkUtil.getLinkLikes(testLinkUsers, true);
+			
 			
 			System.out.println("Likes: " + linkLikes.size());
 			for (long testId : testLinkLikes.keySet()) {
@@ -191,38 +263,170 @@ public class LinkRecommender
 		else if (Constants.DEPLOYMENT_TYPE == Constants.TEST){
 			Map<Long, Double> averagePrecisions = recommender.getAveragePrecisions(testData);
 			
+			Map<Long, Set<Long>> appUserTestData = new HashMap<Long, Set<Long>>();
+			for (long userId : testData.keySet()) {
+				if (appUsers.contains(userId)) {
+					appUserTestData.put(userId, testData.get(userId));
+				}
+			}
+					
+			Map<Long, Double[]> appUserPrecisionRecalls100 = recommender.getPrecisionRecall(appUserTestData, 100);
+			Map<Long, Double[]> appUserPrecisionRecalls200 = recommender.getPrecisionRecall(appUserTestData, 200);
+			
 			double map = 0;
 			double appUsersMap = 0;
 			int testedAppUserCount = 0;
+			
+			double meanPrecision100 = 0;
+			double meanPrecision200 = 0;
+			double meanRecall100 = 0;
+			double meanRecall200 = 0;
+			double meanF100 = 0;
+			double meanF200 = 0;
+			
 			for (long userId : averagePrecisions.keySet()) {
 				double pre = averagePrecisions.get(userId);
 	
 				map += pre;
 				if (appUsers.contains(userId)) {
+					
+					
 					if (pre == 0) System.out.println("App user 0 precision");
 					appUsersMap += pre;
 					testedAppUserCount++;
+					
+					///*
+					double precision100 = appUserPrecisionRecalls100.get(userId)[0];
+					double recall100 =  appUserPrecisionRecalls100.get(userId)[1];
+					double f100 = (precision100 + recall100 > 0) ? 2 * (precision100 * recall100) / (precision100 + recall100) : 0;
+					
+					System.out.println("AP: " + pre);
+					System.out.println("Precision 100: " + precision100);
+					System.out.println("Recall 100: " + recall100);
+					System.out.println("F100: " + f100);
+					
+					double precision200 = appUserPrecisionRecalls200.get(userId)[0];
+					double recall200 = appUserPrecisionRecalls100.get(userId)[1];
+					double f200 = (precision100 + recall100 > 0) ? 2 * (precision200 * recall200) / (precision200 + recall200) : 0;
+					
+					meanPrecision100 += precision100;
+					meanPrecision200 += precision200;
+					meanRecall100 += recall100;
+					meanRecall200 += recall200;
+					
+					meanF100 += f100;
+					meanF200 += f200;
+					//*/
 				}
 			}
 			
 			map /= (double)averagePrecisions.size();
 			appUsersMap /= (double)testedAppUserCount;
+			meanPrecision100 /= (double)testedAppUserCount;
+			meanPrecision200 /= (double)testedAppUserCount;
+			meanRecall100 /= (double)testedAppUserCount;
+			meanRecall200 /= (double)testedAppUserCount;
+			meanF100 /= (double)testedAppUserCount;
+			meanF200 /= (double)testedAppUserCount;
 			
 			double standardDev = 0;
+			double appStandardDev = 0;
+			double precisionStandardDev100 = 0;
+			double precisionStandardDev200 = 0;
+			double recallStandardDev100 = 0;
+			double recallStandardDev200 = 0;
+			double fStandardDev100 = 0;
+			double fStandardDev200 = 0;
+			
 			for (long userId : averagePrecisions.keySet()) {
 				double pre = averagePrecisions.get(userId);
 				standardDev += Math.pow(pre - map, 2);
+				
+				if (appUsers.contains(userId)) {
+					appStandardDev += Math.pow(pre - appUsersMap, 2);
+					
+					///*
+					Object[] precisionRecall100 = appUserPrecisionRecalls100.get(userId);
+					Object[] precisionRecall200 = appUserPrecisionRecalls200.get(userId);
+					
+					double precision100 = (Double)precisionRecall100[0];
+					double precision200 = (Double)precisionRecall200[0];
+					double recall100 = (Double)precisionRecall100[1];
+					double recall200 = (Double)precisionRecall200[1];
+					
+					double f100 = (precision100 + recall100 > 0) ? 2 * (precision100 * recall100) / (precision100 + recall100) : 0;
+					double f200 = (precision200 + recall200 > 0) ? 2 * (precision200 * recall200) / (precision200 + recall200) : 0;
+					precisionStandardDev100 += Math.pow(precision100 - meanPrecision100, 2);
+					recallStandardDev100 += Math.pow(recall100 - meanRecall100, 2);
+					precisionStandardDev200 += Math.pow(precision200 - meanPrecision200, 2);
+					recallStandardDev200 += Math.pow(recall200 - meanRecall200, 2);
+					
+					fStandardDev100 += Math.pow(f100 - meanF100, 2);
+					fStandardDev200 += Math.pow(f200 - meanF200, 2);
+					//*/
+				}
 			}
 			standardDev /= (double)averagePrecisions.size();
 			standardDev = Math.sqrt(standardDev);
-			double standardError = standardDev / Math.sqrt(averagePrecisions.size());
+			appStandardDev /= (double)testedAppUserCount;
+			appStandardDev = Math.sqrt(appStandardDev);
 			
+			precisionStandardDev100 /= (double)testedAppUserCount;
+			precisionStandardDev100 = Math.sqrt(precisionStandardDev100);
+			recallStandardDev100 /= (double)testedAppUserCount;
+			recallStandardDev100 = Math.sqrt(recallStandardDev100);
+			precisionStandardDev200 /= (double)testedAppUserCount;
+			precisionStandardDev200 = Math.sqrt(precisionStandardDev200);
+			recallStandardDev200 /= (double)testedAppUserCount;
+			recallStandardDev200 = Math.sqrt(recallStandardDev200);
+			fStandardDev100 /= (double)testedAppUserCount;
+			fStandardDev100 = Math.sqrt(fStandardDev100);
+			fStandardDev200 /= (double)testedAppUserCount;
+			fStandardDev200 = Math.sqrt(fStandardDev200);
+			
+			double standardError = standardDev / Math.sqrt(averagePrecisions.size());
+			double appStandardErr = appStandardDev / Math.sqrt(testedAppUserCount);
+			
+			double precisionSE100 = precisionStandardDev100 / Math.sqrt(testedAppUserCount);
+			double precisionSE200 = precisionStandardDev200 / Math.sqrt(testedAppUserCount);
+			double recallSE100 = recallStandardDev100 / Math.sqrt(testedAppUserCount);
+			double recallSE200 = recallStandardDev200 / Math.sqrt(testedAppUserCount);
+			double fSE100 = fStandardDev100 / Math.sqrt(testedAppUserCount);
+			double fSE200 = fStandardDev200 / Math.sqrt(testedAppUserCount);
 			
 			//System.out.println("K: " + arg);
 			System.out.println("MAP: " + map);
 			System.out.println("SD: " + standardDev);
 			System.out.println("SE: " + standardError);
 			System.out.println("App Users MAP: "+ appUsersMap);
+			System.out.println("App Users SD: " + appStandardDev);
+			System.out.println("App Users SE: " + appStandardErr);
+			
+			System.out.println("Mean Precision 100: " + meanPrecision100);
+			System.out.println("SD: " + precisionStandardDev100);
+			System.out.println("SE: " + precisionSE100);
+			
+			System.out.println("Mean Recall 100: " + meanRecall100);
+			System.out.println("SD: " + recallStandardDev100);
+			System.out.println("SE: " + recallSE100);
+			
+			System.out.println("Mean F1 100: " + meanF100);
+			System.out.println("SD: " + fStandardDev100);
+			System.out.println("SE: " + fSE100);
+			
+			System.out.println("Mean Precision 200: " + meanPrecision200);
+			System.out.println("SD: " + precisionStandardDev200);
+			System.out.println("SE: " + precisionSE200);
+			
+			System.out.println("Mean Recall 200: " + meanRecall200);
+			System.out.println("SD: " + recallStandardDev200);
+			System.out.println("SE: " + recallSE200);
+			
+			System.out.println("Mean F1 200: " + meanF200);
+			System.out.println("SD: " + fStandardDev200);
+			System.out.println("SE: " + fSE200);
+			
+		
 		}
 		
 		
@@ -274,36 +478,35 @@ public class LinkRecommender
 				friends = new HashSet<Long>();
 			}
 			
-			HashSet<Long> dontInclude = new HashSet<Long>();
+			HashSet<Long> dontIncludeIds = new HashSet<Long>();
+			HashSet<String> dontIncludeHashes = new HashSet<String>();
 			
 			// Don't recommend links that were already liked
 			result = statement.executeQuery("SELECT link_id FROM linkrLinkLikes WHERE id=" + id);
 			while (result.next()) {
-				dontInclude.add(result.getLong("link_id"));
+				dontIncludeIds.add(result.getLong("link_id"));
 			}
 			
-			System.out.println("First don't include: " + dontInclude.size());
+	
 			// Don't recommend links that are already pending recommendedation
 			result = statement.executeQuery("SELECT link_id FROM lrRecommendations WHERE user_id=" + id + " AND type='" + type + "'");
 			while(result.next()) {
-				dontInclude.add(result.getLong("link_id"));
+				dontIncludeIds.add(result.getLong("link_id"));
 			}
-			System.out.println("Second don't include: " + dontInclude.size());
+			
 			
 			//Don't recommend links that were already published by the app
-			result = statement.executeQuery("SELECT link_id FROM trackRecommendedLinks WHERE uid=" + id);
+			result = statement.executeQuery("SELECT link_hash FROM trackRecommendedLinks WHERE uid=" + id);
 			while (result.next()) {
-				dontInclude.add(result.getLong("link_id"));
+				dontIncludeHashes.add(result.getString("link_hash"));
 			}
-			System.out.println("Third don't include: " + dontInclude.size());
+
 			
 			//Don't recommend links that were clicked by the user
-			HashSet<String> linkClicked = new HashSet<String>();
-			result = statement.executeQuery("SELECT link FROM trackLinkClicked WHERE uid_clicked=" + id);
+			result = statement.executeQuery("SELECT link_hash FROM trackLinkClicked WHERE uid_clicked=" + id);
 			while (result.next()) {
-				linkClicked.add(result.getString("link"));
+				dontIncludeHashes.add(result.getString("link_hash"));
 			}
-			System.out.println("Fourth don't include: " + dontInclude.size());
 			
 			// Get the most recent links.
 			StringBuilder query = new StringBuilder("SELECT link_id FROM linkrLinks WHERE uid IN (0");
@@ -321,15 +524,15 @@ public class LinkRecommender
 			}
 			
 			query.append(") AND link_id NOT IN(0");
-			for (long linkIds : dontInclude) {
+			for (long linkIds : dontIncludeIds) {
 				query.append(",");
 				query.append(linkIds);
 			}
 			
-			query.append(") AND link NOT IN(''");
-			for (String link : linkClicked) {
+			query.append(") AND link_hash NOT IN(''");
+			for (String hash : dontIncludeHashes) {
 				query.append(",'");
-				query.append(link);
+				query.append(hash);
 				query.append("'");
 			}
 			
@@ -377,31 +580,31 @@ public class LinkRecommender
 				friends = new HashSet<Long>();
 			}
 			
-			HashSet<Long> dontInclude = new HashSet<Long>();
+			HashSet<Long> dontIncludeIds = new HashSet<Long>();
+			HashSet<String> dontIncludeHashes = new HashSet<String>();
 			
 			// Don't recommend links that were already liked
 			result = statement.executeQuery("SELECT link_id FROM linkrLinkLikes WHERE id=" + id);
 			while (result.next()) {
-				dontInclude.add(result.getLong("link_id"));
+				dontIncludeIds.add(result.getLong("link_id"));
 			}
 			
 			// Don't recommend links that are already pending recommendedation
 			result = statement.executeQuery("SELECT link_id FROM lrRecommendations WHERE user_id=" + id + " AND type='" + type + "'");
 			while(result.next()) {
-				dontInclude.add(result.getLong("link_id"));
+				dontIncludeIds.add(result.getLong("link_id"));
 			}
 			
 			//Don't recommend links that were already published by the app
-			result = statement.executeQuery("SELECT link_id FROM trackRecommendedLinks WHERE uid=" + id);
+			result = statement.executeQuery("SELECT link_hash FROM trackRecommendedLinks WHERE uid=" + id);
 			while (result.next()) {
-				dontInclude.add(result.getLong("link_id"));
+				dontIncludeHashes.add(result.getString("link_hash"));
 			}
 			
 			//Don't recommend links that were clicked by the user
-			HashSet<String> linkClicked = new HashSet<String>();
-			result = statement.executeQuery("SELECT link FROM trackLinkClicked WHERE uid_clicked=" + id);
+			result = statement.executeQuery("SELECT link_hash FROM trackLinkClicked WHERE uid_clicked=" + id);
 			while (result.next()) {
-				linkClicked.add(result.getString("link"));
+				dontIncludeHashes.add(result.getString("link_hash"));
 			}
 			
 			// Get the most recent links.
@@ -420,15 +623,15 @@ public class LinkRecommender
 			}
 			
 			query.append(") AND link_id NOT IN(0");
-			for (long linkIds : dontInclude) {
+			for (long linkIds : dontIncludeIds) {
 				query.append(",");
 				query.append(linkIds);
 			}
 			
-			query.append(") AND link NOT IN(''");
-			for (String link : linkClicked) {
+			query.append(") AND link_hash NOT IN(''");
+			for (String hash : dontIncludeHashes) {
 				query.append(",'");
-				query.append(link);
+				query.append(hash);
 				query.append("'");
 			}
 			
@@ -484,6 +687,8 @@ public class LinkRecommender
 			Iterator<Long> nonFriendIterator = nonFriendLinks.keySet().iterator();
 			
 			int maxLinks = nonFriendLinks.size();
+			if (friendLinks.size() > maxLinks) maxLinks = friendLinks.size();
+			
 			int count = 0;
 			
 			while (count < maxLinks) {
@@ -532,7 +737,7 @@ public class LinkRecommender
 	 * @return
 	 * @throws SQLException
 	 */
-	public static Map<Long, Set<Long>> getUserLinksSample(Map<Long, Set<Long>> linkLikes, Set<Long> userIds, Map<Long, Map<Long, Double>> friendships, Map<Long, Long[]> links, boolean limit, boolean forTesting)
+	public Map<Long, Set<Long>> getUserLinksSample(Map<Long, Set<Long>> linkLikes, Set<Long> userIds, Map<Long, Map<Long, Double>> friendships, Map<Long, Long[]> links, boolean limit, boolean forTesting)
 		throws SQLException
 	{
 		HashMap<Long, Set<Long>> userLinkSamples = new HashMap<Long, Set<Long>>();
@@ -567,6 +772,13 @@ public class LinkRecommender
 				continue;
 			}
 			
+			if (Constants.DEPLOYMENT_TYPE == Constants.RECOMMEND && type.equals(Constants.SVM)) {
+				if (samples.size() < 5) {
+					//remove.add(userId);
+					//continue;
+				}
+			}
+			
 			System.out.println("User: " + ++count + " " + samples.size());
 			
 			Set<Long> friends = friendships.get(userId).keySet();
@@ -580,6 +792,8 @@ public class LinkRecommender
 						samples.add(result.getLong("link_id"));
 					}
 				}
+				
+				
 			}
 			
 			//Sample links that weren't liked.
