@@ -7,7 +7,7 @@ public class Constants
 	static final String DB_STRING = "jdbc:mysql://localhost/linkrData?user=linkrAdmin&password=w39ve5S97GjtATP7";
 	
 	public static final int LINK_FEATURE_COUNT = 3;
-	public final static int USER_FEATURE_COUNT = 4;
+	public final static int USER_FEATURE_COUNT = 3;
 	
 	public static final int TRAINING_WINDOW_RANGE = 30;
 	public static final int TESTING_WINDOW_RANGE = 14;
@@ -15,8 +15,8 @@ public class Constants
 
 	public static int TEST = 0;
 	public static int RECOMMEND = 1;
-	public static int DEPLOYMENT_TYPE = TEST;
-	public static boolean INITIALIZE = false;
+	public static int DEPLOYMENT_TYPE = RECOMMEND;
+	public static boolean INITIALIZE = true;
 	
 	public static final String SOCIAL = "social";
 	public static final String FEATURE = "feature";
@@ -25,6 +25,8 @@ public class Constants
 	public static final String GLOBAL = "global";
 	public static final String FUW = "fuw";
 	public static final String FIW = "fiw";
+	
+	public static final String LANG_PROFILE_FOLDER = "/home/u4754420/profiles";
 	
 	//static final String DB_STRING = "jdbc:mysql://localhost/linkrData?user=GuestGA&password=mB7SwjDWQF37BrLD";
 	//public static final long APPLICATION_ID = 136622929736439l; //OLD

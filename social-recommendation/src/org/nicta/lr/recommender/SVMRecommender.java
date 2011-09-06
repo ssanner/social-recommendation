@@ -233,7 +233,7 @@ public class SVMRecommender extends Recommender
 		param.C = C;
 		param.svm_type = svm_parameter.C_SVC;
 		param.kernel_type = svm_parameter.LINEAR;
-		param.cache_size = 20000;
+		//param.cache_size = 20000;
 		param.eps = 0.001;
 		
 		int index = 0;
