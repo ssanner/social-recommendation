@@ -26,7 +26,7 @@ public class SQLUtil
 		}
 		
 		if (connection == null) {
-			connection = DriverManager.getConnection(Constants.DB_STRING);
+			connection = DriverManager.getConnection(Configuration.DB_STRING);
 			connection.setAutoCommit(false);
 		}
 	

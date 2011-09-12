@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import org.nicta.lr.util.Constants;
+import org.nicta.lr.util.Configuration;
 
 public class UserMFThread extends Thread
 {
@@ -35,14 +35,8 @@ public class UserMFThread extends Thread
 	
 	public void run()
 	{
-		for (int l = 0; l < Constants.USER_FEATURE_COUNT; l++) {
+		for (int l = 0; l < Configuration.USER_FEATURE_COUNT; l++) {
 			userDerivative[k][l] = backpointer.getErrorDerivativeOverUserAttribute(linkTraits, predictions, connections, k, l);	
 		}
-		
-		/*
-		for (long userId : userLinkSamples.keySet()) {
-			userIdDerivative.get(userId)[k] = backpointer.getErrorDerivativeOverUserId(linkTraits, predictions, connections, k, userId);
-		}
-		*/
 	}
 }

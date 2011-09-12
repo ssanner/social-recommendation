@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import org.nicta.lr.util.Constants;
+import org.nicta.lr.util.Configuration;
 
 public class LinkMFThread extends Thread
 {
@@ -31,7 +31,7 @@ public class LinkMFThread extends Thread
 	
 	public void run()
 	{
-		for (int l = 0; l < Constants.LINK_FEATURE_COUNT; l++) {
+		for (int l = 0; l < Configuration.LINK_FEATURE_COUNT; l++) {
 			linkDerivative[q][l] = backpointer.getErrorDerivativeOverLinkAttribute(userTraits, predictions, q, l);
 		}
 		

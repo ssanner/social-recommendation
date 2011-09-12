@@ -16,6 +16,7 @@ import java.util.HashMap;
 import org.nicta.lr.recommender.Recommender;
 import org.nicta.lr.recommender.IndSocialRecommender;
 import org.nicta.lr.util.Constants;
+import org.nicta.lr.util.Configuration;
 import org.nicta.lr.util.LinkUtil;
 import org.nicta.lr.util.SQLUtil;
 import org.nicta.lr.util.UserUtil;
@@ -41,7 +42,7 @@ public class IndLinkRecommender  extends LinkRecommender
 		Set<Long> linksNeeded = new HashSet<Long>();
 		linksNeeded.addAll(linkLikes.keySet());
 		
-		if (Constants.DEPLOYMENT_TYPE == Constants.RECOMMEND) {
+		if (Configuration.DEPLOYMENT_TYPE == Constants.RECOMMEND) {
 			//Get links that we will be recommending later
 			friendLinksToRecommend = getFriendLinksForRecommending(friendships, type);
 			nonFriendLinksToRecommend = getNonFriendLinksForRecommending(friendships, type);
@@ -92,7 +93,7 @@ public class IndLinkRecommender  extends LinkRecommender
 		
 		Map<Long, Set<Long>> appUserTestData = new HashMap<Long, Set<Long>>();
 		
-		if (Constants.DEPLOYMENT_TYPE == Constants.TEST) {
+		if (Configuration.DEPLOYMENT_TYPE == Constants.TEST) {
 			Set<Long> testLinkIds = LinkUtil.getTestLinkIds();
 			
 			Map<Long, Long[]> testLinkUsers = LinkUtil.getUnormalizedFeatures(testLinkIds);
@@ -142,15 +143,11 @@ public class IndLinkRecommender  extends LinkRecommender
 		
 		double map = 0;
 		double meanPrecision100 = 0;
-		double meanPrecision200 = 0;
 		double meanRecall100 = 0;
-		double meanRecall200 = 0;
 		double meanF100 = 0;
-		double meanF200 = 0;
 		
 		Map<Long, Double> averagePrecisions = new HashMap<Long, Double>();
 		Map<Long, Double[]> precisionRecalls100 = new HashMap<Long, Double[]>();
-		Map<Long, Double[]> precisionRecalls200 = new HashMap<Long, Double[]>();
 		
 		HashSet<Long> combinedTest = new HashSet<Long>();
 		
@@ -168,7 +165,7 @@ public class IndLinkRecommender  extends LinkRecommender
 			recommender.setC(arg);
 			recommender.train(appUserLinkSamples.get(appUserId));
 			
-			if (Constants.DEPLOYMENT_TYPE == Constants.RECOMMEND) {
+			if (Configuration.DEPLOYMENT_TYPE == Constants.RECOMMEND) {
 				Map<Long, Double> friendRecommendations = recommender.indRecommend(friendLinksToRecommend);
 				Map<Long, Double> nonFriendRecommendations = recommender.indRecommend(nonFriendLinksToRecommend);
 		
@@ -177,50 +174,38 @@ public class IndLinkRecommender  extends LinkRecommender
 				
 				//SQLUtil.closeSqlConnection();
 			}
-			else if (Constants.DEPLOYMENT_TYPE == Constants.TEST){
+			else if (Configuration.DEPLOYMENT_TYPE == Constants.TEST){
 				if (! appUserTestData.containsKey(appUserId)) continue;
 				
 				double ap = recommender.getAveragePrecision(appUserTestData.get(appUserId));
 				
 				Double[] precisionRecall100 = recommender.getPrecisionRecall(combinedTest, 100);
-				Double[] precisionRecall200 = recommender.getPrecisionRecall(combinedTest, 200);
 				
 				averagePrecisions.put(appUserId, ap);
 				precisionRecalls100.put(appUserId, precisionRecall100);
-				precisionRecalls200.put(appUserId, precisionRecall200);
 				
 				System.out.println("AP: " + ap);
 				
 				map += ap;
 				
 				meanPrecision100 += precisionRecall100[0];
-				meanPrecision200 += precisionRecall200[0];
 				meanRecall100 += precisionRecall100[1];
-				meanRecall200 += precisionRecall200[1];
 				
 				meanF100 += (precisionRecall100[0] + precisionRecall100[1] > 0) ? 2 * (precisionRecall100[0] * precisionRecall100[1]) / (precisionRecall100[0] + precisionRecall100[1]) : 0;
-				meanF200 += (precisionRecall200[0] + precisionRecall200[1] > 0) ? 2 * (precisionRecall200[0] * precisionRecall200[1]) / (precisionRecall200[0] + precisionRecall200[1]) : 0;
 			}
 			
 		}
 		
-		if (Constants.DEPLOYMENT_TYPE == Constants.TEST) {
+		if (Configuration.DEPLOYMENT_TYPE == Constants.TEST) {
 			map /= (double)averagePrecisions.size();
 			
 			meanPrecision100 /= (double)averagePrecisions.size();
-			meanPrecision200 /= (double)averagePrecisions.size();
 			meanRecall100 /= (double)averagePrecisions.size();
-			meanRecall200 /= (double)averagePrecisions.size();
 			meanF100 /= (double)averagePrecisions.size();
-			meanF200 /= (double)averagePrecisions.size();
-			
 	
 			double precisionStandardDev100 = 0;
-			double precisionStandardDev200 = 0;
 			double recallStandardDev100 = 0;
-			double recallStandardDev200 = 0;
 			double fStandardDev100 = 0;
-			double fStandardDev200 = 0;
 			
 			double standardDev = 0;
 			for (long userId : averagePrecisions.keySet()) {
@@ -228,23 +213,17 @@ public class IndLinkRecommender  extends LinkRecommender
 				standardDev += Math.pow(pre - map, 2);
 				
 				Double[] precisionRecall100 = precisionRecalls100.get(userId);
-				Double[] precisionRecall200 = precisionRecalls200.get(userId);
 				
 				double precision100 = precisionRecall100[0];
-				double precision200 = precisionRecall200[0];
 				double recall100 = precisionRecall100[1];
-				double recall200 = precisionRecall200[1];
 				
 				double f100 = (precision100 + recall100 > 0) ? 2 * (precision100 * recall100) / (precision100 + recall100) : 0;
-				double f200 = (precision200 + recall200 > 0) ? 2 * (precision200 * recall200) / (precision200 + recall200) : 0;
 				precisionStandardDev100 += Math.pow(precision100 - meanPrecision100, 2);
 				recallStandardDev100 += Math.pow(recall100 - meanRecall100, 2);
-				precisionStandardDev200 += Math.pow(precision200 - meanPrecision200, 2);
-				recallStandardDev200 += Math.pow(recall200 - meanRecall200, 2);
 				
 				fStandardDev100 += Math.pow(f100 - meanF100, 2);
-				fStandardDev200 += Math.pow(f200 - meanF200, 2);
 			}
+			
 			standardDev /= (double)averagePrecisions.size();
 			standardDev = Math.sqrt(standardDev);
 			
@@ -252,25 +231,14 @@ public class IndLinkRecommender  extends LinkRecommender
 			precisionStandardDev100 = Math.sqrt(precisionStandardDev100);
 			recallStandardDev100 /= (double)averagePrecisions.size();
 			recallStandardDev100 = Math.sqrt(recallStandardDev100);
-			precisionStandardDev200 /= (double)averagePrecisions.size();
-			precisionStandardDev200 = Math.sqrt(precisionStandardDev200);
-			recallStandardDev200 /= (double)averagePrecisions.size();
-			recallStandardDev200 = Math.sqrt(recallStandardDev200);
 			fStandardDev100 /= (double)averagePrecisions.size();
 			fStandardDev100 = Math.sqrt(fStandardDev100);
-			fStandardDev200 /= (double)averagePrecisions.size();
-			fStandardDev200 = Math.sqrt(fStandardDev200);
 			
 			double standardError = standardDev / Math.sqrt(averagePrecisions.size());
 			
 			double precisionSE100 = precisionStandardDev100 / Math.sqrt(averagePrecisions.size());
-			double precisionSE200 = precisionStandardDev200 / Math.sqrt(averagePrecisions.size());
 			double recallSE100 = recallStandardDev100 / Math.sqrt(averagePrecisions.size());
-			double recallSE200 = recallStandardDev200 / Math.sqrt(averagePrecisions.size());
 			double fSE100 = fStandardDev100 / Math.sqrt(averagePrecisions.size());
-			double fSE200 = fStandardDev200 / Math.sqrt(averagePrecisions.size());
-			
-			
 			
 			System.out.println("MAP: " + map);
 			System.out.println("SD: " + standardDev);
@@ -287,18 +255,6 @@ public class IndLinkRecommender  extends LinkRecommender
 			System.out.println("Mean F1 100: " + meanF100);
 			System.out.println("SD: " + fStandardDev100);
 			System.out.println("SE: " + fSE100);
-			
-			System.out.println("Mean Precision 200: " + meanPrecision200);
-			System.out.println("SD: " + precisionStandardDev200);
-			System.out.println("SE: " + precisionSE200);
-			
-			System.out.println("Mean Recall 200: " + meanRecall200);
-			System.out.println("SD: " + recallStandardDev200);
-			System.out.println("SE: " + recallSE200);
-			
-			System.out.println("Mean F1 200: " + meanF200);
-			System.out.println("SD: " + fStandardDev200);
-			System.out.println("SE: " + fSE200);
 		}
 		
 		System.out.println("Done");
