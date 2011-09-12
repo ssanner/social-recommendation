@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Map;
 
 import org.nicta.lr.util.Constants;
+import org.nicta.lr.util.Configuration;
 import org.nicta.lr.util.UserUtil;
 
 public class SocialRecommender extends MFRecommender
@@ -21,10 +22,10 @@ public class SocialRecommender extends MFRecommender
 		type = "social";
 		friendships = friends;
 		
-		if (Constants.DEPLOYMENT_TYPE == Constants.TEST || Constants.INITIALIZE) {
+		if (Configuration.DEPLOYMENT_TYPE == Constants.TEST || Configuration.INITIALIZE) {
 			initializePriors(userFeatures.keySet(), linkFeatures.keySet());
 		}
-		else if (Constants.DEPLOYMENT_TYPE == Constants.RECOMMEND) {
+		else if (Configuration.DEPLOYMENT_TYPE == Constants.RECOMMEND) {
 			try {
 				loadData();
 			}
@@ -38,6 +39,8 @@ public class SocialRecommender extends MFRecommender
 	{
 		try {
 			int linkCount = 0;
+			
+			//Remove users that do not have data yet.
 			HashSet<Long> remove = new HashSet<Long>();
 			for (long trainId : trainSamples.keySet()) {
 				if (! userFeatures.containsKey(trainId)) {
@@ -52,17 +55,14 @@ public class SocialRecommender extends MFRecommender
 				trainSamples.remove(userId);
 			}
 			
-			System.out.println("Train users: " + trainSamples.size());
-			System.out.println("Train links: " + linkCount);
 			friendConnections = UserUtil.getFriendInteractionMeasure(trainSamples.keySet());
 			//friendConnections = UserUtil.getFriendLikeSimilarity(userLinkSamples.keySet());
 			//friendConnections = friendships;
 			
-			//checkDerivative(trainSamples);
-			
 			
 			minimizeByThreadedLBFGS(trainSamples);
 			//minimizeByLBFGS(trainSamples);
+			//checkDerivative(trainSamples);
 		}
 		catch (Exception ex) {
 			ex.printStackTrace();
@@ -109,7 +109,7 @@ public class SocialRecommender extends MFRecommender
 		double linkNorm = 0;
 
 		for (int x = 0; x < K; x++) {
-			for (int y = 0; y < Constants.USER_FEATURE_COUNT; y++) {
+			for (int y = 0; y < Configuration.USER_FEATURE_COUNT; y++) {
 				userNorm += Math.pow(userFeatureMatrix[x][y], 2);
 			}
 		}
@@ -122,7 +122,7 @@ public class SocialRecommender extends MFRecommender
 		}
 
 		for (int x = 0; x < K; x++) {
-			for (int y = 0; y < Constants.LINK_FEATURE_COUNT; y++) {
+			for (int y = 0; y < Configuration.LINK_FEATURE_COUNT; y++) {
 				linkNorm += Math.pow(linkFeatureMatrix[x][y], 2);
 			}
 		}
@@ -215,13 +215,10 @@ public class SocialRecommender extends MFRecommender
 			double duu = 0;
 			
 			for (int z = 0; z < user1.length; z++) {
-				duu += /*user1[y] * */ user2[z] *  userFeatureMatrix[k][z];
+				duu += user2[z] *  userFeatureMatrix[k][z];
 
 			}
-			//duu += user1Id[x] * user2[y];
-			//duu += user2Id[x] * user1[y];
 			
-			//duu += idColumn[k];
 			duu += user2Column[k];
 			
 			errorDerivative += beta * (c - p) * duu * -1;
@@ -233,7 +230,7 @@ public class SocialRecommender extends MFRecommender
 			
 			Set<Long> likes = linkLikes.get(linkId);
 		
-			double dst = linkTraits.get(linkId)[k] /* userFeatures.get(userId)[k]*/;
+			double dst = linkTraits.get(linkId)[k];
 			double p = predictions.get(userId).get(linkId);
 			double r = 0;
 			if (likes.contains(userId)) r = 1;

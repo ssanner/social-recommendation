@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.nicta.lr.util.Constants;
+import org.nicta.lr.util.Configuration;
 import org.nicta.lr.util.SQLUtil;
 
 public class IndSocialRecommender extends SocialRecommender
@@ -36,10 +37,10 @@ public class IndSocialRecommender extends SocialRecommender
 		
 		System.out.println("APP USER: " + appUserId);
 		
-		if (Constants.DEPLOYMENT_TYPE == Constants.TEST || Constants.INITIALIZE) {
+		if (Configuration.DEPLOYMENT_TYPE == Constants.TEST || Configuration.INITIALIZE) {
 			initializePriors(userFeatures.keySet(), linkFeatures.keySet());
 		}
-		else if (Constants.DEPLOYMENT_TYPE == Constants.RECOMMEND) {
+		else if (Configuration.DEPLOYMENT_TYPE == Constants.RECOMMEND) {
 			try {
 				loadData();
 			}
@@ -52,8 +53,8 @@ public class IndSocialRecommender extends SocialRecommender
 	public void loadData()
 		throws SQLException
 	{
-		userFeatureMatrix = loadFeatureMatrix("lrIndUserMatrix", Constants.USER_FEATURE_COUNT, type);
-		linkFeatureMatrix = loadFeatureMatrix("lrIndLinkMatrix", Constants.LINK_FEATURE_COUNT, type);
+		userFeatureMatrix = loadFeatureMatrix("lrIndUserMatrix", Configuration.USER_FEATURE_COUNT, type);
+		linkFeatureMatrix = loadFeatureMatrix("lrIndLinkMatrix", Configuration.LINK_FEATURE_COUNT, type);
 		userIdColumns = loadIdColumns("lrIndUserMatrix", type);
 		linkIdColumns = loadIdColumns("lrIndLinkMatrix", type);
 		
@@ -185,13 +186,13 @@ public class IndSocialRecommender extends SocialRecommender
 		
 		for (int x = 0; x < K; x++) {
 			StringBuilder userBuf = new StringBuilder();
-			for (int y = 0; y < Constants.USER_FEATURE_COUNT; y++) {
+			for (int y = 0; y < Configuration.USER_FEATURE_COUNT; y++) {
 				userBuf.append(userFeatureMatrix[x][y]);
 				userBuf.append(",");
 			}
 			
 			StringBuilder linkBuf = new StringBuilder();
-			for (int y = 0; y < Constants.LINK_FEATURE_COUNT; y++) {
+			for (int y = 0; y < Configuration.LINK_FEATURE_COUNT; y++) {
 				linkBuf.append(linkFeatureMatrix[x][y]);
 				linkBuf.append(",");
 			}
@@ -349,7 +350,7 @@ public class IndSocialRecommender extends SocialRecommender
 		double linkNorm = 0;
 
 		for (int x = 0; x < K; x++) {
-			for (int y = 0; y < Constants.USER_FEATURE_COUNT; y++) {
+			for (int y = 0; y < Configuration.USER_FEATURE_COUNT; y++) {
 				userNorm += Math.pow(userFeatureMatrix[x][y], 2);
 			}
 		}
@@ -362,7 +363,7 @@ public class IndSocialRecommender extends SocialRecommender
 		}
 
 		for (int x = 0; x < K; x++) {
-			for (int y = 0; y < Constants.LINK_FEATURE_COUNT; y++) {
+			for (int y = 0; y < Configuration.LINK_FEATURE_COUNT; y++) {
 				linkNorm += Math.pow(linkFeatureMatrix[x][y], 2);
 			}
 		}

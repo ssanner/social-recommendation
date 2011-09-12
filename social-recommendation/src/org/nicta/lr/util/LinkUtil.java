@@ -31,13 +31,13 @@ public class LinkUtil
 			+ "WHERE linkrLinks.link_hash = linkrLinkInfo.link_hash ";
 		
 		if (limit) {
-			itemQuery += "AND DATE(created_time) >= DATE(ADDDATE(CURRENT_DATE(), -" + Constants.TRAINING_WINDOW_RANGE + "))";
+			itemQuery += "AND DATE(created_time) >= DATE(ADDDATE(CURRENT_DATE(), -" + Configuration.TRAINING_WINDOW_RANGE + "))";
 		}
 		
 		ResultSet result = statement.executeQuery(itemQuery);
 	
 		while (result.next()) {
-			Double[] feature = new Double[Constants.LINK_FEATURE_COUNT];
+			Double[] feature = new Double[Configuration.LINK_FEATURE_COUNT];
 			
 			feature[0] = result.getDouble("share_count") / 10000000;
 			feature[1] = result.getDouble("like_count") / 10000000;
@@ -127,7 +127,7 @@ public class LinkUtil
 		ResultSet result = statement.executeQuery(itemQuery.toString());
 	
 		while (result.next()) {
-			Double[] feature = new Double[Constants.LINK_FEATURE_COUNT];
+			Double[] feature = new Double[Configuration.LINK_FEATURE_COUNT];
 			
 			feature[0] = result.getDouble("share_count") / 10000000;
 			feature[1] = result.getDouble("like_count") / 10000000;
@@ -154,14 +154,14 @@ public class LinkUtil
 		
 		if (limit) {
 			String date = "";
-			if (Constants.DEPLOYMENT_TYPE == Constants.TEST) {
+			if (Configuration.DEPLOYMENT_TYPE == Constants.TEST) {
 				date = "ADDDATE(CURRENT_DATE(), -14)";
 			}
 			else {
 				date = "CURRENT_DATE()";
 			}
 			
-			itemQuery += " WHERE DATE(created_time) >= ADDDATE(" + date + ", -" + Constants.TRAINING_WINDOW_RANGE + ") ";
+			itemQuery += " WHERE DATE(created_time) >= ADDDATE(" + date + ", -" + Configuration.TRAINING_WINDOW_RANGE + ") ";
 			itemQuery += " AND DATE(created_time) < " + date;
 		}
 		

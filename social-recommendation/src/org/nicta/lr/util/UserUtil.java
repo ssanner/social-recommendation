@@ -85,7 +85,7 @@ public class UserUtil
 			//double hometownLocation = result.getLong("hometown_id") / 300000000000000.0;
 			
 			//Features are normalized between 0 and 1
-			Double[] feature = new Double[Constants.USER_FEATURE_COUNT];
+			Double[] feature = new Double[Configuration.USER_FEATURE_COUNT];
 			if ("male".equals(sex)) {
 				feature[0] = 1.0;
 				feature[1] = 0.0;
@@ -144,7 +144,7 @@ public class UserUtil
 			//double hometownLocation = result.getLong("hometown_id") / 300000000000000.0;
 			
 			//Features are normalized between 0 and 1
-			Double[] feature = new Double[Constants.USER_FEATURE_COUNT];
+			Double[] feature = new Double[Configuration.USER_FEATURE_COUNT];
 			if ("male".equals(sex)) {
 				feature[0] = 1.0;
 				feature[1] = 0.0;

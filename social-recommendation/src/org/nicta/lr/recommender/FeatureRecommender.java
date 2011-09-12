@@ -4,6 +4,7 @@ import java.util.Set;
 import java.util.Map;
 
 import org.nicta.lr.util.Constants;
+import org.nicta.lr.util.Configuration;
 
 public class FeatureRecommender extends MFRecommender
 {
@@ -15,10 +16,10 @@ public class FeatureRecommender extends MFRecommender
 		lambda = 1000;
 		type = "feature";
 		
-		if (Constants.DEPLOYMENT_TYPE == Constants.TEST || Constants.INITIALIZE) {
+		if (Configuration.DEPLOYMENT_TYPE == Constants.TEST || Configuration.INITIALIZE) {
 			initializePriors(userFeatures.keySet(), linkFeatures.keySet());
 		}
-		else if (Constants.DEPLOYMENT_TYPE == Constants.RECOMMEND) {
+		else if (Configuration.DEPLOYMENT_TYPE == Constants.RECOMMEND) {
 			try {
 				loadData();
 			}
@@ -30,7 +31,7 @@ public class FeatureRecommender extends MFRecommender
 	
 	public void train(Map<Long, Set<Long>> trainSamples) 
 	{
-		minimizeByThreadedLBFGS(trainSamples);
+		minimizeByThreadedAlternatingLBFGS(trainSamples);
 	}
 	
 	public double getError(Double[][] userFeatureMatrix, Double[][] linkFeatureMatrix, 
@@ -58,7 +59,7 @@ public class FeatureRecommender extends MFRecommender
 		double linkNorm = 0;
 
 		for (int x = 0; x < K; x++) {
-			for (int y = 0; y < Constants.USER_FEATURE_COUNT; y++) {
+			for (int y = 0; y < Configuration.USER_FEATURE_COUNT; y++) {
 				userNorm += Math.pow(userFeatureMatrix[x][y], 2);
 			}
 		}
@@ -71,7 +72,7 @@ public class FeatureRecommender extends MFRecommender
 		}
 
 		for (int x = 0; x < K; x++) {
-			for (int y = 0; y < Constants.LINK_FEATURE_COUNT; y++) {
+			for (int y = 0; y < Configuration.LINK_FEATURE_COUNT; y++) {
 				linkNorm += Math.pow(linkFeatureMatrix[x][y], 2);
 			}
 		}

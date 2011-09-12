@@ -17,9 +17,11 @@ import org.nicta.lr.recommender.NNRecommender;
 import org.nicta.lr.recommender.Recommender;
 import org.nicta.lr.recommender.SVMRecommender;
 import org.nicta.lr.recommender.SocialRecommender;
+import org.nicta.lr.recommender.LogisticSocialRecommender;
 import org.nicta.lr.recommender.BaselineGlobalRecommender;
 import org.nicta.lr.recommender.BaselineRecommender;
 import org.nicta.lr.util.Constants;
+import org.nicta.lr.util.Configuration;
 import org.nicta.lr.util.LinkUtil;
 import org.nicta.lr.util.UserUtil;
 import org.nicta.lr.util.SQLUtil;
@@ -43,7 +45,7 @@ public class LinkRecommender
 	public static void main(String[] args)
 		throws Exception
 	{
-		String type = "social";
+		String type = "feature";
 		if (args.length > 0) {
 			type = args[0];
 		}
@@ -90,7 +92,7 @@ public class LinkRecommender
 		//lr.run(50);
 	}
 	
-	public void run(/*double arg*/)
+	public void run()
 		throws SQLException, IOException
 	{	
 		Set<Long> userIds = UserUtil.getUserIds();
@@ -117,7 +119,7 @@ public class LinkRecommender
 		
 		Map<Long, Set<Long>> testData = null;
 		
-		if (Constants.DEPLOYMENT_TYPE == Constants.RECOMMEND) {
+		if (Configuration.DEPLOYMENT_TYPE == Constants.RECOMMEND) {
 			//Get links that we will be recommending later
 			friendLinksToRecommend = getFriendLinksForRecommending(friendships, type);
 			nonFriendLinksToRecommend = getNonFriendLinksForRecommending(friendships, type);
@@ -132,7 +134,7 @@ public class LinkRecommender
 			
 			Map<Long, String[]> linkWords = LinkUtil.getLinkText(recommendingIds);
 			try {
-				DetectorFactory.loadProfile(Constants.LANG_PROFILE_FOLDER);
+				DetectorFactory.loadProfile(Configuration.LANG_PROFILE_FOLDER);
 			}
 			catch(LangDetectException e) {
 				e.printStackTrace();
@@ -219,7 +221,7 @@ public class LinkRecommender
 		}
 		
 		Set<Long> dontTest = new HashSet<Long>();
-		if (Constants.DEPLOYMENT_TYPE == Constants.TEST) {
+		if (Configuration.DEPLOYMENT_TYPE == Constants.TEST) {
 			for (long userId : testData.keySet()) {
 				if (!userLinkSamples.containsKey(userId)) {
 					dontTest.add(userId);
@@ -241,17 +243,16 @@ public class LinkRecommender
 		}
 		
 		System.out.println("For Training: " + userLinkSamples.size());
-		if (Constants.DEPLOYMENT_TYPE == Constants.TEST) System.out.println("For Testing: " + testData.size());
+		if (Configuration.DEPLOYMENT_TYPE == Constants.TEST) System.out.println("For Testing: " + testData.size());
 		
 		SQLUtil.closeSqlConnection();
 		
 		Recommender recommender = getRecommender(type, linkLikes, users, links, friendships);
-		//((SocialRecommender)recommender).setBeta(arg);
 		
 		
 		recommender.train(userLinkSamples);
 		
-		if (Constants.DEPLOYMENT_TYPE == Constants.RECOMMEND) {
+		if (Configuration.DEPLOYMENT_TYPE == Constants.RECOMMEND) {
 			Map<Long, Map<Long, Double>> friendRecommendations = recommender.recommend(friendLinksToRecommend);
 			Map<Long, Map<Long, Double>> nonFriendRecommendations = recommender.recommend(nonFriendLinksToRecommend);
 
@@ -260,7 +261,7 @@ public class LinkRecommender
 			
 			SQLUtil.closeSqlConnection();
 		}
-		else if (Constants.DEPLOYMENT_TYPE == Constants.TEST){
+		else if (Configuration.DEPLOYMENT_TYPE == Constants.TEST){
 			Map<Long, Double> averagePrecisions = recommender.getAveragePrecisions(testData);
 			
 			Map<Long, Set<Long>> appUserTestData = new HashMap<Long, Set<Long>>();
@@ -271,18 +272,14 @@ public class LinkRecommender
 			}
 					
 			Map<Long, Double[]> appUserPrecisionRecalls100 = recommender.getPrecisionRecall(appUserTestData, 100);
-			Map<Long, Double[]> appUserPrecisionRecalls200 = recommender.getPrecisionRecall(appUserTestData, 200);
 			
 			double map = 0;
 			double appUsersMap = 0;
 			int testedAppUserCount = 0;
 			
 			double meanPrecision100 = 0;
-			double meanPrecision200 = 0;
 			double meanRecall100 = 0;
-			double meanRecall200 = 0;
 			double meanF100 = 0;
-			double meanF200 = 0;
 			
 			for (long userId : averagePrecisions.keySet()) {
 				double pre = averagePrecisions.get(userId);
@@ -304,18 +301,11 @@ public class LinkRecommender
 					System.out.println("Precision 100: " + precision100);
 					System.out.println("Recall 100: " + recall100);
 					System.out.println("F100: " + f100);
-					
-					double precision200 = appUserPrecisionRecalls200.get(userId)[0];
-					double recall200 = appUserPrecisionRecalls100.get(userId)[1];
-					double f200 = (precision100 + recall100 > 0) ? 2 * (precision200 * recall200) / (precision200 + recall200) : 0;
-					
+
 					meanPrecision100 += precision100;
-					meanPrecision200 += precision200;
 					meanRecall100 += recall100;
-					meanRecall200 += recall200;
 					
 					meanF100 += f100;
-					meanF200 += f200;
 					//*/
 				}
 			}
@@ -323,20 +313,14 @@ public class LinkRecommender
 			map /= (double)averagePrecisions.size();
 			appUsersMap /= (double)testedAppUserCount;
 			meanPrecision100 /= (double)testedAppUserCount;
-			meanPrecision200 /= (double)testedAppUserCount;
 			meanRecall100 /= (double)testedAppUserCount;
-			meanRecall200 /= (double)testedAppUserCount;
 			meanF100 /= (double)testedAppUserCount;
-			meanF200 /= (double)testedAppUserCount;
 			
 			double standardDev = 0;
 			double appStandardDev = 0;
 			double precisionStandardDev100 = 0;
-			double precisionStandardDev200 = 0;
 			double recallStandardDev100 = 0;
-			double recallStandardDev200 = 0;
 			double fStandardDev100 = 0;
-			double fStandardDev200 = 0;
 			
 			for (long userId : averagePrecisions.keySet()) {
 				double pre = averagePrecisions.get(userId);
@@ -347,22 +331,15 @@ public class LinkRecommender
 					
 					///*
 					Object[] precisionRecall100 = appUserPrecisionRecalls100.get(userId);
-					Object[] precisionRecall200 = appUserPrecisionRecalls200.get(userId);
 					
 					double precision100 = (Double)precisionRecall100[0];
-					double precision200 = (Double)precisionRecall200[0];
 					double recall100 = (Double)precisionRecall100[1];
-					double recall200 = (Double)precisionRecall200[1];
 					
 					double f100 = (precision100 + recall100 > 0) ? 2 * (precision100 * recall100) / (precision100 + recall100) : 0;
-					double f200 = (precision200 + recall200 > 0) ? 2 * (precision200 * recall200) / (precision200 + recall200) : 0;
 					precisionStandardDev100 += Math.pow(precision100 - meanPrecision100, 2);
 					recallStandardDev100 += Math.pow(recall100 - meanRecall100, 2);
-					precisionStandardDev200 += Math.pow(precision200 - meanPrecision200, 2);
-					recallStandardDev200 += Math.pow(recall200 - meanRecall200, 2);
 					
 					fStandardDev100 += Math.pow(f100 - meanF100, 2);
-					fStandardDev200 += Math.pow(f200 - meanF200, 2);
 					//*/
 				}
 			}
@@ -375,24 +352,15 @@ public class LinkRecommender
 			precisionStandardDev100 = Math.sqrt(precisionStandardDev100);
 			recallStandardDev100 /= (double)testedAppUserCount;
 			recallStandardDev100 = Math.sqrt(recallStandardDev100);
-			precisionStandardDev200 /= (double)testedAppUserCount;
-			precisionStandardDev200 = Math.sqrt(precisionStandardDev200);
-			recallStandardDev200 /= (double)testedAppUserCount;
-			recallStandardDev200 = Math.sqrt(recallStandardDev200);
 			fStandardDev100 /= (double)testedAppUserCount;
 			fStandardDev100 = Math.sqrt(fStandardDev100);
-			fStandardDev200 /= (double)testedAppUserCount;
-			fStandardDev200 = Math.sqrt(fStandardDev200);
 			
 			double standardError = standardDev / Math.sqrt(averagePrecisions.size());
 			double appStandardErr = appStandardDev / Math.sqrt(testedAppUserCount);
 			
 			double precisionSE100 = precisionStandardDev100 / Math.sqrt(testedAppUserCount);
-			double precisionSE200 = precisionStandardDev200 / Math.sqrt(testedAppUserCount);
 			double recallSE100 = recallStandardDev100 / Math.sqrt(testedAppUserCount);
-			double recallSE200 = recallStandardDev200 / Math.sqrt(testedAppUserCount);
 			double fSE100 = fStandardDev100 / Math.sqrt(testedAppUserCount);
-			double fSE200 = fStandardDev200 / Math.sqrt(testedAppUserCount);
 			
 			//System.out.println("K: " + arg);
 			System.out.println("MAP: " + map);
@@ -412,23 +380,8 @@ public class LinkRecommender
 			
 			System.out.println("Mean F1 100: " + meanF100);
 			System.out.println("SD: " + fStandardDev100);
-			System.out.println("SE: " + fSE100);
-			
-			System.out.println("Mean Precision 200: " + meanPrecision200);
-			System.out.println("SD: " + precisionStandardDev200);
-			System.out.println("SE: " + precisionSE200);
-			
-			System.out.println("Mean Recall 200: " + meanRecall200);
-			System.out.println("SD: " + recallStandardDev200);
-			System.out.println("SE: " + recallSE200);
-			
-			System.out.println("Mean F1 200: " + meanF200);
-			System.out.println("SD: " + fStandardDev200);
-			System.out.println("SE: " + fSE200);
-			
-		
+			System.out.println("SE: " + fSE100);	
 		}
-		
 		
 		System.out.println("Done");
 	}
@@ -536,7 +489,7 @@ public class LinkRecommender
 				query.append("'");
 			}
 			
-			query.append(") AND DATE(created_time) >= DATE(ADDDATE(CURRENT_DATE(), -" + Constants.RECOMMENDING_WINDOW_RANGE + "))");
+			query.append(") AND DATE(created_time) >= DATE(ADDDATE(CURRENT_DATE(), -" + Configuration.RECOMMENDING_WINDOW_RANGE + "))");
 			
 			result = statement.executeQuery(query.toString());
 			
@@ -635,7 +588,7 @@ public class LinkRecommender
 				query.append("'");
 			}
 			
-			query.append(") AND DATE(created_time) >= DATE(ADDDATE(CURRENT_DATE(), -" + Constants.RECOMMENDING_WINDOW_RANGE + "))");
+			query.append(") AND DATE(created_time) >= DATE(ADDDATE(CURRENT_DATE(), -" + Configuration.RECOMMENDING_WINDOW_RANGE + "))");
 			result = statement.executeQuery(query.toString());
 			
 			while (result.next()) {
@@ -667,6 +620,9 @@ public class LinkRecommender
 		}
 		else if (Constants.FUW.equals(type) || Constants.FIW.equals(type)) {
 			recommender = new BaselineRecommender(linkLikes, users, links, friendships, type);
+		}
+		else if (Constants.LOGISTIC.equals(type)) {
+			recommender = new LogisticSocialRecommender(linkLikes, users, links, friendships);
 		}
 		
 		return recommender;
@@ -772,7 +728,7 @@ public class LinkRecommender
 				continue;
 			}
 			
-			if (Constants.DEPLOYMENT_TYPE == Constants.RECOMMEND && type.equals(Constants.SVM)) {
+			if (Configuration.DEPLOYMENT_TYPE == Constants.RECOMMEND && type.equals(Constants.SVM)) {
 				if (samples.size() < 5) {
 					//remove.add(userId);
 					//continue;
