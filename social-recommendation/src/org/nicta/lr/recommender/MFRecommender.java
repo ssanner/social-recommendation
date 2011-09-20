@@ -1,6 +1,5 @@
 package org.nicta.lr.recommender;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,6 +15,7 @@ import java.util.Map;
 import org.nicta.lr.util.Configuration;
 import org.nicta.lr.util.SQLUtil;
 import org.nicta.social.LBFGS;
+import org.nicta.social.LBFGS2;
 
 public abstract class MFRecommender extends Recommender 
 {
@@ -283,13 +283,14 @@ public abstract class MFRecommender extends Recommender
 		for (int x = 0; x < linkDiag.length; x++) {
 			linkDiag[x] = 0;
 		}
+		LBFGS2 userLBFGS = new LBFGS2();
+		LBFGS2 linkLBFGS = new LBFGS2();
+		
 		
 		double oldError = Double.MAX_VALUE;
 		double rmse = 0;
 		
 		int control = 0;
-		
-		boolean oneConverged = false;
 		
 		while (go) {
 			iterations++;
@@ -447,22 +448,26 @@ public abstract class MFRecommender extends Recommender
 			try {
 				int[] iflag;
 				double[] diag;
+				LBFGS2 lbfgs;
+				
 				if (control % 2 == 0) {
 					iflag = userFlag;
 					diag = userDiag;
+					lbfgs = userLBFGS;
 				}
 				else {
 					iflag = linkFlag;
 					diag = linkDiag;
+					lbfgs = linkLBFGS;
 				}
 				
 				System.out.println(control + " " + variables.length + " " + derivatives.length + " " + diag.length + " " + iflag[0]);
 				
-				LBFGS.lbfgs(variables.length, 5, variables, error, derivatives,
+				lbfgs.lbfgs(variables.length, 5, variables, error, derivatives,
 						false, diag, iprint, convergence,
 						1e-15, iflag);
 			}
-			catch (LBFGS.ExceptionWithIflag f) {
+			catch (LBFGS2.ExceptionWithIflag f) {
 				f.printStackTrace();
 			}
 			
@@ -893,8 +898,7 @@ public abstract class MFRecommender extends Recommender
 	public Double[][] loadFeatureMatrix(String tableName, int featureCount, String type)
 		throws SQLException
 	{
-		Connection conn = SQLUtil.getSqlConnection();
-		Statement statement = conn.createStatement();
+		Statement statement = SQLUtil.getStatement();
 		
 		Double[][] matrix = new Double[K][featureCount];
 		
@@ -934,8 +938,7 @@ public abstract class MFRecommender extends Recommender
 	{
 		HashMap<Long, Double[]> idColumns = new HashMap<Long, Double[]>();
 		
-		Connection conn = SQLUtil.getSqlConnection();
-		Statement statement = conn.createStatement();
+		Statement statement = SQLUtil.getStatement();
 		
 		ResultSet result = statement.executeQuery("SELECT * FROM " + tableName + " WHERE id >" + K + " AND type='" + type + "'");
 		while (result.next()) {
@@ -1345,8 +1348,7 @@ public abstract class MFRecommender extends Recommender
 	public void saveModel()
 		throws SQLException
 	{
-		Connection conn = SQLUtil.getSqlConnection();
-		Statement statement = conn.createStatement();
+		Statement statement = SQLUtil.getStatement();
 		statement.executeUpdate("DELETE FROM lrUserMatrix WHERE type='" + type + "'");
 		statement.executeUpdate("DELETE FROM lrLinkMatrix WHERE type='" + type + "'");
 		statement.executeUpdate("DELETE FROM lrWordColumns WHERE type='" + type + "'");
@@ -1364,14 +1366,14 @@ public abstract class MFRecommender extends Recommender
 				linkBuf.append(",");
 			}
 			
-			PreparedStatement userInsert = conn.prepareStatement("INSERT INTO lrUserMatrix VALUES(?,?,?)");
+			PreparedStatement userInsert = SQLUtil.prepareStatement("INSERT INTO lrUserMatrix VALUES(?,?,?)");
 			userInsert.setLong(1, x);
 			userInsert.setString(2, userBuf.toString());
 			userInsert.setString(3, type);
 			userInsert.executeUpdate();
 			userInsert.close();
 			
-			PreparedStatement linkInsert = conn.prepareStatement("INSERT INTO lrLinkMatrix VALUES(?,?,?)");
+			PreparedStatement linkInsert = SQLUtil.prepareStatement("INSERT INTO lrLinkMatrix VALUES(?,?,?)");
 			linkInsert.setLong(1, x);
 			linkInsert.setString(2, linkBuf.toString());
 			linkInsert.setString(3, type);
@@ -1389,7 +1391,7 @@ public abstract class MFRecommender extends Recommender
 				buf.append(",");
 			}
 			
-			PreparedStatement userInsert = conn.prepareStatement("INSERT INTO lrUserMatrix VALUES(?,?,?)");
+			PreparedStatement userInsert = SQLUtil.prepareStatement("INSERT INTO lrUserMatrix VALUES(?,?,?)");
 			userInsert.setLong(1, userId);
 			userInsert.setString(2, buf.toString());
 			userInsert.setString(3, type);
@@ -1406,7 +1408,7 @@ public abstract class MFRecommender extends Recommender
 				buf.append(",");
 			}
 			
-			PreparedStatement linkInsert = conn.prepareStatement("INSERT INTO lrLinkMatrix VALUES(?,?,?)");
+			PreparedStatement linkInsert = SQLUtil.prepareStatement("INSERT INTO lrLinkMatrix VALUES(?,?,?)");
 			linkInsert.setLong(1, linkId);
 			linkInsert.setString(2, buf.toString());
 			linkInsert.setString(3, type);

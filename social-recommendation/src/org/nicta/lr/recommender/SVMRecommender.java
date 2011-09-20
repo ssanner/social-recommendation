@@ -155,6 +155,8 @@ public class SVMRecommender extends Recommender
 			ArrayList<Long> ids = new ArrayList<Long>();
 			
 			for (long linkId : links) {
+				if (!linkFeatures.containsKey(linkId)) continue;
+				
 				double[] features = combineFeatures(userFeatures.get(userId), linkFeatures.get(linkId));
 				ArrayList<svm_node> nodeList = new ArrayList<svm_node>();
 				

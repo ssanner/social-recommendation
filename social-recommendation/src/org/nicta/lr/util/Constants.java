@@ -10,8 +10,8 @@ public class Constants
 	public static final String SERVER_LANG_PROFILE_FOLDER = "/home/u4754420/profiles";
 	public static final String LOCAL_LANG_PROFILE_FOLDER = "/Users/jino/Desktop/profiles";
 
-	public static final int TEST = 0;
-	public static final int RECOMMEND = 1;
+	public static final String TEST = "test";
+	public static final String RECOMMEND = "recommend";
 	
 	public static final String SOCIAL = "social";
 	public static final String FEATURE = "feature";
@@ -21,4 +21,18 @@ public class Constants
 	public static final String FUW = "fuw";
 	public static final String FIW = "fiw";
 	public static final String LOGISTIC = "logistic";
+	
+	public static final String ACTIVE = "active";
+	public static final String PASSIVE = "passive";
+	public static final String UNION = "union";
+	
+	public static final String FB_USER_PASSIVE = "fb-user-passive";
+	public static final String APP_USER_PASSIVE = "app-user-passive";
+	public static final String APP_USER_ACTIVE_ALL = "app-user-active-all";
+	public static final String APP_USER_ACTIVE_FRIEND = "app-user-active-friend";
+	public static final String APP_USER_ACTIVE_NON_FRIEND = "app-user-active-active-non-friend";
+	
+	public static final int ACTIVE_ALL = 0;
+	public static final int ACTIVE_FRIEND = 1;
+	public static final int ACTIVE_NON_FRIEND = 2;
 }

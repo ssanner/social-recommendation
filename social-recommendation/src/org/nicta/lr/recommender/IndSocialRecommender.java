@@ -65,8 +65,7 @@ public class IndSocialRecommender extends SocialRecommender
 	public Double[][] loadFeatureMatrix(String tableName, int featureCount, String type)
 		throws SQLException
 	{
-		Connection conn = SQLUtil.getSqlConnection();
-		Statement statement = conn.createStatement();
+		Statement statement = SQLUtil.getStatement();
 		
 		Double[][] matrix = new Double[K][featureCount];
 		
@@ -98,8 +97,7 @@ public class IndSocialRecommender extends SocialRecommender
 	{
 		HashMap<Long, Double[]> idColumns = new HashMap<Long, Double[]>();
 		
-		Connection conn = SQLUtil.getSqlConnection();
-		Statement statement = conn.createStatement();
+		Statement statement = SQLUtil.getStatement();
 		
 		ResultSet result = statement.executeQuery("SELECT * FROM " + tableName + " WHERE id >" + K + " AND type='" + type + "' AND user=" + appUserId);
 		while (result.next()) {
@@ -179,8 +177,7 @@ public class IndSocialRecommender extends SocialRecommender
 	public void saveModel()
 		throws SQLException
 	{
-		Connection conn = SQLUtil.getSqlConnection();
-		Statement statement = conn.createStatement();
+		Statement statement = SQLUtil.getStatement();
 		statement.executeUpdate("DELETE FROM lrIndUserMatrix WHERE type='" + type + "' AND user=" + appUserId);
 		statement.executeUpdate("DELETE FROM lrIndLinkMatrix WHERE type='" + type + "' AND user=" + appUserId);
 		
@@ -197,7 +194,7 @@ public class IndSocialRecommender extends SocialRecommender
 				linkBuf.append(",");
 			}
 			
-			PreparedStatement userInsert = conn.prepareStatement("INSERT INTO lrIndUserMatrix VALUES(?,?,?,?)");
+			PreparedStatement userInsert = SQLUtil.prepareStatement("INSERT INTO lrIndUserMatrix VALUES(?,?,?,?)");
 			userInsert.setLong(1, x);
 			userInsert.setString(2, userBuf.toString());
 			userInsert.setString(3, type);
@@ -205,7 +202,7 @@ public class IndSocialRecommender extends SocialRecommender
 			userInsert.executeUpdate();
 			userInsert.close();
 			
-			PreparedStatement linkInsert = conn.prepareStatement("INSERT INTO lrIndLinkMatrix VALUES(?,?,?,?)");
+			PreparedStatement linkInsert = SQLUtil.prepareStatement("INSERT INTO lrIndLinkMatrix VALUES(?,?,?,?)");
 			linkInsert.setLong(1, x);
 			linkInsert.setString(2, linkBuf.toString());
 			linkInsert.setString(3, type);
@@ -224,7 +221,7 @@ public class IndSocialRecommender extends SocialRecommender
 				buf.append(",");
 			}
 			
-			PreparedStatement userInsert = conn.prepareStatement("INSERT INTO lrIndUserMatrix VALUES(?,?,?,?)");
+			PreparedStatement userInsert = SQLUtil.prepareStatement("INSERT INTO lrIndUserMatrix VALUES(?,?,?,?)");
 			userInsert.setLong(1, userId);
 			userInsert.setString(2, buf.toString());
 			userInsert.setString(3, type);
@@ -242,7 +239,7 @@ public class IndSocialRecommender extends SocialRecommender
 				buf.append(",");
 			}
 			
-			PreparedStatement linkInsert = conn.prepareStatement("INSERT INTO lrIndLinkMatrix VALUES(?,?,?,?)");
+			PreparedStatement linkInsert = SQLUtil.prepareStatement("INSERT INTO lrIndLinkMatrix VALUES(?,?,?,?)");
 			linkInsert.setLong(1, linkId);
 			linkInsert.setString(2, buf.toString());
 			linkInsert.setString(3, type);

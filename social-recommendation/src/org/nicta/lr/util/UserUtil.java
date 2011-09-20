@@ -24,8 +24,7 @@ public class UserUtil
 	{
 		HashSet<Long> userIds = new HashSet<Long>();
 		
-		Connection conn = SQLUtil.getSqlConnection();
-		Statement statement = conn.createStatement();
+		Statement statement = SQLUtil.getStatement();
 		
 		String userQuery = "SELECT uid FROM linkrUser";
 		
@@ -43,8 +42,7 @@ public class UserUtil
 	{
 		HashSet<Long> userIds = new HashSet<Long>();
 		
-		Connection conn = SQLUtil.getSqlConnection();
-		Statement statement = conn.createStatement();
+		Statement statement = SQLUtil.getStatement();
 		
 		String userQuery = "SELECT uid FROM trackUserUpdates WHERE is_app_user=1";
 		
@@ -62,8 +60,7 @@ public class UserUtil
 	{
 		HashMap<Long, Double[]> userFeatures = new HashMap<Long, Double[]>();
 		
-		Connection conn = SQLUtil.getSqlConnection();
-		Statement statement = conn.createStatement();
+		Statement statement = SQLUtil.getStatement();
 		
 		String userQuery = 
 			"SELECT uid, gender, birthday, location_id, hometown_id "
@@ -117,8 +114,7 @@ public class UserUtil
 	{
 		HashMap<Long, Double[]> userFeatures = new HashMap<Long, Double[]>();
 		
-		Connection conn = SQLUtil.getSqlConnection();
-		Statement statement = conn.createStatement();
+		Statement statement = SQLUtil.getStatement();
 		
 		StringBuffer userQuery = new StringBuffer();
 		userQuery.append("SELECT uid, gender, birthday, location_id, hometown_id FROM linkrUser WHERE uid IN (0");
@@ -184,8 +180,7 @@ public class UserUtil
 	{
 		HashMap<Long, Map<Long, Double>> friendships = new HashMap<Long, Map<Long, Double>>();
 		
-		Connection conn = SQLUtil.getSqlConnection();
-		Statement statement = conn.createStatement();
+		Statement statement = SQLUtil.getStatement();
 		
 		String friendQuery =
 			"SELECT uid1, uid2 "
@@ -238,8 +233,7 @@ public class UserUtil
 		idBuf.append(")");
 		String idString = idBuf.toString();
 		
-		Connection conn = SQLUtil.getSqlConnection();
-		Statement statement = conn.createStatement();
+		Statement statement = SQLUtil.getStatement();
 		
 		//First interaction is the friend links. Friend links are now just one kind of interaction
 		String friendQuery =
@@ -983,8 +977,7 @@ public class UserUtil
 		uidWhereBuf.append(")");
 		String uidWhere = uidWhereBuf.toString();
 		
-		Connection conn = SQLUtil.getSqlConnection();
-		Statement statement = conn.createStatement();
+		Statement statement = SQLUtil.getStatement();
 		
 		HashMap<Long, HashSet<Long>> photoLiked = new HashMap<Long, HashSet<Long>>();
 		
@@ -1234,8 +1227,7 @@ public class UserUtil
 	{
 		HashSet<Long> ids = new HashSet<Long>();
 		
-		Connection conn = SQLUtil.getSqlConnection();
-		Statement statement = conn.createStatement();
+		Statement statement = SQLUtil.getStatement();
 		ResultSet result = statement.executeQuery("SELECT uid FROM trackUserUpdates WHERE is_app_user=1 AND algorithm='" + algo + "'");
 		
 		while (result.next()) {
