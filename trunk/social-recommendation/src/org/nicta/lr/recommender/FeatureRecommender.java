@@ -31,7 +31,8 @@ public class FeatureRecommender extends MFRecommender
 	
 	public void train(Map<Long, Set<Long>> trainSamples) 
 	{
-		minimizeByThreadedAlternatingLBFGS(trainSamples);
+		//minimizeByThreadedAlternatingLBFGS(trainSamples);
+		minimizeByThreadedLBFGS(trainSamples);
 	}
 	
 	public double getError(Double[][] userFeatureMatrix, Double[][] linkFeatureMatrix, 
@@ -46,7 +47,7 @@ public class FeatureRecommender extends MFRecommender
 			
 			for (long j : links) {
 				int liked = 0;
-				if (linkLikes.get(j).contains(i)) liked = 1;
+				if (linkLikes.containsKey(j) && linkLikes.get(j).contains(i)) liked = 1;
 				
 				double predictedLike = predictions.get(i).get(j);
 		
@@ -146,7 +147,7 @@ public class FeatureRecommender extends MFRecommender
 				double dst = userTraits.get(userId)[x] * linkFeatures.get(linkId)[y];		
 				double p = predictions.get(userId).get(linkId);
 				double r = 0;
-				if (linkLikes.get(linkId).contains(userId)) r = 1;
+				if (linkLikes.containsKey(linkId) && linkLikes.get(linkId).contains(userId)) r = 1;
 
 				errorDerivative += (r - p) * dst * -1;
 			}

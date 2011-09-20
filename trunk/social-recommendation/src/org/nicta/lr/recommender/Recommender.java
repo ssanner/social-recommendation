@@ -92,7 +92,7 @@ public abstract class Recommender
 		for (int x = 0; x < ids.length; x++) {
 			long linkId = ids[x];
 		
-			if (linkLikes.containsKey(linkId) && linkLikes.get(linkId).contains(userId)) {
+			if (linkLikes.containsKey(linkId) && linkLikes.get(linkId).contains(userId) && testLinks.contains(linkId)) {
 				truePos++;
 			}
 		}
@@ -179,8 +179,7 @@ public abstract class Recommender
 		}
 		buf.append(")");
 		
-		Connection conn = SQLUtil.getSqlConnection();
-		Statement statement = conn.createStatement();
+		Statement statement = SQLUtil.getStatement();
 		ResultSet result = statement.executeQuery(buf.toString());
 		
 		while (result.next()) {

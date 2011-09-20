@@ -22,12 +22,7 @@ import org.nicta.lr.util.SQLUtil;
 import org.nicta.lr.util.UserUtil;
 
 public class IndLinkRecommender  extends LinkRecommender
-{
-	public IndLinkRecommender(String type)
-	{
-		super(type);
-	}
-	
+{	
 	public void run(double arg)
 		throws SQLException, IOException
 	{	
@@ -278,8 +273,7 @@ public class IndLinkRecommender  extends LinkRecommender
 		
 		HashMap<Long, Set<Long>> userLinkSamples = new HashMap<Long, Set<Long>>();
 		
-		Connection conn = SQLUtil.getSqlConnection();
-		Statement statement = conn.createStatement();
+		Statement statement = SQLUtil.getStatement();
 		
 		int count = 0;
 		
@@ -373,9 +367,7 @@ public class IndLinkRecommender  extends LinkRecommender
 	public void saveLinkRecommendations(Map<Long, Double> friendLinks, Map<Long, Double> nonFriendLinks, String type, long userId)
 		throws SQLException
 	{
-		Connection conn = SQLUtil.getSqlConnection();
-		
-		Statement statement = conn.createStatement();
+		Statement statement = SQLUtil.getStatement();
 			
 		Iterator<Long> friendIterator = friendLinks.keySet().iterator();
 		Iterator<Long> nonFriendIterator = nonFriendLinks.keySet().iterator();
@@ -404,7 +396,7 @@ public class IndLinkRecommender  extends LinkRecommender
 			if (from == null) continue;
 				
 			System.out.println("RECOMMENDING LINK: " + from);
-			PreparedStatement ps = conn.prepareStatement("INSERT INTO lrRecommendations VALUES(?,?,?,?,0)");
+			PreparedStatement ps = SQLUtil.prepareStatement("INSERT INTO lrRecommendations VALUES(?,?,?,?,0)");
 			ps.setLong(1, userId);
 			ps.setLong(2, linkId);
 			ps.setDouble(3, val);

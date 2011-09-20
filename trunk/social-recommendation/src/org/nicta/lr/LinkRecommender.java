@@ -1,6 +1,5 @@
 package org.nicta.lr;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -37,180 +36,133 @@ public class LinkRecommender
 	Map<Long, Set<Long>> friendLinksToRecommend;
 	Map<Long, Set<Long>> nonFriendLinksToRecommend;
 	
-	public LinkRecommender(String type)
-	{
-		this.type = type;
-	}
-	
 	public static void main(String[] args)
 		throws Exception
-	{
-		String type = "feature";
-		if (args.length > 0) {
-			type = args[0];
-		}
-		
-		//IndLinkRecommender lr = new IndLinkRecommender(type);
-		LinkRecommender lr = new LinkRecommender(type);
+	{	
+		LinkRecommender lr = new LinkRecommender();
+		lr.parseArgs(args);
 		lr.run();
-		
-		//lr.run(1);
-		//lr.run(10);
-		//lr.run(20);
-		//lr.run(50);
-		
-		//lr.run(1);
-		//lr.run(10);
-		//lr.run(50);
-		//lr.run(100);
-		
-		//lr.run(.00001);
-		//lr.run(.000001);
-		//lr.run(.0000001);
-		//lr.run(.00000001);
-		//lr.run(.000000001);
-		//lr.run(.0000000001);
+	}
 	
-		//lr.run(100);
-		//lr.run(1000);
-		//lr.run(10000);
-		//lr.run(100000);
-		
-		//lr.run(Math.pow(2, -5));
-		//lr.run(Math.pow(2, -3));
-		//lr.run(Math.pow(2, -1));
-		//lr.run(Math.pow(2, 1));
-		//lr.run(Math.pow(2, 3));
-		//lr.run(Math.pow(2, 5));
-		
-		//lr.run(1);
-		//lr.run(5);
-		//lr.run(10);
-		//lr.run(20);
-		//lr.run(30);
-		//lr.run(40);
-		//lr.run(50);
+	public void parseArgs(String[] args)
+	{
+		for (int x = 0; x < args.length; x += 2) {
+			if (args[x].equals("type")) {
+				this.type = args[x+1];
+			}
+			else if (args[x].equals("train")) {
+				Configuration.TRAINING_DATA = args[x+1];
+			}
+			else if (args[x].equals("test")) {
+				Configuration.TEST_DATA = args[x+1];
+			}
+			else if (args[x].equals("deployment")) {
+				Configuration.DEPLOYMENT_TYPE = args[x+1];
+			}
+		}
 	}
 	
 	public void run()
 		throws SQLException, IOException
 	{	
-		Set<Long> userIds = UserUtil.getUserIds();
-		Set<Long> linkIds = LinkUtil.getLinkIds(true);
+		System.out.println("Starting run");
 		
-		Map<Long, Long[]> linkUsers = LinkUtil.getUnormalizedFeatures(linkIds);
-		Map<Long, Set<Long>> linkLikes = LinkUtil.getLinkLikes(linkUsers, true);
 		Map<Long, Map<Long, Double>> friendships = UserUtil.getFriendships();
 		
-		Map<Long, Set<Long>> userLinkSamples = getUserLinksSample(linkLikes, userIds, friendships, linkUsers, true, false);
-		
-		Set<Long> appUsers = /*UserUtil.getAppUsersWithAlgorithm(type); */ UserUtil.getAppUserIds();
+		Map<Long, Set<Long>>[] data = getTrainingData(friendships);
+		Map<Long, Set<Long>> trainData = data[0];
+		Map<Long, Set<Long>> linkLikes = data[1];
 		
 		Set<Long> usersNeeded = new HashSet<Long>();
-		usersNeeded.addAll(appUsers);
-		usersNeeded.addAll(userLinkSamples.keySet());
-		
+		usersNeeded.addAll(trainData.keySet());
 		
 		Set<Long> linksNeeded = new HashSet<Long>();
 		linksNeeded.addAll(linkLikes.keySet());
-		for (long id : userLinkSamples.keySet()) {
-			linksNeeded.addAll(userLinkSamples.get(id));
+		for (long id : trainData.keySet()) {
+			linksNeeded.addAll(trainData.get(id));
 		}
-		
-		Map<Long, Set<Long>> testData = null;
 		
 		if (Configuration.DEPLOYMENT_TYPE == Constants.RECOMMEND) {
-			//Get links that we will be recommending later
-			friendLinksToRecommend = getFriendLinksForRecommending(friendships, type);
-			nonFriendLinksToRecommend = getNonFriendLinksForRecommending(friendships, type);
-			
-			
-			HashSet<Long> recommendingIds = new HashSet<Long>();
-			
-			for (long id : nonFriendLinksToRecommend.keySet()) {
-				recommendingIds.addAll(nonFriendLinksToRecommend.get(id));
-				recommendingIds.addAll(friendLinksToRecommend.get(id));
-			}
-			
-			Map<Long, String[]> linkWords = LinkUtil.getLinkText(recommendingIds);
-			try {
-				DetectorFactory.loadProfile(Configuration.LANG_PROFILE_FOLDER);
-			}
-			catch(LangDetectException e) {
-				e.printStackTrace();
-			}
-			
-			//Remove non-English links
-			HashSet<Long> removeNonEnglish = new HashSet<Long>();
-			for (long id : linkWords.keySet()) {
-				String[] words = linkWords.get(id);
-				String message = words[0];
-				String description = words[1];
-				
-				try {
-					Detector messageDetector = DetectorFactory.create();
-					messageDetector.append(message);				
-					String messageLang = messageDetector.detect();
-					if (!messageLang.equals("en")) {
-						removeNonEnglish.add(id);
-						continue;
-					}
-						
-					Detector descriptionDetector = DetectorFactory.create();
-					descriptionDetector.append(description);
-					String descriptionLang = descriptionDetector.detect();
-					
-					if (!descriptionLang.equals("en")) {
-						removeNonEnglish.add(id);
-					}
-				}
-				catch (LangDetectException e) {
-					continue;
-				}
-			}
-			
-			System.out.println("Removing " + removeNonEnglish.size() + " non-English from " + recommendingIds.size() + " links");
-			for (long id : nonFriendLinksToRecommend.keySet()) {
-				Set<Long> nonFriendLinks = nonFriendLinksToRecommend.get(id);
-				Set<Long> friendLinks = friendLinksToRecommend.get(id);
-				
-				nonFriendLinks.removeAll(removeNonEnglish);
-				friendLinks.removeAll(removeNonEnglish);
-				
-				linksNeeded.addAll(nonFriendLinks);
-				linksNeeded.addAll(friendLinks);
-			}
+			recommend(trainData, linkLikes, friendships, usersNeeded, linksNeeded);
 		}
 		else {
-			Set<Long> testLinkIds = LinkUtil.getTestLinkIds();
+			test(trainData, linkLikes, friendships, usersNeeded, linksNeeded);
+		}
+		
+		System.out.println("Done");
+	}
+	
+	
+	public void recommend(Map<Long, Set<Long>> trainData, Map<Long, Set<Long>> linkLikes, Map<Long, Map<Long, Double>> friendships, Set<Long> usersNeeded, Set<Long> linksNeeded)
+		throws SQLException
+	{
+		//Get links that we will be recommending later
+		friendLinksToRecommend = getFriendLinksForRecommending(friendships, type);
+		nonFriendLinksToRecommend = getNonFriendLinksForRecommending(friendships, type);
+		
+		
+		HashSet<Long> recommendingIds = new HashSet<Long>();
+		
+		for (long id : nonFriendLinksToRecommend.keySet()) {
+			recommendingIds.addAll(nonFriendLinksToRecommend.get(id));
+			recommendingIds.addAll(friendLinksToRecommend.get(id));
+		}
+		
+		Map<Long, String[]> linkWords = LinkUtil.getLinkText(recommendingIds);
+		try {
+			DetectorFactory.loadProfile(Configuration.LANG_PROFILE_FOLDER);
+		}
+		catch(LangDetectException e) {
+			e.printStackTrace();
+		}
+		
+		//Remove non-English links
+		HashSet<Long> removeNonEnglish = new HashSet<Long>();
+		for (long id : linkWords.keySet()) {
+			String[] words = linkWords.get(id);
+			String message = words[0];
+			String description = words[1];
 			
-			Map<Long, Long[]> testLinkUsers = LinkUtil.getUnormalizedFeatures(testLinkIds);
-			Map<Long, Set<Long>> testLinkLikes = LinkUtil.getLinkLikes(testLinkUsers, true);
-			
-			
-			System.out.println("Likes: " + linkLikes.size());
-			for (long testId : testLinkLikes.keySet()) {
-				linkLikes.put(testId, testLinkLikes.get(testId));
+			try {
+				Detector messageDetector = DetectorFactory.create();
+				messageDetector.append(message);				
+				String messageLang = messageDetector.detect();
+				if (!messageLang.equals("en")) {
+					removeNonEnglish.add(id);
+					continue;
+				}
+					
+				Detector descriptionDetector = DetectorFactory.create();
+				descriptionDetector.append(description);
+				String descriptionLang = descriptionDetector.detect();
+				
+				if (!descriptionLang.equals("en")) {
+					removeNonEnglish.add(id);
+				}
 			}
-			System.out.println("After: " + linkLikes.size());
-			
-			testData = getUserLinksSample(testLinkLikes, userIds, friendships, testLinkUsers, true, true);
-			
-			usersNeeded.addAll(testData.keySet());
-			
-			System.out.println("Links needed: " + linksNeeded.size());
-			for (long testUserId : testData.keySet()) {
-				linksNeeded.addAll(testData.get(testUserId));
+			catch (LangDetectException e) {
+				continue;
 			}
-			System.out.println("After: " + linksNeeded.size());
+		}
+		
+		System.out.println("Removing " + removeNonEnglish.size() + " non-English from " + recommendingIds.size() + " links");
+		for (long id : nonFriendLinksToRecommend.keySet()) {
+			Set<Long> nonFriendLinks = nonFriendLinksToRecommend.get(id);
+			Set<Long> friendLinks = friendLinksToRecommend.get(id);
+			
+			nonFriendLinks.removeAll(removeNonEnglish);
+			friendLinks.removeAll(removeNonEnglish);
+			
+			linksNeeded.addAll(nonFriendLinks);
+			linksNeeded.addAll(friendLinks);
 		}
 		
 		Map<Long, Double[]> users = UserUtil.getUserFeatures(usersNeeded);
 		Map<Long, Double[]> links = LinkUtil.getLinkFeatures(linksNeeded);
 		
 		//Clean up links that are not in the linkrLinkInfo table. Clean up users after
-		for (long userId : userLinkSamples.keySet()) {
-			Set<Long> samples = userLinkSamples.get(userId);
+		for (long userId : trainData.keySet()) {
+			Set<Long> samples = trainData.get(userId);
 			HashSet<Long> remove = new HashSet<Long>();
 			for (long linkId : samples) {
 				if (!links.containsKey(linkId)) {
@@ -218,172 +170,662 @@ public class LinkRecommender
 				}
 			}
 			samples.removeAll(remove);
-		}
-		
-		Set<Long> dontTest = new HashSet<Long>();
-		if (Configuration.DEPLOYMENT_TYPE == Constants.TEST) {
-			for (long userId : testData.keySet()) {
-				if (!userLinkSamples.containsKey(userId)) {
-					dontTest.add(userId);
-					continue;
-				}
-				
-				Set<Long> samples = testData.get(userId);
-				HashSet<Long> remove = new HashSet<Long>();
-				for (long linkId : samples) {
-					if (!links.containsKey(linkId)) {
-						remove.add(linkId);
-					}
-				}
-				samples.removeAll(remove);
-			}
-		}
-		for (long removeId : dontTest) {
-			testData.remove(removeId);
-		}
-		
-		System.out.println("For Training: " + userLinkSamples.size());
-		if (Configuration.DEPLOYMENT_TYPE == Constants.TEST) System.out.println("For Testing: " + testData.size());
+		}	
 		
 		SQLUtil.closeSqlConnection();
 		
 		Recommender recommender = getRecommender(type, linkLikes, users, links, friendships);
+		recommender.train(trainData);
 		
-		
-		recommender.train(userLinkSamples);
-		
-		if (Configuration.DEPLOYMENT_TYPE == Constants.RECOMMEND) {
-			Map<Long, Map<Long, Double>> friendRecommendations = recommender.recommend(friendLinksToRecommend);
-			Map<Long, Map<Long, Double>> nonFriendRecommendations = recommender.recommend(nonFriendLinksToRecommend);
+		Map<Long, Map<Long, Double>> friendRecommendations = recommender.recommend(friendLinksToRecommend);
+		Map<Long, Map<Long, Double>> nonFriendRecommendations = recommender.recommend(nonFriendLinksToRecommend);
 
-			saveLinkRecommendations(friendRecommendations, nonFriendRecommendations, type);
-			recommender.saveModel();
-			
-			SQLUtil.closeSqlConnection();
-		}
-		else if (Configuration.DEPLOYMENT_TYPE == Constants.TEST){
-			Map<Long, Double> averagePrecisions = recommender.getAveragePrecisions(testData);
-			
-			Map<Long, Set<Long>> appUserTestData = new HashMap<Long, Set<Long>>();
-			for (long userId : testData.keySet()) {
-				if (appUsers.contains(userId)) {
-					appUserTestData.put(userId, testData.get(userId));
-				}
-			}
-					
-			Map<Long, Double[]> appUserPrecisionRecalls100 = recommender.getPrecisionRecall(appUserTestData, 100);
-			
-			double map = 0;
-			double appUsersMap = 0;
-			int testedAppUserCount = 0;
-			
-			double meanPrecision100 = 0;
-			double meanRecall100 = 0;
-			double meanF100 = 0;
-			
-			for (long userId : averagePrecisions.keySet()) {
-				double pre = averagePrecisions.get(userId);
+		saveLinkRecommendations(friendRecommendations, nonFriendRecommendations, type);
+		recommender.saveModel();
+		
+		SQLUtil.closeSqlConnection();
+	}
 	
-				map += pre;
-				if (appUsers.contains(userId)) {
-					
-					
-					if (pre == 0) System.out.println("App user 0 precision");
-					appUsersMap += pre;
-					testedAppUserCount++;
-					
-					///*
-					double precision100 = appUserPrecisionRecalls100.get(userId)[0];
-					double recall100 =  appUserPrecisionRecalls100.get(userId)[1];
-					double f100 = (precision100 + recall100 > 0) ? 2 * (precision100 * recall100) / (precision100 + recall100) : 0;
-					
-					System.out.println("AP: " + pre);
-					System.out.println("Precision 100: " + precision100);
-					System.out.println("Recall 100: " + recall100);
-					System.out.println("F100: " + f100);
-
-					meanPrecision100 += precision100;
-					meanRecall100 += recall100;
-					
-					meanF100 += f100;
-					//*/
-				}
+	public void test(Map<Long, Set<Long>> trainData, Map<Long, Set<Long>> linkLikes, Map<Long, Map<Long, Double>> friendships, Set<Long> usersNeeded, Set<Long> linksNeeded)
+		throws SQLException
+	{
+		System.out.println("Getting test data");
+		
+		Map<Long, Set<Long>>[] forTesting = getTestData(trainData, linkLikes, friendships);
+		Map<Long, Set<Long>> testData = forTesting[0];
+		
+		int testCount = 0;
+		for (long userId : testData.keySet()) {
+			System.out.println("Test: " + userId + " " + testData.size());
+			testCount += testData.get(userId).size();
+		}
+		System.out.println("Total Test: " + testCount);
+		
+		Map<Long, Set<Long>> testLikes = forTesting[1];
+		for (long linkId : testLikes.keySet()) {
+			Set<Long> likes = testLikes.get(linkId);
+			
+			if (linkLikes.containsKey(linkId)) {
+				linkLikes.get(linkId).addAll(likes);
 			}
-			
-			map /= (double)averagePrecisions.size();
-			appUsersMap /= (double)testedAppUserCount;
-			meanPrecision100 /= (double)testedAppUserCount;
-			meanRecall100 /= (double)testedAppUserCount;
-			meanF100 /= (double)testedAppUserCount;
-			
-			double standardDev = 0;
-			double appStandardDev = 0;
-			double precisionStandardDev100 = 0;
-			double recallStandardDev100 = 0;
-			double fStandardDev100 = 0;
-			
-			for (long userId : averagePrecisions.keySet()) {
-				double pre = averagePrecisions.get(userId);
-				standardDev += Math.pow(pre - map, 2);
-				
-				if (appUsers.contains(userId)) {
-					appStandardDev += Math.pow(pre - appUsersMap, 2);
-					
-					///*
-					Object[] precisionRecall100 = appUserPrecisionRecalls100.get(userId);
-					
-					double precision100 = (Double)precisionRecall100[0];
-					double recall100 = (Double)precisionRecall100[1];
-					
-					double f100 = (precision100 + recall100 > 0) ? 2 * (precision100 * recall100) / (precision100 + recall100) : 0;
-					precisionStandardDev100 += Math.pow(precision100 - meanPrecision100, 2);
-					recallStandardDev100 += Math.pow(recall100 - meanRecall100, 2);
-					
-					fStandardDev100 += Math.pow(f100 - meanF100, 2);
-					//*/
-				}
+			else {
+				linkLikes.put(linkId, likes);
 			}
-			standardDev /= (double)averagePrecisions.size();
-			standardDev = Math.sqrt(standardDev);
-			appStandardDev /= (double)testedAppUserCount;
-			appStandardDev = Math.sqrt(appStandardDev);
-			
-			precisionStandardDev100 /= (double)testedAppUserCount;
-			precisionStandardDev100 = Math.sqrt(precisionStandardDev100);
-			recallStandardDev100 /= (double)testedAppUserCount;
-			recallStandardDev100 = Math.sqrt(recallStandardDev100);
-			fStandardDev100 /= (double)testedAppUserCount;
-			fStandardDev100 = Math.sqrt(fStandardDev100);
-			
-			double standardError = standardDev / Math.sqrt(averagePrecisions.size());
-			double appStandardErr = appStandardDev / Math.sqrt(testedAppUserCount);
-			
-			double precisionSE100 = precisionStandardDev100 / Math.sqrt(testedAppUserCount);
-			double recallSE100 = recallStandardDev100 / Math.sqrt(testedAppUserCount);
-			double fSE100 = fStandardDev100 / Math.sqrt(testedAppUserCount);
-			
-			//System.out.println("K: " + arg);
-			System.out.println("MAP: " + map);
-			System.out.println("SD: " + standardDev);
-			System.out.println("SE: " + standardError);
-			System.out.println("App Users MAP: "+ appUsersMap);
-			System.out.println("App Users SD: " + appStandardDev);
-			System.out.println("App Users SE: " + appStandardErr);
-			
-			System.out.println("Mean Precision 100: " + meanPrecision100);
-			System.out.println("SD: " + precisionStandardDev100);
-			System.out.println("SE: " + precisionSE100);
-			
-			System.out.println("Mean Recall 100: " + meanRecall100);
-			System.out.println("SD: " + recallStandardDev100);
-			System.out.println("SE: " + recallSE100);
-			
-			System.out.println("Mean F1 100: " + meanF100);
-			System.out.println("SD: " + fStandardDev100);
-			System.out.println("SE: " + fSE100);	
 		}
 		
-		System.out.println("Done");
+		usersNeeded.addAll(testData.keySet());
+		for (long userId : testData.keySet()) {
+			linksNeeded.addAll(testData.get(userId));
+		}
+		
+		Map<Long, Double[]> users = UserUtil.getUserFeatures(usersNeeded);
+		Map<Long, Double[]> links = LinkUtil.getLinkFeatures(linksNeeded);
+		
+		SQLUtil.closeSqlConnection();
+		
+		//Clean up links that are not in the linkrLinkInfo table. Clean up users after
+		for (long userId : trainData.keySet()) {
+			Set<Long> samples = trainData.get(userId);
+			HashSet<Long> remove = new HashSet<Long>();
+			
+			for (long linkId : samples) {
+				if (!links.containsKey(linkId)) {
+					remove.add(linkId);
+				}
+			}
+			
+			samples.removeAll(remove);
+		}	
+		
+		Recommender recommender = getRecommender(type, linkLikes, users, links, friendships);
+		recommender.train(trainData);
+		
+		outputMap(recommender, testData);
+		outputMetrics(recommender, testData);
+	}
+	
+	public void outputMap(Recommender recommender, Map<Long, Set<Long>> testData)
+	{
+		Map<Long, Double> averagePrecisions = recommender.getAveragePrecisions(testData);
+		
+		double map = 0;
+		for (long userId : averagePrecisions.keySet()) {
+			double pre = averagePrecisions.get(userId);
+			map += pre;
+		}
+		
+		map /= (double)averagePrecisions.size();
+		double standardDev = 0;
+		
+		for (long userId : averagePrecisions.keySet()) {
+			double pre = averagePrecisions.get(userId);
+			standardDev += Math.pow(pre - map, 2);
+		}
+		
+		standardDev /= (double)averagePrecisions.size();
+		standardDev = Math.sqrt(standardDev);
+	
+		double standardError = standardDev / Math.sqrt(averagePrecisions.size());
+		
+		
+		System.out.println("MAP: " + map);
+		System.out.println("SD: " + standardDev);
+		System.out.println("SE: " + standardError);
+	}
+	
+	public Map<Long, Set<Long>>[] getTestData(Map<Long, Set<Long>> trainData, Map<Long, Set<Long>> trainLikes, Map<Long, Map<Long, Double>> friendships)
+		throws SQLException
+	{
+		Map<Long, Set<Long>> testData = null;
+		Map<Long, Set<Long>> testLikes = null;
+		
+		if (Configuration.TEST_DATA.equals(Constants.FB_USER_PASSIVE)) {
+			if (Configuration.TRAINING_DATA.equals(Constants.PASSIVE) || Configuration.TRAINING_DATA.equals(Constants.UNION)) {
+				testData = getPassiveSubsetForTesting(trainData, trainLikes, friendships);
+				testLikes = trainLikes;
+			}
+			else {
+				Map<Long, Set<Long>>[] data = getPassiveData(friendships);
+				testData = data[0];
+				testLikes = data[1];
+				
+			}
+		}
+		else if (Configuration.TEST_DATA.equals(Constants.APP_USER_PASSIVE)) {
+			Set<Long> appUsers = UserUtil.getAppUserIds();
+			
+			if (Configuration.TRAINING_DATA.equals(Constants.PASSIVE) || Configuration.TRAINING_DATA.equals(Constants.UNION)) {
+				System.out.println("Getting passive data");
+				testData = getPassiveSubsetForTesting(trainData, trainLikes, friendships);
+				testLikes = trainLikes;
+			}
+			else {
+				Map<Long, Set<Long>>[] data = getPassiveData(friendships);
+				testData = data[0];
+				testLikes = data[1];
+			}
+			
+			HashSet<Long> removeNonAppUsers = new HashSet<Long>();
+			
+			for (long userId : testData.keySet()) {
+				if (!appUsers.contains(userId)) {
+					removeNonAppUsers.add(userId);
+				}
+			}
+			
+			for (long userId : removeNonAppUsers) {
+				testData.remove(userId);
+			}
+		}
+		else if (Configuration.TEST_DATA.equals(Constants.APP_USER_ACTIVE_ALL)) {
+			if (Configuration.TRAINING_DATA.equals(Constants.ACTIVE) || Configuration.TRAINING_DATA.equals(Constants.UNION)) {
+				testData = getActiveSubsetForTesting(trainData, trainLikes, friendships, Constants.ACTIVE_ALL);
+				testLikes = trainLikes;
+			}
+			else {
+				Map<Long, Set<Long>>[] data = getActiveData(friendships, Constants.ACTIVE_ALL);
+				testData = data[0];
+				testLikes = data[1];
+			}
+		}
+		else if (Configuration.TEST_DATA.equals(Constants.APP_USER_ACTIVE_FRIEND)) {
+			if (Configuration.TRAINING_DATA.equals(Constants.ACTIVE) || Configuration.TRAINING_DATA.equals(Constants.UNION)) {
+				testData = getActiveSubsetForTesting(trainData, trainLikes, friendships, Constants.ACTIVE_FRIEND);
+				testLikes = trainLikes;
+			}
+			else {
+				Map<Long, Set<Long>>[] data = getActiveData(friendships, Constants.ACTIVE_FRIEND);
+				testData = data[0];
+				testLikes = data[1];
+			}
+		}
+		else if (Configuration.TEST_DATA.equals(Constants.APP_USER_ACTIVE_NON_FRIEND)) {
+			if (Configuration.TRAINING_DATA.equals(Constants.ACTIVE) || Configuration.TRAINING_DATA.equals(Constants.UNION)) {
+				testData = getActiveSubsetForTesting(trainData, trainLikes, friendships, Constants.ACTIVE_NON_FRIEND);
+				testLikes = trainLikes;
+			}
+			else {
+				Map<Long, Set<Long>>[] data = getActiveData(friendships, Constants.ACTIVE_NON_FRIEND);
+				testData = data[0];
+				testLikes = data[1];
+			}
+		}
+		
+		System.out.println("Cleaning up test data: " + testData.size());
+		Set<Long> removeUsers = new HashSet<Long>();
+		
+		Set<Long> trainLinkCount = new HashSet<Long>();
+		for (long userId : trainData.keySet()) {
+			trainLinkCount.addAll(trainData.get(userId));
+		}
+		System.out.println("Training links before: " + trainLinkCount.size());
+		
+		//Remove users that aren't in the training data
+		//Otherwise, remove user-link pairs in the training data that are in the test data
+		for (long userId : testData.keySet()) {
+			if (!trainData.containsKey(userId)) {
+				removeUsers.add(userId);
+				continue;
+			}
+			
+			Set<Long> testLinks = testData.get(userId);
+			trainData.get(userId).removeAll(testLinks);
+		}
+		for (long userId : removeUsers) {
+			testData.remove(userId);
+		}
+		
+		Set<Long> allTrainLinks = new HashSet<Long>();
+		for (long userId : trainData.keySet()) {
+			allTrainLinks.addAll(trainData.get(userId));
+		}
+		
+		System.out.println("Training links after: " + allTrainLinks.size());
+		
+		System.out.println("Test data: " + testData.size());
+		
+		//Remove links that aren't in the training data
+		//If a user has either 0 liked links or 0 non-liked links in the testing data,
+		//Remove user from the test data
+		removeUsers = new HashSet<Long>();
+		for (long userId : testData.keySet()) {
+			Set<Long> remove = new HashSet<Long>();
+			Set<Long> testLinks = testData.get(userId);
+			
+			for (long linkId : testLinks) {
+				if (!allTrainLinks.contains(linkId)) {
+					remove.add(linkId);
+				}
+			}
+			
+			testLinks.removeAll(remove);
+			
+			int likeCount = 0;
+			int notLikeCount = 0;
+			
+			for (long linkId : testLinks) {
+				if (testLikes.containsKey(linkId) && testLikes.get(linkId).contains(userId)) {
+					likeCount++;
+				}
+				else {
+					notLikeCount++;
+				}
+			}
+			
+			if (likeCount == 0 || notLikeCount == 0) {
+				removeUsers.add(userId);
+			}
+		}
+		
+		for (long userId : removeUsers) {
+			testData.remove(userId);
+		}
+		
+		int testCount = 0;
+		for (long testId : testData.keySet()) {
+			testCount += testData.get(testId).size();
+			
+			Set<Long> userTrain = trainData.get(testId);
+			Set<Long> userTest = testData.get(testId);
+			
+			for (long trainLinkId : userTrain) {
+				for (long testLinkId : userTest) {
+					if (trainLinkId == testLinkId) {
+						System.out.println("NOT DISJOINT!");
+						System.exit(1);
+					}
+				}
+			}
+		}
+		
+		System.out.println("Test data done: " + testData.size() + " " + testCount);
+		
+		Map<Long, Set<Long>>[] test = new Map[2];
+		test[0] = testData;
+		test[1] = testLikes;
+		
+		return test;
+	}
+	
+	public Map<Long, Set<Long>>[] getTrainingData(Map<Long, Map<Long, Double>> friendships)
+		throws SQLException
+	{
+		HashMap<Long, Set<Long>> trainData = new HashMap<Long, Set<Long>>();
+		Map<Long, Set<Long>> linkLikes = new HashMap<Long, Set<Long>>();
+		
+		if (Configuration.TRAINING_DATA.equals(Constants.PASSIVE) || Configuration.TRAINING_DATA.equals(Constants.PASSIVE)) {
+			Map<Long, Set<Long>>[] passiveData = getPassiveData(friendships);
+			Map<Long, Set<Long>> passiveSamples = passiveData[0];
+			Map<Long, Set<Long>> passiveLikes = passiveData[1];
+			
+			trainData.putAll(passiveSamples);
+			linkLikes.putAll(passiveLikes);
+		}
+		
+		if (Configuration.TRAINING_DATA.equals(Constants.ACTIVE) || Configuration.TRAINING_DATA.equals(Constants.UNION)) {
+			Map<Long, Set<Long>>[] activeData = getActiveData(friendships, Constants.ACTIVE_ALL);
+			Map<Long, Set<Long>> activeSamples = activeData[0];
+			Map<Long, Set<Long>> activeLikes = activeData[1];
+			
+			for (long userId : activeSamples.keySet()) {
+				Set<Long> samples = activeSamples.get(userId);
+				
+				if (!trainData.containsKey(userId)) {
+					trainData.put(userId, new HashSet<Long>());
+				}
+				trainData.get(userId).addAll(samples);
+			}
+			
+			for (long linkId : activeLikes.keySet()) {
+				Set<Long> likes = activeLikes.get(linkId);
+				
+				if (!linkLikes.containsKey(linkId)) {
+					linkLikes.put(linkId, new HashSet<Long>());
+				}
+				linkLikes.get(linkId).addAll(likes);
+			}
+		}
+		
+		Map<Long, Set<Long>>[] data = new Map[2];
+		data[0] = trainData;
+		data[1] = linkLikes;
+		
+		return data;
+	}
+	
+	public Map<Long, Set<Long>>[] getPassiveData(Map<Long, Map<Long, Double>> friendships)
+		throws SQLException
+	{
+		Set<Long> userIds = UserUtil.getUserIds();
+		Set<Long> linkIds = LinkUtil.getLinkIds();
+		
+		Map<Long, Long[]> linkPosters = LinkUtil.getLinkPosters(linkIds);
+		
+		Map<Long, Set<Long>> linkLikes = LinkUtil.getLinkLikes(linkPosters);
+		Map<Long, Set<Long>> trainSamples = getTrainingSample(linkLikes, userIds, friendships, linkPosters);
+		
+		Map<Long, Set<Long>>[] data = new Map[2];
+		data[0] = trainSamples;
+		data[1] = linkLikes;
+		
+		return data;
+	}
+	
+	public Map<Long, Set<Long>>[] getActiveData(Map<Long, Map<Long, Double>> friendships, int restriction)
+		throws SQLException
+	{
+		Statement statement = SQLUtil.getStatement();
+		HashMap<Long, Set<Long>> trainData = new HashMap<Long, Set<Long>>();
+		Map<Long, Set<Long>> linkLikes = new HashMap<Long, Set<Long>>();
+		
+		ResultSet result = statement.executeQuery("SELECT link_id, uid, rating FROM trackRecommendedLinks WHERE rating=2 OR rating=1");
+		
+		HashSet<Long> allLinks = new HashSet<Long>();
+		
+		while (result.next()) {
+			long linkId = result.getLong("link_id");
+			long userId = result.getLong("uid");
+			int rating = result.getInt("rating");
+			
+			if (!trainData.containsKey(userId)) {
+				trainData.put(userId, new HashSet<Long>());
+			}
+			trainData.get(userId).add(linkId);
+			
+			if (rating == 1) {
+				if (!linkLikes.containsKey(linkId)) {
+					linkLikes.put(linkId, new HashSet<Long>());
+				}
+				linkLikes.get(linkId).add(userId);
+			}
+			
+			allLinks.add(linkId);
+		}	
+	
+		String clickQuery = "SELECT link_id, uid_clicked FROM linkrLinks l, trackLinkClicked t WHERE l.link=t.link";
+		result = statement.executeQuery(clickQuery);
+		
+		while (result.next()) {
+			long linkId = result.getLong("link_id");
+			long userId = result.getLong("uid_clicked");
+			
+			if (!linkLikes.containsKey(linkId)) {
+				linkLikes.put(linkId, new HashSet<Long>());
+			}
+			
+			Set<Long> likes = linkLikes.get(linkId);
+			likes.add(userId);
+			
+			allLinks.add(linkId);
+		}
+		statement.close();
+		
+		Map<Long, Long[]> linkPosters = LinkUtil.getLinkPosters(allLinks);
+	
+		HashSet<Long> removeUsers = new HashSet<Long>();
+		
+		for (long userId : trainData.keySet()) {
+			Set<Long> testLinks = trainData.get(userId);
+				
+			HashSet<Long> removeLinks = new HashSet<Long>();
+			
+			int userLike = 0;
+			
+			for (long linkId : testLinks) {
+				Long[] posters = linkPosters.get(linkId);
+				if (posters == null) {
+					removeLinks.add(linkId);
+					continue;
+				}
+				
+				boolean friend = false;
+				if ((friendships.containsKey(userId) && friendships.get(userId).containsKey(posters[0]))
+						|| (friendships.containsKey(posters[0]) && friendships.get(posters[0]).containsKey(userId))
+					) {
+					friend = true;
+				}
+					
+				if (restriction == Constants.ACTIVE_FRIEND && !friend) {
+					removeLinks.add(linkId);
+				}
+				else if (restriction == Constants.ACTIVE_NON_FRIEND && friend) {
+					removeLinks.add(linkId);
+				}
+				
+				if (linkLikes.containsKey(linkId) && linkLikes.get(linkId).contains(userId)) userLike++;
+			}
+			
+			testLinks.removeAll(removeLinks);
+			if (testLinks.size() == 0) {
+				removeUsers.add(userId);
+				continue;
+			}
+			
+			System.out.println("User links: " + userLike + " " + testLinks.size());
+		}
+		for (long userId : removeUsers) {
+			trainData.remove(userId);
+		}
+		
+		Map<Long, Set<Long>>[] data = new Map[2];
+		data[0] = trainData;
+		data[1] = linkLikes;
+		
+		return data;
+	}
+	
+	public Map<Long, Set<Long>> getPassiveSubsetForTesting(Map<Long, Set<Long>> trainData, Map<Long, Set<Long>> trainLikes,  Map<Long, Map<Long, Double>> friendships)
+		throws SQLException
+	{
+		Map<Long, Set<Long>> testData = new HashMap<Long, Set<Long>>();
+	
+		System.out.println("Getting active data");
+		Map<Long, Set<Long>> activeData = getActiveData(friendships, Constants.ACTIVE_ALL)[0];
+		System.out.println("Active data: " + activeData.size());
+		
+		for (long userId : trainData.keySet()) {
+			Set<Long> userLinks = trainData.get(userId);
+			
+			HashSet<Long> userLikes = new HashSet<Long>();
+			
+			Set<Long> active = activeData.get(userId);
+			
+			int likeCount = 0;
+			int notLikeCount = 0;
+			for (long linkId : userLinks) {
+				if (active != null && active.contains(linkId)) continue;
+					
+				if (trainLikes.containsKey(linkId) && trainLikes.get(linkId).contains(userId)) {
+					likeCount++;
+					userLikes.add(linkId);
+				}
+				else {
+					notLikeCount++;
+				}
+			}
+			
+			
+			int testLikeCount = (int)(likeCount * 0.2);
+			if (testLikeCount < 1) continue;
+			
+			int testNotLikeCount = (int)(notLikeCount * 0.2);
+			if (testNotLikeCount < 1) continue;
+			
+			System.out.println("TEST user: " + userId + " " + testLikeCount + " " + testNotLikeCount);
+			
+			int addedLike = 0;
+			int addedNotLike = 0;
+			
+			Object[] links = userLinks.toArray();
+			
+			HashSet<Long> userTest = new HashSet<Long>();
+			
+			while (addedLike < testLikeCount) {
+				int randomIndex = (int)(Math.random() * links.length);
+				Long linkId = (Long)links[randomIndex];
+				
+				if (active != null && active.contains(linkId)) continue;
+				
+				if (userLikes.contains(linkId) && !userTest.contains(linkId)) {
+					userTest.add(linkId);
+					addedLike++;
+				}
+			}
+			
+			while (addedNotLike < testNotLikeCount) {
+				int randomIndex = (int)(Math.random() * links.length);
+				Long linkId = (Long)links[randomIndex];
+				
+				if (active != null && active.contains(linkId)) continue;
+				
+				if (!userLikes.contains(linkId) && !userTest.contains(linkId)) {
+					userTest.add(linkId);
+					addedNotLike++;
+				}
+			}
+			
+			testData.put(userId, userTest);
+		}
+		
+		System.out.println("Total test users : " + testData.size());
+		
+		return testData;
+	}
+	
+	public Map<Long, Set<Long>> getActiveSubsetForTesting(Map<Long, Set<Long>> trainData, Map<Long, Set<Long>> trainLikes, Map<Long, Map<Long, Double>> friendships, int restriction)
+		throws SQLException
+	{
+		Map<Long, Set<Long>> testData = new HashMap<Long, Set<Long>>();
+		
+		Map<Long, Set<Long>> activeData = getActiveData(friendships, Constants.ACTIVE_ALL)[0];
+		HashSet<Long> allLinks = new HashSet<Long>();
+		
+		for (long userId : trainData.keySet()) {
+			Set<Long> userLinks = trainData.get(userId);
+			allLinks.addAll(userLinks);
+		}
+		
+		Map<Long, Long[]> linkPosters = LinkUtil.getLinkPosters(allLinks);
+		
+		System.out.println("Restriction: " + restriction + " " + Constants.ACTIVE_ALL);
+		System.out.println("Train: " + trainData.size() +  " Active: " + activeData.size());
+		
+		for (long userId : trainData.keySet()) {
+			Set<Long> userLinks = trainData.get(userId);
+			
+			int likeCount = 0;
+			int notLikeCount = 0;
+			
+			HashSet<Long> userLikes = new HashSet<Long>();
+			
+			Set<Long> active = activeData.get(userId);
+			
+			System.out.println("User links train: " + userLinks.size() + " User active: " + active.size());
+			
+			for (long linkId : userLinks) {
+				if (active == null || !active.contains(linkId)) {
+					//System.out.println("HOLY SHIT");
+					//System.exit(1);
+					continue;
+				}
+				
+				Long[] posters = linkPosters.get(linkId);
+				
+				boolean friend = false;
+				if ((friendships.containsKey(userId) && friendships.get(userId).containsKey(posters[0]))
+						|| (friendships.containsKey(posters[0]) && friendships.get(posters[0]).containsKey(userId))
+					) {
+					friend = true;
+				}
+				
+				if ((restriction == Constants.ACTIVE_FRIEND && friend) 
+						|| (restriction == Constants.ACTIVE_NON_FRIEND && !friend)
+						|| restriction == Constants.ACTIVE_ALL) {
+					
+					//System.out.println("WTF");
+					
+					if (trainLikes.containsKey(linkId) && trainLikes.get(linkId).contains(userId)) {
+						likeCount++;
+						userLikes.add(linkId);
+					}
+					else {
+						notLikeCount++;
+					}
+				}
+			}
+			
+			//System.out.println("likeCount : " + likeCount + " notLikeCount: " + notLikeCount);
+			
+			int testLikeCount = (int)(likeCount * 0.2);
+			if (testLikeCount < 1) continue;
+			
+			int testNotLikeCount = (int)(notLikeCount * 0.2);
+			if (testNotLikeCount < 1) continue;
+			
+			System.out.println("testLikeCount : " + testLikeCount + " testNotLikeCount: " + testNotLikeCount);
+			
+			int addedLike = 0;
+			int addedNotLike = 0;
+			
+			Object[] links = userLinks.toArray();
+			
+			HashSet<Long> userTest = new HashSet<Long>();
+			
+			while (addedLike < testLikeCount) {
+				int randomIndex = (int)(Math.random() * links.length);
+				Long linkId = (Long)links[randomIndex];
+				
+				if (active == null || !active.contains(linkId)) continue;
+				
+				Long[] posters = linkPosters.get(linkId);
+				
+				boolean friend = false;
+				if ((friendships.containsKey(userId) && friendships.get(userId).containsKey(posters[0]))
+						&& (friendships.containsKey(posters[0]) && friendships.get(posters[0]).containsKey(userId))
+					) {
+					friend = true;
+				}
+				
+				if ((restriction == Constants.ACTIVE_FRIEND && friend) 
+						|| (restriction == Constants.ACTIVE_NON_FRIEND && !friend)
+						|| restriction == Constants.ACTIVE_ALL) {
+					if (userLikes.contains(linkId) && !userTest.contains(linkId)) {
+						userTest.add(linkId);
+						addedLike++;
+					}
+				}	
+			}
+			
+			while (addedNotLike < testNotLikeCount) {
+				int randomIndex = (int)(Math.random() * links.length);
+				Long linkId = (Long)links[randomIndex];
+				
+				if (active == null || !active.contains(linkId)) continue;
+				
+				Long[] posters = linkPosters.get(linkId);
+				
+				boolean friend = false;
+				if ((friendships.containsKey(userId) && friendships.get(userId).containsKey(posters[0]))
+						&& (friendships.containsKey(posters[0]) && friendships.get(posters[0]).containsKey(userId))
+					) {
+					friend = true;
+				}
+				
+				if ((restriction == Constants.ACTIVE_FRIEND && friend) 
+						|| (restriction == Constants.ACTIVE_NON_FRIEND && !friend)
+						|| restriction == Constants.ACTIVE_ALL) {
+					if (!userLikes.contains(linkId) && !userTest.contains(linkId)) {
+						userTest.add(linkId);
+						addedNotLike++;
+					}
+				}
+			}
+			
+			testData.put(userId, userTest);
+		}
+		
+		
+		return testData;
 	}
 	
 	/**
@@ -402,8 +844,7 @@ public class LinkRecommender
 	{
 		HashMap<Long, Set<Long>> userLinks = new HashMap<Long, Set<Long>>();
 		
-		Connection conn = SQLUtil.getSqlConnection();
-		Statement statement = conn.createStatement();
+		Statement statement = SQLUtil.getStatement();
 		
 		//Recommend only for users that have installed the LinkRecommender app.
 		//These users are distinguished by having is_app_user=1 in the trackUserUpdates table.
@@ -506,8 +947,7 @@ public class LinkRecommender
 	{
 		HashMap<Long, Set<Long>> userLinks = new HashMap<Long, Set<Long>>();
 		
-		Connection conn = SQLUtil.getSqlConnection();
-		Statement statement = conn.createStatement();
+		Statement statement = SQLUtil.getStatement();
 		
 		//Recommend only for users that have installed the LinkRecommender app.
 		//These users are distinguished by having is_app_user=1 in the trackUserUpdates table.
@@ -631,9 +1071,7 @@ public class LinkRecommender
 	public void saveLinkRecommendations(Map<Long, Map<Long, Double>> friendRecommendations, Map<Long, Map<Long, Double>> nonFriendRecommendations, String type)
 		throws SQLException
 	{
-		Connection conn = SQLUtil.getSqlConnection();
-		
-		Statement statement = conn.createStatement();
+		Statement statement = SQLUtil.getStatement();
 		
 		for (long userId : friendRecommendations.keySet()) {
 			Map<Long, Double> friendLinks = friendRecommendations.get(userId);
@@ -668,7 +1106,7 @@ public class LinkRecommender
 				if (from == null) continue;
 				
 				System.out.println("RECOMMENDING LINK: " + from);
-				PreparedStatement ps = conn.prepareStatement("INSERT INTO lrRecommendations VALUES(?,?,?,?,0)");
+				PreparedStatement ps = SQLUtil.prepareStatement("INSERT INTO lrRecommendations VALUES(?,?,?,?,0)");
 				ps.setLong(1, userId);
 				ps.setLong(2, linkId);
 				ps.setDouble(3, val);
@@ -686,20 +1124,13 @@ public class LinkRecommender
 	 * For training, get a sample of links for each user.
 	 * We look for links only given a certain date range, and only get 9 times as much 'unliked' links as 'liked' links
 	 * because we do not want the 'liked' links to be drowned out during training.
-	 * This means that if user hasn't liked any links, we do not get any unliked link as well.
 	 * 
-	 * @param userIds
-	 * @param friendships
-	 * @return
-	 * @throws SQLException
+	 * Users with no liked links are not included.
 	 */
-	public Map<Long, Set<Long>> getUserLinksSample(Map<Long, Set<Long>> linkLikes, Set<Long> userIds, Map<Long, Map<Long, Double>> friendships, Map<Long, Long[]> links, boolean limit, boolean forTesting)
+	public Map<Long, Set<Long>> getTrainingSample(Map<Long, Set<Long>> linkLikes, Set<Long> userIds, Map<Long, Map<Long, Double>> friendships, Map<Long, Long[]> links)
 		throws SQLException
 	{
 		HashMap<Long, Set<Long>> userLinkSamples = new HashMap<Long, Set<Long>>();
-		
-		Connection conn = SQLUtil.getSqlConnection();
-		Statement statement = conn.createStatement();
 		
 		int count = 0;
 		
@@ -723,16 +1154,9 @@ public class LinkRecommender
 		
 		for (Long userId : userLinkSamples.keySet()) {
 			Set<Long> samples = userLinkSamples.get(userId);
-			if (samples.size() < 2) {
-				remove.add(userId);
-				continue;
-			}
-			
-			if (Configuration.DEPLOYMENT_TYPE == Constants.RECOMMEND && type.equals(Constants.SVM)) {
-				if (samples.size() < 5) {
-					//remove.add(userId);
-					//continue;
-				}
+			if (samples.size() < 5) {
+				//remove.add(userId);
+				//continue;
 			}
 			
 			System.out.println("User: " + ++count + " " + samples.size());
@@ -740,17 +1164,6 @@ public class LinkRecommender
 			Set<Long> friends = friendships.get(userId).keySet();
 			
 			int likeCount = samples.size();
-			
-			if (!forTesting) {
-				ResultSet result = statement.executeQuery("SELECT link_id FROM trackRecommendedLinks WHERE uid=" + userId + " AND rating=2");
-				while (result.next()) {
-					if (links.containsKey(result.getLong("link_id"))) {
-						samples.add(result.getLong("link_id"));
-					}
-				}
-				
-				
-			}
 			
 			//Sample links that weren't liked.
 			//Links here should be links that were shared by friends to increase the chance that the user has actually seen this and not
@@ -763,10 +1176,6 @@ public class LinkRecommender
 					samples.add(linkId);
 				}
 			}
-			
-			if (forTesting && samples.size() < likeCount * 2) {
-				remove.add(userId);
-			}
 		}
 		
 		for (Long removeId : remove) {
@@ -776,5 +1185,72 @@ public class LinkRecommender
 		System.out.println("Final Sample: " + userLinkSamples.size());
 		
 		return userLinkSamples;
+	}
+	
+	public void outputMetrics(Recommender recommender, Map<Long, Set<Long>> testData)
+	{
+		double meanPrecision100 = 0;
+		double meanRecall100 = 0;
+		double meanF100 = 0;
+		
+		double precisionStandardDev100 = 0;
+		double recallStandardDev100 = 0;
+		double fStandardDev100 = 0;
+				
+		Map<Long, Double[]> precisionRecalls100 = recommender.getPrecisionRecall(testData, 100);
+		
+		for (long userId : precisionRecalls100.keySet()) {
+			double precision100 = precisionRecalls100.get(userId)[0];
+			double recall100 =  precisionRecalls100.get(userId)[1];
+			double f100 = (precision100 + recall100 > 0) ? 2 * (precision100 * recall100) / (precision100 + recall100) : 0;
+	
+			meanPrecision100 += precision100;
+			meanRecall100 += recall100;
+				
+			meanF100 += f100;
+		}
+
+		meanPrecision100 /= (double)precisionRecalls100.size();
+		meanRecall100 /= (double)precisionRecalls100.size();
+		meanF100 /= (double)precisionRecalls100.size();
+		
+		
+		for (long userId : precisionRecalls100.keySet()) {
+			Object[] precisionRecall100 = precisionRecalls100.get(userId);
+				
+			double precision100 = (Double)precisionRecall100[0];
+			double recall100 = (Double)precisionRecall100[1];
+				
+			System.out.println("User recall: " + recall100);
+			
+			double f100 = (precision100 + recall100 > 0) ? 2 * (precision100 * recall100) / (precision100 + recall100) : 0;
+			precisionStandardDev100 += Math.pow(precision100 - meanPrecision100, 2);
+			recallStandardDev100 += Math.pow(recall100 - meanRecall100, 2);
+				
+			fStandardDev100 += Math.pow(f100 - meanF100, 2);
+		}
+		
+		precisionStandardDev100 /= (double)precisionRecalls100.size();
+		precisionStandardDev100 = Math.sqrt(precisionStandardDev100);
+		recallStandardDev100 /= (double)precisionRecalls100.size();
+		recallStandardDev100 = Math.sqrt(recallStandardDev100);
+		fStandardDev100 /= (double)precisionRecalls100.size();
+		fStandardDev100 = Math.sqrt(fStandardDev100);
+		
+		double precisionSE100 = precisionStandardDev100 / Math.sqrt(precisionRecalls100.size());
+		double recallSE100 = recallStandardDev100 / Math.sqrt(precisionRecalls100.size());
+		double fSE100 = fStandardDev100 / Math.sqrt(precisionRecalls100.size());
+		
+		System.out.println("Mean Precision 100: " + meanPrecision100);
+		System.out.println("SD: " + precisionStandardDev100);
+		System.out.println("SE: " + precisionSE100);
+		
+		System.out.println("Mean Recall 100: " + meanRecall100);
+		System.out.println("SD: " + recallStandardDev100);
+		System.out.println("SE: " + recallSE100);
+		
+		System.out.println("Mean F1 100: " + meanF100);
+		System.out.println("SD: " + fStandardDev100);
+		System.out.println("SE: " + fSE100);	
 	}
 }
