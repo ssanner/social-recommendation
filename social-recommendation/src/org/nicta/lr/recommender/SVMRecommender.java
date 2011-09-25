@@ -36,19 +36,23 @@ public class SVMRecommender extends Recommender
 		model = trainSVMModel(trainSamples);	
 	}
 	
-	public Map<Long, Double[]> getPrecisionRecall(Map<Long, Set<Long>> testData, int boundary)
+	public Map<Long, Map<Long, Double>> getPredictionsCombined(Map<Long, Set<Long>> testData)
 	{
-		HashMap<Long, Double[]> precisionRecalls = new HashMap<Long, Double[]>();
-
-		HashSet<Long> combinedTest = new HashSet<Long>();
+		HashMap<Long, Map<Long, Double>> predictions = new HashMap<Long, Map<Long, Double>>();
+		
+		HashSet<Long> combinedTestData = new HashSet<Long>();
 		for (long userId : testData.keySet()) {
-			combinedTest.addAll(testData.get(userId));
+			combinedTestData.addAll(testData.get(userId));
 		}
 		
 		int count = 0;
+		System.out.println("total: " + testData.size());
 		for (long userId : testData.keySet()) {
-			count++;
-			System.out.println("Testing user: " + count);
+			System.out.println("User" + ++count);
+			
+			HashMap<Long, Double> userPredictions = new HashMap<Long, Double>();
+			predictions.put(userId, userPredictions);
+			
 			Set<Long> userFriends;
 			if (friendships.containsKey(userId)) {
 				userFriends = friendships.get(userId).keySet();
@@ -57,10 +61,7 @@ public class SVMRecommender extends Recommender
 				userFriends = new HashSet<Long>();
 			}
 			
-			ArrayList<Double> scores = new ArrayList<Double>();
-			ArrayList<Long> ids = new ArrayList<Long>();
-			
-			for (long linkId : combinedTest) {
+			for (long linkId : combinedTestData) {
 				double[] features = combineFeatures(userFeatures.get(userId), linkFeatures.get(linkId));
 				ArrayList<svm_node> nodeList = new ArrayList<svm_node>();
 				
@@ -109,40 +110,23 @@ public class SVMRecommender extends Recommender
 				double[] dbl = new double[1]; 
 				svm.svm_predict_values(model, nodes, dbl);
 				
-				scores.add(dbl[0]);
-				ids.add(linkId);
+				double prediction = dbl[0];
+				
+				userPredictions.put(linkId, prediction);
 			}
-			
-			Object[] sorted = sort(scores, ids);
-			List<Long> idLength = (List<Long>)sorted[1];
-			
-			int limit = boundary;
-			if (idLength.size() < limit) limit = idLength.size();
-			
-			Long[] top = new Long[limit];
-			for (int x = 0; x < top.length; x++) {
-				top[x] = idLength.get(x);
-			}
-			
-			
-			double precision = getUserPrecision(top, userId);
-			double recall = getUserRecall(top, userId, testData.get(userId));
-			precisionRecalls.put(userId, new Double[]{precision, recall});
 		}
 		
-		return precisionRecalls;
+		return predictions;
 	}
 	
-	public Map<Long, Double> getAveragePrecisions(Map<Long, Set<Long>> testData)
+	public Map<Long, Map<Long, Double>> getPredictions(Map<Long, Set<Long>> testData)
 	{
-		HashMap<Long, Double> averagePrecisions = new HashMap<Long, Double>();
+		HashMap<Long, Map<Long, Double>> predictions = new HashMap<Long, Map<Long, Double>>();
 		
-		System.out.println("Test size: " + testData.size());
-		int count = 0;
 		for (long userId : testData.keySet()) {
-			System.out.println("User " + ++count);
+			HashMap<Long, Double> userPredictions = new HashMap<Long, Double>();
+			predictions.put(userId, userPredictions);
 			
-			Set<Long> links = testData.get(userId);
 			Set<Long> userFriends;
 			if (friendships.containsKey(userId)) {
 				userFriends = friendships.get(userId).keySet();
@@ -151,12 +135,9 @@ public class SVMRecommender extends Recommender
 				userFriends = new HashSet<Long>();
 			}
 			
-			ArrayList<Double> scores = new ArrayList<Double>();
-			ArrayList<Long> ids = new ArrayList<Long>();
+			Set<Long> userTest = testData.get(userId);
 			
-			for (long linkId : links) {
-				if (!linkFeatures.containsKey(linkId)) continue;
-				
+			for (long linkId : userTest) {
 				double[] features = combineFeatures(userFeatures.get(userId), linkFeatures.get(linkId));
 				ArrayList<svm_node> nodeList = new ArrayList<svm_node>();
 				
@@ -205,18 +186,13 @@ public class SVMRecommender extends Recommender
 				double[] dbl = new double[1]; 
 				svm.svm_predict_values(model, nodes, dbl);
 				
-				scores.add(dbl[0]);
-				ids.add(linkId);
+				double prediction = dbl[0];
+				
+				userPredictions.put(linkId, prediction);
 			}
-			
-			Object[] sorted = sort(scores, ids);
-			
-			double ap = getUserAP(sorted, userId);
-			
-			averagePrecisions.put(userId, ap);
 		}
 		
-		return averagePrecisions;
+		return predictions;
 	}
 	
 	public svm_model trainSVMModel(Map<Long, Set<Long>> trainingSamples)
