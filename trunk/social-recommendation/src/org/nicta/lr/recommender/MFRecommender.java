@@ -986,79 +986,66 @@ public abstract class MFRecommender extends Recommender
 		return idColumns;
 	}
 
-	public Map<Long, Double> getAveragePrecisions(Map<Long, Set<Long>> testData)
+	public Map<Long, Map<Long, Double>> getPredictionsCombined(Map<Long, Set<Long>> testData)
 	{
+		HashMap<Long, Map<Long, Double>> predictions = new HashMap<Long, Map<Long, Double>>();
+		
 		Map<Long, Double[]> userTraits = getUserTraitVectors(userFeatureMatrix, userIdColumns, userFeatures);
 		Map<Long, Double[]> linkTraits = getLinkTraitVectors(linkFeatureMatrix, linkIdColumns, linkFeatures);
 		
-		HashMap<Long, Double> averagePrecisions = new HashMap<Long, Double>();
+		HashSet<Long> combinedTestData = new HashSet<Long>();
 		
 		for (long userId : testData.keySet()) {
-			Set<Long> links = testData.get(userId);
-			
-			ArrayList<Double> scores = new ArrayList<Double>();
-			ArrayList<Long> linkIds = new ArrayList<Long>();
-			
-			for (long j : links) {
-				if (!linkTraits.containsKey(j)) continue;
-				double predictedLike = dot(userTraits.get(userId), linkTraits.get(j));
-				//System.out.println("Scoring: " + predictedLike);
-				scores.add(predictedLike);
-				linkIds.add(j);
-			}
-			
-			Object[] sorted = sort(scores, linkIds);
-			
-			double ap = getUserAP(sorted, userId);
-			
-			averagePrecisions.put(userId, ap);
+			combinedTestData.addAll(testData.get(userId));
 		}
 		
-		return averagePrecisions;
+		for (long userId : testData.keySet()) {
+			HashMap<Long, Double> userPredictions = new HashMap<Long, Double>();
+			predictions.put(userId, userPredictions);
+			
+			for (long j : combinedTestData) {
+				double prediction;
+				if (!linkTraits.containsKey(j)) {
+					prediction = 0;
+				}
+				else {
+					prediction = dot(userTraits.get(userId), linkTraits.get(j));
+				}
+				
+				userPredictions.put(j, prediction);
+			}
+		}
+		
+		return predictions;
 	}
 	
-	public Map<Long, Double[]> getPrecisionRecall(Map<Long, Set<Long>> testData, int boundary)
+	public Map<Long, Map<Long, Double>> getPredictions(Map<Long, Set<Long>> testData)
 	{
+		HashMap<Long, Map<Long, Double>> predictions = new HashMap<Long, Map<Long, Double>>();
+		
 		Map<Long, Double[]> userTraits = getUserTraitVectors(userFeatureMatrix, userIdColumns, userFeatures);
 		Map<Long, Double[]> linkTraits = getLinkTraitVectors(linkFeatureMatrix, linkIdColumns, linkFeatures);
 		
-		HashMap<Long, Double[]> precisionRecalls = new HashMap<Long, Double[]>();
-		
-		HashSet<Long> combinedTest = new HashSet<Long>();
 		for (long userId : testData.keySet()) {
-			combinedTest.addAll(testData.get(userId));
+			HashMap<Long, Double> userPredictions = new HashMap<Long, Double>();
+			predictions.put(userId, userPredictions);
+			
+			Set<Long> links = testData.get(userId);
+			
+			for (long j : links) {
+				double prediction;
+				if (!linkTraits.containsKey(j)) {
+					prediction = 0;
+				}
+				else {
+					prediction = dot(userTraits.get(userId), linkTraits.get(j));
+				}
+				
+				userPredictions.put(j, prediction);
+			}
 		}
 		
-		for (long userId : testData.keySet()) {
-			ArrayList<Double> scores = new ArrayList<Double>();
-			ArrayList<Long> linkIds = new ArrayList<Long>();
-			
-			for (long j : combinedTest) {
-				if (!linkTraits.containsKey(j)) continue;
-				double predictedLike = dot(userTraits.get(userId), linkTraits.get(j));
-			
-				scores.add(predictedLike);
-				linkIds.add(j);
-			}
-			
-			Object[] sorted = sort(scores, linkIds);
-			List<Long> idLength = (List<Long>)sorted[1];
-			
-			int limit = boundary;
-			if (idLength.size() < limit) limit = idLength.size();
-			
-			Long[] top = new Long[limit];
-			for (int x = 0; x < top.length; x++) {
-				top[x] = idLength.get(x);
-			}
-			
-			double precision = getUserPrecision(top, userId);
-			double recall = getUserRecall(top, userId, testData.get(userId));
-			
-			precisionRecalls.put(userId, new Double[]{precision, recall});
-		}
-		
-		return precisionRecalls;
+		return predictions;
 	}
 	
 	public void save()
@@ -1262,7 +1249,6 @@ public abstract class MFRecommender extends Recommender
 		
 		return predictions;
 	}
-	
 	
 	
 	public void testPrediction()

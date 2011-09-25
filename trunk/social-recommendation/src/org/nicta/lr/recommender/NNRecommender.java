@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class NNRecommender extends Recommender
 {
-	private int K = 10;
+	private int K = 50;
 	
 	Map<Long, Set<Long>> userLinkSamples;
 	
@@ -26,45 +26,45 @@ public class NNRecommender extends Recommender
 		userLinkSamples = trainSamples;
 	}
 	
-	public Map<Long, Double[]> getPrecisionRecall(Map<Long, Set<Long>> testData, int boundary)
+	public Map<Long, Map<Long, Double>> getPredictionsCombined(Map<Long, Set<Long>> testData)
 	{
-		HashMap<Long, Double[]> precisionRecalls = new HashMap<Long, Double[]>();
+		Map<Long, Map<Long, Double>> predictions = new HashMap<Long, Map<Long, Double>>();
 		
-		HashSet<Long> combinedTest = new HashSet<Long>();
+		Set<Long> combinedTestData = new HashSet<Long>();
+		
 		for (long userId : testData.keySet()) {
-			combinedTest.addAll(testData.get(userId));
+			combinedTestData.addAll(testData.get(userId));
 		}
 		
 		for (long userId : testData.keySet()) {
+			HashMap<Long, Double> userPredictions = new HashMap<Long, Double>();
+			predictions.put(userId, userPredictions);
+			
 			Double[] userFeature = userFeatures.get(userId);
 			
-			ArrayList<Double> scores = new ArrayList<Double>();
-			ArrayList<Long> ids = new ArrayList<Long>();
-			
-			for (long testId : combinedTest) {
+			for (long testId : combinedTestData) {
 				Set<Long> likedUsers = linkLikes.get(testId);
+				
 				if (likedUsers == null) {
-					scores.add(0.0);
-					ids.add(testId);
-					continue;
+					likedUsers = new HashSet<Long>();
 				}
 				
-				//Holds the k=10 nearest neighbors
 				HashMap<Long, Double> kClosestDistance = new HashMap<Long, Double>();
-				
+					
 				double biggestKDistance = 0;			
 				long biggestId = 0;
-				
-				for (long user : likedUsers) {
+					
+				for (long user : likedUsers) {		
 					if (user == userId || !userFeatures.containsKey(user)) continue;
+					if (!userLinkSamples.get(user).contains(testId)) continue;
 					
 					Double[] likedFeature = userFeatures.get(user);
-					
+						
 					double distance = getDistance(userFeature, likedFeature);
-					
+						
 					if (kClosestDistance.size() < K) {
 						kClosestDistance.put(user, distance);
-						
+							
 						if (distance > biggestKDistance) {
 							biggestKDistance = distance;
 							biggestId = user;
@@ -73,9 +73,9 @@ public class NNRecommender extends Recommender
 					else if (distance < biggestKDistance) {
 						kClosestDistance.remove(biggestId);
 						kClosestDistance.put(user, distance);
-						
+							
 						biggestKDistance = 0;
-						
+							
 						//reset the biggest distance again
 						for (long id : kClosestDistance.keySet()) {
 							double d = kClosestDistance.get(id);
@@ -87,84 +87,57 @@ public class NNRecommender extends Recommender
 						}
 					}
 				}
-				
-				
-				double numerator = 0;
-				double denomenator = 0;
-				
-				for (long neighborId : kClosestDistance.keySet()) {				
-					double neighborSimilarity = kClosestDistance.get(neighborId);
-					double neighborRating = 0;
-					if (linkLikes.containsKey(neighborId) && linkLikes.get(neighborId).contains(userId)) neighborRating = 1;
 					
-					numerator += neighborSimilarity * neighborRating;
-					denomenator += neighborSimilarity;
+					
+				double prediction = 0;
+					
+				for (long neighborId : kClosestDistance.keySet()) {				
+					prediction += 1 / kClosestDistance.get(neighborId);
 				}
 				
-				double prediction = 0;
-				if (denomenator > 0) prediction = numerator / denomenator;
+				userPredictions.put(testId, prediction);
 				
-				scores.add(prediction);
-				ids.add(testId);
 			}
-	
-			Object[] sorted = sort(scores, ids);
-			List<Long> idLength = (List<Long>)sorted[1];
-			
-			int limit = boundary;
-			if (idLength.size() < limit) limit = idLength.size();
-		
-			
-			Long[] top = new Long[limit];
-			for (int x = 0; x < top.length; x++) {
-				top[x] = idLength.get(x);
-			}
-			
-			
-			double precision = getUserPrecision(top, userId);
-			double recall = getUserRecall(top, userId, testData.get(userId));
-			
-			precisionRecalls.put(userId, new Double[]{precision, recall});
 		}
 		
-		return precisionRecalls;
+		return predictions;
 	}
 	
-	public Map<Long, Double> getAveragePrecisions(Map<Long, Set<Long>> testData)
+	public Map<Long, Map<Long, Double>> getPredictions(Map<Long, Set<Long>> testData)
 	{
-		HashMap<Long, Double> averagePrecisions = new HashMap<Long, Double>();
+		Map<Long, Map<Long, Double>> predictions = new HashMap<Long, Map<Long, Double>>();
 		
 		for (long userId : testData.keySet()) {
-			Set<Long> testLinks = testData.get(userId);
+			HashMap<Long, Double> userPredictions = new HashMap<Long, Double>();
+			predictions.put(userId, userPredictions);
+			
 			Double[] userFeature = userFeatures.get(userId);
 			
-			ArrayList<Double> scores = new ArrayList<Double>();
-			ArrayList<Long> ids = new ArrayList<Long>();
+			Set<Long> userTest = testData.get(userId);
 			
-			for (long testId : testLinks) {
+			for (long testId : userTest) {
 				Set<Long> likedUsers = linkLikes.get(testId);
+				
 				if (likedUsers == null) {
-					scores.add(0.0);
-					ids.add(testId);
-					continue;
+					likedUsers = new HashSet<Long>();
 				}
 				
-				//Holds the k=10 nearest neighbors
 				HashMap<Long, Double> kClosestDistance = new HashMap<Long, Double>();
-				
+					
 				double biggestKDistance = 0;			
 				long biggestId = 0;
-				
-				for (long user : likedUsers) {
+					
+				for (long user : likedUsers) {		
 					if (user == userId || !userFeatures.containsKey(user)) continue;
+					if (!userLinkSamples.get(user).contains(testId)) continue;
 					
 					Double[] likedFeature = userFeatures.get(user);
-					
+						
 					double distance = getDistance(userFeature, likedFeature);
-					
+						
 					if (kClosestDistance.size() < K) {
 						kClosestDistance.put(user, distance);
-						
+							
 						if (distance > biggestKDistance) {
 							biggestKDistance = distance;
 							biggestId = user;
@@ -173,9 +146,9 @@ public class NNRecommender extends Recommender
 					else if (distance < biggestKDistance) {
 						kClosestDistance.remove(biggestId);
 						kClosestDistance.put(user, distance);
-						
+							
 						biggestKDistance = 0;
-						
+							
 						//reset the biggest distance again
 						for (long id : kClosestDistance.keySet()) {
 							double d = kClosestDistance.get(id);
@@ -187,33 +160,20 @@ public class NNRecommender extends Recommender
 						}
 					}
 				}
-				
-				
-				double numerator = 0;
-				double denomenator = 0;
-				
-				for (long neighborId : kClosestDistance.keySet()) {				
-					double neighborSimilarity = kClosestDistance.get(neighborId);
-					double neighborRating = 0;
-					if (linkLikes.containsKey(neighborId) && linkLikes.get(neighborId).contains(userId)) neighborRating = 1;
 					
-					numerator += neighborSimilarity * neighborRating;
-					denomenator += neighborSimilarity;
+					
+				double prediction = 0;
+					
+				for (long neighborId : kClosestDistance.keySet()) {				
+					prediction += 1 / kClosestDistance.get(neighborId);
 				}
 				
-				double prediction = 0;
-				if (denomenator > 0) prediction = numerator / denomenator;
+				userPredictions.put(testId, prediction);
 				
-				scores.add(prediction);
-				ids.add(testId);
 			}
-	
-			Object[] sorted = sort(scores, ids);
-			double ap = getUserAP(sorted, userId);
-			averagePrecisions.put(userId, ap);
 		}
 		
-		return averagePrecisions;
+		return predictions;
 	}
 	
 	public Map<Long, Map<Long, Double>> recommend(Map<Long, Set<Long>> linksToRecommend)

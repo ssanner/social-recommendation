@@ -33,8 +33,73 @@ public abstract class Recommender
 	
 	public abstract void train(Map<Long, Set<Long>> trainingSamples);
 	
-	public abstract Map<Long, Double> getAveragePrecisions(Map<Long, Set<Long>> testData);
-	public abstract Map<Long, Double[]> getPrecisionRecall(Map<Long, Set<Long>> testData, int boundary);
+	public Map<Long, Double> getAveragePrecisions(Map<Long, Map<Long, Double>> predictions)
+	{
+		HashMap<Long, Double> averagePrecisions = new HashMap<Long, Double>();
+
+		for (long userId : predictions.keySet()) {
+			Map<Long, Double> userPredictions = predictions.get(userId);
+			
+			ArrayList<Double> scores = new ArrayList<Double>();
+			ArrayList<Long> ids = new ArrayList<Long>();
+			
+			for (long linkId: userPredictions.keySet()) {
+				double prediction = userPredictions.get(linkId);
+				
+				scores.add(prediction);
+				ids.add(linkId);
+			}
+	
+			Object[] sorted = sort(scores, ids);
+			double ap = getUserAP(sorted, userId);
+			averagePrecisions.put(userId, ap);
+		}
+		
+		return averagePrecisions;
+	}
+	
+	public Integer[] getAUCMetrics(Map<Long, Map<Long, Double>> predictions, double threshold)
+	{
+		int truePos = 0;
+		int falsePos = 0;
+		int trueNeg = 0;
+		int falseNeg = 0;
+		
+		for (long userId : predictions.keySet()) {
+			
+			Map<Long, Double> userPredictions = predictions.get(userId);
+			
+			for (long linkId : userPredictions.keySet()) {
+				double prediction = userPredictions.get(linkId);
+				
+				
+				if (prediction >= threshold) {
+					if (linkLikes.containsKey(linkId) && linkLikes.get(linkId).contains(userId)) {
+						truePos++;
+					}
+					else {
+						falsePos++;
+					}
+				}
+				else {
+					if (threshold == 0.0) {
+						System.out.println("ANO TO:"  + prediction);
+					}
+					if (linkLikes.containsKey(linkId) && linkLikes.get(linkId).contains(userId)) {
+						falseNeg++;
+					}
+					else {
+						trueNeg++;
+					}
+				}
+			}
+		}
+		
+		return new Integer[]{truePos, falsePos, trueNeg, falseNeg};
+	}
+	
+	public abstract Map<Long, Map<Long, Double>> getPredictions(Map<Long, Set<Long>> testData);
+	public abstract Map<Long, Map<Long, Double>> getPredictionsCombined(Map<Long, Set<Long>> testData);
 	
 	public abstract Map<Long, Map<Long, Double>> recommend(Map<Long, Set<Long>> linksToRecommend);
 	

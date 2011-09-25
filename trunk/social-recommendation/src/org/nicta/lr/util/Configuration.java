@@ -17,10 +17,9 @@ public class Configuration
 	public static String LANG_PROFILE_FOLDER = Constants.SERVER_LANG_PROFILE_FOLDER;
 	
 	public static String TRAINING_DATA = Constants.ACTIVE;
-	public static String TEST_DATA = Constants.APP_USER_ACTIVE_ALL;
+	public static String TEST_DATA = Constants.APP_USER_PASSIVE;
 	
-	public void parseArguments(String[] args)
-	{
-		
-	}
+	//public static String TRAINING_DATA = Constants.PASSIVE;
+	//public static String TEST_DATA = Constants.FB_USER_PASSIVE;
+	
 }

@@ -196,7 +196,6 @@ public class LinkRecommender
 		
 		int testCount = 0;
 		for (long userId : testData.keySet()) {
-			System.out.println("Test: " + userId + " " + testData.size());
 			testCount += testData.get(userId).size();
 		}
 		System.out.println("Total Test: " + testCount);
@@ -224,7 +223,13 @@ public class LinkRecommender
 		SQLUtil.closeSqlConnection();
 		
 		//Clean up links that are not in the linkrLinkInfo table. Clean up users after
+		HashSet<Long> removeUsers = new HashSet<Long>();
 		for (long userId : trainData.keySet()) {
+			if (!users.containsKey(userId)) {
+				removeUsers.add(userId);
+				continue;
+			}
+			
 			Set<Long> samples = trainData.get(userId);
 			HashSet<Long> remove = new HashSet<Long>();
 			
@@ -236,41 +241,117 @@ public class LinkRecommender
 			
 			samples.removeAll(remove);
 		}	
+		for (long userId : removeUsers) {
+			trainData.remove(userId);
+		}
+		removeUsers = new HashSet<Long>();
+		for (long userId : testData.keySet()) {
+			if (!users.containsKey(userId)) {
+				removeUsers.add(userId);
+				continue;
+			}
+			Set<Long> samples = testData.get(userId);
+			HashSet<Long> remove = new HashSet<Long>();
+			
+			for (long linkId : samples) {
+				if (!links.containsKey(linkId)) {
+					remove.add(linkId);
+				}
+			}
+			
+			samples.removeAll(remove);
+		}	
+		for (long userId : removeUsers) {
+			testData.remove(userId);
+		}	
 		
 		Recommender recommender = getRecommender(type, linkLikes, users, links, friendships);
 		recommender.train(trainData);
 		
+		//System.out.println("APP USER");
 		outputMap(recommender, testData);
-		outputMetrics(recommender, testData);
-	}
-	
-	public void outputMap(Recommender recommender, Map<Long, Set<Long>> testData)
-	{
-		Map<Long, Double> averagePrecisions = recommender.getAveragePrecisions(testData);
+		outputAUC(recommender, testData);
 		
-		double map = 0;
-		for (long userId : averagePrecisions.keySet()) {
-			double pre = averagePrecisions.get(userId);
-			map += pre;
+		
+		/*
+		Configuration.TEST_DATA = Constants.FB_USER_PASSIVE;
+		forTesting = getTestData(trainData, linkLikes, friendships);
+		testData = forTesting[0];
+		
+		testCount = 0;
+		for (long userId : testData.keySet()) {
+			testCount += testData.get(userId).size();
+		}
+		System.out.println("Total Test: " + testCount);
+		
+		testLikes = forTesting[1];
+		for (long linkId : testLikes.keySet()) {
+			Set<Long> likes = testLikes.get(linkId);
+			
+			if (linkLikes.containsKey(linkId)) {
+				linkLikes.get(linkId).addAll(likes);
+			}
+			else {
+				linkLikes.put(linkId, likes);
+			}
 		}
 		
-		map /= (double)averagePrecisions.size();
-		double standardDev = 0;
-		
-		for (long userId : averagePrecisions.keySet()) {
-			double pre = averagePrecisions.get(userId);
-			standardDev += Math.pow(pre - map, 2);
+		usersNeeded.addAll(testData.keySet());
+		for (long userId : testData.keySet()) {
+			linksNeeded.addAll(testData.get(userId));
 		}
 		
-		standardDev /= (double)averagePrecisions.size();
-		standardDev = Math.sqrt(standardDev);
-	
-		double standardError = standardDev / Math.sqrt(averagePrecisions.size());
+		users = UserUtil.getUserFeatures(usersNeeded);
+		links = LinkUtil.getLinkFeatures(linksNeeded);
 		
+		SQLUtil.closeSqlConnection();
 		
-		System.out.println("MAP: " + map);
-		System.out.println("SD: " + standardDev);
-		System.out.println("SE: " + standardError);
+		//Clean up links that are not in the linkrLinkInfo table. Clean up users after
+		removeUsers = new HashSet<Long>();
+		for (long userId : trainData.keySet()) {
+			if (!users.containsKey(userId)) {
+				removeUsers.add(userId);
+				continue;
+			}
+			
+			Set<Long> samples = trainData.get(userId);
+			HashSet<Long> remove = new HashSet<Long>();
+			
+			for (long linkId : samples) {
+				if (!links.containsKey(linkId)) {
+					remove.add(linkId);
+				}
+			}
+			
+			samples.removeAll(remove);
+		}	
+		for (long userId : removeUsers) {
+			trainData.remove(userId);
+		}
+		removeUsers = new HashSet<Long>();
+		for (long userId : testData.keySet()) {
+			if (!users.containsKey(userId)) {
+				removeUsers.add(userId);
+				continue;
+			}
+			Set<Long> samples = testData.get(userId);
+			HashSet<Long> remove = new HashSet<Long>();
+			
+			for (long linkId : samples) {
+				if (!links.containsKey(linkId)) {
+					remove.add(linkId);
+				}
+			}
+			
+			samples.removeAll(remove);
+		}	
+		for (long userId : removeUsers) {
+			testData.remove(userId);
+		}
+		System.out.println("FB USER");
+		outputMap(recommender, testData);
+		outputAUC(recommender, testData);
+		*/
 	}
 	
 	public Map<Long, Set<Long>>[] getTestData(Map<Long, Set<Long>> trainData, Map<Long, Set<Long>> trainLikes, Map<Long, Map<Long, Double>> friendships)
@@ -1187,70 +1268,116 @@ public class LinkRecommender
 		return userLinkSamples;
 	}
 	
-	public void outputMetrics(Recommender recommender, Map<Long, Set<Long>> testData)
-	{
-		double meanPrecision100 = 0;
-		double meanRecall100 = 0;
-		double meanF100 = 0;
+	public void outputMap(Recommender recommender, Map<Long, Set<Long>> testData)
+	{	
+		Map<Long, Map<Long, Double>> predictions = recommender.getPredictions(testData);
 		
-		double precisionStandardDev100 = 0;
-		double recallStandardDev100 = 0;
-		double fStandardDev100 = 0;
-				
-		Map<Long, Double[]> precisionRecalls100 = recommender.getPrecisionRecall(testData, 100);
+		Map<Long, Double> averagePrecisions = recommender.getAveragePrecisions(predictions);
 		
-		for (long userId : precisionRecalls100.keySet()) {
-			double precision100 = precisionRecalls100.get(userId)[0];
-			double recall100 =  precisionRecalls100.get(userId)[1];
-			double f100 = (precision100 + recall100 > 0) ? 2 * (precision100 * recall100) / (precision100 + recall100) : 0;
+		double map = 0;
+		for (long userId : averagePrecisions.keySet()) {
+			double pre = averagePrecisions.get(userId);
+			map += pre;
+		}
+		
+		map /= (double)averagePrecisions.size();
+		double standardDev = 0;
+		
+		for (long userId : averagePrecisions.keySet()) {
+			double pre = averagePrecisions.get(userId);
+			standardDev += Math.pow(pre - map, 2);
+		}
+		
+		standardDev /= (double)averagePrecisions.size();
+		standardDev = Math.sqrt(standardDev);
 	
-			meanPrecision100 += precision100;
-			meanRecall100 += recall100;
-				
-			meanF100 += f100;
-		}
-
-		meanPrecision100 /= (double)precisionRecalls100.size();
-		meanRecall100 /= (double)precisionRecalls100.size();
-		meanF100 /= (double)precisionRecalls100.size();
+		double standardError = standardDev / Math.sqrt(averagePrecisions.size());
 		
 		
-		for (long userId : precisionRecalls100.keySet()) {
-			Object[] precisionRecall100 = precisionRecalls100.get(userId);
-				
-			double precision100 = (Double)precisionRecall100[0];
-			double recall100 = (Double)precisionRecall100[1];
-				
-			System.out.println("User recall: " + recall100);
+		System.out.println("MAP: " + map);
+		System.out.println("SD: " + standardDev);
+		System.out.println("SE: " + standardError);
+	}
+	
+	public void outputAUC(Recommender recommender, Map<Long, Set<Long>> testData)
+	{
+		int gCount = 20;
+		
+		Map<Long, Map<Long, Double>> predictions = recommender.getPredictions(testData);
+		
+		double lowestPrediction = Double.MAX_VALUE;
+		double highestPrediction = -Double.MAX_VALUE;
+		
+		for (long userId : predictions.keySet()) {
+			Map<Long, Double> userPredictions = predictions.get(userId);
 			
-			double f100 = (precision100 + recall100 > 0) ? 2 * (precision100 * recall100) / (precision100 + recall100) : 0;
-			precisionStandardDev100 += Math.pow(precision100 - meanPrecision100, 2);
-			recallStandardDev100 += Math.pow(recall100 - meanRecall100, 2);
+			for (long linkId : userPredictions.keySet()) {
+				double val = userPredictions.get(linkId);
 				
-			fStandardDev100 += Math.pow(f100 - meanF100, 2);
+				if (val < lowestPrediction) lowestPrediction = val;
+				if (val > highestPrediction) highestPrediction = val;
+			}
 		}
 		
-		precisionStandardDev100 /= (double)precisionRecalls100.size();
-		precisionStandardDev100 = Math.sqrt(precisionStandardDev100);
-		recallStandardDev100 /= (double)precisionRecalls100.size();
-		recallStandardDev100 = Math.sqrt(recallStandardDev100);
-		fStandardDev100 /= (double)precisionRecalls100.size();
-		fStandardDev100 = Math.sqrt(fStandardDev100);
+		double range = highestPrediction - lowestPrediction;
 		
-		double precisionSE100 = precisionStandardDev100 / Math.sqrt(precisionRecalls100.size());
-		double recallSE100 = recallStandardDev100 / Math.sqrt(precisionRecalls100.size());
-		double fSE100 = fStandardDev100 / Math.sqrt(precisionRecalls100.size());
+		if (range <= 0) {
+			System.out.println("NEGATIVE RANGE: " + range);
+			System.exit(1);
+		}
 		
-		System.out.println("Mean Precision 100: " + meanPrecision100);
-		System.out.println("SD: " + precisionStandardDev100);
-		System.out.println("SE: " + precisionSE100);
+		System.out.println("Lowest: " + lowestPrediction);
 		
-		System.out.println("Mean Recall 100: " + meanRecall100);
-		System.out.println("SD: " + recallStandardDev100);
-		System.out.println("SE: " + recallSE100);
+		double[] thresholds = new double[gCount];
 		
-		System.out.println("Mean F1 100: " + meanF100);
-		System.out.println("SD: " + fStandardDev100);
-		System.out.println("SE: " + fSE100);	
+		double t = lowestPrediction;
+		for (int x = 0; x < gCount; x++) {
+			thresholds[x] = t;
+			t += range / (double)gCount;
+		}
+		
+		if (thresholds[gCount - 1] < highestPrediction) thresholds[gCount - 1] = highestPrediction;
+		
+		double g = 1;
+		Integer[][] aucMetrics = new Integer[gCount][4];
+		
+		for (int i = 0; i < gCount; i++) {
+			Integer[] metrics = recommender.getAUCMetrics(predictions, thresholds[i]);
+			aucMetrics[i] = metrics;
+		}
+		
+		//for (int i = 1; i < gCount; i++) {
+		for (int i = gCount -2; i >= 0; i--) {
+			Integer[] metrics = aucMetrics[i];
+			int truePos = metrics[0];
+			int falsePos = metrics[1];
+			int trueNeg = metrics[2];
+			int falseNeg = metrics[3];
+			
+			double x = (double)falsePos / (double)(falsePos + trueNeg);
+			double y = (double)truePos / (double)(truePos + falseNeg); 
+			
+			double xPrev = 0;
+			double yPrev = 0;
+			
+			if (i > 0) {
+				Integer[] prevMetrics = aucMetrics[i+1];
+				int truePosPrev = prevMetrics[0];
+				int falsePosPrev = prevMetrics[1];
+				int trueNegPrev = prevMetrics[2];
+				int falseNegPrev = prevMetrics[3];
+				
+				xPrev = (double)falsePosPrev / (double)(falsePosPrev + trueNegPrev);
+				yPrev = (double)truePosPrev / (double)(truePosPrev + falseNegPrev); 
+			}
+			
+			g -= (x - xPrev) * (y + yPrev);
+			//System.out.println(x + " " + y + " " + truePos + " " + falsePos + " " + trueNeg + " " + falseNeg);
+		}
+		
+		System.out.println("G: " + g);
+		double auc = (1 - g) / 2;
+		
+		System.out.println("AUC: " + auc);
 	}
 }
