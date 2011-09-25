@@ -26,9 +26,10 @@ public class IndLinkRecommender  extends LinkRecommender
 	public void run(double arg)
 		throws SQLException, IOException
 	{	
+		/*
 		System.out.println("Individual Rec");
 		Set<Long> userIds = UserUtil.getUserIds();
-		Set<Long> linkIds = LinkUtil.getLinkIds(true);
+		//Set<Long> linkIds = LinkUtil.getLinkIds(true);
 		
 		Map<Long, Long[]> linkUsers = LinkUtil.getUnormalizedFeatures(linkIds);
 		Map<Long, Set<Long>> linkLikes = LinkUtil.getLinkLikes(linkUsers, true);
@@ -251,7 +252,7 @@ public class IndLinkRecommender  extends LinkRecommender
 			System.out.println("SD: " + fStandardDev100);
 			System.out.println("SE: " + fSE100);
 		}
-		
+		*/
 		System.out.println("Done");
 	}
 	
