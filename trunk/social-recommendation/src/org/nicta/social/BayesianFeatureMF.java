@@ -4,16 +4,16 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Random;
 
-// TODO: A good way to initialize LBFGS, vice versa?
-//       Training column-by-column (effectively residual method)
+// TODO: A good way to initialize LBFGS, vice versa?  Does not appear so.  -SPS
+//       Incremental Training column-by-column (effectively residual method)
 //       EP?
 public class BayesianFeatureMF extends MovieLens
 {
-	static final public double MIN_VARIANCE = 1e-4d;
+	static final public double MIN_VARIANCE = 1e-7d; // 1e-7 works best for k=5
 	static final public boolean USE_ITEM_NORM = false;
-	static final public double PRIOR_VARIANCE = 200d;
+	static final public double PRIOR_VARIANCE = 100d;
 	static final public double BETA = 2.5d;
-	static final public int BAYESIAN_UPDATE_ITER = 10;
+	static final public int BAYESIAN_UPDATE_ITER = 15;
 	
 	final int DIMENSION_COUNT = 5; 
 	final Random RANDOM = new Random();
@@ -68,6 +68,43 @@ public class BayesianFeatureMF extends MovieLens
 		System.out.println("Average MAE: " + mae / k);
 		System.out.println("Average RMSE: " + rmseSum / k);
 		System.out.println("Time: " + ((System.currentTimeMillis() - start) / 1000));
+	}
+	
+	public void seedPriors(
+			HashMap<Integer, HashMap<Integer, Double>> ratings, 
+			HashMap<Integer, HashSet<Integer>> userMovies, 
+			HashMap<Integer, Double[]> userFeatures, 
+			HashMap<Integer, Double[]> movieFeatures,
+			Double[][] userMatrix,
+			Double[][] movieMatrix) 
+		throws Exception
+	{
+		Double[][] userVar  = getPriorVar(USER_FEATURE_COUNT + USER_COUNT);
+		Double[][] movieVar = getPriorVar(MOVIE_FEATURE_COUNT + MOVIE_COUNT);
+		
+		getAverages(ratings, userMovies);
+		
+		HashMap<Integer, HashMap<Integer, Double>> normalizedRatings = new HashMap<Integer, HashMap<Integer, Double>>();
+		
+		//normalize
+		for (int movieId : ratings.keySet()) {
+			HashMap<Integer, Double> norms = new HashMap<Integer, Double>();
+			normalizedRatings.put(movieId, norms);
+			HashMap<Integer, Double> unnormalized = ratings.get(movieId);
+			
+			for (int userId : unnormalized.keySet()) {
+				double itemAverage = itemAverages.containsKey(movieId) ? itemAverages.get(movieId) : totalAverage;
+				double userAverage = userAverages.containsKey(userId) ? userAverages.get(userId) : totalAverage;
+				
+				if (USE_ITEM_NORM)
+					norms.put(userId, unnormalized.get(userId) - itemAverage);
+				else
+					norms.put(userId, unnormalized.get(userId) - userAverage);
+			}
+		}
+		
+		// Learning via Bayesian updates
+		bayesianUpdate(normalizedRatings, userMatrix, movieMatrix, userVar, movieVar, userFeatures, movieFeatures, null, userMovies);
 	}
 	
 	public double getRMSE(HashMap<Integer, HashMap<Integer, Double>> ratings, HashMap<Integer, HashSet<Integer>> userMovies, 
@@ -208,7 +245,7 @@ public class BayesianFeatureMF extends MovieLens
 			
 			System.out.println("Bayesian update iteration: " + iter);
 			//iterations++;
-					
+			
 			int num_ratings = 0;
 	        for (int j : movieUserRatings.keySet()) {
 	        	HashMap<Integer, Double> userRatings = movieUserRatings.get(j);
@@ -233,15 +270,17 @@ public class BayesianFeatureMF extends MovieLens
 
 			// Diagnostics
 			System.out.println("Iterations: " + iter);
-			HashMap<Integer, Double[]> userTraits = getTraitVectors(userMatrix, userFeatures);
-			HashMap<Integer, Double[]> movieTraits = getTraitVectors(movieMatrix, movieFeatures);
-			double error = getError(userMatrix, movieMatrix, userTraits, movieTraits, movieUserRatings);
-			double evalRMSE = calculateRMSE(testData, userMatrix, movieMatrix, userTraits, movieTraits);
-			double evalMAE  = calculateMAE(testData, userMatrix, movieMatrix, userTraits, movieTraits);
-			System.out.println("New Error: " + error);
-			System.out.println("RMSE: " + evalRMSE);
-			System.out.println("MAE:  " + evalMAE);
-			System.out.println();
+			if (testData != null) {
+				HashMap<Integer, Double[]> userTraits = getTraitVectors(userMatrix, userFeatures);
+				HashMap<Integer, Double[]> movieTraits = getTraitVectors(movieMatrix, movieFeatures);
+				double error = getError(userMatrix, movieMatrix, userTraits, movieTraits, movieUserRatings);
+				double evalRMSE = calculateRMSE(testData, userMatrix, movieMatrix, userTraits, movieTraits);
+				double evalMAE  = calculateMAE(testData, userMatrix, movieMatrix, userTraits, movieTraits);
+				System.out.println("New Error: " + error);
+				System.out.println("RMSE: " + evalRMSE);
+				System.out.println("MAE:  " + evalMAE);
+				System.out.println();
+			}
 		}
 	}
 	
@@ -400,7 +439,7 @@ public class BayesianFeatureMF extends MovieLens
 		
 		for (int x = 0; x < DIMENSION_COUNT; x++) {
 			for (int y = 0; y < feature_count; y++) {
-				prior[x][y] = RANDOM.nextGaussian();
+				prior[x][y] = 1e-6d;//RANDOM.nextGaussian();
 			}
 		}
 		
