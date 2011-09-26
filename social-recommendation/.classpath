@@ -13,5 +13,7 @@
 	<classpathentry kind="lib" path="lib/libsvm.jar"/>
 	<classpathentry kind="lib" path="lib/jsonic-1.2.6.jar"/>
 	<classpathentry kind="lib" path="lib/langdetect.jar"/>
+	<classpathentry kind="lib" path="C:/cygwin/home/user/SVN/social-recommendation/social-recommendation/lib/jsonic-1.2.6.jar"/>
+	<classpathentry kind="lib" path="C:/cygwin/home/user/SVN/social-recommendation/social-recommendation/lib/langdetect.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

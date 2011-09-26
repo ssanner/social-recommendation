@@ -1143,7 +1143,8 @@ public class LinkRecommender
 			recommender = new BaselineRecommender(linkLikes, users, links, friendships, type);
 		}
 		else if (Constants.LOGISTIC.equals(type)) {
-			recommender = new LogisticSocialRecommender(linkLikes, users, links, friendships);
+			throw new Exception("Should not get here");
+			//recommender = new LogisticSocialRecommender(linkLikes, users, links, friendships);
 		}
 		
 		return recommender;

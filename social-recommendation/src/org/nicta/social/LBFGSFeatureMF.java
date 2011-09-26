@@ -8,7 +8,7 @@ public class LBFGSFeatureMF extends MovieLens
 {
 	final public boolean USE_ITEM_NORM = false;
 	
-	final int DIMENSION_COUNT = 10; 
+	final int DIMENSION_COUNT = 5; 
 	final Random RANDOM = new Random();
 	final double STEP_CONVERGENCE = 1e-2;
 	
@@ -92,6 +92,9 @@ public class LBFGSFeatureMF extends MovieLens
 			}
 		}
 		
+		// Test Bayesian initialization -- does not seem to work!
+		//new BayesianFeatureMF().seedPriors(normalizedRatings, userMovies, userFeatures, movieFeatures, userMatrix, movieMatrix);
+
 		//Gradient Descent
 		minimize(normalizedRatings, userMatrix, movieMatrix, userFeatures, movieFeatures, /*userTraits, movieTraits*/ testData, userMovies);
 
