@@ -16,7 +16,7 @@ import org.nicta.lr.recommender.NNRecommender;
 import org.nicta.lr.recommender.Recommender;
 import org.nicta.lr.recommender.SVMRecommender;
 import org.nicta.lr.recommender.SocialRecommender;
-import org.nicta.lr.recommender.LogisticSocialRecommender;
+//import org.nicta.lr.recommender.LogisticSocialRecommender;
 import org.nicta.lr.recommender.BaselineGlobalRecommender;
 import org.nicta.lr.recommender.BaselineRecommender;
 import org.nicta.lr.util.Constants;
@@ -1143,7 +1143,8 @@ public class LinkRecommender
 			recommender = new BaselineRecommender(linkLikes, users, links, friendships, type);
 		}
 		else if (Constants.LOGISTIC.equals(type)) {
-			throw new Exception("Should not get here");
+			new Exception("Should not get here").printStackTrace(System.err);
+			System.exit(1);
 			//recommender = new LogisticSocialRecommender(linkLikes, users, links, friendships);
 		}
 		
