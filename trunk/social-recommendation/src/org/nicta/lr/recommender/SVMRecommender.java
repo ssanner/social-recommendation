@@ -36,89 +36,6 @@ public class SVMRecommender extends Recommender
 		model = trainSVMModel(trainSamples);	
 	}
 	
-	public Map<Long, Map<Long, Double>> getPredictionsCombined(Map<Long, Set<Long>> testData)
-	{
-		HashMap<Long, Map<Long, Double>> predictions = new HashMap<Long, Map<Long, Double>>();
-		
-		HashSet<Long> combinedTestData = new HashSet<Long>();
-		for (long userId : testData.keySet()) {
-			combinedTestData.addAll(testData.get(userId));
-		}
-		
-		int count = 0;
-		System.out.println("total: " + testData.size());
-		for (long userId : testData.keySet()) {
-			System.out.println("User" + ++count);
-			
-			HashMap<Long, Double> userPredictions = new HashMap<Long, Double>();
-			predictions.put(userId, userPredictions);
-			
-			Set<Long> userFriends;
-			if (friendships.containsKey(userId)) {
-				userFriends = friendships.get(userId).keySet();
-			}
-			else {
-				userFriends = new HashSet<Long>();
-			}
-			
-			for (long linkId : combinedTestData) {
-				double[] features = combineFeatures(userFeatures.get(userId), linkFeatures.get(linkId));
-				ArrayList<svm_node> nodeList = new ArrayList<svm_node>();
-				
-				for (int x = 0; x < features.length; x++) {
-					svm_node node = new svm_node();
-					node.index = x + 1;
-					node.value = features[x];
-					
-					nodeList.add(node);
-				}
-				
-				for (int x = 0; x < userIds.length; x++) {
-					if (userIds[x].equals(userId)) {
-						svm_node node = new svm_node();
-						node.index = features.length + x + 1;
-						node.value = 1;
-						
-						nodeList.add(node);
-					}
-					else if (userFriends.contains(userIds[x]) && linkLikes.containsKey(linkId) && linkLikes.get(linkId).contains(userIds[x])) {
-						svm_node node = new svm_node();
-						node.index = features.length + userIds.length + x + 1;
-						node.value = 1;
-						
-						nodeList.add(node);
-					}
-				}
-				
-				for (int x = 0; x < linkIds.length; x++) {
-					if (linkIds[x].equals(linkId)) {
-						svm_node node = new svm_node();
-						node.index = features.length + userIds.length + userIds.length + x + 1;
-						node.value = 1;
-						
-						nodeList.add(node);
-						break;
-					}
-				}
-				
-				svm_node nodes[] = new svm_node[nodeList.size()];
-				
-				for (int x = 0; x < nodes.length; x++) {
-					nodes[x] = nodeList.get(x);
-				}
-				
-				double[] dbl = new double[1]; 
-				svm.svm_predict_values(model, nodes, dbl);
-				
-				double prediction = dbl[0];
-				
-				userPredictions.put(linkId, prediction);
-			}
-		}
-		
-		return predictions;
-	}
-	
 	public Map<Long, Map<Long, Double>> getPredictions(Map<Long, Set<Long>> testData)
 	{
 		HashMap<Long, Map<Long, Double>> predictions = new HashMap<Long, Map<Long, Double>>();
@@ -291,21 +208,6 @@ public class SVMRecommender extends Recommender
 		return model;
 	}
 	
-	public double[] combineFeatures(Double[] user, Double[] link)
-	{
-		double[] feature = new double[user.length + link.length];
-		
-		for (int x = 0; x < user.length; x++) {
-			feature[x] = user[x];
-		}
-		
-		for (int x = 0; x < link.length; x++) {
-			feature[x + user.length] = link[x];
-		}
-		
-		return feature;
-	}
-
 	public Map<Long, Map<Long, Double>> recommend(Map<Long, Set<Long>> linksToRecommend)
 	{	
 		if (userMax == null) {

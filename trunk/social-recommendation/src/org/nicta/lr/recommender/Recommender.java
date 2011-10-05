@@ -99,7 +99,6 @@ public abstract class Recommender
 	}
 	
 	public abstract Map<Long, Map<Long, Double>> getPredictions(Map<Long, Set<Long>> testData);
-	public abstract Map<Long, Map<Long, Double>> getPredictionsCombined(Map<Long, Set<Long>> testData);
 	
 	public abstract Map<Long, Map<Long, Double>> recommend(Map<Long, Set<Long>> linksToRecommend);
 	
@@ -255,5 +254,20 @@ public abstract class Recommender
 		}
 		
 		return userMax;
+	}
+	
+	public double[] combineFeatures(Double[] user, Double[] link)
+	{
+		double[] feature = new double[user.length + link.length];
+		
+		for (int x = 0; x < user.length; x++) {
+			feature[x] = user[x];
+		}
+		
+		for (int x = 0; x < link.length; x++) {
+			feature[x + user.length] = link[x];
+		}
+		
+		return feature;
 	}
 }

@@ -12,6 +12,10 @@ import java.util.Random;
 import java.util.Set;
 import java.util.Map;
 
+import org.nicta.lr.thread.LinkIdThread;
+import org.nicta.lr.thread.LinkMFThread;
+import org.nicta.lr.thread.UserIdThread;
+import org.nicta.lr.thread.UserMFThread;
 import org.nicta.lr.util.Configuration;
 import org.nicta.lr.util.SQLUtil;
 import org.nicta.social.LBFGS;
@@ -80,8 +84,7 @@ public abstract class MFRecommender extends Recommender
 		return prior;
 	}
 	
-
-	public double minimizeByLBFGS(Map<Long, Set<Long>> userLinkSamples)
+	public void minimizeByThreadedLBFGS(Map<Long, Set<Long>> userLinkSamples)
 	{
 		boolean go = true;	
 		int iterations = 0;
@@ -101,439 +104,6 @@ public abstract class MFRecommender extends Recommender
 		}
 		
 		double oldError = Double.MAX_VALUE;
-		double rmse = 0;
-		
-		while (go) {
-			iterations++;
-			
-			Map<Long, Double[]> userTraits = getUserTraitVectors(userFeatureMatrix, userIdColumns, userFeatures);
-			
-			Map<Long, Double[]> linkTraits = getLinkTraitVectors(linkFeatureMatrix, linkIdColumns, linkFeatures);
-
-			System.out.println("Getting Connections");
-			Map<Long, Map<Long, Double>> connections = getConnections(userFeatureMatrix, userIdColumns, userFeatures, userLinkSamples);
-			System.out.println("Getting Predictions");
-			Map<Long, Map<Long, Double>> predictions = getPredictions(userTraits, linkTraits, userLinkSamples);
-			
-			Double[][] userDerivative = new Double[K][Configuration.USER_FEATURE_COUNT];
-			HashMap<Long, Double[]> userIdDerivative = new HashMap<Long, Double[]>();
-			Double[][] linkDerivative = new Double[K][Configuration.LINK_FEATURE_COUNT];
-			HashMap<Long, Double[]> linkIdDerivative = new HashMap<Long, Double[]>();
-			
-			System.out.println("Iterations: " + iterations);
-		
-			//Get user derivatives
-			System.out.println("Get user derivatives");
-			System.out.println("Start");
-			long start = System.currentTimeMillis();
-			for (int k = 0; k < K; k++) {
-				for (int l = 0; l < Configuration.USER_FEATURE_COUNT; l++) {
-					userDerivative[k][l] = getErrorDerivativeOverUserAttribute(linkTraits, predictions, connections, k, l);
-					
-				}
-				
-				for (long userId : userLinkSamples.keySet()) {
-					if (!userIdDerivative.containsKey(userId)) {
-						userIdDerivative.put(userId, new Double[K]);
-					}
-					
-					userIdDerivative.get(userId)[k] = getErrorDerivativeOverUserId(linkTraits, predictions, connections, k, userId);
-				}
-			}
-			
-			//Get link derivatives
-			for (int q = 0; q < K; q++) {
-				for (int l = 0; l < Configuration.LINK_FEATURE_COUNT; l++) {
-					linkDerivative[q][l] = getErrorDerivativeOverLinkAttribute(userTraits, predictions, q, l);
-				}
-				
-				for (long linkId : linkIdColumns.keySet()) {
-					if (!linkIdDerivative.containsKey(linkId)) {
-						linkIdDerivative.put(linkId, new Double[K]);
-					}
-									
-					linkIdDerivative.get(linkId)[q] = getErrorDerivativeOverLinkId(userTraits, predictions, q, linkId);
-				}
-			}
-			System.out.println("Done: " + (System.currentTimeMillis() - start) / 1000);
-			
-			double[] variables = new double[userVars + linkVars];
-			
-			int index = 0;
-			
-			for (int x = 0; x < K; x++) {
-				for (int y = 0; y < Configuration.USER_FEATURE_COUNT; y++) {
-					variables[index++] = userFeatureMatrix[x][y];
-				}
-			}
-			for (Object id : userKeys) {
-				Long userId = (Long)id;
-				Double[] column = userIdColumns.get(userId);
-				for (double d : column) {
-					variables[index++] = d;
-				}
-			}
-			for (int x = 0; x < K; x++) {
-				for (int y = 0; y < Configuration.LINK_FEATURE_COUNT; y++) {
-					variables[index++] = linkFeatureMatrix[x][y];
-				}
-			}
-			for (Object id : linkKeys) {
-				Long linkId = (Long)id;
-				Double[] column = linkIdColumns.get(linkId);
-				for (double d : column) {
-					variables[index++] = d;
-				}
-			}
-			
-			double[] derivatives = new double[userVars + linkVars];
-			index = 0;
-			for (int x = 0; x < K; x++) {
-				for (int y = 0; y < Configuration.USER_FEATURE_COUNT; y++) {
-					derivatives[index++] = userDerivative[x][y];
-				}
-			}
-			for (Object id : userKeys) {
-				Long userId = (Long)id;
-				Double[] column = userIdDerivative.get(userId);
-				for (double d : column) {
-					derivatives[index++] = d;
-				}
-			}
-			for (int x = 0; x < K; x++) {
-				for (int y = 0; y < Configuration.LINK_FEATURE_COUNT; y++) {
-					derivatives[index++] = linkDerivative[x][y];
-				}
-			}
-			for (Object id : linkKeys) {
-				Long linkId = (Long)id;
-				Double[] column = linkIdDerivative.get(linkId);
-				for (double d : column) {
-					derivatives[index++] = d;
-				}
-			}
-			
-			double error = getError(userFeatureMatrix, linkFeatureMatrix, userIdColumns, linkIdColumns, predictions, connections);
-			
-			System.out.println("New Error: " + error);
-			System.out.println("");
-		
-			try {
-				LBFGS.lbfgs(variables.length, 5, variables, error, derivatives,
-						false, diag, iprint, convergence,
-						1e-15, iflag);
-			}
-			catch (LBFGS.ExceptionWithIflag f) {
-				f.printStackTrace();
-			}
-			
-			index = 0;
-			for (int x = 0; x < K; x++) {
-				for (int y = 0; y < Configuration.USER_FEATURE_COUNT; y++) {
-					userFeatureMatrix[x][y] = variables[index++];
-				}
-			}
-			for (Object id : userKeys) {
-				Long userId = (Long)id;
-				Double[] column = userIdColumns.get(userId);
-				for (int d = 0; d < column.length; d++) {
-					column[d] = variables[index++];
-				}
-			}
-			for (int x = 0; x < K; x++) {
-				for (int y = 0; y < Configuration.LINK_FEATURE_COUNT; y++) {
-					linkFeatureMatrix[x][y] = variables[index++];
-				}
-			}
-			for (Object id : linkKeys) {
-				Long linkId = (Long)id;
-				Double[] column = linkIdColumns.get(linkId);
-				for (int d = 0; d < column.length; d++) {
-					column[d] = variables[index++];
-				}
-			}
-			
-			if (iflag[0] == 0 || Math.abs(oldError - error) < convergence) go = false;
-		
-			oldError = error;
-		}
-		
-		return rmse;
-	}
-	
-	public double minimizeByThreadedAlternatingLBFGS(Map<Long, Set<Long>> userLinkSamples)
-	{
-		boolean go = true;	
-		int iterations = 0;
-		
-		int userVars = K * (Configuration.USER_FEATURE_COUNT + userLinkSamples.size());
-		int linkVars = K * (Configuration.LINK_FEATURE_COUNT + linkFeatures.size());
-		
-		Object[] userKeys = userLinkSamples.keySet().toArray();
-		Object[] linkKeys = linkFeatures.keySet().toArray();
-		
-		int[] iprint = {0,0};
-		int[] userFlag = {0};
-		int[] linkFlag = {0};
-		double[] userDiag = new double[userVars];
-		double[] linkDiag = new double[linkVars];
-		for (int x = 0; x < userDiag.length; x++) {
-			userDiag[x] = 0;
-		}
-		for (int x = 0; x < linkDiag.length; x++) {
-			linkDiag[x] = 0;
-		}
-		LBFGS2 userLBFGS = new LBFGS2();
-		LBFGS2 linkLBFGS = new LBFGS2();
-		
-		
-		double oldError = Double.MAX_VALUE;
-		double rmse = 0;
-		
-		int control = 0;
-		
-		while (go) {
-			iterations++;
-			control++;
-			
-			Map<Long, Double[]> userTraits = getUserTraitVectors(userFeatureMatrix, userIdColumns, userFeatures);
-			
-			Map<Long, Double[]> linkTraits = getLinkTraitVectors(linkFeatureMatrix, linkIdColumns, linkFeatures);
-
-			System.out.println("Getting Connections");
-			Map<Long, Map<Long, Double>> connections = getConnections(userFeatureMatrix, userIdColumns, userFeatures, userLinkSamples);
-			System.out.println("Getting Predictions");
-			Map<Long, Map<Long, Double>> predictions = getPredictions(userTraits, linkTraits, userLinkSamples);
-			
-			System.out.println("Iterations: " + iterations);
-			
-			System.out.println("Starting threads");
-			long start = System.currentTimeMillis();
-			
-			int index = 0;
-			
-			double[] variables;
-			double[] derivatives;
-			
-			if (control % 2 == 0) {
-				
-					
-				Double[][] userDerivative = new Double[K][Configuration.USER_FEATURE_COUNT];
-				HashMap<Long, Double[]> userIdDerivative = new HashMap<Long, Double[]>();
-				
-				for (long userId : userLinkSamples.keySet()) {
-					userIdDerivative.put(userId, new Double[K]);
-				}
-				
-				UserMFThread[] userThreads = new UserMFThread[K];
-				UserIdThread[] userIdThreads = new UserIdThread[K];
-				
-				for (int k = 0; k < K; k++) {
-					userThreads[k] = new UserMFThread(k, linkTraits, connections, predictions, userDerivative, userIdDerivative, userLinkSamples, this);
-					userThreads[k].start();
-					userIdThreads[k] = new UserIdThread(k, linkTraits, connections, predictions, userDerivative, userIdDerivative, userLinkSamples, this);
-					userIdThreads[k].start();
-				}
-				
-				for (int k = 0; k < K; k++) {
-					try {
-						userThreads[k].join();
-						userIdThreads[k].join();
-					}
-					catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
-				
-				variables = new double[userVars];
-				
-				for (int x = 0; x < K; x++) {
-					for (int y = 0; y < Configuration.USER_FEATURE_COUNT; y++) {
-						variables[index++] = userFeatureMatrix[x][y];
-					}
-				}
-				for (Object id : userKeys) {
-					Long userId = (Long)id;
-					Double[] column = userIdColumns.get(userId);
-					for (double d : column) {
-						variables[index++] = d;
-					}
-				}
-				
-				index = 0;
-				derivatives = new double[userVars];
-				
-				for (int x = 0; x < K; x++) {
-					for (int y = 0; y < Configuration.USER_FEATURE_COUNT; y++) {
-						derivatives[index++] = userDerivative[x][y];
-					}
-				}
-				for (Object id : userKeys) {
-					Long userId = (Long)id;
-					Double[] column = userIdDerivative.get(userId);
-					for (double d : column) {
-						derivatives[index++] = d;
-					}
-				}
-				
-			}
-			else {
-				Double[][] linkDerivative = new Double[K][Configuration.LINK_FEATURE_COUNT];
-				HashMap<Long, Double[]> linkIdDerivative = new HashMap<Long, Double[]>();
-				
-				for (long linkId : linkIdColumns.keySet()) {
-					linkIdDerivative.put(linkId, new Double[K]);
-				}
-				
-				LinkMFThread[] linkThreads = new LinkMFThread[K];
-				LinkIdThread[] linkIdThreads = new LinkIdThread[K];
-				
-				for (int q = 0; q < K; q++) {
-					linkThreads[q] = new LinkMFThread(q, userTraits, predictions, linkDerivative, linkIdDerivative, linkIdColumns.keySet(), this);
-					linkThreads[q].start();
-					linkIdThreads[q] = new LinkIdThread(q, userTraits, predictions, linkDerivative, linkIdDerivative, linkIdColumns.keySet(), this);
-					linkIdThreads[q].start();
-				}
-				
-				for (int k = 0; k < K; k++) {
-					try {
-						linkThreads[k].join();
-						linkIdThreads[k].join();
-					}
-					catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
-				
-				variables = new double[linkVars];
-				
-				for (int x = 0; x < K; x++) {
-					for (int y = 0; y < Configuration.LINK_FEATURE_COUNT; y++) {
-						variables[index++] = linkFeatureMatrix[x][y];
-					}
-				}
-				for (Object id : linkKeys) {
-					Long linkId = (Long)id;
-					Double[] column = linkIdColumns.get(linkId);
-					for (double d : column) {
-						variables[index++] = d;
-					}
-				}
-				
-				index = 0;
-				derivatives = new double[linkVars];
-				
-				for (int x = 0; x < K; x++) {
-					for (int y = 0; y < Configuration.LINK_FEATURE_COUNT; y++) {
-						derivatives[index++] = linkDerivative[x][y];
-					}
-				}
-				for (Object id : linkKeys) {
-					Long linkId = (Long)id;
-					Double[] column = linkIdDerivative.get(linkId);
-					for (double d : column) {
-						derivatives[index++] = d;
-					}
-				}
-			}
-			
-			System.out.println("Threads done: " + (System.currentTimeMillis() - start) / 1000);
-			
-			double error = getError(userFeatureMatrix, linkFeatureMatrix, userIdColumns, linkIdColumns, predictions, connections);
-			
-			System.out.println("New Error: " + error);
-			System.out.println("");
-			
-			
-			try {
-				int[] iflag;
-				double[] diag;
-				LBFGS2 lbfgs;
-				
-				if (control % 2 == 0) {
-					iflag = userFlag;
-					diag = userDiag;
-					lbfgs = userLBFGS;
-				}
-				else {
-					iflag = linkFlag;
-					diag = linkDiag;
-					lbfgs = linkLBFGS;
-				}
-				
-				System.out.println(control + " " + variables.length + " " + derivatives.length + " " + diag.length + " " + iflag[0]);
-				
-				lbfgs.lbfgs(variables.length, 5, variables, error, derivatives,
-						false, diag, iprint, convergence,
-						1e-15, iflag);
-			}
-			catch (LBFGS2.ExceptionWithIflag f) {
-				f.printStackTrace();
-			}
-			
-			System.out.println("Setting again");
-			index = 0;
-			
-			if (control % 2 == 0) {
-				for (int x = 0; x < K; x++) {
-					for (int y = 0; y < Configuration.USER_FEATURE_COUNT; y++) {
-						userFeatureMatrix[x][y] = variables[index++];
-					}
-				}
-				for (Object id : userKeys) {
-					Long userId = (Long)id;
-					Double[] column = userIdColumns.get(userId);
-					for (int d = 0; d < column.length; d++) {
-						column[d] = variables[index++];
-					}
-				}
-			}
-			else {
-				for (int x = 0; x < K; x++) {
-					for (int y = 0; y < Configuration.LINK_FEATURE_COUNT; y++) {
-						linkFeatureMatrix[x][y] = variables[index++];
-					}
-				}
-				for (Object id : linkKeys) {
-					Long linkId = (Long)id;
-					Double[] column = linkIdColumns.get(linkId);
-					for (int d = 0; d < column.length; d++) {
-						column[d] = variables[index++];
-					}
-				}
-			}
-			
-			if ((userFlag[0] == 0 && linkFlag[0] == 0) || Math.abs(oldError - error) < convergence) {
-				go = false;
-			}
-		
-			oldError = error;
-		}
-		
-		return rmse;
-	}
-	
-	public double minimizeByThreadedLBFGS(Map<Long, Set<Long>> userLinkSamples)
-	{
-		boolean go = true;	
-		int iterations = 0;
-		
-		int userVars = K * (Configuration.USER_FEATURE_COUNT + userLinkSamples.size());
-		int linkVars = K * (Configuration.LINK_FEATURE_COUNT + linkFeatures.size());
-		
-		Object[] userKeys = userLinkSamples.keySet().toArray();
-		Object[] linkKeys = linkFeatures.keySet().toArray();
-		
-		int[] iprint = {0,0};
-		int[] iflag = {0};
-		double[] diag = new double[userVars + linkVars];
-		
-		for (int x = 0; x < diag.length; x++) {
-			diag[x] = 0;
-		}
-		
-		double oldError = Double.MAX_VALUE;
-		double rmse = 0;
 		
 		while (go) {
 			iterations++;
@@ -703,187 +273,6 @@ public abstract class MFRecommender extends Recommender
 		
 			oldError = error;
 		}
-		
-		return rmse;
-	}
-	
-	public double minimizeByLineSearch(Map<Long, Set<Long>> userLinkSamples)
-	{
-		boolean converged = false;	
-		int iterations = 0;
-		
-		double stepSize = learningRate;
-		int count = 0;
-		double lastGoodError = 0;
-		
-		Double[][] lastGoodUserMatrix = null;
-		Double[][] lastGoodLinkMatrix = null; 
-		Map<Long, Double[]> lastGoodUserIdColumns = null;
-		Map<Long, Double[]> lastGoodLinkIdColumns = null;
-		Map<Long, Double[]> lastGoodUserTraits = null;
-		Map<Long, Double[]> lastGoodLinkTraits = null;
-		Map<Long, Map<Long, Double>> lastGoodConnections = null;
-		Map<Long, Map<Long, Double>> lastGoodPredictions = null;
-		
-		Map<Long, Double[]> userTraits = getUserTraitVectors(userFeatureMatrix, userIdColumns, userFeatures);
-		Map<Long, Double[]> linkTraits = getLinkTraitVectors(linkFeatureMatrix, linkIdColumns, linkFeatures);
-		Map<Long, Map<Long, Double>> connections = getConnections(userFeatureMatrix, userIdColumns, userFeatures, userLinkSamples);
-		Map<Long, Map<Long, Double>> predictions = getPredictions(userTraits, linkTraits, userLinkSamples);
-		
-		double oldError = getError(userFeatureMatrix, linkFeatureMatrix, userIdColumns, linkIdColumns, predictions, connections);
-		
-		while (!converged && iterations <= 500) {
-			Double[][] userDerivative = new Double[K][Configuration.USER_FEATURE_COUNT];
-			HashMap<Long, Double[]> userIdDerivative = new HashMap<Long, Double[]>();
-			Double[][] linkDerivative = new Double[K][Configuration.LINK_FEATURE_COUNT];
-			HashMap<Long, Double[]> linkIdDerivative = new HashMap<Long, Double[]>();
-			
-			//Get user derivatives
-			//System.out.println("Get user derivatives");
-			for (int K = 0; K < K; K++) {
-				//System.out.println("K: " + K);
-				for (int l = 0; l < Configuration.USER_FEATURE_COUNT; l++) {
-					userDerivative[K][l] = getErrorDerivativeOverUserAttribute(linkTraits, predictions, connections, K, l);
-				}
-				
-				for (long userId : userLinkSamples.keySet()) {
-					if (!userIdDerivative.containsKey(userId)) {
-						userIdDerivative.put(userId, new Double[K]);
-					}
-					
-					userIdDerivative.get(userId)[K] = getErrorDerivativeOverUserId(linkTraits, predictions, connections, K, userId);
-				}
-			}
-			
-			//Get link derivatives
-			for (int q = 0; q < K; q++) {
-				for (int l = 0; l < Configuration.LINK_FEATURE_COUNT; l++) {
-					linkDerivative[q][l] = getErrorDerivativeOverLinkAttribute(userTraits, predictions, q, l);
-				}
-				
-				for (long linkId : linkIdColumns.keySet()) {
-					if (!linkIdDerivative.containsKey(linkId)) {
-						linkIdDerivative.put(linkId, new Double[K]);
-					}
-					
-					linkIdDerivative.get(linkId)[q] = getErrorDerivativeOverLinkId(userTraits, predictions, q, linkId);
-				}
-				//System.out.println("Done ids");
-			}
-			
-			boolean go = true;
-			
-			while (go) {
-				System.out.println("Step size: " + stepSize);
-				
-				Double[][] updatedUserMatrix = new Double[K][Configuration.USER_FEATURE_COUNT];
-				Double[][] updatedLinkMatrix = new Double[K][Configuration.LINK_FEATURE_COUNT]; 
-				HashMap<Long, Double[]> updatedUserIdColumns = new HashMap<Long, Double[]>();
-				HashMap<Long, Double[]> updatedLinkIdColumns = new HashMap<Long, Double[]>();
-			
-				for (int K = 0; K < K; K++) {
-					for (int l = 0; l < Configuration.USER_FEATURE_COUNT; l++) {
-						updatedUserMatrix[K][l] = userFeatureMatrix[K][l] - (stepSize * userDerivative[K][l]);
-					}
-				
-					for (long userId : userLinkSamples.keySet()) {
-						if (!updatedUserIdColumns.containsKey(userId)) {
-							updatedUserIdColumns.put(userId, new Double[K]);
-						}
-					
-						updatedUserIdColumns.get(userId)[K] = userIdColumns.get(userId)[K] - stepSize * userIdDerivative.get(userId)[K];
-					}
-				}
-			
-				//Get link derivatives
-				//System.out.println("Get link derivatives");
-				for (int q = 0; q < K; q++) {
-					//System.out.println("K: " + q);
-					for (int l = 0; l < Configuration.LINK_FEATURE_COUNT; l++) {
-						updatedLinkMatrix[q][l] = linkFeatureMatrix[q][l] - stepSize * linkDerivative[q][l];
-					}
-					//System.out.println("Done features");
-				
-					for (long linkId : linkIdColumns.keySet()) {
-						if (!updatedLinkIdColumns.containsKey(linkId)) {
-							updatedLinkIdColumns.put(linkId, new Double[K]);
-						}
-					
-						updatedLinkIdColumns.get(linkId)[q] = linkIdColumns.get(linkId)[q] - stepSize * linkIdDerivative.get(linkId)[q];
-					}
-					//System.out.println("Done ids");
-				}
-			
-				Map<Long, Double[]> updatedUserTraits = getUserTraitVectors(updatedUserMatrix, updatedUserIdColumns, userFeatures);
-				Map<Long, Double[]> updatedLinkTraits = getLinkTraitVectors(updatedLinkMatrix, updatedLinkIdColumns, linkFeatures);
-				Map<Long, Map<Long, Double>> updatedConnections = getConnections(updatedUserMatrix, updatedUserIdColumns, userFeatures, userLinkSamples);
-				Map<Long, Map<Long, Double>> updatedPredictions = getPredictions(updatedUserTraits, updatedLinkTraits, userLinkSamples);
-			
-				double newError = getError(updatedUserMatrix, updatedLinkMatrix, updatedUserIdColumns, updatedLinkIdColumns, updatedPredictions, updatedConnections);
-			
-				if (newError < oldError) {
-					//System.out.println("Increasing Stepsize: " + stepSize + " Count: " + count);
-				
-					stepSize *= 2;
-					count++;
-                
-					lastGoodUserMatrix = updatedUserMatrix;
-					lastGoodUserIdColumns = updatedUserIdColumns;
-					lastGoodLinkMatrix = updatedLinkMatrix;
-					lastGoodLinkIdColumns = updatedLinkIdColumns;
-                	lastGoodUserTraits = updatedUserTraits;
-                	lastGoodLinkTraits = updatedLinkTraits;
-                	lastGoodConnections = updatedConnections;
-                	lastGoodPredictions = updatedPredictions;
-    			
-                	lastGoodError = newError;
-				}
-				else {
-					if (count > 0) {
-						count = 0;
-					
-						for (int K = 0; K < K; K++) {
-							userFeatureMatrix[K] = lastGoodUserMatrix[K];
-							linkFeatureMatrix[K] = lastGoodLinkMatrix[K];
-						}
-					
-						for (long userId : userLinkSamples.keySet()) {
-							userIdColumns.put(userId, lastGoodUserIdColumns.get(userId));
-						}
-					
-						for (long linkId : linkIdColumns.keySet()) {
-							linkIdColumns.put(linkId, lastGoodLinkIdColumns.get(linkId));
-						}
-					
-						oldError = lastGoodError;
-						userTraits = lastGoodUserTraits;
-						linkTraits = lastGoodLinkTraits;
-						connections = lastGoodConnections;
-						predictions = lastGoodPredictions;
-	    			
-						iterations++;
-						System.out.println("Iterations: " + iterations);
-						System.out.println("Error: " + oldError);
-						System.out.println("");
-						
-						go = false;
-					}
-					else {
-						//System.out.println("Decreasing Stepsize: " + stepSize);
-						stepSize *= .5;
-					}
-				}
-			
-				//Once the learning rate is smaller than a certain size, just stop.
-				//We get here after a few failures in the previous if statement.
-				if (stepSize < convergence) {
-					converged = true;
-					go = false;
-				}
-			}
-		}
-		
-		return oldError;
 	}
 	
 	/**
@@ -985,39 +374,6 @@ public abstract class MFRecommender extends Recommender
 		
 		return idColumns;
 	}
-
-	public Map<Long, Map<Long, Double>> getPredictionsCombined(Map<Long, Set<Long>> testData)
-	{
-		HashMap<Long, Map<Long, Double>> predictions = new HashMap<Long, Map<Long, Double>>();
-		
-		Map<Long, Double[]> userTraits = getUserTraitVectors(userFeatureMatrix, userIdColumns, userFeatures);
-		Map<Long, Double[]> linkTraits = getLinkTraitVectors(linkFeatureMatrix, linkIdColumns, linkFeatures);
-		
-		HashSet<Long> combinedTestData = new HashSet<Long>();
-		
-		for (long userId : testData.keySet()) {
-			combinedTestData.addAll(testData.get(userId));
-		}
-		
-		for (long userId : testData.keySet()) {
-			HashMap<Long, Double> userPredictions = new HashMap<Long, Double>();
-			predictions.put(userId, userPredictions);
-			
-			for (long j : combinedTestData) {
-				double prediction;
-				if (!linkTraits.containsKey(j)) {
-					prediction = 0;
-				}
-				else {
-					prediction = dot(userTraits.get(userId), linkTraits.get(j));
-				}
-				
-				userPredictions.put(j, prediction);
-			}
-		}
-		
-		return predictions;
-	}
 	
 	public Map<Long, Map<Long, Double>> getPredictions(Map<Long, Set<Long>> testData)
 	{
@@ -1048,11 +404,6 @@ public abstract class MFRecommender extends Recommender
 		return predictions;
 	}
 	
-	public void save()
-	{
-		
-	}
-	
 	public abstract double getError(Double[][] userFeatureMatrix, Double[][] linkFeatureMatrix, 
 			Map<Long, Double[]> userIdColumns, Map<Long, Double[]> linkIdColumns,
 			Map<Long, Map<Long, Double>> predictions, Map<Long, Map<Long, Double>> connections);
@@ -1069,9 +420,12 @@ public abstract class MFRecommender extends Recommender
 	
 	public void checkDerivative(Map<Long, Set<Long>> userLinkSamples)
 	{	
+		System.out.println("Checking... link id");
+		
 		double H = 1e-5;
 		
 		for (int K = 0; K < K; K++) {
+			/*
 			for (int l = 0; l < Configuration.USER_FEATURE_COUNT; l++) {
 				Map<Long, Double[]> userTraits = getUserTraitVectors(userFeatureMatrix, userIdColumns, userFeatures);
 				Map<Long, Double[]> linkTraits = getLinkTraitVectors(linkFeatureMatrix, linkIdColumns, linkFeatures);
@@ -1098,6 +452,7 @@ public abstract class MFRecommender extends Recommender
 				System.out.println("Diff: " + (calculatedDerivative - diff));
 				System.out.println("");
 			}
+			
 			
 			for (long userId : userLinkSamples.keySet()) {
 				Map<Long, Double[]> userTraits = getUserTraitVectors(userFeatureMatrix, userIdColumns, userFeatures);
@@ -1126,9 +481,11 @@ public abstract class MFRecommender extends Recommender
 				System.out.println("Diff: " + (calculatedDerivative - diff));
 				System.out.println("");
 			}
+			*/
 		}
 		
 		for (int q = 0; q < K; q++) {
+			/*
 			for (int l = 0; l < Configuration.LINK_FEATURE_COUNT; l++) {
 				Map<Long, Double[]> userTraits = getUserTraitVectors(userFeatureMatrix, userIdColumns, userFeatures);
 				Map<Long, Double[]> linkTraits = getLinkTraitVectors(linkFeatureMatrix, linkIdColumns, linkFeatures);
@@ -1156,6 +513,7 @@ public abstract class MFRecommender extends Recommender
 				System.out.println("Diff: " + (calculatedDerivative - diff));
 				System.out.println("");
 			}
+			*/
 			
 			for (long linkId : linkIdColumns.keySet()) {
 				Map<Long, Double[]> userTraits = getUserTraitVectors(userFeatureMatrix, userIdColumns, userFeatures);
@@ -1271,54 +629,11 @@ public abstract class MFRecommender extends Recommender
 		System.out.println("Connection: " + predictConnection(userMatrix, idColumns, userFeatures, 1, 2));
 	}
 	
-	public double predictConnection(Double[][] userMatrix, 
-									Map<Long, Double[]> idColumns,
-									Map<Long, Double[]> userFeatures,
-									long i, long j)
-	{
-		Double[] iFeature = userFeatures.get(i);
-		Double[] iColumn = idColumns.get(i);
-		Double[] jFeature = userFeatures.get(j);
-		Double[] jColumn = idColumns.get(j);
+	public abstract double predictConnection(Double[][] userMatrix, 
+			Map<Long, Double[]> idColumns,
+			Map<Long, Double[]> userFeatures,
+			long i, long j);
 	
-		Double[] xU = new Double[K];
-	
-		for (int x = 0; x < K; x++) {
-			xU[x] = 0.0;
-	
-			for (int y = 0; y < iFeature.length; y++) {
-				xU[x] += iFeature[y] * userMatrix[x][y];
-			}
-	
-			xU[x] += iColumn[x];
-		}
-		
-		Double[] xUU = new Double[iFeature.length + 1];
-	
-		for (int x = 0; x < iFeature.length; x++) {
-			xUU[x] = 0.0;
-	
-			for (int y = 0; y < xU.length; y++) {
-				xUU[x] += xU[y] * userMatrix[y][x];
-			}
-		}
-	
-		int index = iFeature.length;
-		xUU[index] = 0d;
-			
-		for (int y = 0; y < xU.length; y++) {
-			xUU[index] += xU[y] * jColumn[y];
-		}
-		
-		double connection = 0;
-	
-		for (int x = 0; x < jFeature.length; x++) {
-			connection += xUU[x] * jFeature[x];
-		}
-		connection += xUU[jFeature.length];
-	
-		return connection;
-	}
 	
 	/**
 	 * Save the trained matrices into the database.
