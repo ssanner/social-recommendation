@@ -4,6 +4,10 @@ import java.util.Set;
 import java.util.HashSet;
 import java.util.Map;
 
+import org.nicta.lr.component.Objective;
+import org.nicta.lr.component.SocialSpectralRegularizer;
+import org.nicta.lr.component.SocialRegularizer;
+import org.nicta.lr.component.L2Regularizer;
 import org.nicta.lr.util.Constants;
 import org.nicta.lr.util.Configuration;
 import org.nicta.lr.util.UserUtil;
@@ -12,14 +16,18 @@ public class SocialRecommender extends MFRecommender
 {	
 	double beta = 1.0E-3;
 	
-	public SocialRecommender(Map<Long, Set<Long>> linkLikes, Map<Long, Double[]> userFeatures, Map<Long, Double[]> linkFeatures, Map<Long, Map<Long, Double>> friends)
+	SocialRegularizer socialRegularizer;
+	Objective objective;
+	L2Regularizer l2;
+	
+	public SocialRecommender(Map<Long, Set<Long>> linkLikes, Map<Long, Double[]> userFeatures, Map<Long, Double[]> linkFeatures, Map<Long, Map<Long, Double>> friends, String type)
 	{
 		super(linkLikes, userFeatures, linkFeatures, friends);
 		
 		K = 5;
 		lambda = 1000;
 		
-		type = "social";
+		this.type = "social";
 		friendships = friends;
 		
 		if (Configuration.DEPLOYMENT_TYPE == Constants.TEST || Configuration.INITIALIZE) {
@@ -33,6 +41,23 @@ public class SocialRecommender extends MFRecommender
 				ex.printStackTrace();
 			}
 		}
+		
+		if (Constants.SOCIAL.equals(type) || Constants.HYBRID_SOCIAL.equals(type)) {
+			System.out.println("Type: " + type);
+			socialRegularizer = new SocialRegularizer();
+			beta = 1.0E-3;
+		}
+		else if (Constants.SPECTRAL.equals(type) || Constants.HYBRID_SPECTRAL.equals(type)){
+			System.out.println("Type: " + type);
+			socialRegularizer = new SocialSpectralRegularizer();
+			beta = .01;
+		}
+		else {
+			System.out.println("Type: Non social");
+		}
+		
+		objective = new Objective();
+		l2 = new L2Regularizer();
 	}
 	
 	public void train(Map<Long, Set<Long>> trainSamples) 
@@ -56,13 +81,9 @@ public class SocialRecommender extends MFRecommender
 			}
 			
 			friendConnections = UserUtil.getFriendInteractionMeasure(trainSamples.keySet());
-			//friendConnections = UserUtil.getFriendLikeSimilarity(userLinkSamples.keySet());
-			//friendConnections = friendships;
 			
-			
-			minimizeByThreadedLBFGS(trainSamples);
-			//minimizeByLBFGS(trainSamples);
 			//checkDerivative(trainSamples);
+			minimizeByThreadedLBFGS(trainSamples);
 		}
 		catch (Exception ex) {
 			ex.printStackTrace();
@@ -75,71 +96,22 @@ public class SocialRecommender extends MFRecommender
 	{
 		double error = 0;
 	
-		Object[] keys = connections.keySet().toArray();
-		
-		for (int a = 0; a < keys.length-1; a++) {
-			Long i = (Long)keys[a];
-			                 
-			for (int b = a+1; b < keys.length; b++) {
-				Long j = (Long)keys[b];
-				
-				double connection = getFriendConnection(i, j, friendships);
-				double predictConnection = connections.get(i).containsKey(j) ? connections.get(i).get(j) : connections.get(j).get(i);
-				error += Math.pow(connection - predictConnection, 2);
-			}
+		if (socialRegularizer != null) {
+			error += socialRegularizer.getValue(connections, friendConnections);
+			error *= beta;
 		}
 		
-		error *= beta;
-		
-		for (long i : predictions.keySet()) {
-			Set<Long> links = predictions.get(i).keySet();
-			
-			for (long j : links) {
-				int liked = 0;
-				
-				if (linkLikes.containsKey(j) && linkLikes.get(j).contains(i)) liked = 1;
-				double predictedLike = predictions.get(i).get(j);
-		
-				error += Math.pow(liked - predictedLike, 2);
-			}
-		}
+		error += objective.getValue(predictions, linkLikes);
 
 		//Get User and Link norms for regularisation
-		double userNorm = 0;
-		double linkNorm = 0;
-
-		for (int x = 0; x < K; x++) {
-			for (int y = 0; y < Configuration.USER_FEATURE_COUNT; y++) {
-				userNorm += Math.pow(userFeatureMatrix[x][y], 2);
-			}
-		}
-		for (long id : userIdColumns.keySet()) {
-			Double[] column = userIdColumns.get(id);
-			
-			for (double val : column) {
-				userNorm += Math.pow(val, 2);
-			}
-		}
-
-		for (int x = 0; x < K; x++) {
-			for (int y = 0; y < Configuration.LINK_FEATURE_COUNT; y++) {
-				linkNorm += Math.pow(linkFeatureMatrix[x][y], 2);
-			}
-		}
-		for (long id : linkIdColumns.keySet()) {
-			Double[] column = linkIdColumns.get(id);
-			
-			for (double val : column) {
-				linkNorm += Math.pow(val, 2);
-			}
-		}
-			
+		double userNorm = l2.getValue(userFeatureMatrix) + l2.getValue(userIdColumns);
+		double linkNorm = l2.getValue(linkFeatureMatrix) + l2.getValue(linkIdColumns);
 		userNorm *= lambda;
 		linkNorm *= lambda;
 
 		error += userNorm + linkNorm;
 
-		return error / 2;
+		return error;
 	}
 	
 	public double getErrorDerivativeOverUserAttribute(Map<Long, Double[]> linkTraits, Map<Long, Map<Long, Double>> predictions, 
@@ -147,48 +119,12 @@ public class SocialRecommender extends MFRecommender
 	{
 		double errorDerivative = userFeatureMatrix[x][y] * lambda;
 		
-		Object[] keys = connections.keySet().toArray();
-		
-		for (int a = 0; a < keys.length-1; a++) {
-			Long uid1 = (Long)keys[a];
-			                 
-			for (int b = a+1; b < keys.length; b++) {
-				Long uid2 = (Long)keys[b];
-				
-				Double[] user1 = userFeatures.get(uid1);
-				Double[] user1Id = userIdColumns.get(uid1);
-				Double[] user2 = userFeatures.get(uid2);
-				Double[] user2Id = userIdColumns.get(uid2);
-				
-				double c = getFriendConnection(uid1, uid2, friendships);
-				double p = connections.get(uid1).containsKey(uid2) ? connections.get(uid1).get(uid2) : connections.get(uid2).get(uid1);
-				
-				double duu = 2 * user1[y] * user2[y] * userFeatureMatrix[x][y];
-				for (int z = 0; z < user1.length; z++) {
-					if (z != y) {
-						duu += user1[y] * user2[z] * userFeatureMatrix[x][z];
-						duu += user1[z] * user2[y] * userFeatureMatrix[x][z];
-					}
-				}
-				duu += user1Id[x] * user2[y];
-				duu += user2Id[x] * user1[y];
-				
-				errorDerivative += beta * (c - p) * duu * -1;
-			}
+		if (socialRegularizer != null) {
+			double socDerivative = socialRegularizer.getDerivativeValueOverAttribute(userFeatureMatrix, userFeatures, userIdColumns, connections, friendConnections, x, y);
+			errorDerivative += beta * socDerivative;
 		}
 		
-		for (long userId : predictions.keySet()) {
-			Set<Long> links = predictions.get(userId).keySet();
-			
-			for (long linkId : links) {
-				double dst = linkTraits.get(linkId)[x] * userFeatures.get(userId)[y];		
-				double p = predictions.get(userId).get(linkId);
-				double r = 0;
-				if (linkLikes.containsKey(linkId) && linkLikes.get(linkId).contains(userId)) r = 1;
-
-				errorDerivative += (r - p) * dst * -1;
-			}
-		}
+		errorDerivative += objective.getDerivativeOverUserAttribute(linkTraits, userFeatures, predictions, linkLikes, x, y);
 
 		return errorDerivative;
 	}
@@ -200,43 +136,12 @@ public class SocialRecommender extends MFRecommender
 		Double[] idColumn = userIdColumns.get(userId);
 		double errorDerivative = idColumn[k] * lambda;
 
-		Double[] user1 = userFeatures.get(userId);
-		
-		for (long uid2 : connections.keySet()) {
-			if (userId == uid2) continue;	
-			
-			Double[] user2 = userFeatures.get(uid2);
-			
-			Double[] user2Column = userIdColumns.get(uid2);
-			
-			double c = getFriendConnection(userId, uid2, friendships);
-			double p = connections.get(userId).containsKey(uid2) ? connections.get(userId).get(uid2) : connections.get(uid2).get(userId);
-			
-			double duu = 0;
-			
-			for (int z = 0; z < user1.length; z++) {
-				duu += user2[z] *  userFeatureMatrix[k][z];
-
-			}
-			
-			duu += user2Column[k];
-			
-			errorDerivative += beta * (c - p) * duu * -1;
+		if (socialRegularizer != null) {
+			double socDerivative = socialRegularizer.getDerivativeValueOverId(userFeatureMatrix, userFeatures, userIdColumns, connections, friendConnections, userId, k);
+			errorDerivative += beta * socDerivative;
 		}
 		
-		Set<Long> links = predictions.get(userId).keySet();
-		for (long linkId : links) {
-			if (!linkTraits.containsKey(linkId)) continue;
-			
-			Set<Long> likes = linkLikes.get(linkId);
-		
-			double dst = linkTraits.get(linkId)[k];
-			double p = predictions.get(userId).get(linkId);
-			double r = 0;
-			if (likes != null && likes.contains(userId)) r = 1;
-
-			errorDerivative += (r - p) * dst * -1;
-		}
+		errorDerivative += objective.getErrorDerivativeOverUserId(linkTraits, linkLikes, predictions, k, userId);
 		
 		return errorDerivative;
 	}
@@ -244,19 +149,7 @@ public class SocialRecommender extends MFRecommender
 	public double getErrorDerivativeOverLinkAttribute(Map<Long, Double[]> userTraits, Map<Long, Map<Long, Double>> predictions, int x, int y)
 	{
 		double errorDerivative = linkFeatureMatrix[x][y] * lambda;
-
-		for (long userId : predictions.keySet()) {
-			Set<Long> links = predictions.get(userId).keySet();
-
-			for (long linkId : links) {
-				double dst = userTraits.get(userId)[x] * linkFeatures.get(linkId)[y];		
-				double p = predictions.get(userId).get(linkId);
-				double r = 0;
-				if (linkLikes.containsKey(linkId) && linkLikes.get(linkId).contains(userId)) r = 1;
-
-				errorDerivative += (r - p) * dst * -1;
-			}
-		}
+		errorDerivative += objective.getErrorDerivativeOverLinkAttribute(userTraits, linkFeatures, linkLikes, predictions, x, y);
 
 		return errorDerivative;
 	}
@@ -265,19 +158,7 @@ public class SocialRecommender extends MFRecommender
 	{
 		Double[] idColumn = linkIdColumns.get(linkId);
 		double errorDerivative = idColumn[x] * lambda;
-
-		Set<Long> likes = linkLikes.get(linkId);
-		
-		for (long userId : predictions.keySet()) {
-			if (! predictions.get(userId).containsKey(linkId)) continue;
-			
-			double dst = userTraits.get(userId)[x] /* * idColumn[x]*/;		
-			double p = predictions.get(userId).get(linkId);
-			double r = 0;
-			if (likes != null && likes.contains(userId)) r = 1;
-
-			errorDerivative += (r - p) * dst * -1;
-		}
+		errorDerivative += objective.getErrorDerivativeOverLinkId(userTraits, linkLikes, predictions, x, linkId);
 		
 		return errorDerivative;
 	}
@@ -306,4 +187,12 @@ public class SocialRecommender extends MFRecommender
 	{
 		beta = b;
 	}
+	
+	public double predictConnection(Double[][] userMatrix, 
+			Map<Long, Double[]> idColumns,
+			Map<Long, Double[]> userFeatures,
+			long i, long j)
+	{
+		return socialRegularizer != null ? socialRegularizer.predictConnection(userMatrix, idColumns, userFeatures, i, j, K) : 0;
+	}	
 }
