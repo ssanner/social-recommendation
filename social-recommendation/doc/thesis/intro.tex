@@ -1,0 +1,55 @@
+%%
+%% Template intro.tex
+%%
+
+\chapter{Introduction}
+\label{cha:intro}
+
+\section{Description}
+
+Finding relevant information from the glut of data is one of the biggest challenges faced by users today. This is important not just for the users themselves, but also for companies that may wish to sell or provide a service to them. One way to help users find relevant information is through automatic recommender systems. Recommender systems seek to automatically discover what the user's preferences are.
+
+\subsection{Individual Recommendation}
+
+Individual recommendation models a user's preferences through information about the user alone. This information can be the user's profile details like age, sex, and occupation, as well as the user's history like previously bought or rated items.
+
+\subsection{Collaborative Recommendation}
+
+Collaborative recommendation models a user preferences not just through information about the user alone, but also through information about the other users. Collaborative recommendation algorithms examples are k-nearest neighbors and probabilistic matrix factorization.
+
+\subsection{Social Recommendation}
+
+In contrast to collaborative recommendation, which treats all users as equal for recommendation, social recommendation makes use of certain links to help calculate similarity between users. Additional information help with recommendation. It has been shown that users are more likely to have the same preference with their friends than with other random users.
+
+These links could be connections between users in social networks like Facebook and MySpace, or some other measure of user interaction and similarity.
+
+\section{Questions Studied}
+
+For collaboration recommendation we conduct a performance comparison between k-nearest neighbors, probabilistic matrix factorization, and feature matrix factorization used in matchbox. Experiments are conducted on the MovieLens dataset.
+
+For social recommendation we conduct a performance comparison between k-nearest neighbors, support vector machines, feature matrix factorization, and social matrix factorization. Experiments are conducted on Facebook data that was collected as part of this project.
+
+In this paper we also ask how best to model social relationships between users in Facebook to help with recommendation, and whether that social aspect actually improves on recommendation. We experiment with different models of social interaction between users in Facebook. These are the friend relationship links between users, a normalized sum of all interactions between 2 users, and a normalized sum of all similar likes between 2 users. We experimented with different ways of normalizing the sums, sigmoidal and non-sigmoidal functions, and different methods of optimization.
+
+\section{Resources}
+
+Facebook is a social networking service that is currently the largest in the world. As of July 2011 it has more that 750 million active users. Users in Facebook create a profile and establish "friend" connections between users to establish their social network. Each user has a "wall" where they and their friends can make posts to. Users can make posts to their wall or to their friend's wall. Posts can be links, photos, or plain status messages.
+
+LinkR is a Facebook application that was developed at ANU to gather data about users on Facebook. Once installed at their account, LinkR collects information on the user and their friends. For the comparison experiments for social recommendation, this paper uses Facebook data that was collected during the LinkR research project at the Australian National University. This data contains all the profile information of users, as well as their interaction history on Facebook like their friend links, their wall postings like statuses and links, which posts they have liked, which photos and posts they've been tagged with, and various other information that they have shared on Facebook.
+
+
+\section{Chapter Outline}
+
+In the following chapters we will show that social information can be an effective tool that can be used to improve recommender systems. In Chapter 2 I  discuss the background of the project, the notations, evaluation metrics, description of algorithms, as well as other resources that were used for this paper.
+
+In Chapter 3 I discuss and compare various collaboration recommendation algorithms and run them on the MovieLens dataset. Collaboration algorithms discusses are K-Nearest Neighbors, Probabilistic Matrix Factorization, and Probabilistic Matrix Factorization with features. I also discuss various methods for optimizations such as gradient descent, line search, and the quasi-Newton Limited-memory Broyden-Fletch-Goldfarb-Shanno method.
+
+In Chapter 4  I discuss and compare various social and non-social recommendation algorithms and run them on a Facebook dataset that was compiled as part of this project. I also discuss preliminary results of the bigger Facebook project that this paper is a part of.
+
+In Chapter 5 I give my conclusions from my work and future directions that this research could go to.
+
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "thesis"
+%%% End: 

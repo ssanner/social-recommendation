@@ -1,0 +1,231 @@
+\begin{thebibliography}{}
+
+\bibitem[\protect\citeauthoryear{Birlutiu, Groot, and Heskes}{Birlutiu
+  et~al.}{2010}]{birlutiu-et-al-neuro-10}
+\bibsc{Birlutiu, A., Groot, P., and Heskes, T.} \bibyear{2010}.
+\newblock Multi-task preference learning with an application to hearing aid
+  personalization.
+\newblock \bibemphic{Neurocomputing}~\bibemph{73},~7-9, 1177--1185.
+\citepages{birlutiu-et-al-neuro-10}
+
+\bibitem[\protect\citeauthoryear{Bonilla, Chai, and Williams}{Bonilla
+  et~al.}{2008}]{bonilla-et-al-nips-08}
+\bibsc{Bonilla, E.~V., Chai, K. M.~A., and Williams, C. K.~I.} \bibyear{2008}.
+\newblock Multi-task gaussian process prediction.
+\newblock In \bibsc{J.~Platt, D.~Koller, Y.~Singer, and S.~Roweis} Eds.,
+  \bibemphic{Advances in Neural Information Processing Systems 20}, pp.\
+  153--160. Cambridge, MA: MIT Press.
+\citepages{bonilla-et-al-nips-08}
+
+\bibitem[\protect\citeauthoryear{Boutilier}{Boutilier}{2002}]{boutilier02239}
+\bibsc{Boutilier, C.} \bibyear{2002}.
+\newblock A {POMDP} formulation of preference elicitation problems.
+\newblock In \bibemphic{Proceedings of the 18th National Conference on
+  Artificial Intelligence} (Menlo Park, CA, USA, 2002), pp.\  239--246.
+  American Association for Artificial Intelligence.
+\citepages{boutilier02239}
+
+\bibitem[\protect\citeauthoryear{Bradley and Terry}{Bradley and
+  Terry}{1952}]{bradley52324}
+\bibsc{Bradley, R.~A. and Terry, M.~E.} \bibyear{1952}.
+\newblock Rank analysis of incomplete block designs: The method of paired
+  comparison.
+\newblock \bibemphic{Biometrika}~\bibemph{39}, 324--345.
+\citepages{bradley52324}
+
+\bibitem[\protect\citeauthoryear{Cao, Sun, Wu, Yang, and Chen}{Cao
+  et~al.}{2008}]{bisim}
+\bibsc{Cao, B., Sun, J.-T., Wu, J., Yang, Q., and Chen, Z.} \bibyear{2008}.
+\newblock Learning bidirectional similarity for collaborative filtering.
+\newblock In \bibemphic{ECML-08} (2008).
+\citepages{bisim}
+
+\bibitem[\protect\citeauthoryear{Chajewska and Koller}{Chajewska and
+  Koller}{2000}]{Chajewska00utilitiesas}
+\bibsc{Chajewska, U. and Koller, D.} \bibyear{2000}.
+\newblock Utilities as random variables: Density estimation and structure
+  discovery.
+\newblock In \bibemphic{Proceedings of the 16th Conference on Uncertainty in
+  Artificial Intelligence} (2000), pp.\  63--71. Morgan Kaufmann Publishers
+  Inc.
+\citepages{Chajewska00utilitiesas}
+
+\bibitem[\protect\citeauthoryear{Chajewska, Koller, and Parr}{Chajewska
+  et~al.}{2000}]{chajewska-et-al-aaai-00}
+\bibsc{Chajewska, U., Koller, D., and Parr, R.} \bibyear{2000}.
+\newblock Making rational decisions using adaptive utility elicitation.
+\newblock In \bibemphic{Proceedings of the Seventeenth National Conference on
+  Artificial Intelligence and Twelfth Conference on Innovative Applications of
+  Artificial Intelligence} (2000), pp.\  363--369. AAAI Press / The MIT Press.
+\citepages{chajewska-et-al-aaai-00}
+
+\bibitem[\protect\citeauthoryear{Chu and Ghahramani}{Chu and
+  Ghahramani}{2005a}]{chu-Ghahramani-jmlr-05}
+\bibsc{Chu, W. and Ghahramani, Z.} \bibyear{2005a}.
+\newblock Gaussian processes for ordinal regression.
+\newblock \bibemphic{Journal of Machine Learning Research}~\bibemph{6},
+  1019--1041.
+\citepages{chu-Ghahramani-jmlr-05}
+
+\bibitem[\protect\citeauthoryear{Chu and Ghahramani}{Chu and
+  Ghahramani}{2005b}]{chu-Ghahramani-icml-05}
+\bibsc{Chu, W. and Ghahramani, Z.} \bibyear{2005b}.
+\newblock Preference learning with {G}aussian processes.
+\newblock In \bibemphic{Proceedings of the 22nd international conference on
+  Machine learning} (New York, NY, USA, 2005), pp.\  137--144. ACM.
+\citepages{chu-Ghahramani-icml-05}
+
+\bibitem[\protect\citeauthoryear{Conitzer}{Conitzer}{2009a}]{conitzer-jair-09}
+\bibsc{Conitzer, V.} \bibyear{2009a}.
+\newblock Eliciting single-peaked preferences using comparison queries.
+\newblock \bibemphic{Journal of Artificial Intelligence Research}~\bibemph{35},
+  161--191.
+\citepages{conitzer-jair-09}
+
+\bibitem[\protect\citeauthoryear{Conitzer}{Conitzer}{2009b}]{conitzer09161}
+\bibsc{Conitzer, V.} \bibyear{2009b}.
+\newblock Eliciting single-peaked preferences using comparison queries.
+\newblock \bibemphic{Journal of Artificial Intelligence Research}~\bibemph{35},
+  161--191.
+\citepages{conitzer09161}
+
+\bibitem[\protect\citeauthoryear{Cui, Wang, Liu, Ou, and Yang}{Cui
+  et~al.}{2011}]{socinf}
+\bibsc{Cui, P., Wang, F., Liu, S., Ou, M., and Yang, S.} \bibyear{2011}.
+\newblock Who should share what? item-level social influence prediction for
+  users and posts ranking.
+\newblock In \bibemphic{International ACM SIGIR Conference (SIGIR)} (2011).
+\citepages{socinf}
+
+\bibitem[\protect\citeauthoryear{Eric, Freitas, and Ghosh}{Eric
+  et~al.}{2008}]{brochu-et-al-nips-08}
+\bibsc{Eric, B., Freitas, N.~D., and Ghosh, A.} \bibyear{2008}.
+\newblock Active preference learning with discrete choice data.
+\newblock In \bibsc{J.~Platt, D.~Koller, Y.~Singer, and S.~Roweis} Eds.,
+  \bibemphic{Advances in Neural Information Processing Systems 20}, pp.\
+  409--416. Cambridge, MA: MIT Press.
+\citepages{brochu-et-al-nips-08}
+
+\bibitem[\protect\citeauthoryear{Guo and Sanner}{Guo and
+  Sanner}{2010}]{guo-sanner-aistats-10}
+\bibsc{Guo, S. and Sanner, S.} \bibyear{2010}.
+\newblock Real-time multiattribute {B}ayesian preference elicitation with
+  pairwise comparison queries.
+\newblock In \bibemphic{Thirteenth International Conference on Artificial
+  Intelligence and Statistics} (2010).
+\citepages{guo-sanner-aistats-10}
+
+\bibitem[\protect\citeauthoryear{Howard}{Howard}{1966}]{howard-ieee-66}
+\bibsc{Howard, R.} \bibyear{1966}.
+\newblock Information value theory.
+\newblock \bibemphic{IEEE Transactions on Systems Science and
+  Cybernetics}~\bibemph{2},~1, 22--26.
+\citepages{howard-ieee-66}
+
+\bibitem[\protect\citeauthoryear{Huang and Guestrin}{Huang and
+  Guestrin}{2009}]{huang-guestrin-nips-09}
+\bibsc{Huang, J. and Guestrin, C.} \bibyear{2009}.
+\newblock Riffled independence for ranked data.
+\newblock In \bibemphic{In Advances in Neural Information Processing Systems
+  (NIPS)} (Vancouver, Canada, December 2009).
+\citepages{huang-guestrin-nips-09}
+
+\bibitem[\protect\citeauthoryear{Jones}{Jones}{2001}]{jones-jgo-01}
+\bibsc{Jones, D.~R.} \bibyear{2001}.
+\newblock A taxonomy of global optimization methods based on response surfaces.
+\newblock \bibemphic{Journal of Global Optimization}~\bibemph{21},~4, 345--383.
+\citepages{jones-jgo-01}
+
+\bibitem[\protect\citeauthoryear{Kamishima}{Kamishima}{2003}]{kamishima-kdd-03}
+\bibsc{Kamishima, T.} \bibyear{2003}.
+\newblock Nantonac collaborative filtering: recommendation based on order
+  responses.
+\newblock In \bibemphic{KDD '03: Proceedings of the ninth ACM SIGKDD
+  international conference on Knowledge discovery and data mining} (New York,
+  NY, USA, 2003), pp.\  583--588. ACM.
+\citepages{kamishima-kdd-03}
+
+\bibitem[\protect\citeauthoryear{Li, Yeung, and Zhang}{Li et~al.}{2011}]{glfm}
+\bibsc{Li, Yeung, and Zhang}. \bibyear{2011}.
+\newblock Generalized latent factor models for social network analysis.
+\newblock In \bibemphic{IJCAI-11} (2011).
+\citepages{glfm}
+
+\bibitem[\protect\citeauthoryear{Li and Yeung}{Li and Yeung}{2009}]{rrmf}
+\bibsc{Li, W.-J. and Yeung, D.-Y.} \bibyear{2009}.
+\newblock Relation regularized matrix factorization.
+\newblock In \bibemphic{IJCAI-09} (2009).
+\citepages{rrmf}
+
+\bibitem[\protect\citeauthoryear{Ma, King, and Lyu}{Ma et~al.}{2009}]{ste}
+\bibsc{Ma, King, and Lyu}. \bibyear{2009}.
+\newblock Learning to recommend with social trust ensemble.
+\newblock In \bibemphic{SIGIR-09} (2009).
+\citepages{ste}
+
+\bibitem[\protect\citeauthoryear{Ma, Yang, Lyu, and King}{Ma
+  et~al.}{2008}]{sorec}
+\bibsc{Ma, H., Yang, H., Lyu, M.~R., and King, I.} \bibyear{2008}.
+\newblock Sorec: Social recommendation using probabilistic matrix
+  factorization.
+\newblock In \bibemphic{CIKM-08} (2008).
+\citepages{sorec}
+
+\bibitem[\protect\citeauthoryear{Ma, Zhou, Liu, Lyu, and King}{Ma
+  et~al.}{2011}]{sr}
+\bibsc{Ma, H., Zhou, D., Liu, C., Lyu, M.~R., and King, I.} \bibyear{2011}.
+\newblock Recommender systems with social regularization.
+\newblock In \bibemphic{WSDM-11} (2011).
+\citepages{sr}
+
+\bibitem[\protect\citeauthoryear{Qui\~{n}onero Candela and
+  Rasmussen}{Qui\~{n}onero Candela and
+  Rasmussen}{2005}]{candela-rasmussen-jmlr-05}
+\bibsc{Qui\~{n}onero Candela, J. and Rasmussen, C.~E.} \bibyear{2005}.
+\newblock A unifying view of sparse approximate {G}aussian process regression.
+\newblock \bibemphic{Journal of Machine Learning Research}~\bibemph{6},
+  1939--1959.
+\citepages{candela-rasmussen-jmlr-05}
+
+\bibitem[\protect\citeauthoryear{Rendle, Marinho, Nanopoulos, and
+  Schmidt-Thieme}{Rendle et~al.}{2009}]{tf}
+\bibsc{Rendle, S., Marinho, L.~B., Nanopoulos, A., and Schmidt-Thieme, L.}
+  \bibyear{2009}.
+\newblock Learning optimal ranking with tensor factorization for tag
+  recommendation.
+\newblock In \bibemphic{KDD-09} (2009).
+\citepages{tf}
+
+\bibitem[\protect\citeauthoryear{Stern, Herbrich, and Graepel}{Stern
+  et~al.}{2009}]{matchbox}
+\bibsc{Stern, D.~H., Herbrich, R., and Graepel, T.} \bibyear{2009}.
+\newblock Matchbox: large scale online bayesian recommendations.
+\newblock In \bibemphic{WWW-09} (2009), pp.\  111--120.
+\citepages{matchbox}
+
+\bibitem[\protect\citeauthoryear{Viappiani and Boutilier}{Viappiani and
+  Boutilier}{2009}]{viappiani09Regret-basedOptimalRecommendationSetsConversational}
+\bibsc{Viappiani, P. and Boutilier, C.} \bibyear{2009}.
+\newblock Regret-based optimal recommendation sets in conversational
+  recommender systems.
+\newblock In \bibemphic{Proceedings of the third ACM conference on Recommender
+  systems} (New York City, NY, USA, October 2009), pp.\  101--108. ACM.
+\citepages{viappiani09Regret-basedOptimalRecommendationSetsConversational}
+
+\bibitem[\protect\citeauthoryear{Yang, Long, Smola, Sadagopan, Zheng, and
+  Zha}{Yang et~al.}{2011}]{lla}
+\bibsc{Yang, Long, Smola, Sadagopan, Zheng, and Zha}. \bibyear{2011}.
+\newblock Like like alike: Joint friendship and interest propagation in social
+  networks.
+\newblock In \bibemphic{WWW-11} (2011).
+\citepages{lla}
+
+\bibitem[\protect\citeauthoryear{Yu, Tresp, and Schwaighofer}{Yu
+  et~al.}{2005}]{yu-et-al-icml-05}
+\bibsc{Yu, K., Tresp, V., and Schwaighofer, A.} \bibyear{2005}.
+\newblock Learning {G}aussian processes from multiple tasks.
+\newblock In \bibemphic{Proceedings of the 22nd international conference on
+  Machine learning} (New York, NY, USA, 2005), pp.\  1012--1019. ACM.
+\citepages{yu-et-al-icml-05}
+
+\end{thebibliography}
