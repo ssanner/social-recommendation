@@ -1,0 +1,277 @@
+%%
+% Template chap2.tex
+%%
+
+\chapter{Background}
+
+\section{Notation}
+
+This paper uses boldface uppercase letters, like {\bf U}, to denote matrices. Boldface lowercase letters, like {\bf v}, are used to denote vectors.  ${\bf U}_{ij}$ denotes the $i$th row and $j$th column of the matrix {\bf U}, and ${\bf v}_{i}$ denotes the $i$th element in the vector {\bf v}. $\lambda$ and $\beta$ are the regularization parameters. Additionally, our model for social recommendations needs the following:
+
+\begin{itemize}
+\item $N$ users, each having an $I$-element feature vector 
+$\x \in \R^I$ (alternately if a second user is needed, $\z \in \R^I$).
+
+\item $M$ items, each having a $J$-element feature vector 
+$\y \in \R^J$. The feature vectors for users 
+and items can consist of any real-valued features as well as $\{0,1\}$
+features like user and item IDs.
+%$\x_{1 \ldots I}$ ($\z_{1 \ldots I}$).  
+%$\y_{1 \ldots J}$.s
+
+\item A (non-exhaustive) data set $D$ of user preferences of the form
+$D = \{ (\x, \y) \to R_{\x,\y} \}$ where class 
+$R_{\x,\y} \in \{ 0 \; \mbox{(dislike)}, 1 \; \mbox{(like)} \}$.
+
+\item A (non-exhaustive) data set $C$ of co-preferences derived from $D$ of the form
+$C = \{ (\x, \z, \y) \to P_{\x, \z, \y} \}$ where class 
+$P_{\x, \z, \y} \in \{ -1 \; \mbox{(disagree)}, 1 \;\mbox{(agree)} \}$.  
+
+\item A similarity rating $S_{\x,\z}$ between any users $\x$ and $\z$. This is used to summarize all social
+interaction between user $\x$ and user $\z$ in the term $S_{\x,\z} \in
+\R$.  A definition of $S_{\x,\z} \in \R$ that has been useful is the
+following:
+\begin{align}
+\mathit{Int}_{\x,\z} & = \frac{\mbox{\# interactions between $\x$
+and $\z$}}{\mbox{average \# interactions between all user pairs}}\\
+S_{\x,\z} & = \ln \left( \mathit{Int}_{\x,\z} \right)
+\end{align}
+For purposes of this definition, an \emph{interaction} is any single event
+showing evidence that users $\x$ and $\z$ have 
+interacted, e.g., a message exchange or being tagged in a photo together.
+
+In addition, we can define $S^+_{\x,\z}$, a \emph{non-negative} 
+variant of $S_{\x,\z}$:
+\begin{align}
+S^+_{\x,\z} & = \ln \left( 1 + \mathit{Int}_{\x,\z} \right)
+\end{align}
+\end{itemize}
+
+The matrix {\bf R} is a sparse $N \times M$ matrix of user ratings on items. The problem of recommendation is filling out the empty elements of this matrix, and this can be looked at as a linear regression problem. There are two general ways that this has been done previously, Content-based Filtering (CBF) and Collaborative Filtering (CF). Content-based filtering makes recommendations based on correlations between the item features and the user's preferences on other items. In collaborative filtering, the system makes recommendations based on the correlation between other user's with similar preferences. Most traditional CBF methods learn in an explicit feature space, while most traditional CF methods learn in a latent feature space. 
+
+\section{Collaborative Filtering Algorithms}
+\subsection{K-Nearest Neighbor}
+
+The $k$-nearest neighbor algorithm is a method of pattern recognition that is based on the $k$ closest training data in the feature space. There are two main variants of nearest neighbors for collaborative recommendation, user-based and item-based. Given a user $u$ and an item $i$, let $N(u:i)$ be the set of nearest neighbors of $u$ that have also given a rating for i, $N(i:u)$ be the set of nearest neighbors of $i$ that have also been rated by $u$, $s_{uu'}$ the similarity rating between users $u$ and $u'$, and $s_{ii'}$ be the similarity rating for items $i$ and $i'$. The predicted rating the user $u$ gives item $i$ in the user-based approach is then calculated as
+
+\[
+r_{ui} = \frac    {\sum_{v\in N(u;i)} {s_{uv}r_{uv}} } {\sum_{v\in N(u;i)}{s_{uv}}}
+\]
+
+The item-based approach is calculated as 
+
+\[
+r_{ui} = \frac    {\sum_{j\in N(i;u)} {s_{ij}r_{uj}} } {\sum_{j\in N(i;u)}{s_{ij}}}
+\]
+
+The question of which approach to use depends on the dataset. When the number of items is far fewer than the number of users, it has been found that the item-based approach usually provides better predictions as well as being more efficient in computations. 
+
+\begin{comment}
+This applies to the MovieLens 1 Million dataset as well. For the MovieLens 100,000 dataset, the number of items is larger than the number of users, and the user-based approach has been found to perform better.
+\end{comment}
+
+\subsection{Support Vector Machines}
+
+Support Vector Machines are a class of supervised learning classification algorithms that uses a hyperplane separating approach. During training, SVM builds a model by constructing a set of hyperplanes that separates one class of data from another class with the maximum margin possible. Data are classified by finding out on which side of a hyperplane they fall under.
+
+For the experiments, SVM uses a fixed-length feature vector
+$\f \in \mathbb{R}^F$ derived from any $(\x,\y) \in D$, denoted
+as $\f_{\x,\y}$.  $\f_{\x,\y}$ may include features
+that are non-zero only for specific items and/or users, e.g., a $\{0,1\}$ 
+indicator feature that user $\x$
+and user $\z$ have both liked item $\y$.  
+
+\section{Matrix Factorization Models}
+
+\subsection{Objective components}
+
+We take a composable approach to collaborative filtering (CF) systems
+where a (social) CF minimization 
+objective $\mathit{Obj}$ is composed of sums of one or more
+objective components:
+\begin{align}
+\mathit{Obj} = \sum_i \lambda_i \mathit{Obj}_i
+\end{align}
+Because each objective may be weighted differently, a 
+weighting term $\lambda_i \in \R$ for each component that should be
+optimized via cross-validation.
+
+%{\it Binary and ternary prediction:} 
+Most target predictions are binary 
+classification-based ($\{0,1\}$), therefore
+in the objectives a sigmoidal transform 
+\begin{align}
+\sigma(o) & = \frac{1}{1 + e^{-o}}
+\end{align}
+of regressor outputs $o \in \R$ is used to squash it 
+to the range $[0, 1]$.  
+In places where the $\sigma$ transform may be optionally included, 
+this is written as $[\sigma]$.  
+
+\begin{comment}
+\subsection{Probabilistic Matrix Factorization}
+
+
+Probabilistic Matrix Factorization tries to model the user preference matrix as a product of 2 lower-rank user and item matrices. The predicted rating of user $i$ on movie $j$ is $U_i^TV_j$. Additionally, $\lambda$ is the regularization parameter and $I_{ij}$ is an indicator function that is equal to 1 if user $i$ rated movie $j$ and equal to 0 otherwise. PMF minimizes the following error function:
+
+\[
+E = \frac{1}{2} \sum_{i=1}^N \sum_{j=1}^M \mathbf I_{ij} {(\mathbf R_{ij}-\mathbf U_i^T \mathbf V_j)^2} 
++ \frac{\lambda}{2} \sum _{i=1}^N ||\mathbf U_i||^2_{Fro}
++ \frac{\lambda}{2} \sum _{j=1}^M ||\mathbf V_j||^2_{Fro}
+\]
+
+
+\begin{align}
+\sum_{(\x,\y) \in D} \frac{1}{2} (R_{\x,\y} - [\sigma] U^T V)^2
+\end{align}
+\end{comment}
+
+\subsection{Matchbox Matrix Factorization}
+
+\begin{comment}
+One weakness of PMF is that it has a hard time making predictions for users that have made very few or no ratings, and for movies that have been given few or no ratings. To fix this, we can incorporate the user and movie features into the matrix factorization to help bootstrap predictions. Incorporating user and movie features also improve predictions even for users and movies that have had lots of ratings. The objective function of Matchbox Matrix Factorization with Features that is being minimized is
+\end{comment}
+
+\begin{comment}
+\[
+E = \frac{1}{2} \sum_{i=1}^N \sum_{j=1}^M \mathbf I_{ij} {(\mathbf R_{ij}-\mathbf{s}^T \mathbf{t})^2} 
++ \frac{\lambda}{2} ||\mathbf U_i||^2_{Fro}
++ \frac{\lambda}{2} ||\mathbf V_j||^2_{Fro}
+\]
+\end{comment}
+
+As done in standard CF methods, we assume that
+a matrix $U$ allows us to project users $\x$ (and $\z$)
+into a latent space of dimensionality $K$; likewise we assume that
+a matrix $V$ allows us to project items $\y$ into a latent
+space also of dimensionality $K$.  Formally we define $U$ and $V$
+as follows:
+
+\begin{equation*}
+U = 
+\begin{bmatrix}
+  U_{1,1} & \hdots  & U_{1,I} \\
+  \vdots  & U_{k,i} & \vdots  \\
+  U_{K,1} & \hdots  & U_{K,I} \\
+\end{bmatrix}
+\qquad \; \; \;
+V = 
+\begin{bmatrix}
+  V_{1,1} & \hdots  & V_{1,J} \\
+  \vdots  & V_{k,j} & \vdots  \\
+  V_{K,1} & \hdots  & V_{K,J} \\
+\end{bmatrix}
+\end{equation*}
+Now we can respectively represent the latent projections of user and
+item as $(U \x)_{1 \ldots K}$ and $(V \y)_{1 \ldots K}$ and
+hence use $\la U \x, V \y \ra = \x^T U^T V \y$ as a latent bilinear regressor. The objective component for this model that we seek to minimize is:
+
+
+\begin{align}
+\sum_{(\x,\y) \in D} \frac{1}{2} (R_{\x,\y} - [\sigma] \x^T U^T V y)^2
+\end{align}
+
+\subsection{L2 Regularization}
+
+To help in generalization, it is important to regularize the free parameters $U$ and $V$ to prevent overfitting in
+the presence of sparse data. This can be done with the
+$L_2$ regularizer that models a prior of $0$ on the parameters. The objective components for the L2 regularizers are
+
+\[
+\frac{1}{2} \| U \|_\Fro^2 = \frac{1}{2} \tr(U^T U)
+\]
+
+\[
+\frac{1}{2} \| V \|_\Fro^2 = \frac{1}{2} \tr(V^T V)
+\]
+
+\subsection{Social Regularization}
+The social aspect of social recommendation is implemented as a regularizer on the user matrix. What this objective component does is constrain users with a high similarity rating to have the same values in the latent feature space. This models the assumption that users who are similar socially should have the same preferences for items.
+
+\begin{align*}
+\sum_{\x} & \sum_{\z \in \mathit{friends}(\x)} \frac{1}{2} (S_{\x,\z} - \la U\x, U\z \ra)^2 \nonumber \\
+& = \sum_{\x} \sum_{\z \in \mathit{friends}(\x)} \frac{1}{2} (S_{\x,\z} - \x^T U^T U \z)^2
+\end{align*}
+
+\subsection{Derivatives}
+
+We seek to optimize sums of the above objectives and will use
+gradient descent for this purpose.  
+
+For the overall objective, the partial derivative 
+w.r.t. parameters $\a$ are as follows:
+\begin{align*}
+\frac{\partial}{\partial \a} \mathit{Obj} & = \frac{\partial}{\partial \a} \sum_i \lambda_i \mathit{Obj}_i\\
+& = \sum_i \lambda_i \frac{\partial}{\partial \a} \mathit{Obj}_i \label{eq:sum_der}
+\end{align*}
+
+Previously we noted that that we may want to transform
+some of the regressor outputs $o[\cdot]$ using $\sigma(o[\cdot])$.  
+This is convenient for our partial derivatives as
+\begin{align}
+ \frac{\partial}{\partial \a}\sigma(o[\cdot]) & = \sigma(o[\cdot]) (1 - \sigma(o[\cdot])) \frac{\partial}{\partial \a} o[\cdot] .
+\end{align}
+Hence anytime a $[\sigma(o[\cdot])]$ is optionally 
+introduced in place of $o[\cdot]$, we simply
+insert $[\sigma(o[\cdot]) (1 - \sigma(o[\cdot]))]$ in the corresponding derivatives 
+below.\footnote{We note that our experiments using the sigmoidal transform in
+objectives with $[0,1]$ predictions do not generally demonstrate a
+clear advantage vs. the omission of this transform as originally
+written (although they do not demonstrate a clear disadvantage
+either).}
+
+Before we proceed to our objective gradients, we define abbreviations
+for two useful vectors:
+\begin{align*}
+\s & = U \x \qquad \s_{k} = (U \x)_{k}; \; k=1\ldots K\\
+\t & = V \y \qquad \t_{k} = (V \y)_{k}; \; k=1\ldots K
+\end{align*}
+
+Now we proceed to derivatives for the previously defined primary
+objective components:
+\begin{itemize}
+\item {\bf Matchbox Matrix Factorization}:
+Here we define alternating partial derivatives between $U$ and $V$, holding one
+constant and taking the derivative w.r.t.\ the other:\footnote{We will use
+this method of alternation for all objective components that involve bilinear
+terms.}
+\begin{align*}
+\frac{\partial}{\partial U} \Obj_\pmcf & = \frac{\partial}{\partial U} \sum_{(\x,\y) \in D} \frac{1}{2} \left( \underbrace{(R_{\x,\y} - [\sigma] \overbrace{x^T U^T V\y}^{o_{\x,\y}})}_{\delta_{\x,\y}} \right)^2\\
+& = \sum_{(\x,\y) \in D} \delta_{\x,\y} \frac{\partial}{\partial U} - [\sigma] \x^T U^T \t \\
+& = - \sum_{(\x,\y) \in D} \delta_{\x,\y} [\sigma(o_{\x,\y}) (1 - \sigma(o_{\x,\y}))] \t \x^T \\
+\frac{\partial}{\partial V} \Obj_\pmcf & = \frac{\partial}{\partial V} \sum_{(\x,\y) \in D} \frac{1}{2} \left( \underbrace{(R_{\x,\y} - [\sigma] \overbrace{x^T U^T V\y}^{o_{\x,\y}})}_{\delta_{\x,\y}} \right)^2\\
+& = \sum_{(\x,\y) \in D} \delta_{\x,\y} \frac{\partial}{\partial V} - [\sigma] \s^T V \y \\
+& = - \sum_{(\x,\y) \in D} \delta_{\x,\y} [\sigma(o_{\x,\y}) (1 - \sigma(o_{\x,\y}))] \s \y^T
+\end{align*}
+\end{itemize}
+
+For the regularization objective components, the derivatives are:
+
+\begin{itemize}
+\item {\bf $L_2$ $U$ regularization}:
+\begin{align*}
+\frac{\partial}{\partial U} \Obj_\ru & = \frac{\partial}{\partial U} \frac{1}{2} \tr(U^T U) \\
+& = U
+\end{align*}
+\item {\bf $L_2$ $V$ regularization}:
+\begin{align*}
+\frac{\partial}{\partial V} \Obj_\rv & = \frac{\partial}{\partial V} \frac{1}{2} \tr(V^T V) \\
+& = V
+\end{align*}
+\item {\bf Social regularization}:
+\begin{align*}
+\frac{\partial}{\partial U} \Obj_\rs & = \frac{\partial}{\partial U} \sum_{\x} \sum_{\z \in \mathit{friends}(\x)} \frac{1}{2} \left( \underbrace{S_{\x,\z} - \x^T U^T U \z}_{\delta_{\x,\y}} \right)^2 \\
+& = \sum_{\x} \sum_{\z \in \mathit{friends}(\x)} \delta_{\x,\y} \frac{\partial}{\partial U} - \x^T U^T U \z \\
+& = - \sum_{\x} \sum_{\z \in \mathit{friends}(\x)} \delta_{\x,\y} U (\x \z^T + \z \x^T)
+\end{align*}
+
+\end{itemize}
+
+Hence, for any choice of primary objective and one or more regularizers,
+we simply add the derivatives for $U$ and/or $V$ 
+according to~\eqref{eq:sum_der}.
+
+% Local Variables: 
+% mode: latex
+% TeX-master: "thesis"
+% End: 

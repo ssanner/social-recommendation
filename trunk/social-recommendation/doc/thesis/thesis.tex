@@ -1,0 +1,167 @@
+%%
+%% Template thesis.tex
+%%
+\documentclass[11pt]{book}
+%%\usepackage[palatino]{anuthesis}
+\usepackage{anuthesis}
+\usepackage{graphicx}
+\usepackage{thesis}
+\usepackage{makeidx}
+\usepackage{acmnew-xref}
+\usepackage{verbatim}
+
+\usepackage{latexsym}
+% Use eps figures
+\usepackage{epsfig}
+% Different array macros, e.g. table row height modification
+\usepackage{subfigure}
+\usepackage{array}
+% Import some more mathematical symbols
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+% Import an algorithm formatting package
+%\usepackage[vlined,algoruled,titlenumbered]{algorithm2e}
+% Use an extension of the verbatim package
+\usepackage{url}
+%\usepackage[colorlinks=true]{hyperref}
+
+% Define some theorems
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{theorem}[lemma]{Theorem}
+\newtheorem{hypothesis}[lemma]{Hypothesis}
+
+\newcommand{\R}{\mathbb{R}}
+\def\argmax{\operatornamewithlimits{arg\max}}
+\def\argmin{\operatornamewithlimits{arg\min}}
+\def\supmax{\operatornamewithlimits{arg\sup}}
+\newcommand{\grad}{\nabla}
+\newcommand{\I}{\mathbb{I}}
+\newcommand{\Fro}{\mathrm{Fro}}
+\newcommand{\Obj}{\mathit{Obj}}
+\newcommand{\pcbf}{\mathit{pcbf}}
+\newcommand{\pmcf}{\mathit{pmcf}}
+\newcommand{\phy}{\mathit{phy}}
+\newcommand{\ru}{\mathit{ru}}
+\newcommand{\rv}{\mathit{rv}}
+\newcommand{\rw}{\mathit{rw}}
+\newcommand{\rs}{\mathit{rs}}
+\newcommand{\rss}{\mathit{rss}}
+\newcommand{\rsc}{\mathit{rsc}}
+\newcommand{\rscs}{\mathit{rscs}}
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\diag}{\operatorname{diag}}
+\renewcommand{\a}{\vec{a}}
+\renewcommand{\b}{\vec{b}}
+\renewcommand{\c}{\vec{c}}
+\newcommand{\x}{\vec{x}}
+\newcommand{\y}{\vec{y}}
+\newcommand{\z}{\vec{z}}
+\newcommand{\w}{\vec{w}}
+\newcommand{\f}{\vec{f}}
+\renewcommand{\r}{\vec{r}}
+\newcommand{\s}{\vec{s}}
+\renewcommand{\t}{\vec{t}}
+\renewcommand{\L}{\mathcal{L}}
+\newcommand{\la}{\langle}
+\newcommand{\ra}{\rangle}
+\renewcommand{\vec}[1]{\mathbf{#1}}
+
+% Define a fourth level subheading (Scott)
+\newcommand{\subfour}{\vspace*{3mm}\hspace{-2.5mm}}
+\newcommand{\subfive}{\hspace{2.5mm}}
+
+% Define a command for extended commenting (Scott)
+\long\def\COMMENT#1\ENDCOMMENT{\message{(Commented text...)}\par}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Preamble
+\title{New Algorithms for Social Recommendation}
+\author{Joseph Christian G. Noel}
+\date{\today}
+
+\renewcommand{\thepage}{\roman{page}}
+
+
+
+\makeindex
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Title page
+\pagestyle{empty}
+\thispagestyle{empty}
+\input titlepage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Here begin the preliminaries
+\input frontmatter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Dedication (optional)
+\cleardoublepage
+\pagestyle{empty}
+\input dedication
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Acknowledgements (optional!)
+\cleardoublepage
+\pagestyle{empty}
+\input ack
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Abstract
+\cleardoublepage
+\pagestyle{headings}
+\input abstract
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Table of contents
+\cleardoublepage
+\pagestyle{headings}
+\markboth{Contents}{Contents}
+\tableofcontents
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Here begins the main text
+\mainmatter
+
+%% Introduction
+\input intro
+
+%% Chapters
+\input chap2
+
+\input chap3
+
+\input chap4
+
+\input chap5
+
+%% Conclusion
+\input conclusion
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Here begins the end matter
+
+%\input appendix
+
+\backmatter
+
+%%
+\nocite{ste,lla,glfm,tf,sorec,sr,rrmf,bisim,socinf,matchbox,conitzer-jair-09,jones-jgo-01,bonilla-et-al-nips-08,kamishima-kdd-03,huang-guestrin-nips-09,birlutiu-et-al-neuro-10,chu-Ghahramani-icml-05,chu-Ghahramani-jmlr-05,brochu-et-al-nips-08,yu-et-al-icml-05,howard-ieee-66,chajewska-et-al-aaai-00,guo-sanner-aistats-10,candela-rasmussen-jmlr-05,boutilier02239,Chajewska00utilitiesas,conitzer09161,viappiani09Regret-basedOptimalRecommendationSetsConversational,bradley52324}
+
+\bibliographystyle{acmnew-xref}
+\bibliography{thesis}
+%%
+
+\printindex
+
+\end{document}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "thesis"
+%%% End: 
+
+
+
