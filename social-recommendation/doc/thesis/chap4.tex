@@ -1,5 +1,49 @@
 \chapter{Comparison of Existing Recommender Systems}
 
+The first live user trial run from August 1 to October 13. The recommendations used for this trial were 
+
+\begin{itemize}
+\item{$k$-Nearest Neighbor}
+\item{Support Vector Machines}
+\item{Matchbox MF  + L2 Regularization}
+\item{Matchbox MF + Social Regularization + L2 Regularization}
+\end{itemize}
+
 \section {Passive Results}
 
-\section{LinkR Results}
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.5]{Passive-First.png}
+\caption{Passive Results of First Trial}
+\end{figure}
+
+\section{Online Results}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{| l | c |}
+\hline
+{\bf Algorithm} & {\bf Users} \\
+\hline
+Matchbox MF & 26 \\
+Nearest Neighbor & 25 \\
+SVM & 25 \\
+Social MF & 25\\
+\hline
+\end{tabular}
+\caption{Number of Users Assigned per Algorithm.}
+\end{table}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.5]{first-trial-live-likes.png}
+\caption{Number of Liked Recommendations per Algorithm}
+\end{figure}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=0.5]{first-trial-live-dislikes.png}
+\caption{Number of Disliked Recommendations per Algorithm}
+\end{figure}
+
+\section{Analysis}
