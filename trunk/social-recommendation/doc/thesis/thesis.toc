@@ -28,17 +28,18 @@
 \contentsline {subsection}{\numberline {3.2.4}Test Data}{14}
 \contentsline {chapter}{\numberline {4}Comparison of Existing Recommender Systems}{15}
 \contentsline {section}{\numberline {4.1}Passive Results}{15}
-\contentsline {section}{\numberline {4.2}LinkR Results}{15}
-\contentsline {chapter}{\numberline {5}New Algorithms for Social Recommendation}{17}
-\contentsline {section}{\numberline {5.1}Hybrid Objective}{17}
-\contentsline {section}{\numberline {5.2}New Social Regularizers}{18}
-\contentsline {subsection}{\numberline {5.2.1}Social Spectral Regularization}{18}
-\contentsline {subsection}{\numberline {5.2.2}Social Co-preference Regularization}{18}
-\contentsline {subsection}{\numberline {5.2.3}Social Co-preference Spectral Regularization}{18}
-\contentsline {subsection}{\numberline {5.2.4}Derivatives}{19}
-\contentsline {section}{\numberline {5.3}Results}{22}
-\contentsline {subsection}{\numberline {5.3.1}Passive Results}{22}
-\contentsline {subsection}{\numberline {5.3.2}LinkR Results}{22}
-\contentsline {chapter}{\numberline {6}Conclusion}{23}
-\contentsline {section}{\numberline {6.1}Why this is a Very Clever Thesis}{23}
-\contentsline {chapter}{Bibliography}{25}
+\contentsline {section}{\numberline {4.2}Online Results}{16}
+\contentsline {section}{\numberline {4.3}Analysis}{16}
+\contentsline {chapter}{\numberline {5}New Algorithms for Social Recommendation}{19}
+\contentsline {section}{\numberline {5.1}Hybrid Objective}{19}
+\contentsline {section}{\numberline {5.2}New Social Regularizers}{20}
+\contentsline {subsection}{\numberline {5.2.1}Social Spectral Regularization}{20}
+\contentsline {subsection}{\numberline {5.2.2}Social Co-preference Regularization}{20}
+\contentsline {subsection}{\numberline {5.2.3}Social Co-preference Spectral Regularization}{20}
+\contentsline {subsection}{\numberline {5.2.4}Derivatives}{21}
+\contentsline {section}{\numberline {5.3}Results}{24}
+\contentsline {subsection}{\numberline {5.3.1}Passive Results}{24}
+\contentsline {subsection}{\numberline {5.3.2}LinkR Results}{24}
+\contentsline {chapter}{\numberline {6}Conclusion}{25}
+\contentsline {section}{\numberline {6.1}Why this is a Very Clever Thesis}{25}
+\contentsline {chapter}{Bibliography}{27}

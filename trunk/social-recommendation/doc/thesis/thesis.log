@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.11 (TeX Live 2010) (format=pdflatex 2011.4.2)  18 OCT 2011 04:11
+This is pdfTeX, Version 3.1415926-1.40.11 (TeX Live 2010) (format=pdflatex 2011.4.2)  19 OCT 2011 04:01
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -388,24 +388,40 @@ File: linkr_rating.png Graphic file (type png)
 
 <use linkr_rating.png> [13]) (./chap4.tex [14 <./linkr_rating.png (PNG copy)>]
 Chapter 4.
-) (./chap5.tex [15
+<Passive-First.png, id=108, 578.16pt x 433.62pt>
+File: Passive-First.png Graphic file (type png)
+ <use Passive-First.png>
+[15
 
-] [16
+ <./Passive-First.png>]
+<first-trial-live-likes.png, id=114, 578.16pt x 433.62pt>
+File: first-trial-live-likes.png Graphic file (type png)
+
+<use first-trial-live-likes.png>
+<first-trial-live-dislikes.png, id=115, 578.16pt x 433.62pt>
+File: first-trial-live-dislikes.png Graphic file (type png)
+
+<use first-trial-live-dislikes.png>
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+) (./chap5.tex [16 <./first-trial-live-likes.png>] [17 <./first-trial-live-disl
+ikes.png>] [18
 
 ]
 Chapter 5.
-[17] [18] [19]
+[19] [20] [21]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [20]
+ [22]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [21])
-(./conclusion.tex [22]
+ [23])
+(./conclusion.tex [24]
 Chapter 6.
-) [23
+) [25
 
-] [24
+] [26
 
 ] (./thesis.bbl
 Bib-XRef Warning: No page list for reference `birlutiu-et-al-neuro-10'.
@@ -421,7 +437,7 @@ Bib-XRef Warning: No page list for reference `conitzer-jair-09'.
 Bib-XRef Warning: No page list for reference `conitzer09161'.
 Bib-XRef Warning: No page list for reference `socinf'.
 Bib-XRef Warning: No page list for reference `brochu-et-al-nips-08'.
-[25
+[27
 
 ]
 Bib-XRef Warning: No page list for reference `guo-sanner-aistats-10'.
@@ -440,16 +456,16 @@ Bib-XRef Warning: No page list for reference `matchbox'.
 Bib-XRef Warning: No page list for reference `viappiani09Regret-basedOptimalRec
 ommendationSetsConversational'.
 Bib-XRef Warning: No page list for reference `lla'.
-[26]
+[28]
 Bib-XRef Warning: No page list for reference `yu-et-al-icml-05'.
 )
 No file thesis.ind.
-[27] (./thesis.aux) ) 
+[29] (./thesis.aux) ) 
 Here is how much of TeX's memory you used:
- 3577 strings out of 493747
- 47756 string characters out of 3143547
+ 3592 strings out of 493747
+ 48173 string characters out of 3143547
  115204 words of memory out of 3000000
- 6726 multiletter control sequences out of 15000+200000
+ 6738 multiletter control sequences out of 15000+200000
  17978 words of font info for 68 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
  38i,24n,24p,1013b,272s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -476,10 +492,10 @@ texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/te
 xlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/tex
 live/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmti8.pfb></usr/local/texli
 ve/2010/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on thesis.pdf (39 pages, 378660 bytes).
+Output written on thesis.pdf (41 pages, 457191 bytes).
 PDF statistics:
- 225 PDF objects out of 1000 (max. 8388607)
- 158 compressed objects within 2 object streams
+ 238 PDF objects out of 1000 (max. 8388607)
+ 163 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
- 6 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 21 words of extra memory for PDF output out of 10000 (max. 10000000)
 
