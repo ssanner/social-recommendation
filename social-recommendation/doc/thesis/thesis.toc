@@ -5,8 +5,8 @@
 \contentsline {subsection}{\numberline {1.1.1}Individual Recommendation}{1}
 \contentsline {subsection}{\numberline {1.1.2}Collaborative Recommendation}{1}
 \contentsline {subsection}{\numberline {1.1.3}Social Recommendation}{1}
-\contentsline {section}{\numberline {1.2}Questions Studied}{2}
-\contentsline {section}{\numberline {1.3}Resources}{2}
+\contentsline {section}{\numberline {1.2}Facebook}{2}
+\contentsline {section}{\numberline {1.3}LinkR}{2}
 \contentsline {section}{\numberline {1.4}Chapter Outline}{2}
 \contentsline {chapter}{\numberline {2}Background}{5}
 \contentsline {section}{\numberline {2.1}Notation}{5}
@@ -27,19 +27,19 @@
 \contentsline {subsection}{\numberline {3.2.3}Live Online Recommendations}{13}
 \contentsline {subsection}{\numberline {3.2.4}Test Data}{14}
 \contentsline {chapter}{\numberline {4}Comparison of Existing Recommender Systems}{15}
-\contentsline {section}{\numberline {4.1}Passive Results}{15}
-\contentsline {section}{\numberline {4.2}Online Results}{16}
-\contentsline {section}{\numberline {4.3}Analysis}{16}
-\contentsline {chapter}{\numberline {5}New Algorithms for Social Recommendation}{19}
-\contentsline {section}{\numberline {5.1}Hybrid Objective}{19}
-\contentsline {section}{\numberline {5.2}New Social Regularizers}{20}
-\contentsline {subsection}{\numberline {5.2.1}Social Spectral Regularization}{20}
-\contentsline {subsection}{\numberline {5.2.2}Social Co-preference Regularization}{20}
-\contentsline {subsection}{\numberline {5.2.3}Social Co-preference Spectral Regularization}{20}
-\contentsline {subsection}{\numberline {5.2.4}Derivatives}{21}
-\contentsline {section}{\numberline {5.3}Results}{24}
-\contentsline {subsection}{\numberline {5.3.1}Passive Results}{24}
-\contentsline {subsection}{\numberline {5.3.2}LinkR Results}{24}
-\contentsline {chapter}{\numberline {6}Conclusion}{25}
-\contentsline {section}{\numberline {6.1}Why this is a Very Clever Thesis}{25}
-\contentsline {chapter}{Bibliography}{27}
+\contentsline {section}{\numberline {4.1}Online Results}{15}
+\contentsline {section}{\numberline {4.2}Passive Results}{16}
+\contentsline {section}{\numberline {4.3}Survey Results}{16}
+\contentsline {chapter}{\numberline {5}New Algorithms for Social Recommendation}{23}
+\contentsline {section}{\numberline {5.1}Hybrid Objective}{23}
+\contentsline {section}{\numberline {5.2}New Social Regularizers}{24}
+\contentsline {subsection}{\numberline {5.2.1}Social Spectral Regularization}{24}
+\contentsline {subsection}{\numberline {5.2.2}Social Co-preference Regularization}{24}
+\contentsline {subsection}{\numberline {5.2.3}Social Co-preference Spectral Regularization}{24}
+\contentsline {subsection}{\numberline {5.2.4}Derivatives}{25}
+\contentsline {section}{\numberline {5.3}Second Trial}{28}
+\contentsline {subsection}{\numberline {5.3.1}Passive Results}{28}
+\contentsline {subsection}{\numberline {5.3.2}LinkR Results}{28}
+\contentsline {chapter}{\numberline {6}Conclusion}{29}
+\contentsline {section}{\numberline {6.1}Why this is a Very Clever Thesis}{29}
+\contentsline {chapter}{Bibliography}{31}
