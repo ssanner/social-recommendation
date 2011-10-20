@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.11 (TeX Live 2010) (format=pdflatex 2011.4.2)  20 OCT 2011 03:14
+This is pdfTeX, Version 3.1415926-1.40.11 (TeX Live 2010) (format=pdflatex 2011.4.2)  21 OCT 2011 01:21
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -783,12 +783,54 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
  [26]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [27])
-(./conclusion.tex [28]
-Chapter 6.
-) [29
+ [27]
 
-] [30
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+Package epstopdf Info: Source file: <img/live-likes2.eps>
+(epstopdf)                    date: 2011-10-21 01:17:00
+(epstopdf)                    size: 27402 bytes
+(epstopdf)             Output file: <img/live-likes2-eps-converted-to.pdf>
+(epstopdf)             Command: <epstopdf --outfile=img/live-likes2-eps-convert
+ed-to.pdf img/live-likes2.eps>
+(epstopdf)             \includegraphics on input line 200.
+runsystem(epstopdf --outfile=img/live-likes2-eps-converted-to.pdf img/live-like
+s2.eps)...executed.
+
+Package epstopdf Info: Result file: <img/live-likes2-eps-converted-to.pdf>
+(epstopdf)                    date: 2011-10-21 01:21:41
+(epstopdf)                    size: 15069 bytes.
+<img/live-likes2-eps-converted-to.pdf, id=1127, 578.16pt x 433.62pt>
+File: img/live-likes2-eps-converted-to.pdf Graphic file (type pdf)
+
+<use img/live-likes2-eps-converted-to.pdf>
+Package epstopdf Info: Source file: <img/live-dislikes2.eps>
+(epstopdf)                    date: 2011-10-21 01:16:22
+(epstopdf)                    size: 29675 bytes
+(epstopdf)             Output file: <img/live-dislikes2-eps-converted-to.pdf>
+(epstopdf)             Command: <epstopdf --outfile=img/live-dislikes2-eps-conv
+erted-to.pdf img/live-dislikes2.eps>
+(epstopdf)             \includegraphics on input line 201.
+runsystem(epstopdf --outfile=img/live-dislikes2-eps-converted-to.pdf img/live-d
+islikes2.eps)...executed.
+
+Package epstopdf Info: Result file: <img/live-dislikes2-eps-converted-to.pdf>
+(epstopdf)                    date: 2011-10-21 01:21:41
+(epstopdf)                    size: 15940 bytes.
+
+<img/live-dislikes2-eps-converted-to.pdf, id=1128, 578.16pt x 433.62pt>
+File: img/live-dislikes2-eps-converted-to.pdf Graphic file (type pdf)
+
+<use img/live-dislikes2-eps-converted-to.pdf>
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+) (./conclusion.tex [28] [29 <./img/live-likes2-eps-converted-to.pdf> <./img/li
+ve-dislikes2-eps-converted-to.pdf>] [30
+
+]
+Chapter 6.
+) [31] [32
 
 ] (./thesis.bbl
 Bib-XRef Warning: No page list for reference `birlutiu-et-al-neuro-10'.
@@ -804,7 +846,7 @@ Bib-XRef Warning: No page list for reference `conitzer-jair-09'.
 Bib-XRef Warning: No page list for reference `conitzer09161'.
 Bib-XRef Warning: No page list for reference `socinf'.
 Bib-XRef Warning: No page list for reference `brochu-et-al-nips-08'.
-[31
+[33
 
 ]
 Bib-XRef Warning: No page list for reference `guo-sanner-aistats-10'.
@@ -823,46 +865,50 @@ Bib-XRef Warning: No page list for reference `matchbox'.
 Bib-XRef Warning: No page list for reference `viappiani09Regret-basedOptimalRec
 ommendationSetsConversational'.
 Bib-XRef Warning: No page list for reference `lla'.
-[32]
+[34]
 Bib-XRef Warning: No page list for reference `yu-et-al-icml-05'.
 )
 No file thesis.ind.
-[33] (./thesis.aux) ) 
+[35] (./thesis.aux)
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+ ) 
 Here is how much of TeX's memory you used:
- 3694 strings out of 493747
- 52923 string characters out of 3143547
+ 3704 strings out of 493747
+ 53294 string characters out of 3143547
  115204 words of memory out of 3000000
- 6818 multiletter control sequences out of 15000+200000
+ 6826 multiletter control sequences out of 15000+200000
  17978 words of font info for 68 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
- 38i,24n,25p,1013b,272s stack positions out of 5000i,500n,10000p,200000b,50000s
-</usr/local/texlive/2010/texmf-dist/fonts/type1/public/ams
-fonts/cm/cmbx10.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsf
-onts/cm/cmbx12.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfo
-nts/cm/cmbx6.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfont
-s/cm/cmbx8.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/
-cm/cmcsc10.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/
-cm/cmex10.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/c
-m/cmmi10.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm
-/cmmi6.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/c
-mmi8.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmm
-i9.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10
-.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.p
-fb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb
-></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></
-usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr
-/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/lo
-cal/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmsl10.pfb></usr/loc
-al/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/loca
-l/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/
-texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/te
-xlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/tex
-live/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmti8.pfb></usr/local/texli
-ve/2010/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on thesis.pdf (45 pages, 783190 bytes).
+ 38i,24n,26p,1013b,272s stack positions out of 5000i,500n,10000p,200000b,50000s
+</usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
+></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
+</usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx6.pfb></
+usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb></us
+r/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></us
+r/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr
+/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/
+local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/lo
+cal/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/loca
+l/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/local/
+texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/te
+xlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texl
+ive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/texliv
+e/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/2
+010/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2010
+/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/2010/te
+xmf-dist/fonts/type1/public/amsfonts/cm/cmsl10.pfb></usr/local/texlive/2010/tex
+mf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2010/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texlive/2010/texmf-
+dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2010/texmf-di
+st/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2010/texmf-dis
+t/fonts/type1/public/amsfonts/cm/cmti8.pfb></usr/local/texlive/2010/texmf-dist/
+fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on thesis.pdf (47 pages, 808718 bytes).
 PDF statistics:
- 1222 PDF objects out of 1440 (max. 8388607)
- 255 compressed objects within 3 object streams
+ 1318 PDF objects out of 1440 (max. 8388607)
+ 267 compressed objects within 3 object streams
  0 named destinations out of 1000 (max. 500000)
- 121 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 131 words of extra memory for PDF output out of 10000 (max. 10000000)
 

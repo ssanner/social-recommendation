@@ -178,7 +178,28 @@ For the second online trial, we chose four algorithms again to randomly split be
 
 Social Matchbox was included again as a baseline since it was the best performing algorithm in the first trial. The other algorithms were choses as a cross-section of the different regularizers. The limit of just using four algorithms for the trials was because of the small number of users who installed the LinkR application, we felt that four algorithms was the maximum we could use and still get concrete results.
 
-\subsection{Passive Results}
+\begin{table}[h!]
+\centering
+\begin{tabular}{| l | c |}
+\hline
+{\bf Algorithm} & {\bf Users} \\
+\hline
+Social Matchbox & 26\\
+Spectral Matchbox  & 25 \\
+Spectral Co-preference & 27 \\
+Social Hybrid & 25 \\
+\hline
+\end{tabular}
+\caption{Number of Users Assigned per Algorithm.}
+\end{table}
 
-\subsection{LinkR Results}
+\subsection{Results}
+
+\begin{figure}[h!]
+\centering
+\subfigure{\includegraphics[scale=0.35]{img/live-likes2.eps}}
+\subfigure{\includegraphics[scale=0.35]{img/live-dislikes2.eps}}
+\caption{Results of online live trials}
+\end{figure}
+
 
