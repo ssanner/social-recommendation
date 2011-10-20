@@ -1,0 +1,46 @@
+(TeX-add-style-hook "acmnew-xref"
+ (lambda ()
+    (TeX-add-symbols
+     '("bibsc" 1)
+     '("bibemphic" 1)
+     '("bibemph" 1)
+     '("bibyear" 2)
+     "cite"
+     "citeNP"
+     "citeA"
+     "citeANP"
+     "shortcite"
+     "shortciteNP"
+     "shortciteA"
+     "shortciteANP"
+     "citeyear"
+     "citeyearNP"
+     "citeN"
+     "citeauthoryear"
+     "citeauthoryear"
+     "shortciteN"
+     "citeauthoryear"
+     "citeauthoryear"
+     "bibindent"
+     "thebibliography"
+     "newblock"
+     "thebibliography"
+     "newblock"
+     "cite"
+     "citeN"
+     "citeNP"
+     "citeA"
+     "citeANP"
+     "citeyear"
+     "citeyearNP"
+     "shortcite"
+     "shortciteN"
+     "shortciteNP"
+     "shortciteA"
+     "shortciteANP"
+     "thepage"
+     "protect"
+     "namexdef"
+     "pagecite"
+     "citepages")))
+
