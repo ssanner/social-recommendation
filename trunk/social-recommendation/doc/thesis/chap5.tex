@@ -195,6 +195,8 @@ Social Hybrid & 25 \\
 
 \subsection{Results}
 
+In the second trial, the Spectral Matchbox approach achieve a larger number of likes compared to the other algorithms. It had 10 more likes compared to the second place algorithm, Spectral Co-preference. On top of this, Spectral Matchbox also had the second lowest number of dislikes among the four algorithms, and was the only algorithm to have more likes than dislikes. Because it had the best ratio of likes to dislikes, we consider Spectral Matchbox to be the best performing algorithm during this round of live trials.
+
 \begin{figure}[h!]
 \centering
 \subfigure{\includegraphics[scale=0.35]{img/live-likes2.eps}}
@@ -202,4 +204,30 @@ Social Hybrid & 25 \\
 \caption{Results of online live trials}
 \end{figure}
 
+Splitting the results again between friend link recommendations and non-friend link recommendations, we again see that the recommendations worsened when it comes to recommending non-friend links. The number of likes decreased and the number of dislikes increased once again. Also, the differences were more drastic again with the two algorithms that uses the Social Regularizer, Social Matchbox and Social Hybrid.
 
+\begin{figure}[h!]
+\centering
+\subfigure{\includegraphics[scale=0.35]{img/live-friend-likes2.eps}}
+\subfigure{\includegraphics[scale=0.35]{img/live-nonfriend-likes2.eps}}
+\subfigure{\includegraphics[scale=0.35]{img/live-friend-dislikes2.eps}}
+\subfigure{\includegraphics[scale=0.35]{img/live-nonfriend-dislikes2.eps}}
+\caption{Likes and dislikes split between friends and non-friends}
+\end{figure}
+
+\section{Offline Results}
+
+When testing on all the combinations of the active data, the results between the algorithms on a test dataset are all within the standard error bars. The results of the live trials aren't reflected in the offline results, which highlights the difficulty of using the MAP metric for evaluating recommendation algorithms offline.
+\\
+
+When training on the UNION dataset, we can see the same general worsening of performance between the results of testing on APP-USER-ACTIVE-FRIENDS and APP-USER-ACTIVE-NON-FRIENDS. 
+
+\begin{figure}[h]
+\centering
+\subfigure{\includegraphics[scale=0.35]{img/Union_App-User-Passive2.eps}}
+\subfigure{\includegraphics[scale=0.35]{img/Union_FB-User-Passive2.eps}}
+\subfigure{\includegraphics[scale=0.35]{img/Union_App-User-Active-All2.eps}}
+\subfigure{\includegraphics[scale=0.35]{img/Union_App-User-Active-Friends2.eps}}
+\subfigure{\includegraphics[scale=0.35]{img/Union_App-User-Active-NonFriends2.eps}}
+\caption{Results of training on Union data}
+\end{figure}
