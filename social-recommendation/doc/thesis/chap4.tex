@@ -9,7 +9,7 @@ The recommendations used for this trial were
 \item{Social Matchbox: Matchbox MF + Social Regularization + L2 Regularization}
 \end{itemize}
 
-Social Matchbox uses the Social Regularizer to incorporate the social aspect of the data, while SVM incorporates the social information in the $\f_{\x,\z}$ features it uses. Matchbox and Nearest Neighbors do not make use of any social information and are collaborative filtering recommenders.
+Social Matchbox uses the Social Regularizer to incorporate the social aspect of the data, while SVM incorporates a small amount of social information in the $\f_{\x,\z}$ features it uses. Matchbox and Nearest Neighbors do not make use of any social information and are collaborative filtering recommenders.
 
 \section{Online Results}
 
@@ -41,11 +41,22 @@ Nearest Neighbor & 28 \\
 \caption{Results of online live trials}
 \end{figure}
 
+Also, we looked at the algorithms with the results split between friend links and non-friend links recommendations. The majority of the strong results for Social Matchbox came when it was recommending friend links. When it recommended non-friend links, the number of likes was nearly half and the number of dislikes was double that of friends links. The rest of the algorithms also experienced the same lessening of likes and increase in dislikes when recommending non-friend links. Aside from liking and disliking a link just from the quality of links being recommended, it seems that users are also more likely to like a link simply because a friend had posted it and more likely to dislike it just because it comes from a stranger.
+
+ost\begin{figure}[h!]
+\centering
+\subfigure{\includegraphics[scale=0.35]{img/live-friend-likes1.eps}}
+\subfigure{\includegraphics[scale=0.35]{img/live-nonfriend-likes1.eps}}
+\subfigure{\includegraphics[scale=0.35]{img/live-friend-dislikes1.eps}}
+\subfigure{\includegraphics[scale=0.35]{img/live-nonfriend-dislikes1.eps}}
+\caption{Likes and dislikes split between friends and non-friends}
+\end{figure}
+
 \section {Passive Results}
 
 The goal of the passive experiments was to see how best to reproduce the results of the live experiments offline. We tried out the different splitting combinations of training and testing data detailed in the last chapter, and found that training on the UNION dataset and and testing on the APP-USER-ACTIVE-ALL dataset best reflected the results of the online trials.
 
-Additionally, the offline testing was used to tune the $\lambda$ parameters for the different algorithms.
+Additionally, when training on the UNION dataset, we can see the same general worsening of performance between the results of testing on APP-USER-ACTIVE-FRIENDS and APP-USER-ACTIVE-NON-FRIENDS.
 
 \begin{figure}[h]
 \centering
