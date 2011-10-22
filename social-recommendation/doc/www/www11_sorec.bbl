@@ -1,0 +1,62 @@
+\begin{thebibliography}{10}
+
+\bibitem{bisim}
+Bin Cao, Jian-Tao Sun, Jianmin Wu, Qiang Yang, and Zheng Chen.
+\newblock Learning bidirectional similarity for collaborative filtering.
+\newblock In {\em ECML-08}, 2008.
+
+\bibitem{socinf}
+Peng Cui, Fei Wang, Shaowei Liu, Mingdong Ou, and Shiqiang Yang.
+\newblock Who should share what? item-level social influence prediction for
+  users and posts ranking.
+\newblock In {\em International ACM SIGIR Conference (SIGIR)}, 2011.
+
+\bibitem{glfm}
+Li, Yeung, and Zhang.
+\newblock Generalized latent factor models for social network analysis.
+\newblock In {\em IJCAI-11}, 2011.
+
+\bibitem{rrmf}
+Wu-Jun Li and Dit-Yan Yeung.
+\newblock Relation regularized matrix factorization.
+\newblock In {\em IJCAI-09}, 2009.
+
+\bibitem{ste}
+Ma, King, and Lyu.
+\newblock Learning to recommend with social trust ensemble.
+\newblock In {\em SIGIR-09}, 2009.
+
+\bibitem{sorec}
+H.~Ma, H.~Yang, M.~R. Lyu, and I.~King.
+\newblock Sorec: Social recommendation using probabilistic matrix
+  factorization.
+\newblock In {\em CIKM-08}, 2008.
+
+\bibitem{sr}
+Hao Ma, Dengyong Zhou, Chao Liu, Michael~R. Lyu, and Irwin King.
+\newblock Recommender systems with social regularization.
+\newblock In {\em WSDM-11}, 2011.
+
+\bibitem{tf}
+S.~Rendle, L.~B. Marinho, A.~Nanopoulos, and L.~Schmidt-Thieme.
+\newblock Learning optimal ranking with tensor factorization for tag
+  recommendation.
+\newblock In {\em KDD-09}, 2009.
+
+\bibitem{pmf}
+Ruslan Salkhunitdov and {\bf \Large ???}
+\newblock Probabilistic matrix factorization.
+\newblock In {\em ???}, ???
+
+\bibitem{matchbox}
+David~H. Stern, Ralf Herbrich, and Thore Graepel.
+\newblock Matchbox: large scale online bayesian recommendations.
+\newblock In {\em WWW-09}, pages 111--120, 2009.
+
+\bibitem{lla}
+Yang, Long, Smola, Sadagopan, Zheng, and Zha.
+\newblock Like like alike: Joint friendship and interest propagation in social
+  networks.
+\newblock In {\em WWW-11}, 2011.
+
+\end{thebibliography}

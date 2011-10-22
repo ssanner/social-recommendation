@@ -1,0 +1,999 @@
+% This is "sig-alternate.tex" V1.9 April 2009
+% This file should be compiled with V2.4 of "sig-alternate.cls" April 2009
+%
+% This example file demonstrates the use of the 'sig-alternate.cls'
+% V2.4 LaTeX2e document class file. It is for those submitting
+% articles to ACM Conference Proceedings WHO DO NOT WISH TO
+% STRICTLY ADHERE TO THE SIGS (PUBS-BOARD-ENDORSED) STYLE.
+% The 'sig-alternate.cls' file will produce a similar-looking,
+% albeit, 'tighter' paper resulting in, invariably, fewer pages.
+%
+% ----------------------------------------------------------------------------------------------------------------
+% This .tex file (and associated .cls V2.4) produces:
+% 1) The Permission Statement
+% 2) The Conference (location) Info information
+% 3) The Copyright Line with ACM data
+% 4) NO page numbers
+%
+% as against the acm_proc_article-sp.cls file which
+% DOES NOT produce 1) thru' 3) above.
+%
+% Using 'sig-alternate.cls' you have control, however, from within
+% the source .tex file, over both the CopyrightYear
+% (defaulted to 200X) and the ACM Copyright Data
+% (defaulted to X-XXXXX-XX-X/XX/XX).
+% e.g.
+% \CopyrightYear{2007} will cause 2007 to appear in the copyright line.
+% \crdata{0-12345-67-8/90/12} will cause 0-12345-67-8/90/12 to appear in the copyright line.
+%
+% ---------------------------------------------------------------------------------------------------------------
+% This .tex source is an example which *does* use
+% the .bib file (from which the .bbl file % is produced).
+% REMEMBER HOWEVER: After having produced the .bbl file,
+% and prior to final submission, you *NEED* to 'insert'
+% your .bbl file into your source .tex file so as to provide
+% ONE 'self-contained' source file.
+%
+% ================= IF YOU HAVE QUESTIONS =======================
+% Questions regarding the SIGS styles, SIGS policies and
+% procedures, Conferences etc. should be sent to
+% Adrienne Griscti (griscti@acm.org)
+%
+% Technical questions _only_ to
+% Gerald Murray (murray@hq.acm.org)
+% ===============================================================
+%
+% For tracking purposes - this is V1.9 - April 2009
+\documentclass{sig-alternate}
+% Import some more mathematical symbols
+\usepackage{amsmath,amssymb,mathtools}
+% Import an algorithm formatting package
+%\usepackage[vlined,algoruled,titlenumbered]{algorithm2e}
+% Use an extension of the verbatim package
+%\usepackage{url}
+%\usepackage[colorlinks=true]{hyperref}
+
+% Define some theorems
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{theorem}[lemma]{Theorem}
+\newtheorem{hypothesis}[lemma]{Hypothesis}
+
+% Notation
+\def\argmax{\operatornamewithlimits{arg\max}}
+\def\argmin{\operatornamewithlimits{arg\min}}
+\def\supmax{\operatornamewithlimits{arg\sup}}
+\newcommand{\grad}{\nabla}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\I}{\mathbb{I}}
+\newcommand{\Fro}{\mathrm{Fro}}
+\newcommand{\Obj}{\mathit{Obj}}
+\newcommand{\pcbf}{\mathit{pcbf}}
+\newcommand{\pmcf}{\mathit{pmcf}}
+\newcommand{\phy}{\mathit{phy}}
+\newcommand{\ru}{\mathit{ru}}
+\newcommand{\rv}{\mathit{rv}}
+\newcommand{\rw}{\mathit{rw}}
+\newcommand{\rs}{\mathit{rs}}
+\newcommand{\rss}{\mathit{rss}}
+\newcommand{\rsc}{\mathit{rsc}}
+\newcommand{\rscs}{\mathit{rscs}}
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\diag}{\operatorname{diag}}
+\renewcommand{\a}{\vec{a}}
+\renewcommand{\b}{\vec{b}}
+\renewcommand{\c}{\vec{c}}
+\newcommand{\x}{\vec{x}}
+\newcommand{\y}{\vec{y}}
+\newcommand{\z}{\vec{z}}
+\newcommand{\w}{\vec{w}}
+\newcommand{\f}{\vec{f}}
+\renewcommand{\r}{\vec{r}}
+\newcommand{\s}{\vec{s}}
+\renewcommand{\t}{\vec{t}}
+\renewcommand{\L}{\mathcal{L}}
+\newcommand{\la}{\langle}
+\newcommand{\ra}{\rangle}
+\renewcommand{\vec}[1]{\mathbf{#1}}
+
+% Define a fourth level subheading (Scott)
+\newcommand{\subfour}{\vspace*{3mm}\hspace{-2.5mm}}
+\newcommand{\subfive}{\hspace{2.5mm}}
+
+% Define a command for extended commenting (Scott)
+\long\def\COMMENT#1\ENDCOMMENT{\message{(Commented text...)}\par}
+
+\begin{document}
+%
+% --- Author Metadata here ---
+\conferenceinfo{WWW}{'12 Lyon, France}
+%\CopyrightYear{2007} % Allows default copyright year (200X) to be over-ridden - IF NEED BE.
+%\crdata{0-12345-67-8/90/01} % Allows default copyright data (0-89791-88-6/97/05) to be over-ridden - IF NEED BE.
+% --- End of Author Metadata ---
+\title{New Social Collaborative Filtering Algorithms\\ for Link Recommendation on Facebook}
+%\titlenote{(Produces the permission block, and
+%copyright information). For use with
+%SIG-ALTERNATE.CLS. Supported by ACM.}
+
+\numberofauthors{1} % in this sample file, there are a *total*
+% of EIGHT authors. SIX appear on the 'first-page' (for formatting
+% reasons) and the remaining two appear in the \additionalauthors section.
+%
+% Joseph, Scott, Nguyen, Peter, Lexing, Edwin, Ehsan
+\author{
+\alignauthor
+Anonymous\\
+\affaddr{Unknown}\\
+}
+\maketitle
+\begin{abstract}
+This paper examines the problem of designing efficient, scalable, and
+accurate social \emph{collaborative filtering} (CF) algorithms for
+personalized link recommendation on Facebook.  Unlike standard CF
+algorithms using relatively simple user and item features (possibly
+just the user ID and link ID), link recommendation on social networks
+like Facebook poses the more complex problem of learning user
+preferences from a rich and complex set of user profile and
+interaction information.  Most existing \emph{social CF} (SCF) methods
+have extended traditional CF \emph{matrix factorization} (MF)
+approaches, but have overlooked important aspects specific to the
+social setting; specifically, existing SCF MF methods (a) do not
+permit the use of item or link features in learning user similarity
+based on observed interactions, (b) do not permit directly modeling
+user-user information diffusion according to the social graph
+structure, and (c) cannot learn that that two users may only have
+overlapping interests in specific areas.  
+This paper proposes a unified SCF optimization framework that
+addresses (a)--(c) and compares these novel algorithms with a variety
+of existing baslines.  Evaluation is carried out via live user trials
+in a custom-developed Facebook App involving data collected over three
+months from over 100 App users and their nearly 30,000 friends.  Not
+only do we show that our novel proposals to address (a)--(c)
+outperform existing approaches, but we also identify which offline
+ranking and classigication evaluation metrics correlate most with
+human judgment of algorithm performance.  Overall, this paper
+represents a critical step forward in extending SCF recommendation
+algorithms to fully exploit the rich content and structure of social
+networks like Facebook.
+\end{abstract}
+\category{H.3.3}{AREA}{SUBAREA}
+\terms{TERM}
+\keywords{social networks, collaborative filtering, machine learning}
+
+\section{Introduction}
+
+Given the vast amount of content available on the Internet, finding
+information of personal interest (news, blogs, videos, movies, books,
+etc.) is often like finding a needle in a haystack.  Recommender
+systems based on \emph{collaborative filtering} (CF) aim to address
+this problem by leveraging the preferences of a user
+population under the assumption that similar users
+will have similar preferences.  These principles underlie the
+recommendation algorithms powering websites like Amazon and
+Netflix.\footnote{On Amazon, this is directly evident with statements
+displayed of the form ``users who looked at item X ended up purchasing
+item Y 90\% of the time''.  While the exact inner workings of Netflix
+are not published, the best performing recommendation algorithm in
+the popular Netflix prize competition {\bf [CITATION NEEDED]} 
+used an ensemble of CF methods.}
+
+As the web has become more social with the emergence of Facebook,
+Twitter, LinkedIn, and most recently Google+, this adds myriad new
+dimensions to the recommendation problem by making available a rich
+labeled graph structure of social content from which user preferences
+can be learned and new recommendations can be made.  In this socially
+connected setting, no longer are web users simply described by an IP
+address (with perhaps associated geographical information and browsing
+history), but rather they are described by a rich user profile (age,
+gender, educational and work history, preferences, etc.)  and a rich
+set of user interactions with their friends (direction comments/posts,
+clicks of like, tagging in photos, mutual group memberships, etc.).
+This rich information poses both an amazing opportunity and a daunting
+challenge for machine learning methods applied to social
+recommendation --- how to fully exploit the social network content in
+recommendation algorithms?
+
+\subsection{Objectives}
+
+This paper examines the problem of designing efficient, scalable, and
+accurate \emph{social CF} (SCF) algorithms for \emph{personalized link
+recommendation on Facebook} -- quite simply the task of recommending
+personalized links to users that might interest them.  {\bf [PROVIDE
+FACEBOOK PICTURE AND BRIEF DISCUSSION OF PICTURE HERE.  DISCUSS
+MODES OF INTERACTION -- POST / LIKE / CLICK.]}  \emph{User
+interest} can be determined via many methods including \emph{indirect
+feedback} in the form of link clicks and \emph{direct feedback} in the form of
+explicit link ratings or other evidence that a user \emph{liked}
+a link (e.g., explicitly clicking ``like'').
+
+Many existing SCF approaches extend \emph{matrix factorization} (MF)
+techniques for CF~\cite{pmf} and have proved quite powerful in their ability to
+accurately model user preferences even when only a unique ID is
+available for both the user and item being recommended.  The power of
+such methods stems from their ability to project users and items into
+latent vector spaces of reduced dimensionality where they are 
+effectively grouped by similarity.  Indeed, we will show in
+Section~\ref{sec:Baselines} that existing social extensions of MF are
+quite powerful and outperform a variety of other commonly used SCF
+approaches.
+
+Given the strong performance of existing MF approaches to SCF, we aim
+to comparatively evaluate them and further improve on their
+performance where possible.  To do this, we first identify a number of
+problems of existing SCF MF methods that we make our objective to
+address in this paper:
+\begin{enumerate}
+\item[(a)] {\bf Non-feature-based user similarity:} Existing SCF MF
+methods do not permit the use of item or link features in learning
+user similarity based on observed interactions.
+% Note: potential for latent item information diffusion here
+\item[(b)] {\bf Model direct user-user information diffusion:}
+Existing SCF MF methods do not permit directly modeling user-user
+information diffusion according to the social graph structure.
+\item[(c)] {\bf Restricted common interests:} Existing SCF MF methods
+cannot learn that that two users may only have overlapping interests
+in specific areas.
+\end{enumerate}
+
+This paper addresses all of these problems with novel contributions in
+an efficient, scalable, and unified latent factorization component
+framework for SCF.  We present results of our algorithms on live
+trials in a custom-developed Facebook App involving data collected
+over three months from over 100 App users and their nearly 30,000
+friends.  These results show that a number of extensions proposed to
+resolve (a)--(c) outperform all previously existing algorithms.
+
+In addition, given that live online user evaluation trials are
+time-consuming, requiring many users and often an evaluation period of
+at least one month, we have one last important objective to address in
+this paper:
+\begin{enumerate}
+\item[(d)] {\bf Idenfying passive evaluation paradigms that correlate
+with actively elicited human judgments.}  The benefits of doing this
+are many-fold.  When designing new SCF algorithms, there are myriad
+design choices to be made, for which actual performance evaluation is
+the only way to validate the correct choice.  Furthermore, simple
+parameter tuning is crucial for best performance and SCF algorithms
+are often highly sensitive to well-tuned parameters.  Thus for the
+purpose of algorithm design and tuning, it is crucial to have methods
+and metrics that can be evaluated immediately on passive data (i.e., a
+passive data set of user likes) that are shown to correlate with human
+judgments in order to avoid the time-consuming process of evaluating
+the algorithms in live human trials.
+\end{enumerate}
+
+Next we outline our specific paper contributions to address
+the above problem objectives in-depth.
+
+\subsection{Contributions}
+
+\label{sec:Contributions}
+
+In the preceding section, we outlined three deficiencies of existing MF
+approaches for SCF.  Now we discuss our specific
+contributions in this paper to address these three deficiencies:
+\begin{enumerate}
+\item[(a)] {\bf User-feature social regularization:} One can encode
+prior knowledge into the learning process using a technique known as
+\emph{regularization}.  In the case of social MF, we often want to
+regularize the learned latent representations of users to enforce that
+users who interact heavily often have similar preferences, and hence
+similar latent representations.  
+
+Thus to address the deficiency noted in
+\emph{non-feature-based user similarity}, we build on ideas used in
+Matchbox~\cite{matchbox} to incorporate user features into the social
+regularization objective for SCF.  There are two commonly used methods
+for social regularization in SCF --- in Section~\ref{sec:NovelAlgs} we
+extend both to handle user features and determine that the
+\emph{spectral} regularization extension performs best.
+% Note: potential for latent item information diffusion here
+\item[(b)] {\bf Hybrid social collaborative filtering:} While MF
+methods prove to be excellent at projecting user and items into latent
+spaces, they suffer from the caveat that they cannot model joint
+features over user and items (they can only work with independent user
+features and independent item features).  This is problematic when it
+comes to the issue of \emph{modeling direct user-user information
+diffusion} --- in short, the task of learning how often information
+flows from one specific user to another specific user.  
+
+The remedy for
+this turns out to be quite simple --- we need only introduce an
+objective component in addition to the standard MF objective that
+serves as a simple linear regressor for such information diffusion
+observations.  Because the resulting objective is a combination of
+latent MF and linear regression objectives, we refer to it simply as
+\emph{hybrid SCF}.  In Section~\ref{sec:NovelAlgs}, we evaluate this
+approach and show that it outperforms standard SCF.
+% - Do copreferences work well for non-friends?
+% - We should really try this out on MovieLens too... even Netflix
+% if time permitted... could be a new non-social CF algorithm!
+% - Copreference ideas can also be used in modeling information
+% diffusion.
+\item[(c)] {\bf Copreference regularization:} Existing SCF methods
+that employ social regularization make a somewhat coarse assumption
+that if two users interact heavily (or even worse, are simply friends)
+that their latent representations must match as closely as possible.
+Considering that friends have different reasons for their friendships
+--- co-worders, schoolmates, common hobby --- it is reasonable to
+expect that two people (friends or not) may only share
+\emph{restricted common interests}: co-workers may both enjoy
+technical content related to work, but differ otherwise; schoolmates
+may like to hear news about other schoolmates, but differ otherwise;
+people who share an interest in a common hobby are obviously
+interested in that hobby, but should not necessarily share common
+interests elsewhere.  
+
+To this end, we propose a finer-grained approach
+to regularizing users by restricting their latent user representation
+to be similar (or different) only in subspaces relevant to the items
+mutually liked/disliked (or disagreed upon -- one user likes and the
+other dislikes).  Because this method of regularization requires
+evidence of preferences between two users for the same item, we refer
+to it as regularizing based on \emph{copreferences}.
+In Section~\ref{sec:NovelAlgs}, we evaluate this extension to standard
+SCF and show that it improves performance.
+%interestingly, we also remark that this advance is not actually
+%specific to social networks since it does not involve knowledge of
+%social network struct
+\end{enumerate}
+
+The previous contributions all relate to algorithmic and machine
+learning aspects of SCF algorithms.  However, in a different dimension
+and as discussed in the previous section, we also have to know how to
+\emph{evaluate} these algorithms both from active user feedback
+(ratings of new recommendations) and passive user content (simply a
+catologue of previously rated links for a user).  Thus as our final
+contribution, we perform the following extensive comparative
+evaluation:
+\begin{enumerate}
+\item[(d)] {\bf Comparative evaluation of active and passive metrics 
+that align with user judgments:} 
+In Section~\ref{sec:Evaluation}, we
+propose a number of training and testing regimes and a number of
+evaluation metrics for both ranking and classification paradigms.  In
+both Sections~\ref{sec:Baselines} and~\ref{sec:NovelAlgs} we compare
+the performance of these metrics with the given algorithms and raw
+data in order to determine which regimes and metrics correlate closely
+with human judgment of performance in each setting.
+\end{enumerate}
+
+\subsection{Outline}
+
+The remaining chapters in this paper are organized as follows:
+\begin{itemize}
+\item {\bf Section~\ref{sec:Background}:} We first define notation
+used throughout the paper and then proceed to review both standard
+collaborative filtering approaches, specific MF approaches, and
+their social extensions.
+\item {\bf Section~\ref{sec:FacebookApp}:} We discuss the engineering
+and UI considerations behind the Facebook App that was developed for this
+paper.
+\item {\bf Section~\ref{sec:Evaluation}:} We discuss our evaluation
+methodology for both offline and online (live user trial) experimentation.
+Our goal here is to evaluate a variety of performance objectives,
+both qualitative and quantitative, in order to evaluate the user
+experience with each recommendation algorithm and to determine
+which online evaluations correlate with which offline evaluations.
+\item {\bf Section~\ref{sec:Baselines}:} We empirically investigate 
+existing SCF methods in our Facebook App and evaluation framework.
+Our objective here is to carry out a fair comparison and understand
+the settings in which each algorithm works --- and most importantly
+for research progress --- where these algorithms can be improved.
+\item {\bf Section~\ref{sec:NovelAlgs}:} We begin by discussing novel
+algorithms that we propose along the lines of our contributions
+outlined in Section~\ref{sec:Contributions}.  Then proceed to evaluate
+them in our Facebook App and evaluation framework to understand
+whether these improve over the baselines, as well as to understand
+if there are any obvious deficiencies in the new approaches.
+\item {\bf Section~\ref{sec:Conclusions}:} We summarize our conclusions
+from this work and outline directions for future research.
+\end{itemize}
+
+All combined, this paper represents a critical step forward in SCF
+algorithms based on top-performing MF methods and their ability to
+fully exploit the breadth of information available on social networks
+to achieve state-of-the-art link recommendation.
+
+\section{Background}
+
+\label{sec:Background}
+
+\subsection{Social Collaborative Filtering}
+
+{\bf [When SCF is introduced, insert discussion below... note that change
+of notation from methods introduced later... these do not use user and item
+features.]}
+
+%These are MF methods that use the social network and do recommendation,
+%note that the GLFM and Bidirectional similarity papers do not meet these
+%requirements
+
+There are essentially two general classes of MF methods applied to SCF that we discuss
+below.  The first class can be termed as \emph{social regularization}
+approaches in that they somehow constrain the latent projection
+represented by $U$.  
+
+There are two social regularization methods that directly constrain $U$ for user $i$
+and $k$ based on evidence $S_{i,k}$ of interaction between $i$ and $k$.  We call
+these methods:
+
+% Note that these previous methods do not use user and item features
+\begin{itemize}
+\item {\bf Social regularization~\cite{lla,socinf}} ($\Obj_\rs$):
+\begin{align}
+\sum_{i} & \sum_{k \in \mathit{friends}(i)} \frac{1}{2} (S_{i,k} - \la U_i, U_k \ra)^2 \nonumber 
+\end{align}
+
+\item {\bf Social spectral regularization~\cite{sr,rrmf}} ($\Obj_\rss$):
+\begin{align}
+\sum_{i} & \sum_{k \in \mathit{friends}(i)} \frac{1}{2} S^+_{i,k} \| U_i - U_k \|_2^2 \nonumber
+\end{align}
+\end{itemize}
+
+The {\it SoRec} system~\cite{sorec} proposes a slight twist on social spectral regularization in that it learns
+a third interactions matrix $Z$ (same dimensionality as $U$ and $V$) and uses $U_i^T Z_k$ to predict user-user
+interaction preferences in the same way that standard CF uses $U_i^T V_j$ to predict ratings.  It also
+uses a sigmoidal transform on the predictions.
+
+\begin{itemize}
+\item {\bf SoRec regularization~\cite{sorec}} ($\Obj_\rss$):
+\begin{align}
+\sum_{i} & \sum_{k \in \mathit{friends}(i)} \frac{1}{2} (S_{i,k} - \sigma(\la U_i, Z_k \ra))^2 \nonumber
+\end{align}
+\end{itemize}
+
+The second class of SCF MF approaches represented by the {\it Social Trust Ensemble}
+can be termed as a \emph{weighted average}
+approach since it simply composes a prediction for item $j$ from a weighted average of a user $i$'s
+predictions and their friends ($k$) predictions.
+
+\begin{itemize}
+\item {\bf Social Trust Ensemble~\cite{ste} (Non-spectral)} ($\Obj_\pmcf$):
+\begin{align}
+\sum_{(i,j) \in D} \frac{1}{2} (R_{i,j} - \sigma (U_i^T V_j + \sum_k U_i^T V_k))^2 \nonumber
+\end{align}
+\end{itemize}
+
+\subsection{Tensor Factorization Methods}
+
+% Note: not social CF... just another MF variant for recommendation
+
+\emph{Tensor factorization} (TF) methods can be used to learn latent
+models of interaction of 2 dimensions and higher.  A dimension 2 TF
+method is simply standard MF.  An example of a dimension 3 TF method
+is given by~\cite{tf} where recommendation of user-specific tags for
+an item are modeled with tags, user, and items each in one dimension.
+To date, TF methods have not been used for social recommendation,
+however, we draw on the idea of addition dimensions of latent learning
+in our copreference regularization method.
+
+\section{Facebook App Engineering}
+
+\label{sec:FacebookApp}
+
+\section{Evaluation Methodology}
+
+\label{sec:Evaluation}
+
+\section{Baseline Comparision}
+
+\label{sec:Baselines}
+
+\section{Novel Algorithms for Social Recommendation}
+
+\label{sec:NovelAlgs}
+
+\section{Conclusions}
+
+\label{sec:Conclusions}
+
+\section{Background}
+
+We define collaborative filtering (CF) as the task of predicting
+whether a user will like (or dislike) an item by using that user's
+preferences as well as those of other users.  CF can be done with or
+without explicit user or item features as in~\cite{matchbox}, hence
+subsuming traditional content-based filtering (CBF) according to our
+definition.
+
+We loosely define social CF (SCF) as the task of CF augmented with
+additional social network information such as the following that
+are available on social networking sites such as Facebook:
+\begin{itemize}
+\item Expressive personal profile content: gender, age, places lived, schools
+attended; favorite books, movies, quotes; online photo albums (and associated comment text).
+\item Explicit friendship or trust relationships.
+\item Content that users have personally posted (often text and links).
+\item Content of interactions between users (often text and links).
+\item Evidence of other interactions between users (being tagged in photos).
+\item Publicly available preferences (likes/dislikes of posts and links).
+\item Publicly available group memberships (often for hobbies, activities, social or political discussion).
+\end{itemize}
+We note that CF is possible in a social setting without taking advantage
+of the above social information, nonetheless we refer to any CF method
+that \emph{can be applied} in a social setting \emph{as} SCF.
+
+\subsection{Notation}
+
+In this work, we outline a number of potential SCF optimization
+objectives.  First, however, we must outline mathematical notation
+common to the SCF setting and models explored in this work:
+\begin{itemize}
+\item $N$ users, each having an $I$-element feature vector 
+$\x \in \R^I$ (alternately if a second user is needed, $\z \in \R^I$).
+\item $M$ items, each having a $J$-element feature vector 
+$\y \in \R^J$.
+%$\x_{1 \ldots I}$ ($\z_{1 \ldots I}$).  
+%$\y_{1 \ldots J}$.
+\item A (non-exhaustive) data set $D$ of user preferences of the form
+$D = \{ (\x, \y) \to R_{\x,\y} \}$ where class 
+$R_{\x,\y} \in \{ 0 \; \mbox{(dislike)}, 1 \; \mbox{(like)} \}$.
+\item A (non-exhaustive) data set $C$ of co-preferences derived from $D$ of the form
+$C = \{ (\x, \z, \y) \to P_{\x, \z, \y} \}$ where class 
+$P_{\x, \z, \y} \in \{ -1 \; \mbox{(disagree)}, 1 \;\mbox{(agree)} \}$.  
+\end{itemize}
+Note that feature vectors for users 
+and items can consist of any real-valued features as well as $\{0,1\}$
+features like user and item IDs.
+
+Most traditional CBF methods learn in an explicit
+feature space, while most traditional CF methods learn in a
+latent feature space (out of necessity by using only user and item ID
+features).  Since our definition of (S)CF subsumes both, we define 
+both explicit and implicit features:
+\begin{itemize}
+\item {\it Explicit}: We assume that a fixed-length feature vector
+$\f \in \mathbb{R}^F$ can be derived for any $(\x,\y) \in D$, denoted
+as $\f_{\x,\y}$.  In the SCF setting, $\f_{\x,\y}$ may include features
+that are non-zero only for specific items and/or users, e.g., a $\{0,1\}$ 
+indicator feature that user $\x$
+and user $\z$ have both liked item $\y$.  Using
+$\la \cdot,\cdot \ra$ to 
+denote an inner product, we define a weight
+vector $\w \in \R^F$ such that $\la \w, \f_{\x,\y} \ra = \w^T \f_{\x,\y}$ forms 
+a linear regressor.
+\item {\it Implicit}: As done in standard CF methods, we assume that
+a matrix $U$ allows us to project users $\x$ (and $\z$)
+into a latent space of dimensionality $K$; likewise we assume that
+a matrix $V$ allows us to project items $\y$ into a latent
+space also of dimensionality $K$.  Formally we define $U$ and $V$
+as follows:
+\begin{equation*}
+U = 
+\begin{bmatrix}
+  U_{1,1} & \hdots  & U_{1,I} \\
+  \vdots  & U_{k,i} & \vdots  \\
+  U_{K,1} & \hdots  & U_{K,I} \\
+\end{bmatrix}
+\qquad \; \; \;
+V = 
+\begin{bmatrix}
+  V_{1,1} & \hdots  & V_{1,J} \\
+  \vdots  & V_{k,j} & \vdots  \\
+  V_{K,1} & \hdots  & V_{K,J} \\
+\end{bmatrix}
+\end{equation*}
+Now we can respectively represent the latent projections of user and
+item as $(U \x)_{1 \ldots K}$ and $(V \y)_{1 \ldots K}$ and
+hence use $\la U \x, V \y \ra = \x^T U^T V \y$ as a latent bilinear regressor.
+\end{itemize}
+
+There are many ways to incorporate indirect social information into
+SCF methods of preference.  Here we opt to summarize all social
+interaction between user $\x$ and user $\z$ in the term $S_{\x,\z} \in
+\R$.  A definition of $S_{\x,\z} \in \R$ that has been useful is the
+following:
+\begin{align}
+\mathit{Int}_{\x,\z} & = \frac{\mbox{\# interactions between $\x$
+and $\z$}}{\mbox{average \# interactions between all user pairs}}\\
+S_{\x,\z} & = \ln \left( \mathit{Int}_{\x,\z} \right)
+\end{align}
+For purposes of this definition, an \emph{interaction} is any single event
+showing evidence that users $\x$ and $\z$ have 
+interacted, e.g., a message exchange or being tagged in a photo together.
+
+In addition, we can define $S^+_{\x,\z}$, a \emph{non-negative} 
+variant of $S_{\x,\z}$:
+\begin{align}
+S^+_{\x,\z} & = \ln \left( 1 + \mathit{Int}_{\x,\z} \right)
+\end{align}
+
+\subsection{Social Collaborative Filtering}
+
+\subsection{Objective components}
+
+\label{sec:obj_comp}
+
+We take a composable approach to collaborative filtering (CF) systems
+where a (social) CF minimization 
+objective $\mathit{Obj}$ is composed of sums of one or more
+objective components:
+\begin{align}
+\mathit{Obj} = \sum_i \lambda_i \mathit{Obj}_i
+\end{align}
+Because each objective may be weighted differently, we include a 
+weighting term $\lambda_i \in \R$ for each component that should be
+optimized via cross-validation.
+
+%{\it Binary and ternary prediction:} 
+We note that most target predictions are binary 
+classification-based ($\{0,1\}$)
+so that in our objectives we might want to use a sigmoidal transform 
+\begin{align}
+\sigma(o) & = \frac{1}{1 + e^{-o}}
+\end{align}
+of regressor outputs $o \in \R$ to squash it 
+to the range $[0, 1]$.  
+In places where the $\sigma$ transform may be optionally included, 
+we write $[\sigma]$.  
+%We specify the gradient for such objective modifications below.
+
+Now we define potential primary objective components:
+\begin{itemize}
+\item {\bf Explicit Linear CBF} ($\Obj_\pcbf$):
+\begin{align}
+\sum_{(\x,\y) \in D} \frac{1}{2} (R_{\x,\y} - [\sigma] \w^T \f_{\x,\y})^2
+\end{align}
+\item {\bf Matchbox~\cite{matchbox} CF+CBF} ($\Obj_\pmcf$):
+\begin{align}
+\sum_{(\x,\y) \in D} \frac{1}{2} (R_{\x,\y} - [\sigma] \x^T U^T V y)^2
+\end{align}
+\item {\bf Hybrid} ($\Obj_\phy$):
+\begin{align}
+\sum_{(\x,\y) \in D} \frac{1}{2} (R_{\x,\y} - [\sigma] \w^T \f_{\x,\y} - [\sigma] \x^T U^T V y)^2
+\end{align}
+\end{itemize}
+
+In the above, our free parameters for learning are $U$, $V$, and $\w$.
+It is important to regularize these parameters to prevent overfitting in
+the presence of sparse data;
+for this purpose there are a variety of choices ranging from the well-known
+$L_2$ regularizer that models a prior of $0$ on the parameters
+to more SCF-specific forms of regularization that
+constrain rows of $U$ and $V$ to be similar based on various observations
+in the SCF data:
+\begin{itemize}
+\item {\bf $L_2$ $\w$ regularization} ($\Obj_\rw$):
+\begin{align}
+\frac{1}{2} \| \w \|_2^2 = \frac{1}{2} \w^T \w
+\end{align}
+\item {\bf $L_2$ $U$ regularization} ($\Obj_\ru$):
+\begin{align}
+\frac{1}{2} \| U \|_\Fro^2 = \frac{1}{2} \tr(U^T U)
+\end{align}
+\item {\bf $L_2$ $V$ regularization} ($\Obj_\rv$):
+\begin{align}
+\frac{1}{2} \| V \|_\Fro^2 = \frac{1}{2} \tr(V^T V)
+\end{align}
+\item {\bf Social regularization} ($\Obj_\rs$):
+\begin{align}
+\sum_{\x} & \sum_{\z \in \mathit{friends}(\x)} \frac{1}{2} (S_{\x,\z} - \la U\x, U\z \ra)^2 \nonumber \\
+& = \sum_{\x} \sum_{\z \in \mathit{friends}(\x)} \frac{1}{2} (S_{\x,\z} - \x^T U^T U \z)^2
+\end{align}
+\item {\bf Social spectral regularization} ($\Obj_\rss$):
+\begin{align}
+\sum_{\x} & \sum_{\z \in \mathit{friends}(\x)} \frac{1}{2} S^+_{\x,\z} \| U\x - U\z \|_2^2 \nonumber \\
+& = \sum_{\x} \sum_{\z \in \mathit{friends}(\x)} \frac{1}{2} S^+_{\x,\z} \| U (\x - \z) \|_2^2 \nonumber \\
+& = \sum_{\x} \sum_{\z \in \mathit{friends}(\x)} \frac{1}{2} S^+_{\x,\z} (\x - \z)^T U^T U (\x - \z)
+\end{align}
+\subfive Note: standard spectral regularization assumes $S^+_{\x,\z} \in [0,1]$;
+however we may also want to try $S_{\x,\z}$ since a negative value actively
+encourages the latent spaces to oppose each other, which may be desired.
+\end{itemize}
+
+The motivation behind the next two objectives is to constrain users $\x$
+and $\z$ who have similar (opposing) 
+preferences to be similar (opposite) in the same latent latent space
+relevant to item $\y$.  This captures the crucial aspect --- missing from 
+other SCF methods --- that while two users may not be globally similar (opposite),
+there may be sub-areas of their interests where they are similar (opposite).
+For example, two friends may have similar interests concerning music, but 
+different interests concerning politics.  The following regularization objectives
+aim to learn such selective co-preferences:
+\begin{itemize}
+\item {\bf Social co-preference regularization} ($\Obj_\rsc$)
+-- this requires a reweighted inner product $\la \cdot, \cdot \ra_{\bullet}$
+expanded into its definition below:
+\begin{align}
+\sum_{(\x,\z,\y) \in C} & \frac{1}{2} (P_{\x,\z,\y} - \la U\x, U\z \ra_{V\y})^2 \nonumber \\
+& = \sum_{(\x,\z,\y) \in C} \frac{1}{2} (P_{\x,\z,\y} - \x^T U^T \diag(V\y) U \z)^2
+%= & \sum_{(\x,\z,\y) \in C}  \frac{1}{2} (P_{\x,\z,\y} - \sum_{k=1}^K (U\x)_k (U\z)_k (V\y)_k )^2 
+\end{align}
+\subfive Note 1: computationally, it could be very expensive to compute this
+for all pairs, we might consider ways to restrict it, e.g., only considering
+\emph{App users} for $\x$ or only considering \emph{friends} for $\x$ and $\z$.
+
+\subfive Note 2: we should also try setting $P_{\x,\z,\y} = \mbox{(disagree)} = 0$.
+\item {\bf Social co-preference spectral regularization}
+($\Obj_\rscs$) -- this requires a re-weighted $L_2$ norm 
+$\| \cdot \|_{2,\bullet}$ expanded into its definition below:
+\begin{align}
+\sum_{(\x,\z,\y) \in C} & \frac{1}{2} P_{\x,\z,\y} \| U\x - U\z \|_{2,V\y}^2 \nonumber \\
+& = \sum_{(\x,\z,\y) \in C} \frac{1}{2} P_{\x,\z,\y} \| U (\x - \z) \|_{2,V\y}^2 \nonumber \\
+& = \sum_{(\x,\z,\y) \in C} \frac{1}{2} P_{\x,\z,\y} (\x - \z)^T U^T \diag(V\y) U (\x - \z)
+%= & \sum_{\x} \sum_{\z \neq \x} \sum_{\y} \frac{1}{2} P_{\x,\z,\y} \sum_{k=1}^K \big( \left[ (U\x)_k - (U\z)_k \right] (V\y)_k \big)^2
+\end{align}
+\subfive Note: see notes 1 and 2 for the previous case that also apply here.
+%In this case, we define $P_{\x, \z, \y}$ as follows:
+%\begin{align}
+%P_{\x, \z, \y} = 
+%\begin{cases}
+%\mbox{(mutual-like)}   &:  1 \\
+%\mbox{(disagree)}      &: -1 \\
+%\mbox{(mutual-dislike)}&:  1 \\
+%\end{cases}
+%\end{align}
+%In short, if two users agree on $\y$ then their latent representations should
+%agree in the latent dimensions relevant to $\y$; if they disagree these
+%relevant latent dimensions should be opposite each other.
+\end{itemize}
+
+\subsection{Derivatives}
+
+\label{sec:obj_grad}
+
+We seek to optimize sums of the above objectives and will use
+gradient descent for this purpose.  
+
+For the overall objective, the partial derivative 
+w.r.t. parameters $\a$ are as follows:
+\begin{align*}
+\frac{\partial}{\partial \a} \mathit{Obj} & = \frac{\partial}{\partial \a} \sum_i \lambda_i \mathit{Obj}_i\\
+& = \sum_i \lambda_i \frac{\partial}{\partial \a} \mathit{Obj}_i \label{eq:sum_der}
+\end{align*}
+
+Previously we noted that in the
+objective components of Section~\ref{sec:obj_comp}, we may want to transform
+some of the regressor outputs $o[\cdot]$ using $\sigma(o[\cdot])$.  
+This is convenient for our partial derivatives as
+\begin{align}
+ \frac{\partial}{\partial \a}\sigma(o[\cdot]) & = \sigma(o[\cdot]) (1 - \sigma(o[\cdot])) \frac{\partial}{\partial \a} o[\cdot] .
+\end{align}
+Hence anytime a $[\sigma(o[\cdot])]$ is optionally 
+introduced in place of $o[\cdot]$, we simply
+insert $[\sigma(o[\cdot]) (1 - \sigma(o[\cdot]))]$ in the corresponding derivatives 
+below.\footnote{We note that our experiments using the sigmoidal transform in
+objectives with $[0,1]$ predictions do not generally demonstrate a
+clear advantage vs. the omission of this transform as originally
+written (although they do not demonstrate a clear disadvantage
+either).}
+
+Before we proceed to our objective gradients, we define abbreviations
+for two useful vectors:
+\begin{align*}
+\s & = U \x \qquad \s_{k} = (U \x)_{k}; \; k=1\ldots K\\
+\t & = V \y \qquad \t_{k} = (V \y)_{k}; \; k=1\ldots K
+\end{align*}
+
+Now we proceed to derivatives for the previously defined primary
+objective components:
+\begin{itemize}
+\item {\bf Explicit Linear CBF} ($\Obj_\pcbf$):
+\begin{align*}
+\frac{\partial}{\partial \w} \Obj_\pcbf & = \frac{\partial}{\partial \w} \sum_{(\x,\y) \in D} \frac{1}{2} \left( \underbrace{(R_{\x,\y} - [\sigma] \overbrace{\w^T \f_{\x,\y}}^{o_{\x,\y}})}_{\delta_{\x,\y}} \right)^2\\
+& = \sum_{(\x,\y) \in D} \delta_{\x,\y} \frac{\partial}{\partial \w} - [\sigma] \w^T \f_{\x,\y}\\
+& = - \sum_{(\x,\y) \in D} \delta_{\x,\y} [\sigma(o_{\x,\y}) (1 - \sigma(o_{\x,\y}))] \f_{\x,\y}
+\end{align*}
+\item {\bf Matchbox~\cite{matchbox} CF+CBF} ($\Obj_\pmcf$):
+Here we define alternating partial derivatives between $U$ and $V$, holding one
+constant and taking the derivative w.r.t.\ the other:\footnote{We will use
+this method of alternation for all objective components that involve bilinear
+terms.}
+\begin{align*}
+\frac{\partial}{\partial U} \Obj_\pmcf & = \frac{\partial}{\partial U} \sum_{(\x,\y) \in D} \frac{1}{2} \left( \underbrace{(R_{\x,\y} - [\sigma] \overbrace{x^T U^T V\y}^{o_{\x,\y}})}_{\delta_{\x,\y}} \right)^2\\
+& = \sum_{(\x,\y) \in D} \delta_{\x,\y} \frac{\partial}{\partial U} - [\sigma] \x^T U^T \t \\
+& = - \sum_{(\x,\y) \in D} \delta_{\x,\y} [\sigma(o_{\x,\y}) (1 - \sigma(o_{\x,\y}))] \t \x^T \\
+\frac{\partial}{\partial V} \Obj_\pmcf & = \frac{\partial}{\partial V} \sum_{(\x,\y) \in D} \frac{1}{2} \left( \underbrace{(R_{\x,\y} - [\sigma] \overbrace{x^T U^T V\y}^{o_{\x,\y}})}_{\delta_{\x,\y}} \right)^2\\
+& = \sum_{(\x,\y) \in D} \delta_{\x,\y} \frac{\partial}{\partial V} - [\sigma] \s^T V \y \\
+& = - \sum_{(\x,\y) \in D} \delta_{\x,\y} [\sigma(o_{\x,\y}) (1 - \sigma(o_{\x,\y}))] \s \y^T
+\end{align*}
+We note that these derivatives use outer products $\t \x^T$ and $\s \y^T$.
+\item {\bf Hybrid} ($\Obj_\phy$):
+\begin{align*}
+\frac{\partial}{\partial \w} \Obj_\phy & = \frac{\partial}{\partial \w} \sum_{(\x,\y) \in D} \frac{1}{2} \left( \underbrace{R_{\x,\y} - [\sigma] \overbrace{\w^T \f_{\x,\y}}^{o^1_{\x,\y}} - [\sigma] \x^T U^T V\y}_{\delta_{\x,\y}} \right)^2 \\
+& = \sum_{(\x,\y) \in D} \delta_{\x,\y} \frac{\partial}{\partial \w} - [\sigma] \w^T \f_{\x,\y} \\
+& = - \sum_{(\x,\y) \in D} \delta_{\x,\y} [\sigma(o^1_{\x,\y}) (1 - \sigma(o^1_{\x,\y}))] \f_{\x,\y} 
+\end{align*}
+\begin{align*}
+\frac{\partial}{\partial U} \Obj_\phy & = \frac{\partial}{\partial U} \sum_{(\x,\y) \in D} \frac{1}{2} \left( \underbrace{R_{\x,\y} - [\sigma] \w^T \f_{\x,\y} - [\sigma] \overbrace{\x^T U^T V\y}^{o^2_{\x,\y}}}_{\delta_{\x,\y}}\right)^2 \\
+& = \sum_{(\x,\y) \in D} \delta_{\x,\y} \frac{\partial}{\partial U} - [\sigma] \x^T U^T V\y \\
+& = - \sum_{(\x,\y) \in D} \delta_{\x,\y} [\sigma(o^2_{\x,\y}) (1 - \sigma(o^2_{\x,\y}))] \t \x^T\\
+%\end{align*}
+%\begin{align*}
+\frac{\partial}{\partial V} \Obj_\phy & = \frac{\partial}{\partial V} \sum_{(\x,\y) \in D} \frac{1}{2} \left( \underbrace{R_{\x,\y} - [\sigma] \w^T \f_{\x,\y} - [\sigma] \overbrace{\x^T U^T V\y}^{o^2_{\x,\y}}}_{\delta_{\x,\y}}\right)^2 \\
+& = \sum_{(\x,\y) \in D}  \delta_{\x,\y} \frac{\partial}{\partial V} - [\sigma] \x^T U^T V\y \\
+& = - \sum_{(\x,\y) \in D}  \delta_{\x,\y} [\sigma(o^2_{\x,\y}) (1 - \sigma(o^2_{\x,\y}))] \s \y^T \\
+\end{align*}
+\end{itemize}
+
+Now we proceed to derivatives for the previously defined
+regularization objectives:
+\begin{itemize}
+\item {\bf $L_2$ $\w$ regularization} ($\Obj_\rw$):
+\begin{align*}
+\frac{\partial}{\partial \w} \Obj_\rw & = \frac{\partial}{\partial \w} \frac{1}{2} \w^T \w\\
+& = \w
+\end{align*}
+\item {\bf $L_2$ $U$ regularization} ($\Obj_\ru$):
+\begin{align*}
+\frac{\partial}{\partial U} \Obj_\ru & = \frac{\partial}{\partial U} \frac{1}{2} \tr(U^T U) \\
+& = U
+\end{align*}
+\item {\bf $L_2$ $V$ regularization} ($\Obj_\rv$):
+\begin{align*}
+\frac{\partial}{\partial V} \Obj_\rv & = \frac{\partial}{\partial V} \frac{1}{2} \tr(V^T V) \\
+& = V
+\end{align*}
+\item {\bf Social regularization} ($\Obj_\rs$):
+\begin{align*}
+\frac{\partial}{\partial U} \Obj_\rs & = \frac{\partial}{\partial U} \sum_{\x} \sum_{\z \in \mathit{friends}(\x)} \frac{1}{2} \left( \underbrace{S_{\x,\z} - \x^T U^T U \z}_{\delta_{\x,\y}} \right)^2 \\
+& = \sum_{\x} \sum_{\z \in \mathit{friends}(\x)} \delta_{\x,\y} \frac{\partial}{\partial U} - \x^T U^T U \z \\
+& = - \sum_{\x} \sum_{\z \in \mathit{friends}(\x)} \delta_{\x,\y} U (\x \z^T + \z \x^T)
+\end{align*}
+\item {\bf Social spectral regularization} ($\Obj_\rss$):
+\begin{align*}
+\frac{\partial}{\partial U} \Obj_\rss & = \frac{\partial}{\partial U} \sum_{\x} \sum_{\z \in \mathit{friends}(\x)} \frac{1}{2} S^+_{\x,\z} (\x - \z)^T U^T U (\x - \z) \\
+& = \sum_{\x} \sum_{\z \in \mathit{friends}(\x)} \frac{1}{2} S^+_{\x,\z} U ((\x - \z)(\x - \z)^T + (\x - \z)(\x - \z)^T)\\
+& = \sum_{\x} \sum_{\z \in \mathit{friends}(\x)} S^+_{\x,\z} U (\x - \z)(\x - \z)^T
+\end{align*}
+\end{itemize}
+
+Before we proceed to the final derivatives, we define one additional
+vector abbreviation: 
+\begin{align*}
+\r & = U \z \qquad \r_{k} = (U \z)_{k}; \; k=1\ldots K .
+\end{align*}
+
+\begin{itemize}
+\item {\bf Social co-preference regularization} ($\Obj_\rsc$):
+\begin{align*}
+\frac{\partial}{\partial U} \Obj_\rsc & = \frac{\partial}{\partial U} \sum_{(\x,\z,\y) \in C} \frac{1}{2} \left( \underbrace{P_{\x,\z,\y} - \x^T U^T \diag(V\y) U \z}_{\delta_{\x,\z,\y}} \right)^2\\
+& = \sum_{(\x,\z,\y) \in C} \delta_{\x,\z,\y} \frac{\partial}{\partial U} - \x^T U^T \diag(V\y) U \z \\
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%& = \delta \frac{\partial}{\partial U} - \tr(\diag(\x) U^T \diag(V\y) U \diag(\z)) \\
+%& = - \delta \diag(\z) \diag(\x) U^T \diag(V\y) + \diag(\x)^T \diag(\z)^T U^T \diag(V\y)^T\\
+%& = - \delta \diag(V\y)^T U \diag(\x)^T \diag(\z)^T + \diag(V\y)^T U \diag(\z)^T \diag(\x)^T\\
+%& = - \delta \diag(V\y)^T U (\diag(\x) \diag(\z) + \diag(\z) \diag(\x)) \\
+%& = - \delta \diag(V\y)^T U (\z \x^T + \x \z^T) \\
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Found it, see here for direct derivative: http://www.ee.ic.ac.uk/hp/staff/dmb/matrix/calculus.html
+& = - \sum_{(\x,\z,\y) \in C} \delta_{\x,\z,\y} (\diag(V\y)^T U \x \z^T + \diag(V\y) U \z \x^T)\\ % \diag(V\y)^T = \diag(V\y)
+& = - \sum_{(\x,\z,\y) \in C} \delta_{\x,\z,\y} \diag(V\y) U (\x \z^T + \z \x^T)\\
+\end{align*}
+\subfive Note: In the following, $\circ$ is the Hadamard elementwise product:
+\begin{align*}
+\frac{\partial}{\partial V} \Obj_\rsc & = \frac{\partial}{\partial V} \sum_{(\x,\z,\y) \in C} \frac{1}{2} (P_{\x,\z,\y} - \x^T U^T \diag(V\y) U \z)^2\\
+ & = \frac{\partial}{\partial V} \sum_{(\x,\z,\y) \in C} \frac{1}{2} \left( \underbrace{P_{\x,\z,\y} -  (\overbrace{U\x}^\s \circ \overbrace{U\z}^\r)^T V\y}_{\delta_{\x,\z,\y}} \right)^2\\
+ & = \sum_{(\x,\z,\y) \in C} \delta_{\x,\z,\y} \frac{\partial}{\partial V} - (\s \circ \r)^T V\y\\
+ & = - \sum_{(\x,\z,\y) \in C} \delta_{\x,\z,\y} (\s \circ \r) \y^T
+\end{align*}
+
+\item {\bf Social co-preference spectral regularization} ($\Obj_\rscs$):
+\begin{align*}
+\frac{\partial}{\partial U} \Obj_\rscs & = \frac{\partial}{\partial U} \sum_{(\x,\z,\y) \in C} \frac{1}{2} P_{\x,\z,\y} (\x - \z)^T U^T \diag(V\y) U (\x - \z)\\
+& = \sum_{(\x,\z,\y) \in C} \frac{1}{2} P_{\x,\z,\y} \left( \diag(V\y)^T U (\x - \z) (\x - \z)^T \right.\\
+& \left. \qquad \qquad \qquad \qquad + \diag(V\y) U (\x - \z) (\x - \z)^T \right)\\
+& = \sum_{(\x,\z,\y) \in C} P_{\x,\z,\y} \diag(V\y) U (\x - \z) (\x - \z)^T\\
+\frac{\partial}{\partial V} \Obj_\rscs & = \frac{\partial}{\partial V} \sum_{(\x,\z,\y) \in C} \frac{1}{2} P_{\x,\z,\y} (\x - \z)^T U^T \diag(V\y) U (\x - \z)\\
+& = \frac{\partial}{\partial V} \sum_{(\x,\z,\y) \in C} \frac{1}{2} P_{\x,\z,\y} (U(\x-\z) \circ U(\x-\z))^T V\y\\
+& = \frac{1}{2} \sum_{(\x,\z,\y) \in C} P_{\x,\z,\y} (U(\x-\z) \circ U(\x-\z)) \y^T
+\end{align*}
+\end{itemize}
+
+Hence, for any choice of primary objective and one or more regularizers,
+we simply add the derivatives for each of $\w$, $U$, and $V$ (if present) 
+according to~\eqref{eq:sum_der}.
+
+\subsection{Algorithms}
+
+Here we outline simple baseline algorithms evaluated:
+\begin{itemize}
+\item {\it GP}: Most globally popular links -- user-independent
+\item {\it FLL}: Most liked links among user friends -- user-centric (FLL) 
+\item {\it FUW}: Friend uniform weighting -- sample links posted by friends, weighting friends uniformly
+\item {\it FIW}: Friend interaction weighting -- sample links posted by friends, weighting friends according to number of interactions
+\item {\it NN}: Nearest neighbor -- similar to Bell and Koren's Netflix work
+\end{itemize}
+
+Here we outline the SCF learning algorithms evaluated in the first
+1-month Facebook trial in terms of
+the primary and regularization objectives used:
+\begin{itemize}
+\item {\it CBF}: $\Obj_\pcbf + \lambda_\rw \Obj_\rw$ -- but trained with hinge loss (SVM) rather than $L_2$ loss
+\item {\it CF}: $\Obj_\pcbf + \lambda_\ru \Obj_\ru + \lambda_\rv \Obj_\rv$ -- standard Matchbox-style CF model
+\item {\it SCF}: $\Obj_\pcbf + \lambda_\ru \Obj_\ru + \lambda_\rv \Obj_\rv + \lambda_\rs \Obj_\rs$ -- social CF (similar to that used in many papers)
+\end{itemize}
+
+Here we outline the SCF learning algorithms to be evaluated for inclusion
+in the 2nd-month Facebook trial in terms of
+the primary and regularization objectives used:
+\begin{itemize}
+\item {\it HSCF}: $\Obj_\phy + \lambda_\rw \Obj_\rw + \lambda_\ru \Obj_\ru + \lambda_\rv \Obj_\rv + \lambda_\rs \Obj_\rs$ -- hybrid social CF
+\item {\it SSCF}: $\Obj_\pcbf + \lambda_\ru \Obj_\ru + \lambda_\rv \Obj_\rv + \lambda_\rss \Obj_\rss$ -- social spectral CF
+%\item {\it HSSCF}: $\Obj_\phy + \lambda_\rw \Obj_\rw + \lambda_\ru \Obj_\ru + \lambda_\rv \Obj_\rv + \lambda_\rs \Obj_\rs$ -- hybrid spectral social CF
+\item {\it SCCF}: $\Obj_\pcbf + \lambda_\ru \Obj_\ru + \lambda_\rv \Obj_\rv + \lambda_\rsc \Obj_\rsc$ -- social co-preference CF
+\item {\it SCCF}: $\Obj_\pcbf + \lambda_\ru \Obj_\ru + \lambda_\rv \Obj_\rv + \lambda_\rscs \Obj_\rscs$
+\item (hybrid variants of the above only if HSCF outperforms SCF)
+\item (might try combining social and co-preference regularization)
+\end{itemize}
+In these models, the predictor for evaluation purposes is always
+formed from the predictor in the primary objective.
+
+\subsection{Related work}
+
+There is a massive amount of related work on 
+SCF~\cite{matchbox,ste,lla,glfm,tf,sorec,sr,rrmf,bisim,socinf} embodying some of the
+ideas above, however there are a few aspects covered here, not covered
+in this related work:
+\begin{enumerate}
+\item Existing SCF methods \emph{cannot} capture some of the basic features that are used in standard CBF systems due to the inherent independent factorization between user and items (e.g., how much one user follows another) --- this is the motivation behind the \emph{hybrid} objectives.
+\item All methods \emph{except} for Matchbox~\cite{matchbox} ignore the issue of user and item features.  We extend the Matchbox approach above in our SCF methods. 
+\item \emph{None} of the methods that propose social regularization~\cite{ste,sr,rrmf,lla,glfm,socinf} incorporate user features into this regularization (as done above).
+\item Tensor-based factorizations such as~\cite{tf} use a full $K \times K \times K$ tensor for collaborative filtering w.r.t.\ tag prediction for users and items.  While our co-preference regularization models above were motivated by tensor approaches, we instead take an item-reweighted approach to the standard inner products to (a) avoid introducing yet more parameters and (b) as a way to introduce additional regularization in a way that supports the standard Matchbox~\cite{matchbox} CF model where prediction at run-time is made for a (user,item) pair, not for triples of (user,item,tag) as assumed in the tensor models.
+\end{enumerate}
+
+\section{Evaluation}
+
+\subsection{Train and test framework}
+
+\begin{itemize}
+\item Data is (user, item) pairs [time must be ignored due to the fact that Facebook does not record timestamps for "likes"]
+\item If test data drawn from subset of train data 
+then: randomly select x\% of data for $x \in [10,30]$ (nominally 20\%) for testing -- ensure that train/test (user,item) sets *do not* overlap\\
+else if train/test drawn from disjoint candidate sets: select all test data available\item Eventually will want to cross-validate (repeatedly train/test) but for now stderrs over user means is OK
+\end{itemize}
+
+Restrictions for training set of (user,item) pairs:
+
+\begin{itemize}
+\item (Active) Actively recommended LinkR like/dislike data (must limit to App users)
+\item (Passive) Passively liked/posted data (i.e., non-LinkR) -- infer dislikes as you are currently doing (but don't use any Active LinkR info) 
+\item (Union) Union of Active and Passive
+\end{itemize}
+
+Restrictions for testing set of (user,item) pairs:
+
+\begin{itemize}
+\item (FB-User-Passive) All Facebook users in data, all available passive links for data set (infer dislikes as currently doing)
+\item (App-User-Passive) App users only, all available passive links for data set (infer dislikes as currently doing)
+\item (App-User-Active-All) App users only, all available active friend \& non-friend links for data set
+\item (App-User-Active-Friend) App users only, all available active friend links for data set
+\item (App-User-Active-Non-friend) App users only, all available active non-friend links for data set
+\end{itemize}
+
+Note 1: for App-User-Active-?, discard users who don't have at least one like and dislike.
+
+Note 2: in case where training is on Active data and testing on Passive data (or vice versa), the train/test data will be drawn from disjoint candidate sets.  In all other cases, it is possible to build the train/test set by splitting the same candidate set.  See notes above on how to choose size of test set.
+
+\subsection{Evaluation metrics}
+
+\begin{itemize}
+\item Ranking view: mean average precision (MAP)... result lists per user can be determined in different ways (see below).
+\item Binary classification view: area under the curve (AUC) on App-User-Active-?
+\item (might consider other ranking metrics like DCG, MRR)
+\end{itemize}
+
+Note -- no need to compute for now: Recall@k, F-score@k [a recommender systems researcher pointed out to me that Recall@k (and hence F-score@k) don't make as much sense and are usually *not* cited in the literature... so let's ignore]
+
+When determining candidate lists for MAP, there are two reasonable choices:
+\begin{itemize}
+\item (Same) List of all links available to be ranked in test set -- same for all users
+\item (Spec) In the special case of App-User-Active-?, can build a specialized list of links per *App* user... just rank their *explicit likes/dislikes*
+\end{itemize}
+
+Thus, overall evaluation choices are a cross-product:$$\{\mbox{metric}\} \times [ \{\mbox{list candidate set}\}] \times \{\mbox{train}\} \times \{\mbox{test}\}$$.
+
+\subsection{Evaluation configurations}
+
+It would be good to have scripts to generate any of the following results:
+
+\begin{itemize}
+\item $\{\mbox{AUC}\} \times \{\mbox{Passive,Active,Union}\} \times \{\mbox{App-User-Active-?}\}$
+\item $\{\mbox{MAP}\} \times \{\mbox{Same,Spec}\} \times \{\mbox{Passive,Active,Union}\} \times \{\mbox{App-User-Active-?}\}$
+\item $\{\mbox{MAP}\} \times \{\mbox{Same}\} \times \{\mbox{Passive,Active,Union}\}$\\ $ \times \{\mbox{FB-User-Passive, App-User-Passive, App-User-Active-?}\}$
+\end{itemize}
+
+\bibliographystyle{plain}
+\bibliography{sorec}
+
+\end{document}

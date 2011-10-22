@@ -1,0 +1,28 @@
+This thesis examines the problem of designing efficient, scalable, and
+accurate social collaborative filtering (CF) algorithms for
+personalized link recommendation on Facebook.  Unlike standard CF
+algorithms using relatively simple user and item features (possibly
+just the user ID and link ID), link recommendation on social networks
+like Facebook poses the more complex problem of learning user
+preferences from a rich and complex set of user profile and
+interaction information.  Most existing social CF (SCF) methods have
+extended traditional CF matrix factorization (MF) approaches but have
+overlooked important aspects specific to the social setting;
+specifically, existing SCF MF methods (a) do not permit the use of
+item or link features in learning user similarity based on observed
+interactions, (b) do not permit directly modeling user-user
+information diffusion according to the social graph structure, and (c)
+cannot learn that that two users may only have overlapping interests
+in specific subareas.  This thesis proposes a unified SCF optimization
+framework that addresses (a)--(c) and compares these novel algorithms
+with a variety of existing baslines.  Evaluation is carried out via
+live user trials in a custom-developed Facebook App involving data
+collected over three months from over 100 App users and their nearly
+30,000 friends.  Not only do we show that our novel proposals to
+address (a)--(c) outperform existing approaches, but we also identify
+which offline ranking and classigication evaluation metrics correlate
+most with human judgment of algorithm performance.  Altogether, this
+thesis represents a critical step forward in extending SCF
+recommendation algorithms to fully exploit the rich information and
+structure of social networks like Facebook.
+
