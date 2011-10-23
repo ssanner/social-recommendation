@@ -184,13 +184,13 @@ can be learned and new recommendations can be made.  In this socially
 connected setting, no longer are web users simply described by an IP
 address (with perhaps associated geographical information and browsing
 history), but rather they are described by a rich user profile (age,
-gender, educational and work history, preferences, etc.)  and a rich
-set of user interactions with their friends (direction comments/posts,
-clicks of like, tagging in photos, mutual group memberships, etc.).
-This rich information poses both an amazing opportunity and a daunting
-challenge for machine learning methods applied to social
-recommendation --- how to fully exploit the social network content in
-recommendation algorithms?
+gender, location, educational and work history, preferences, etc.)
+and a rich history of user interactions with their friends (direction
+comments/posts, clicks of like, tagging in photos, mutual group
+memberships, etc.).  This rich information poses both an amazing
+opportunity and a daunting challenge for machine learning methods
+applied to social recommendation --- how do we fully exploit the social
+network content in recommendation algorithms?
 
 \subsection{Objectives}
 
@@ -219,19 +219,23 @@ approaches.
 Given the strong performance of existing MF approaches to SCF, we aim
 to comparatively evaluate them and further improve on their
 performance where possible.  To do this, we first identify a number of
-problems of existing SCF MF methods that we make our objective to
+deficiencies of existing SCF MF methods that we make our objective to
 address in this paper:
 \begin{enumerate}
 \item[(a)] {\bf Non-feature-based user similarity:} Existing SCF MF
 methods do not permit the use of item or link features in learning
 user similarity based on observed interactions.
 % Note: potential for latent item information diffusion here
-\item[(b)] {\bf Model direct user-user information diffusion:}
-Existing SCF MF methods do not permit directly modeling user-user
-information diffusion according to the social graph structure.
+\item[(b)] {\bf Modeling direct user-user information diffusion:}
+Existing SCF MF methods learn entirely in a latent space and thus do
+not permit directly modeling user-user information diffusion according
+to the explicit social graph structure.
 \item[(c)] {\bf Restricted common interests:} Existing SCF MF methods
-cannot learn that that two users may only have overlapping interests
-in specific areas.
+often restrict two users to have similar latent representations if
+they are deemed to be similar according to some measure of their
+friendship or interactions.  However, this \emph{global} similarity
+restriction cannot learn that that two users may only have overlapping
+interests in \emph{specific} areas.
 \end{enumerate}
 
 This paper addresses all of these problems with novel contributions in
@@ -258,7 +262,7 @@ purpose of algorithm design and tuning, it is crucial to have methods
 and metrics that can be evaluated immediately on passive data (i.e., a
 passive data set of user likes) that are shown to correlate with human
 judgments in order to avoid the time-consuming process of evaluating
-the algorithms in live human trials.
+the algorithms in time-consuming human trials.
 \end{enumerate}
 
 Next we outline our specific paper contributions to address
@@ -279,7 +283,7 @@ regularize the learned latent representations of users to enforce that
 users who interact heavily often have similar preferences, and hence
 similar latent representations.  
 
-Thus to address the deficiency noted in
+Thus to address the deficiency noted previously in our discussion of 
 \emph{non-feature-based user similarity}, we build on ideas used in
 Matchbox~\cite{matchbox} to incorporate user features into the social
 regularization objective for SCF.  There are two commonly used methods
@@ -311,16 +315,16 @@ approach and show that it outperforms standard SCF.
 % diffusion.
 \item[(c)] {\bf Copreference regularization:} Existing SCF methods
 that employ social regularization make a somewhat coarse assumption
-that if two users interact heavily (or even worse, are simply friends)
+that if two users interact heavily (or even more coarsely, are simply friends)
 that their latent representations must match as closely as possible.
 Considering that friends have different reasons for their friendships
---- co-worders, schoolmates, common hobby --- it is reasonable to
+--- co-workers, schoolmates, common hobbies --- it is reasonable to
 expect that two people (friends or not) may only share
 \emph{restricted common interests}: co-workers may both enjoy
 technical content related to work, but differ otherwise; schoolmates
 may like to hear news about other schoolmates, but differ otherwise;
 people who share an interest in a common hobby are obviously
-interested in that hobby, but should not necessarily share common
+interested in that hobby, but do not necessarily share common
 interests elsewhere.  
 
 To this end, we propose a finer-grained approach
@@ -354,7 +358,8 @@ evaluation metrics for both ranking and classification paradigms.  In
 both Sections~\ref{sec:Baselines} and~\ref{sec:NovelAlgs} we compare
 the performance of these metrics with the given algorithms and raw
 data in order to determine which regimes and metrics correlate closely
-with human judgment of performance in each setting.
+with human judgment of recommendation algorithm
+performance in each setting.
 \end{enumerate}
 
 \subsection{Outline}
@@ -381,7 +386,7 @@ the settings in which each algorithm works --- and most importantly
 for research progress --- where these algorithms can be improved.
 \item {\bf Section~\ref{sec:NovelAlgs}:} We begin by discussing novel
 algorithms that we propose along the lines of our contributions
-outlined in Section~\ref{sec:Contributions}.  Then proceed to evaluate
+outlined in Section~\ref{sec:Contributions}.  Then we proceed to evaluate
 them in our Facebook App and evaluation framework to understand
 whether these improve over the baselines, as well as to understand
 if there are any obvious deficiencies in the new approaches.
@@ -430,10 +435,12 @@ these methods:
 \end{align}
 \end{itemize}
 
-The {\it SoRec} system~\cite{sorec} proposes a slight twist on social spectral regularization in that it learns
-a third interactions matrix $Z$ (same dimensionality as $U$ and $V$) and uses $U_i^T Z_k$ to predict user-user
-interaction preferences in the same way that standard CF uses $U_i^T V_j$ to predict ratings.  It also
-uses a sigmoidal transform on the predictions.
+The {\it SoRec} system~\cite{sorec} proposes a slight twist on social
+spectral regularization in that it learns a third ($N \times N$)
+\emph{interactions matrix} $Z$ used $U_i^T Z_k$ to predict user-user
+interaction preferences in the same way that standard CF uses $V$ in
+$U_i^T V_j$ to predict user-item ratings.  {\it SoRec} also uses a
+sigmoidal transform on the predictions.
 
 \begin{itemize}
 \item {\bf SoRec regularization~\cite{sorec}} ($\Obj_\rss$):
@@ -442,10 +449,13 @@ uses a sigmoidal transform on the predictions.
 \end{align}
 \end{itemize}
 
-The second class of SCF MF approaches represented by the {\it Social Trust Ensemble}
-can be termed as a \emph{weighted average}
-approach since it simply composes a prediction for item $j$ from a weighted average of a user $i$'s
-predictions and their friends ($k$) predictions.
+The second class of SCF MF approaches represented by the single
+examplar of the {\it Social Trust Ensemble} can be termed as a
+\emph{weighted average} approach since this approach simply composes a
+prediction for item $j$ from a weighted average of a user $i$'s
+predictio
+ns \emph{as well as} their friends ($k$) predictions (as
+evidenced by the additional $\sum_k$ in the objective below).
 
 \begin{itemize}
 \item {\bf Social Trust Ensemble~\cite{ste} (Non-spectral)} ($\Obj_\pmcf$):
@@ -464,8 +474,9 @@ method is simply standard MF.  An example of a dimension 3 TF method
 is given by~\cite{tf} where recommendation of user-specific tags for
 an item are modeled with tags, user, and items each in one dimension.
 To date, TF methods have not been used for social recommendation,
-however, we draw on the idea of addition dimensions of latent learning
-in our copreference regularization method.
+however, we draw on the idea of additional dimensions of latent learning
+in our copreference regularization method to be discussed in
+Section~\ref{sec:NovelAlgs}.
 
 \section{Facebook App Engineering}
 

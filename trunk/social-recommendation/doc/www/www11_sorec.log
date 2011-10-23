@@ -1,4 +1,4 @@
-This is pdfeTeXk, Version 3.141592-1.21a-2.2 (Web2C 7.5.4) (format=pdflatex 2008.12.23)  23 OCT 2011 03:52
+This is pdfeTeXk, Version 3.141592-1.21a-2.2 (Web2C 7.5.4) (format=pdflatex 2008.12.23)  23 OCT 2011 17:57
 entering extended mode
  file:line:error style messages enabled.
  %&-line parsing enabled.
@@ -273,47 +273,58 @@ File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
 
 
 ]
-Overfull \hbox (3.43788pt too wide) in paragraph at lines 250--262
+Overfull \hbox (1.4039pt too wide) in paragraph at lines 229--233
+[]\T1/aer/bx/n/9 Modeling di-rect user-user in-for-ma-tion dif-fu-sion:
+ []
+
+
+Overfull \hbox (3.43788pt too wide) in paragraph at lines 254--266
 []\T1/aer/bx/n/9 Idenfying pas-sive eval-u-a-tion paradigms that cor-
  []
 
+
+Overfull \hbox (1.53696pt too wide) in paragraph at lines 286--294
+\T1/aer/m/n/9 dis-cus-sion of \T1/aer/m/it/9 non-feature-based user sim-i-lar-i
+ty\T1/aer/m/n/9 , we build
+ []
+
 [2]
-Overfull \hbox (11.91302pt too wide) in paragraph at lines 451--452
+Overfull \hbox (11.91302pt too wide) in paragraph at lines 461--462
 []\T1/aer/bx/n/9 Social Trust En-sem-ble [5] (Non-spectral) \T1/aer/m/n/9 ($[][
 ]$): 
  []
 
 [3]
-Overfull \hbox (16.867pt too wide) in paragraph at lines 482--482
+Overfull \hbox (16.867pt too wide) in paragraph at lines 493--493
 []\secfnt NOVEL AL-GO-RITHMS FOR SO-CIAL REC-
  []
 
 
-Overfull \hbox (16.7404pt too wide) detected at line 575
+Overfull \hbox (16.7404pt too wide) detected at line 586
 \OML/cmm/m/it/9 U \OT1/cmr/m/n/9 = []     \OML/cmm/m/it/9 V \OT1/cmr/m/n/9 = []
 
  []
 
 [4]
-Overfull \hbox (12.81407pt too wide) in paragraph at lines 619--622
+Overfull \hbox (12.81407pt too wide) in paragraph at lines 630--633
 []\T1/aer/m/n/9 We note that most tar-get pre-dic-tions are bi-nary classificat
 ion-
  []
 
 
-Overfull \hbox (3.56468pt too wide) in paragraph at lines 678--682
+Overfull \hbox (3.56468pt too wide) in paragraph at lines 689--693
  \T1/aer/m/n/9 Note: stan-dard spec-tral reg-u-lar-iza-tion as-sumes $\OML/cmm/
 m/it/9 S[] \OMS/cmsy/m/n/9 2
  []
 
 
-Overfull \hbox (8.73889pt too wide) in paragraph at lines 706--707
+Overfull \hbox (8.73889pt too wide) in paragraph at lines 717--718
 [] \T1/aer/m/n/9 Note 2: we should also try set-ting $\OML/cmm/m/it/9 P[] \OT1/
 cmr/m/n/9 = [] =
  []
 
 
-Overfull \hbox (17.23772pt too wide) in paragraph at lines 707--710
+Overfull \hbox (17.23772pt too wide) in paragraph at lines 718--721
 []\T1/aer/bx/n/9 Social co-preference spec-tral reg-u-lar-iza-tion \T1/aer/m/n/
 9 ($[][]$)
  []
@@ -322,77 +333,77 @@ Overfull \hbox (17.23772pt too wide) in paragraph at lines 707--710
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
-Overfull \hbox (19.10612pt too wide) in paragraph at lines 796--796
+Overfull \hbox (19.10612pt too wide) in paragraph at lines 807--807
 [] 
  []
 
 
-Overfull \hbox (20.89653pt too wide) in paragraph at lines 806--806
+Overfull \hbox (20.89653pt too wide) in paragraph at lines 817--817
 [] 
  []
 
 [6]
-Overfull \hbox (46.10893pt too wide) in paragraph at lines 838--838
+Overfull \hbox (46.10893pt too wide) in paragraph at lines 849--849
 [] 
  []
 
 
-Overfull \hbox (24.84541pt too wide) in paragraph at lines 862--862
+Overfull \hbox (24.84541pt too wide) in paragraph at lines 873--873
 [] 
  []
 
 
-Overfull \hbox (19.80264pt too wide) in paragraph at lines 871--872
+Overfull \hbox (19.80264pt too wide) in paragraph at lines 882--883
 []\T1/aer/bx/n/9 Social co-preference spec-tral reg-u-lar-iza-tion \T1/aer/m/n/
 9 ($[][]$): 
  []
 
 
-Overfull \hbox (21.69586pt too wide) in paragraph at lines 880--880
+Overfull \hbox (21.69586pt too wide) in paragraph at lines 891--891
 [] 
  []
 
 
-Overfull \hbox (3.59882pt too wide) in paragraph at lines 894--895
+Overfull \hbox (3.59882pt too wide) in paragraph at lines 905--906
 []\T1/aer/m/it/9 FIW\T1/aer/m/n/9 : Friend in-ter-ac-tion weight-ing -- sam-ple
  links posted
  []
 
 
-Overfull \hbox (4.98953pt too wide) in paragraph at lines 903--904
+Overfull \hbox (4.98953pt too wide) in paragraph at lines 914--915
 []\T1/aer/m/it/9 CF\T1/aer/m/n/9 : $[][] \OT1/cmr/m/n/9 + \OML/cmm/m/it/9 ^^U[]
 [][] \OT1/cmr/m/n/9 + \OML/cmm/m/it/9 ^^U[][][]$ \T1/aer/m/n/9 -- stan-dard Mat
 chbox-
  []
 
 [7]
-Overfull \hbox (22.80434pt too wide) in paragraph at lines 943--944
+Overfull \hbox (22.80434pt too wide) in paragraph at lines 954--955
 []\T1/aer/m/n/9 Eventually will want to cross-validate (re-peat-edly train/test
 )
  []
 
 
-Overfull \hbox (1.5191pt too wide) in paragraph at lines 949--950
+Overfull \hbox (1.5191pt too wide) in paragraph at lines 960--961
 []\T1/aer/m/n/9 (Active) Ac-tively rec-om-mended LinkR like/dislike data
  []
 
 
-Overfull \hbox (1.57156pt too wide) in paragraph at lines 961--962
+Overfull \hbox (1.57156pt too wide) in paragraph at lines 972--973
 []\T1/aer/m/n/9 (App-User-Active-Non-friend) App users only, all avail-
  []
 
 [8]
-Overfull \hbox (4.62625pt too wide) in paragraph at lines 991--992
+Overfull \hbox (4.62625pt too wide) in paragraph at lines 1002--1003
 []$\OMS/cmsy/m/n/9 f[]g ^^B f[]g ^^B f[]g$ 
  []
 
 
-Overfull \hbox (65.33162pt too wide) in paragraph at lines 992--993
+Overfull \hbox (65.33162pt too wide) in paragraph at lines 1003--1004
 []$\OMS/cmsy/m/n/9 f[]g ^^B f[]g ^^B f[]g ^^B f[]g$ 
  []
 
 
-Overfull \hbox (22.43651pt too wide) in paragraph at lines 993--994
+Overfull \hbox (22.43651pt too wide) in paragraph at lines 1004--1005
 \OMS/cmsy/m/n/9 ^^Bf[]g$ 
  []
 
@@ -426,4 +437,4 @@ type1/bluesky/cm/cmbx9.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmti9.pfb><
 /usr/share/texmf/fonts/type1/bluesky/cm/cmr9.pfb></usr/share/texmf/fonts/type1/
 urw/times/utmb8a.pfb></usr/share/texmf/fonts/type1/urw/helvetic/uhvr8a.pfb></us
 r/share/texmf/fonts/type1/urw/helvetic/uhvb8a.pfb>
-Output written on www11_sorec.pdf (9 pages, 197822 bytes).
+Output written on www11_sorec.pdf (9 pages, 198775 bytes).
