@@ -1,44 +1,48 @@
 \contentsline {chapter}{Acknowledgements}{vii}
 \contentsline {chapter}{Abstract}{ix}
 \contentsline {chapter}{\numberline {1}Introduction}{1}
-\contentsline {section}{\numberline {1.1}Description}{1}
-\contentsline {subsection}{\numberline {1.1.1}Individual Recommendation}{1}
-\contentsline {subsection}{\numberline {1.1.2}Collaborative Recommendation}{1}
-\contentsline {subsection}{\numberline {1.1.3}Social Recommendation}{1}
-\contentsline {section}{\numberline {1.2}Facebook}{2}
-\contentsline {section}{\numberline {1.3}LinkR}{2}
-\contentsline {section}{\numberline {1.4}Chapter Outline}{2}
-\contentsline {chapter}{\numberline {2}Background}{5}
-\contentsline {section}{\numberline {2.1}Notation}{5}
-\contentsline {section}{\numberline {2.2}Collaborative Filtering Algorithms}{6}
-\contentsline {subsection}{\numberline {2.2.1}K-Nearest Neighbor}{6}
-\contentsline {subsection}{\numberline {2.2.2}Support Vector Machines}{6}
-\contentsline {section}{\numberline {2.3}Matrix Factorization Models}{7}
-\contentsline {subsection}{\numberline {2.3.1}Objective components}{7}
-\contentsline {subsection}{\numberline {2.3.2}Matchbox Matrix Factorization}{7}
-\contentsline {subsection}{\numberline {2.3.3}L2 Regularization}{8}
-\contentsline {subsection}{\numberline {2.3.4}Social Regularization}{8}
-\contentsline {subsection}{\numberline {2.3.5}Derivatives}{8}
+\contentsline {section}{\numberline {1.1}Objectives}{1}
+\contentsline {section}{\numberline {1.2}Contributions}{3}
+\contentsline {section}{\numberline {1.3}Outline}{4}
+\contentsline {chapter}{\numberline {2}Background}{7}
+\contentsline {section}{\numberline {2.1}Notation}{7}
+\contentsline {section}{\numberline {2.2}Collaborative Filtering Algorithms}{8}
+\contentsline {subsection}{\numberline {2.2.1}K-Nearest Neighbor}{8}
+\contentsline {subsection}{\numberline {2.2.2}Support Vector Machines}{8}
+\contentsline {section}{\numberline {2.3}Matrix Factorization Models}{9}
+\contentsline {subsection}{\numberline {2.3.1}Social Collaborative Filtering}{9}
+\contentsline {subsection}{\numberline {2.3.2}Tensor Factorization Methods}{10}
 \contentsline {chapter}{\numberline {3}Evaluation of Social Recommendation Systems}{11}
-\contentsline {section}{\numberline {3.1}Evaluation Metrics}{11}
-\contentsline {section}{\numberline {3.2}Design Choices}{12}
-\contentsline {subsection}{\numberline {3.2.1}Facebook and LinkR data}{12}
-\contentsline {subsection}{\numberline {3.2.2}Training Data}{13}
-\contentsline {subsection}{\numberline {3.2.3}Live Online Recommendations}{13}
-\contentsline {subsection}{\numberline {3.2.4}Test Data}{14}
-\contentsline {chapter}{\numberline {4}Comparison of Existing Recommender Systems}{15}
-\contentsline {section}{\numberline {4.1}Online Results}{15}
-\contentsline {section}{\numberline {4.2}Passive Results}{16}
-\contentsline {section}{\numberline {4.3}Survey Results}{17}
-\contentsline {chapter}{\numberline {5}New Algorithms for Social Recommendation}{23}
-\contentsline {section}{\numberline {5.1}Hybrid Objective}{23}
-\contentsline {section}{\numberline {5.2}New Social Regularizers}{24}
-\contentsline {subsection}{\numberline {5.2.1}Social Spectral Regularization}{24}
-\contentsline {subsection}{\numberline {5.2.2}Social Co-preference Regularization}{24}
-\contentsline {subsection}{\numberline {5.2.3}Social Co-preference Spectral Regularization}{24}
-\contentsline {subsection}{\numberline {5.2.4}Derivatives}{25}
-\contentsline {section}{\numberline {5.3}Second Trial}{28}
-\contentsline {subsection}{\numberline {5.3.1}Results}{28}
-\contentsline {section}{\numberline {5.4}Offline Results}{29}
-\contentsline {chapter}{\numberline {6}Conclusion}{33}
-\contentsline {chapter}{Bibliography}{35}
+\contentsline {section}{\numberline {3.1}Facebook}{11}
+\contentsline {subsection}{\numberline {3.1.1}LinkR}{11}
+\contentsline {section}{\numberline {3.2}Dataset}{12}
+\contentsline {subsection}{\numberline {3.2.1}User Data}{12}
+\contentsline {subsection}{\numberline {3.2.2}Link Data}{13}
+\contentsline {subsection}{\numberline {3.2.3}Implicit Dislikes}{13}
+\contentsline {section}{\numberline {3.3}Evaluation Metrics}{13}
+\contentsline {section}{\numberline {3.4}Training and Testing Issues}{14}
+\contentsline {subsection}{\numberline {3.4.1}Training Data}{14}
+\contentsline {subsection}{\numberline {3.4.2}Live Online Recommendations}{15}
+\contentsline {subsection}{\numberline {3.4.3}Test Data}{15}
+\contentsline {chapter}{\numberline {4}Comparison of Existing Recommender Systems}{17}
+\contentsline {section}{\numberline {4.1}Objective components}{17}
+\contentsline {subsection}{\numberline {4.1.1}Matchbox Matrix Factorization}{17}
+\contentsline {subsection}{\numberline {4.1.2}L2 Regularization}{17}
+\contentsline {subsection}{\numberline {4.1.3}Social Regularization}{18}
+\contentsline {subsection}{\numberline {4.1.4}Derivatives}{18}
+\contentsline {section}{\numberline {4.2}Algorithms}{20}
+\contentsline {section}{\numberline {4.3}Online Results}{20}
+\contentsline {section}{\numberline {4.4}Offline Results}{21}
+\contentsline {section}{\numberline {4.5}Survey Results}{21}
+\contentsline {chapter}{\numberline {5}New Algorithms for Social Recommendation}{29}
+\contentsline {section}{\numberline {5.1}Hybrid Objective}{29}
+\contentsline {section}{\numberline {5.2}New Social Regularizers}{30}
+\contentsline {subsection}{\numberline {5.2.1}Social Spectral Regularization}{30}
+\contentsline {subsection}{\numberline {5.2.2}Social Co-preference Regularization}{30}
+\contentsline {subsection}{\numberline {5.2.3}Social Co-preference Spectral Regularization}{30}
+\contentsline {subsection}{\numberline {5.2.4}Derivatives}{31}
+\contentsline {section}{\numberline {5.3}Second Trial}{34}
+\contentsline {subsection}{\numberline {5.3.1}Online Results}{35}
+\contentsline {section}{\numberline {5.4}Offline Results}{35}
+\contentsline {chapter}{\numberline {6}Conclusion}{41}
+\contentsline {chapter}{Bibliography}{43}

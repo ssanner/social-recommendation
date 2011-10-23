@@ -170,13 +170,15 @@ according to~\eqref{eq:sum_der}.
 For the second online trial, we chose four algorithms again to randomly split between the LinkR application users. The four recommendation algorithms are:
 
 \begin{itemize}
-\item{Social Matchbox: Matchbox MF + Social Regularization +  L2 Regularization}
-\item{Spectral Matchbox: Matchbox MF + Social Spectral Regularization + L2 Regularization}
-\item{Social Hybrid: Hybrid + Social Regularization + L2 Regularization}
-\item{Spectral Co-preference: Matchbox MF + Social Co-preference Spectral Regularization + L2 Regularization}
+\item{{\bf Social Matchbox}: Matchbox MF + Social Regularization +  L2 Regularization}
+\item{{\bf Spectral Matchbox}: Matchbox MF + Social Spectral Regularization + L2 Regularization}
+\item{{\bf Social Hybrid}: Hybrid + Social Regularization + L2 Regularization}
+\item{{\bf Spectral Co-preference}: Matchbox MF + Social Co-preference Spectral Regularization + L2 Regularization}
 \end{itemize}
 
-Social Matchbox was included again as a baseline since it was the best performing algorithm in the first trial. The other algorithms were choses as a cross-section of the different regularizers. The limit of just using four algorithms for the trials was because of the small number of users who installed the LinkR application, we felt that four algorithms was the maximum we could use and still get concrete results.
+Social Matchbox was included again as a baseline since it was the best performing algorithm in the first trial. The limit of just using four algorithms for the trials was because of the small number of users who installed the LinkR application, we felt that four algorithms was the maximum we could use and still get concrete results.
+
+The online experiments were switched to the new algorithms on October 13, 2011. For the online results reported here, we took a snapshot of the data as it was on October 22, 2011.
 
 \begin{table}[h!]
 \centering
@@ -193,9 +195,9 @@ Social Hybrid & 25 \\
 \caption{Number of Users Assigned per Algorithm.}
 \end{table}
 
-\subsection{Results}
+\subsection{Online Results}
 
-In the second trial, the Spectral Matchbox approach achieve a larger number of likes compared to the other algorithms. It had 10 more likes compared to the second place algorithm, Spectral Co-preference. On top of this, Spectral Matchbox also had the second lowest number of dislikes among the four algorithms, and was the only algorithm to have more likes than dislikes. Because it had the best ratio of likes to dislikes, we consider Spectral Matchbox to be the best performing algorithm during this round of live trials.
+In the second trial, the Spectral Matchbox approach achieve a larger number of likes compared to the other algorithms. Like Social Matchbox before it in the first trial, Spectral Matchbox was the only algorithm to receive more likes than dislikes from the assigned users.
 
 \begin{figure}[h!]
 \centering
@@ -224,10 +226,30 @@ When training on the UNION dataset, we can see the same general worsening of per
 
 \begin{figure}[h]
 \centering
+\subfigure{\includegraphics[scale=0.35]{img/Passive_App-User-Passive2.eps}}
+\subfigure{\includegraphics[scale=0.35]{img/Passive_FB-User-Passive2.eps}}
+\subfigure{\includegraphics[scale=0.35]{img/Passive_App-User-active-all2.eps}}
+\subfigure{\includegraphics[scale=0.35]{img/Passive_App-User-Active-Friends2.eps}}
+\subfigure{\includegraphics[scale=0.35]{img/Passive_App-User-Active-NonFriends2.eps}}
+\caption{Results of training on Passive data}
+\end{figure}
+
+\begin{figure}[h]
+\centering
 \subfigure{\includegraphics[scale=0.35]{img/Union_App-User-Passive2.eps}}
 \subfigure{\includegraphics[scale=0.35]{img/Union_FB-User-Passive2.eps}}
 \subfigure{\includegraphics[scale=0.35]{img/Union_App-User-Active-All2.eps}}
 \subfigure{\includegraphics[scale=0.35]{img/Union_App-User-Active-Friends2.eps}}
 \subfigure{\includegraphics[scale=0.35]{img/Union_App-User-Active-NonFriends2.eps}}
 \caption{Results of training on Union data}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\subfigure{\includegraphics[scale=0.35]{img/Active_App-User-Passive2.eps}}
+\subfigure{\includegraphics[scale=0.35]{img/Active_FB-User-Passive2.eps}}
+\subfigure{\includegraphics[scale=0.35]{img/Active_App-User-Active-All2.eps}}
+\subfigure{\includegraphics[scale=0.35]{img/Active_App-User-Active-Friends2.eps}}
+\subfigure{\includegraphics[scale=0.35]{img/Active_App-User-Active-Nonfriends2.eps}}
+\caption{Results of training on Active data}
 \end{figure}

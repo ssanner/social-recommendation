@@ -196,6 +196,14 @@
 \newblock In \bibemphic{KDD-09} (2009).
 \citepages{tf}
 
+\bibitem[\protect\citeauthoryear{Salakhutdinov and Mnih}{Salakhutdinov and
+  Mnih}{2008}]{pmf}
+\bibsc{Salakhutdinov, R. and Mnih, A.} \bibyear{2008}.
+\newblock Probabilistic matrix factorization.
+\newblock In \bibemphic{Advances in Neural Information Processing Systems},
+  Volume~20 (2008).
+\citepages{pmf}
+
 \bibitem[\protect\citeauthoryear{Stern, Herbrich, and Graepel}{Stern
   et~al.}{2009}]{matchbox}
 \bibsc{Stern, D.~H., Herbrich, R., and Graepel, T.} \bibyear{2009}.
