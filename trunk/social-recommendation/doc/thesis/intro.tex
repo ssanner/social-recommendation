@@ -5,67 +5,234 @@
 \chapter{Introduction}
 \label{cha:intro}
 
-\section{Description}
+Given the vast amount of content available on the Internet, finding
+information of personal interest (news, blogs, videos, movies, books,
+etc.) is often like finding a needle in a haystack.  Recommender
+systems based on \emph{collaborative filtering} (CF) aim to address
+this problem by leveraging the preferences of a user
+population under the assumption that similar users
+will have similar preferences.  These principles underlie the
+recommendation algorithms powering websites like Amazon and
+Netflix.\footnote{On Amazon, this is directly evident with statements
+displayed of the form ``users who looked at item X ended up purchasing
+item Y 90\% of the time''.  While the exact inner workings of Netflix
+are not published, the best performing recommendation algorithm in
+the popular Netflix prize competition {\bf []} 
+used an ensemble of CF methods.}
 
-Finding relevant information from the glut of data is one of the biggest challenges faced by users today. This is important not just for the users themselves, but also for companies that may wish to sell or provide a service to them. One way to help users find relevant information is through automatic recommender systems. Recommender systems seek to automatically discover what the user's preferences are.
+As the web has become more social with the emergence of Facebook,
+Twitter, LinkedIn, and most recently Google+, this adds myriad new
+dimensions to the recommendation problem by making available a rich
+labeled graph structure of social content from which user preferences
+can be learned and new recommendations can be made.  In this socially
+connected setting, no longer are web users simply described by an IP
+address (with perhaps associated geographical information and browsing
+history), but rather they are described by a rich user profile (age,
+gender, location, educational and work history, preferences, etc.)
+and a rich history of user interactions with their friends (direction
+comments/posts, clicks of like, tagging in photos, mutual group
+memberships, etc.).  This rich information poses both an amazing
+opportunity and a daunting challenge for machine learning methods
+applied to social recommendation --- how do we fully exploit the social
+network content in recommendation algorithms?
 
-\subsection{Individual Recommendation}
+\section{Objectives}
 
-Individual recommendation models a user's preferences through information about the user alone. This information can be the user's profile details like age, sex, and occupation, as well as the user's history like previously bought or rated items.
+This paper examines the problem of designing efficient, scalable, and
+accurate \emph{social CF} (SCF) algorithms for \emph{personalized link
+recommendation on Facebook} -- quite simply the task of recommending
+personalized links to users that might interest them.  \emph{User
+interest} can be determined via many methods including \emph{indirect
+feedback} in the form of link clicks and \emph{direct feedback} in the form of
+explicit link ratings or other evidence that a user \emph{liked}
+a link (e.g., explicitly clicking ``like'').
 
-\subsection{Collaborative Recommendation}
+Many existing SCF approaches extend \emph{matrix factorization} (MF)
+techniques for CF~\cite{pmf} and have proved quite powerful in their ability to
+accurately model user preferences even when only a unique ID is
+available for both the user and item being recommended.  The power of
+such methods stems from their ability to project users and items into
+latent vector spaces of reduced dimensionality where they are 
+effectively grouped by similarity.  Indeed, we will show in
+Chapter 4 that existing social extensions of MF are
+quite powerful and outperform a variety of other commonly used SCF
+approaches.
 
-Collaborative recommendation models a user preferences not just through information about the user alone, but also through information about the other users. Collaborative recommendation algorithms examples are k-nearest neighbors and probabilistic matrix factorization.
-
-\subsection{Social Recommendation}
-
-In contrast to collaborative recommendation, which treats all users as equal for recommendation, social recommendation makes use of certain links to help calculate similarity between users. Additional information help with recommendation. It has been shown that users are more likely to have the same preference with their friends than with other random users.
-
-These links could be connections between users in social networks like Facebook and MySpace, or some other measure of user interaction and similarity.
-
-\section{Facebook}
-
-Facebook is a social networking service that is currently the largest in the world. As of July 2011 it has more that 750 million active users. Users in Facebook create a profile and establish "friend" connections between users to establish their social network. Each user has a "wall" where they and their friends can make posts to. These posts can be links, photos, status updates, etc. Items that have been posted by a user can be "liked", shared, or commented upon by other users. 
-
-\begin{figure}[h]
-\centering
-\subfigure{\includegraphics[scale=0.50]{img/posted-link.png}}
-\caption{A link posted by the author that has been liked by three other users.}
-\end{figure}
-
-This paper seeks to find out how best to recommend links to individual users such that there is a high likelihood of them "liking" it. We do this by creating a Facebook application that recommends links to users everyday and the users could give their feedback on the links, whether they liked it or disliked it. 
-
-\section{LinkR}
-Facebook allows applications to be developed that can be installed by their users. As part of this project, the LinkR Facebook application was developed. The functionalities of the LinkR application are:
-
+Given the strong performance of existing MF approaches to SCF, we aim
+to comparatively evaluate them and further improve on their
+performance where possible.  To do this, we first identify a number of
+problems of existing SCF MF methods that we make our objective to
+address in this paper:
 \begin{enumerate}
-\item{Collect data that have been shared by users and their friends on Facebook.}
-\item{Recommend links to the users daily.}
-\item{Collect feedback from the users on whether they liked or disliked the recommendations.}
+\item[(a)] {\bf Non-feature-based user similarity:} Existing SCF MF
+methods do not permit the use of item or link features in learning
+user similarity based on observed interactions.
+% Note: potential for latent item information diffusion here
+\item[(b)] {\bf Model direct user-user information diffusion:}
+Existing SCF MF methods do not permit directly modeling user-user
+information diffusion according to the social graph structure.
+\item[(c)] {\bf Restricted common interests:} Existing SCF MF methods
+cannot learn that that two users may only have overlapping interests
+in specific areas.
 \end{enumerate}
 
-\begin{figure}[h]
-\centering
-\subfigure{\includegraphics[scale=0.30]{img/linkr.png}}
-\caption{The LinkR application showing one of the recommendations.}
-\end{figure}
+This paper addresses all of these problems with novel contributions in
+an efficient, scalable, and unified latent factorization component
+framework for SCF.  We present results of our algorithms on live
+trials in a custom-developed Facebook App involving data collected
+over three months from over 100 App users and their nearly 30,000
+friends.  These results show that a number of extensions proposed to
+resolve (a)--(c) outperform all previously existing algorithms.
 
-The main developer of LinkR is Khoi-Nguyen Tran, a PhD student at the Australian National University. The algorithms it uses at the backend for recommendation was developed as part of this paper. 
+In addition, given that live online user evaluation trials are
+time-consuming, requiring many users and often an evaluation period of
+at least one month, we have one last important objective to address in
+this paper:
+\begin{enumerate}
+\item[(d)] {\bf Idenfying passive evaluation paradigms that correlate
+with actively elicited human judgments.}  The benefits of doing this
+are many-fold.  When designing new SCF algorithms, there are myriad
+design choices to be made, for which actual performance evaluation is
+the only way to validate the correct choice.  Furthermore, simple
+parameter tuning is crucial for best performance and SCF algorithms
+are often highly sensitive to well-tuned parameters.  Thus for the
+purpose of algorithm design and tuning, it is crucial to have methods
+and metrics that can be evaluated immediately on passive data (i.e., a
+passive data set of user likes) that are shown to correlate with human
+judgments in order to avoid the time-consuming process of evaluating
+the algorithms in live human trials.
+\end{enumerate}
 
+Next we outline our specific paper contributions to address
+the above problem objectives in-depth.
 
-\section{Chapter Outline}
+\section{Contributions}
 
-In the following chapters we will show that social information can be an effective tool that can be used to improve recommender systems. In Chapter 2 I  discuss the background material regarding recommendation, the notations, and descriptions of existing algorithms. 
+\label{sec:Contributions}
 
-In Chapter 3 I discuss the evaluation metrics and design issues that came up during the implementation of the LinkR application as well as during the evaluation of the different recommenders in general.
+In the preceding section, we outlined three deficiencies of existing MF
+approaches for SCF.  Now we discuss our specific
+contributions in this paper to address these three deficiencies:
+\begin{enumerate}
+\item[(a)] {\bf User-feature social regularization:} One can encode
+prior knowledge into the learning process using a technique known as
+\emph{regularization}.  In the case of social MF, we often want to
+regularize the learned latent representations of users to enforce that
+users who interact heavily often have similar preferences, and hence
+similar latent representations.  
 
-In Chapter 4  I discuss the results of the live online experiments using the first set of recommendations algorithms. The algorithms used for this trial were Nearest Neighbor, Support Vector Machines, Matchbox, and Social Matchbox. I also show the results of offline experiments using the same algorithm, and the results of a user survey conducted at the end of the live trials.
+Thus to address the deficiency noted in
+\emph{non-feature-based user similarity}, we build on ideas used in
+Matchbox~\cite{matchbox} to incorporate user features into the social
+regularization objective for SCF.  There are two commonly used methods
+for social regularization in SCF --- in Chapter 5 we
+extend both to handle user features and determine that the
+\emph{spectral} regularization extension performs best.
+% Note: potential for latent item information diffusion here
+\item[(b)] {\bf Hybrid social collaborative filtering:} While MF
+methods prove to be excellent at projecting user and items into latent
+spaces, they suffer from the caveat that they cannot model joint
+features over user and items (they can only work with independent user
+features and independent item features).  This is problematic when it
+comes to the issue of \emph{modeling direct user-user information
+diffusion} --- in short, the task of learning how often information
+flows from one specific user to another specific user.  
 
-In Chapter 5 I discuss new social algorithms that build on the ones currently available in the literature. We ran a second live trial using four of these algorithms and report the results here. 
+The remedy for
+this turns out to be quite simple --- we need only introduce an
+objective component in addition to the standard MF objective that
+serves as a simple linear regressor for such information diffusion
+observations.  Because the resulting objective is a combination of
+latent MF and linear regression objectives, we refer to it simply as
+\emph{hybrid SCF}.  In Chapter 5, we evaluate this
+approach and show that it outperforms standard SCF.
+% - Do copreferences work well for non-friends?
+% - We should really try this out on MovieLens too... even Netflix
+% if time permitted... could be a new non-social CF algorithm!
+% - Copreference ideas can also be used in modeling information
+% diffusion.
+\item[(c)] {\bf Copreference regularization:} Existing SCF methods
+that employ social regularization make a somewhat coarse assumption
+that if two users interact heavily (or even worse, are simply friends)
+that their latent representations must match as closely as possible.
+Considering that friends have different reasons for their friendships
+--- co-worders, schoolmates, common hobby --- it is reasonable to
+expect that two people (friends or not) may only share
+\emph{restricted common interests}: co-workers may both enjoy
+technical content related to work, but differ otherwise; schoolmates
+may like to hear news about other schoolmates, but differ otherwise;
+people who share an interest in a common hobby are obviously
+interested in that hobby, but should not necessarily share common
+interests elsewhere.  
 
-In the last chapter I report on on the conclusions reached by our experiments and comment on the paths that further research in this area might take.
+To this end, we propose a finer-grained approach
+to regularizing users by restricting their latent user representation
+to be similar (or different) only in subspaces relevant to the items
+mutually liked/disliked (or disagreed upon -- one user likes and the
+other dislikes).  Because this method of regularization requires
+evidence of preferences between two users for the same item, we refer
+to it as regularizing based on \emph{copreferences}.
+In Chapter 5, we evaluate this extension to standard
+SCF and show that it improves performance.
+%interestingly, we also remark that this advance is not actually
+%specific to social networks since it does not involve knowledge of
+%social network struct
+\end{enumerate}
 
-%%% Local Variables: 
-%%% mode: latex
-%%% TeX-master: "thesis"
-%%% End: 
+The previous contributions all relate to algorithmic and machine
+learning aspects of SCF algorithms.  However, in a different dimension
+and as discussed in the previous section, we also have to know how to
+\emph{evaluate} these algorithms both from active user feedback
+(ratings of new recommendations) and passive user content (simply a
+catologue of previously rated links for a user).  Thus as our final
+contribution, we perform the following extensive comparative
+evaluation:
+\begin{enumerate}
+\item[(d)] {\bf Comparative evaluation of active and passive metrics 
+that align with user judgments:} 
+In Chapter 3, we
+propose a number of training and testing regimes and a number of
+evaluation metrics for both ranking and classification paradigms.  In
+both Chapters 4 and Chapters 5, we compare
+the performance of these metrics with the given algorithms and raw
+data in order to determine which regimes and metrics correlate closely
+with human judgment of performance in each setting.
+\end{enumerate}
+
+\section{Outline}
+
+The remaining chapters in this paper are organized as follows:
+\begin{itemize}
+\item {\bf Chapter 2:} We first define notation
+used throughout the paper and then proceed to review both standard
+collaborative filtering approaches, specific MF approaches, and
+their social extensions.
+%\item {\bf Section~\ref{sec:FacebookApp}:} We discuss the engineering
+%and UI considerations behind the Facebook App that was developed for this
+%paper.
+\item {\bf Chapter 3:} We discuss our evaluation
+methodology for both offline and online (live user trial) experimentation.
+Our goal here is to evaluate a variety of performance objectives,
+both qualitative and quantitative, in order to evaluate the user
+experience with each recommendation algorithm and to determine
+which online evaluations correlate with which offline evaluations.
+\item {\bf Chapter 4:} We empirically investigate 
+existing SCF methods in our Facebook App and evaluation framework.
+Our objective here is to carry out a fair comparison and understand
+the settings in which each algorithm works --- and most importantly
+for research progress --- where these algorithms can be improved.
+\item {\bf Chapter 5:} We begin by discussing novel
+algorithms that we propose along the lines of our contributions
+outlined in this Introduction. Then proceed to evaluate
+them in our Facebook App and evaluation framework to understand
+whether these improve over the baselines, as well as to understand
+if there are any obvious deficiencies in the new approaches.
+\item {\bf Conclusions:} We summarize our conclusions
+from this work and outline directions for future research.
+\end{itemize}
+
+All combined, this paper represents a critical step forward in SCF
+algorithms based on top-performing MF methods and their ability to
+fully exploit the breadth of information available on social networks
+to achieve state-of-the-art link recommendation.
+

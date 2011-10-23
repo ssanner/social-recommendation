@@ -4,6 +4,74 @@
 
 \chapter{Evaluation of Social Recommendation Systems}
 
+\section{Facebook}
+
+Facebook is a social networking service that is currently the largest in the world. As of July 2011 it has more that 750 million active users. Users in Facebook create a profile and establish "friend" connections between users to establish their social network. Each user has a "wall" where they and their friends can make posts to. These posts can be links, photos, status updates, etc. Items that have been posted by a user can be "liked", shared, or commented upon by other users. 
+
+\begin{figure}[h]
+\centering
+\subfigure{\includegraphics[scale=0.50]{img/posted-link.png}}
+\caption{A link posted by the author that has been liked by three other users.}
+\end{figure}
+
+This paper seeks to find out how best to recommend links to individual users such that there is a high likelihood of them "liking" it. We do this by creating a Facebook application that recommends links to users everyday and the users could give their feedback on the links, whether they liked it or disliked it. 
+
+\subsection{LinkR}
+Facebook allows applications to be developed that can be installed by their users. As part of this project, the LinkR Facebook application was developed. The functionalities of the LinkR application are:
+
+\begin{enumerate}
+\item{Collect data that have been shared by users and their friends on Facebook.}
+\item{Recommend links to the users daily.}
+\item{Collect feedback from the users on whether they liked or disliked the recommendations.}
+\end{enumerate}
+
+\begin{figure}[h]
+\centering
+\subfigure{\includegraphics[scale=0.30]{img/linkr.png}}
+\caption{The LinkR application showing one of the recommendations.}
+\end{figure}
+
+The main developer of LinkR is Khoi-Nguyen Tran, a PhD student at the Australian National University. The algorithms it uses at the backend for recommendation were developed as part of this paper. 
+
+\section{Dataset}
+
+Using the LinkR Facebook application developed for this project, we were able to gather data on 34,245 users and 407,887 links.\footnote{As of October 18, 2011, 12:15am}
+
+\subsection{User Data}
+
+Date that are used for the user features 
+\begin{itemize}
+\item {Gender}
+\item {Birthday}
+\item {$location\_id$}
+\item {$hometown\_id$}
+\item {Mapping of whether users $\x$ and $\z$ are friends.}
+\item {Interactions on Facebook between users $\x$ and $\z$. These interactions are used to build $\mathit{Int}_{\x,\z}$. } 
+\end{itemize}
+
+\subsection{Link Data}
+
+Data that are used for the link features are:
+\begin{itemize}
+\item{$id$ of the user who posted the link.}
+\item{$id$ of the user on whose wall the link was posted.}
+\item{Description of the link from the user who posted it.}
+\item{Link summary from the webpage.}
+\item{Number of times the link has been liked.}
+\item{Number of times the link has been shared.}
+\item{Number of comments posted on the link}.
+\item{List of users that have "liked" the link.}
+\end{itemize}
+Additionally, links that have been recommended by the LinkR application have the following extra features:
+\begin{itemize}
+\item{$id$'s of users who have clicked on the url.}
+\item{Optional "Like" or "Dislike" rating of the LinkR user on the link.}
+\end{itemize}
+
+\subsection{Implicit Dislikes}
+Outside of the "Dislike" ratings that we are able to get from the LinkR data, there is no other functionality within Facebook itself that allows users to explicitly define which link they do not like. Therefore, we need some way to infer disliked links during training. During training we consider links that were posted by the user's friends and which they have not likes as an evidence that they dislike a link. This is actually a big assumption as in a lot of cases given the nature of the Facebook news feed they may simply have not seen the link yet, and may actually like the link if they see it. Nevertheless, we find in our passive experiment and in live trial that this assumption is still useful.
+
+
 \section{Evaluation Metrics}
 
 \begin{comment}
@@ -44,85 +112,55 @@ F1 = 2 \times \frac{precision \times recall}{precision + recall}
 \]
 \end{comment}
 
-For some queries, results are returned as a ranked list. Therefore the position of an item in the list must also be evaluated, not just whether the item is in the returned list or not. A metric that does this is Average Precision, which computes the precision at every position in a ranked sequence of documents. If $k$ is the rank in a sequence of retrieved documents, $n$ is the number of retrieved documents, and $P(k)$ is the precision at cut-off $k$ in the list. $rel(k)$ is an indicator function equalling 1 if the item at position $k$ is a relevant document, and 0 otherwise. The average precision can be calculated as
+For some problems, results are returned as a ranked list. The position of an item in the list must also be evaluated, not just whether the item is in the returned list or not. A metric that does this is Average Precision, which computes the precision at every position in a ranked sequence of documents. $k$ is the rank in a sequence of retrieved documents, $n$ is the number of retrieved documents, and $P(k)$ is the precision at cut-off $k$ in the list. $rel(k)$ is an indicator function equalling 1 if the item at position $k$ is a relevant document, and 0 otherwise. The average precision is calculated as
 
 \[
-AveP = \frac{\sum_{k=1}^n(P(k) \times rel(k))}{\text{number of relevant documents}}
+AveP = \frac{\sum_{k=1}^n(P(k) \times rel(k))}{\text{number of relevant problems}}
 \]
 
-The main metric we use in this paper is the mean average precision (MAP) Since we make a recommendation for each user, these recommendations can be viewed as a separate query per user, and evaluate the average precision for each one. Getting the mean of all the average precisions gives us an effective metric for the entire recommendation system.
+The main metric we use in this paper is the mean average precision (MAP). Since we make a recommendation for each user, these recommendations can be viewed as a separate problem per user, and evaluate the average precision for each one. Getting the mean of all the average precisions gives us an effective metric for the entire recommendation system.
 
 \[
-MAP = \frac{\sum_{q=1}^Q AveP(q)}{Q}
+MAP = \frac{\sum_{u=1}^U AveP(u)}{\text{number of users}}
 \]
 
-\section{Design Choices}
-
-\subsection{Facebook and LinkR data}
-
-Using the LinkR Facebook application developed for this project, we were able to gather data on 34,245 users and 407,887 links.\footnote{As of October 18, 2011, 12:15am}
-Data available on the users are:
-
-\begin{itemize}
-\item {Basic user features:  $gender$, $birthday$, $location$, and $hometown$.}
-\item {Mapping whether users $\x$ and $\z$ are friends.}
-\item {Interactions on Facebook between users $\x$ and $\z$.}
-\end{itemize}
-Data available on the links are:
-\begin{itemize}
-\item{User who posted the link}
-\item{The user on whose wall the link was posted}
-\item{User's description of the link}
-\item{Link summary from the webpage}
-\item{Number of times the link has been liked}
-\item{Number of times the link has been shared}
-\item{Number of comments posted on the link}
-\item{List of users that have 'liked' the link.}
-\end{itemize}
-Additionally, links that have been recommended by the LinkR application have the following extra features:
-\begin{itemize}
-\item{List of users who have clicked on the url.}
-\item{Optional "Like" or "Dislike" rating of the LinkR user on the link.}
-\end{itemize}
-
-We also consider the users who posted the link to have implicitly liked it already. Outside of the "Dislike" ratings that we are able to get from the LinkR data, there is no other functionality within Facebook itself that allows users to explicitly define which link they do not like. Therefore, we need some way to infer disliked links during training. During training we consider links that were posted by the user's friends and which they have not likes as an evidence that they dislike a link. This is actually a big assumption as in a lot of cases given the nature of the Facebook news feed they may simply have not seen the link yet, and may actually like the link if they see it. Nevertheless, we find in our passive experiment and in live trial that this assumption is still useful.
+\section{Training and Testing Issues}
 
 \subsection{Training Data}
 
-Because of the sheer size of the Facebook data, it was impractical to run training and recommendations over the entire dataset. To keep the runtime of our experiments within reason, we used only the most recent 4 weeks of data for training the recommenders. This also helps alleviate some temporal aspects of the user's changing preferences, i.e., what the user liked last year may not be the same as what he or she likes this year. We also distinguish between the three types of link like/dislike data we can get from the dataset:
+Because of the sheer size of the Facebook data, it was impractical to run training and recommendations over the entire dataset. To keep the runtime of our experiments within reason, we used only the most recent four weeks of data for training the recommenders. This also helps alleviate some temporal aspects of the user's changing preferences, i.e., what the user liked last year may not be the same as what he or she likes this year. We also distinguish between the three types of link like/dislike data we can get from the dataset:
 
 \begin{itemize}
-\item {ACTIVE: The explicit "Like" and "Dislike" rating that an application user gives on a recommended link. In addition to this, a click by a user on a recommended link also counts as a like by that user on that particular link. Only LinkR users have this data.}
-\item {PASSIVE: The like data given to us by Facebook through the Graph API, plus the inferred dislikes as detailed above. }
+\item {ACTIVE: The explicit "Like" and "Dislike" rating that a LinkR user gives on links recommended by the LinkR application. In addition to this, a click by a user on a recommended link also counts as a like by that user on that particular link. Only LinkR users have this data.}
+\item {PASSIVE: The list of likes by users on links in the Facebook data and the inferred dislikes detailed above. }
 \item{UNION: Combination of the ACTIVE and PASSIVE data.}
 \end{itemize}
 
 \subsection{Live Online Recommendations}
 
-For the recommendation made to the LinkR application users,  we select only links posted in the most recent two weeks that the user has not liked. We use only the links from the last two weeks because we consider recency to be a big issue. Older links have a greater chance of being about things that are outdated already, or worse, the URL for the link may be broken and not working anymore. We have settled on recommending three links per day to the LinkR users and according to the survey done at the end of the first trial, three links per day seems to be just the right number.
+For the recommendations made to the LinkR application users,  we select only links posted in the most recent two weeks that the user has not liked. We use only the links from the last two weeks because we consider recency to be a big issue. Older links have a greater chance of being about things that are outdated already, or worse, it may already be a broken link and not working anymore. We have settled on recommending three links per day to the LinkR users and according to the survey done at the end of the first trial, three links per day seems to be just the right number.
 
-For the live trials, Facebook users who installed the LinkR application were randomly assigned one of the four algorithms in each of the two trials. Users were not informed which algorithm was assigned to them to remove any bias. We distinguish our recommended links into two major classes, links that were posted by the LinkR user's friends and links that were posted by users other than the LinkR user's friends. The reason for this is we wished to see whether the users would prefer recommended links from friends or from strangers. The LinkR users were encouraged to rate the links that were recommended to them, and even provide feedback comments on the specific links. In turn these ratings became part of the training data for the recommendation algorithms, and thus was used to improve the performance of the algorithms over time. Based on the user feedback, we filtered out non-English links and links without any descriptions from the recommendations to prevent user annoyance.
+For the live trials, Facebook users who installed the LinkR application were randomly assigned one of four algorithms in each of the two trials. Users were not informed which algorithm was assigned to them to remove any bias. We distinguish our recommended links into two major classes, links that were posted by the LinkR user's friends and links that were posted by users other than the LinkR user's friends. The LinkR users were encouraged to rate the links that were recommended to them, and even provide feedback comments on the specific links. In turn these ratings became part of the training data for the recommendation algorithms, and thus was used to improve the performance of the algorithms over time. Based on the user feedback, we filtered out non-English links and links without any descriptions from the recommendations to prevent user annoyance.
 
 At the end of the first trial, we conducted a user survey with the LinkR users to find out how satisfied they were with the recommendations they were getting.
 
 \begin{figure}
 \centering
 \includegraphics[scale=0.5]{img/linkr_rating.png}
-\caption{Screenshot a LinkR recommendation with the rating and feedback options.}
+\caption{Screenshot of a recommendation made by the LinkR application with the rating and feedback options.}
  \end{figure}
  
 \subsection{Test Data}
 
-Our offline testing was used to tune the $\lambda$ parameter values for the various regularizers and for deciding which recommendation algorithms to use in the live trials. Similar to our selection for training data, the test data used for our passive experiment also uses only the most recent 4 weeks of data. We distinguish the test data into the following classes:
+Similar to our selection for training data, the test data used for our passive experiment also uses only the most recent 4 weeks of data. We distinguish the test data into the following classes:
 
 \begin{itemize}
-\item{FB-USER-PASSIVE: The PASSIVE like/dislike data from all Facebook users in the dataset.}
-\item{APP-USER-PASSIVE: The PASSIVE like/dislike data from only the LinkR application users.}
+\item{FB-USER-PASSIVE: The PASSIVE like/dislike data for all Facebook users in the dataset.}
+\item{APP-USER-PASSIVE: The PASSIVE like/dislike data for only the LinkR application users.}
 \item{APP-USER-ACTIVE-FRIENDS: The ACTIVE like/dislike data for the LinkR users, but only for friend recommended links.}
 \item{APP-USER-ACTIVE-NON-FRIENDS: The ACTIVE like/dislike data for the LinkR users, but only for non-friend recommended links.}
 \item{APP-USER-ACTIVE-ALL: The entire active like/dislike data for the LinkR users.}
 \end{itemize}
 
-During passive experiments, we simply select which combination of training data and testing data to use. This helped us see which training-test data combination best reflected the results of the live trials Eventually, it was found that using UNION data for training and testing on APP-USER-ACTIVE-ALL best reflected the results of the live trials. 
-
-In cases where training and testing data overlap, i.e., training on PASSIVE and testing on APP-USER-PASSIVE, we get a random 20\% subset of the training data per user for testing. These links are then removed from the training data to ensure that the set of links in the training data and set of links in the test data are disjoint.
+During passive experiments, we simply select which combination of training data and testing data to use. This helped us see which training-test data combination best reflected the results of the live trials. %Eventually, it was found that using UNION data for training and testing on APP-USER-ACTIVE-ALL best reflected the results of the live trials. 
+In cases where training and testing data overlap, i.e., training on PASSIVE and testing on APP-USER-PASSIVE, we get a random 20\% subset of the training data per user for testing. These links are then removed from the training data to ensure that there are no common links between the training data and the test data.
