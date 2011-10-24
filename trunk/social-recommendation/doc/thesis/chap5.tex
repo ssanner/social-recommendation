@@ -1,12 +1,23 @@
 \chapter{New Algorithms for Social Recommendation}
 
-After the first trial, we made use of the results and what we learned to come up with new algorithms for social recommendation. Again, these new algorithms each form a component of a minimization objective $Obj$ which is composed of sums of one or more objective components:
+After studying the results of the first trial, we made use of what we learned to come up with new algorithms for social collaborative filtering. Our goal in designing these algorithms was to address deficiencies in current SCF methods that we pointed out in the Introduction chapter:
+
+\begin{itemize}
+\item {Non-feature-based user similarity}
+% Note: potential for latent item information diffusion here
+\item { Modeling direct user-user information diffusion}
+\item { Restricted common interests}
+\end{itemize}
+
+\section{New Objective Components}
+
+Again, the new algorithms each form a component of a minimization objective $Obj$ which is composed of sums of one or more objective components:
 
 \begin{align}
 \mathit{Obj} = \sum_i \lambda_i \mathit{Obj}_i
 \end{align}
 
-Again, a sigmoidal transform 
+A sigmoidal transform 
 \begin{align}
 \sigma(o) & = \frac{1}{1 + e^{-o}}
 \end{align}
@@ -15,24 +26,27 @@ to the range $[0, 1]$.
 In places where the $\sigma$ transform may be optionally included, 
 this is written as $[\sigma]$.  
 
-\section{Hybrid Objective}
+\subsection{Hybrid Objective}
 
-Because of the good performance of SVM, we decided to make use of its features $\f_{\x,\y}$  to make another linear regressor. Using $\la \cdot,\cdot \ra$ to denote an inner product, we define a weight
-vector $\w \in \R^F$ such that $\la \w, \f_{\x,\y} \ra = \w^T \f_{\x,\y}$ is the prediction of the system. The objective component of linear CBF is therefore
+As specified in Chapter 1, one weakness of  MF methods is that they cannot model joint features over user and items, and hence the cannot model direct user-user information diffusion. We fix this by introducing another objective component in addition to the standard MF objective, and this component serves as a simple linear regressor for such information diffusion observations. The resulting hybrid objective component becomes a combination of latent MF and linear regression objectives.
 
-\begin{align}
+We make use of the $\f_{\x,\y}$ features to make the linear regressor. Using $\la \cdot,\cdot \ra$ to denote an inner product, we define a weight
+vector $\w \in \R^F$ such that $\la \w, \f_{\x,\y} \ra = \w^T \f_{\x,\y}$ is the prediction of the system. The objective of the linear regression component is therefore
+
+\begin{align*}
 \sum_{(\x,\y) \in D} \frac{1}{2} (R_{\x,\y} - [\sigma] \w^T \f_{\x,\y})^2
-\end{align}
+\end{align*}
 
-However instead of using this linear CBF model by itself, we combine its predictions with the  Matchbox matrix factorization prediction model $[\sigma] \x^T U^T V y$, to get a hybrid objective component. The full objective component for this hybrid model is
+We combine the output of the linear regression objective with the Matchbox output $[\sigma] \x^T U^T V y$, to get a hybrid objective component. The full objective function for this hybrid model is
 
 \begin{align}
 \sum_{(\x,\y) \in D} \frac{1}{2} (R_{\x,\y} - [\sigma] \w^T \f_{\x,\y} - [\sigma] \x^T U^T V y)^2
 \end{align}
 
-\section{New Social Regularizers}
-
 \subsection{Social Spectral Regularization}
+
+As we did with the Social Regularization method in Section~\ref{sec:SocRec}, we build on ideas used in Matchbox~\cite{matchbox} to extend social spectral regularization~\cite{sr,rrmf} by incorporating user features into the objective. 
+
 \begin{align}
 \sum_{\x} & \sum_{\z \in \mathit{friends}(\x)} \frac{1}{2} S^+_{\x,\z} \| U\x - U\z \|_2^2 \nonumber \\
 & = \sum_{\x} \sum_{\z \in \mathit{friends}(\x)} \frac{1}{2} S^+_{\x,\z} \| U (\x - \z) \|_2^2 \nonumber \\
@@ -167,7 +181,7 @@ according to~\eqref{eq:sum_der}.
 
 \section{Second Trial}
 
-For the second online trial, we chose four algorithms again to randomly split between the LinkR application users. The four recommendation algorithms are:
+For the second online trial, we chose four algorithms again to randomly split between the LinkR application users. Social Matchbox was included again as a baseline since it was the best performing algorithm in the first trial. The four recommendation algorithms are:
 
 \begin{itemize}
 \item{{\bf Social Matchbox}: Matchbox MF + Social Regularization +  L2 Regularization}
@@ -175,8 +189,6 @@ For the second online trial, we chose four algorithms again to randomly split be
 \item{{\bf Social Hybrid}: Hybrid + Social Regularization + L2 Regularization}
 \item{{\bf Spectral Co-preference}: Matchbox MF + Social Co-preference Spectral Regularization + L2 Regularization}
 \end{itemize}
-
-Social Matchbox was included again as a baseline since it was the best performing algorithm in the first trial. The limit of just using four algorithms for the trials was because of the small number of users who installed the LinkR application, we felt that four algorithms was the maximum we could use and still get concrete results.
 
 The online experiments were switched to the new algorithms on October 13, 2011. For the online results reported here, we took a snapshot of the data as it was on October 22, 2011.
 
@@ -197,16 +209,16 @@ Social Hybrid & 25 \\
 
 \subsection{Online Results}
 
-In the second trial, the Spectral Matchbox approach achieve a larger number of likes compared to the other algorithms. Like Social Matchbox before it in the first trial, Spectral Matchbox was the only algorithm to receive more likes than dislikes from the assigned users.
+Results shown are the number like ratings and the number of dislike ratings normalized by the total number of ratings (likes + dislikes) per algorithm. Spectral Matchbox achieved the best ratio of likes to dislikes compared to the other algorithms. Like Social Matchbox in the first trial, Spectral Matchbox was the only algorithm to receive more likes than dislikes from its assigned users.
 
 \begin{figure}[h!]
 \centering
 \subfigure{\includegraphics[scale=0.35]{img/live-likes2.eps}}
 \subfigure{\includegraphics[scale=0.35]{img/live-dislikes2.eps}}
-\caption{Results of online live trials}
+\caption{Results of online live trials. Spectral Matchbox achieved the highest ratio of likes to dislikes among the four algorithms.}
 \end{figure}
 
-Splitting the results again between friend link recommendations and non-friend link recommendations, we again see that the recommendations worsened when it comes to recommending non-friend links. The number of likes decreased and the number of dislikes increased once again. Also, the differences were more drastic again with the two algorithms that uses the Social Regularizer, Social Matchbox and Social Hybrid.
+We again split the results again between friend link recommendations and non-friend link recommendations, with the results shown being the number of likes or dislikes from friends or non-friends normalized by the total number of ratings on those type of recommendations. All four algorithms experiences a significant performance drop in the number of likes when it came to recommending non-friend links, which reflects the results of the first trial. Additionally, the differences were more drastic with the two algorithms that uses the social regularization method: Social Matchbox and Social Hybrid. This does seem to indeed show that aside from liking and disliking a link just from the quality of the links being recommended, users are also more likely to like a link simply because a friend had posted it and more likely to dislike it just because it came from a stranger.
 
 \begin{figure}[h!]
 \centering
@@ -214,15 +226,14 @@ Splitting the results again between friend link recommendations and non-friend l
 \subfigure{\includegraphics[scale=0.35]{img/live-nonfriend-likes2.eps}}
 \subfigure{\includegraphics[scale=0.35]{img/live-friend-dislikes2.eps}}
 \subfigure{\includegraphics[scale=0.35]{img/live-nonfriend-dislikes2.eps}}
-\caption{Likes and dislikes split between friends and non-friends}
+\caption{Results of the online live trials, split between friends and non-friends. As in the first trial, there is a significant drop in performance between recommending friend links and recommending non-friend links.}
 \end{figure}
 
 \section{Offline Results}
 
 When testing on all the combinations of the active data, the results between the algorithms on a test dataset are all within the standard error bars. The results of the live trials aren't reflected in the offline results, which highlights the difficulty of using the MAP metric for evaluating recommendation algorithms offline.
-\\
 
-When training on the UNION dataset, we can see the same general worsening of performance between the results of testing on APP-USER-ACTIVE-FRIENDS and APP-USER-ACTIVE-NON-FRIENDS. 
+%When training on the UNION dataset, we can see the same general worsening of performance between the results of testing on APP-USER-ACTIVE-FRIENDS and APP-USER-ACTIVE-NON-FRIENDS. 
 
 \begin{figure}[h]
 \centering

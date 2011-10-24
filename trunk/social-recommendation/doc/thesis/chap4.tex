@@ -78,7 +78,11 @@ $L_2$ regularizer that models a prior of $0$ on the parameters. The objective co
 \end{align}
 
 \subsection{Social Regularization}
+\label{sec:SocRec}
 The social aspect of social recommendation is implemented as a regularizer on the user matrix. What this objective component does is constrain users with a high similarity rating to have the same values in the latent feature space. This models the assumption that users who are similar socially should have the same preferences for items.
+\\
+
+This method is an extension of existing SCF techniques~\cite{lla,socinf} that constrain the latent space to enforce users  to have similar preferences latent representations when they interact heavily. Like Matchbox which extends regular matrix factorization methods by making use of user and link features, our Social Regularization method incorporates user features to learn user similarities.
 
 \begin{align}
 \sum_{\x} & \sum_{\z \in \mathit{friends}(\x)} \frac{1}{2} (S_{\x,\z} - \la U\x, U\z \ra)^2 \nonumber \\
@@ -279,4 +283,4 @@ One more, we see that Social Matchbox achieved higher scores than the other reco
 \caption{Results of the user survey after the first trial. The survey answers from the users reflect the online results that Social Matchbox was the best recommendation algorithm in this trial.}
 \end{figure}
 
-At the end of the first trial, we have seen that the Social Matchbox with its Social Regularization technique does indeed outperform existing collaborative filtering recommenders. In the next chapter, we discuss new techniques for incorporating social information and show how they improve on Social Matchbox.
+At the end of the first trial, we have seen that the Social Matchbox its Social Regularization technique does indeed outperform existing collaborative filtering recommenders. In the next chapter, we discuss new techniques for incorporating social information and show how they improve on Social Matchbox.

@@ -49,8 +49,23 @@ S^+_{\x,\z} & = \ln \left( 1 + \mathit{Int}_{\x,\z} \right)
 
 The matrix $R$ is a sparse $N \times M$ matrix of user ratings on items. The problem of recommendation is filling out the empty elements of this matrix, and this can be looked at as a linear regression problem. There are two general ways that this has been done previously, Content-based Filtering (CBF) and Collaborative Filtering (CF). Content-based filtering makes recommendations based on correlations between the item features and the user's preferences on other items. In collaborative filtering, the system makes recommendations based on the correlation between other user's with similar preferences. Most traditional CBF methods learn in an explicit feature space, while most traditional CF methods learn in a latent feature space. 
 
-\section{Collaborative Filtering Algorithms}
-\subsection{K-Nearest Neighbor}
+\section{Related work}
+
+There is a massive amount of related work on 
+SCF~\cite{matchbox,ste,lla,glfm,tf,sorec,sr,rrmf,bisim,socinf} embodying some of the
+ideas above, however there are a few aspects covered here, not covered
+in this related work:
+\begin{enumerate}
+\item Existing SCF methods \emph{cannot} capture some of the basic features that are used in standard CBF systems due to the inherent independent factorization between user and items (e.g., how much one user follows another) --- this is the motivation behind the \emph{hybrid} objectives.
+\item All methods \emph{except} for Matchbox~\cite{matchbox} ignore the issue of user and item features.  We extend the Matchbox approach above in our SCF methods. 
+\item \emph{None} of the methods that propose social regularization~\cite{ste,sr,rrmf,lla,glfm,socinf} incorporate user features into this regularization (as done above).
+\item Tensor-based factorizations such as~\cite{tf} use a full $K \times K \times K$ tensor for collaborative filtering w.r.t.\ tag prediction for users and items.  While our co-preference regularization models above were motivated by tensor approaches, we instead take an item-reweighted approach to the standard inner products to (a) avoid introducing yet more parameters and (b) as a way to introduce additional regularization in a way that supports the standard Matchbox~\cite{matchbox} CF model where prediction at run-time is made for a (user,item) pair, not for triples of (user,item,tag) as assumed in the tensor models.
+\end{enumerate}
+
+\subsection{Collaborative Filtering Algorithms}
+
+{\bf $k$-Nearest Neighbor}
+\\
 
 The $k$-nearest neighbor algorithm is a method of pattern recognition that is based on the $k$ closest training data in the feature space. There are two main variants of nearest neighbors for collaborative recommendation, user-based and item-based. Given a user $u$ and an item $i$, let $N(u:i)$ be the set of nearest neighbors of $u$ that have also given a rating for i, $N(i:u)$ be the set of nearest neighbors of $i$ that have also been rated by $u$, $s_{uu'}$ the similarity rating between users $u$ and $u'$, and $s_{ii'}$ be the similarity rating for items $i$ and $i'$. The predicted rating the user $u$ gives item $i$ in the user-based approach is then calculated as
 
@@ -65,12 +80,15 @@ r_{ui} = \frac    {\sum_{j\in N(i;u)} {s_{ij}r_{uj}} } {\sum_{j\in N(i;u)}{s_{ij
 \]
 
 The question of which approach to use depends on the dataset. When the number of items is far fewer than the number of users, it has been found that the item-based approach usually provides better predictions as well as being more efficient in computations. 
+\\
 
 \begin{comment}
 This applies to the MovieLens 1 Million dataset as well. For the MovieLens 100,000 dataset, the number of items is larger than the number of users, and the user-based approach has been found to perform better.
 \end{comment}
 
-\subsection{Support Vector Machines}
+
+{\bf Support Vector Machines}
+\\
 
 Support Vector Machines are a class of supervised learning classification algorithms that uses a hyperplane separating approach. During training, SVM builds a model by constructing a set of hyperplanes that separates one class of data from another class with the maximum margin possible. Data are classified by finding out on which side of a hyperplane they fall under.
 
@@ -81,7 +99,7 @@ that are non-zero only for specific items and/or users, e.g., a $\{0,1\}$
 indicator feature that user $\x$
 and user $\z$ have both liked item $\y$.  
 
-\section{Matrix Factorization Models}
+\subsection{Matrix Factorization Models}
 
 As done in standard CF methods, we assume that
 a matrix $U$ allows us to project users $\x$ (and $\z$)
