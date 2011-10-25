@@ -1,12 +1,12 @@
 \chapter{New Algorithms for Social Recommendation}
 
-After studying the results of the first trial, we made use of what we learned to come up with new algorithms for social collaborative filtering. Our goal in designing these algorithms was to address deficiencies in current SCF methods that we pointed out in the Introduction chapter:
+After studying the results of the first trial, we made use of what we learned to come up with new algorithms for social collaborative filtering. Our goal in designing these algorithms was to address deficiencies in current SCF methods that we pointed out in the first chapter:
 
 \begin{itemize}
 \item {Non-feature-based user similarity}
 % Note: potential for latent item information diffusion here
-\item { Modeling direct user-user information diffusion}
-\item { Restricted common interests}
+\item {Modeling direct user-user information diffusion}
+\item {Restricted common interests}
 \end{itemize}
 
 \section{New Objective Components}
@@ -43,9 +43,19 @@ We combine the output of the linear regression objective with the Matchbox outpu
 \sum_{(\x,\y) \in D} \frac{1}{2} (R_{\x,\y} - [\sigma] \w^T \f_{\x,\y} - [\sigma] \x^T U^T V y)^2
 \end{align}
 
+\subsection{L2 $\w$ Regularization}
+
+In the same manner as $U$ and $V$, it is important to regularize the free parameter $\w$ to prevent overfitting in
+the presence of sparse data. This can again be done with the
+$L_2$ regularizer that models a prior of $0$ on the parameters. The objective component for the L2 regularizer for $\w$ is:
+
+\begin{align}
+\frac{1}{2} \| \w \|_2^2 = \frac{1}{2} \w^T \w
+\end{align}
+
 \subsection{Social Spectral Regularization}
 
-As we did with the Social Regularization method in Section~\ref{sec:SocRec}, we build on ideas used in Matchbox~\cite{matchbox} to extend social spectral regularization~\cite{sr,rrmf} by incorporating user features into the objective. 
+As we did with the Social Regularization method in Section~\ref{sec:SocRec}, we build on ideas used in Matchbox~\cite{matchbox} to extend social spectral regularization~\cite{sr,rrmf} by incorporating user features into the objective. The object function for our extension to social spectral regularization is:
 
 \begin{align}
 \sum_{\x} & \sum_{\z \in \mathit{friends}(\x)} \frac{1}{2} S^+_{\x,\z} \| U\x - U\z \|_2^2 \nonumber \\
@@ -53,9 +63,11 @@ As we did with the Social Regularization method in Section~\ref{sec:SocRec}, we 
 & = \sum_{\x} \sum_{\z \in \mathit{friends}(\x)} \frac{1}{2} S^+_{\x,\z} (\x - \z)^T U^T U (\x - \z)
 \end{align}
 
+\begin{comment}
 \subfive Note: standard spectral regularization assumes $S^+_{\x,\z} \in [0,1]$;
 however we may also want to try $S_{\x,\z}$ since a negative value actively
 encourages the latent spaces to oppose each other, which may be desired.
+\end{comment}
 
 \subsection{Social Co-preference Regularization}
 
@@ -101,15 +113,18 @@ gradient descent for this purpose. We again use the following useful abbreviatio
 \t & = V \y \qquad \t_{k} = (V \y)_{k}; \; k=1\ldots K
 \end{align*}
 
-The derivatives for the linear CBF and hybrid objective functions, as well as the new social regularizers are
- 
+The derivatives for the hybrid objective functions as well as the new social regularizers are:
+
 \begin{itemize}
+
+\begin{comment}
 \item {\bf Explicit Linear CBF}:
 \begin{align*}
 \frac{\partial}{\partial \w} \Obj_\pcbf & = \frac{\partial}{\partial \w} \sum_{(\x,\y) \in D} \frac{1}{2} \left( \underbrace{(R_{\x,\y} - [\sigma] \overbrace{\w^T \f_{\x,\y}}^{o_{\x,\y}})}_{\delta_{\x,\y}} \right)^2\\
 & = \sum_{(\x,\y) \in D} \delta_{\x,\y} \frac{\partial}{\partial \w} - [\sigma] \w^T \f_{\x,\y}\\
 & = - \sum_{(\x,\y) \in D} \delta_{\x,\y} [\sigma(o_{\x,\y}) (1 - \sigma(o_{\x,\y}))] \f_{\x,\y}
 \end{align*}
+\end{comment}
 
 \item {\bf Hybrid}:
 \begin{align*}
@@ -126,6 +141,12 @@ The derivatives for the linear CBF and hybrid objective functions, as well as th
 \frac{\partial}{\partial V} \Obj_\phy & = \frac{\partial}{\partial V} \sum_{(\x,\y) \in D} \frac{1}{2} \left( \underbrace{R_{\x,\y} - [\sigma] \w^T \f_{\x,\y} - [\sigma] \overbrace{\x^T U^T V\y}^{o^2_{\x,\y}}}_{\delta_{\x,\y}}\right)^2 \\
 & = \sum_{(\x,\y) \in D}  \delta_{\x,\y} \frac{\partial}{\partial V} - [\sigma] \x^T U^T V\y \\
 & = - \sum_{(\x,\y) \in D}  \delta_{\x,\y} [\sigma(o^2_{\x,\y}) (1 - \sigma(o^2_{\x,\y}))] \s \y^T \\
+\end{align*}
+
+\item {\bf $L_2$ $\w$ regularization}:
+\begin{align*}
+\frac{\partial}{\partial \w} \Obj_\rw & = \frac{\partial}{\partial \w} \frac{1}{2} \w^T \w\\
+& = \w
 \end{align*}
 
 \item {\bf Social spectral regularization}:
@@ -181,7 +202,9 @@ according to~\eqref{eq:sum_der}.
 
 \section{Second Trial}
 
-For the second online trial, we chose four algorithms again to randomly split between the LinkR application users. Social Matchbox was included again as a baseline since it was the best performing algorithm in the first trial. The four recommendation algorithms are:
+For the second online trial, we chose four algorithms again to randomly split between the LinkR application users. Social Matchbox was included again as a baseline since it was the best performing algorithm in the first trial. The distribution count of the algorithms to the users is shown in Table~\ref{tab:assigned2}
+
+The four SCF algorithms are:
 
 \begin{itemize}
 \item{{\bf Social Matchbox}: Matchbox MF + Social Regularization +  L2 Regularization}
@@ -190,7 +213,7 @@ For the second online trial, we chose four algorithms again to randomly split be
 \item{{\bf Spectral Co-preference}: Matchbox MF + Social Co-preference Spectral Regularization + L2 Regularization}
 \end{itemize}
 
-The online experiments were switched to the new algorithms on October 13, 2011. For the online results reported here, we took a snapshot of the data as it was on October 22, 2011.
+The online experiments were switched to the new algorithms on October 13, 2011. For the online results reported here, since the second live trial is still currently ongoing, we took a snapshot of the data as it was on October 22, 2011.
 
 \begin{table}[h!]
 \centering
@@ -205,20 +228,24 @@ Social Hybrid & 25 \\
 \hline
 \end{tabular}
 \caption{Number of Users Assigned per Algorithm.}
+\label{tab:assigned2}
 \end{table}
 
 \subsection{Online Results}
 
-Results shown are the number like ratings and the number of dislike ratings normalized by the total number of ratings (likes + dislikes) per algorithm. Spectral Matchbox achieved the best ratio of likes to dislikes compared to the other algorithms. Like Social Matchbox in the first trial, Spectral Matchbox was the only algorithm to receive more likes than dislikes from its assigned users.
+Results shown are the number of Like ratings and the number of Dislike ratings normalized by the total number of ratings (Likes + Dislikes) per algorithm. 
+
+Spectral Matchbox achieved the best ratio of likes to dislikes compared to the other algorithms, as seen in Figure~\ref{fig:online2}. Like Social Matchbox in the first user trial, Spectral Matchbox was the only algorithm to receive more likes than dislikes from its assigned users.
 
 \begin{figure}[h!]
 \centering
 \subfigure{\includegraphics[scale=0.35]{img/live-likes2.eps}}
 \subfigure{\includegraphics[scale=0.35]{img/live-dislikes2.eps}}
 \caption{Results of online live trials. Spectral Matchbox achieved the highest ratio of likes to dislikes among the four algorithms.}
+\label{fig:online2}
 \end{figure}
 
-We again split the results again between friend link recommendations and non-friend link recommendations, with the results shown being the number of likes or dislikes from friends or non-friends normalized by the total number of ratings on those type of recommendations. All four algorithms experiences a significant performance drop in the number of likes when it came to recommending non-friend links, which reflects the results of the first trial. Additionally, the differences were more drastic with the two algorithms that uses the social regularization method: Social Matchbox and Social Hybrid. This does seem to indeed show that aside from liking and disliking a link just from the quality of the links being recommended, users are also more likely to like a link simply because a friend had posted it and more likely to dislike it just because it came from a stranger.
+We again split the results again between friend link recommendations and non-friend link recommendations, with the results shown being the number of Likes or Dislikes from friends or non-friends normalized by the total number of ratings on those type of recommendations. As shown Figure~\ref{fig:OnlineFriend2}, all four algorithms experienced significant performance drop in the number of likes when it came to recommending non-friend links. This reflects the results of the first trial. Additionally, the differences were more drastic with the two algorithms that uses the social regularization method: Social Matchbox and Social Hybrid. This, together with results of the first user trial, seems to confirm our earlier analysis that aside from Liking or Disliking a link just from the quality of the links being recommended, users are also more likely to like a link because a friend had posted it and more likely to dislike it because it came from a stranger.
 
 \begin{figure}[h!]
 \centering
@@ -227,6 +254,7 @@ We again split the results again between friend link recommendations and non-fri
 \subfigure{\includegraphics[scale=0.35]{img/live-friend-dislikes2.eps}}
 \subfigure{\includegraphics[scale=0.35]{img/live-nonfriend-dislikes2.eps}}
 \caption{Results of the online live trials, split between friends and non-friends. As in the first trial, there is a significant drop in performance between recommending friend links and recommending non-friend links.}
+\label{fig:OnlineFriend2}
 \end{figure}
 
 \section{Offline Results}
