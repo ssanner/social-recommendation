@@ -38,42 +38,76 @@ network content in recommendation algorithms?
 
 \section{Objectives}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[t!]
+\centering
+%\subfigure{\includegraphics[scale=0.50]{img/posted-link.png}}
+\subfigure{\includegraphics[scale=0.85]{img/posted-link.eps}}
+\caption{A link posted by the author that has been liked by three
+other users.  The objective of this thesis is to build an automated
+link recommendation App for Facebook that learns user preferences
+via social collaborative filtering techniques 
+and automatically recommends links (such as this one) to other users.
+We actively collect like/dislike feedback from the users to measure
+recommendation algorithm performance and to learn from for future
+recommendations.}
+\label{fig:ex_link}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 This thesis examines the problem of designing efficient, scalable, and
 accurate \emph{social CF} (SCF) algorithms for \emph{personalized link
 recommendation on Facebook} -- quite simply the task of recommending
-personalized links to users that might interest them.  \emph{User
-interest} can be determined via many methods including \emph{indirect
-feedback} in the form of link clicks and \emph{direct feedback} in the form of
-explicit link ratings or other evidence that a user \emph{liked}
-a link (e.g., explicitly clicking ``like'').
+personalized links to users that might interest them.  We show an
+example link posted on Facebook in Figure~\ref{fig:ex_link} that we
+might wish to recommend to a subset of users; once link recommendations
+such as this one are made, we then need to gather 
+feedback from users in order to (a) learn to make better
+recommendations in the future and (b) to evaluate the
+efficacy of our different recommendation approaches.  
+%\emph{User
+%interest} can be determined via many methods including \emph{indirect
+%feedback} in the form of link clicks and \emph{direct feedback} in the
+%form of explicit link ratings or other evidence that a user
+%\emph{liked} a link (e.g., explicitly clicking ``like'').
 
-Many existing SCF approaches extend \emph{matrix factorization} (MF)
-techniques for CF~\cite{pmf} and have proved quite powerful in their ability to
-accurately model user preferences even when only a unique ID is
-available for both the user and item being recommended.  The power of
-such methods stems from their ability to project users and items into
-latent vector spaces of reduced dimensionality where they are 
-effectively grouped by similarity.  Indeed, we will show in
-Chapter 4 that existing social extensions of MF are
-quite powerful and outperform a variety of other commonly used SCF
-approaches.
+Many existing SCF approaches that can be applied to recommendation
+tasks like this one extend \emph{matrix
+factorization} (MF) techniques~\cite{pmf} and have proved quite
+powerful in their ability to accurately model user preferences even
+when only a unique ID is available for both the user and item being
+recommended.  The power of such methods stems from their ability to
+project users and items into latent vector spaces of reduced
+dimensionality where each is effectively grouped by similarity.
+Indeed, we will show in Chapter 4 that existing social extensions of
+MF are quite powerful and outperform a variety of other commonly used
+SCF approaches.
 
 Given the strong performance of existing MF approaches to SCF, we aim
 to comparatively evaluate them and further improve on their
-performance where possible.  To do this, we first identify a number of
-problems of existing SCF MF methods that we make our objective to
+performance when applied to link recommendation on Facebook.  
+To do this, we first identify a number of
+major deficiencies of existing SCF MF methods that we make our objective to
 address in this thesis:
 \begin{enumerate}
 \item[(a)] {\bf Non-feature-based user similarity:} Existing SCF MF
 methods do not permit the use of item or link features in learning
-user similarity based on observed interactions.
+user similarity based on observed interactions.  For example, 
+the fact that two users have the same gender cannot be exploited
+by existing methods SCF MF methods that make use of user similarity.
 % Note: potential for latent item information diffusion here
 \item[(b)] {\bf Model direct user-user information diffusion:}
 Existing SCF MF methods do not permit directly modeling user-user
-information diffusion according to the social graph structure.
+information diffusion according to the social graph structure.  For example,
+if a certain user always likes content from another specific user,
+this simply cannot be learned by existing SCF MF methods.
 \item[(c)] {\bf Restricted common interests:} Existing SCF MF methods
-cannot learn that that two users may only have overlapping interests
-in specific areas.
+cannot learn from the fact that two users have common overlapping interests
+in specific areas.  For example, a friend and their co-worker may
+both like the same links regarding technical content, but have differing
+interests when it comes to politically-oriented links --- knowing this
+would allow one to recommend technical content posted by one user to the
+other, but existing SCF methods cannot explicitly encourage this.
 \end{enumerate}
 
 This thesis addresses all of these problems with novel contributions in
@@ -103,8 +137,8 @@ judgments in order to avoid the time-consuming process of evaluating
 the algorithms in live human trials.
 \end{enumerate}
 
-Next we outline our specific thesis contributions to address
-the above problem objectives in-depth.
+%Having defined these problem objectives to focus on, 
+%next we outline our specific thesis contributions to address these problems.
 
 \section{Contributions}
 
@@ -210,7 +244,8 @@ their social extensions.
 %\item {\bf Section~\ref{sec:FacebookApp}:} We discuss the engineering
 %and UI considerations behind the Facebook App that was developed for this
 %thesis.
-\item {\bf Chapter 3:} We discuss our evaluation
+\item {\bf Chapter 3:} We discuss the specific details of our
+Facebook link recommendation application and then our evaluation
 methodology for both offline and online (live user trial) experimentation.
 Our goal here is to evaluate a variety of performance objectives,
 both qualitative and quantitative, in order to evaluate the user

@@ -3,29 +3,98 @@
 %%
 
 \chapter{Background}
+\label{cha:background}
+
+In the following, we outline the high-level ideas behind
+\emph{recommender systems} --- systems whose task is to adapt to user
+preferences in order to recommend items that the user may like.
+Following a general discussion of techniques, we proceed to define
+mathematical notation used throughout the thesis along with a 
+mathematically detailed discussion of various published techniques for
+recommender systems that we either compare to or extend in this thesis.
+
+\section{Definitions}
+
+%The primary research area of this thesis is known as 
+%\emph{collaborative filtering} (CF), and in the specific
+%are of collaborative recommendation on social networks,
+%\emph{social CF} (SCF).  
+
+There are two general approaches to recommender systems.  The first is
+known as \emph{content-based filtering} (CBF), which makes individual
+recommendations based on correlations between the item features of
+those items the user has explicitly liked and similar items that the
+system could potentially recommend; in practice CBF is simply the
+machine learning tasks of classification (will the user like a certain
+item?) or regression (how much will they like it?).  The second
+approach is collaborative filtering (CF)~\cite{collab_filtering},
+which is defined as the task of predicting whether a user will like
+(or dislike) an item by using that user's preferences \emph{as well as
+those of other users}.  In general, CBF requires item features whereas
+CF requires multiple users in order to work.\footnote{In this thesis
+we use item features (CBF) and user features in conjunction with CF.
+Since our ideas are mainly driven by CF extended to use item and user
+features, we generally refer to all of our newly proposed methods in
+this thesis as CF even when they are actually hybrid CF+CBF methods.}
+
+Our thesis work takes CF one step further than its traditional 
+use~\cite{collab_filtering} in that we assume we are
+recommending in the context of a social network.  
+We loosely define \emph{social CF} (SCF) as the task of CF augmented with
+additional social network information such as the following that
+are available on social networking sites such as Facebook:
+\begin{itemize}
+\item Expressive personal profile content: gender, age, places lived, schools
+attended; favorite books, movies, quotes; online photo albums (and associated comment text).
+\item Explicit friendship or trust relationships.
+\item Content that users have personally posted (often text and links).
+\item Content of interactions between users (often text and links).
+\item Evidence of other interactions between users (being tagged in photos).
+\item Publicly available preferences (likes/dislikes of posts and links).
+\item Publicly available group memberships (often for hobbies, activities, social or political discussion).
+\end{itemize}
+We note that CF is possible in a social setting without taking advantage
+of the above social information, nonetheless we refer to any CF method
+that \emph{can be applied} in a social setting \emph{as} SCF.
 
 \section{Notation}
 
-The following are mathematical notations common to the SCF setting and models explored in this paper:
+Here we outline mathematical notation common to the SCF setting and
+models explored in this thesis:
 
+%% Joseph: take note of the revisions here to reuse the same notation
+%%         even if we just have a user and item index... can still use
+%%         \x, \y, and \z for indices if say so in text.
 \begin{itemize}
-\item $N$ users, each having an $I$-element feature vector 
+\item $N$ users.  For methods that can exploit user features, we define 
+an $I$-element user feature vector 
 $\x \in \R^I$ (alternately if a second user is needed, $\z \in \R^I$).
+For methods that do not use user feature vectors, we simply assume $\x$
+is an index $\x \in \{ 1 \ldots N \}$ and that $I=N$.
 
-\item $M$ items, each having a $J$-element feature vector 
+\item $M$ items.  For methods that can exploit item features, we define
+a $J$-element feature vector 
 $\y \in \R^J$. The feature vectors for users 
 and items can consist of any real-valued features as well as $\{0,1\}$
 features like user and item IDs.
+For methods that do not use item feature vectors, we simply assume $\y$
+is an index $\y \in \{ 1 \ldots M \}$ and that $J=M$.
 %$\x_{1 \ldots I}$ ($\z_{1 \ldots I}$).  
 %$\y_{1 \ldots J}$.s
 
-\item A (non-exhaustive) data set $D$ of user preferences of the form
-$D = \{ (\x, \y) \to R_{\x,\y} \}$ where class 
+\item A (non-exhaustive) data set $D$ of single user preferences of the form
+$D = \{ (\x, \y) \to R_{\x,\y} \}$ where 
+the binary \emph{response} $R$ is represented by 
 $R_{\x,\y} \in \{ 0 \; \mbox{(dislike)}, 1 \; \mbox{(like)} \}$.
 
-\item A (non-exhaustive) data set $C$ of co-preferences derived from $D$ of the form
-$C = \{ (\x, \z, \y) \to P_{\x, \z, \y} \}$ where class 
+\item A (non-exhaustive) data set $C$ of co-preferences (cases where
+\emph{both} users $\x$ and $\z$ expressed a preference for $\y$ -- not
+necessarily in agreement) derived from $D$ of the form
+$C = \{ (\x, \z, \y) \to P_{\x, \z, \y} \}$ where co-preference class 
 $P_{\x, \z, \y} \in \{ -1 \; \mbox{(disagree)}, 1 \;\mbox{(agree)} \}$.  
+Intuitively, if \emph{both} user $\x$ and $\z$ liked or disliked item 
+$\y$ then we say they \emph{agree}, otherwise if one liked the item and
+the other disliked it, we say they \emph{disagree}.
 
 \item A similarity rating $S_{\x,\z}$ between any users $\x$ and $\z$. This is used to summarize all social
 interaction between user $\x$ and user $\z$ in the term $S_{\x,\z} \in
@@ -39,6 +108,8 @@ S_{\x,\z} & = \ln \left( \mathit{Int}_{\x,\z} \right)
 For purposes of this definition, an \emph{interaction} is any single event
 showing evidence that users $\x$ and $\z$ have 
 interacted, e.g., a message exchange or being tagged in a photo together.
+%% Joseph: should be more specific here concerning what *you* actually
+%%         do.  I could not provide more detail.
 
 In addition, we can define $S^+_{\x,\z}$, a \emph{non-negative} 
 variant of $S_{\x,\z}$:
@@ -47,59 +118,119 @@ S^+_{\x,\z} & = \ln \left( 1 + \mathit{Int}_{\x,\z} \right)
 \end{align}
 \end{itemize}
 
-The matrix $R$ is a sparse $N \times M$ matrix of user ratings on items. The problem of recommendation is filling out the empty elements of this matrix, and this can be looked at as a linear regression problem. There are two general ways that this has been done previously, Content-based Filtering (CBF) and Collaborative Filtering (CF). Content-based filtering makes recommendations based on correlations between the item features and the user's preferences on other items. In collaborative filtering, the system makes recommendations based on the correlation between other user's with similar preferences. Most traditional CBF methods learn in an explicit feature space, while most traditional CF methods learn in a latent feature space. 
+%% Joseph: what is this paragraph doing here???  Commented out.
+%
+%The matrix $R$ is a sparse $N \times M$ matrix of user ratings on
+%items. The problem of recommendation is filling out the empty elements
+%of this matrix, and this can be looked at as a linear regression
+%problem. There are two general ways that this has been done
+%previously, Content-based Filtering (CBF) and Collaborative Filtering
+%(CF). Most traditional CBF methods learn in an explicit
+%feature space, while most traditional CF methods learn in a latent
+%feature space.
 
-\section{Related work}
+%% Joseph: this has now been covered in the Introduction, no need to
+%%         include here.
+%
+%\section{Related work}
+%
+%There is a massive amount of related work on 
+%SCF~\cite{matchbox,ste,lla,glfm,tf,sorec,sr,rrmf,bisim,socinf} embodying some of the
+%ideas above, however there are a few aspects covered here, not covered
+%in this related work:
+%\begin{enumerate}
+%\item Existing SCF methods \emph{cannot} capture some of the basic features that are used in standard CBF systems due to the inherent independent factorization between user and items (e.g., how much one user follows another) --- this is the motivation behind the \emph{hybrid} objectives.
+%\item All methods \emph{except} for Matchbox~\cite{matchbox} ignore the issue of user and item features.  We extend the Matchbox approach above in our SCF methods. 
+%\item \emph{None} of the methods that propose social regularization~\cite{ste,sr,rrmf,lla,glfm,socinf} incorporate user features into this regularization (as done above).
+%\item Tensor-based factorizations such as~\cite{tf} use a full $K \times K \times K$ tensor for collaborative filtering w.r.t.\ tag prediction for users and items.  While our co-preference regularization models above were motivated by tensor approaches, we instead take an item-reweighted approach to the standard inner products to (a) avoid introducing yet more parameters and (b) as a way to introduce additional regularization in a way that supports the standard Matchbox~\cite{matchbox} CF model where prediction at run-time is made for a (user,item) pair, not for triples of (user,item,tag) as assumed in the tensor models.
+%\end{enumerate}
 
-There is a massive amount of related work on 
-SCF~\cite{matchbox,ste,lla,glfm,tf,sorec,sr,rrmf,bisim,socinf} embodying some of the
-ideas above, however there are a few aspects covered here, not covered
-in this related work:
-\begin{enumerate}
-\item Existing SCF methods \emph{cannot} capture some of the basic features that are used in standard CBF systems due to the inherent independent factorization between user and items (e.g., how much one user follows another) --- this is the motivation behind the \emph{hybrid} objectives.
-\item All methods \emph{except} for Matchbox~\cite{matchbox} ignore the issue of user and item features.  We extend the Matchbox approach above in our SCF methods. 
-\item \emph{None} of the methods that propose social regularization~\cite{ste,sr,rrmf,lla,glfm,socinf} incorporate user features into this regularization (as done above).
-\item Tensor-based factorizations such as~\cite{tf} use a full $K \times K \times K$ tensor for collaborative filtering w.r.t.\ tag prediction for users and items.  While our co-preference regularization models above were motivated by tensor approaches, we instead take an item-reweighted approach to the standard inner products to (a) avoid introducing yet more parameters and (b) as a way to introduce additional regularization in a way that supports the standard Matchbox~\cite{matchbox} CF model where prediction at run-time is made for a (user,item) pair, not for triples of (user,item,tag) as assumed in the tensor models.
-\end{enumerate}
+Having now defined all notation, we proceed to a discussion of
+CF algorithms compared to or extended in this thesis.
 
-\subsection{Collaborative Filtering Algorithms}
+\section{Content-based Filtering (CBF) Algorithms}
 
-{\bf $k$-Nearest Neighbor}
-\\
+As noted previously, CBF methods can be viewed as classification
+or regression approaches.  Since our objective here is to classify
+whether a user likes an item or not (i.e., a classification objective),
+we focus on classification CBF approaches in this thesis.  For
+an initial evaluation, perhaps the most well-known and generally
+top-performing classifier is the support vector machine, hence
+the CBF approach we choose to compare to in this work.
 
-One of the most common form of CF is the nearest neighbor approach~\cite{bellkor}. The $k$-nearest neighbor algorithm is a method of pattern recognition that is based on the $k$ closest training data in the feature space. There are two main variants of nearest neighbors for collaborative recommendation, user-based and item-based. Given a user $u$ and an item $i$, let $N(u:i)$ be the set of nearest neighbors of $u$ that have also given a rating for i, $N(i:u)$ be the set of nearest neighbors of $i$ that have also been rated by $u$, $s_{uu'}$ the similarity rating between users $u$ and $u'$, and $s_{ii'}$ be the similarity rating for items $i$ and $i'$. The predicted rating the user $u$ gives item $i$ in the user-based approach is then calculated as
+\subsection{Support Vector Machines}
 
+A \emph{support vector machine} (SVM)~\cite{svms} is a type of supervised
+learning algorithm for classification based on finding optimal separating
+hyperplanes in a possibly high-dimensional feature space.  During
+training, an SVM builds a model by constructing a set of hyperplanes
+that separates one class of data from another class with the maximum
+margin possible.  Data are classified by finding out on which side of
+a hyperplane they fall on.
+
+For the experiments in this thesis, the SVM uses a fixed-length
+feature vector $\f \in \mathbb{R}^F$ derived from the $(\x,\y) \in D$,
+denoted as $\f_{\x,\y}$.  
+In general, $\f_{\x,\y}$ may include features that are
+non-zero only for specific items and/or users, e.g., a $\{0,1\}$
+indicator feature that user $\x$ and user $\z$ have both liked item
+$\y$.  Specific features used in the SVM for the Facebook link recommendation
+task are defined in Section~\ref{sec:dataset}.
+
+The SVM implementation used for this paper is
+\emph{LibSVM}~\cite{libsvm}, which provides a regression score on the
+classification (i.e., the non-thresholded learned linear function) 
+which can be used for ranking the results.
+
+\section{Collaborative Filtering (CF) Algorithms}
+
+%% Joseph: don't define your own section heading style, use what Latex has.
+\subsection{$k$-Nearest Neighbor}
+%% Joseph: please revise, you must use common notation as defined above here.
+%%         note that as now defined above, you can use \x, \y, and \z as
+%%         user and item indices if you don't have user and item features.
+
+One of the most common forms of CF is the nearest neighbor
+approach~\cite{bellkor}. The $k$-nearest neighbor algorithm is a
+method of classification or regression that is based on finding the $k$-closest
+training data neighbors in the feature space nearest to a target point and combining the information from these neighbors --- perhaps
+in a weighted manner --- to determine the classification or regression value
+for the target point. 
+
+There are two main variants of nearest neighbors for collaborative
+recommendation, \emph{user-based} and \emph{item-based} --- both
+methods generally assume that no user or item features are provided,
+so here $\x$ and $\y$ are simply respective user and item indices.
+Given a user $\x$ and an item $\y$, let $N(\x:\y)$ be the set of
+\emph{user} nearest neighbors of $\x$ that have also given a rating
+for $\y$, let $N(\y:\x)$ be the set of \emph{item} nearest neighbors
+of $\y$ that have also been rated by $\x$, let $S_{\x,\z}$ some
+measure of similarity rating between users $\x$ and $\z$ (as defined
+previously), and let $S_{\y,\y'}$ be some measure of similarity rating for
+items $\y$ and $\y'$.  Following~\cite{bellkor}, the predicted rating
+$\hat{R}_{\x,\y} \in [0,1]$ that the user $\x$ gives item $\y$ can
+then be calculated in one of two ways:
+\begin{itemize}
+\item {\bf User-based similarity:}
 \[
-r_{ui} = \frac    {\sum_{v\in N(u;i)} {s_{uv}r_{uv}} } {\sum_{v\in N(u;i)}{s_{uv}}}
+\hat{R}_{\x,\y} = \frac{\sum_{\z \in N(\x:\y)} {S_{\x,\z} R_{\z,\y}} } {\sum_{\z \in N(\x:\y)}{S_{\x,\z}}}
 \]
-
-The item-based approach is calculated as 
-
+\item {\bf Item-based similarity:}
 \[
-r_{ui} = \frac    {\sum_{j\in N(i;u)} {s_{ij}r_{uj}} } {\sum_{j\in N(i;u)}{s_{ij}}}
+\hat{R}_{\x,\y} = \frac{\sum_{\y' \in N(\y:\x)} {S_{\y,\y'} R_{\x,\y'}} } {\sum_{\y' \in N(\y:\x)}{S_{\y,\y'}}}
 \]
+\end{itemize}
 
-The question of which approach to use depends on the dataset. When the number of items is far fewer than the number of users, it has been found that the item-based approach usually provides better predictions as well as being more efficient in computations. 
-\\
+The question of which approach to use depends on the dataset. When the
+number of items is far fewer than the number of users, it has been
+found that the item-based approach usually provides better predictions
+as well as being more efficient in computations~\cite{bellkor}.
 
 \begin{comment}
 This applies to the MovieLens 1 Million dataset as well. For the MovieLens 100,000 dataset, the number of items is larger than the number of users, and the user-based approach has been found to perform better.
 \end{comment}
 
-
-{\bf Support Vector Machines}
-\\
-
-Support Vector Machines are a class of supervised learning classification algorithms that uses a hyperplane separating approach. During training, SVM builds a model by constructing a set of hyperplanes that separates one class of data from another class with the maximum margin possible. Data are classified by finding out on which side of a hyperplane they fall under.
-
-For the experiments, SVM uses a fixed-length feature vector
-$\f \in \mathbb{R}^F$ derived from any $(\x,\y) \in D$, denoted
-as $\f_{\x,\y}$.  $\f_{\x,\y}$ may include features
-that are non-zero only for specific items and/or users, e.g., a $\{0,1\}$ 
-indicator feature that user $\x$
-and user $\z$ have both liked item $\y$.  The implementation used for this paper is \emph{LibSVM}~\cite{libsvm}, which gives a regression score on the classification which can be used for ranking the results.
-
-\subsection{Matrix Factorization Models}
+\subsection{Matrix Factorization (MF) Models}
 
 As done in standard CF methods, we assume that
 a matrix $U$ allows us to project users $\x$ (and $\z$)
@@ -107,7 +238,6 @@ into a latent space of dimensionality $K$; likewise we assume that
 a matrix $V$ allows us to project items $\y$ into a latent
 space also of dimensionality $K$.  Formally we define $U$ and $V$
 as follows:
-
 \begin{equation*}
 U = 
 \begin{bmatrix}
@@ -123,86 +253,137 @@ V =
   V_{K,1} & \hdots  & V_{K,J} \\
 \end{bmatrix}
 \end{equation*}
-Now we can respectively represent the latent projections of user and
-item as $(U \x)_{1 \ldots K}$ and $(V \y)_{1 \ldots K}$ and
-hence use $\la U \x, V \y \ra = \x^T U^T V \y$ as a latent bilinear regressor. 
+If we \emph{do not} have user and item features then we simply use
+$\x$ and $\y$ as indices to pick out the respective rows and columns
+of $U$ and $V$ so that $U_\x^T V_\y$ acts as a measure of affinity 
+between user $\x$ and item $\y$.  If we \emph{do} have user and item
+features, we can respectively represent the latent projections of user
+and item as $(U \x)_{1 \ldots K}$ and $(V \y)_{1 \ldots K}$ and hence
+use $\la U \x, V \y \ra = \x^T U^T V \y$ as a measure of affinity 
+between user $\x$ and item $\y$.  Either way, using $U \x$ and $V \y$
+with features or $U_\x$ and $V_\y$ with no features, we see that the
+basic idea behind matrix factorization techniques is to project the
+user $\x$ and item $\y$ into some $K$-dimensional space where the dot
+product in this space indicates the relative affinity of $\x$ for
+$\y$.  Because this latent space is low-dimensional, i.e., $K \ll
+I$ and $K \ll J$, similar users and similar items will tend to be
+projected ``nearby'' in this $K$-dimensional space.
 
-%The objective component for this model that we seek to minimize is:
+But there is still the question as to how we learn the matrix
+factorization components $U$ and $V$ in order to optimally carry out this
+user and item projection.  The answer is simple: we need only
+define the objective we wish to maximize as a function of $U$ and
+$V$ and then use gradient descent to optimize them.  Formally,
+we can optimize the following objectives based on whether or not
+we have user or item features:
+\begin{itemize}
+\item {\bf Without item and user features~\cite{pmf}:}
+\begin{align}
+\sum_{(\x,\y) \in D} \frac{1}{2} (R_{\x,\y} - U_\x^T V_\y)^2
+\end{align}
+\item {\bf With item and user features (Matchbox)~\cite{matchbox}:}
+\begin{align}
+\sum_{(\x,\y) \in D} \frac{1}{2} (R_{\x,\y} - \x^T U^T V y)^2
+\end{align}
+\end{itemize}
+Taking gradients w.r.t.\ $U$ and $V$ here (holding one constant while
+taking the derivative w.r.t.\ the other), we can easily define an
+alternating gradient descent approach to approximately
+optimize these objectives and hence determine good projections $U$
+and $V$ that minimize the reconstruction error of the observed
+responses $R_{\x,\y}$.
 
-
-%\begin{align}
-%\sum_{(\x,\y) \in D} \frac{1}{2} (R_{\x,\y} - [\sigma] \x^T U^T V y)^2
-%\end{align}
+These are well-known MF approaches to CF, however in the context of
+social networks, we'll need to adapt them to this richer setting to
+obtain SCF approaches.  We discuss these extensions next.
 
 \subsection{Social Collaborative Filtering}
 %These are MF methods that use the social network and do recommendation,
 %note that the GLFM and Bidirectional similarity papers do not meet these
 %requirements
 
-There are essentially two general classes of MF methods applied to SCF that we discuss
-below.  The first class can be termed as \emph{social regularization}
-approaches in that they somehow constrain the latent projection
-represented by $U$.  
+There are essentially two general classes of MF methods applied to SCF
+that we discuss below.  
+All of the social MF methods defined to date \emph{do not}
+make use of user or item features and hence $\x$ and $\z$ below should be
+treated as user indices as defined previously for the non-feature case.
 
-There are two social regularization methods that directly constrain $U$ for user $i$
-and $k$ based on evidence $S_{i,k}$ of interaction between $i$ and $k$.  We call
-these methods:
+The first class of social MF methods can be termed as \emph{social
+regularization} approaches in that they somehow constrain the latent
+projection represented by $U$.
+
+There are two social regularization methods that directly constrain
+$U$ for user $\x$ and $\z$ based on evidence $S_{\x,\z}$ of interaction
+between $\x$ and $\z$.  We call these methods:
 
 % Note that these previous methods do not use user and item features
 \begin{itemize}
 \item {\bf Social regularization~\cite{lla,socinf}}:
 \begin{align}
-\sum_{i} & \sum_{k \in \mathit{friends}(i)} \frac{1}{2} (S_{i,k} - \la U_i, U_k \ra)^2 \nonumber 
+\sum_{} & \sum_{\z \in \mathit{friends}(\x)} \frac{1}{2} (S_{\x,\z} - \la U_\x, U_\z \ra)^2 \nonumber 
 \end{align}
 
 \item {\bf Social spectral regularization~\cite{sr,rrmf}}:
 \begin{align}
-\sum_{i} & \sum_{k \in \mathit{friends}(i)} \frac{1}{2} S^+_{i,k} \| U_i - U_k \|_2^2 \nonumber
+\sum_{i} & \sum_{\z \in \mathit{friends}(\x)} \frac{1}{2} S^+_{\x,\z} \| U_\x - U_\z \|_2^2 \nonumber
 \end{align}
 \end{itemize}
+We refer to the latter as \emph{spectral} regularization methods since they are
+identical to the objectives used in spectral clustering~\cite{spectral}.
+
+The {\it SoRec} system~\cite{sorec} proposes a slight twist on social
+spectral regularization in that it learns a third $N \times N$ (n.b., $I = N$)
+\emph{interactions matrix} $Z$, and uses $U_\z^T Z_\z$ to predict user-user
+interaction preferences in the same way that standard CF uses $V$ in
+$U_\x^T V_\y$ to predict user-item ratings.  {\it SoRec} also uses a
+sigmoidal transform $\sigma(o) = \frac{1}{1 + e^{-o}}$ on the predictions:
 
 \begin{itemize}
 \item {\bf SoRec regularization~\cite{sorec}}:
 
-The {\it SoRec} system~\cite{sorec} proposes a slight twist on social
-spectral regularization in that it learns a third ($N \times N$)
-\emph{interactions matrix} $Z$, and uses $U_i^T Z_k$ to predict user-user
-interaction preferences in the same way that standard CF uses $V$ in
-$U_i^T V_j$ to predict user-item ratings.  {\it SoRec} also uses a
-sigmoidal transform on the predictions:
-
 \begin{align}
-\sum_{i} & \sum_{k \in \mathit{friends}(i)} \frac{1}{2} (S_{i,k} - \sigma(\la U_i, Z_k \ra))^2 \nonumber
+\sum_{\z} & \sum_{\z \in \mathit{friends}(\x)} \frac{1}{2} (S_{\x,\z} - \sigma(\la U_\x, Z_\z \ra))^2 \nonumber
 \end{align}
 \end{itemize}
-
-\begin{itemize}
-\item {\bf Social Trust Ensemble~\cite{ste} (Non-spectral)}:
 
 The second class of SCF MF approaches represented by the single
 examplar of the {\it Social Trust Ensemble} can be termed as a
 \emph{weighted average} approach since this approach simply composes a
-prediction for item $j$ from a weighted average of a user $i$'s
-predictio
-ns \emph{as well as} their friends ($k$) predictions (as
-evidenced by the additional $\sum_k$ in the objective below).
+prediction for item $\y$ from a weighted average of a user $\x$'s
+predictions \emph{as well as} their friends ($\z$) predictions (as
+evidenced by the additional $\sum_\z$ in the objective below):
+\begin{itemize}
+\item {\bf Social Trust Ensemble~\cite{ste} (Non-spectral)}:
 \begin{align}
-\sum_{(i,j) \in D} \frac{1}{2} (R_{i,j} - \sigma (U_i^T V_j + \sum_k U_i^T V_k))^2 \nonumber
+\sum_{(\x,\y) \in D} \frac{1}{2} (R_{\x,\y} - \sigma (U_\x^T V_\y + \sum_k U_\x^T V_\z))^2 \nonumber
 \end{align}
 \end{itemize}
+As for the MF CF methods, all MF SCF methods can be optimized by alternating
+gradient descent on the respective matrix parameterizations.
 
 \subsection{Tensor Factorization Methods}
 
 % Note: not social CF... just another MF variant for recommendation
 
-\emph{Tensor factorization} (TF) methods can be used to learn latent
-models of interaction of 2 dimensions and higher.  A dimension 2 TF
-method is simply standard MF.  An example of a dimension 3 TF method
-is given by~\cite{tf} where recommendation of user-specific tags for
-an item are modeled with tags, user, and items each in one dimension.
-To date, TF methods have not been used for social recommendation,
-however, we draw on the idea of addition dimensions of latent learning
-in our co-preference regularization method.
-\\
+On a final note, we observe that \emph{Tensor factorization} (TF)
+methods can be used to learn latent models of interaction of 2
+dimensions and higher.  A 2-dimensional TF method is simply standard
+MF.  An example of a 3-dimensional TF method is given by~\cite{tf},
+where recommendation of user-specific tags for an item are modeled
+with tags, user, and items each in one dimension.  To date, TF methods
+have not been used for social recommendation, however, we will draw on
+the idea of using additional (more than 2) dimensions of latent learning 
+in some of our novel SCF approaches in Chapter~5.
+%co-preference regularization method.
 
-In this chapter we have seen some of the different existing methods for CF and SCF. Each of these methods has its own weakness which we detailed in Chapter 1. Next, we discuss how we evaluate existing these CF and SCF algorithms, as well as the new SCF algorithms designed for this paper.
+\section{Summary}
+
+In this chapter we have seen some of the different existing methods
+for CF and SCF. Each of these methods has its own weaknesses, some of
+which we detailed in Chapter 1. Next, we discuss how we evaluate these
+existing CF and SCF algorithms on the task of link recommendation on
+Facebook; following this, we proceed in subsequent chapters to
+evaluate these algorithms as well as propose novel algorithms that
+extend the background work covered here.
+
+
