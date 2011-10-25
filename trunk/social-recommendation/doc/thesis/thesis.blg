@@ -3,44 +3,46 @@ Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: thesis.aux
 The style file: acmnew-xref.bst
 Database file #1: thesis.bib
-You've used 30 entries,
+Warning--empty organization in libsvm
+You've used 33 entries,
             2719 wiz_defined-function locations,
-            762 strings with 9687 characters,
-and the built_in function-call counts, 22785 in all, are:
-= -- 1769
-> -- 1730
+            773 strings with 9996 characters,
+and the built_in function-call counts, 24768 in all, are:
+= -- 1931
+> -- 1886
 < -- 11
-+ -- 526
-- -- 580
-* -- 2111
-:= -- 4011
-add.period$ -- 129
-call.type$ -- 30
-change.case$ -- 229
-chr.to.int$ -- 28
-cite$ -- 60
-duplicate$ -- 749
-empty$ -- 1507
-format.name$ -- 675
-if$ -- 4227
++ -- 576
+- -- 640
+* -- 2272
+:= -- 4375
+add.period$ -- 139
+call.type$ -- 33
+change.case$ -- 249
+chr.to.int$ -- 31
+cite$ -- 67
+duplicate$ -- 808
+empty$ -- 1618
+format.name$ -- 747
+if$ -- 4578
 int.to.chr$ -- 3
 int.to.str$ -- 0
 missing$ -- 0
-newline$ -- 183
-num.names$ -- 300
-pop$ -- 277
+newline$ -- 199
+num.names$ -- 330
+pop$ -- 300
 preamble$ -- 1
-purify$ -- 405
+purify$ -- 444
 quote$ -- 0
-skip$ -- 562
+skip$ -- 630
 stack$ -- 0
-substring$ -- 1054
-swap$ -- 245
+substring$ -- 1116
+swap$ -- 266
 text.length$ -- 11
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 592
-warning$ -- 0
-while$ -- 276
+type$ -- 652
+warning$ -- 1
+while$ -- 306
 width$ -- 0
-write$ -- 504
+write$ -- 548
+(There was 1 warning)
