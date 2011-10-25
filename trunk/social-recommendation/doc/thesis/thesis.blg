@@ -1,48 +1,47 @@
-This is BibTeX, Version 0.99d (TeX Live 2010)
-Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+This is BibTeX, Version 0.99c (Web2C 7.5.4)
 The top-level auxiliary file: thesis.aux
 The style file: acmnew-xref.bst
 Database file #1: thesis.bib
 Warning--empty organization in libsvm
-You've used 33 entries,
+You've used 36 entries,
             2719 wiz_defined-function locations,
-            773 strings with 9996 characters,
-and the built_in function-call counts, 24768 in all, are:
-= -- 1931
-> -- 1886
-< -- 11
-+ -- 576
-- -- 640
-* -- 2272
-:= -- 4375
-add.period$ -- 139
-call.type$ -- 33
-change.case$ -- 249
-chr.to.int$ -- 31
-cite$ -- 67
-duplicate$ -- 808
-empty$ -- 1618
-format.name$ -- 747
-if$ -- 4578
+            790 strings with 10341 characters,
+and the built_in function-call counts, 27019 in all, are:
+= -- 2115
+> -- 2051
+< -- 12
++ -- 626
+- -- 698
+* -- 2472
+:= -- 4767
+add.period$ -- 151
+call.type$ -- 36
+change.case$ -- 271
+chr.to.int$ -- 34
+cite$ -- 73
+duplicate$ -- 882
+empty$ -- 1766
+format.name$ -- 817
+if$ -- 4996
 int.to.chr$ -- 3
 int.to.str$ -- 0
 missing$ -- 0
-newline$ -- 199
-num.names$ -- 330
-pop$ -- 300
+newline$ -- 217
+num.names$ -- 360
+pop$ -- 328
 preamble$ -- 1
-purify$ -- 444
+purify$ -- 484
 quote$ -- 0
-skip$ -- 630
+skip$ -- 691
 stack$ -- 0
-substring$ -- 1116
-swap$ -- 266
-text.length$ -- 11
+substring$ -- 1220
+swap$ -- 290
+text.length$ -- 12
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 652
+type$ -- 712
 warning$ -- 1
-while$ -- 306
+while$ -- 336
 width$ -- 0
-write$ -- 548
+write$ -- 597
 (There was 1 warning)

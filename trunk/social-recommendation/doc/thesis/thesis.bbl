@@ -69,7 +69,7 @@
 
 \bibitem[\protect\citeauthoryear{Chang and Lin}{Chang and Lin}{2001}]{libsvm}
 \bibsc{Chang, C.-C. and Lin, C.-J.} \bibyear{2001}.
-\newblock \bibemph{LIBSV: a Library for Support Vector Machines}.
+\newblock \bibemph{LIBSVM: a Library for Support Vector Machines}.
 \citepages{libsvm}
 
 \bibitem[\protect\citeauthoryear{Chu and Ghahramani}{Chu and
@@ -101,6 +101,13 @@
 \newblock \bibemphic{Journal of Artificial Intelligence Research}~\bibemph{35},
   161--191.
 \citepages{conitzer09161}
+
+\bibitem[\protect\citeauthoryear{Cortes and Vapnik}{Cortes and
+  Vapnik}{1995}]{svms}
+\bibsc{Cortes, C. and Vapnik, V.} \bibyear{1995}.
+\newblock Support-vector networks.
+\newblock In \bibemphic{Machine Learning} (1995), pp.\  273--297.
+\citepages{svms}
 
 \bibitem[\protect\citeauthoryear{Cui, Wang, Liu, Ou, and Yang}{Cui
   et~al.}{2011}]{socinf}
@@ -191,6 +198,14 @@
 \newblock In \bibemphic{WSDM-11} (2011).
 \citepages{sr}
 
+\bibitem[\protect\citeauthoryear{Ng, Jordan, and Weiss}{Ng
+  et~al.}{2001}]{spectral}
+\bibsc{Ng, A., Jordan, M., and Weiss, Y.} \bibyear{2001}.
+\newblock On spectral clustering: Analysis and an algorithm.
+\newblock In \bibemphic{Advances in Neural Information Processing Systems
+  {NIPS} 14} (2001).
+\citepages{spectral}
+
 \bibitem[\protect\citeauthoryear{Qui\~{n}onero Candela and
   Rasmussen}{Qui\~{n}onero Candela and
   Rasmussen}{2005}]{candela-rasmussen-jmlr-05}
@@ -208,6 +223,13 @@
   recommendation.
 \newblock In \bibemphic{KDD-09} (2009).
 \citepages{tf}
+
+\bibitem[\protect\citeauthoryear{Resnick and Varian}{Resnick and
+  Varian}{1997}]{collab_filtering}
+\bibsc{Resnick, P. and Varian, H.~R.} \bibyear{1997}.
+\newblock Recommender systems.
+\newblock \bibemphic{Communications of the ACM}~\bibemph{40}, 56--58.
+\citepages{collab_filtering}
 
 \bibitem[\protect\citeauthoryear{Salakhutdinov and Mnih}{Salakhutdinov and
   Mnih}{2008}]{pmf}
@@ -231,7 +253,8 @@
 \citepages{netflix}
 
 \bibitem[\protect\citeauthoryear{Viappiani and Boutilier}{Viappiani and
-  Boutilier}{2009}]{viappiani09Regret-basedOptimalRecommendationSetsConversational}
+  Boutilier}{2009}]{viappiani09Regret-basedOptimalRecommendationSetsConversati%
+onal}
 \bibsc{Viappiani, P. and Boutilier, C.} \bibyear{2009}.
 \newblock Regret-based optimal recommendation sets in conversational
   recommender systems.
