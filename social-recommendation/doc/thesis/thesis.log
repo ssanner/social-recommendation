@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.11 (TeX Live 2010) (format=pdflatex 2011.4.2)  25 OCT 2011 15:30
+This is pdfTeX, Version 3.1415926-1.40.11 (TeX Live 2010) (format=pdflatex 2011.4.2)  25 OCT 2011 18:42
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -33,7 +33,8 @@ File: bk11.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
 \abovecaptionskip=\skip41
 \belowcaptionskip=\skip42
 \bibindent=\dimen102
-) (./anuthesis.sty
+)
+(/usr/local/texlive/2010/../texmf-local/tex/anuthesis/anuthesis.sty
 Package: anuthesis 2005/04/04 v0.2 ANU Thesis Style (SB/RW)
 
 (/usr/local/texlive/2010/texmf-dist/tex/latex/base/ifthen.sty
@@ -82,7 +83,7 @@ Package: xspace 2006/05/08 v1.12 Space after command names (DPC,MH)
 (/usr/local/texlive/2010/texmf-dist/tex/latex/base/makeidx.sty
 Package: makeidx 2000/03/29 v1.0m Standard LaTeX package
 )
-(./acmnew-xref.sty
+(/usr/local/texlive/2010/../texmf-local/tex/misc/acmnew-xref.sty
 Using author/year ACM bibliography style
 \bibindent=\dimen105
 ) (/usr/local/texlive/2010/texmf-dist/tex/latex/tools/verbatim.sty
@@ -350,88 +351,22 @@ File: umsb.fd 2009/06/22 v3.00 AMS symbols B
 ]
 [10
 
-] (./thesis.toc)
+] (./thesis.toc [11
+
+])
 \tf@toc=\write4
 \openout4 = `thesis.toc'.
 
- [11
-
-] [12
-
-] (./intro.tex
+ [12] (./intro.tex
 Chapter 1.
-
-LaTeX Warning: Citation `pmf' on page 1 undefined on input line 51.
-
 [1
 
-] [2]
 
-LaTeX Warning: Citation `matchbox' on page 3 undefined on input line 126.
-
-[3] [4]) (./chap2.tex [5] [6
+] [2] [3] [4]) (./chap2.tex [5] [6
 
 ]
 Chapter 2.
 [7]
-
-LaTeX Warning: Citation `matchbox' on page 8 undefined on input line 55.
-
-
-LaTeX Warning: Citation `ste' on page 8 undefined on input line 55.
-
-
-LaTeX Warning: Citation `lla' on page 8 undefined on input line 55.
-
-
-LaTeX Warning: Citation `glfm' on page 8 undefined on input line 55.
-
-
-LaTeX Warning: Citation `tf' on page 8 undefined on input line 55.
-
-
-LaTeX Warning: Citation `sorec' on page 8 undefined on input line 55.
-
-
-LaTeX Warning: Citation `sr' on page 8 undefined on input line 55.
-
-
-LaTeX Warning: Citation `rrmf' on page 8 undefined on input line 55.
-
-
-LaTeX Warning: Citation `bisim' on page 8 undefined on input line 55.
-
-
-LaTeX Warning: Citation `socinf' on page 8 undefined on input line 55.
-
-
-LaTeX Warning: Citation `matchbox' on page 8 undefined on input line 60.
-
-
-LaTeX Warning: Citation `ste' on page 8 undefined on input line 61.
-
-
-LaTeX Warning: Citation `sr' on page 8 undefined on input line 61.
-
-
-LaTeX Warning: Citation `rrmf' on page 8 undefined on input line 61.
-
-
-LaTeX Warning: Citation `lla' on page 8 undefined on input line 61.
-
-
-LaTeX Warning: Citation `glfm' on page 8 undefined on input line 61.
-
-
-LaTeX Warning: Citation `socinf' on page 8 undefined on input line 61.
-
-
-LaTeX Warning: Citation `tf' on page 8 undefined on input line 62.
-
-
-LaTeX Warning: Citation `matchbox' on page 8 undefined on input line 62.
-
-
 Underfull \hbox (badness 10000) in paragraph at lines 67--69
 
  []
@@ -447,64 +382,38 @@ Underfull \hbox (badness 10000) in paragraph at lines 90--92
  []
 
 
-LaTeX Warning: Citation `lla' on page 9 undefined on input line 153.
+Underfull \vbox (badness 1173) has occurred while \output is active []
 
+ [9]
+Underfull \hbox (badness 10000) in paragraph at lines 198--207
 
-LaTeX Warning: Citation `socinf' on page 9 undefined on input line 153.
+ []
 
-[9]
+[10]) (./chap3.tex [11] [12
 
-LaTeX Warning: Citation `sr' on page 10 undefined on input line 158.
-
-
-LaTeX Warning: Citation `rrmf' on page 10 undefined on input line 158.
-
-
-LaTeX Warning: Citation `sorec' on page 10 undefined on input line 164.
-
-
-LaTeX Warning: Citation `sorec' on page 10 undefined on input line 172.
-
-
-LaTeX Warning: Citation `ste' on page 10 undefined on input line 187.
-
-
-LaTeX Warning: Citation `tf' on page 10 undefined on input line 200.
-
-) (./chap3.tex [10]
+]
 Chapter 3.
-<img/posted-link.png, id=93, 480.79625pt x 238.8925pt>
+<img/posted-link.png, id=98, 480.79625pt x 238.8925pt>
 File: img/posted-link.png Graphic file (type png)
 
-<use img/posted-link.png> [11
-
- <./img/posted-link.png (PNG copy)>]
-<img/linkr.png, id=97, 757.83125pt x 453.695pt>
+<use img/posted-link.png> [13 <./img/posted-link.png (PNG copy)>]
+<img/linkr.png, id=103, 757.83125pt x 453.695pt>
 File: img/linkr.png Graphic file (type png)
- <use img/linkr.png> [12 <./img/linkr.png (PNG copy)>] [13] [14]
-<img/linkr_rating.png, id=108, 560.0925pt x 272.01625pt>
+ <use img/linkr.png> [14 <./img/linkr.png (PNG copy)>] [15] [16]
+<img/linkr_rating.png, id=113, 560.0925pt x 272.01625pt>
 File: img/linkr_rating.png Graphic file (type png)
 
-<use img/linkr_rating.png> [15 <./img/linkr_rating.png (PNG copy)>])
-(./chap4.tex [16]
+<use img/linkr_rating.png> [17 <./img/linkr_rating.png (PNG copy)>])
+(./chap4.tex [18]
 Chapter 4.
-
-LaTeX Warning: Citation `matchbox' on page 17 undefined on input line 48.
-
-[17
+[19
 
 ]
 Underfull \hbox (badness 10000) in paragraph at lines 82--84
 
  []
 
-
-LaTeX Warning: Citation `lla' on page 18 undefined on input line 85.
-
-
-LaTeX Warning: Citation `socinf' on page 18 undefined on input line 85.
-
-[18] [19]
+[20] [21]
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
@@ -518,7 +427,7 @@ Package epstopdf Info: Source file: <img/live-likes1.eps>
 ed-to.pdf img/live-likes1.eps>
 (epstopdf)             \includegraphics on input line 212.
 Package epstopdf Info: Output file is already uptodate.
-<img/live-likes1-eps-converted-to.pdf, id=127, 578.16pt x 433.62pt>
+<img/live-likes1-eps-converted-to.pdf, id=132, 578.16pt x 433.62pt>
 File: img/live-likes1-eps-converted-to.pdf Graphic file (type pdf)
 
 <use img/live-likes1-eps-converted-to.pdf>
@@ -533,14 +442,14 @@ erted-to.pdf img/live-dislikes1.eps>
 (epstopdf)             \includegraphics on input line 213.
 Package epstopdf Info: Output file is already uptodate.
 
-<img/live-dislikes1-eps-converted-to.pdf, id=128, 578.16pt x 433.62pt>
+<img/live-dislikes1-eps-converted-to.pdf, id=133, 578.16pt x 433.62pt>
 File: img/live-dislikes1-eps-converted-to.pdf Graphic file (type pdf)
 
 <use img/live-dislikes1-eps-converted-to.pdf>
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[20]
+[22]
 Package epstopdf Info: Source file: <img/live-friend-likes1.eps>
 (epstopdf)                    date: 2011-10-24 04:21:48
 (epstopdf)                    size: 29182 bytes
@@ -553,7 +462,7 @@ converted-to.pdf img/live-friend-likes1.eps>
 (epstopdf)             \includegraphics on input line 221.
 Package epstopdf Info: Output file is already uptodate.
 
-<img/live-friend-likes1-eps-converted-to.pdf, id=132, 578.16pt x 433.62pt>
+<img/live-friend-likes1-eps-converted-to.pdf, id=137, 578.16pt x 433.62pt>
 File: img/live-friend-likes1-eps-converted-to.pdf Graphic file (type pdf)
 
 <use img/live-friend-likes1-eps-converted-to.pdf>
@@ -569,7 +478,7 @@ ps-converted-to.pdf img/live-nonfriend-likes1.eps>
 (epstopdf)             \includegraphics on input line 222.
 Package epstopdf Info: Output file is already uptodate.
 
-<img/live-nonfriend-likes1-eps-converted-to.pdf, id=133, 578.16pt x 433.62pt>
+<img/live-nonfriend-likes1-eps-converted-to.pdf, id=138, 578.16pt x 433.62pt>
 File: img/live-nonfriend-likes1-eps-converted-to.pdf Graphic file (type pdf)
 
 <use img/live-nonfriend-likes1-eps-converted-to.pdf>
@@ -585,7 +494,7 @@ ps-converted-to.pdf img/live-friend-dislikes1.eps>
 (epstopdf)             \includegraphics on input line 223.
 Package epstopdf Info: Output file is already uptodate.
 
-<img/live-friend-dislikes1-eps-converted-to.pdf, id=134, 578.16pt x 433.62pt>
+<img/live-friend-dislikes1-eps-converted-to.pdf, id=139, 578.16pt x 433.62pt>
 File: img/live-friend-dislikes1-eps-converted-to.pdf Graphic file (type pdf)
 
 <use img/live-friend-dislikes1-eps-converted-to.pdf>
@@ -601,7 +510,7 @@ Package epstopdf Info: Source file: <img/live-nonfriend-dislikes1.eps>
 (epstopdf)             \includegraphics on input line 224.
 Package epstopdf Info: Output file is already uptodate.
 
-<img/live-nonfriend-dislikes1-eps-converted-to.pdf, id=135, 578.16pt x 433.62pt
+<img/live-nonfriend-dislikes1-eps-converted-to.pdf, id=140, 578.16pt x 433.62pt
 >
 File: img/live-nonfriend-dislikes1-eps-converted-to.pdf Graphic file (type pdf)
 
@@ -621,7 +530,7 @@ e1-eps-converted-to.pdf img/Passive_App-User-Passive1.eps>
 (epstopdf)             \includegraphics on input line 234.
 Package epstopdf Info: Output file is already uptodate.
 
-<img/Passive_App-User-Passive1-eps-converted-to.pdf, id=136, 578.16pt x 433.62p
+<img/Passive_App-User-Passive1-eps-converted-to.pdf, id=141, 578.16pt x 433.62p
 t>
 File: img/Passive_App-User-Passive1-eps-converted-to.pdf Graphic file (type pdf
 )
@@ -638,7 +547,7 @@ Package epstopdf Info: Source file: <img/Passive_FB-User-Passive1.eps>
 (epstopdf)             \includegraphics on input line 235.
 Package epstopdf Info: Output file is already uptodate.
 
-<img/Passive_FB-User-Passive1-eps-converted-to.pdf, id=137, 578.16pt x 433.62pt
+<img/Passive_FB-User-Passive1-eps-converted-to.pdf, id=142, 578.16pt x 433.62pt
 >
 File: img/Passive_FB-User-Passive1-eps-converted-to.pdf Graphic file (type pdf)
 
@@ -655,7 +564,7 @@ rted-to.pdf>
 (epstopdf)             \includegraphics on input line 236.
 Package epstopdf Info: Output file is already uptodate.
 
-<img/Passive_App-User-active-all1-eps-converted-to.pdf, id=138, 578.16pt x 433.
+<img/Passive_App-User-active-all1-eps-converted-to.pdf, id=143, 578.16pt x 433.
 62pt>
 File: img/Passive_App-User-active-all1-eps-converted-to.pdf Graphic file (type 
 pdf)
@@ -672,7 +581,7 @@ onverted-to.pdf>
 (epstopdf)             \includegraphics on input line 237.
 Package epstopdf Info: Output file is already uptodate.
 
-<img/Passive_App-User-Active-Friends1-eps-converted-to.pdf, id=139, 578.16pt x 
+<img/Passive_App-User-Active-Friends1-eps-converted-to.pdf, id=144, 578.16pt x 
 433.62pt>
 File: img/Passive_App-User-Active-Friends1-eps-converted-to.pdf Graphic file (t
 ype pdf)
@@ -690,7 +599,7 @@ s-converted-to.pdf>
 (epstopdf)             \includegraphics on input line 238.
 Package epstopdf Info: Output file is already uptodate.
 
-<img/Passive_App-User-Active-NonFriends1-eps-converted-to.pdf, id=140, 578.16pt
+<img/Passive_App-User-Active-NonFriends1-eps-converted-to.pdf, id=145, 578.16pt
  x 433.62pt>
 File: img/Passive_App-User-Active-NonFriends1-eps-converted-to.pdf Graphic file
  (type pdf)
@@ -711,7 +620,7 @@ Package epstopdf Info: Source file: <img/Active_App-User-Passive1.eps>
 (epstopdf)             \includegraphics on input line 244.
 Package epstopdf Info: Output file is already uptodate.
 
-<img/Active_App-User-Passive1-eps-converted-to.pdf, id=141, 578.16pt x 433.62pt
+<img/Active_App-User-Passive1-eps-converted-to.pdf, id=146, 578.16pt x 433.62pt
 >
 File: img/Active_App-User-Passive1-eps-converted-to.pdf Graphic file (type pdf)
 
@@ -728,7 +637,7 @@ to.pdf>
 (epstopdf)             \includegraphics on input line 245.
 Package epstopdf Info: Output file is already uptodate.
 
-<img/Active_FB-User-Passive1-eps-converted-to.pdf, id=142, 578.16pt x 433.62pt>
+<img/Active_FB-User-Passive1-eps-converted-to.pdf, id=147, 578.16pt x 433.62pt>
 File: img/Active_FB-User-Passive1-eps-converted-to.pdf Graphic file (type pdf)
 <use img/Active_FB-User-Passive1-eps-converted-to.pdf>
 Package epstopdf Info: Source file: <img/Active_App-User-Active-All1.eps>
@@ -743,7 +652,7 @@ All1-eps-converted-to.pdf img/Active_App-User-Active-All1.eps>
 (epstopdf)             \includegraphics on input line 246.
 Package epstopdf Info: Output file is already uptodate.
 
-<img/Active_App-User-Active-All1-eps-converted-to.pdf, id=143, 578.16pt x 433.6
+<img/Active_App-User-Active-All1-eps-converted-to.pdf, id=148, 578.16pt x 433.6
 2pt>
 File: img/Active_App-User-Active-All1-eps-converted-to.pdf Graphic file (type p
 df)
@@ -760,7 +669,7 @@ Friends1-eps-converted-to.pdf img/Active_App-User-Active-Friends1.eps>
 (epstopdf)             \includegraphics on input line 247.
 Package epstopdf Info: Output file is already uptodate.
 
-<img/Active_App-User-Active-Friends1-eps-converted-to.pdf, id=144, 578.16pt x 4
+<img/Active_App-User-Active-Friends1-eps-converted-to.pdf, id=149, 578.16pt x 4
 33.62pt>
 File: img/Active_App-User-Active-Friends1-eps-converted-to.pdf Graphic file (ty
 pe pdf)
@@ -778,7 +687,7 @@ Nonfriends1-eps-converted-to.pdf img/Active_App-User-Active-Nonfriends1.eps>
 (epstopdf)             \includegraphics on input line 248.
 Package epstopdf Info: Output file is already uptodate.
 
-<img/Active_App-User-Active-Nonfriends1-eps-converted-to.pdf, id=145, 578.16pt 
+<img/Active_App-User-Active-Nonfriends1-eps-converted-to.pdf, id=150, 578.16pt 
 x 433.62pt>
 File: img/Active_App-User-Active-Nonfriends1-eps-converted-to.pdf Graphic file 
 (type pdf)
@@ -798,7 +707,7 @@ to.pdf>
 (epstopdf)             \includegraphics on input line 254.
 Package epstopdf Info: Output file is already uptodate.
 
-<img/Union_App-User-Passive1-eps-converted-to.pdf, id=146, 578.16pt x 433.62pt>
+<img/Union_App-User-Passive1-eps-converted-to.pdf, id=151, 578.16pt x 433.62pt>
 File: img/Union_App-User-Passive1-eps-converted-to.pdf Graphic file (type pdf)
 <use img/Union_App-User-Passive1-eps-converted-to.pdf>
 Package epstopdf Info: Source file: <img/Union_FB-User-Passive1.eps>
@@ -813,7 +722,7 @@ eps-converted-to.pdf img/Union_FB-User-Passive1.eps>
 (epstopdf)             \includegraphics on input line 255.
 Package epstopdf Info: Output file is already uptodate.
 
-<img/Union_FB-User-Passive1-eps-converted-to.pdf, id=147, 578.16pt x 433.62pt>
+<img/Union_FB-User-Passive1-eps-converted-to.pdf, id=152, 578.16pt x 433.62pt>
 File: img/Union_FB-User-Passive1-eps-converted-to.pdf Graphic file (type pdf)
 
 <use img/Union_FB-User-Passive1-eps-converted-to.pdf>
@@ -829,7 +738,7 @@ ll1-eps-converted-to.pdf img/Union_App-User-Active-All1.eps>
 (epstopdf)             \includegraphics on input line 256.
 Package epstopdf Info: Output file is already uptodate.
 
-<img/Union_App-User-Active-All1-eps-converted-to.pdf, id=148, 578.16pt x 433.62
+<img/Union_App-User-Active-All1-eps-converted-to.pdf, id=153, 578.16pt x 433.62
 pt>
 File: img/Union_App-User-Active-All1-eps-converted-to.pdf Graphic file (type pd
 f)
@@ -846,7 +755,7 @@ riends1-eps-converted-to.pdf img/Union_App-User-Active-Friends1.eps>
 (epstopdf)             \includegraphics on input line 257.
 Package epstopdf Info: Output file is already uptodate.
 
-<img/Union_App-User-Active-Friends1-eps-converted-to.pdf, id=149, 578.16pt x 43
+<img/Union_App-User-Active-Friends1-eps-converted-to.pdf, id=154, 578.16pt x 43
 3.62pt>
 File: img/Union_App-User-Active-Friends1-eps-converted-to.pdf Graphic file (typ
 e pdf)
@@ -864,7 +773,7 @@ onFriends1-eps-converted-to.pdf img/Union_App-User-Active-NonFriends1.eps>
 (epstopdf)             \includegraphics on input line 258.
 Package epstopdf Info: Output file is already uptodate.
 
-<img/Union_App-User-Active-NonFriends1-eps-converted-to.pdf, id=150, 578.16pt x
+<img/Union_App-User-Active-NonFriends1-eps-converted-to.pdf, id=155, 578.16pt x
  433.62pt>
 File: img/Union_App-User-Active-NonFriends1-eps-converted-to.pdf Graphic file (
 type pdf)
@@ -872,8 +781,8 @@ type pdf)
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[21 <./img/live-likes1-eps-converted-to.pdf> <./img/live-dislikes1-eps-converte
-d-to.pdf>] [22 <./img/live-friend-likes1-eps-converted-to.pdf> <./img/live-nonf
+[23 <./img/live-likes1-eps-converted-to.pdf> <./img/live-dislikes1-eps-converte
+d-to.pdf>] [24 <./img/live-friend-likes1-eps-converted-to.pdf> <./img/live-nonf
 riend-likes1-eps-converted-to.pdf> <./img/live-friend-dislikes1-eps-converted-t
 o.pdf> <./img/live-nonfriend-dislikes1-eps-converted-to.pdf>]
 Package epstopdf Info: Source file: <img/not-seen.eps>
@@ -887,7 +796,7 @@ to.pdf img/not-seen.eps>
 (epstopdf)             \includegraphics on input line 279.
 Package epstopdf Info: Output file is already uptodate.
 
-<img/not-seen-eps-converted-to.pdf, id=416, 578.16pt x 433.62pt>
+<img/not-seen-eps-converted-to.pdf, id=421, 578.16pt x 433.62pt>
 File: img/not-seen-eps-converted-to.pdf Graphic file (type pdf)
 
 <use img/not-seen-eps-converted-to.pdf>
@@ -902,7 +811,7 @@ to.pdf img/relevant.eps>
 (epstopdf)             \includegraphics on input line 280.
 Package epstopdf Info: Output file is already uptodate.
 
-<img/relevant-eps-converted-to.pdf, id=417, 578.16pt x 433.62pt>
+<img/relevant-eps-converted-to.pdf, id=422, 578.16pt x 433.62pt>
 File: img/relevant-eps-converted-to.pdf Graphic file (type pdf)
 
 <use img/relevant-eps-converted-to.pdf>
@@ -917,7 +826,7 @@ o.pdf img/adapted.eps>
 (epstopdf)             \includegraphics on input line 281.
 Package epstopdf Info: Output file is already uptodate.
 
-<img/adapted-eps-converted-to.pdf, id=418, 578.16pt x 433.62pt>
+<img/adapted-eps-converted-to.pdf, id=423, 578.16pt x 433.62pt>
 File: img/adapted-eps-converted-to.pdf Graphic file (type pdf)
 
 <use img/adapted-eps-converted-to.pdf>
@@ -932,54 +841,44 @@ Package epstopdf Info: Source file: <img/satisfied.eps>
 (epstopdf)             \includegraphics on input line 282.
 Package epstopdf Info: Output file is already uptodate.
 
-<img/satisfied-eps-converted-to.pdf, id=419, 578.16pt x 433.62pt>
+<img/satisfied-eps-converted-to.pdf, id=424, 578.16pt x 433.62pt>
 File: img/satisfied-eps-converted-to.pdf Graphic file (type pdf)
 
 <use img/satisfied-eps-converted-to.pdf>
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-) (./chap5.tex [23] [24 <./img/Passive_App-User-Passive1-eps-converted-to.pdf> 
+) (./chap5.tex [25] [26 <./img/Passive_App-User-Passive1-eps-converted-to.pdf> 
 <./img/Passive_FB-User-Passive1-eps-converted-to.pdf> <./img/Passive_App-User-a
 ctive-all1-eps-converted-to.pdf> <./img/Passive_App-User-Active-Friends1-eps-co
 nverted-to.pdf> <./img/Passive_App-User-Active-NonFriends1-eps-converted-to.pdf
->] [25 <./img/Active_App-User-Passive1-eps-converted-to.pdf> <./img/Active_FB-U
+>] [27 <./img/Active_App-User-Passive1-eps-converted-to.pdf> <./img/Active_FB-U
 ser-Passive1-eps-converted-to.pdf> <./img/Active_App-User-Active-All1-eps-conve
 rted-to.pdf> <./img/Active_App-User-Active-Friends1-eps-converted-to.pdf> <./im
-g/Active_App-User-Active-Nonfriends1-eps-converted-to.pdf>] [26 <./img/Union_Ap
+g/Active_App-User-Active-Nonfriends1-eps-converted-to.pdf>] [28 <./img/Union_Ap
 p-User-Passive1-eps-converted-to.pdf> <./img/Union_FB-User-Passive1-eps-convert
 ed-to.pdf> <./img/Union_App-User-Active-All1-eps-converted-to.pdf> <./img/Union
 _App-User-Active-Friends1-eps-converted-to.pdf> <./img/Union_App-User-Active-No
-nFriends1-eps-converted-to.pdf>] [27 <./img/not-seen-eps-converted-to.pdf> <./i
+nFriends1-eps-converted-to.pdf>] [29 <./img/not-seen-eps-converted-to.pdf> <./i
 mg/relevant-eps-converted-to.pdf> <./img/adapted-eps-converted-to.pdf> <./img/s
-atisfied-eps-converted-to.pdf>] [28
+atisfied-eps-converted-to.pdf>] [30
 
 ]
 Chapter 5.
-[29]
-
-LaTeX Warning: Citation `matchbox' on page 30 undefined on input line 48.
-
-
-LaTeX Warning: Citation `sr' on page 30 undefined on input line 48.
-
-
-LaTeX Warning: Citation `rrmf' on page 30 undefined on input line 48.
-
-[30]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [31]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [32]
+[31] [32]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [33]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [34]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [35]
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[34]
+[36]
 Package epstopdf Info: Source file: <img/live-likes2.eps>
 (epstopdf)                    date: 2011-10-24 04:21:55
 (epstopdf)                    size: 30847 bytes
@@ -990,7 +889,7 @@ Package epstopdf Info: Source file: <img/live-likes2.eps>
 ed-to.pdf img/live-likes2.eps>
 (epstopdf)             \includegraphics on input line 216.
 Package epstopdf Info: Output file is already uptodate.
- <img/live-likes2-eps-converted-to.pdf, id=1337, 578.16pt x 433.62pt>
+ <img/live-likes2-eps-converted-to.pdf, id=1342, 578.16pt x 433.62pt>
 File: img/live-likes2-eps-converted-to.pdf Graphic file (type pdf)
 
 <use img/live-likes2-eps-converted-to.pdf>
@@ -1005,7 +904,7 @@ erted-to.pdf img/live-dislikes2.eps>
 (epstopdf)             \includegraphics on input line 217.
 Package epstopdf Info: Output file is already uptodate.
 
-<img/live-dislikes2-eps-converted-to.pdf, id=1338, 578.16pt x 433.62pt>
+<img/live-dislikes2-eps-converted-to.pdf, id=1343, 578.16pt x 433.62pt>
 File: img/live-dislikes2-eps-converted-to.pdf Graphic file (type pdf)
 
 <use img/live-dislikes2-eps-converted-to.pdf>
@@ -1021,7 +920,7 @@ converted-to.pdf img/live-friend-likes2.eps>
 (epstopdf)             \includegraphics on input line 225.
 Package epstopdf Info: Output file is already uptodate.
 
-<img/live-friend-likes2-eps-converted-to.pdf, id=1339, 578.16pt x 433.62pt>
+<img/live-friend-likes2-eps-converted-to.pdf, id=1344, 578.16pt x 433.62pt>
 File: img/live-friend-likes2-eps-converted-to.pdf Graphic file (type pdf)
 
 <use img/live-friend-likes2-eps-converted-to.pdf>
@@ -1037,7 +936,7 @@ ps-converted-to.pdf img/live-nonfriend-likes2.eps>
 (epstopdf)             \includegraphics on input line 226.
 Package epstopdf Info: Output file is already uptodate.
 
-<img/live-nonfriend-likes2-eps-converted-to.pdf, id=1340, 578.16pt x 433.62pt>
+<img/live-nonfriend-likes2-eps-converted-to.pdf, id=1345, 578.16pt x 433.62pt>
 File: img/live-nonfriend-likes2-eps-converted-to.pdf Graphic file (type pdf)
 
 <use img/live-nonfriend-likes2-eps-converted-to.pdf>
@@ -1053,7 +952,7 @@ ps-converted-to.pdf img/live-friend-dislikes2.eps>
 (epstopdf)             \includegraphics on input line 227.
 Package epstopdf Info: Output file is already uptodate.
 
-<img/live-friend-dislikes2-eps-converted-to.pdf, id=1341, 578.16pt x 433.62pt>
+<img/live-friend-dislikes2-eps-converted-to.pdf, id=1346, 578.16pt x 433.62pt>
 File: img/live-friend-dislikes2-eps-converted-to.pdf Graphic file (type pdf)
 
 <use img/live-friend-dislikes2-eps-converted-to.pdf>
@@ -1069,7 +968,7 @@ Package epstopdf Info: Source file: <img/live-nonfriend-dislikes2.eps>
 (epstopdf)             \includegraphics on input line 228.
 Package epstopdf Info: Output file is already uptodate.
 
-<img/live-nonfriend-dislikes2-eps-converted-to.pdf, id=1342, 578.16pt x 433.62p
+<img/live-nonfriend-dislikes2-eps-converted-to.pdf, id=1347, 578.16pt x 433.62p
 t>
 File: img/live-nonfriend-dislikes2-eps-converted-to.pdf Graphic file (type pdf)
 
@@ -1089,7 +988,7 @@ e2-eps-converted-to.pdf img/Passive_App-User-Passive2.eps>
 (epstopdf)             \includegraphics on input line 240.
 Package epstopdf Info: Output file is already uptodate.
 
-<img/Passive_App-User-Passive2-eps-converted-to.pdf, id=1343, 578.16pt x 433.62
+<img/Passive_App-User-Passive2-eps-converted-to.pdf, id=1348, 578.16pt x 433.62
 pt>
 File: img/Passive_App-User-Passive2-eps-converted-to.pdf Graphic file (type pdf
 )
@@ -1106,7 +1005,7 @@ Package epstopdf Info: Source file: <img/Passive_FB-User-Passive2.eps>
 (epstopdf)             \includegraphics on input line 241.
 Package epstopdf Info: Output file is already uptodate.
 
-<img/Passive_FB-User-Passive2-eps-converted-to.pdf, id=1344, 578.16pt x 433.62p
+<img/Passive_FB-User-Passive2-eps-converted-to.pdf, id=1349, 578.16pt x 433.62p
 t>
 File: img/Passive_FB-User-Passive2-eps-converted-to.pdf Graphic file (type pdf)
 
@@ -1123,7 +1022,7 @@ rted-to.pdf>
 (epstopdf)             \includegraphics on input line 242.
 Package epstopdf Info: Output file is already uptodate.
 
-<img/Passive_App-User-active-all2-eps-converted-to.pdf, id=1345, 578.16pt x 433
+<img/Passive_App-User-active-all2-eps-converted-to.pdf, id=1350, 578.16pt x 433
 .62pt>
 File: img/Passive_App-User-active-all2-eps-converted-to.pdf Graphic file (type 
 pdf)
@@ -1140,7 +1039,7 @@ onverted-to.pdf>
 (epstopdf)             \includegraphics on input line 243.
 Package epstopdf Info: Output file is already uptodate.
 
-<img/Passive_App-User-Active-Friends2-eps-converted-to.pdf, id=1346, 578.16pt x
+<img/Passive_App-User-Active-Friends2-eps-converted-to.pdf, id=1351, 578.16pt x
  433.62pt>
 File: img/Passive_App-User-Active-Friends2-eps-converted-to.pdf Graphic file (t
 ype pdf)
@@ -1158,7 +1057,7 @@ s-converted-to.pdf>
 (epstopdf)             \includegraphics on input line 244.
 Package epstopdf Info: Output file is already uptodate.
 
-<img/Passive_App-User-Active-NonFriends2-eps-converted-to.pdf, id=1347, 578.16p
+<img/Passive_App-User-Active-NonFriends2-eps-converted-to.pdf, id=1352, 578.16p
 t x 433.62pt>
 File: img/Passive_App-User-Active-NonFriends2-eps-converted-to.pdf Graphic file
  (type pdf)
@@ -1179,7 +1078,7 @@ to.pdf>
 (epstopdf)             \includegraphics on input line 250.
 Package epstopdf Info: Output file is already uptodate.
 
-<img/Union_App-User-Passive2-eps-converted-to.pdf, id=1348, 578.16pt x 433.62pt
+<img/Union_App-User-Passive2-eps-converted-to.pdf, id=1353, 578.16pt x 433.62pt
 >
 File: img/Union_App-User-Passive2-eps-converted-to.pdf Graphic file (type pdf)
  <use img/Union_App-User-Passive2-eps-converted-to.pdf>
@@ -1195,7 +1094,7 @@ eps-converted-to.pdf img/Union_FB-User-Passive2.eps>
 (epstopdf)             \includegraphics on input line 251.
 Package epstopdf Info: Output file is already uptodate.
 
-<img/Union_FB-User-Passive2-eps-converted-to.pdf, id=1349, 578.16pt x 433.62pt>
+<img/Union_FB-User-Passive2-eps-converted-to.pdf, id=1354, 578.16pt x 433.62pt>
 File: img/Union_FB-User-Passive2-eps-converted-to.pdf Graphic file (type pdf)
 <use img/Union_FB-User-Passive2-eps-converted-to.pdf>
 Package epstopdf Info: Source file: <img/Union_App-User-Active-All2.eps>
@@ -1210,7 +1109,7 @@ ll2-eps-converted-to.pdf img/Union_App-User-Active-All2.eps>
 (epstopdf)             \includegraphics on input line 252.
 Package epstopdf Info: Output file is already uptodate.
 
-<img/Union_App-User-Active-All2-eps-converted-to.pdf, id=1350, 578.16pt x 433.6
+<img/Union_App-User-Active-All2-eps-converted-to.pdf, id=1355, 578.16pt x 433.6
 2pt>
 File: img/Union_App-User-Active-All2-eps-converted-to.pdf Graphic file (type pd
 f)
@@ -1227,7 +1126,7 @@ riends2-eps-converted-to.pdf img/Union_App-User-Active-Friends2.eps>
 (epstopdf)             \includegraphics on input line 253.
 Package epstopdf Info: Output file is already uptodate.
 
-<img/Union_App-User-Active-Friends2-eps-converted-to.pdf, id=1351, 578.16pt x 4
+<img/Union_App-User-Active-Friends2-eps-converted-to.pdf, id=1356, 578.16pt x 4
 33.62pt>
 File: img/Union_App-User-Active-Friends2-eps-converted-to.pdf Graphic file (typ
 e pdf)
@@ -1245,7 +1144,7 @@ onFriends2-eps-converted-to.pdf img/Union_App-User-Active-NonFriends2.eps>
 (epstopdf)             \includegraphics on input line 254.
 Package epstopdf Info: Output file is already uptodate.
 
-<img/Union_App-User-Active-NonFriends2-eps-converted-to.pdf, id=1352, 578.16pt 
+<img/Union_App-User-Active-NonFriends2-eps-converted-to.pdf, id=1357, 578.16pt 
 x 433.62pt>
 File: img/Union_App-User-Active-NonFriends2-eps-converted-to.pdf Graphic file (
 type pdf)
@@ -1265,7 +1164,7 @@ Package epstopdf Info: Source file: <img/Active_App-User-Passive2.eps>
 (epstopdf)             \includegraphics on input line 260.
 Package epstopdf Info: Output file is already uptodate.
 
-<img/Active_App-User-Passive2-eps-converted-to.pdf, id=1353, 578.16pt x 433.62p
+<img/Active_App-User-Passive2-eps-converted-to.pdf, id=1358, 578.16pt x 433.62p
 t>
 File: img/Active_App-User-Passive2-eps-converted-to.pdf Graphic file (type pdf)
 
@@ -1282,7 +1181,7 @@ to.pdf>
 (epstopdf)             \includegraphics on input line 261.
 Package epstopdf Info: Output file is already uptodate.
 
-<img/Active_FB-User-Passive2-eps-converted-to.pdf, id=1354, 578.16pt x 433.62pt
+<img/Active_FB-User-Passive2-eps-converted-to.pdf, id=1359, 578.16pt x 433.62pt
 >
 File: img/Active_FB-User-Passive2-eps-converted-to.pdf Graphic file (type pdf)
  <use img/Active_FB-User-Passive2-eps-converted-to.pdf>
@@ -1298,7 +1197,7 @@ All2-eps-converted-to.pdf img/Active_App-User-Active-All2.eps>
 (epstopdf)             \includegraphics on input line 262.
 Package epstopdf Info: Output file is already uptodate.
 
-<img/Active_App-User-Active-All2-eps-converted-to.pdf, id=1355, 578.16pt x 433.
+<img/Active_App-User-Active-All2-eps-converted-to.pdf, id=1360, 578.16pt x 433.
 62pt>
 File: img/Active_App-User-Active-All2-eps-converted-to.pdf Graphic file (type p
 df)
@@ -1315,7 +1214,7 @@ Friends2-eps-converted-to.pdf img/Active_App-User-Active-Friends2.eps>
 (epstopdf)             \includegraphics on input line 263.
 Package epstopdf Info: Output file is already uptodate.
 
-<img/Active_App-User-Active-Friends2-eps-converted-to.pdf, id=1356, 578.16pt x 
+<img/Active_App-User-Active-Friends2-eps-converted-to.pdf, id=1361, 578.16pt x 
 433.62pt>
 File: img/Active_App-User-Active-Friends2-eps-converted-to.pdf Graphic file (ty
 pe pdf)
@@ -1333,7 +1232,7 @@ Nonfriends2-eps-converted-to.pdf img/Active_App-User-Active-Nonfriends2.eps>
 (epstopdf)             \includegraphics on input line 264.
 Package epstopdf Info: Output file is already uptodate.
 
-<img/Active_App-User-Active-Nonfriends2-eps-converted-to.pdf, id=1357, 578.16pt
+<img/Active_App-User-Active-Nonfriends2-eps-converted-to.pdf, id=1362, 578.16pt
  x 433.62pt>
 File: img/Active_App-User-Active-Nonfriends2-eps-converted-to.pdf Graphic file 
 (type pdf)
@@ -1341,116 +1240,26 @@ File: img/Active_App-User-Active-Nonfriends2-eps-converted-to.pdf Graphic file
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-) (./conclusion.tex [35 <./img/live-likes2-eps-converted-to.pdf> <./img/live-di
-slikes2-eps-converted-to.pdf>] [36 <./img/live-friend-likes2-eps-converted-to.p
+) (./conclusion.tex [37 <./img/live-likes2-eps-converted-to.pdf> <./img/live-di
+slikes2-eps-converted-to.pdf>] [38 <./img/live-friend-likes2-eps-converted-to.p
 df> <./img/live-nonfriend-likes2-eps-converted-to.pdf> <./img/live-friend-disli
 kes2-eps-converted-to.pdf> <./img/live-nonfriend-dislikes2-eps-converted-to.pdf
->] [37 <./img/Passive_App-User-Passive2-eps-converted-to.pdf> <./img/Passive_FB
+>] [39 <./img/Passive_App-User-Passive2-eps-converted-to.pdf> <./img/Passive_FB
 -User-Passive2-eps-converted-to.pdf> <./img/Passive_App-User-active-all2-eps-co
 nverted-to.pdf> <./img/Passive_App-User-Active-Friends2-eps-converted-to.pdf> <
-./img/Passive_App-User-Active-NonFriends2-eps-converted-to.pdf>] [38 <./img/Uni
+./img/Passive_App-User-Active-NonFriends2-eps-converted-to.pdf>] [40 <./img/Uni
 on_App-User-Passive2-eps-converted-to.pdf> <./img/Union_FB-User-Passive2-eps-co
 nverted-to.pdf> <./img/Union_App-User-Active-All2-eps-converted-to.pdf> <./img/
 Union_App-User-Active-Friends2-eps-converted-to.pdf> <./img/Union_App-User-Acti
-ve-NonFriends2-eps-converted-to.pdf>] [39 <./img/Active_App-User-Passive2-eps-c
+ve-NonFriends2-eps-converted-to.pdf>] [41 <./img/Active_App-User-Passive2-eps-c
 onverted-to.pdf> <./img/Active_FB-User-Passive2-eps-converted-to.pdf> <./img/Ac
 tive_App-User-Active-All2-eps-converted-to.pdf> <./img/Active_App-User-Active-F
 riends2-eps-converted-to.pdf> <./img/Active_App-User-Active-Nonfriends2-eps-con
-verted-to.pdf>] [40
+verted-to.pdf>] [42
 
 ]
 Chapter 6.
-[41]) [42]
-
-LaTeX Warning: Citation `ste' undefined on input line 151.
-
-
-LaTeX Warning: Citation `lla' undefined on input line 151.
-
-
-LaTeX Warning: Citation `glfm' undefined on input line 151.
-
-
-LaTeX Warning: Citation `tf' undefined on input line 151.
-
-
-LaTeX Warning: Citation `sorec' undefined on input line 151.
-
-
-LaTeX Warning: Citation `sr' undefined on input line 151.
-
-
-LaTeX Warning: Citation `rrmf' undefined on input line 151.
-
-
-LaTeX Warning: Citation `bisim' undefined on input line 151.
-
-
-LaTeX Warning: Citation `socinf' undefined on input line 151.
-
-
-LaTeX Warning: Citation `matchbox' undefined on input line 151.
-
-
-LaTeX Warning: Citation `conitzer-jair-09' undefined on input line 151.
-
-
-LaTeX Warning: Citation `jones-jgo-01' undefined on input line 151.
-
-
-LaTeX Warning: Citation `bonilla-et-al-nips-08' undefined on input line 151.
-
-
-LaTeX Warning: Citation `kamishima-kdd-03' undefined on input line 151.
-
-
-LaTeX Warning: Citation `huang-guestrin-nips-09' undefined on input line 151.
-
-
-LaTeX Warning: Citation `birlutiu-et-al-neuro-10' undefined on input line 151.
-
-
-LaTeX Warning: Citation `chu-Ghahramani-icml-05' undefined on input line 151.
-
-
-LaTeX Warning: Citation `chu-Ghahramani-jmlr-05' undefined on input line 151.
-
-
-LaTeX Warning: Citation `brochu-et-al-nips-08' undefined on input line 151.
-
-
-LaTeX Warning: Citation `yu-et-al-icml-05' undefined on input line 151.
-
-
-LaTeX Warning: Citation `howard-ieee-66' undefined on input line 151.
-
-
-LaTeX Warning: Citation `chajewska-et-al-aaai-00' undefined on input line 151.
-
-
-LaTeX Warning: Citation `guo-sanner-aistats-10' undefined on input line 151.
-
-
-LaTeX Warning: Citation `candela-rasmussen-jmlr-05' undefined on input line 151
-.
-
-
-LaTeX Warning: Citation `boutilier02239' undefined on input line 151.
-
-
-LaTeX Warning: Citation `Chajewska00utilitiesas' undefined on input line 151.
-
-
-LaTeX Warning: Citation `conitzer09161' undefined on input line 151.
-
-
-LaTeX Warning: Citation `viappiani09Regret-basedOptimalRecommendationSetsConver
-sational' undefined on input line 151.
-
-
-LaTeX Warning: Citation `bradley52324' undefined on input line 151.
-
-(./thesis.bbl
+[43]) [44] (./thesis.bbl
 Bib-XRef Warning: No page list for reference `birlutiu-et-al-neuro-10'.
 Bib-XRef Warning: No page list for reference `bonilla-et-al-nips-08'.
 Bib-XRef Warning: No page list for reference `boutilier02239'.
@@ -1461,67 +1270,59 @@ Bib-XRef Warning: No page list for reference `chu-Ghahramani-jmlr-05'.
 Bib-XRef Warning: No page list for reference `chu-Ghahramani-icml-05'.
 Bib-XRef Warning: No page list for reference `conitzer-jair-09'.
 Bib-XRef Warning: No page list for reference `conitzer09161'.
-Bib-XRef Warning: No page list for reference `brochu-et-al-nips-08'.
-[43
+[45
 
 
 ]
+Bib-XRef Warning: No page list for reference `brochu-et-al-nips-08'.
 Bib-XRef Warning: No page list for reference `guo-sanner-aistats-10'.
 Bib-XRef Warning: No page list for reference `howard-ieee-66'.
 Bib-XRef Warning: No page list for reference `huang-guestrin-nips-09'.
 Bib-XRef Warning: No page list for reference `jones-jgo-01'.
 Bib-XRef Warning: No page list for reference `kamishima-kdd-03'.
 Bib-XRef Warning: No page list for reference `candela-rasmussen-jmlr-05'.
+[46]
 Bib-XRef Warning: No page list for reference `viappiani09Regret-basedOptimalRec
 ommendationSetsConversational'.
-[44]
 Bib-XRef Warning: No page list for reference `yu-et-al-icml-05'.
 )
 No file thesis.ind.
-[45] (./thesis.aux)
-
-LaTeX Warning: There were undefined references.
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
- ) 
+[47] (./thesis.aux) ) 
 Here is how much of TeX's memory you used:
- 3829 strings out of 493747
- 58820 string characters out of 3143547
- 113938 words of memory out of 3000000
- 6930 multiletter control sequences out of 15000+200000
+ 3840 strings out of 493747
+ 59197 string characters out of 3143547
+ 115541 words of memory out of 3000000
+ 6939 multiletter control sequences out of 15000+200000
  17978 words of font info for 68 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
- 38i,24n,25p,1511b,271s stack positions out of 5000i,500n,10000p,200000b,50000s
-</usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
-></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
-</usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx6.pfb></
-usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb></us
-r/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></usr/
-local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/
-local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/l
-ocal/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/lo
-cal/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/loca
-l/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/
-texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/local/te
-xlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texl
-ive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texliv
-e/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/
-2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/201
-0/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2010/t
-exmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/2010/texm
-f-dist/fonts/type1/public/amsfonts/cm/cmsl10.pfb></usr/local/texlive/2010/texmf
--dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2010/texmf-
-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texlive/2010/texmf-di
-st/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2010/texmf-dist
-/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2010/texmf-dist/
-fonts/type1/public/amsfonts/cm/cmti8.pfb></usr/local/texlive/2010/texmf-dist/fo
-nts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on thesis.pdf (57 pages, 1158993 bytes).
+ 38i,24n,25p,1511b,268s stack positions out of 5000i,500n,10000p,200000b,50000s
+</usr/local/texlive/2010/texmf-dist/fonts/type1/public/ams
+fonts/cm/cmbx10.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsf
+onts/cm/cmbx12.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfo
+nts/cm/cmbx6.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfont
+s/cm/cmbx8.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/
+cm/cmcsc10.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/
+cm/cmex10.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/c
+m/cmmi10.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm
+/cmmi6.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/c
+mmi8.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmm
+i9.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10
+.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.p
+fb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb
+></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></
+usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr
+/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/lo
+cal/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmsl10.pfb></usr/loc
+al/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/loca
+l/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/
+texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/te
+xlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/tex
+live/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmti8.pfb></usr/local/texli
+ve/2010/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on thesis.pdf (59 pages, 1155908 bytes).
 PDF statistics:
- 2524 PDF objects out of 2984 (max. 8388607)
- 384 compressed objects within 4 object streams
+ 2526 PDF objects out of 2984 (max. 8388607)
+ 385 compressed objects within 4 object streams
  0 named destinations out of 1000 (max. 500000)
  246 words of extra memory for PDF output out of 10000 (max. 10000000)
 

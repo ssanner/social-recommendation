@@ -1,5 +1,13 @@
 \begin{thebibliography}{}
 
+\bibitem[\protect\citeauthoryear{Bell and Koren}{Bell and
+  Koren}{2007}]{bellkor}
+\bibsc{Bell, R.~M. and Koren, Y.} \bibyear{2007}.
+\newblock Scalable collaborative filtering with jointly derived neighborhood
+  interpolation weights.
+\newblock In \bibemphic{ICDM-07} (2007).
+\citepages{bellkor}
+
 \bibitem[\protect\citeauthoryear{Birlutiu, Groot, and Heskes}{Birlutiu
   et~al.}{2010}]{birlutiu-et-al-neuro-10}
 \bibsc{Birlutiu, A., Groot, P., and Heskes, T.} \bibyear{2010}.
@@ -58,6 +66,11 @@
   Artificial Intelligence and Twelfth Conference on Innovative Applications of
   Artificial Intelligence} (2000), pp.\  363--369. AAAI Press / The MIT Press.
 \citepages{chajewska-et-al-aaai-00}
+
+\bibitem[\protect\citeauthoryear{Chang and Lin}{Chang and Lin}{2001}]{libsvm}
+\bibsc{Chang, C.-C. and Lin, C.-J.} \bibyear{2001}.
+\newblock \bibemph{LIBSV: a Library for Support Vector Machines}.
+\citepages{libsvm}
 
 \bibitem[\protect\citeauthoryear{Chu and Ghahramani}{Chu and
   Ghahramani}{2005a}]{chu-Ghahramani-jmlr-05}
@@ -210,6 +223,12 @@
 \newblock Matchbox: large scale online bayesian recommendations.
 \newblock In \bibemphic{WWW-09} (2009), pp.\  111--120.
 \citepages{matchbox}
+
+\bibitem[\protect\citeauthoryear{Toscher and Jahrer}{Toscher and
+  Jahrer}{2009}]{netflix}
+\bibsc{Toscher, A. and Jahrer, M.} \bibyear{2009}.
+\newblock The bigchaos solution to the netflix grand prize.
+\citepages{netflix}
 
 \bibitem[\protect\citeauthoryear{Viappiani and Boutilier}{Viappiani and
   Boutilier}{2009}]{viappiani09Regret-basedOptimalRecommendationSetsConversational}

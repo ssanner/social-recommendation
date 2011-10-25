@@ -67,7 +67,7 @@ in this related work:
 {\bf $k$-Nearest Neighbor}
 \\
 
-The $k$-nearest neighbor algorithm is a method of pattern recognition that is based on the $k$ closest training data in the feature space. There are two main variants of nearest neighbors for collaborative recommendation, user-based and item-based. Given a user $u$ and an item $i$, let $N(u:i)$ be the set of nearest neighbors of $u$ that have also given a rating for i, $N(i:u)$ be the set of nearest neighbors of $i$ that have also been rated by $u$, $s_{uu'}$ the similarity rating between users $u$ and $u'$, and $s_{ii'}$ be the similarity rating for items $i$ and $i'$. The predicted rating the user $u$ gives item $i$ in the user-based approach is then calculated as
+One of the most common form of CF is the nearest neighbor approach~\cite{bellkor}. The $k$-nearest neighbor algorithm is a method of pattern recognition that is based on the $k$ closest training data in the feature space. There are two main variants of nearest neighbors for collaborative recommendation, user-based and item-based. Given a user $u$ and an item $i$, let $N(u:i)$ be the set of nearest neighbors of $u$ that have also given a rating for i, $N(i:u)$ be the set of nearest neighbors of $i$ that have also been rated by $u$, $s_{uu'}$ the similarity rating between users $u$ and $u'$, and $s_{ii'}$ be the similarity rating for items $i$ and $i'$. The predicted rating the user $u$ gives item $i$ in the user-based approach is then calculated as
 
 \[
 r_{ui} = \frac    {\sum_{v\in N(u;i)} {s_{uv}r_{uv}} } {\sum_{v\in N(u;i)}{s_{uv}}}
@@ -97,7 +97,7 @@ $\f \in \mathbb{R}^F$ derived from any $(\x,\y) \in D$, denoted
 as $\f_{\x,\y}$.  $\f_{\x,\y}$ may include features
 that are non-zero only for specific items and/or users, e.g., a $\{0,1\}$ 
 indicator feature that user $\x$
-and user $\z$ have both liked item $\y$.  
+and user $\z$ have both liked item $\y$.  The implementation used for this paper is \emph{LibSVM}~\cite{libsvm}, which gives a regression score on the classification which can be used for ranking the results.
 
 \subsection{Matrix Factorization Models}
 
@@ -161,19 +161,23 @@ these methods:
 \end{align}
 \end{itemize}
 
-The {\it SoRec} system~\cite{sorec} proposes a slight twist on social
-spectral regularization in that it learns a third ($N \times N$)
-\emph{interactions matrix} $Z$ used $U_i^T Z_k$ to predict user-user
-interaction preferences in the same way that standard CF uses $V$ in
-$U_i^T V_j$ to predict user-item ratings.  {\it SoRec} also uses a
-sigmoidal transform on the predictions.
-
 \begin{itemize}
 \item {\bf SoRec regularization~\cite{sorec}}:
+
+The {\it SoRec} system~\cite{sorec} proposes a slight twist on social
+spectral regularization in that it learns a third ($N \times N$)
+\emph{interactions matrix} $Z$, and uses $U_i^T Z_k$ to predict user-user
+interaction preferences in the same way that standard CF uses $V$ in
+$U_i^T V_j$ to predict user-item ratings.  {\it SoRec} also uses a
+sigmoidal transform on the predictions:
+
 \begin{align}
 \sum_{i} & \sum_{k \in \mathit{friends}(i)} \frac{1}{2} (S_{i,k} - \sigma(\la U_i, Z_k \ra))^2 \nonumber
 \end{align}
 \end{itemize}
+
+\begin{itemize}
+\item {\bf Social Trust Ensemble~\cite{ste} (Non-spectral)}:
 
 The second class of SCF MF approaches represented by the single
 examplar of the {\it Social Trust Ensemble} can be termed as a
@@ -182,9 +186,6 @@ prediction for item $j$ from a weighted average of a user $i$'s
 predictio
 ns \emph{as well as} their friends ($k$) predictions (as
 evidenced by the additional $\sum_k$ in the objective below).
-
-\begin{itemize}
-\item {\bf Social Trust Ensemble~\cite{ste} (Non-spectral)}:
 \begin{align}
 \sum_{(i,j) \in D} \frac{1}{2} (R_{i,j} - \sigma (U_i^T V_j + \sum_k U_i^T V_k))^2 \nonumber
 \end{align}
@@ -201,6 +202,7 @@ is given by~\cite{tf} where recommendation of user-specific tags for
 an item are modeled with tags, user, and items each in one dimension.
 To date, TF methods have not been used for social recommendation,
 however, we draw on the idea of addition dimensions of latent learning
-in our copreference regularization method.
+in our co-preference regularization method.
+\\
 
-
+In this chapter we have seen some of the different existing methods for CF and SCF. Each of these methods has its own weakness which we detailed in Chapter 1. Next, we discuss how we evaluate existing these CF and SCF algorithms, as well as the new SCF algorithms designed for this paper.
