@@ -155,10 +155,11 @@ or regression approaches.  Since our objective here is to classify
 whether a user likes an item or not (i.e., a classification objective),
 we focus on classification CBF approaches in this thesis.  For
 an initial evaluation, perhaps the most well-known and generally
-top-performing classifier is the support vector machine, hence
+top-performing classifier is the support vector machine, hence it is
 the CBF approach we choose to compare to in this work.
 
 \subsection{Support Vector Machines}
+\label{sec:svm}
 
 A \emph{support vector machine} (SVM)~\cite{svms} is a type of supervised
 learning algorithm for classification based on finding optimal separating
@@ -186,6 +187,7 @@ which can be used for ranking the results.
 
 %% Joseph: don't define your own section heading style, use what Latex has.
 \subsection{$k$-Nearest Neighbor}
+\label{sec:nn}
 %% Joseph: please revise, you must use common notation as defined above here.
 %%         note that as now defined above, you can use \x, \y, and \z as
 %%         user and item indices if you don't have user and item features.
@@ -231,6 +233,7 @@ This applies to the MovieLens 1 Million dataset as well. For the MovieLens 100,0
 \end{comment}
 
 \subsection{Matrix Factorization (MF) Models}
+\label{sec:mf}
 
 As done in standard CF methods, we assume that
 a matrix $U$ allows us to project users $\x$ (and $\z$)
