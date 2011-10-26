@@ -4,15 +4,40 @@
 
 \chapter{Conclusion}
 
-The Social Regularization constraint of Social Matchbox which has been detailed in other papers gives a very strong performance as a social recommender. It handily beat the other recommenders in the first trial and this was also reflected in offline experiments when training on the UNION dataset and testing on APP-USER-ACTIVE-ALL, the dataset combination that most closely resembles the training and recommendation data of the live trials. We also found that the Social Regularization constraint performed very differently when recommending friend links and when recommending non-friend links, and this was also reflected in the offline experiments. 
+\section{Summary}
 
-The results of the second trial indicate that the Social Spectral Regularization constrain may be better for social regularization, the two algorithms that used it performed better than the two algorithms that used the Social Regularization constraint. However, this result can't be found in the offline experiments. What can be found in the offline experiments when training on the UNION data was same decrease in performance of the algorithms when recommending non-friend links compared to recommending friend links.
+We summarize the results and contributions of this paper as follows:
 
-The results of the second trial highlight one difficulty encountered with evaluating the recommendation algorithms: which metric best correlates with human preferences. This paper uses the mean average precision as the main evaluation metric, but there may be other metrics that can better reflect the results of live user trials. Future work on social recommendation that may be crucial can be evaluation of different metric show closely they reflect user preferences.
+\begin{itemize}
+\item{
+We outlined three main deficiencies in current SCF techniques and discuss how we solve them:
 
-The social recommenders discussed in this paper try to project the user preferences into the latent space, but it was found that other implementation issues greatly affect the user perceptions of the quality of the links being recommended. One complaint was that since the majority of the LinkR users were mainly English speakers, they automatically disliked links with non-English descriptions and those that pointed to non-English pages. A quick fix we did for this was to just stop recommending non-English links. In the future, having known languages in the user feature and the language of the link or its description in the link feature may result in a lot better and more accurate recommendation, especially for users knowledgeable in non-English languages.
+\begin{itemize}
+\item[(a)] {\bf Non-feature-based user similarity:} 
+We extended existing social regularization and social spectral regularization methods to incorporate user features to learn user-user similarities in the latent space.
+\item[(b)] {\bf Model direct user-user information diffusion:} 
+We defined a new hybrid SCF method which a linear CBF function with a CF MF method to to incorporate user-user information diffusion into the model. 
+\item[(c)] {\bf Restricted common interests:}
+We defined a new social co-preference method that learns user like or dislike similarities only for specific areas.
+\end{itemize}
+}
 
-With regards to link recommendations in LinkR, it was found that users were more likely to like recommended links when those links were originally posted by their friends, as opposed to links that were originally posted by non-friends. This was found in both the first and second user trials, and even in the offline experiments. This may be because users will trust a link more when it has been "vouched" for by a friend posting it, rather than just any link from a random stranger.
+\item{Our extension to social regularization is a very effective method for SCF, and beat all other algorithms in the first trial. This was reflected in the live user trial, user survey, and offline passive experiments. However, social regularization can still be improved to address other deficiencies outlines in this thesis.}
+
+\item{Learning user-user information diffusion models can result in better SCF algorithms. Our Social Hybrid algorithm which uses this information outperformed all other SCF methods when recommending friend links.}
+
+\item {Friend interaction information coming from social regularization is more useful than the implicit co-likes information of co-preference regularization. However  when there is no social interaction information available, learning this implicit co-likes information is better than plain CF methods.}
+
+\end{itemize}
+
+\section{Future Work}
+\begin{itemize}
+\item{We used only a subset of the possible feature data in Facebook and in the links themselves. Extending the recommenders to handle more of the rich information that is available may result in better performance for the SCF algorithms. One feature that would have been useful is including a $genre$ feature in the links (blog, news, video, etc.) to  fine-grain which types of links that users prefers to receive. This would have prevented a number of dislikes that from users that do not listen to music much and kept getting recommended music videos from YouTube. A specific genre like ``music video" in the links would have allowed the SCF algorithms to learn these types of user preferences.}
+\item{Related to having more features like the genre of the links, enforcing diversity in the recommended links would prevent redundant  links about the same topic being recommended again and again. This is especially useful when an unusual event happens like the death of Steve Jobs and the ensuing massive amount of links about it being posted on Facebook by other users.}
+\item{Another future direction this work can go to is to incorporate active learning in the algorithms. This would ensure that the SCF algorithm do not exploit the learned preferences too much and even discover better link preferences that are available.}
+\item{Probably the biggest assumption we have made in our implementations is how we inferred the implicit dislikes of users in the Facebook data. A better and method of inferring implicit dislikes will give a big boost to the SCF algorithms. As evidenced by the results of training on ACTIVE and UNION data, having a more accurate list of likes and dislikes greatly improves the performance of the SCF algorithms. }
+\item{Finally, there may be a better metric than MAP for offline testing that more accurately correlates with live human preference. What that metric is is still an open question.}
+\end{itemize}
 
 %%% Local Variables: 
 %%% mode: latex

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.11 (TeX Live 2010) (format=pdflatex 2011.4.2)  27 OCT 2011 01:44
+This is pdfTeX, Version 3.1415926-1.40.11 (TeX Live 2010) (format=pdflatex 2011.4.2)  27 OCT 2011 03:28
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -237,6 +237,14 @@ Package: url 2006/04/12  ver 3.3  Verb mode for urls, etc.
 
 Writing index file thesis.idx
 (./thesis.aux)
+Runaway argument?
+{\contentsline {figure}{\numberline {4.6}{\ignorespaces Res 
+./thesis.tex:88: File ended while scanning use of \@writefile.
+<inserted text> 
+                \par 
+l.88 \begin{document}
+                     
+? 
 \openout1 = `thesis.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 88.
@@ -251,7 +259,6 @@ LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 88.
 LaTeX Font Info:    ... okay on input line 88.
 LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 88.
 LaTeX Font Info:    ... okay on input line 88.
-
 (/usr/local/texlive/2010/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count110
@@ -350,14 +357,19 @@ File: umsb.fd 2009/06/22 v3.00 AMS symbols B
 ]
 [10
 
-] (./thesis.toc [11
-
-])
+] (./thesis.toc)
 \tf@toc=\write4
 \openout4 = `thesis.toc'.
 
- [12] (./intro.tex
+ [11
+
+] [12
+
+] (./intro.tex
 Chapter 1.
+
+LaTeX Warning: Citation `netflix' on page 1 undefined on input line 21.
+
 Package epstopdf Info: Source file: <img/posted-link.eps>
 (epstopdf)                    date: 2011-10-25 21:04:34
 (epstopdf)                    size: 699272 bytes
@@ -368,16 +380,31 @@ Package epstopdf Info: Source file: <img/posted-link.eps>
 ed-to.pdf img/posted-link.eps>
 (epstopdf)             \includegraphics on input line 46.
 Package epstopdf Info: Output file is already uptodate.
-<img/posted-link-eps-converted-to.pdf, id=53, 480.79625pt x 238.8925pt>
+<img/posted-link-eps-converted-to.pdf, id=51, 480.79625pt x 238.8925pt>
 File: img/posted-link-eps-converted-to.pdf Graphic file (type pdf)
 
-<use img/posted-link-eps-converted-to.pdf> [1
+<use img/posted-link-eps-converted-to.pdf>
 
+LaTeX Warning: Citation `pmf' on page 1 undefined on input line 77.
 
-] [2 <./img/posted-link-eps-converted-to.pdf>] [3] [4]) (./chap2.tex [5] [6
+[1
+
+] [2 <./img/posted-link-eps-converted-to.pdf>]
+
+LaTeX Warning: Citation `matchbox' on page 3 undefined on input line 161.
+
+[3] [4]) (./chap2.tex [5] [6
 
 ]
 Chapter 2.
+
+LaTeX Warning: Citation `collab_filtering' on page 7 undefined on input line 30
+.
+
+
+LaTeX Warning: Citation `collab_filtering' on page 7 undefined on input line 41
+.
+
 [7]
 Overfull \hbox (2.02138pt too wide) in paragraph at lines 85--89
 []\OT1/cmr/m/n/10.95 A (non-exhaustive) data set $\OML/cmm/m/it/10.95 D$ \OT1/c
@@ -387,7 +414,59 @@ OT1/cmr/m/n/10.95 = \OMS/cmsy/m/n/10.95 f\OT1/cmr/m/n/10.95 (\OT1/cmr/bx/n/10.9
 n/10.95 !
  []
 
-[8] [9] [10] [11] [12]) (./chap3.tex [13] [14
+[8]
+
+LaTeX Warning: Citation `svms' on page 9 undefined on input line 164.
+
+
+LaTeX Warning: Citation `libsvm' on page 9 undefined on input line 182.
+
+
+LaTeX Warning: Citation `bellkor' on page 9 undefined on input line 196.
+
+[9]
+
+LaTeX Warning: Citation `bellkor' on page 10 undefined on input line 212.
+
+
+LaTeX Warning: Citation `bellkor' on page 10 undefined on input line 229.
+
+[10]
+
+LaTeX Warning: Citation `pmf' on page 11 undefined on input line 283.
+
+
+LaTeX Warning: Citation `matchbox' on page 11 undefined on input line 287.
+
+
+LaTeX Warning: Citation `lla' on page 11 undefined on input line 324.
+
+
+LaTeX Warning: Citation `socinf' on page 11 undefined on input line 324.
+
+
+LaTeX Warning: Citation `sr' on page 11 undefined on input line 329.
+
+
+LaTeX Warning: Citation `rrmf' on page 11 undefined on input line 329.
+
+[11]
+
+LaTeX Warning: Citation `spectral' on page 12 undefined on input line 335.
+
+
+LaTeX Warning: Citation `sorec' on page 12 undefined on input line 337.
+
+
+LaTeX Warning: Citation `sorec' on page 12 undefined on input line 345.
+
+
+LaTeX Warning: Citation `ste' on page 12 undefined on input line 359.
+
+
+LaTeX Warning: Citation `tf' on page 12 undefined on input line 374.
+
+[12]) (./chap3.tex [13] [14
 
 ]
 Chapter 3.
@@ -402,7 +481,7 @@ Package epstopdf Info: Source file: <img/linkr.eps>
 pdf img/linkr.eps>
 (epstopdf)             \includegraphics on input line 61.
 Package epstopdf Info: Output file is already uptodate.
- <img/linkr-eps-converted-to.pdf, id=114, 757.83125pt x 453.695pt>
+ <img/linkr-eps-converted-to.pdf, id=115, 757.83125pt x 453.695pt>
 File: img/linkr-eps-converted-to.pdf Graphic file (type pdf)
 
 <use img/linkr-eps-converted-to.pdf>
@@ -422,12 +501,18 @@ ted-to.pdf img/linkr_rating.eps>
 (epstopdf)             \includegraphics on input line 257.
 Package epstopdf Info: Output file is already uptodate.
 
-<img/linkr_rating-eps-converted-to.pdf, id=127, 560.0925pt x 272.01625pt>
+<img/linkr_rating-eps-converted-to.pdf, id=128, 560.0925pt x 272.01625pt>
 File: img/linkr_rating-eps-converted-to.pdf Graphic file (type pdf)
 
 <use img/linkr_rating-eps-converted-to.pdf> [19]) (./chap4.tex [20 <./img/linkr
 _rating-eps-converted-to.pdf>]
 Chapter 4.
+
+LaTeX Warning: Citation `matchbox' on page 21 undefined on input line 51.
+
+
+LaTeX Warning: Citation `pmf' on page 21 undefined on input line 51.
+
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
@@ -437,6 +522,12 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 Underfull \hbox (badness 10000) in paragraph at lines 89--91
 
  []
+
+
+LaTeX Warning: Citation `lla' on page 22 undefined on input line 92.
+
+
+LaTeX Warning: Citation `socinf' on page 22 undefined on input line 92.
 
 
 Underfull \vbox (badness 1478) has occurred while \output is active []
@@ -456,7 +547,7 @@ Package epstopdf Info: Source file: <img/live-likes1.eps>
 ed-to.pdf img/live-likes1.eps>
 (epstopdf)             \includegraphics on input line 222.
 Package epstopdf Info: Output file is already uptodate.
- <img/live-likes1-eps-converted-to.pdf, id=152, 578.16pt x 433.62pt>
+ <img/live-likes1-eps-converted-to.pdf, id=153, 578.16pt x 433.62pt>
 File: img/live-likes1-eps-converted-to.pdf Graphic file (type pdf)
 
 <use img/live-likes1-eps-converted-to.pdf> [25]
@@ -472,7 +563,7 @@ converted-to.pdf img/live-friend-likes1.eps>
 (epstopdf)             \includegraphics on input line 232.
 Package epstopdf Info: Output file is already uptodate.
 
-<img/live-friend-likes1-eps-converted-to.pdf, id=157, 578.16pt x 433.62pt>
+<img/live-friend-likes1-eps-converted-to.pdf, id=158, 578.16pt x 433.62pt>
 File: img/live-friend-likes1-eps-converted-to.pdf Graphic file (type pdf)
 
 <use img/live-friend-likes1-eps-converted-to.pdf>
@@ -488,7 +579,7 @@ ps-converted-to.pdf img/live-nonfriend-likes1.eps>
 (epstopdf)             \includegraphics on input line 233.
 Package epstopdf Info: Output file is already uptodate.
 
-<img/live-nonfriend-likes1-eps-converted-to.pdf, id=158, 578.16pt x 433.62pt>
+<img/live-nonfriend-likes1-eps-converted-to.pdf, id=159, 578.16pt x 433.62pt>
 File: img/live-nonfriend-likes1-eps-converted-to.pdf Graphic file (type pdf)
 
 <use img/live-nonfriend-likes1-eps-converted-to.pdf>
@@ -507,7 +598,7 @@ to.pdf img/not-seen.eps>
 (epstopdf)             \includegraphics on input line 257.
 Package epstopdf Info: Output file is already uptodate.
 
-<img/not-seen-eps-converted-to.pdf, id=206, 578.16pt x 433.62pt>
+<img/not-seen-eps-converted-to.pdf, id=207, 578.16pt x 433.62pt>
 File: img/not-seen-eps-converted-to.pdf Graphic file (type pdf)
 
 <use img/not-seen-eps-converted-to.pdf>
@@ -522,7 +613,7 @@ to.pdf img/relevant.eps>
 (epstopdf)             \includegraphics on input line 258.
 Package epstopdf Info: Output file is already uptodate.
 
-<img/relevant-eps-converted-to.pdf, id=207, 578.16pt x 433.62pt>
+<img/relevant-eps-converted-to.pdf, id=208, 578.16pt x 433.62pt>
 File: img/relevant-eps-converted-to.pdf Graphic file (type pdf)
 
 <use img/relevant-eps-converted-to.pdf>
@@ -537,7 +628,7 @@ o.pdf img/adapted.eps>
 (epstopdf)             \includegraphics on input line 259.
 Package epstopdf Info: Output file is already uptodate.
 
-<img/adapted-eps-converted-to.pdf, id=208, 578.16pt x 433.62pt>
+<img/adapted-eps-converted-to.pdf, id=209, 578.16pt x 433.62pt>
 File: img/adapted-eps-converted-to.pdf Graphic file (type pdf)
 
 <use img/adapted-eps-converted-to.pdf>
@@ -552,13 +643,16 @@ Package epstopdf Info: Source file: <img/satisfied.eps>
 (epstopdf)             \includegraphics on input line 260.
 Package epstopdf Info: Output file is already uptodate.
 
-<img/satisfied-eps-converted-to.pdf, id=209, 578.16pt x 433.62pt>
+<img/satisfied-eps-converted-to.pdf, id=210, 578.16pt x 433.62pt>
 File: img/satisfied-eps-converted-to.pdf Graphic file (type pdf)
 
 <use img/satisfied-eps-converted-to.pdf> [27 <./img/live-friend-likes1-eps-conv
 erted-to.pdf> <./img/live-nonfriend-likes1-eps-converted-to.pdf>] [28 <./img/no
 t-seen-eps-converted-to.pdf> <./img/relevant-eps-converted-to.pdf> <./img/adapt
 ed-eps-converted-to.pdf> <./img/satisfied-eps-converted-to.pdf>]
+
+LaTeX Warning: Reference `fig:union1' on page 29 undefined on input line 276.
+
 Package epstopdf Info: Source file: <img/Passive_App-User-Passive1.eps>
 (epstopdf)                    date: 2011-10-26 19:32:00
 (epstopdf)                    size: 29096 bytes
@@ -571,7 +665,7 @@ e1-eps-converted-to.pdf img/Passive_App-User-Passive1.eps>
 (epstopdf)             \includegraphics on input line 283.
 Package epstopdf Info: Output file is already uptodate.
 
-<img/Passive_App-User-Passive1-eps-converted-to.pdf, id=475, 578.16pt x 433.62p
+<img/Passive_App-User-Passive1-eps-converted-to.pdf, id=476, 578.16pt x 433.62p
 t>
 File: img/Passive_App-User-Passive1-eps-converted-to.pdf Graphic file (type pdf
 )
@@ -588,7 +682,7 @@ Package epstopdf Info: Source file: <img/Passive_FB-User-Passive1.eps>
 (epstopdf)             \includegraphics on input line 284.
 Package epstopdf Info: Output file is already uptodate.
 
-<img/Passive_FB-User-Passive1-eps-converted-to.pdf, id=476, 578.16pt x 433.62pt
+<img/Passive_FB-User-Passive1-eps-converted-to.pdf, id=477, 578.16pt x 433.62pt
 >
 File: img/Passive_FB-User-Passive1-eps-converted-to.pdf Graphic file (type pdf)
 
@@ -605,7 +699,7 @@ rted-to.pdf>
 (epstopdf)             \includegraphics on input line 285.
 Package epstopdf Info: Output file is already uptodate.
 
-<img/Passive_App-User-active-all1-eps-converted-to.pdf, id=477, 578.16pt x 433.
+<img/Passive_App-User-active-all1-eps-converted-to.pdf, id=478, 578.16pt x 433.
 62pt>
 File: img/Passive_App-User-active-all1-eps-converted-to.pdf Graphic file (type 
 pdf)
@@ -622,7 +716,7 @@ onverted-to.pdf>
 (epstopdf)             \includegraphics on input line 286.
 Package epstopdf Info: Output file is already uptodate.
 
-<img/Passive_App-User-Active-Friends1-eps-converted-to.pdf, id=478, 578.16pt x 
+<img/Passive_App-User-Active-Friends1-eps-converted-to.pdf, id=479, 578.16pt x 
 433.62pt>
 File: img/Passive_App-User-Active-Friends1-eps-converted-to.pdf Graphic file (t
 ype pdf)
@@ -640,7 +734,7 @@ s-converted-to.pdf>
 (epstopdf)             \includegraphics on input line 287.
 Package epstopdf Info: Output file is already uptodate.
 
-<img/Passive_App-User-Active-NonFriends1-eps-converted-to.pdf, id=479, 578.16pt
+<img/Passive_App-User-Active-NonFriends1-eps-converted-to.pdf, id=480, 578.16pt
  x 433.62pt>
 File: img/Passive_App-User-Active-NonFriends1-eps-converted-to.pdf Graphic file
  (type pdf)
@@ -658,7 +752,7 @@ Package epstopdf Info: Source file: <img/Active_App-User-Passive1.eps>
 (epstopdf)             \includegraphics on input line 294.
 Package epstopdf Info: Output file is already uptodate.
 
-<img/Active_App-User-Passive1-eps-converted-to.pdf, id=480, 578.16pt x 433.62pt
+<img/Active_App-User-Passive1-eps-converted-to.pdf, id=481, 578.16pt x 433.62pt
 >
 File: img/Active_App-User-Passive1-eps-converted-to.pdf Graphic file (type pdf)
 
@@ -675,7 +769,7 @@ All1-eps-converted-to.pdf img/Active_App-User-Active-All1.eps>
 (epstopdf)             \includegraphics on input line 296.
 Package epstopdf Info: Output file is already uptodate.
 
-<img/Active_App-User-Active-All1-eps-converted-to.pdf, id=481, 578.16pt x 433.6
+<img/Active_App-User-Active-All1-eps-converted-to.pdf, id=482, 578.16pt x 433.6
 2pt>
 File: img/Active_App-User-Active-All1-eps-converted-to.pdf Graphic file (type p
 df)
@@ -692,7 +786,7 @@ Friends1-eps-converted-to.pdf img/Active_App-User-Active-Friends1.eps>
 (epstopdf)             \includegraphics on input line 297.
 Package epstopdf Info: Output file is already uptodate.
 
-<img/Active_App-User-Active-Friends1-eps-converted-to.pdf, id=482, 578.16pt x 4
+<img/Active_App-User-Active-Friends1-eps-converted-to.pdf, id=483, 578.16pt x 4
 33.62pt>
 File: img/Active_App-User-Active-Friends1-eps-converted-to.pdf Graphic file (ty
 pe pdf)
@@ -710,7 +804,7 @@ Nonfriends1-eps-converted-to.pdf img/Active_App-User-Active-Nonfriends1.eps>
 (epstopdf)             \includegraphics on input line 298.
 Package epstopdf Info: Output file is already uptodate.
 
-<img/Active_App-User-Active-Nonfriends1-eps-converted-to.pdf, id=483, 578.16pt 
+<img/Active_App-User-Active-Nonfriends1-eps-converted-to.pdf, id=484, 578.16pt 
 x 433.62pt>
 File: img/Active_App-User-Active-Nonfriends1-eps-converted-to.pdf Graphic file 
 (type pdf)
@@ -727,7 +821,7 @@ to.pdf>
 (epstopdf)             \includegraphics on input line 305.
 Package epstopdf Info: Output file is already uptodate.
 
-<img/Union_App-User-Passive1-eps-converted-to.pdf, id=484, 578.16pt x 433.62pt>
+<img/Union_App-User-Passive1-eps-converted-to.pdf, id=485, 578.16pt x 433.62pt>
 File: img/Union_App-User-Passive1-eps-converted-to.pdf Graphic file (type pdf)
 <use img/Union_App-User-Passive1-eps-converted-to.pdf>
 Package epstopdf Info: Source file: <img/Union_FB-User-Passive1.eps>
@@ -742,7 +836,7 @@ eps-converted-to.pdf img/Union_FB-User-Passive1.eps>
 (epstopdf)             \includegraphics on input line 306.
 Package epstopdf Info: Output file is already uptodate.
 
-<img/Union_FB-User-Passive1-eps-converted-to.pdf, id=485, 578.16pt x 433.62pt>
+<img/Union_FB-User-Passive1-eps-converted-to.pdf, id=486, 578.16pt x 433.62pt>
 File: img/Union_FB-User-Passive1-eps-converted-to.pdf Graphic file (type pdf)
 
 <use img/Union_FB-User-Passive1-eps-converted-to.pdf>
@@ -758,7 +852,7 @@ ll1-eps-converted-to.pdf img/Union_App-User-Active-All1.eps>
 (epstopdf)             \includegraphics on input line 307.
 Package epstopdf Info: Output file is already uptodate.
 
-<img/Union_App-User-Active-All1-eps-converted-to.pdf, id=486, 578.16pt x 433.62
+<img/Union_App-User-Active-All1-eps-converted-to.pdf, id=487, 578.16pt x 433.62
 pt>
 File: img/Union_App-User-Active-All1-eps-converted-to.pdf Graphic file (type pd
 f)
@@ -775,7 +869,7 @@ riends1-eps-converted-to.pdf img/Union_App-User-Active-Friends1.eps>
 (epstopdf)             \includegraphics on input line 308.
 Package epstopdf Info: Output file is already uptodate.
 
-<img/Union_App-User-Active-Friends1-eps-converted-to.pdf, id=487, 578.16pt x 43
+<img/Union_App-User-Active-Friends1-eps-converted-to.pdf, id=488, 578.16pt x 43
 3.62pt>
 File: img/Union_App-User-Active-Friends1-eps-converted-to.pdf Graphic file (typ
 e pdf)
@@ -793,7 +887,7 @@ onFriends1-eps-converted-to.pdf img/Union_App-User-Active-NonFriends1.eps>
 (epstopdf)             \includegraphics on input line 309.
 Package epstopdf Info: Output file is already uptodate.
 
-<img/Union_App-User-Active-NonFriends1-eps-converted-to.pdf, id=488, 578.16pt x
+<img/Union_App-User-Active-NonFriends1-eps-converted-to.pdf, id=489, 578.16pt x
  433.62pt>
 File: img/Union_App-User-Active-NonFriends1-eps-converted-to.pdf Graphic file (
 type pdf)
@@ -813,6 +907,16 @@ Chapter 5.
 [33
 
 ]
+
+LaTeX Warning: Citation `matchbox' on page 34 undefined on input line 54.
+
+
+LaTeX Warning: Citation `sr' on page 34 undefined on input line 54.
+
+
+LaTeX Warning: Citation `rrmf' on page 34 undefined on input line 54.
+
+
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [34]
@@ -820,6 +924,10 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 LaTeX Warning: Reference `rsc' on page 35 undefined on input line 98.
 
 [35]
+
+LaTeX Warning: Citation `matrix' on page 36 undefined on input line 114.
+
+
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [36]
@@ -829,7 +937,21 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [38]
+
+LaTeX Warning: Reference `tab:assigned2' on page 39 undefined on input line 211
+.
+
+
+LaTeX Warning: Reference `tab:assigned2' on page 39 undefined on input line 225
+.
+
 [39]
+
+LaTeX Warning: Reference `fig:online2' on page 40 undefined on input line 244.
+
+
+LaTeX Warning: Reference `fig:online2' on page 40 undefined on input line 246.
+
 Package epstopdf Info: Source file: <img/live-likes2.eps>
 (epstopdf)                    date: 2011-10-26 19:25:20
 (epstopdf)                    size: 31622 bytes
@@ -840,11 +962,19 @@ Package epstopdf Info: Source file: <img/live-likes2.eps>
 ed-to.pdf img/live-likes2.eps>
 (epstopdf)             \includegraphics on input line 250.
 Package epstopdf Info: Output file is already uptodate.
- <img/live-likes2-eps-converted-to.pdf, id=1199, 578.16pt x 433.62pt>
+<img/live-likes2-eps-converted-to.pdf, id=1200, 578.16pt x 433.62pt>
 File: img/live-likes2-eps-converted-to.pdf Graphic file (type pdf)
 
-<use img/live-likes2-eps-converted-to.pdf> [40 <./img/live-likes2-eps-converted
--to.pdf>]
+<use img/live-likes2-eps-converted-to.pdf>
+
+LaTeX Warning: Reference `fig:OnlineFriend2' on page 40 undefined on input line
+ 256.
+
+
+LaTeX Warning: Reference `fig:OnlineFriend2' on page 40 undefined on input line
+ 257.
+
+[40 <./img/live-likes2-eps-converted-to.pdf>]
 Package epstopdf Info: Source file: <img/live-friend-likes2.eps>
 (epstopdf)                    date: 2011-10-26 23:40:59
 (epstopdf)                    size: 31708 bytes
@@ -857,7 +987,7 @@ converted-to.pdf img/live-friend-likes2.eps>
 (epstopdf)             \includegraphics on input line 265.
 Package epstopdf Info: Output file is already uptodate.
 
-<img/live-friend-likes2-eps-converted-to.pdf, id=1248, 578.16pt x 433.62pt>
+<img/live-friend-likes2-eps-converted-to.pdf, id=1249, 578.16pt x 433.62pt>
 File: img/live-friend-likes2-eps-converted-to.pdf Graphic file (type pdf)
 
 <use img/live-friend-likes2-eps-converted-to.pdf>
@@ -873,18 +1003,60 @@ ps-converted-to.pdf img/live-nonfriend-likes2.eps>
 (epstopdf)             \includegraphics on input line 266.
 Package epstopdf Info: Output file is already uptodate.
 
-<img/live-nonfriend-likes2-eps-converted-to.pdf, id=1249, 578.16pt x 433.62pt>
+<img/live-nonfriend-likes2-eps-converted-to.pdf, id=1250, 578.16pt x 433.62pt>
 File: img/live-nonfriend-likes2-eps-converted-to.pdf Graphic file (type pdf)
 
 <use img/live-nonfriend-likes2-eps-converted-to.pdf>
+
+LaTeX Warning: Reference `fig:online2' on page 41 undefined on input line 273.
+
+
+LaTeX Warning: Reference `fig:OnlineFriend2' on page 41 undefined on input line
+ 273.
+
+
+LaTeX Warning: Reference `fig:online2' on page 41 undefined on input line 276.
+
+
+LaTeX Warning: Reference `fig:OnlineFriend2' on page 41 undefined on input line
+ 276.
+
+
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [41 <./img/live-friend-likes2-eps-converted-to.pdf> <./img/live-nonfriend-like
 s2-eps-converted-to.pdf>]
-Overfull \hbox (10.81657pt too wide) in paragraph at lines 290--291
-[]\OT1/cmr/m/n/10.95 In Fig-ure 5.5[], when train-ing UNION and test-ing on APP
--USER-ACTIVE-FRIEND,
+
+LaTeX Warning: Reference `fig:OnlineFriend2' on page 42 undefined on input line
+ 278.
+
+
+LaTeX Warning: Reference `fig:passive2' on page 42 undefined on input line 285.
+
+
+
+LaTeX Warning: Reference `fig:active2' on page 42 undefined on input line 285.
+
+
+LaTeX Warning: Reference `fig:union2' on page 42 undefined on input line 285.
+
+
+LaTeX Warning: Reference `fig:union2' on page 42 undefined on input line 290.
+
+
+LaTeX Warning: Reference `sec:online2' on page 42 undefined on input line 290.
+
+
+Overfull \hbox (8.71771pt too wide) in paragraph at lines 290--291
+[]\OT1/cmr/m/n/10.95 In Fig-ure [], when train-ing UNION and test-ing on APP-US
+ER-ACTIVE-FRIEND,
  []
+
+
+LaTeX Warning: Reference `fig:active2' on page 42 undefined on input line 292.
+
+
+LaTeX Warning: Reference `sec:online2' on page 42 undefined on input line 292.
 
 [42]
 Package epstopdf Info: Source file: <img/Passive_App-User-Passive2.eps>
@@ -892,20 +1064,14 @@ Package epstopdf Info: Source file: <img/Passive_App-User-Passive2.eps>
 (epstopdf)                    size: 30941 bytes
 (epstopdf)             Output file: <img/Passive_App-User-Passive2-eps-converte
 d-to.pdf>
-(epstopdf)                    date: 2011-10-27 01:00:50
+(epstopdf)                    date: 2011-10-27 01:44:54
 (epstopdf)                    size: 16610 bytes
 (epstopdf)             Command: <epstopdf --outfile=img/Passive_App-User-Passiv
 e2-eps-converted-to.pdf img/Passive_App-User-Passive2.eps>
 (epstopdf)             \includegraphics on input line 303.
-runsystem(epstopdf --outfile=img/Passive_App-User-Passive2-eps-converted-to.pdf
- img/Passive_App-User-Passive2.eps)...executed.
+Package epstopdf Info: Output file is already uptodate.
 
-Package epstopdf Info: Result file: <img/Passive_App-User-Passive2-eps-converte
-d-to.pdf>
-(epstopdf)                    date: 2011-10-27 01:44:54
-(epstopdf)                    size: 16610 bytes.
-
-<img/Passive_App-User-Passive2-eps-converted-to.pdf, id=1351, 578.16pt x 433.62
+<img/Passive_App-User-Passive2-eps-converted-to.pdf, id=1352, 578.16pt x 433.62
 pt>
 File: img/Passive_App-User-Passive2-eps-converted-to.pdf Graphic file (type pdf
 )
@@ -915,20 +1081,14 @@ Package epstopdf Info: Source file: <img/Passive_FB-User-Passive2.eps>
 (epstopdf)                    size: 31645 bytes
 (epstopdf)             Output file: <img/Passive_FB-User-Passive2-eps-converted
 -to.pdf>
-(epstopdf)                    date: 2011-10-27 01:00:50
+(epstopdf)                    date: 2011-10-27 01:44:55
 (epstopdf)                    size: 17155 bytes
 (epstopdf)             Command: <epstopdf --outfile=img/Passive_FB-User-Passive
 2-eps-converted-to.pdf img/Passive_FB-User-Passive2.eps>
 (epstopdf)             \includegraphics on input line 304.
-runsystem(epstopdf --outfile=img/Passive_FB-User-Passive2-eps-converted-to.pdf 
-img/Passive_FB-User-Passive2.eps)...executed.
+Package epstopdf Info: Output file is already uptodate.
 
-Package epstopdf Info: Result file: <img/Passive_FB-User-Passive2-eps-converted
--to.pdf>
-(epstopdf)                    date: 2011-10-27 01:44:55
-(epstopdf)                    size: 17155 bytes.
-
-<img/Passive_FB-User-Passive2-eps-converted-to.pdf, id=1352, 578.16pt x 433.62p
+<img/Passive_FB-User-Passive2-eps-converted-to.pdf, id=1353, 578.16pt x 433.62p
 t>
 File: img/Passive_FB-User-Passive2-eps-converted-to.pdf Graphic file (type pdf)
 
@@ -938,20 +1098,14 @@ Package epstopdf Info: Source file: <img/Passive_App-User-active-all2.eps>
 (epstopdf)                    size: 31154 bytes
 (epstopdf)             Output file: <img/Passive_App-User-active-all2-eps-conve
 rted-to.pdf>
-(epstopdf)                    date: 2011-10-27 01:00:51
+(epstopdf)                    date: 2011-10-27 01:44:55
 (epstopdf)                    size: 16795 bytes
 (epstopdf)             Command: <epstopdf --outfile=img/Passive_App-User-active
 -all2-eps-converted-to.pdf img/Passive_App-User-active-all2.eps>
 (epstopdf)             \includegraphics on input line 305.
-runsystem(epstopdf --outfile=img/Passive_App-User-active-all2-eps-converted-to.
-pdf img/Passive_App-User-active-all2.eps)...executed.
+Package epstopdf Info: Output file is already uptodate.
 
-Package epstopdf Info: Result file: <img/Passive_App-User-active-all2-eps-conve
-rted-to.pdf>
-(epstopdf)                    date: 2011-10-27 01:44:55
-(epstopdf)                    size: 16795 bytes.
-
-<img/Passive_App-User-active-all2-eps-converted-to.pdf, id=1353, 578.16pt x 433
+<img/Passive_App-User-active-all2-eps-converted-to.pdf, id=1354, 578.16pt x 433
 .62pt>
 File: img/Passive_App-User-active-all2-eps-converted-to.pdf Graphic file (type 
 pdf)
@@ -961,20 +1115,14 @@ Package epstopdf Info: Source file: <img/Passive_App-User-Active-Friends2.eps>
 (epstopdf)                    size: 31785 bytes
 (epstopdf)             Output file: <img/Passive_App-User-Active-Friends2-eps-c
 onverted-to.pdf>
-(epstopdf)                    date: 2011-10-27 01:00:51
+(epstopdf)                    date: 2011-10-27 01:44:55
 (epstopdf)                    size: 17270 bytes
 (epstopdf)             Command: <epstopdf --outfile=img/Passive_App-User-Active
 -Friends2-eps-converted-to.pdf img/Passive_App-User-Active-Friends2.eps>
 (epstopdf)             \includegraphics on input line 306.
-runsystem(epstopdf --outfile=img/Passive_App-User-Active-Friends2-eps-converted
--to.pdf img/Passive_App-User-Active-Friends2.eps)...executed.
+Package epstopdf Info: Output file is already uptodate.
 
-Package epstopdf Info: Result file: <img/Passive_App-User-Active-Friends2-eps-c
-onverted-to.pdf>
-(epstopdf)                    date: 2011-10-27 01:44:55
-(epstopdf)                    size: 17270 bytes.
-
-<img/Passive_App-User-Active-Friends2-eps-converted-to.pdf, id=1354, 578.16pt x
+<img/Passive_App-User-Active-Friends2-eps-converted-to.pdf, id=1355, 578.16pt x
  433.62pt>
 File: img/Passive_App-User-Active-Friends2-eps-converted-to.pdf Graphic file (t
 ype pdf)
@@ -985,20 +1133,14 @@ s>
 (epstopdf)                    size: 32410 bytes
 (epstopdf)             Output file: <img/Passive_App-User-Active-NonFriends2-ep
 s-converted-to.pdf>
-(epstopdf)                    date: 2011-10-27 01:00:51
-(epstopdf)                    size: 17430 bytes
+(epstopdf)                    date: 2011-10-27 01:44:55
+(epstopdf)                    size: 17619 bytes
 (epstopdf)             Command: <epstopdf --outfile=img/Passive_App-User-Active
 -NonFriends2-eps-converted-to.pdf img/Passive_App-User-Active-NonFriends2.eps>
 (epstopdf)             \includegraphics on input line 307.
-runsystem(epstopdf --outfile=img/Passive_App-User-Active-NonFriends2-eps-conver
-ted-to.pdf img/Passive_App-User-Active-NonFriends2.eps)...executed.
+Package epstopdf Info: Output file is already uptodate.
 
-Package epstopdf Info: Result file: <img/Passive_App-User-Active-NonFriends2-ep
-s-converted-to.pdf>
-(epstopdf)                    date: 2011-10-27 01:44:55
-(epstopdf)                    size: 17619 bytes.
-
-<img/Passive_App-User-Active-NonFriends2-eps-converted-to.pdf, id=1355, 578.16p
+<img/Passive_App-User-Active-NonFriends2-eps-converted-to.pdf, id=1356, 578.16p
 t x 433.62pt>
 File: img/Passive_App-User-Active-NonFriends2-eps-converted-to.pdf Graphic file
  (type pdf)
@@ -1009,20 +1151,14 @@ Package epstopdf Info: Source file: <img/Active_App-User-Passive2.eps>
 (epstopdf)                    size: 30938 bytes
 (epstopdf)             Output file: <img/Active_App-User-Passive2-eps-converted
 -to.pdf>
-(epstopdf)                    date: 2011-10-27 01:00:53
+(epstopdf)                    date: 2011-10-27 01:44:56
 (epstopdf)                    size: 16606 bytes
 (epstopdf)             Command: <epstopdf --outfile=img/Active_App-User-Passive
 2-eps-converted-to.pdf img/Active_App-User-Passive2.eps>
 (epstopdf)             \includegraphics on input line 314.
-runsystem(epstopdf --outfile=img/Active_App-User-Passive2-eps-converted-to.pdf 
-img/Active_App-User-Passive2.eps)...executed.
+Package epstopdf Info: Output file is already uptodate.
 
-Package epstopdf Info: Result file: <img/Active_App-User-Passive2-eps-converted
--to.pdf>
-(epstopdf)                    date: 2011-10-27 01:44:56
-(epstopdf)                    size: 16606 bytes.
-
-<img/Active_App-User-Passive2-eps-converted-to.pdf, id=1356, 578.16pt x 433.62p
+<img/Active_App-User-Passive2-eps-converted-to.pdf, id=1357, 578.16pt x 433.62p
 t>
 File: img/Active_App-User-Passive2-eps-converted-to.pdf Graphic file (type pdf)
 
@@ -1032,20 +1168,14 @@ Package epstopdf Info: Source file: <img/Active_App-User-Active-All2.eps>
 (epstopdf)                    size: 31157 bytes
 (epstopdf)             Output file: <img/Active_App-User-Active-All2-eps-conver
 ted-to.pdf>
-(epstopdf)                    date: 2011-10-27 01:00:53
+(epstopdf)                    date: 2011-10-27 01:44:56
 (epstopdf)                    size: 16792 bytes
 (epstopdf)             Command: <epstopdf --outfile=img/Active_App-User-Active-
 All2-eps-converted-to.pdf img/Active_App-User-Active-All2.eps>
 (epstopdf)             \includegraphics on input line 316.
-runsystem(epstopdf --outfile=img/Active_App-User-Active-All2-eps-converted-to.p
-df img/Active_App-User-Active-All2.eps)...executed.
+Package epstopdf Info: Output file is already uptodate.
 
-Package epstopdf Info: Result file: <img/Active_App-User-Active-All2-eps-conver
-ted-to.pdf>
-(epstopdf)                    date: 2011-10-27 01:44:56
-(epstopdf)                    size: 16792 bytes.
-
-<img/Active_App-User-Active-All2-eps-converted-to.pdf, id=1357, 578.16pt x 433.
+<img/Active_App-User-Active-All2-eps-converted-to.pdf, id=1358, 578.16pt x 433.
 62pt>
 File: img/Active_App-User-Active-All2-eps-converted-to.pdf Graphic file (type p
 df)
@@ -1055,20 +1185,14 @@ Package epstopdf Info: Source file: <img/Active_App-User-Active-Friends2.eps>
 (epstopdf)                    size: 31784 bytes
 (epstopdf)             Output file: <img/Active_App-User-Active-Friends2-eps-co
 nverted-to.pdf>
-(epstopdf)                    date: 2011-10-27 01:00:53
+(epstopdf)                    date: 2011-10-27 01:44:56
 (epstopdf)                    size: 17262 bytes
 (epstopdf)             Command: <epstopdf --outfile=img/Active_App-User-Active-
 Friends2-eps-converted-to.pdf img/Active_App-User-Active-Friends2.eps>
 (epstopdf)             \includegraphics on input line 317.
-runsystem(epstopdf --outfile=img/Active_App-User-Active-Friends2-eps-converted-
-to.pdf img/Active_App-User-Active-Friends2.eps)...executed.
+Package epstopdf Info: Output file is already uptodate.
 
-Package epstopdf Info: Result file: <img/Active_App-User-Active-Friends2-eps-co
-nverted-to.pdf>
-(epstopdf)                    date: 2011-10-27 01:44:56
-(epstopdf)                    size: 17262 bytes.
-
-<img/Active_App-User-Active-Friends2-eps-converted-to.pdf, id=1358, 578.16pt x 
+<img/Active_App-User-Active-Friends2-eps-converted-to.pdf, id=1359, 578.16pt x 
 433.62pt>
 File: img/Active_App-User-Active-Friends2-eps-converted-to.pdf Graphic file (ty
 pe pdf)
@@ -1079,20 +1203,14 @@ Package epstopdf Info: Source file: <img/Active_App-User-Active-Nonfriends2.eps
 (epstopdf)                    size: 32405 bytes
 (epstopdf)             Output file: <img/Active_App-User-Active-Nonfriends2-eps
 -converted-to.pdf>
-(epstopdf)                    date: 2011-10-27 01:00:54
+(epstopdf)                    date: 2011-10-27 01:44:56
 (epstopdf)                    size: 17611 bytes
 (epstopdf)             Command: <epstopdf --outfile=img/Active_App-User-Active-
 Nonfriends2-eps-converted-to.pdf img/Active_App-User-Active-Nonfriends2.eps>
 (epstopdf)             \includegraphics on input line 318.
-runsystem(epstopdf --outfile=img/Active_App-User-Active-Nonfriends2-eps-convert
-ed-to.pdf img/Active_App-User-Active-Nonfriends2.eps)...executed.
+Package epstopdf Info: Output file is already uptodate.
 
-Package epstopdf Info: Result file: <img/Active_App-User-Active-Nonfriends2-eps
--converted-to.pdf>
-(epstopdf)                    date: 2011-10-27 01:44:56
-(epstopdf)                    size: 17611 bytes.
-
-<img/Active_App-User-Active-Nonfriends2-eps-converted-to.pdf, id=1359, 578.16pt
+<img/Active_App-User-Active-Nonfriends2-eps-converted-to.pdf, id=1360, 578.16pt
  x 433.62pt>
 File: img/Active_App-User-Active-Nonfriends2-eps-converted-to.pdf Graphic file 
 (type pdf)
@@ -1102,20 +1220,14 @@ Package epstopdf Info: Source file: <img/Union_App-User-Passive2.eps>
 (epstopdf)                    size: 30935 bytes
 (epstopdf)             Output file: <img/Union_App-User-Passive2-eps-converted-
 to.pdf>
-(epstopdf)                    date: 2011-10-27 01:00:51
+(epstopdf)                    date: 2011-10-27 01:44:57
 (epstopdf)                    size: 16601 bytes
 (epstopdf)             Command: <epstopdf --outfile=img/Union_App-User-Passive2
 -eps-converted-to.pdf img/Union_App-User-Passive2.eps>
 (epstopdf)             \includegraphics on input line 325.
-runsystem(epstopdf --outfile=img/Union_App-User-Passive2-eps-converted-to.pdf i
-mg/Union_App-User-Passive2.eps)...executed.
+Package epstopdf Info: Output file is already uptodate.
 
-Package epstopdf Info: Result file: <img/Union_App-User-Passive2-eps-converted-
-to.pdf>
-(epstopdf)                    date: 2011-10-27 01:44:57
-(epstopdf)                    size: 16601 bytes.
-
-<img/Union_App-User-Passive2-eps-converted-to.pdf, id=1360, 578.16pt x 433.62pt
+<img/Union_App-User-Passive2-eps-converted-to.pdf, id=1361, 578.16pt x 433.62pt
 >
 File: img/Union_App-User-Passive2-eps-converted-to.pdf Graphic file (type pdf)
  <use img/Union_App-User-Passive2-eps-converted-to.pdf>
@@ -1124,20 +1236,14 @@ Package epstopdf Info: Source file: <img/Union_FB-User-Passive2.eps>
 (epstopdf)                    size: 31639 bytes
 (epstopdf)             Output file: <img/Union_FB-User-Passive2-eps-converted-t
 o.pdf>
-(epstopdf)                    date: 2011-10-27 01:00:52
+(epstopdf)                    date: 2011-10-27 01:44:57
 (epstopdf)                    size: 17147 bytes
 (epstopdf)             Command: <epstopdf --outfile=img/Union_FB-User-Passive2-
 eps-converted-to.pdf img/Union_FB-User-Passive2.eps>
 (epstopdf)             \includegraphics on input line 326.
-runsystem(epstopdf --outfile=img/Union_FB-User-Passive2-eps-converted-to.pdf im
-g/Union_FB-User-Passive2.eps)...executed.
+Package epstopdf Info: Output file is already uptodate.
 
-Package epstopdf Info: Result file: <img/Union_FB-User-Passive2-eps-converted-t
-o.pdf>
-(epstopdf)                    date: 2011-10-27 01:44:57
-(epstopdf)                    size: 17147 bytes.
-
-<img/Union_FB-User-Passive2-eps-converted-to.pdf, id=1361, 578.16pt x 433.62pt>
+<img/Union_FB-User-Passive2-eps-converted-to.pdf, id=1362, 578.16pt x 433.62pt>
 File: img/Union_FB-User-Passive2-eps-converted-to.pdf Graphic file (type pdf)
 <use img/Union_FB-User-Passive2-eps-converted-to.pdf>
 Package epstopdf Info: Source file: <img/Union_App-User-Active-All2.eps>
@@ -1145,20 +1251,14 @@ Package epstopdf Info: Source file: <img/Union_App-User-Active-All2.eps>
 (epstopdf)                    size: 31156 bytes
 (epstopdf)             Output file: <img/Union_App-User-Active-All2-eps-convert
 ed-to.pdf>
-(epstopdf)                    date: 2011-10-27 01:00:52
+(epstopdf)                    date: 2011-10-27 01:44:57
 (epstopdf)                    size: 16795 bytes
 (epstopdf)             Command: <epstopdf --outfile=img/Union_App-User-Active-A
 ll2-eps-converted-to.pdf img/Union_App-User-Active-All2.eps>
 (epstopdf)             \includegraphics on input line 327.
-runsystem(epstopdf --outfile=img/Union_App-User-Active-All2-eps-converted-to.pd
-f img/Union_App-User-Active-All2.eps)...executed.
+Package epstopdf Info: Output file is already uptodate.
 
-Package epstopdf Info: Result file: <img/Union_App-User-Active-All2-eps-convert
-ed-to.pdf>
-(epstopdf)                    date: 2011-10-27 01:44:57
-(epstopdf)                    size: 16795 bytes.
-
-<img/Union_App-User-Active-All2-eps-converted-to.pdf, id=1362, 578.16pt x 433.6
+<img/Union_App-User-Active-All2-eps-converted-to.pdf, id=1363, 578.16pt x 433.6
 2pt>
 File: img/Union_App-User-Active-All2-eps-converted-to.pdf Graphic file (type pd
 f)
@@ -1168,20 +1268,14 @@ Package epstopdf Info: Source file: <img/Union_App-User-Active-Friends2.eps>
 (epstopdf)                    size: 31781 bytes
 (epstopdf)             Output file: <img/Union_App-User-Active-Friends2-eps-con
 verted-to.pdf>
-(epstopdf)                    date: 2011-10-27 01:00:52
+(epstopdf)                    date: 2011-10-27 01:44:57
 (epstopdf)                    size: 17271 bytes
 (epstopdf)             Command: <epstopdf --outfile=img/Union_App-User-Active-F
 riends2-eps-converted-to.pdf img/Union_App-User-Active-Friends2.eps>
 (epstopdf)             \includegraphics on input line 328.
-runsystem(epstopdf --outfile=img/Union_App-User-Active-Friends2-eps-converted-t
-o.pdf img/Union_App-User-Active-Friends2.eps)...executed.
+Package epstopdf Info: Output file is already uptodate.
 
-Package epstopdf Info: Result file: <img/Union_App-User-Active-Friends2-eps-con
-verted-to.pdf>
-(epstopdf)                    date: 2011-10-27 01:44:57
-(epstopdf)                    size: 17271 bytes.
-
-<img/Union_App-User-Active-Friends2-eps-converted-to.pdf, id=1363, 578.16pt x 4
+<img/Union_App-User-Active-Friends2-eps-converted-to.pdf, id=1364, 578.16pt x 4
 33.62pt>
 File: img/Union_App-User-Active-Friends2-eps-converted-to.pdf Graphic file (typ
 e pdf)
@@ -1192,20 +1286,14 @@ Package epstopdf Info: Source file: <img/Union_App-User-Active-NonFriends2.eps>
 (epstopdf)                    size: 32404 bytes
 (epstopdf)             Output file: <img/Union_App-User-Active-NonFriends2-eps-
 converted-to.pdf>
-(epstopdf)                    date: 2011-10-27 01:00:52
+(epstopdf)                    date: 2011-10-27 01:44:58
 (epstopdf)                    size: 17610 bytes
 (epstopdf)             Command: <epstopdf --outfile=img/Union_App-User-Active-N
 onFriends2-eps-converted-to.pdf img/Union_App-User-Active-NonFriends2.eps>
 (epstopdf)             \includegraphics on input line 329.
-runsystem(epstopdf --outfile=img/Union_App-User-Active-NonFriends2-eps-converte
-d-to.pdf img/Union_App-User-Active-NonFriends2.eps)...executed.
+Package epstopdf Info: Output file is already uptodate.
 
-Package epstopdf Info: Result file: <img/Union_App-User-Active-NonFriends2-eps-
-converted-to.pdf>
-(epstopdf)                    date: 2011-10-27 01:44:58
-(epstopdf)                    size: 17610 bytes.
-
-<img/Union_App-User-Active-NonFriends2-eps-converted-to.pdf, id=1364, 578.16pt 
+<img/Union_App-User-Active-NonFriends2-eps-converted-to.pdf, id=1365, 578.16pt 
 x 433.62pt>
 File: img/Union_App-User-Active-NonFriends2-eps-converted-to.pdf Graphic file (
 type pdf)
@@ -1225,7 +1313,97 @@ d-to.pdf> <./img/Union_App-User-Active-NonFriends2-eps-converted-to.pdf>]
 
 ]
 Chapter 6.
-[47]) [48] (./thesis.bbl
+[47]) [48]
+
+LaTeX Warning: Citation `ste' undefined on input line 152.
+
+
+LaTeX Warning: Citation `lla' undefined on input line 152.
+
+
+LaTeX Warning: Citation `glfm' undefined on input line 152.
+
+
+LaTeX Warning: Citation `tf' undefined on input line 152.
+
+
+LaTeX Warning: Citation `sorec' undefined on input line 152.
+
+
+LaTeX Warning: Citation `sr' undefined on input line 152.
+
+
+LaTeX Warning: Citation `rrmf' undefined on input line 152.
+
+
+LaTeX Warning: Citation `bisim' undefined on input line 152.
+
+
+LaTeX Warning: Citation `socinf' undefined on input line 152.
+
+
+LaTeX Warning: Citation `matchbox' undefined on input line 152.
+
+
+LaTeX Warning: Citation `conitzer-jair-09' undefined on input line 152.
+
+
+LaTeX Warning: Citation `jones-jgo-01' undefined on input line 152.
+
+
+LaTeX Warning: Citation `bonilla-et-al-nips-08' undefined on input line 152.
+
+
+LaTeX Warning: Citation `kamishima-kdd-03' undefined on input line 152.
+
+
+LaTeX Warning: Citation `huang-guestrin-nips-09' undefined on input line 152.
+
+
+LaTeX Warning: Citation `birlutiu-et-al-neuro-10' undefined on input line 152.
+
+
+LaTeX Warning: Citation `chu-Ghahramani-icml-05' undefined on input line 152.
+
+
+LaTeX Warning: Citation `chu-Ghahramani-jmlr-05' undefined on input line 152.
+
+
+LaTeX Warning: Citation `brochu-et-al-nips-08' undefined on input line 152.
+
+
+LaTeX Warning: Citation `yu-et-al-icml-05' undefined on input line 152.
+
+
+LaTeX Warning: Citation `howard-ieee-66' undefined on input line 152.
+
+
+LaTeX Warning: Citation `chajewska-et-al-aaai-00' undefined on input line 152.
+
+
+LaTeX Warning: Citation `guo-sanner-aistats-10' undefined on input line 152.
+
+
+LaTeX Warning: Citation `candela-rasmussen-jmlr-05' undefined on input line 152
+.
+
+
+LaTeX Warning: Citation `boutilier02239' undefined on input line 152.
+
+
+LaTeX Warning: Citation `Chajewska00utilitiesas' undefined on input line 152.
+
+
+LaTeX Warning: Citation `conitzer09161' undefined on input line 152.
+
+
+LaTeX Warning: Citation `viappiani09Regret-basedOptimalRecommendationSetsConver
+sational' undefined on input line 152.
+
+
+LaTeX Warning: Citation `bradley52324' undefined on input line 152.
+
+(./thesis.bbl
 Bib-XRef Warning: No page list for reference `birlutiu-et-al-neuro-10'.
 Bib-XRef Warning: No page list for reference `bonilla-et-al-nips-08'.
 Bib-XRef Warning: No page list for reference `boutilier02239'.
@@ -1248,6 +1426,7 @@ Bib-XRef Warning: No page list for reference `huang-guestrin-nips-09'.
 Bib-XRef Warning: No page list for reference `jones-jgo-01'.
 Bib-XRef Warning: No page list for reference `kamishima-kdd-03'.
 Bib-XRef Warning: No page list for reference `glfm'.
+Bib-XRef Warning: No page list for reference `matrix'.
 Bib-XRef Warning: No page list for reference `candela-rasmussen-jmlr-05'.
 [50]
 Bib-XRef Warning: No page list for reference `viappiani09Regret-basedOptimalRec
@@ -1259,11 +1438,14 @@ No file thesis.ind.
 
 LaTeX Warning: There were undefined references.
 
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
  ) 
 Here is how much of TeX's memory you used:
  3840 strings out of 493747
  57822 string characters out of 3143547
- 115051 words of memory out of 3000000
+ 113147 words of memory out of 3000000
  6948 multiletter control sequences out of 15000+200000
  19678 words of font info for 75 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
@@ -1272,31 +1454,32 @@ Here is how much of TeX's memory you used:
 ></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
 </usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx6.pfb></
 usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb></us
-r/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></us
-r/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr
-/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/
-local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/l
-ocal/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/loc
-al/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local
-/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/local/t
-exlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/tex
-live/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texli
-ve/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/texlive
-/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/20
-10/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2010/
-texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/2010/tex
-mf-dist/fonts/type1/public/amsfonts/cm/cmsl10.pfb></usr/local/texlive/2010/texm
-f-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2010/texmf
--dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texlive/2010/texmf-d
-ist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2010/texmf-dis
-t/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2010/texmf-dist
-/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/local/texlive/2010/texmf-dist/
-fonts/type1/public/amsfonts/cm/cmti8.pfb></usr/local/texlive/2010/texmf-dist/fo
-nts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on thesis.pdf (63 pages, 1110940 bytes).
+r/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></usr/
+local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/
+local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/l
+ocal/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/lo
+cal/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/loc
+al/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/local
+/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/t
+exlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/local/tex
+live/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texli
+ve/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive
+/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2
+010/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/2010
+/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2010/te
+xmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/2010/texmf
+-dist/fonts/type1/public/amsfonts/cm/cmsl10.pfb></usr/local/texlive/2010/texmf-
+dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2010/texmf-d
+ist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texlive/2010/texmf-dis
+t/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2010/texmf-dist/
+fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2010/texmf-dist/f
+onts/type1/public/amsfonts/cm/cmti12.pfb></usr/local/texlive/2010/texmf-dist/fo
+nts/type1/public/amsfonts/cm/cmti8.pfb></usr/local/texlive/2010/texmf-dist/font
+s/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on thesis.pdf (63 pages, 1116606 bytes).
 PDF statistics:
- 2176 PDF objects out of 2487 (max. 8388607)
- 374 compressed objects within 4 object streams
+ 2180 PDF objects out of 2487 (max. 8388607)
+ 377 compressed objects within 4 object streams
  0 named destinations out of 1000 (max. 500000)
  206 words of extra memory for PDF output out of 10000 (max. 10000000)
 
