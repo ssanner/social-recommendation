@@ -58,6 +58,7 @@ of the above social information, nonetheless we refer to any CF method
 that \emph{can be applied} in a social setting \emph{as} SCF.
 
 \section{Notation}
+\label{sec:notation}
 
 Here we outline mathematical notation common to the SCF setting and
 models explored in this thesis:
@@ -105,11 +106,30 @@ following:
 and $\z$}}{\mbox{average \# interactions between all user pairs}}\\
 S_{\x,\z} & = \ln \left( \mathit{Int}_{\x,\z} \right)
 \end{align}
-For purposes of this definition, an \emph{interaction} is any single event
-showing evidence that users $\x$ and $\z$ have 
-interacted, e.g., a message exchange or being tagged in a photo together.
+
+
+The interactions between users that we include to define $\mathit{Int}_{\x,\z}$ are:
+
+\begin{enumerate}
+\item{Being friends on Facebook}
+\item{Posting an item (link, photo, video, photo, or message) on a user's wall.}
+\item{Liking an item (link, photo, video, photo, or message) on a user's wall.}
+\item{Commenting on an item (link, photo, video, photo, or message) on a user's wall.}
+\item{Being tagged together in the same photo.}
+\item{Being tagged together in the same video.}
+\item{Two users tagging themselves as attending the same school.}
+\item{Two users tagging themselves as attending the same class in school.}
+\item{Two users tagging themselves as playing sports together.}
+\item{Two users tagging themselves as working together for the same company.}
+\item{Two users tagging themselves as working together on the same project for the same company.}
+\end{enumerate}
+
+%For purposes of this definition, an \emph{interaction} is any single event
+%showing evidence that users $\x$ and $\z$ have 
+%interacted, e.g., a message exchange or being tagged in a photo together.
 %% Joseph: should be more specific here concerning what *you* actually
 %%         do.  I could not provide more detail.
+
 
 In addition, we can define $S^+_{\x,\z}$, a \emph{non-negative} 
 variant of $S_{\x,\z}$:
