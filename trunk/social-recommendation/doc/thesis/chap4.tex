@@ -1,6 +1,9 @@
 \chapter{Comparison of Existing Recommender Systems}
 
+In this chapter we discuss the first set of four SCF algorithms that was implemented for the LinkR application and then show how each algorithm performed during the live user trial, how satisfied the users were with links being recommended to them through LinkR, and the results of offline passive experiments with the algorithms.
+
 \section{Objective components}
+Here we present full derivations for the components of the CF MF methods which we first described in Section~\ref{sec:mf}. For the SCF method we use here, we extend the Social regularization technique also described in Section~\ref{sec:mf} to exploit user features as in Matchbox.
 
 We take a composable approach to collaborative filtering (CF) systems
 where a (social) CF minimization 
@@ -43,7 +46,7 @@ E = \frac{1}{2} \sum_{i=1}^N \sum_{j=1}^M \mathbf I_{ij} {(\mathbf R_{ij}-\mathb
 \end{align}
 \end{comment}
 
-\subsection{Matchbox Matrix Factorization}
+\subsection{Matchbox Matrix Factorization ($\Obj_\pmcf $)}
 
 The basic objective function we use for our MF models is the Matchbox~\cite{matchbox} model. Matchbox extends the matrix factorization model~\cite{pmf}  for CF by using the user features and item features in learning the latent spaces for these users and items. The Matchbox MF objective component is:
 
@@ -63,26 +66,30 @@ E = \frac{1}{2} \sum_{i=1}^N \sum_{j=1}^M \mathbf I_{ij} {(\mathbf R_{ij}-\mathb
 \]
 \end{comment}
 
-\subsection{L2 Regularization}
+\subsection{L2 $U$ Regularization ($\Obj_\ru$)}
 
 To help in generalization, it is important to regularize the free parameters $U$ and $V$ to prevent overfitting in
 the presence of sparse data. This can be done with the
-$L_2$ regularizer that models a prior of $0$ on the parameters. The objective components for the L2 regularizers are
+$L_2$ regularizer that models a prior of $0$ on the parameters. The regularization component for $U$ is
 
 \begin{align}
 \frac{1}{2} \| U \|_\Fro^2 = \frac{1}{2} \tr(U^T U)
 \end{align}
 
+\subsection{L2 $V$ Regularization ($\Obj_\rv$)}
+
+We also regularize $V$ as done with $U$ above. The regularization component for $V$ is
+
 \begin{align}
 \frac{1}{2} \| V \|_\Fro^2 = \frac{1}{2} \tr(V^T V)
 \end{align}
 
-\subsection{Social Regularization}
+\subsection{Social Regularization ($\Obj_\rs$)}
 \label{sec:SocRec}
 The social aspect of SCF is implemented as a regularizer on the user matrix $U$. What this objective component does is constrain users with a high similarity rating to have the same values in the latent feature space. This models the assumption that users who are similar socially should also have similar preferences for items.
 \\
 
-This method is an extension of existing SCF techniques~\cite{lla,socinf} that constrain the latent space to enforce users  to have similar preferences latent representations when they interact heavily. Like Matchbox which extends regular matrix factorization methods by making use of user and link features, our extension to the Social Regularization method incorporates user features to learn similarities between users in the latent space.
+This method is an extension of existing SCF techniques~\cite{lla,socinf} described in Section~\ref{sec:mf} that constrain the latent space to enforce users  to have similar preferences latent representations when they interact heavily. Like Matchbox which extends regular matrix factorization methods by making use of user and link features, our extension to the Social Regularization method incorporates user features to learn similarities between users in the latent space.
 
 \begin{align}
 \sum_{\x} & \sum_{\z \in \mathit{friends}(\x)} \frac{1}{2} (S_{\x,\z} - \la U\x, U\z \ra)^2 \nonumber \\
@@ -178,23 +185,19 @@ according to~\eqref{eq:sum_der}.
 The CF and SCF algorithms used for the first user trial were:
 
 \begin{enumerate}
-\item{ {\bf $k$-Nearest Neighbor}}
-\item{{\bf Support Vector Machines}}
-\item{{\bf Matchbox}: Matchbox MF  + L2 Regularization}
-\item{{\bf Social Matchbox}: Matchbox MF + Social Regularization + L2 Regularization}
+\item{ {\bf $k$-Nearest Neighbor (KNN)}: We use the user-based approach as described in Section~\ref{sec:nn}.}
+\item{{\bf Support Vector Machines (SVM)}: We use the the SVM implementation described in Section~\ref{sec:svm} using the features described in Section~\ref{sec:dataset}.}
+\item{{\bf Matchbox (Mbox)}: Matchbox MF  + L2 $U$ Regularization + L2 $V$ Regularization}
+\item{{\bf Social Matchbox (Soc. Mbox)}: Matchbox MF + Social Regularization + L2 Regularization}
 \end{enumerate}
 
-Social Matchbox uses the Social Regularization method to incorporate the social information of the FB data. SVM, Matchbox and Nearest Neighbors do not make use of any social information and are collaborative filtering recommenders.
+Social Matchbox uses the Social Regularization method to incorporate the social information of the FB data. SVM incorporates social information in the $\f_{\x,\y}$ features that it uses. Matchbox and Nearest Neighbors do not make use of any social information.
 
 \section{Online Results}
 
-The first live user trial was run from August 1 to October 13, though we include only data starting from August 25 in our results because that is when the parameters of the algorithms were finalized. The algorithms were randomly distributed among the 106 users who installed the LinkR application. The distribution of the algorithms to the users are show in Table~\ref{tab:Assigned1}
+The first live user trial was run from August 25 to October 13. The algorithms were randomly distributed among the 106 users who installed the LinkR application. The distribution of the algorithms to the users are show in Table~\ref{tab:Assigned1}
 
-Each user was recommended 3 links everyday and they were able to rate the links on whether they `Liked' or `Disliked' it. Results shown are the number of Like ratings and the number of Dislike ratings normalized by the total number of ratings (Likes + Dislikes) per algorithm. 
-
-As shown in Figure~\ref{fig:OnlineResult1}, Social Matchbox was the best performing algorithm in the first trial and in fact was the only algorithm to get receive more like ratings than dislike ratings. This would suggest that using social information does indeed provide useful information that resulted in better link recommendations from LinkR.
-
-\begin{table}[h!]
+\begin{table}[t!]
 \centering
 \begin{tabular}{| l | c |}
 \hline
@@ -210,60 +213,28 @@ Nearest Neighbor & 28 \\
 \label{tab:Assigned1}
 \end{table}
 
-\begin{figure}[h!]
+Each user was recommended three links everyday and they were able to rate the links on whether they `Liked' or `Disliked' it. Results shown in Figure~\ref{fig:OnlineResult1} are the percentage of Like ratings and the percentage of Dislike ratings per algorithm stacked on top of each other with the Like ratings on top. 
+
+As shown in Figure~\ref{fig:OnlineResult1}, Social Matchbox was the best performing algorithm in the first trial and in fact was the only algorithm to get receive more like ratings than dislike ratings. This would suggest that using social information does indeed provide useful information that resulted in better link recommendations from LinkR.
+
+\begin{figure}[t!]
 \centering
-\subfigure{\includegraphics[scale=0.35]{img/live-likes1.eps}}
-\subfigure{\includegraphics[scale=0.35]{img/live-dislikes1.eps}}
-\caption{Results of the online live trials. Social Matchbox was found to be the best performing algorithm.}
+\subfigure{\includegraphics[scale=0.5]{img/live-likes1.eps}}
+%\subfigure{\includegraphics[scale=0.35]{img/live-dislikes1.eps}}
+\caption{Results of the online live trials. The percentage of Liked ratings are stacked on top of the percentage of Disliked ratings per algorithm. Social Matchbox was found to be the best performing of the four algorithms evaluated in the first trial.}
 \label{fig:OnlineResult1}
 \end{figure}
 
-We also look at the algorithms with the results split between friend links and non-friend links recommendations. Again, the results shown are the number of Likes or Dislikes from friends or non-friends normalized by the total number of ratings on those types of recommendations. As shown in Figure~\ref{fig:OnlineFriend1}, all four algorithms experienced a significant performance drop in the ratio of Likes to Dislikes when it came to recommending non-friend links. This suggests that aside from Liking or Disliking a link solely from the quality of the link being recommended, users are also more likely to Like a link simply because a friend had posted it and more likely to Dislike it because it was posted by a stranger.
+We also look at the algorithms with the results split between friend links and non-friend links recommendations. Again, the results shown in Figure~\ref{fig:OnlineFriend1} are the percentage of Like ratings and the percentage of Dislike ratings per algorithm stacked on top of each other with the Like ratings on top. As shown in Figure~\ref{fig:OnlineFriend1}, all four algorithms experienced a significant performance drop in the ratio of Likes to Dislikes when it came to recommending non-friend links. This suggests that aside from Liking or Disliking a link solely from the quality of the link being recommended, users are also more likely to Like a link simply because a friend had posted it and more likely to Dislike it because it was posted by a stranger.
 
 \begin{figure}[h!]
 \centering
-\subfigure{\includegraphics[scale=0.35]{img/live-friend-likes1.eps}}
-\subfigure{\includegraphics[scale=0.35]{img/live-nonfriend-likes1.eps}}
-\subfigure{\includegraphics[scale=0.35]{img/live-friend-dislikes1.eps}}
-\subfigure{\includegraphics[scale=0.35]{img/live-nonfriend-dislikes1.eps}}
-\caption{Results of the online live trials, split between friends and non-friends. There is a significant drop in performance between recommending friend links and recommending non-friend links.}
+\subfigure{\includegraphics[scale=0.5]{img/live-friend-likes1.eps}}
+\subfigure{\includegraphics[scale=0.5]{img/live-nonfriend-likes1.eps}}
+%\subfigure{\includegraphics[scale=0.5]{img/live-friend-dislikes1.eps}}
+%\subfigure{\includegraphics[scale=0.35]{img/live-nonfriend-dislikes1.eps}}
+\caption{Results of the online live trials, split between friends and non-friends. The percentage of Liked ratings are stacked on top of the percentage of Disliked ratings per algorithm. There is a significant drop in performance between recommending friend links and recommending non-friend links.}
 \label{fig:OnlineFriend1}
-\end{figure}
-
-\section {Offline Results}
-
-The goal of the offline experiments was to see how best to reproduce the results of the live experiments offline. As discussed in Chapter 3, the algorithms are being evaluated using the Mean Average Precision metric. The offline experiments were also used to tune the parameters of the different algorithms. 
-
-When training on the UNION dataset, we can find the same general worsening of performance between the results of testing on APP-USER-ACTIVE-FRIENDS and APP-USER-ACTIVE-NON-FRIENDS. Additionally, when testing on the APP-USER-ACTIVE-ALL, the training/test data combination most similar to the online setup, we find that Social Matchbox again slightly beat the other algorithms.
-
-\begin{figure}[h]
-\centering
-\subfigure{\includegraphics[scale=0.355]{img/Passive_App-User-Passive1.eps}}
-\subfigure{\includegraphics[scale=0.355]{img/Passive_FB-User-Passive1.eps}}
-\subfigure{\includegraphics[scale=0.355]{img/Passive_App-User-active-all1.eps}}
-\subfigure{\includegraphics[scale=0.355]{img/Passive_App-User-Active-Friends1.eps}}
-\subfigure{\includegraphics[scale=0.355]{img/Passive_App-User-Active-NonFriends1.eps}}
-\caption{Results of training on PASSIVE data}
-\end{figure}
-
-\begin{figure}[h]
-\centering
-\subfigure{\includegraphics[scale=0.35]{img/Active_App-User-Passive1.eps}}
-\subfigure{\includegraphics[scale=0.35]{img/Active_FB-User-Passive1.eps}}
-\subfigure{\includegraphics[scale=0.35]{img/Active_App-User-Active-All1.eps}}
-\subfigure{\includegraphics[scale=0.35]{img/Active_App-User-Active-Friends1.eps}}
-\subfigure{\includegraphics[scale=0.35]{img/Active_App-User-Active-Nonfriends1.eps}}
-\caption{Results of training on ACTIVE data}
-\end{figure}
-
-\begin{figure}[h]
-\centering
-\subfigure{\includegraphics[scale=0.35]{img/Union_App-User-Passive1.eps}}
-\subfigure{\includegraphics[scale=0.35]{img/Union_FB-User-Passive1.eps}}
-\subfigure{\includegraphics[scale=0.35]{img/Union_App-User-Active-All1.eps}}
-\subfigure{\includegraphics[scale=0.35]{img/Union_App-User-Active-Friends1.eps}}
-\subfigure{\includegraphics[scale=0.35]{img/Union_App-User-Active-NonFriends1.eps}}
-\caption{Results of training on UNION data. When testing on APP-USER-ACTIVE-ALL, we find that Social Matchbox was again the best recommendation algorithm. Training on UNION and testing on APP-USER-ACTIVE-ALL is the training/test data combination that is most similar to the online setup.}
 \end{figure}
 
 \section{Survey Results}
@@ -277,11 +248,11 @@ Near the end of the first trial, the LinkR users were invited to answer a survey
 \item{Overall, how satisfied are you with LinkR?}
 \end{itemize}
 
-They gave their answers to each question as an integer rating with range $[1-5]$, with a higher value being better. Their answers were grouped together according to the recommendation algorithm that was assigned to them, and the averages per algorithm are below.
+They gave their answers to each question as an integer rating with range $[1-5]$, with a higher value being better. Results are shown in Figure~\ref{fig:survey1}. Their answers were grouped together according to the recommendation algorithm that was assigned to them, and the averages per algorithm are below.
 
-As shown in Figure~\ref{fig:survey1}, we see that Social Matchbox achieved higher scores than the other recommendation algorithms, in all four questions. The results of the survey reflected the results in the online live trial and confirms that Social Matchbox was the best recommendation algorithm in the first trial.
+As shown in Figure~\ref{fig:survey1}, Social Matchbox achieved higher survey scores than the other recommendation algorithms, in all four questions. The results of the survey reflected the results in the online live trial and confirms that Social Matchbox was the best recommendation algorithm in the first trial.
  
-\begin{figure}[h]
+\begin{figure}[t!]
 \centering
 \subfigure{\includegraphics[scale=0.35]{img/not-seen.eps}}
 \subfigure{\includegraphics[scale=0.35]{img/relevant.eps}}
@@ -291,4 +262,69 @@ As shown in Figure~\ref{fig:survey1}, we see that Social Matchbox achieved highe
 \label{fig:survey1}
 \end{figure}
 
-At the end of the first trial, we have seen that the Social Matchbox with its Social Regularization method does indeed outperform existing collaborative filtering recommenders. In the next chapter, we discuss new techniques for incorporating social information and show how they improve on Social Matchbox.
+\section {Offline Results}
+
+The goal of the offline experiments was to see how which training and testing subset best correlates with user preferences. The algorithms were evaluated using the mean average precision metric discussed in Section~\ref{sec:map}. The offline experiments were also used to tune the parameters of the different algorithms. 
+
+\begin{itemize}
+\item{The results of training on the PASSIVE data are shown in Figure~\ref{fig:passive1}. The results show that training on PASSIVE data does not correlate with the results of the live user trials. Also, compared to training on the ACTIVE and UNION subsets, training on PASSIVE data gave worse results on the MAP metric.}
+
+\item{The results of training on the ACTIVE data are shown in Figure~\ref{fig:active1}. When training on ACTIVE, the algorithms were tested only on links and users that were also in the ACTIVE data as well. Training on ACTIVE data gave much better MAP results than training on PASSIVE data. The main advantage of ACTIVE data over PASSIVE data is the explicit dislikes that only the ACTIVE data has. Even though the ACTIVE data is far smaller than the PASSIVE data, this inclusion of explicit dislikes allowed the SCF algorithms to perform better in the offline experiments. 
+
+However, one weakness of ACTIVE is the small amount of data in it, only the explicit likes and dislikes of only the LinkR application users. ACTIVE data can't provide information on LinkR users that have just installed the application, old LinkR users that haven't rated any links, and other non-LinkR users on Facebook.}
+
+\item{The results of training on UNION data are shown in Figure~\ref{fig:union1}. UNION combines the advantage of PASSIVE with having a larger dataset and the advantage of ACTIVE. When testing on the APP-USER-ACTIVE-ALL dataset, the results correlate with the results of the live user trial and the user surveys.}
+\end{itemize}
+
+To give the best recommendations for all users, \emph{the SCF algorithms are best trained on the larger size of the PASSIVE data with the explicit likes and dislikes of the ACTIVE data}. Hence, for the second user trial in the next chapter we keep on training the UNION dataset.
+
+\begin{figure}[t!]
+\centering
+\subfigure{\includegraphics[scale=0.35]{img/Passive_App-User-Passive1.eps}}
+\subfigure{\includegraphics[scale=0.35]{img/Passive_FB-User-Passive1.eps}}
+\subfigure{\includegraphics[scale=0.35]{img/Passive_App-User-active-all1.eps}}
+\subfigure{\includegraphics[scale=0.35]{img/Passive_App-User-Active-Friends1.eps}}
+\subfigure{\includegraphics[scale=0.35]{img/Passive_App-User-Active-NonFriends1.eps}}
+\caption{Results of training on PASSIVE data.}
+\label{fig:passive1}
+\end{figure}
+
+\begin{figure}[t!]
+\centering
+\subfigure{\includegraphics[scale=0.35]{img/Active_App-User-Passive1.eps}}
+%\subfigure{\includegraphics[scale=0.35]{img/Active_FB-User-Passive1.eps}}
+\subfigure{\includegraphics[scale=0.35]{img/Active_App-User-Active-All1.eps}}
+\subfigure{\includegraphics[scale=0.35]{img/Active_App-User-Active-Friends1.eps}}
+\subfigure{\includegraphics[scale=0.35]{img/Active_App-User-Active-Nonfriends1.eps}}
+\caption{Results of training on ACTIVE data.}
+\label{fig:active1}
+\end{figure}
+
+\begin{figure}[t!]
+\centering
+\subfigure{\includegraphics[scale=0.35]{img/Union_App-User-Passive1.eps}}
+\subfigure{\includegraphics[scale=0.35]{img/Union_FB-User-Passive1.eps}}
+\subfigure{\includegraphics[scale=0.35]{img/Union_App-User-Active-All1.eps}}
+\subfigure{\includegraphics[scale=0.35]{img/Union_App-User-Active-Friends1.eps}}
+\subfigure{\includegraphics[scale=0.35]{img/Union_App-User-Active-NonFriends1.eps}}
+\caption{Results of training on UNION data. When testing on APP-USER-ACTIVE-ALL, we find that Social Matchbox was again the best recommendation algorithm. Training on UNION and testing on APP-USER-ACTIVE-ALL is the training/test data combination that is most similar to the online setup.}
+\label{fig:union1}
+\end{figure}
+
+\section{Summary}
+At the end of the first trial, we have observed the following:
+
+\begin{itemize}
+\item{Social Matchbox was the performing algorithm in the live user trial in terms of percentage of likes.}
+
+\item{Social Matchbox received highest user evaluation scores in the user survey at the end of the user trial.}
+
+\item{Of the various combinations of training and testing data in the offline passive experiment, we found that training on the UNION subset and testing on the APP-USER-ACTIVE-ALL subset best correlated with the results of the live user trial and the user survey. Training on the UNION dataset had advantages compared to training on the other data subsets, namely that it had the large amount of information of the PASSIVE data and the explicit dislikes information of the ACTIVE data.}
+
+\begin{comment}
+Explain which offline evaluation correlates with both of these user feedback metrics... can you briefly explain why?  E.g., training on UNION gives you explicit negatives, which are crucial (side note, perhaps not for thesis: except maybe for NN which actually does need negatives!), and ranking evaluation really requires an accurate list of likes/dislikes for an accurate ranking metric which can only be had with the active data}
+\end{comment}
+
+\end{itemize}
+
+In the next chapter, we discuss new techniques for incorporating social information and show how they improve on Social Matchbox.

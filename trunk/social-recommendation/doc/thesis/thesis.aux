@@ -33,16 +33,19 @@
 \citation{bellkor}
 \@writefile{toc}{\contentsline {section}{\numberline {2.3}Content-based Filtering (CBF) Algorithms}{9}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.3.1}Support Vector Machines}{9}}
+\newlabel{sec:svm}{{2.3.1}{9}}
 \pagecite{svms}{9}
 \pagecite{libsvm}{9}
 \@writefile{toc}{\contentsline {section}{\numberline {2.4}Collaborative Filtering (CF) Algorithms}{9}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.4.1}$k$-Nearest Neighbor}{9}}
+\newlabel{sec:nn}{{2.4.1}{9}}
 \pagecite{bellkor}{9}
 \citation{bellkor}
 \citation{bellkor}
 \pagecite{bellkor}{10}
 \pagecite{bellkor}{10}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.4.2}Matrix Factorization (MF) Models}{10}}
+\newlabel{sec:mf}{{2.4.2}{10}}
 \citation{pmf}
 \citation{matchbox}
 \citation{lla}
@@ -81,6 +84,7 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.2.2}Link Data}{17}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.2.3}Implicit Dislikes}{17}}
 \@writefile{toc}{\contentsline {section}{\numberline {3.3}Evaluation Metrics}{17}}
+\newlabel{sec:map}{{3.3}{17}}
 \@writefile{toc}{\contentsline {section}{\numberline {3.4}Training and Testing Issues}{18}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.4.1}Training Data}{18}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.4.2}Live Online Recommendation Trials}{19}}
@@ -92,33 +96,38 @@
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
 \@writefile{toc}{\contentsline {section}{\numberline {4.1}Objective components}{21}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.1}Matchbox Matrix Factorization}{21}}
-\pagecite{matchbox}{21}
-\pagecite{pmf}{21}
 \citation{lla}
 \citation{socinf}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.2}L2 Regularization}{22}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.3}Social Regularization}{22}}
-\newlabel{sec:SocRec}{{4.1.3}{22}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.1}Matchbox Matrix Factorization ($\mathit  {Obj}_\mathit  {pmcf}$)}{22}}
+\pagecite{matchbox}{22}
+\pagecite{pmf}{22}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.2}L2 $U$ Regularization ($\mathit  {Obj}_\mathit  {ru}$)}{22}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.3}L2 $V$ Regularization ($\mathit  {Obj}_\mathit  {rv}$)}{22}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.4}Social Regularization ($\mathit  {Obj}_\mathit  {rs}$)}{22}}
+\newlabel{sec:SocRec}{{4.1.4}{22}}
 \pagecite{lla}{22}
 \pagecite{socinf}{22}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.4}Derivatives}{22}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.5}Derivatives}{23}}
 \newlabel{eq:sum_der}{{4.7}{23}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.2}Algorithms}{24}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.3}Online Results}{24}}
 \@writefile{lot}{\contentsline {table}{\numberline {4.1}{\ignorespaces Number of Users Assigned per Algorithm.}}{25}}
 \newlabel{tab:Assigned1}{{4.1}{25}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.1}{\ignorespaces Results of the online live trials. Social Matchbox was found to be the best performing algorithm.}}{25}}
-\newlabel{fig:OnlineResult1}{{4.1}{25}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.2}{\ignorespaces Results of the online live trials, split between friends and non-friends. There is a significant drop in performance between recommending friend links and recommending non-friend links.}}{26}}
-\newlabel{fig:OnlineFriend1}{{4.2}{26}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.4}Offline Results}{26}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.5}Survey Results}{26}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.3}{\ignorespaces Results of training on PASSIVE data}}{28}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.4}{\ignorespaces Results of training on ACTIVE data}}{29}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.5}{\ignorespaces Results of training on UNION data. When testing on APP-USER-ACTIVE-ALL, we find that Social Matchbox was again the best recommendation algorithm. Training on UNION and testing on APP-USER-ACTIVE-ALL is the training/test data combination that is most similar to the online setup.}}{30}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.6}{\ignorespaces Results of the user survey after the first trial. The survey answers from the users reflect the online results that Social Matchbox was the best recommendation algorithm in this trial.}}{31}}
-\newlabel{fig:survey1}{{4.6}{31}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.2}Algorithms}{25}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.3}Online Results}{25}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.1}{\ignorespaces Results of the online live trials. The percentage of Liked ratings are stacked on top of the percentage of Disliked ratings per algorithm. Social Matchbox was found to be the best performing of the four algorithms evaluated in the first trial.}}{26}}
+\newlabel{fig:OnlineResult1}{{4.1}{26}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.4}Survey Results}{26}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.2}{\ignorespaces Results of the online live trials, split between friends and non-friends. The percentage of Liked ratings are stacked on top of the percentage of Disliked ratings per algorithm. There is a significant drop in performance between recommending friend links and recommending non-friend links.}}{27}}
+\newlabel{fig:OnlineFriend1}{{4.2}{27}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.3}{\ignorespaces Results of the user survey after the first trial. The survey answers from the users reflect the online results that Social Matchbox was the best recommendation algorithm in this trial.}}{28}}
+\newlabel{fig:survey1}{{4.3}{28}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.5}Offline Results}{28}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.6}Summary}{29}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.4}{\ignorespaces Results of training on PASSIVE data.}}{30}}
+\newlabel{fig:passive1}{{4.4}{30}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.5}{\ignorespaces Results of training on ACTIVE data.}}{31}}
+\newlabel{fig:active1}{{4.5}{31}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.6}{\ignorespaces Results of training on UNION data. When testing on APP-USER-ACTIVE-ALL, we find that Social Matchbox was again the best recommendation algorithm. Training on UNION and testing on APP-USER-ACTIVE-ALL is the training/test data combination that is most similar to the online setup.}}{32}}
+\newlabel{fig:union1}{{4.6}{32}}
 \@writefile{toc}{\contentsline {chapter}{\numberline {5}New Algorithms for Social Recommendation}{33}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
@@ -127,7 +136,7 @@
 \citation{matchbox}
 \citation{sr}
 \citation{rrmf}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.2}L2 $\@mathbf {w}$ Regularization}{34}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.2}L2 $\mathbf  {w}$ Regularization}{34}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.1.3}Social Spectral Regularization}{34}}
 \pagecite{matchbox}{34}
 \pagecite{sr}{34}
