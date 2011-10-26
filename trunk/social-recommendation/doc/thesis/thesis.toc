@@ -9,11 +9,11 @@
 \contentsline {section}{\numberline {2.2}Notation}{8}
 \contentsline {section}{\numberline {2.3}Content-based Filtering (CBF) Algorithms}{9}
 \contentsline {subsection}{\numberline {2.3.1}Support Vector Machines}{9}
-\contentsline {section}{\numberline {2.4}Collaborative Filtering (CF) Algorithms}{9}
-\contentsline {subsection}{\numberline {2.4.1}$k$-Nearest Neighbor}{9}
+\contentsline {section}{\numberline {2.4}Collaborative Filtering (CF) Algorithms}{10}
+\contentsline {subsection}{\numberline {2.4.1}$k$-Nearest Neighbor}{10}
 \contentsline {subsection}{\numberline {2.4.2}Matrix Factorization (MF) Models}{10}
-\contentsline {subsection}{\numberline {2.4.3}Social Collaborative Filtering}{11}
-\contentsline {subsection}{\numberline {2.4.4}Tensor Factorization Methods}{12}
+\contentsline {subsection}{\numberline {2.4.3}Social Collaborative Filtering}{12}
+\contentsline {subsection}{\numberline {2.4.4}Tensor Factorization Methods}{13}
 \contentsline {section}{\numberline {2.5}Summary}{13}
 \contentsline {chapter}{\numberline {3}Evaluation of Social Recommendation Systems}{15}
 \contentsline {section}{\numberline {3.1}Facebook}{15}
