@@ -206,6 +206,12 @@
   {NIPS} 14} (2001).
 \citepages{spectral}
 
+\bibitem[\protect\citeauthoryear{Petersen and Pedersen}{Petersen and
+  Pedersen}{2008}]{matrix}
+\bibsc{Petersen, K.~B. and Pedersen, M.~S.} \bibyear{2008}.
+\newblock The matrix cookbook.
+\citepages{matrix}
+
 \bibitem[\protect\citeauthoryear{Qui\~{n}onero Candela and
   Rasmussen}{Qui\~{n}onero Candela and
   Rasmussen}{2005}]{candela-rasmussen-jmlr-05}
@@ -253,8 +259,7 @@
 \citepages{netflix}
 
 \bibitem[\protect\citeauthoryear{Viappiani and Boutilier}{Viappiani and
-  Boutilier}{2009}]{viappiani09Regret-basedOptimalRecommendationSetsConversati%
-onal}
+  Boutilier}{2009}]{viappiani09Regret-basedOptimalRecommendationSetsConversational}
 \bibsc{Viappiani, P. and Boutilier, C.} \bibyear{2009}.
 \newblock Regret-based optimal recommendation sets in conversational
   recommender systems.

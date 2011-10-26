@@ -84,7 +84,7 @@ Date that are collected and used for the user features are as follows:
 to the user's specific present location (city and country)
 \item {$\mathit{hometown}_\mathit{id}$:} an integer ID corresponding
 to the user's specific home town (city and country)
-\item {$F_{\x,\y} \in \{ 0, 1\}$:} indicator of whether 
+\item {$F_{\x,\z} \in \{ 0, 1\}$:} indicator of whether 
 users $\x$ and $\z$ are friends.
 % Joseph: be specific here...
 \item {$\mathit{Int}_{\x,\z} \in \mathbb{N}$:} interactions on
@@ -102,7 +102,7 @@ Data that are used for the link features are:
 \item{Number of times the link has been liked.}
 \item{Number of times the link has been shared.}
 \item{Number of comments posted on the link}.
-\item{List of users that have ``liked'' the link.}
+\item {$F'_{\x,\y} \in \{0, 1\}$:} indicator of whether user $\x$ has liked item $\y$.
 \end{itemize}
 Additionally, links that have been recommended by the LinkR
 application have the following extra features:
