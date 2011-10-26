@@ -1,6 +1,6 @@
 \chapter{New Algorithms for Social Recommendation}
 
-After studying the results of the first trial, we made use of what we learned to design new algorithms to improve upon deficiencies of existing recommendation algorithms. Our goal in designing these algorithms was to address deficiencies in current SCF methods that we pointed out in the first chapter:
+After studying the results of the first trial, we made use of what we learned to design new algorithms to improve upon deficiencies of existing recommendation algorithms. Our goal in designing these algorithms was to address deficiencies in current SCF methods that was previously discussed at-length in Section~\ref{sec:objective}:
 
 \begin{itemize}
 \item {Non-feature-based user similarity}
@@ -9,28 +9,24 @@ After studying the results of the first trial, we made use of what we learned to
 \item {Restricted common interests}
 \end{itemize}
 
-\section{New Objective Components}
+We address these deficiencies by modifying the optimization objectives that were discussed in the previous chapter, creating new objective functions. We discuss these new objectives in the following sections.
 
-Again, the new algorithms each form a component of a minimization objective $Obj$ which is composed of sums of one or more objective components:
+\section{New Objective Components}
+As in Chapter 4, we assume that the CF optimization objective decomposes into a sum of objective components as follows:
 
 \begin{align}
 \mathit{Obj} = \sum_i \lambda_i \mathit{Obj}_i
 \end{align}
 
-A sigmoidal transform 
-\begin{align}
-\sigma(o) & = \frac{1}{1 + e^{-o}}
-\end{align}
-of regressor outputs $o \in \R$ is used to squash the outputs 
-to the range $[0, 1]$.  
-In places where the $\sigma$ transform may be optionally included, 
-this is written as $[\sigma]$.  
+\subsection{Hybrid Objective ($\Obj_\phy$ )}
 
-\subsection{Hybrid Objective}
+As specified in Chapter 1, one weakness of  MF methods is that they cannot model joint features over user and items, and hence the cannot model direct user-user information diffusion. Information diffusion models the unidirectional flow of links from one user to another (i.e., one user likes/shares what another user posts). We believe that this information will be useful for SCF, and is lacking in current SCF methods.
 
-As specified in Chapter 1, one weakness of  MF methods is that they cannot model joint features over user and items, and hence the cannot model direct user-user information diffusion. We fix this by introducing another objective component in addition to the standard MF objective, and this component serves as a simple linear regressor for such information diffusion observations. The resulting hybrid objective component becomes a combination of latent MF and linear regression objectives.
+We fix this by introducing another objective component in addition to the standard MF objective, and this component serves as a simple linear regressor for such information diffusion observations. The resulting hybrid objective component becomes a combination of latent MF and linear regression objectives.
 
-We make use of the $\f_{\x,\y}$ features to make the linear regressor. Using $\la \cdot,\cdot \ra$ to denote an inner product, we define a weight
+We make use of the $\f_{\x,\y}$ features detailed in Section~\ref{sec:dataset} to make the linear regressor. $\f_{\x,\y}$ models user-user information diffusion through the $F'_{\x,\y}$ indicator function of which of the user's friends have liked a particular link along with the user.
+
+Using $\la \cdot,\cdot \ra$ to denote an inner product, we define a weight
 vector $\w \in \R^F$ such that $\la \w, \f_{\x,\y} \ra = \w^T \f_{\x,\y}$ is the prediction of the system. The objective of the linear regression component is therefore
 
 \begin{align*}
@@ -43,7 +39,7 @@ We combine the output of the linear regression objective with the Matchbox outpu
 \sum_{(\x,\y) \in D} \frac{1}{2} (R_{\x,\y} - [\sigma] \w^T \f_{\x,\y} - [\sigma] \x^T U^T V y)^2
 \end{align}
 
-\subsection{L2 $\w$ Regularization}
+\subsection{L2 $\w$ Regularization ($ \Obj_\rw$)}
 
 In the same manner as $U$ and $V$, it is important to regularize the free parameter $\w$ to prevent overfitting in
 the presence of sparse data. This can again be done with the
@@ -53,7 +49,7 @@ $L_2$ regularizer that models a prior of $0$ on the parameters. The objective co
 \frac{1}{2} \| \w \|_2^2 = \frac{1}{2} \w^T \w
 \end{align}
 
-\subsection{Social Spectral Regularization}
+\subsection{Social Spectral Regularization ($\Obj_\rss$)}
 
 As we did with the Social Regularization method in Section~\ref{sec:SocRec}, we build on ideas used in Matchbox~\cite{matchbox} to extend social spectral regularization~\cite{sr,rrmf} by incorporating user features into the objective. The object function for our extension to social spectral regularization is:
 
@@ -69,7 +65,8 @@ however we may also want to try $S_{\x,\z}$ since a negative value actively
 encourages the latent spaces to oppose each other, which may be desired.
 \end{comment}
 
-\subsection{Social Co-preference Regularization}
+\subsection{Social Co-preference Regularization ($\Obj_\rsc$)}
+\label{sec:rsc}
 
 A crucial aspect missing from other SCF methods is that while two users may not be globally similar or opposite 
 in their preferences, there may be sub-areas of their interests which can be correlated to each other.
@@ -80,7 +77,11 @@ and $\z$ who have similar or opposing
 preferences to be similar or opposite in the same latent latent space
 relevant to item $\y$.  
 
-We use $\la \cdot, \cdot \ra_{\bullet}$ to denoe a reweighted inner product. The objective component for 
+We use $\la \cdot, \cdot \ra_{\bullet}$ to denote a re-weighted inner product. The purpose of this inner product is to tailor the latent space similarities or dissimilarities between users to specific sets of items. This fixes the issue detailed in the previous paragraph by allowing users $\x$
+and $\z$ to be similar or opposite in the same latent latent space
+relevant only to item $\y$.  
+
+The objective component for 
 social co-preference regularization along with its expanded form is
 
 \begin{align}
@@ -90,11 +91,15 @@ social co-preference regularization along with its expanded form is
 \end{align}
 
 
-\subsection{Social Co-preference Spectral Regularization}
+\subsection{Social Co-preference Spectral Regularization ($\Obj_\rscs$)}
 This is the same as the social co-preference regularization above, except that it uses the spectral regularizer format for 
 learning the co-preferences.
 
- We use $\| \cdot \|_{2,\bullet}$ to denote a re-weighted $L_2$ norm. The objective component for
+ We use $\| \cdot \|_{2,\bullet}$ to denote a re-weighted $L_2$ norm. The reweighing of this norm servers the same purpose as the re-weighted inner product in Section~\ref{rsc}, it tailors the similarities or dissimilarities between users to specific sets of items. This allows users $\x$
+and $\z$ to be similar or opposite in the same latent latent space
+relevant only to item $\y$.  
+ 
+ The objective component for
  social co-preference spectral regularization along with its expanded form is
  
 \begin{align}
@@ -106,7 +111,8 @@ learning the co-preferences.
 
 \subsection{Derivatives}
 As before, we seek to optimize sums of the above objectives and will use
-gradient descent for this purpose. We again use the following useful abbreviations:
+gradient descent for this purpose. Please see The Matrix Cookbook~\cite{matrix} for more details on the matrix derivative identities used in the following calculations.
+We again use the following useful abbreviations:
 
 \begin{align*}
 \s & = U \x \qquad \s_{k} = (U \x)_{k}; \; k=1\ldots K\\
@@ -207,15 +213,19 @@ For the second online trial, we chose four algorithms again to randomly split be
 The four SCF algorithms are:
 
 \begin{itemize}
-\item{{\bf Social Matchbox}: Matchbox MF + Social Regularization +  L2 Regularization}
-\item{{\bf Spectral Matchbox}: Matchbox MF + Social Spectral Regularization + L2 Regularization}
-\item{{\bf Social Hybrid}: Hybrid + Social Regularization + L2 Regularization}
-\item{{\bf Spectral Co-preference}: Matchbox MF + Social Co-preference Spectral Regularization + L2 Regularization}
+\item{{\bf Social Matchbox (Soc. Mbox)} : Matchbox MF + Social Regularization +  L2 $U$ Regularization + L2 $V$ Regularization}
+\item{{\bf Spectral Matchbox (Spec. Mbox)}: Matchbox MF + Social Spectral Regularization + L2 $U$ Regularization + L2 $V$ Regularization}
+\item{{\bf Social Hybrid (Soc. Hybrid)}: Hybrid + Social Regularization + L2 $U$ Regularization + L2 $V$ Regularization + L2 $\w$ Regularization}
+\item{{\bf Spectral Co-preference (Spec. CP)}: Matchbox MF + Social Co-preference Spectral Regularization + L2 $U$ Regularization + L2 $V$ Regularization}
 \end{itemize}
 
-The online experiments were switched to the new algorithms on October 13, 2011. For the online results reported here, since the second live trial is still currently ongoing, we took a snapshot of the data as it was on October 22, 2011.
+\subsection{Online Results}
+\label{sec:online2}
 
-\begin{table}[h!]
+The online experiments were switched to the new algorithms on October 13, 2011. For the online results reported here, since the second live trial is still currently ongoing, we took a snapshot of the data as it was on October 22, 2011. The algorithms were randomly distributed among the 103 users who still had the LinkR application installed. The distribution of the algorithms to the users are show in Table~\ref{tab:assigned2}
+
+
+\begin{table}[t!]
 \centering
 \begin{tabular}{| l | c |}
 \hline
@@ -231,39 +241,64 @@ Social Hybrid & 25 \\
 \label{tab:assigned2}
 \end{table}
 
-\subsection{Online Results}
+Results shown in Figure~\ref{fig:online2} are the percentage of Like ratings and the percentage of Dislike ratings per algorithm stacked on top of each other with the Like ratings on top. 
 
-Results shown are the number of Like ratings and the number of Dislike ratings normalized by the total number of ratings (Likes + Dislikes) per algorithm. 
+First thing we note in Figure~\ref{fig:online2} is the decrease in performance for Social Matchbox, and in fact for all SCF algorithms in general. Except for Spectral Matchbox, they all received more Dislike ratings than Like ratings. What we noticed is that  of the recommendations being made in the week that we switched over to the new algorithms, the majority of the links were about Steve Jobs, who had died the week previously. We believe that the redundancy and lack of variety of the links being recommended caused an increase in the Dislike ratings being given by users on the recommended links. Taking out the skewed results that follows an unusual event such as this, the relative algorithm performance was better. 
 
-Spectral Matchbox achieved the best ratio of likes to dislikes compared to the other algorithms, as seen in Figure~\ref{fig:online2}. Like Social Matchbox in the first user trial, Spectral Matchbox was the only algorithm to receive more likes than dislikes from its assigned users.
-
-\begin{figure}[h!]
+\begin{figure}[t!]
 \centering
-\subfigure{\includegraphics[scale=0.35]{img/live-likes2.eps}}
-\subfigure{\includegraphics[scale=0.35]{img/live-dislikes2.eps}}
-\caption{Results of online live trials. Spectral Matchbox achieved the highest ratio of likes to dislikes among the four algorithms.}
+\subfigure{\includegraphics[scale=0.5]{img/live-likes2.eps}}
+%\subfigure{\includegraphics[scale=0.35]{img/live-dislikes2.eps}}
+\caption{Results of online live trials. The percentage of Liked ratings are stacked on top of the percentage of Disliked ratings per algorithm. Spectral Matchbox achieved the highest ratio of likes to dislikes among the four algorithms. Spectral social regularization in general appears to be a better way to socially regularize compared to social regularization.}
 \label{fig:online2}
 \end{figure}
 
-We again split the results again between friend link recommendations and non-friend link recommendations, with the results shown being the number of Likes or Dislikes from friends or non-friends normalized by the total number of ratings on those type of recommendations. As shown Figure~\ref{fig:OnlineFriend2}, all four algorithms experienced significant performance drop in the number of likes when it came to recommending non-friend links. This reflects the results of the first trial. Additionally, the differences were more drastic with the two algorithms that uses the social regularization method: Social Matchbox and Social Hybrid. This, together with results of the first user trial, seems to confirm our earlier analysis that aside from Liking or Disliking a link just from the quality of the links being recommended, users are also more likely to like a link because a friend had posted it and more likely to dislike it because it came from a stranger.
+We again split the results again between friend link recommendations and non-friend link recommendations, with the results shown in Figure~\ref{fig:OnlineFriend2} being the percentage of Like ratings and the percentage of Dislike ratings per algorithm stacked on top of each other with the Like ratings on top.
+ As shown Figure~\ref{fig:OnlineFriend2}, all four algorithms experienced significant performance drop in the number of likes when it came to recommending non-friend links. This reflects the results of the first trial. 
+ 
+ \begin{comment}
+ Additionally, the differences were more drastic with the two algorithms that uses the social regularization method: Social Matchbox and Social Hybrid. This, together with results of the first user trial, seems to confirm our earlier analysis that aside from Liking or Disliking a link just from the quality of the links being recommended, users are also more likely to like a link because a friend had posted it and more likely to dislike it because it came from a stranger.
+\end{comment}
 
-\begin{figure}[h!]
+\begin{figure}[t!]
 \centering
-\subfigure{\includegraphics[scale=0.35]{img/live-friend-likes2.eps}}
-\subfigure{\includegraphics[scale=0.35]{img/live-nonfriend-likes2.eps}}
-\subfigure{\includegraphics[scale=0.35]{img/live-friend-dislikes2.eps}}
-\subfigure{\includegraphics[scale=0.35]{img/live-nonfriend-dislikes2.eps}}
+\subfigure{\includegraphics[scale=0.5]{img/live-friend-likes2.eps}}
+\subfigure{\includegraphics[scale=0.5]{img/live-nonfriend-likes2.eps}}
+%\subfigure{\includegraphics[scale=0.35]{img/live-friend-dislikes2.eps}}
+%\subfigure{\includegraphics[scale=0.35]{img/live-nonfriend-dislikes2.eps}}
 \caption{Results of the online live trials, split between friends and non-friends. As in the first trial, there is a significant drop in performance between recommending friend links and recommending non-friend links.}
 \label{fig:OnlineFriend2}
 \end{figure}
 
+We note the following observations from the results shown in Figures \ref{fig:online2} and \ref{fig:OnlineFriend2}:
+
+\begin{itemize}
+\item{Compared to the other algorithms, Spectral Matchbox achieved the best ratio of likes to dislikes as seen, as seen in Figure~\ref{fig:online2}. Combined with the results for Spectral Co-preference, Spectral social regularization in general appears to be a better way to socially regularize compared to social regularization. This comparison holds even when the results are split between friend links recommendations and non-friend links recommendations, as seen in Figure~\ref{fig:OnlineFriend2}.}
+
+\item{When looking at just the friend link recommendations in Figure~\ref{fig:OnlineFriend2}, Social Hybrid was the best performing algorithm. This result comes from the user-user information diffusion among its friends that Social Hybrid learns, which could not be learned by the other SCF algorithms. Learning information diffusion thus helps when it comes to building better SCF algorithms.}
+
+\item{Spectral Co-preference didn't do well on friend link recommendations, however it did better on the non-friend link recommendations. When it comes to recommending friend links, friend interaction information coming through social regularizer seems more important than implicit co-likes information provided by the co-preference regularizer. When there is no social interaction information such as with non-friend links, co-preference methods with its implicit co-likes information appear much better than just vanilla collaborative filtering at projecting users into subspaces of common interest.}
+\end{itemize}
+
 \section{Offline Results}
 
-When testing on all the combinations of the active data, the results between the algorithms on a test dataset are all within the standard error bars. The results of the live trials aren't reflected in the offline results, which highlights the difficulty of using the MAP metric for evaluating recommendation algorithms offline.
+Aside from the online user trial, we also evaluate the algorithms using the mean average precision metric discussed in Section 3.3. We note the following observations from the results shown in Figures \ref{fig:passive2}, \ref{fig:active2}, and \ref{fig:union2}:
+
+\begin{itemize}
+\item{Most results are not statistically significant.}
+
+\item{In Figure~\ref{fig:union2}, when training UNION and testing on APP-USER-ACTIVE-FRIEND, Social Hybrid gets the score on the MAP metric. This reflects the results of the live user trial in Section~\ref{sec:online2}.}
+
+\item{ In Figure~\ref{fig:active2}, when training on ACTIVE and testing on APP-USER-ACTIVE-NON-FRIEND, Spectral Co-preference shows slightly better (though not statistically significant) performance than when testing on APP-USER-ACTIVE-FRIEND. This also reflects the results of the live user trial in Section~\ref{sec:online2}. The explicit dislikes of the Active data allow the co-preference regularizer to learn the Dislike data better.}
+
+\item{The better performance of the social spectral regularization methods in the live user trials do not show in the offline experiments. This may be caused by the difference in the dataset size between the live user trials and the offline experiments affects optimal parameter settings for the offline experiments. Further tuning of the parameters may cause the social spectral regularization methods to perform better}
+
+\item{Another reason may be that perhaps the MAP metric isn't the best metric that correlates with human performance evaluation, and some other metric that we could have may better reflect the results of live user trials.}
+\end{itemize}
 
 %When training on the UNION dataset, we can see the same general worsening of performance between the results of testing on APP-USER-ACTIVE-FRIENDS and APP-USER-ACTIVE-NON-FRIENDS. 
 
-\begin{figure}[h]
+\begin{figure}[t!]
 \centering
 \subfigure{\includegraphics[scale=0.35]{img/Passive_App-User-Passive2.eps}}
 \subfigure{\includegraphics[scale=0.35]{img/Passive_FB-User-Passive2.eps}}
@@ -271,9 +306,21 @@ When testing on all the combinations of the active data, the results between the
 \subfigure{\includegraphics[scale=0.35]{img/Passive_App-User-Active-Friends2.eps}}
 \subfigure{\includegraphics[scale=0.35]{img/Passive_App-User-Active-NonFriends2.eps}}
 \caption{Results of training on Passive data}
+\label{fig:passive2}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[t!]
+\centering
+\subfigure{\includegraphics[scale=0.35]{img/Active_App-User-Passive2.eps}}
+%\subfigure{\includegraphics[scale=0.35]{img/Active_FB-User-Passive2.eps}}
+\subfigure{\includegraphics[scale=0.35]{img/Active_App-User-Active-All2.eps}}
+\subfigure{\includegraphics[scale=0.35]{img/Active_App-User-Active-Friends2.eps}}
+\subfigure{\includegraphics[scale=0.35]{img/Active_App-User-Active-Nonfriends2.eps}}
+\caption{Results of training on Active data}
+\label{fig:active2}
+\end{figure}
+
+\begin{figure}[t!]
 \centering
 \subfigure{\includegraphics[scale=0.35]{img/Union_App-User-Passive2.eps}}
 \subfigure{\includegraphics[scale=0.35]{img/Union_FB-User-Passive2.eps}}
@@ -281,14 +328,21 @@ When testing on all the combinations of the active data, the results between the
 \subfigure{\includegraphics[scale=0.35]{img/Union_App-User-Active-Friends2.eps}}
 \subfigure{\includegraphics[scale=0.35]{img/Union_App-User-Active-NonFriends2.eps}}
 \caption{Results of training on Union data}
+\label{fig:union2}
 \end{figure}
 
-\begin{figure}[h]
-\centering
-\subfigure{\includegraphics[scale=0.35]{img/Active_App-User-Passive2.eps}}
-\subfigure{\includegraphics[scale=0.35]{img/Active_FB-User-Passive2.eps}}
-\subfigure{\includegraphics[scale=0.35]{img/Active_App-User-Active-All2.eps}}
-\subfigure{\includegraphics[scale=0.35]{img/Active_App-User-Active-Friends2.eps}}
-\subfigure{\includegraphics[scale=0.35]{img/Active_App-User-Active-Nonfriends2.eps}}
-\caption{Results of training on Active data}
-\end{figure}
+\section{Summary}
+
+We summarize the observations made during the second trial:
+
+\begin{itemize}
+\item{The social spectral regularization methods generally performed better in the live user trials, even when the results were split between friend link recommendations and non-friend link recommendations.}
+
+\item{Learning information diffusion models helps in SCF, as evidenced by the strong performance of Social Hybrid when recommending friend links.}
+
+\item{When there is no social interaction information, learning implicit co-likes information is better than using plain CF methods.}
+
+\item{The better performance of the social spectral regularization methods in the live trials were not reflected in the offline experiments. Perhaps there is a better metric than MAP that correlates with human preferences.}
+
+\end{itemize}
+

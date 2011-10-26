@@ -9,6 +9,7 @@
 \@writefile{lot}{\addvspace {10\p@ }}
 \newlabel{cha:intro}{{1}{1}}
 \@writefile{toc}{\contentsline {section}{\numberline {1.1}Objectives}{1}}
+\newlabel{sec:objective}{{1.1}{1}}
 \pagecite{netflix}{1}
 \@writefile{lof}{\contentsline {figure}{\numberline {1.1}{\ignorespaces A link posted by the author that has been liked by three other users. The objective of this thesis is to build an automated link recommendation App for Facebook that learns user preferences via social collaborative filtering techniques and automatically recommends links (such as this one) to other users. We actively collect like/dislike feedback from the users to measure recommendation algorithm performance and to learn from for future recommendations.}}{2}}
 \newlabel{fig:ex_link}{{1.1}{2}}
@@ -132,31 +133,39 @@
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
 \@writefile{toc}{\contentsline {section}{\numberline {5.1}New Objective Components}{33}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.1}Hybrid Objective}{33}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.1}Hybrid Objective ($\mathit  {Obj}_\mathit  {phy}$ )}{33}}
 \citation{matchbox}
 \citation{sr}
 \citation{rrmf}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.2}L2 $\mathbf  {w}$ Regularization}{34}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.3}Social Spectral Regularization}{34}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.2}L2 $\mathbf  {w}$ Regularization ($ \mathit  {Obj}_\mathit  {rw}$)}{34}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.3}Social Spectral Regularization ($\mathit  {Obj}_\mathit  {rss}$)}{34}}
 \pagecite{matchbox}{34}
 \pagecite{sr}{34}
 \pagecite{rrmf}{34}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.4}Social Co-preference Regularization}{35}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.5}Social Co-preference Spectral Regularization}{35}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.6}Derivatives}{35}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.2}Second Trial}{38}}
-\@writefile{lot}{\contentsline {table}{\numberline {5.1}{\ignorespaces Number of Users Assigned per Algorithm.}}{39}}
-\newlabel{tab:assigned2}{{5.1}{39}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.4}Social Co-preference Regularization ($\mathit  {Obj}_\mathit  {rsc}$)}{35}}
+\newlabel{sec:rsc}{{5.1.4}{35}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.5}Social Co-preference Spectral Regularization ($\mathit  {Obj}_\mathit  {rscs}$)}{35}}
+\citation{matrix}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.6}Derivatives}{36}}
+\pagecite{matrix}{36}
+\@writefile{toc}{\contentsline {section}{\numberline {5.2}Second Trial}{39}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.2.1}Online Results}{39}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.1}{\ignorespaces Results of online live trials. Spectral Matchbox achieved the highest ratio of likes to dislikes among the four algorithms.}}{39}}
-\newlabel{fig:online2}{{5.1}{39}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.2}{\ignorespaces Results of the online live trials, split between friends and non-friends. As in the first trial, there is a significant drop in performance between recommending friend links and recommending non-friend links.}}{40}}
-\newlabel{fig:OnlineFriend2}{{5.2}{40}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.3}Offline Results}{40}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.3}{\ignorespaces Results of training on Passive data}}{41}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.4}{\ignorespaces Results of training on Union data}}{42}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.5}{\ignorespaces Results of training on Active data}}{43}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {6}Conclusion}{45}}
+\newlabel{sec:online2}{{5.2.1}{39}}
+\@writefile{lot}{\contentsline {table}{\numberline {5.1}{\ignorespaces Number of Users Assigned per Algorithm.}}{40}}
+\newlabel{tab:assigned2}{{5.1}{40}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.1}{\ignorespaces Results of online live trials. The percentage of Liked ratings are stacked on top of the percentage of Disliked ratings per algorithm. Spectral Matchbox achieved the highest ratio of likes to dislikes among the four algorithms. Spectral social regularization in general appears to be a better way to socially regularize compared to social regularization.}}{40}}
+\newlabel{fig:online2}{{5.1}{40}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.2}{\ignorespaces Results of the online live trials, split between friends and non-friends. As in the first trial, there is a significant drop in performance between recommending friend links and recommending non-friend links.}}{41}}
+\newlabel{fig:OnlineFriend2}{{5.2}{41}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.3}Offline Results}{42}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.3}{\ignorespaces Results of training on Passive data}}{43}}
+\newlabel{fig:passive2}{{5.3}{43}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.4}Summary}{43}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.4}{\ignorespaces Results of training on Active data}}{44}}
+\newlabel{fig:active2}{{5.4}{44}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.5}{\ignorespaces Results of training on Union data}}{45}}
+\newlabel{fig:union2}{{5.5}{45}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {6}Conclusion}{47}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
 \citation{ste}
@@ -203,7 +212,7 @@
 \bibcite{chu-Ghahramani-icml-05}{\citeauthoryear {Chu and Ghahramani}{Chu and Ghahramani}{2005b}}
 \bibcite{conitzer-jair-09}{\citeauthoryear {Conitzer}{Conitzer}{2009a}}
 \bibcite{conitzer09161}{\citeauthoryear {Conitzer}{Conitzer}{2009b}}
-\@writefile{toc}{\contentsline {chapter}{Bibliography}{47}}
+\@writefile{toc}{\contentsline {chapter}{Bibliography}{49}}
 \bibcite{svms}{\citeauthoryear {Cortes and Vapnik}{Cortes and Vapnik}{1995}}
 \bibcite{socinf}{\citeauthoryear {Cui, Wang, Liu, Ou, and Yang}{Cui et\nobreakspace  {}al.}{2011}}
 \bibcite{brochu-et-al-nips-08}{\citeauthoryear {Eric, Freitas, and Ghosh}{Eric et\nobreakspace  {}al.}{2008}}
@@ -218,6 +227,7 @@
 \bibcite{sorec}{\citeauthoryear {Ma, Yang, Lyu, and King}{Ma et\nobreakspace  {}al.}{2008}}
 \bibcite{sr}{\citeauthoryear {Ma, Zhou, Liu, Lyu, and King}{Ma et\nobreakspace  {}al.}{2011}}
 \bibcite{spectral}{\citeauthoryear {Ng, Jordan, and Weiss}{Ng et\nobreakspace  {}al.}{2001}}
+\bibcite{matrix}{\citeauthoryear {Petersen and Pedersen}{Petersen and Pedersen}{2008}}
 \bibcite{candela-rasmussen-jmlr-05}{\citeauthoryear {Qui\~{n}onero Candela and Rasmussen}{Qui\~{n}onero Candela and Rasmussen}{2005}}
 \bibcite{tf}{\citeauthoryear {Rendle, Marinho, Nanopoulos, and Schmidt-Thieme}{Rendle et\nobreakspace  {}al.}{2009}}
 \bibcite{collab_filtering}{\citeauthoryear {Resnick and Varian}{Resnick and Varian}{1997}}
