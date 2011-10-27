@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.11 (TeX Live 2010) (format=pdflatex 2011.4.2)  27 OCT 2011 05:01
+This is pdfTeX, Version 3.1415926-1.40.11 (TeX Live 2010) (format=pdflatex 2011.4.2)  27 OCT 2011 12:08
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -912,18 +912,12 @@ Package epstopdf Info: Source file: <img/Passive_App-User-Passive2.eps>
 (epstopdf)                    size: 31054 bytes
 (epstopdf)             Output file: <img/Passive_App-User-Passive2-eps-converte
 d-to.pdf>
-(epstopdf)                    date: 2011-10-27 05:00:09
-(epstopdf)                    size: 16698 bytes
+(epstopdf)                    date: 2011-10-27 05:01:40
+(epstopdf)                    size: 16719 bytes
 (epstopdf)             Command: <epstopdf --outfile=img/Passive_App-User-Passiv
 e2-eps-converted-to.pdf img/Passive_App-User-Passive2.eps>
 (epstopdf)             \includegraphics on input line 303.
-runsystem(epstopdf --outfile=img/Passive_App-User-Passive2-eps-converted-to.pdf
- img/Passive_App-User-Passive2.eps)...executed.
-
-Package epstopdf Info: Result file: <img/Passive_App-User-Passive2-eps-converte
-d-to.pdf>
-(epstopdf)                    date: 2011-10-27 05:01:40
-(epstopdf)                    size: 16719 bytes.
+Package epstopdf Info: Output file is already uptodate.
 
 <img/Passive_App-User-Passive2-eps-converted-to.pdf, id=1400, 578.16pt x 433.62
 pt>
@@ -935,18 +929,12 @@ Package epstopdf Info: Source file: <img/Passive_FB-User-Passive2.eps>
 (epstopdf)                    size: 31758 bytes
 (epstopdf)             Output file: <img/Passive_FB-User-Passive2-eps-converted
 -to.pdf>
-(epstopdf)                    date: 2011-10-27 05:00:09
-(epstopdf)                    size: 17246 bytes
+(epstopdf)                    date: 2011-10-27 05:01:40
+(epstopdf)                    size: 17267 bytes
 (epstopdf)             Command: <epstopdf --outfile=img/Passive_FB-User-Passive
 2-eps-converted-to.pdf img/Passive_FB-User-Passive2.eps>
 (epstopdf)             \includegraphics on input line 304.
-runsystem(epstopdf --outfile=img/Passive_FB-User-Passive2-eps-converted-to.pdf 
-img/Passive_FB-User-Passive2.eps)...executed.
-
-Package epstopdf Info: Result file: <img/Passive_FB-User-Passive2-eps-converted
--to.pdf>
-(epstopdf)                    date: 2011-10-27 05:01:40
-(epstopdf)                    size: 17267 bytes.
+Package epstopdf Info: Output file is already uptodate.
 
 <img/Passive_FB-User-Passive2-eps-converted-to.pdf, id=1401, 578.16pt x 433.62p
 t>
@@ -958,18 +946,12 @@ Package epstopdf Info: Source file: <img/Passive_App-User-active-all2.eps>
 (epstopdf)                    size: 31267 bytes
 (epstopdf)             Output file: <img/Passive_App-User-active-all2-eps-conve
 rted-to.pdf>
-(epstopdf)                    date: 2011-10-27 05:00:10
-(epstopdf)                    size: 16880 bytes
+(epstopdf)                    date: 2011-10-27 05:01:41
+(epstopdf)                    size: 16901 bytes
 (epstopdf)             Command: <epstopdf --outfile=img/Passive_App-User-active
 -all2-eps-converted-to.pdf img/Passive_App-User-active-all2.eps>
 (epstopdf)             \includegraphics on input line 305.
-runsystem(epstopdf --outfile=img/Passive_App-User-active-all2-eps-converted-to.
-pdf img/Passive_App-User-active-all2.eps)...executed.
-
-Package epstopdf Info: Result file: <img/Passive_App-User-active-all2-eps-conve
-rted-to.pdf>
-(epstopdf)                    date: 2011-10-27 05:01:41
-(epstopdf)                    size: 16901 bytes.
+Package epstopdf Info: Output file is already uptodate.
 
 <img/Passive_App-User-active-all2-eps-converted-to.pdf, id=1402, 578.16pt x 433
 .62pt>
@@ -981,18 +963,12 @@ Package epstopdf Info: Source file: <img/Passive_App-User-Active-Friends2.eps>
 (epstopdf)                    size: 31898 bytes
 (epstopdf)             Output file: <img/Passive_App-User-Active-Friends2-eps-c
 onverted-to.pdf>
-(epstopdf)                    date: 2011-10-27 05:00:10
-(epstopdf)                    size: 17370 bytes
+(epstopdf)                    date: 2011-10-27 05:01:41
+(epstopdf)                    size: 17389 bytes
 (epstopdf)             Command: <epstopdf --outfile=img/Passive_App-User-Active
 -Friends2-eps-converted-to.pdf img/Passive_App-User-Active-Friends2.eps>
 (epstopdf)             \includegraphics on input line 306.
-runsystem(epstopdf --outfile=img/Passive_App-User-Active-Friends2-eps-converted
--to.pdf img/Passive_App-User-Active-Friends2.eps)...executed.
-
-Package epstopdf Info: Result file: <img/Passive_App-User-Active-Friends2-eps-c
-onverted-to.pdf>
-(epstopdf)                    date: 2011-10-27 05:01:41
-(epstopdf)                    size: 17389 bytes.
+Package epstopdf Info: Output file is already uptodate.
 
 <img/Passive_App-User-Active-Friends2-eps-converted-to.pdf, id=1403, 578.16pt x
  433.62pt>
@@ -1005,18 +981,12 @@ s>
 (epstopdf)                    size: 32523 bytes
 (epstopdf)             Output file: <img/Passive_App-User-Active-NonFriends2-ep
 s-converted-to.pdf>
-(epstopdf)                    date: 2011-10-27 05:00:10
-(epstopdf)                    size: 17704 bytes
+(epstopdf)                    date: 2011-10-27 05:01:41
+(epstopdf)                    size: 17723 bytes
 (epstopdf)             Command: <epstopdf --outfile=img/Passive_App-User-Active
 -NonFriends2-eps-converted-to.pdf img/Passive_App-User-Active-NonFriends2.eps>
 (epstopdf)             \includegraphics on input line 307.
-runsystem(epstopdf --outfile=img/Passive_App-User-Active-NonFriends2-eps-conver
-ted-to.pdf img/Passive_App-User-Active-NonFriends2.eps)...executed.
-
-Package epstopdf Info: Result file: <img/Passive_App-User-Active-NonFriends2-ep
-s-converted-to.pdf>
-(epstopdf)                    date: 2011-10-27 05:01:41
-(epstopdf)                    size: 17723 bytes.
+Package epstopdf Info: Output file is already uptodate.
 
 <img/Passive_App-User-Active-NonFriends2-eps-converted-to.pdf, id=1404, 578.16p
 t x 433.62pt>
@@ -1029,18 +999,12 @@ Package epstopdf Info: Source file: <img/Active_App-User-Passive2.eps>
 (epstopdf)                    size: 31051 bytes
 (epstopdf)             Output file: <img/Active_App-User-Passive2-eps-converted
 -to.pdf>
-(epstopdf)                    date: 2011-10-27 05:00:10
-(epstopdf)                    size: 16694 bytes
+(epstopdf)                    date: 2011-10-27 05:01:41
+(epstopdf)                    size: 16714 bytes
 (epstopdf)             Command: <epstopdf --outfile=img/Active_App-User-Passive
 2-eps-converted-to.pdf img/Active_App-User-Passive2.eps>
 (epstopdf)             \includegraphics on input line 314.
-runsystem(epstopdf --outfile=img/Active_App-User-Passive2-eps-converted-to.pdf 
-img/Active_App-User-Passive2.eps)...executed.
-
-Package epstopdf Info: Result file: <img/Active_App-User-Passive2-eps-converted
--to.pdf>
-(epstopdf)                    date: 2011-10-27 05:01:41
-(epstopdf)                    size: 16714 bytes.
+Package epstopdf Info: Output file is already uptodate.
 
 <img/Active_App-User-Passive2-eps-converted-to.pdf, id=1405, 578.16pt x 433.62p
 t>
@@ -1052,18 +1016,12 @@ Package epstopdf Info: Source file: <img/Active_FB-User-Passive2.eps>
 (epstopdf)                    size: 31755 bytes
 (epstopdf)             Output file: <img/Active_FB-User-Passive2-eps-converted-
 to.pdf>
-(epstopdf)                    date: 2011-10-27 05:00:11
-(epstopdf)                    size: 17241 bytes
+(epstopdf)                    date: 2011-10-27 05:01:42
+(epstopdf)                    size: 17263 bytes
 (epstopdf)             Command: <epstopdf --outfile=img/Active_FB-User-Passive2
 -eps-converted-to.pdf img/Active_FB-User-Passive2.eps>
 (epstopdf)             \includegraphics on input line 315.
-runsystem(epstopdf --outfile=img/Active_FB-User-Passive2-eps-converted-to.pdf i
-mg/Active_FB-User-Passive2.eps)...executed.
-
-Package epstopdf Info: Result file: <img/Active_FB-User-Passive2-eps-converted-
-to.pdf>
-(epstopdf)                    date: 2011-10-27 05:01:42
-(epstopdf)                    size: 17263 bytes.
+Package epstopdf Info: Output file is already uptodate.
 
 <img/Active_FB-User-Passive2-eps-converted-to.pdf, id=1406, 578.16pt x 433.62pt
 >
@@ -1074,18 +1032,12 @@ Package epstopdf Info: Source file: <img/Active_App-User-Active-All2.eps>
 (epstopdf)                    size: 31270 bytes
 (epstopdf)             Output file: <img/Active_App-User-Active-All2-eps-conver
 ted-to.pdf>
-(epstopdf)                    date: 2011-10-27 05:00:11
-(epstopdf)                    size: 16876 bytes
+(epstopdf)                    date: 2011-10-27 05:01:42
+(epstopdf)                    size: 16897 bytes
 (epstopdf)             Command: <epstopdf --outfile=img/Active_App-User-Active-
 All2-eps-converted-to.pdf img/Active_App-User-Active-All2.eps>
 (epstopdf)             \includegraphics on input line 316.
-runsystem(epstopdf --outfile=img/Active_App-User-Active-All2-eps-converted-to.p
-df img/Active_App-User-Active-All2.eps)...executed.
-
-Package epstopdf Info: Result file: <img/Active_App-User-Active-All2-eps-conver
-ted-to.pdf>
-(epstopdf)                    date: 2011-10-27 05:01:42
-(epstopdf)                    size: 16897 bytes.
+Package epstopdf Info: Output file is already uptodate.
 
 <img/Active_App-User-Active-All2-eps-converted-to.pdf, id=1407, 578.16pt x 433.
 62pt>
@@ -1097,18 +1049,12 @@ Package epstopdf Info: Source file: <img/Active_App-User-Active-Friends2.eps>
 (epstopdf)                    size: 31897 bytes
 (epstopdf)             Output file: <img/Active_App-User-Active-Friends2-eps-co
 nverted-to.pdf>
-(epstopdf)                    date: 2011-10-27 05:00:11
-(epstopdf)                    size: 17363 bytes
+(epstopdf)                    date: 2011-10-27 05:01:42
+(epstopdf)                    size: 17380 bytes
 (epstopdf)             Command: <epstopdf --outfile=img/Active_App-User-Active-
 Friends2-eps-converted-to.pdf img/Active_App-User-Active-Friends2.eps>
 (epstopdf)             \includegraphics on input line 317.
-runsystem(epstopdf --outfile=img/Active_App-User-Active-Friends2-eps-converted-
-to.pdf img/Active_App-User-Active-Friends2.eps)...executed.
-
-Package epstopdf Info: Result file: <img/Active_App-User-Active-Friends2-eps-co
-nverted-to.pdf>
-(epstopdf)                    date: 2011-10-27 05:01:42
-(epstopdf)                    size: 17380 bytes.
+Package epstopdf Info: Output file is already uptodate.
 
 <img/Active_App-User-Active-Friends2-eps-converted-to.pdf, id=1408, 578.16pt x 
 433.62pt>
@@ -1121,18 +1067,12 @@ Package epstopdf Info: Source file: <img/Active_App-User-Active-Nonfriends2.eps
 (epstopdf)                    size: 32518 bytes
 (epstopdf)             Output file: <img/Active_App-User-Active-Nonfriends2-eps
 -converted-to.pdf>
-(epstopdf)                    date: 2011-10-27 05:00:11
-(epstopdf)                    size: 17699 bytes
+(epstopdf)                    date: 2011-10-27 05:01:42
+(epstopdf)                    size: 17716 bytes
 (epstopdf)             Command: <epstopdf --outfile=img/Active_App-User-Active-
 Nonfriends2-eps-converted-to.pdf img/Active_App-User-Active-Nonfriends2.eps>
 (epstopdf)             \includegraphics on input line 318.
-runsystem(epstopdf --outfile=img/Active_App-User-Active-Nonfriends2-eps-convert
-ed-to.pdf img/Active_App-User-Active-Nonfriends2.eps)...executed.
-
-Package epstopdf Info: Result file: <img/Active_App-User-Active-Nonfriends2-eps
--converted-to.pdf>
-(epstopdf)                    date: 2011-10-27 05:01:42
-(epstopdf)                    size: 17716 bytes.
+Package epstopdf Info: Output file is already uptodate.
 
 <img/Active_App-User-Active-Nonfriends2-eps-converted-to.pdf, id=1409, 578.16pt
  x 433.62pt>
@@ -1144,18 +1084,12 @@ Package epstopdf Info: Source file: <img/Union_App-User-Passive2.eps>
 (epstopdf)                    size: 31048 bytes
 (epstopdf)             Output file: <img/Union_App-User-Passive2-eps-converted-
 to.pdf>
-(epstopdf)                    date: 2011-10-27 05:00:12
-(epstopdf)                    size: 16688 bytes
+(epstopdf)                    date: 2011-10-27 05:01:43
+(epstopdf)                    size: 16708 bytes
 (epstopdf)             Command: <epstopdf --outfile=img/Union_App-User-Passive2
 -eps-converted-to.pdf img/Union_App-User-Passive2.eps>
 (epstopdf)             \includegraphics on input line 325.
-runsystem(epstopdf --outfile=img/Union_App-User-Passive2-eps-converted-to.pdf i
-mg/Union_App-User-Passive2.eps)...executed.
-
-Package epstopdf Info: Result file: <img/Union_App-User-Passive2-eps-converted-
-to.pdf>
-(epstopdf)                    date: 2011-10-27 05:01:43
-(epstopdf)                    size: 16708 bytes.
+Package epstopdf Info: Output file is already uptodate.
 
 <img/Union_App-User-Passive2-eps-converted-to.pdf, id=1410, 578.16pt x 433.62pt
 >
@@ -1166,18 +1100,12 @@ Package epstopdf Info: Source file: <img/Union_FB-User-Passive2.eps>
 (epstopdf)                    size: 31752 bytes
 (epstopdf)             Output file: <img/Union_FB-User-Passive2-eps-converted-t
 o.pdf>
-(epstopdf)                    date: 2011-10-27 05:00:12
-(epstopdf)                    size: 17239 bytes
+(epstopdf)                    date: 2011-10-27 05:01:43
+(epstopdf)                    size: 17261 bytes
 (epstopdf)             Command: <epstopdf --outfile=img/Union_FB-User-Passive2-
 eps-converted-to.pdf img/Union_FB-User-Passive2.eps>
 (epstopdf)             \includegraphics on input line 326.
-runsystem(epstopdf --outfile=img/Union_FB-User-Passive2-eps-converted-to.pdf im
-g/Union_FB-User-Passive2.eps)...executed.
-
-Package epstopdf Info: Result file: <img/Union_FB-User-Passive2-eps-converted-t
-o.pdf>
-(epstopdf)                    date: 2011-10-27 05:01:43
-(epstopdf)                    size: 17261 bytes.
+Package epstopdf Info: Output file is already uptodate.
 
 <img/Union_FB-User-Passive2-eps-converted-to.pdf, id=1411, 578.16pt x 433.62pt>
 File: img/Union_FB-User-Passive2-eps-converted-to.pdf Graphic file (type pdf)
@@ -1187,18 +1115,12 @@ Package epstopdf Info: Source file: <img/Union_App-User-Active-All2.eps>
 (epstopdf)                    size: 31269 bytes
 (epstopdf)             Output file: <img/Union_App-User-Active-All2-eps-convert
 ed-to.pdf>
-(epstopdf)                    date: 2011-10-27 05:00:12
-(epstopdf)                    size: 16874 bytes
+(epstopdf)                    date: 2011-10-27 05:01:43
+(epstopdf)                    size: 16897 bytes
 (epstopdf)             Command: <epstopdf --outfile=img/Union_App-User-Active-A
 ll2-eps-converted-to.pdf img/Union_App-User-Active-All2.eps>
 (epstopdf)             \includegraphics on input line 327.
-runsystem(epstopdf --outfile=img/Union_App-User-Active-All2-eps-converted-to.pd
-f img/Union_App-User-Active-All2.eps)...executed.
-
-Package epstopdf Info: Result file: <img/Union_App-User-Active-All2-eps-convert
-ed-to.pdf>
-(epstopdf)                    date: 2011-10-27 05:01:43
-(epstopdf)                    size: 16897 bytes.
+Package epstopdf Info: Output file is already uptodate.
 
 <img/Union_App-User-Active-All2-eps-converted-to.pdf, id=1412, 578.16pt x 433.6
 2pt>
@@ -1210,18 +1132,12 @@ Package epstopdf Info: Source file: <img/Union_App-User-Active-Friends2.eps>
 (epstopdf)                    size: 31894 bytes
 (epstopdf)             Output file: <img/Union_App-User-Active-Friends2-eps-con
 verted-to.pdf>
-(epstopdf)                    date: 2011-10-27 05:00:12
-(epstopdf)                    size: 17374 bytes
+(epstopdf)                    date: 2011-10-27 05:01:43
+(epstopdf)                    size: 17390 bytes
 (epstopdf)             Command: <epstopdf --outfile=img/Union_App-User-Active-F
 riends2-eps-converted-to.pdf img/Union_App-User-Active-Friends2.eps>
 (epstopdf)             \includegraphics on input line 328.
-runsystem(epstopdf --outfile=img/Union_App-User-Active-Friends2-eps-converted-t
-o.pdf img/Union_App-User-Active-Friends2.eps)...executed.
-
-Package epstopdf Info: Result file: <img/Union_App-User-Active-Friends2-eps-con
-verted-to.pdf>
-(epstopdf)                    date: 2011-10-27 05:01:43
-(epstopdf)                    size: 17390 bytes.
+Package epstopdf Info: Output file is already uptodate.
 
 <img/Union_App-User-Active-Friends2-eps-converted-to.pdf, id=1413, 578.16pt x 4
 33.62pt>
@@ -1234,18 +1150,12 @@ Package epstopdf Info: Source file: <img/Union_App-User-Active-NonFriends2.eps>
 (epstopdf)                    size: 32517 bytes
 (epstopdf)             Output file: <img/Union_App-User-Active-NonFriends2-eps-
 converted-to.pdf>
-(epstopdf)                    date: 2011-10-27 05:00:13
-(epstopdf)                    size: 17698 bytes
+(epstopdf)                    date: 2011-10-27 05:01:44
+(epstopdf)                    size: 17716 bytes
 (epstopdf)             Command: <epstopdf --outfile=img/Union_App-User-Active-N
 onFriends2-eps-converted-to.pdf img/Union_App-User-Active-NonFriends2.eps>
 (epstopdf)             \includegraphics on input line 329.
-runsystem(epstopdf --outfile=img/Union_App-User-Active-NonFriends2-eps-converte
-d-to.pdf img/Union_App-User-Active-NonFriends2.eps)...executed.
-
-Package epstopdf Info: Result file: <img/Union_App-User-Active-NonFriends2-eps-
-converted-to.pdf>
-(epstopdf)                    date: 2011-10-27 05:01:44
-(epstopdf)                    size: 17716 bytes.
+Package epstopdf Info: Output file is already uptodate.
 
 <img/Union_App-User-Active-NonFriends2-eps-converted-to.pdf, id=1414, 578.16pt 
 x 433.62pt>
@@ -1309,7 +1219,7 @@ Here is how much of TeX's memory you used:
  6957 multiletter control sequences out of 15000+200000
  19678 words of font info for 75 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
- 38i,24n,26p,810b,271s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 38i,24n,25p,810b,271s stack positions out of 5000i,500n,10000p,200000b,50000s
 </usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
 ></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
 </usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx6.pfb></
@@ -1335,7 +1245,7 @@ t/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2010/texmf-dist
 /fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/local/texlive/2010/texmf-dist/
 fonts/type1/public/amsfonts/cm/cmti8.pfb></usr/local/texlive/2010/texmf-dist/fo
 nts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on thesis.pdf (63 pages, 1141469 bytes).
+Output written on thesis.pdf (63 pages, 1141453 bytes).
 PDF statistics:
  2276 PDF objects out of 2487 (max. 8388607)
  382 compressed objects within 4 object streams
