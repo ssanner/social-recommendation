@@ -291,9 +291,9 @@ Aside from the online user trial, we also evaluate the algorithms using the mean
 
 \item{ In Figure~\ref{fig:active2}, when training on ACTIVE and testing on APP-USER-ACTIVE-NON-FRIEND, Spectral Co-preference shows slightly better (though not statistically significant) performance than when testing on APP-USER-ACTIVE-FRIEND. This also reflects the results of the live user trial in Section~\ref{sec:online2}. The explicit dislikes of the Active data allow the co-preference regularizer to learn the Dislike data better.}
 
-\item{The better performance of the social spectral regularization methods in the live user trials do not show in the offline experiments. This may be caused by the difference in the dataset size between the live user trials and the offline experiments affects optimal parameter settings for the offline experiments. Further tuning of the parameters may cause the social spectral regularization methods to perform better}
+\item{The better performance of the social spectral regularization methods in the live user trials do not show in the offline experiments. This may be caused by the difference in the dataset size between the live user trials and the offline experiments, which affected optimal parameter settings for the offline experiments. Further tuning of the parameters may cause the social spectral regularization methods to perform better}
 
-\item{Another reason may be that perhaps the MAP metric isn't the best metric that correlates with human performance evaluation, and some other metric that we could have may better reflect the results of live user trials.}
+\item{Another reason may be that perhaps the MAP metric isn't the best metric that correlates with human performance evaluation, and some other metric that we could have used instead may better reflect the results of live user trials.}
 \end{itemize}
 
 %When training on the UNION dataset, we can see the same general worsening of performance between the results of testing on APP-USER-ACTIVE-FRIENDS and APP-USER-ACTIVE-NON-FRIENDS. 
