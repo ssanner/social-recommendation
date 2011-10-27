@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.11 (TeX Live 2010) (format=pdflatex 2011.4.2)  27 OCT 2011 14:06
+This is pdfTeX, Version 3.1415926-1.40.11 (TeX Live 2010) (format=pdflatex 2011.4.2)  27 OCT 2011 14:36
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -1174,7 +1174,9 @@ Friends2-eps-converted-to.pdf>] [46
 
 ]
 Chapter 6.
-[47]) [48] (./thesis.bbl
+[47] [48]) [49] [50
+
+] (./thesis.bbl
 Bib-XRef Warning: No page list for reference `birlutiu-et-al-neuro-10'.
 Bib-XRef Warning: No page list for reference `bonilla-et-al-nips-08'.
 Bib-XRef Warning: No page list for reference `boutilier02239'.
@@ -1186,8 +1188,7 @@ Bib-XRef Warning: No page list for reference `chu-Ghahramani-jmlr-05'.
 Bib-XRef Warning: No page list for reference `chu-Ghahramani-icml-05'.
 Bib-XRef Warning: No page list for reference `conitzer-jair-09'.
 Bib-XRef Warning: No page list for reference `conitzer09161'.
-[49
-
+[51
 
 ]
 Bib-XRef Warning: No page list for reference `brochu-et-al-nips-08'.
@@ -1198,17 +1199,17 @@ Bib-XRef Warning: No page list for reference `jones-jgo-01'.
 Bib-XRef Warning: No page list for reference `kamishima-kdd-03'.
 Bib-XRef Warning: No page list for reference `glfm'.
 Bib-XRef Warning: No page list for reference `candela-rasmussen-jmlr-05'.
-[50]
+[52]
 Bib-XRef Warning: No page list for reference `viappiani09Regret-basedOptimalRec
 ommendationSetsConversational'.
 Bib-XRef Warning: No page list for reference `yu-et-al-icml-05'.
 )
 No file thesis.ind.
-[51] (./thesis.aux) ) 
+[53] (./thesis.aux) ) 
 Here is how much of TeX's memory you used:
  3850 strings out of 493747
  58307 string characters out of 3143547
- 115065 words of memory out of 3000000
+ 115069 words of memory out of 3000000
  6956 multiletter control sequences out of 15000+200000
  19678 words of font info for 75 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
@@ -1238,10 +1239,10 @@ live/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texl
 ive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/local/texli
 ve/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmti8.pfb></usr/local/texlive
 /2010/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on thesis.pdf (63 pages, 1143467 bytes).
+Output written on thesis.pdf (65 pages, 1147238 bytes).
 PDF statistics:
- 2276 PDF objects out of 2487 (max. 8388607)
- 382 compressed objects within 4 object streams
+ 2282 PDF objects out of 2487 (max. 8388607)
+ 386 compressed objects within 4 object streams
  0 named destinations out of 1000 (max. 500000)
  216 words of extra memory for PDF output out of 10000 (max. 10000000)
 
