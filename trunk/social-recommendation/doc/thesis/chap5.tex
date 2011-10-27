@@ -24,7 +24,9 @@ As specified in Chapter 1, one weakness of  MF methods is that they cannot model
 
 We fix this by introducing another objective component in addition to the standard MF objective, and this component serves as a simple linear regressor for such information diffusion observations. The resulting hybrid objective component becomes a combination of latent MF and linear regression objectives.
 
-We make use of the $\f_{\x,\y}$ features detailed in Section~\ref{sec:dataset} to make the linear regressor. $\f_{\x,\y}$ models user-user information diffusion through the $F'_{\x,\y}$ indicator function of which of the user's friends have liked a particular link along with the user.
+We make use of the $\f_{\x,\y}$ features detailed in Section~\ref{sec:dataset} to make the linear regressor. $\f_{\x,\y}$ models user-user information diffusion because it is a joint feature between users and the links. It allows us to learn information diffusion models whether certain users always likes content from another specific user.
+
+%the $F'_{\x,\y}$ indicator function of which of the user's friends have liked a particular link along with the user.
 
 Using $\la \cdot,\cdot \ra$ to denote an inner product, we define a weight
 vector $\w \in \R^F$ such that $\la \w, \f_{\x,\y} \ra = \w^T \f_{\x,\y}$ is the prediction of the system. The objective of the linear regression component is therefore
