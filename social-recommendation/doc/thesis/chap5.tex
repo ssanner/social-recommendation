@@ -51,7 +51,7 @@ $L_2$ regularizer that models a prior of $0$ on the parameters. The objective co
 
 \subsection{Social Spectral Regularization ($\Obj_\rss$)}
 
-As we did with the Social Regularization method in Section~\ref{sec:SocRec}, we build on ideas used in Matchbox~\cite{matchbox} to extend social spectral regularization~\cite{sr,rrmf} by incorporating user features into the objective. The object function for our extension to social spectral regularization is:
+As we did with the Social Regularization method in Section~\ref{sec:SocRec}, we build on ideas used in Matchbox~\cite{matchbox} to extend social spectral regularization~\cite{sr,rrmf} by incorporating user features into the objective. The objective function for our extension to social spectral regularization is:
 
 \begin{align}
 \sum_{\x} & \sum_{\z \in \mathit{friends}(\x)} \frac{1}{2} S^+_{\x,\z} \| U\x - U\z \|_2^2 \nonumber \\
@@ -95,7 +95,7 @@ social co-preference regularization along with its expanded form is
 This is the same as the social co-preference regularization above, except that it uses the spectral regularizer format for 
 learning the co-preferences.
 
- We use $\| \cdot \|_{2,\bullet}$ to denote a re-weighted $L_2$ norm. The reweighing of this norm servers the same purpose as the re-weighted inner product in Section~\ref{rsc}, it tailors the similarities or dissimilarities between users to specific sets of items. This allows users $\x$
+ We use $\| \cdot \|_{2,\bullet}$ to denote a re-weighted $L_2$ norm. The reweighing of this norm servers the same purpose as the re-weighted inner product in Section~\ref{sec:rsc}, it tailors the similarities or dissimilarities between users to specific sets of items. This allows users $\x$
 and $\z$ to be similar or opposite in the same latent latent space
 relevant only to item $\y$.  
  
