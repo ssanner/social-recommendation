@@ -1,45 +1,45 @@
 This is BibTeX, Version 0.99c (Web2C 7.5.4)
 The top-level auxiliary file: www11_sorec.aux
 The style file: plain.bst
-Database file #1: sorec.bib
-You've used 11 entries,
+Database file #1: thesis.bib
+You've used 17 entries,
             2118 wiz_defined-function locations,
-            544 strings with 5352 characters,
-and the built_in function-call counts, 3803 in all, are:
-= -- 314
-> -- 243
-< -- 1
-+ -- 95
-- -- 84
-* -- 244
-:= -- 641
-add.period$ -- 33
-call.type$ -- 11
-change.case$ -- 75
+            579 strings with 6117 characters,
+and the built_in function-call counts, 5670 in all, are:
+= -- 506
+> -- 300
+< -- 4
++ -- 118
+- -- 100
+* -- 346
+:= -- 923
+add.period$ -- 49
+call.type$ -- 17
+change.case$ -- 100
 chr.to.int$ -- 0
-cite$ -- 11
-duplicate$ -- 163
-empty$ -- 322
-format.name$ -- 84
-if$ -- 797
+cite$ -- 17
+duplicate$ -- 247
+empty$ -- 492
+format.name$ -- 100
+if$ -- 1210
 int.to.chr$ -- 0
-int.to.str$ -- 11
-missing$ -- 11
-newline$ -- 58
-num.names$ -- 22
-pop$ -- 118
+int.to.str$ -- 17
+missing$ -- 15
+newline$ -- 86
+num.names$ -- 34
+pop$ -- 151
 preamble$ -- 1
-purify$ -- 64
+purify$ -- 84
 quote$ -- 0
-skip$ -- 91
+skip$ -- 167
 stack$ -- 0
-substring$ -- 83
-swap$ -- 31
-text.length$ -- 1
+substring$ -- 216
+swap$ -- 59
+text.length$ -- 4
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 44
+type$ -- 68
 warning$ -- 0
-while$ -- 24
-width$ -- 13
-write$ -- 113
+while$ -- 46
+width$ -- 19
+write$ -- 174

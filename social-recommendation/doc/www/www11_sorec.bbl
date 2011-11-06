@@ -1,9 +1,24 @@
 \begin{thebibliography}{10}
 
-\bibitem{bisim}
-Bin Cao, Jian-Tao Sun, Jianmin Wu, Qiang Yang, and Zheng Chen.
-\newblock Learning bidirectional similarity for collaborative filtering.
-\newblock In {\em ECML-08}, 2008.
+\bibitem{fab}
+Marko Balabanovi\'{c} and Yoav Shoham.
+\newblock Fab: content-based, collaborative recommendation.
+\newblock {\em Communications of the {ACM}}, 40:66--72, March 1997.
+
+\bibitem{bellkor}
+Robert~M. Bell and Yehuda Koren.
+\newblock Scalable collaborative filtering with jointly derived neighborhood
+  interpolation weights.
+\newblock In {\em ICDM-07}, 2007.
+
+\bibitem{libsvm}
+Chih-Chung Chang and Chih-Jen Lin.
+\newblock {\em LIBSVM: a Library for Support Vector Machines}, 2001.
+
+\bibitem{svms}
+Corinna Cortes and Vladimir Vapnik.
+\newblock Support-vector networks.
+\newblock In {\em Machine Learning}, pages 273--297, 1995.
 
 \bibitem{socinf}
 Peng Cui, Fei Wang, Shaowei Liu, Mingdong Ou, and Shiqiang Yang.
@@ -11,10 +26,11 @@ Peng Cui, Fei Wang, Shaowei Liu, Mingdong Ou, and Shiqiang Yang.
   users and posts ranking.
 \newblock In {\em International ACM SIGIR Conference (SIGIR)}, 2011.
 
-\bibitem{glfm}
-Li, Yeung, and Zhang.
-\newblock Generalized latent factor models for social network analysis.
-\newblock In {\em IJCAI-11}, 2011.
+\bibitem{newsweeder}
+K.~Lang.
+\newblock {NewsWeeder}: Learning to filter netnews.
+\newblock In {\em 12th International Conference on Machine Learning {ICML-95}},
+  pages 331--339, 1995.
 
 \bibitem{rrmf}
 Wu-Jun Li and Dit-Yan Yeung.
@@ -22,7 +38,7 @@ Wu-Jun Li and Dit-Yan Yeung.
 \newblock In {\em IJCAI-09}, 2009.
 
 \bibitem{ste}
-Ma, King, and Lyu.
+H.~Ma, I.~King, and M.~R. Lyu.
 \newblock Learning to recommend with social trust ensemble.
 \newblock In {\em SIGIR-09}, 2009.
 
@@ -37,16 +53,32 @@ Hao Ma, Dengyong Zhou, Chao Liu, Michael~R. Lyu, and Irwin King.
 \newblock Recommender systems with social regularization.
 \newblock In {\em WSDM-11}, 2011.
 
+\bibitem{spectral}
+A.~Ng, M.~Jordan, and Y.~Weiss.
+\newblock On spectral clustering: Analysis and an algorithm.
+\newblock In {\em Advances in Neural Information Processing Systems {NIPS} 14},
+  2001.
+
+\bibitem{matrix}
+Kaare~Brandt Petersen and Michael~Syskind Pedersen.
+\newblock The matrix cookbook, 2008.
+
 \bibitem{tf}
 S.~Rendle, L.~B. Marinho, A.~Nanopoulos, and L.~Schmidt-Thieme.
 \newblock Learning optimal ranking with tensor factorization for tag
   recommendation.
 \newblock In {\em KDD-09}, 2009.
 
+\bibitem{collab_filtering}
+Paul Resnick and Hal~R. Varian.
+\newblock Recommender systems.
+\newblock {\em Communications of the ACM}, 40:56--58, March 1997.
+
 \bibitem{pmf}
-Ruslan Salkhunitdov and {\bf \Large ???}
+Ruslan Salakhutdinov and Andriy Mnih.
 \newblock Probabilistic matrix factorization.
-\newblock In {\em ???}, ???
+\newblock In {\em Advances in Neural Information Processing Systems},
+  volume~20, 2008.
 
 \bibitem{matchbox}
 David~H. Stern, Ralf Herbrich, and Thore Graepel.
@@ -54,7 +86,7 @@ David~H. Stern, Ralf Herbrich, and Thore Graepel.
 \newblock In {\em WWW-09}, pages 111--120, 2009.
 
 \bibitem{lla}
-Yang, Long, Smola, Sadagopan, Zheng, and Zha.
+S.~H. Yang, B.~Long, A.~Smola, N.~Sadagopan, Z.~Zheng, and H.~Zha.
 \newblock Like like alike: Joint friendship and interest propagation in social
   networks.
 \newblock In {\em WWW-11}, 2011.

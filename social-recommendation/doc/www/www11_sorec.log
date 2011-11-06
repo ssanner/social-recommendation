@@ -1,4 +1,4 @@
-This is pdfeTeXk, Version 3.141592-1.21a-2.2 (Web2C 7.5.4) (format=pdflatex 2008.12.23)  23 OCT 2011 17:57
+This is pdfeTeXk, Version 3.141592-1.21a-2.2 (Web2C 7.5.4) (format=latex 2008.12.23)  7 NOV 2011 05:55
 entering extended mode
  file:line:error style messages enabled.
  %&-line parsing enabled.
@@ -29,11 +29,10 @@ Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
 (/usr/share/texmf/tex/latex/graphics/graphics.cfg
 File: graphics.cfg 2005/02/03 v1.3 graphics configuration of teTeX/TeXLive
 )
-Package graphics Info: Driver file: pdftex.def on input line 80.
+Package graphics Info: Driver file: dvips.def on input line 80.
 
-(/usr/share/texmf/tex/latex/graphics/pdftex.def
-File: pdftex.def 2002/06/19 v0.03k graphics/color for pdftex
-\Gread@gobject=\count79
+(/usr/share/texmf/tex/latex/graphics/dvips.def
+File: dvips.def 1999/02/16 v3.0i Driver-dependant file (DPC,SPQR)
 ))
 \Gin@req@height=\dimen102
 \Gin@req@width=\dimen103
@@ -72,13 +71,13 @@ Package: amsbsy 1999/11/29 v1.2d
 (/usr/share/texmf/tex/latex/amsmath/amsopn.sty
 Package: amsopn 1999/12/14 v2.01 operator names
 )
-\inf@bad=\count80
+\inf@bad=\count79
 LaTeX Info: Redefining \frac on input line 211.
-\uproot@=\count81
-\leftroot@=\count82
+\uproot@=\count80
+\leftroot@=\count81
 LaTeX Info: Redefining \overline on input line 307.
-\classnum@=\count83
-\DOTSCASE@=\count84
+\classnum@=\count82
+\DOTSCASE@=\count83
 LaTeX Info: Redefining \ldots on input line 379.
 LaTeX Info: Redefining \dots on input line 382.
 LaTeX Info: Redefining \cdots on input line 467.
@@ -87,15 +86,15 @@ LaTeX Info: Redefining \cdots on input line 467.
 \big@size=\dimen108
 LaTeX Font Info:    Redeclaring font encoding OML on input line 567.
 LaTeX Font Info:    Redeclaring font encoding OMS on input line 568.
-\macc@depth=\count85
-\c@MaxMatrixCols=\count86
+\macc@depth=\count84
+\c@MaxMatrixCols=\count85
 \dotsspace@=\muskip10
-\c@parentequation=\count87
-\dspbrk@lvl=\count88
+\c@parentequation=\count86
+\dspbrk@lvl=\count87
 \tag@help=\toks17
-\row@=\count89
-\column@=\count90
-\maxfields@=\count91
+\row@=\count88
+\column@=\count89
+\maxfields@=\count90
 \andhelp@=\toks18
 \eqnshift@=\dimen109
 \alignsep@=\dimen110
@@ -122,22 +121,22 @@ Questions on the style, SIGS policies, etc. to Adrienne Griscti griscti@acm.org
 \footheight=\dimen115
 \@maxsep=\dimen116
 \@dblmaxsep=\dimen117
-\aucount=\count92
-\originalaucount=\count93
+\aucount=\count91
+\originalaucount=\count92
 \auwidth=\dimen118
 \auskip=\dimen119
-\auskipcount=\count94
+\auskipcount=\count93
 \auskip=\dimen120
 \allauboxes=\dimen121
 \addauthors=\toks21
-\addauflag=\count95
+\addauflag=\count94
 \subtitletext=\toks22
-\savesection=\count96
-\sectioncntr=\count97
-\c@figure=\count98
-\c@table=\count99
+\savesection=\count95
+\sectioncntr=\count96
+\c@figure=\count97
+\c@table=\count98
 \titleboxnotes=\toks23
-\titleboxnoteflag=\count100
+\titleboxnoteflag=\count99
 Document Class: sig-alternate 2009/04/22 - V2.4 - based on acmproc.cls V1.3 <No
 v. 30 '99>
 (/usr/share/texmf/tex/latex/base/latexsym.sty
@@ -147,26 +146,26 @@ LaTeX Font Info:    Overwriting symbol font `lasy' in version `bold'
 (Font)                  U/lasy/m/n --> U/lasy/b/n on input line 47.
 )
 \@acmtitlebox=\box28
-\titlenotecount=\count101
+\titlenotecount=\count100
 \tntoks=\toks24
 \tntokstwo=\toks25
 \tntoksthree=\toks26
 \tntoksfour=\toks27
 \tntoksfive=\toks28
-\catcount=\count102
+\catcount=\count101
 \copyrightnotice=\toks29
 \conf=\toks30
 \confinfo=\toks31
-\c@part=\count103
-\c@section=\count104
-\c@subsection=\count105
-\c@subsubsection=\count106
-\c@paragraph=\count107
+\c@part=\count102
+\c@section=\count103
+\c@subsection=\count104
+\c@subsubsection=\count105
+\c@paragraph=\count106
 
 Using 'Abbrev' bibliography style
 LaTeX Info: Redefining \cite on input line 1211.
 \bibindent=\dimen122
-\colcntr=\count108
+\colcntr=\count107
 \saveb@x=\box29
 \copyrtyr=\toks32
 \acmcopyr=\toks33
@@ -184,257 +183,242 @@ LaTeX Font Info:    Try loading font information for T1+aer on input line 100.
 (/usr/share/texmf/tex/latex/ae/t1aer.fd
 File: t1aer.fd 1997/11/16 Font definitions for T1/aer.
 )))
+(/usr/share/texmf/tex/latex/base/makeidx.sty
+Package: makeidx 2000/03/29 v1.0m Standard LaTeX package
+)
+(/usr/share/texmf/tex/latex/tools/verbatim.sty
+Package: verbatim 2003/08/22 v1.5q LaTeX2e package for verbatim enhancements
+\every@verbatim=\toks36
+\verbatim@line=\toks37
+\verbatim@in@stream=\read1
+)
+(/usr/share/texmf/tex/latex/subfigure/subfigure.sty
+Package: subfigure 2002/07/30 v2.1.4 subfigure package
+\subfigtopskip=\skip44
+\subfigcapskip=\skip45
+\subfigcaptopadj=\dimen123
+\subfigbottomskip=\skip46
+\subfigcapmargin=\dimen124
+\subfiglabelskip=\skip47
+\c@subfigure=\count108
+\c@lofdepth=\count109
+\c@subtable=\count110
+\c@lotdepth=\count111
+
+****************************************
+* Local config file subfigure.cfg used *
+****************************************
+(/usr/share/texmf/tex/latex/subfigure/subfigure.cfg)
+\subfig@top=\skip48
+\subfig@bottom=\skip49
+)
+(/usr/share/texmf/tex/latex/tools/array.sty
+Package: array 2003/12/17 v2.4a Tabular extension package (FMi)
+\col@sep=\dimen125
+\extrarowheight=\dimen126
+\NC@list=\toks38
+\extratabsurround=\skip50
+\backup@length=\skip51
+)
 (/usr/share/texmf/tex/latex/mh/mathtools.sty
 Package: mathtools 2004/10/10 v1.01a mathematical typesetting tools (MH)
 
 (/usr/share/texmf/tex/latex/tools/calc.sty
 Package: calc 1998/07/07 v4.1b Infix arithmetic (KKT,FJ)
-\calc@Acount=\count109
-\calc@Bcount=\count110
-\calc@Adimen=\dimen123
-\calc@Bdimen=\dimen124
-\calc@Askip=\skip44
-\calc@Bskip=\skip45
+\calc@Acount=\count112
+\calc@Bcount=\count113
+\calc@Adimen=\dimen127
+\calc@Bdimen=\dimen128
+\calc@Askip=\skip52
+\calc@Bskip=\skip53
 LaTeX Info: Redefining \setlength on input line 59.
 LaTeX Info: Redefining \addtolength on input line 60.
-\calc@denominator=\count111
+\calc@denominator=\count114
 )
 (/usr/share/texmf/tex/latex/mh/mhsetup.sty
 Package: mhsetup 2004/10/10 v1.0b programming setup (MH)
 )
-\g_MT_multlinerow_int=\count112
-\l_MT_multwidth_dim=\dimen125
+\g_MT_multlinerow_int=\count115
+\l_MT_multwidth_dim=\dimen129
 )
-\c@lemma=\count113
+(/usr/share/texmf/tex/latex/url/url.sty
+\Urlmuskip=\muskip11
+Package: url 2004/03/15  ver 3.1  Verb mode for urls, etc.
+)
+\c@lemma=\count116
  (./www11_sorec.aux)
 \openout1 = `www11_sorec.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 105.
-LaTeX Font Info:    ... okay on input line 105.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 105.
-LaTeX Font Info:    ... okay on input line 105.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 105.
-LaTeX Font Info:    ... okay on input line 105.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 105.
-LaTeX Font Info:    ... okay on input line 105.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 105.
-LaTeX Font Info:    ... okay on input line 105.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 105.
-LaTeX Font Info:    ... okay on input line 105.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 117.
+LaTeX Font Info:    ... okay on input line 117.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 117.
+LaTeX Font Info:    ... okay on input line 117.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 117.
+LaTeX Font Info:    ... okay on input line 117.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 117.
+LaTeX Font Info:    ... okay on input line 117.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 117.
+LaTeX Font Info:    ... okay on input line 117.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 117.
+LaTeX Font Info:    ... okay on input line 117.
+LaTeX Font Info:    Try loading font information for U+msa on input line 175.
 
-(/usr/share/texmf/tex/context/base/supp-pdf.tex
-(/usr/share/texmf/tex/context/base/supp-mis.tex
-loading : Context Support Macros / Miscellaneous (2004.10.26)
-\protectiondepth=\count114
-\scratchcounter=\count115
-\scratchtoks=\toks36
-\scratchdimen=\dimen126
-\scratchskip=\skip46
-\scratchmuskip=\muskip11
-\scratchbox=\box30
-\scratchread=\read1
-\scratchwrite=\write3
-\zeropoint=\dimen127
-\onepoint=\dimen128
-\onebasepoint=\dimen129
-\minusone=\count116
-\thousandpoint=\dimen130
-\onerealpoint=\dimen131
-\emptytoks=\toks37
-\nextbox=\box31
-\nextdepth=\dimen132
-\everyline=\toks38
-\!!counta=\count117
-\!!countb=\count118
-\recursecounter=\count119
-)
-loading : Context Support Macros / PDF (2004.03.26)
-\nofMPsegments=\count120
-\nofMParguments=\count121
-\MPscratchCnt=\count122
-\MPscratchDim=\dimen133
-\MPnumerator=\count123
-\everyMPtoPDFconversion=\toks39
-)
-LaTeX Font Info:    Try loading font information for U+msa on input line 127.
- (/usr/share/texmf/tex/latex/amsfonts/umsa.fd
+(/usr/share/texmf/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2002/01/19 v2.2g AMS font definitions
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 127.
+LaTeX Font Info:    Try loading font information for U+msb on input line 175.
 
 (/usr/share/texmf/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2002/01/19 v2.2g AMS font definitions
 )
-LaTeX Font Info:    Try loading font information for U+lasy on input line 127.
+LaTeX Font Info:    Try loading font information for U+lasy on input line 175.
 
 (/usr/share/texmf/tex/latex/base/ulasy.fd
 File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
-) [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
+) (./intro.tex
+Underfull \vbox (badness 1831) has occurred while \output is active []
+
+ [1
 
 
 ]
-Overfull \hbox (1.4039pt too wide) in paragraph at lines 229--233
-[]\T1/aer/bx/n/9 Modeling di-rect user-user in-for-ma-tion dif-fu-sion:
+(Commented text...) (Commented text...)) (./background.tex
+Overfull \hbox (2.60812pt too wide) in paragraph at lines 35--36
+[]\T1/aer/m/n/9 Expressed pref-er-ences (likes/dislikes of posts and links). 
+ []
+
+[2] [3])
+Overfull \hbox (6.79947pt too wide) in paragraph at lines 213--213
+[]\secfnt NEW OB-JEC-TIVE FUNC-TIONS FOR SCF 
+ []
+
+(./newobjfuns.tex
+Overfull \hbox (6.91844pt too wide) in paragraph at lines 7--13
+[]\T1/aer/m/n/9 If we ex-am-ine the pre-vi-ously de-fined SCF ob-jec-tives in 2
+.3.3[],
  []
 
 
-Overfull \hbox (3.43788pt too wide) in paragraph at lines 254--266
-[]\T1/aer/bx/n/9 Idenfying pas-sive eval-u-a-tion paradigms that cor-
+Overfull \hbox (1.19397pt too wide) in paragraph at lines 28--33
+\T1/aer/m/n/9 Because each ob-jec-tive may be weighted dif-fer-ently, a weight-
+
  []
 
 
-Overfull \hbox (1.53696pt too wide) in paragraph at lines 286--294
-\T1/aer/m/n/9 dis-cus-sion of \T1/aer/m/it/9 non-feature-based user sim-i-lar-i
-ty\T1/aer/m/n/9 , we build
- []
-
-[2]
-Overfull \hbox (11.91302pt too wide) in paragraph at lines 461--462
-[]\T1/aer/bx/n/9 Social Trust En-sem-ble [5] (Non-spectral) \T1/aer/m/n/9 ($[][
-]$): 
- []
-
-[3]
-Overfull \hbox (16.867pt too wide) in paragraph at lines 493--493
-[]\secfnt NOVEL AL-GO-RITHMS FOR SO-CIAL REC-
- []
-
-
-Overfull \hbox (16.7404pt too wide) detected at line 586
-\OML/cmm/m/it/9 U \OT1/cmr/m/n/9 = []     \OML/cmm/m/it/9 V \OT1/cmr/m/n/9 = []
-
+Overfull \hbox (17.23615pt too wide) in paragraph at lines 35--45
+[]\T1/aer/m/n/9 Most tar-get pre-dic-tions are bi-nary classification-based ($\
+OMS/cmsy/m/n/9 f\OT1/cmr/m/n/9 0\OML/cmm/m/it/9 ; \OT1/cmr/m/n/9 1\OMS/cmsy/m/n
+/9 g$\T1/aer/m/n/9 ),
  []
 
 [4]
-Overfull \hbox (12.81407pt too wide) in paragraph at lines 630--633
-[]\T1/aer/m/n/9 We note that most tar-get pre-dic-tions are bi-nary classificat
-ion-
+Overfull \hbox (2.6524pt too wide) in paragraph at lines 139--147
+[]\T1/aer/m/n/9 This method is an ex-ten-sion of ex-ist-ing SCF tech-niques [17
+,
  []
 
 
-Overfull \hbox (3.56468pt too wide) in paragraph at lines 689--693
- \T1/aer/m/n/9 Note: stan-dard spec-tral reg-u-lar-iza-tion as-sumes $\OML/cmm/
-m/it/9 S[] \OMS/cmsy/m/n/9 2
+Overfull \hbox (19.10612pt too wide) in paragraph at lines 207--207
+[] 
  []
 
 
-Overfull \hbox (8.73889pt too wide) in paragraph at lines 717--718
-[] \T1/aer/m/n/9 Note 2: we should also try set-ting $\OML/cmm/m/it/9 P[] \OT1/
-cmr/m/n/9 = [] =
- []
-
-
-Overfull \hbox (17.23772pt too wide) in paragraph at lines 718--721
-[]\T1/aer/bx/n/9 Social co-preference spec-tral reg-u-lar-iza-tion \T1/aer/m/n/
-9 ($[][]$)
+Overfull \hbox (20.52403pt too wide) in paragraph at lines 212--212
+[] 
  []
 
 [5]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-
-Overfull \hbox (19.10612pt too wide) in paragraph at lines 807--807
+Overfull \hbox (20.89653pt too wide) in paragraph at lines 217--217
 [] 
  []
 
 
-Overfull \hbox (20.89653pt too wide) in paragraph at lines 817--817
+Overfull \hbox (4.08015pt too wide) in paragraph at lines 267--267
 [] 
+ []
+
+
+Underfull \vbox (badness 1874) has occurred while \output is active []
+
+)
+(./eval.tex
+
+LaTeX Warning: Reference `fig:ex_link' on page \thepage  undefined on input lin
+e 16.
+
+File: img/linkr.eps Graphic file (type eps)
+<img/linkr.eps>
+Overfull \hbox (21.95253pt too wide) in paragraph at lines 54--58
+[]  [] 
  []
 
 [6]
-Overfull \hbox (46.10893pt too wide) in paragraph at lines 849--849
-[] 
+
+LaTeX Warning: Reference `sec:notation' on page \thepage  undefined on input li
+ne 83.
+
+
+Overfull \hbox (4.60466pt too wide) in paragraph at lines 99--101
+\T1/aer/m/n/9 Additionally, links that have been rec-om-mended by the LinkR
  []
 
+[7]) (./baselines.tex
 
-Overfull \hbox (24.84541pt too wide) in paragraph at lines 873--873
-[] 
+LaTeX Warning: Reference `sec:svm' on page \thepage  undefined on input line 13
+.
+
+File: img/live-likes1.eps Graphic file (type eps)
+<img/live-likes1.eps>
+File: img/live-friend-likes1.eps Graphic file (type eps)
+ <img/live-friend-likes1.eps>
+File: img/live-nonfriend-likes1.eps Graphic file (type eps)
+
+<img/live-nonfriend-likes1.eps>
+
+LaTeX Warning: Reference `fig:OnlineFriend1' on page \thepage  undefined on inp
+ut line 71.
+
+
+LaTeX Warning: Reference `fig:OnlineFriend1' on page \thepage  undefined on inp
+ut line 74.
+
+File: img/not-seen.eps Graphic file (type eps)
+<img/not-seen.eps>
+File: img/relevant.eps Graphic file (type eps)
+ <img/relevant.eps>
+File: img/adapted.eps Graphic file (type eps)
+ <img/adapted.eps>
+File: img/satisfied.eps Graphic file (type eps)
+ <img/satisfied.eps>
+[8])
+Overfull \hbox (16.867pt too wide) in paragraph at lines 225--225
+[]\secfnt NOVEL AL-GO-RITHMS FOR SO-CIAL REC-
  []
 
+(./newalgs.tex [9]
+File: img/live-likes2.eps Graphic file (type eps)
+ <img/live-likes2.eps>
+File: img/live-friend-likes2.eps Graphic file (type eps)
+ <img/live-friend-likes2.eps>
+File: img/live-nonfriend-likes2.eps Graphic file (type eps)
 
-Overfull \hbox (19.80264pt too wide) in paragraph at lines 882--883
-[]\T1/aer/bx/n/9 Social co-preference spec-tral reg-u-lar-iza-tion \T1/aer/m/n/
-9 ($[][]$): 
- []
+<img/live-nonfriend-likes2.eps>) (./conclusions.tex [10] [11])
+(Commented text...) (./www11_sorec.bbl
+LaTeX Font Info:    Try loading font information for T1+aett on input line 1.
+ (/usr/share/texmf/tex/latex/ae/t1aett.fd
+File: t1aett.fd 1997/11/16 Font definitions for T1/aett.
+)) [12] (./www11_sorec.aux)
 
+LaTeX Warning: There were undefined references.
 
-Overfull \hbox (21.69586pt too wide) in paragraph at lines 891--891
-[] 
- []
-
-
-Overfull \hbox (3.59882pt too wide) in paragraph at lines 905--906
-[]\T1/aer/m/it/9 FIW\T1/aer/m/n/9 : Friend in-ter-ac-tion weight-ing -- sam-ple
- links posted
- []
-
-
-Overfull \hbox (4.98953pt too wide) in paragraph at lines 914--915
-[]\T1/aer/m/it/9 CF\T1/aer/m/n/9 : $[][] \OT1/cmr/m/n/9 + \OML/cmm/m/it/9 ^^U[]
-[][] \OT1/cmr/m/n/9 + \OML/cmm/m/it/9 ^^U[][][]$ \T1/aer/m/n/9 -- stan-dard Mat
-chbox-
- []
-
-[7]
-Overfull \hbox (22.80434pt too wide) in paragraph at lines 954--955
-[]\T1/aer/m/n/9 Eventually will want to cross-validate (re-peat-edly train/test
-)
- []
-
-
-Overfull \hbox (1.5191pt too wide) in paragraph at lines 960--961
-[]\T1/aer/m/n/9 (Active) Ac-tively rec-om-mended LinkR like/dislike data
- []
-
-
-Overfull \hbox (1.57156pt too wide) in paragraph at lines 972--973
-[]\T1/aer/m/n/9 (App-User-Active-Non-friend) App users only, all avail-
- []
-
-[8]
-Overfull \hbox (4.62625pt too wide) in paragraph at lines 1002--1003
-[]$\OMS/cmsy/m/n/9 f[]g ^^B f[]g ^^B f[]g$ 
- []
-
-
-Overfull \hbox (65.33162pt too wide) in paragraph at lines 1003--1004
-[]$\OMS/cmsy/m/n/9 f[]g ^^B f[]g ^^B f[]g ^^B f[]g$ 
- []
-
-
-Overfull \hbox (22.43651pt too wide) in paragraph at lines 1004--1005
-\OMS/cmsy/m/n/9 ^^Bf[]g$ 
- []
-
-(./www11_sorec.bbl) [9
-
-] (./www11_sorec.aux) ) 
+ ) 
 Here is how much of TeX's memory you used:
- 2647 strings out of 94500
- 31107 string characters out of 1176765
- 92892 words of memory out of 1000000
- 5763 multiletter control sequences out of 10000+50000
- 56156 words of font info for 79 fonts, out of 500000 for 2000
+ 2668 strings out of 94501
+ 31857 string characters out of 1176788
+ 91754 words of memory out of 1000000
+ 5758 multiletter control sequences out of 10000+50000
+ 43620 words of font info for 59 fonts, out of 500000 for 2000
  580 hyphenation exceptions out of 1000
- 39i,24n,26p,657b,252s stack positions out of 1500i,500n,5000p,200000b,5000s
-PDF statistics:
- 92 PDF objects out of 300000
- 0 named destinations out of 131072
- 1 words of extra memory for PDF output out of 65536
-</usr/share/texmf/fonts/type1/bluesky/cm/cmbx12.pfb></us
-r/share/texmf/fonts/type1/bluesky/cm/cmr5.pfb></usr/share/texmf/fonts/type1/blu
-esky/cm/cmmi5.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmbx5.pfb></usr/shar
-e/texmf/fonts/type1/bluesky/cm/cmbx6.pfb></usr/share/texmf/fonts/type1/bluesky/
-symbols/msbm10.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmsy6.pfb></usr/sha
-re/texmf/fonts/type1/public/tt2001/fmex9.pfb></usr/share/texmf/fonts/type1/blue
-sky/cm/cmti7.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmmi6.pfb></usr/share
-/texmf/fonts/type1/bluesky/cm/cmmi9.pfb></usr/share/texmf/fonts/type1/bluesky/c
-m/cmsy9.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmr6.pfb>{/usr/share/texmf
-/fonts/enc/dvips/psnfss/8r.enc}</usr/share/texmf/fonts/type1/urw/times/utmri8a.
-pfb></usr/share/texmf/fonts/type1/urw/times/utmr8a.pfb></usr/share/texmf/fonts/
-type1/bluesky/cm/cmbx9.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmti9.pfb><
-/usr/share/texmf/fonts/type1/bluesky/cm/cmr9.pfb></usr/share/texmf/fonts/type1/
-urw/times/utmb8a.pfb></usr/share/texmf/fonts/type1/urw/helvetic/uhvr8a.pfb></us
-r/share/texmf/fonts/type1/urw/helvetic/uhvb8a.pfb>
-Output written on www11_sorec.pdf (9 pages, 198775 bytes).
+ 39i,24n,26p,691b,304s stack positions out of 1500i,500n,5000p,200000b,5000s
+
+Output written on www11_sorec.dvi (12 pages, 94788 bytes).

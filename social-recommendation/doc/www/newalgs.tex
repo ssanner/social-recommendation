@@ -1,0 +1,154 @@
+\subsection{Second Trial}
+
+For the second online trial, we chose four algorithms again to
+randomly split between the LinkR application users. Social Matchbox
+was included again as a baseline since it was the best performing
+algorithm in the first trial. The distribution count of the algorithms
+to the users is shown in Table~\ref{tab:assigned2}
+
+The four SCF algorithms are:
+
+\begin{itemize}
+\item{{\bf Social Matchbox (Soc. Mbox)} : Matchbox MF + Social Regularization +  L2 $U$ Regularization + L2 $V$ Regularization}
+\item{{\bf Spectral Matchbox (Spec. Mbox)}: Matchbox MF + Social Spectral Regularization + L2 $U$ Regularization + L2 $V$ Regularization}
+\item{{\bf Social Hybrid (Soc. Hybrid)}: Hybrid + Social Regularization + L2 $U$ Regularization + L2 $V$ Regularization + L2 $\w$ Regularization}
+\item{{\bf Spectral Co-preference (Spec. CP)}: Matchbox MF + Social Co-preference Spectral Regularization + L2 $U$ Regularization + L2 $V$ Regularization}
+\end{itemize}
+
+\subsubsection{Online Results}
+\label{sec:online2}
+
+The online experiments were switched to the new algorithms on October
+13, 2011. For the online results reported here, since the second live
+trial is still currently ongoing, we took a snapshot of the data as it
+was on October 22, 2011. The algorithms were randomly distributed
+among the 103 users who still had the LinkR application installed. The
+distribution of the algorithms to the users are show in
+Table~\ref{tab:assigned2}
+
+
+\begin{table}[t!]
+\centering
+\begin{tabular}{| l | c |}
+\hline
+{\bf Algorithm} & {\bf Users} \\
+\hline
+Social Matchbox & 26\\
+Spectral Matchbox  & 25 \\
+Spectral Co-preference & 27 \\
+Social Hybrid & 25 \\
+\hline
+\end{tabular}
+\caption{Number of Users Assigned per Algorithm.}
+\label{tab:assigned2}
+\end{table}
+
+Results shown in Figure~\ref{fig:online2} are the percentage of Like
+ratings and the percentage of Dislike ratings per algorithm stacked on
+top of each other with the Like ratings on top.
+
+First thing we note in Figure~\ref{fig:online2} is the decrease in
+performance for Social Matchbox, and in fact for all SCF algorithms in
+general. Except for Spectral Matchbox, they all received more Dislike
+ratings than Like ratings. What we noticed is that of the
+recommendations being made in the week that we switched over to the
+new algorithms, the majority of the links were about Steve Jobs, who
+had died the week previously. We believe that the redundancy and lack
+of variety of the links being recommended caused an increase in the
+Dislike ratings being given by users on the recommended links. Taking
+out the skewed results that follows an unusual event such as this, the
+relative algorithm performance was better.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure*}[t!]
+\centering
+\subfigure{\includegraphics[scale=0.28]{img/live-likes2.eps}}
+\subfigure{\includegraphics[scale=0.28]{img/live-friend-likes2.eps}}
+\subfigure{\includegraphics[scale=0.28]{img/live-nonfriend-likes2.eps}}
+\caption{Results of online live trials. The percentage of Liked
+ratings are stacked on top of the percentage of Disliked ratings per
+algorithm. Spectral Matchbox achieved the highest ratio of likes to
+dislikes among the four algorithms. Spectral social regularization in
+general appears to be a better way to socially regularize compared to
+social regularization. *** Results of the online live trials, split
+between friends and non-friends. As in the first trial, there is a
+significant drop in performance between recommending friend links and
+recommending non-friend links.}
+\label{fig:online2}
+\end{figure*}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+We again split the results again between friend link recommendations
+and non-friend link recommendations, with the results shown in
+Figure~\ref{fig:online2} being the percentage of Like ratings and the
+percentage of Dislike ratings per algorithm stacked on top of each
+other with the Like ratings on top.  As shown
+Figure~\ref{fig:online2}, all four algorithms experienced significant
+performance drop in the number of likes when it came to recommending
+non-friend links. This reflects the results of the first trial.
+ 
+\begin{comment}
+Additionally, the differences were more drastic with the two
+algorithms that uses the social regularization method: Social Matchbox
+and Social Hybrid. This, together with results of the first user
+trial, seems to confirm our earlier analysis that aside from Liking or
+Disliking a link just from the quality of the links being recommended,
+users are also more likely to like a link because a friend had posted
+it and more likely to dislike it because it came from a stranger.
+\end{comment}
+
+We note the following observations from the results shown in Figures
+\ref{fig:online2}:
+
+\begin{itemize}
+\item{Compared to the other algorithms, Spectral Matchbox achieved the
+best ratio of likes to dislikes as seen, as seen in
+Figure~\ref{fig:online2}. Combined with the results for Spectral
+Co-preference, Spectral social regularization in general appears to be
+a better way to socially regularize compared to social
+regularization. This comparison holds even when the results are split
+between friend links recommendations and non-friend links
+recommendations, as seen in Figure~\ref{fig:online2}.}
+
+\item{When looking at just the friend link recommendations in
+Figure~\ref{fig:online2}, Social Hybrid was the best performing
+algorithm. This result comes from the user-user information diffusion
+among its friends that Social Hybrid learns, which could not be
+learned by the other SCF algorithms. Learning information diffusion
+thus helps when it comes to building better SCF algorithms.}
+
+\item{Spectral Co-preference didn't do well on friend link
+recommendations, however it did better on the non-friend link
+recommendations. When it comes to recommending friend links, friend
+interaction information coming through social regularizer seems more
+important than implicit co-likes information provided by the
+co-preference regularizer. When there is no social interaction
+information such as with non-friend links, co-preference methods with
+its implicit co-likes information appear much better than just vanilla
+collaborative filtering at projecting users into subspaces of common
+interest.}
+\end{itemize}
+
+\subsection{Summary}
+
+We summarize the observations made during the second trial:
+
+\begin{itemize}
+\item{The social spectral regularization methods generally performed
+better in the live user trials, even when the results were split
+between friend link recommendations and non-friend link
+recommendations.}
+
+\item{Learning information diffusion models helps in SCF, as evidenced
+by the strong performance of Social Hybrid when recommending friend
+links.}
+
+\item{When there is no social interaction information, learning
+implicit co-likes information is better than using plain CF methods.}
+
+\item{The better performance of the social spectral regularization
+methods in the live trials were not reflected in the offline
+experiments. Perhaps there is a better metric than MAP that correlates
+with human preferences.}
+\end{itemize}
+

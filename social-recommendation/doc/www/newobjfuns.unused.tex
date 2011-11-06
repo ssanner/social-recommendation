@@ -1,0 +1,319 @@
+\subsection{Objective components}
+
+\label{sec:obj_comp}
+
+We take a composable approach to collaborative filtering (CF) systems
+where a (social) CF minimization 
+objective $\mathit{Obj}$ is composed of sums of one or more
+objective components:
+\begin{align}
+\mathit{Obj} = \sum_i \lambda_i \mathit{Obj}_i
+\end{align}
+Because each objective may be weighted differently, we include a 
+weighting term $\lambda_i \in \R$ for each component that should be
+optimized via cross-validation.
+
+%{\it Binary and ternary prediction:} 
+We note that most target predictions are binary 
+classification-based ($\{0,1\}$)
+so that in our objectives we might want to use a sigmoidal transform 
+\begin{align}
+\sigma(o) & = \frac{1}{1 + e^{-o}}
+\end{align}
+of regressor outputs $o \in \R$ to squash it 
+to the range $[0, 1]$.  
+In places where the $\sigma$ transform may be optionally included, 
+we write $[\sigma]$.  
+%We specify the gradient for such objective modifications below.
+
+Now we define potential primary objective components:
+\begin{itemize}
+\item {\bf Explicit Linear CBF} ($\Obj_\pcbf$):
+\begin{align}
+\sum_{(\x,\y) \in D} \frac{1}{2} (R_{\x,\y} - [\sigma] \w^T \f_{\x,\y})^2
+\end{align}
+\item {\bf Matchbox~\cite{matchbox} CF+CBF} ($\Obj_\pmcf$):
+\begin{align}
+\sum_{(\x,\y) \in D} \frac{1}{2} (R_{\x,\y} - [\sigma] \x^T U^T V y)^2
+\end{align}
+\item {\bf Hybrid} ($\Obj_\phy$):
+\begin{align}
+\sum_{(\x,\y) \in D} \frac{1}{2} (R_{\x,\y} - [\sigma] \w^T \f_{\x,\y} - [\sigma] \x^T U^T V y)^2
+\end{align}
+\end{itemize}
+
+In the above, our free parameters for learning are $U$, $V$, and $\w$.
+It is important to regularize these parameters to prevent overfitting in
+the presence of sparse data;
+for this purpose there are a variety of choices ranging from the well-known
+$L_2$ regularizer that models a prior of $0$ on the parameters
+to more SCF-specific forms of regularization that
+constrain rows of $U$ and $V$ to be similar based on various observations
+in the SCF data:
+\begin{itemize}
+\item {\bf $L_2$ $\w$ regularization} ($\Obj_\rw$):
+\begin{align}
+\frac{1}{2} \| \w \|_2^2 = \frac{1}{2} \w^T \w
+\end{align}
+\item {\bf $L_2$ $U$ regularization} ($\Obj_\ru$):
+\begin{align}
+\frac{1}{2} \| U \|_\Fro^2 = \frac{1}{2} \tr(U^T U)
+\end{align}
+\item {\bf $L_2$ $V$ regularization} ($\Obj_\rv$):
+\begin{align}
+\frac{1}{2} \| V \|_\Fro^2 = \frac{1}{2} \tr(V^T V)
+\end{align}
+\item {\bf Social regularization} ($\Obj_\rs$):
+\begin{align}
+\sum_{\x} & \sum_{\z \in \mathit{friends}(\x)} \frac{1}{2} (S_{\x,\z} - \la U\x, U\z \ra)^2 \nonumber \\
+& = \sum_{\x} \sum_{\z \in \mathit{friends}(\x)} \frac{1}{2} (S_{\x,\z} - \x^T U^T U \z)^2
+\end{align}
+\item {\bf Social spectral regularization} ($\Obj_\rss$):
+\begin{align}
+\sum_{\x} & \sum_{\z \in \mathit{friends}(\x)} \frac{1}{2} S^+_{\x,\z} \| U\x - U\z \|_2^2 \nonumber \\
+& = \sum_{\x} \sum_{\z \in \mathit{friends}(\x)} \frac{1}{2} S^+_{\x,\z} \| U (\x - \z) \|_2^2 \nonumber \\
+& = \sum_{\x} \sum_{\z \in \mathit{friends}(\x)} \frac{1}{2} S^+_{\x,\z} (\x - \z)^T U^T U (\x - \z)
+\end{align}
+\subfive Note: standard spectral regularization assumes $S^+_{\x,\z} \in [0,1]$;
+however we may also want to try $S_{\x,\z}$ since a negative value actively
+encourages the latent spaces to oppose each other, which may be desired.
+\end{itemize}
+
+The motivation behind the next two objectives is to constrain users $\x$
+and $\z$ who have similar (opposing) 
+preferences to be similar (opposite) in the same latent latent space
+relevant to item $\y$.  This captures the crucial aspect --- missing from 
+other SCF methods --- that while two users may not be globally similar (opposite),
+there may be sub-areas of their interests where they are similar (opposite).
+For example, two friends may have similar interests concerning music, but 
+different interests concerning politics.  The following regularization objectives
+aim to learn such selective co-preferences:
+\begin{itemize}
+\item {\bf Social co-preference regularization} ($\Obj_\rsc$)
+-- this requires a reweighted inner product $\la \cdot, \cdot \ra_{\bullet}$
+expanded into its definition below:
+\begin{align}
+\sum_{(\x,\z,\y) \in C} & \frac{1}{2} (P_{\x,\z,\y} - \la U\x, U\z \ra_{V\y})^2 \nonumber \\
+& = \sum_{(\x,\z,\y) \in C} \frac{1}{2} (P_{\x,\z,\y} - \x^T U^T \diag(V\y) U \z)^2
+%= & \sum_{(\x,\z,\y) \in C}  \frac{1}{2} (P_{\x,\z,\y} - \sum_{k=1}^K (U\x)_k (U\z)_k (V\y)_k )^2 
+\end{align}
+\subfive Note 1: computationally, it could be very expensive to compute this
+for all pairs, we might consider ways to restrict it, e.g., only considering
+\emph{App users} for $\x$ or only considering \emph{friends} for $\x$ and $\z$.
+
+\subfive Note 2: we should also try setting $P_{\x,\z,\y} = \mbox{(disagree)} = 0$.
+\item {\bf Social co-preference spectral regularization}
+($\Obj_\rscs$) -- this requires a re-weighted $L_2$ norm 
+$\| \cdot \|_{2,\bullet}$ expanded into its definition below:
+\begin{align}
+\sum_{(\x,\z,\y) \in C} & \frac{1}{2} P_{\x,\z,\y} \| U\x - U\z \|_{2,V\y}^2 \nonumber \\
+& = \sum_{(\x,\z,\y) \in C} \frac{1}{2} P_{\x,\z,\y} \| U (\x - \z) \|_{2,V\y}^2 \nonumber \\
+& = \sum_{(\x,\z,\y) \in C} \frac{1}{2} P_{\x,\z,\y} (\x - \z)^T U^T \diag(V\y) U (\x - \z)
+%= & \sum_{\x} \sum_{\z \neq \x} \sum_{\y} \frac{1}{2} P_{\x,\z,\y} \sum_{k=1}^K \big( \left[ (U\x)_k - (U\z)_k \right] (V\y)_k \big)^2
+\end{align}
+\subfive Note: see notes 1 and 2 for the previous case that also apply here.
+%In this case, we define $P_{\x, \z, \y}$ as follows:
+%\begin{align}
+%P_{\x, \z, \y} = 
+%\begin{cases}
+%\mbox{(mutual-like)}   &:  1 \\
+%\mbox{(disagree)}      &: -1 \\
+%\mbox{(mutual-dislike)}&:  1 \\
+%\end{cases}
+%\end{align}
+%In short, if two users agree on $\y$ then their latent representations should
+%agree in the latent dimensions relevant to $\y$; if they disagree these
+%relevant latent dimensions should be opposite each other.
+\end{itemize}
+
+\subsection{Derivatives}
+
+\label{sec:obj_grad}
+
+We seek to optimize sums of the above objectives and will use
+gradient descent for this purpose.  
+
+For the overall objective, the partial derivative 
+w.r.t. parameters $\a$ are as follows:
+\begin{align*}
+\frac{\partial}{\partial \a} \mathit{Obj} & = \frac{\partial}{\partial \a} \sum_i \lambda_i \mathit{Obj}_i\\
+& = \sum_i \lambda_i \frac{\partial}{\partial \a} \mathit{Obj}_i \label{eq:sum_der}
+\end{align*}
+
+Previously we noted that in the
+objective components of Section~\ref{sec:obj_comp}, we may want to transform
+some of the regressor outputs $o[\cdot]$ using $\sigma(o[\cdot])$.  
+This is convenient for our partial derivatives as
+\begin{align}
+ \frac{\partial}{\partial \a}\sigma(o[\cdot]) & = \sigma(o[\cdot]) (1 - \sigma(o[\cdot])) \frac{\partial}{\partial \a} o[\cdot] .
+\end{align}
+Hence anytime a $[\sigma(o[\cdot])]$ is optionally 
+introduced in place of $o[\cdot]$, we simply
+insert $[\sigma(o[\cdot]) (1 - \sigma(o[\cdot]))]$ in the corresponding derivatives 
+below.\footnote{We note that our experiments using the sigmoidal transform in
+objectives with $[0,1]$ predictions do not generally demonstrate a
+clear advantage vs. the omission of this transform as originally
+written (although they do not demonstrate a clear disadvantage
+either).}
+
+Before we proceed to our objective gradients, we define abbreviations
+for two useful vectors:
+\begin{align*}
+\s & = U \x \qquad \s_{k} = (U \x)_{k}; \; k=1\ldots K\\
+\t & = V \y \qquad \t_{k} = (V \y)_{k}; \; k=1\ldots K
+\end{align*}
+
+Now we proceed to derivatives for the previously defined primary
+objective components:
+\begin{itemize}
+\item {\bf Explicit Linear CBF} ($\Obj_\pcbf$):
+\begin{align*}
+\frac{\partial}{\partial \w} \Obj_\pcbf & = \frac{\partial}{\partial \w} \sum_{(\x,\y) \in D} \frac{1}{2} \left( \underbrace{(R_{\x,\y} - [\sigma] \overbrace{\w^T \f_{\x,\y}}^{o_{\x,\y}})}_{\delta_{\x,\y}} \right)^2\\
+& = \sum_{(\x,\y) \in D} \delta_{\x,\y} \frac{\partial}{\partial \w} - [\sigma] \w^T \f_{\x,\y}\\
+& = - \sum_{(\x,\y) \in D} \delta_{\x,\y} [\sigma(o_{\x,\y}) (1 - \sigma(o_{\x,\y}))] \f_{\x,\y}
+\end{align*}
+\item {\bf Matchbox~\cite{matchbox} CF+CBF} ($\Obj_\pmcf$):
+Here we define alternating partial derivatives between $U$ and $V$, holding one
+constant and taking the derivative w.r.t.\ the other:\footnote{We will use
+this method of alternation for all objective components that involve bilinear
+terms.}
+\begin{align*}
+\frac{\partial}{\partial U} \Obj_\pmcf & = \frac{\partial}{\partial U} \sum_{(\x,\y) \in D} \frac{1}{2} \left( \underbrace{(R_{\x,\y} - [\sigma] \overbrace{x^T U^T V\y}^{o_{\x,\y}})}_{\delta_{\x,\y}} \right)^2\\
+& = \sum_{(\x,\y) \in D} \delta_{\x,\y} \frac{\partial}{\partial U} - [\sigma] \x^T U^T \t \\
+& = - \sum_{(\x,\y) \in D} \delta_{\x,\y} [\sigma(o_{\x,\y}) (1 - \sigma(o_{\x,\y}))] \t \x^T \\
+\frac{\partial}{\partial V} \Obj_\pmcf & = \frac{\partial}{\partial V} \sum_{(\x,\y) \in D} \frac{1}{2} \left( \underbrace{(R_{\x,\y} - [\sigma] \overbrace{x^T U^T V\y}^{o_{\x,\y}})}_{\delta_{\x,\y}} \right)^2\\
+& = \sum_{(\x,\y) \in D} \delta_{\x,\y} \frac{\partial}{\partial V} - [\sigma] \s^T V \y \\
+& = - \sum_{(\x,\y) \in D} \delta_{\x,\y} [\sigma(o_{\x,\y}) (1 - \sigma(o_{\x,\y}))] \s \y^T
+\end{align*}
+We note that these derivatives use outer products $\t \x^T$ and $\s \y^T$.
+\item {\bf Hybrid} ($\Obj_\phy$):
+\begin{align*}
+\frac{\partial}{\partial \w} \Obj_\phy & = \frac{\partial}{\partial \w} \sum_{(\x,\y) \in D} \frac{1}{2} \left( \underbrace{R_{\x,\y} - [\sigma] \overbrace{\w^T \f_{\x,\y}}^{o^1_{\x,\y}} - [\sigma] \x^T U^T V\y}_{\delta_{\x,\y}} \right)^2 \\
+& = \sum_{(\x,\y) \in D} \delta_{\x,\y} \frac{\partial}{\partial \w} - [\sigma] \w^T \f_{\x,\y} \\
+& = - \sum_{(\x,\y) \in D} \delta_{\x,\y} [\sigma(o^1_{\x,\y}) (1 - \sigma(o^1_{\x,\y}))] \f_{\x,\y} 
+\end{align*}
+\begin{align*}
+\frac{\partial}{\partial U} \Obj_\phy & = \frac{\partial}{\partial U} \sum_{(\x,\y) \in D} \frac{1}{2} \left( \underbrace{R_{\x,\y} - [\sigma] \w^T \f_{\x,\y} - [\sigma] \overbrace{\x^T U^T V\y}^{o^2_{\x,\y}}}_{\delta_{\x,\y}}\right)^2 \\
+& = \sum_{(\x,\y) \in D} \delta_{\x,\y} \frac{\partial}{\partial U} - [\sigma] \x^T U^T V\y \\
+& = - \sum_{(\x,\y) \in D} \delta_{\x,\y} [\sigma(o^2_{\x,\y}) (1 - \sigma(o^2_{\x,\y}))] \t \x^T\\
+%\end{align*}
+%\begin{align*}
+\frac{\partial}{\partial V} \Obj_\phy & = \frac{\partial}{\partial V} \sum_{(\x,\y) \in D} \frac{1}{2} \left( \underbrace{R_{\x,\y} - [\sigma] \w^T \f_{\x,\y} - [\sigma] \overbrace{\x^T U^T V\y}^{o^2_{\x,\y}}}_{\delta_{\x,\y}}\right)^2 \\
+& = \sum_{(\x,\y) \in D}  \delta_{\x,\y} \frac{\partial}{\partial V} - [\sigma] \x^T U^T V\y \\
+& = - \sum_{(\x,\y) \in D}  \delta_{\x,\y} [\sigma(o^2_{\x,\y}) (1 - \sigma(o^2_{\x,\y}))] \s \y^T \\
+\end{align*}
+\end{itemize}
+
+Now we proceed to derivatives for the previously defined
+regularization objectives:
+\begin{itemize}
+\item {\bf $L_2$ $\w$ regularization} ($\Obj_\rw$):
+\begin{align*}
+\frac{\partial}{\partial \w} \Obj_\rw & = \frac{\partial}{\partial \w} \frac{1}{2} \w^T \w\\
+& = \w
+\end{align*}
+\item {\bf $L_2$ $U$ regularization} ($\Obj_\ru$):
+\begin{align*}
+\frac{\partial}{\partial U} \Obj_\ru & = \frac{\partial}{\partial U} \frac{1}{2} \tr(U^T U) \\
+& = U
+\end{align*}
+\item {\bf $L_2$ $V$ regularization} ($\Obj_\rv$):
+\begin{align*}
+\frac{\partial}{\partial V} \Obj_\rv & = \frac{\partial}{\partial V} \frac{1}{2} \tr(V^T V) \\
+& = V
+\end{align*}
+\item {\bf Social regularization} ($\Obj_\rs$):
+\begin{align*}
+\frac{\partial}{\partial U} \Obj_\rs & = \frac{\partial}{\partial U} \sum_{\x} \sum_{\z \in \mathit{friends}(\x)} \frac{1}{2} \left( \underbrace{S_{\x,\z} - \x^T U^T U \z}_{\delta_{\x,\y}} \right)^2 \\
+& = \sum_{\x} \sum_{\z \in \mathit{friends}(\x)} \delta_{\x,\y} \frac{\partial}{\partial U} - \x^T U^T U \z \\
+& = - \sum_{\x} \sum_{\z \in \mathit{friends}(\x)} \delta_{\x,\y} U (\x \z^T + \z \x^T)
+\end{align*}
+\item {\bf Social spectral regularization} ($\Obj_\rss$):
+\begin{align*}
+\frac{\partial}{\partial U} \Obj_\rss & = \frac{\partial}{\partial U} \sum_{\x} \sum_{\z \in \mathit{friends}(\x)} \frac{1}{2} S^+_{\x,\z} (\x - \z)^T U^T U (\x - \z) \\
+& = \sum_{\x} \sum_{\z \in \mathit{friends}(\x)} \frac{1}{2} S^+_{\x,\z} U ((\x - \z)(\x - \z)^T + (\x - \z)(\x - \z)^T)\\
+& = \sum_{\x} \sum_{\z \in \mathit{friends}(\x)} S^+_{\x,\z} U (\x - \z)(\x - \z)^T
+\end{align*}
+\end{itemize}
+
+Before we proceed to the final derivatives, we define one additional
+vector abbreviation: 
+\begin{align*}
+***
+\end{align*}
+
+\begin{itemize}
+\item {\bf Social co-preference regularization} ($\Obj_\rsc$):
+\begin{align*}
+\frac{\partial}{\partial U} \Obj_\rsc & = \frac{\partial}{\partial U} \sum_{(\x,\z,\y) \in C} \frac{1}{2} \left( \underbrace{P_{\x,\z,\y} - \x^T U^T \diag(V\y) U \z}_{\delta_{\x,\z,\y}} \right)^2\\
+& = \sum_{(\x,\z,\y) \in C} \delta_{\x,\z,\y} \frac{\partial}{\partial U} - \x^T U^T \diag(V\y) U \z \\
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%& = \delta \frac{\partial}{\partial U} - \tr(\diag(\x) U^T \diag(V\y) U \diag(\z)) \\
+%& = - \delta \diag(\z) \diag(\x) U^T \diag(V\y) + \diag(\x)^T \diag(\z)^T U^T \diag(V\y)^T\\
+%& = - \delta \diag(V\y)^T U \diag(\x)^T \diag(\z)^T + \diag(V\y)^T U \diag(\z)^T \diag(\x)^T\\
+%& = - \delta \diag(V\y)^T U (\diag(\x) \diag(\z) + \diag(\z) \diag(\x)) \\
+%& = - \delta \diag(V\y)^T U (\z \x^T + \x \z^T) \\
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Found it, see here for direct derivative: http://www.ee.ic.ac.uk/hp/staff/dmb/matrix/calculus.html
+& = - \sum_{(\x,\z,\y) \in C} \delta_{\x,\z,\y} (\diag(V\y)^T U \x \z^T + \diag(V\y) U \z \x^T)\\ % \diag(V\y)^T = \diag(V\y)
+& = - \sum_{(\x,\z,\y) \in C} \delta_{\x,\z,\y} \diag(V\y) U (\x \z^T + \z \x^T)\\
+\end{align*}
+\subfive Note: In the following, $\circ$ is the Hadamard elementwise product:
+\begin{align*}
+\frac{\partial}{\partial V} \Obj_\rsc & = \frac{\partial}{\partial V} \sum_{(\x,\z,\y) \in C} \frac{1}{2} (P_{\x,\z,\y} - \x^T U^T \diag(V\y) U \z)^2\\
+ & = \frac{\partial}{\partial V} \sum_{(\x,\z,\y) \in C} \frac{1}{2} \left( \underbrace{P_{\x,\z,\y} -  (\overbrace{U\x}^\s \circ \overbrace{U\z}^\r)^T V\y}_{\delta_{\x,\z,\y}} \right)^2\\
+ & = \sum_{(\x,\z,\y) \in C} \delta_{\x,\z,\y} \frac{\partial}{\partial V} - (\s \circ \r)^T V\y\\
+ & = - \sum_{(\x,\z,\y) \in C} \delta_{\x,\z,\y} (\s \circ \r) \y^T
+\end{align*}
+
+\item {\bf Social co-preference spectral regularization} ($\Obj_\rscs$):
+\begin{align*}
+\frac{\partial}{\partial U} \Obj_\rscs & = \frac{\partial}{\partial U} \sum_{(\x,\z,\y) \in C} \frac{1}{2} P_{\x,\z,\y} (\x - \z)^T U^T \diag(V\y) U (\x - \z)\\
+& = \sum_{(\x,\z,\y) \in C} \frac{1}{2} P_{\x,\z,\y} \left( \diag(V\y)^T U (\x - \z) (\x - \z)^T \right.\\
+& \left. \qquad \qquad \qquad \qquad + \diag(V\y) U (\x - \z) (\x - \z)^T \right)\\
+& = \sum_{(\x,\z,\y) \in C} P_{\x,\z,\y} \diag(V\y) U (\x - \z) (\x - \z)^T\\
+\frac{\partial}{\partial V} \Obj_\rscs & = \frac{\partial}{\partial V} \sum_{(\x,\z,\y) \in C} \frac{1}{2} P_{\x,\z,\y} (\x - \z)^T U^T \diag(V\y) U (\x - \z)\\
+& = \frac{\partial}{\partial V} \sum_{(\x,\z,\y) \in C} \frac{1}{2} P_{\x,\z,\y} (U(\x-\z) \circ U(\x-\z))^T V\y\\
+& = \frac{1}{2} \sum_{(\x,\z,\y) \in C} P_{\x,\z,\y} (U(\x-\z) \circ U(\x-\z)) \y^T
+\end{align*}
+\end{itemize}
+
+Hence, for any choice of primary objective and one or more regularizers,
+we simply add the derivatives for each of $\w$, $U$, and $V$ (if present) 
+according to~\eqref{eq:sum_der}.
+
+\subsection{Algorithms}
+
+Here we outline simple baseline algorithms evaluated:
+\begin{itemize}
+\item {\it GP}: Most globally popular links -- user-independent
+\item {\it FLL}: Most liked links among user friends -- user-centric (FLL) 
+\item {\it FUW}: Friend uniform weighting -- sample links posted by friends, weighting friends uniformly
+\item {\it FIW}: Friend interaction weighting -- sample links posted by friends, weighting friends according to number of interactions
+\item {\it NN}: Nearest neighbor -- similar to Bell and Koren's Netflix work
+\end{itemize}
+
+Here we outline the SCF learning algorithms evaluated in the first
+1-month Facebook trial in terms of
+the primary and regularization objectives used:
+\begin{itemize}
+\item {\it CBF}: $\Obj_\pcbf + \lambda_\rw \Obj_\rw$ -- but trained with hinge loss (SVM) rather than $L_2$ loss
+\item {\it CF}: $\Obj_\pcbf + \lambda_\ru \Obj_\ru + \lambda_\rv \Obj_\rv$ -- standard Matchbox-style CF model
+\item {\it SCF}: $\Obj_\pcbf + \lambda_\ru \Obj_\ru + \lambda_\rv \Obj_\rv + \lambda_\rs \Obj_\rs$ -- social CF (similar to that used in many papers)
+\end{itemize}
+
+Here we outline the SCF learning algorithms to be evaluated for inclusion
+in the 2nd-month Facebook trial in terms of
+the primary and regularization objectives used:
+\begin{itemize}
+\item {\it HSCF}: $\Obj_\phy + \lambda_\rw \Obj_\rw + \lambda_\ru \Obj_\ru + \lambda_\rv \Obj_\rv + \lambda_\rs \Obj_\rs$ -- hybrid social CF
+\item {\it SSCF}: $\Obj_\pcbf + \lambda_\ru \Obj_\ru + \lambda_\rv \Obj_\rv + \lambda_\rss \Obj_\rss$ -- social spectral CF
+%\item {\it HSSCF}: $\Obj_\phy + \lambda_\rw \Obj_\rw + \lambda_\ru \Obj_\ru + \lambda_\rv \Obj_\rv + \lambda_\rs \Obj_\rs$ -- hybrid spectral social CF
+\item {\it SCCF}: $\Obj_\pcbf + \lambda_\ru \Obj_\ru + \lambda_\rv \Obj_\rv + \lambda_\rsc \Obj_\rsc$ -- social co-preference CF
+\item {\it SCCF}: $\Obj_\pcbf + \lambda_\ru \Obj_\ru + \lambda_\rv \Obj_\rv + \lambda_\rscs \Obj_\rscs$
+\item (hybrid variants of the above only if HSCF outperforms SCF)
+\item (might try combining social and co-preference regularization)
+\end{itemize}
+In these models, the predictor for evaluation purposes is always
+formed from the predictor in the primary objective.
+
