@@ -1,0 +1,131 @@
+%%
+%% Template conclusion.tex
+%%
+
+\subsection{Summary}
+
+In this paper, we evaluated existing algorithms and proposed new
+algorithms for social collaborative filtering via the task of link
+recommendation on Facebook.
+
+%\begin{itemize}
+In Chapter~2, we outlined three main deficiencies in current social
+collaborative filtering (SCF) techniques and proposed new techniques
+in Chapters~4 and 5 to solve them; we review them here as follows:
+
+\begin{itemize}
+\item[(a)] {\bf Non-feature-based user similarity:} 
+We extended existing social regularization and \emph{social spectral regularization} methods to incorporate \emph{user features} to learn user-user similarities in the latent space.
+\item[(b)] {\bf Model direct user-user information diffusion:} 
+We defined a new hybrid SCF method where we \emph{combined} the \emph{collaborative filtering (CF) matrix factorization (MF) objective} used by Matchbox~\cite{matchbox} with a \emph{linear content-based filtering (CBF) objective} used to model direct user-user information diffusion in the social network.
+\item[(c)] {\bf Restricted common interests:}
+We defined a new social co-preference regularization method that \emph{learns from pairs of user preferences} over the same item to learn \emph{user similarities in specific areas} --- a contrast to previous methods that typically enforce global user similarity when regularizing.
+\end{itemize}
+
+Having evaluated existing baselines (with minor extensions) in
+Chapter~4 and evaluating these new algorithms in Chapter~5 in live
+online user trials with over 100 Facebook App users and data for over
+30,000 unique Facebook users, we summarize the main results of the
+paper:
+
+\begin{itemize}
+\item Our extensions to social regularization in Chapter~4 and
+Chapter~5 proved to be very effective methods for SCF, and
+outperformed all other algorithms in the first Facebook user
+evaluation trial.  This was reflected in the live user trial, user
+survey, and offline passive experimental results.  However, our
+socially regularized SCF MF extension in Chapter 4 could still be
+improved by changing to a spectral approach, and this further
+extension in Chapter~5 generally outperformed the SCF socially
+regularized extension of Chapter~4.  The take-home point is that a very 
+useful form of social regularization appears to be \emph{social spectral
+regularization} as proposed in Chapter~5.
+
+\item Learning direct user-user information diffusion models (i.e.,
+how much one user likes links posted by another) can result in
+improved SCF algorithms in comparison to standard MF methods.  To this
+end, our \emph{social hybrid} algorithm which uses this information
+outperformed all other SCF methods when recommending \emph{friend links} as
+shown in Chapter~5.
+
+\item Friend interaction information coming from social regularization
+is more useful than the implicit co-likes information of co-preference
+regularization. However, when there is no social interaction
+information available (as in the case of recommending \emph{non-friend
+links}), learning this implicit co-likes information outperforms plain
+CF methods as evidenced by the relative success of the
+\emph{co-preference regularization} algorithm as demonstrated in
+Chapter~5.
+
+\item Knowing what offline metrics for measuring SCF performance
+correlate with human preferences from live trials is crucial for
+efficient evaluation of SCF algorithms and also quite useful for
+offline algorithm tuning.  In general, as most strongly evidenced in
+Chapter~4, it appears that evaluating \emph{mean average precision}
+(MAP) when training on data that includes both passively inferred
+dislikes and explicit negative preference feedback (i.e., explicit
+dislikes indicated via the Facebook App), but evaluating MAP only with
+explicit feedback (no inferred dislikes) seems to be a train/test
+evaluation approach and evaluation metric that correlates with human
+survey feedback.
+
+\end{itemize}
+
+Hence, this paper has made a number of substantial contributions to
+SCF recommendation systems and has helped advance methods for
+SCF system evaluation.  
+
+\subsection{Future Work}
+
+This work just represents the tip of the iceberg in different
+improvements that SCF can make over more traditional non-social CF
+methods.  Here we identify a number of additional future extensions
+that can potentially further improve the proposed algorithms in this paper:
+
+\begin{itemize}
+\item We used only a subset of the possible feature data in Facebook
+and in the links themselves. Extending the social recommenders to
+handle more of the rich information that is available may result in
+better performance for the SCF algorithms. One critical feature that
+would have been useful is including a $\mathit{genre}$ feature in the
+links (e.g., indicating whether the link represented a blog, news,
+video, etc.)  to provide a fine-grained model of which types of links
+that users prefers to receive.  This additional information would have
+likely prevented a number of observed dislikes from users regarding
+specific genres of links, e.g., those that do not listen to
+music much and hence do not care about links to music videos --- even
+if these links are otherwise liked by friends and very popular.
+\item Enforcing diversity in the recommended links would prevent
+redundant links about the same topic being recommended again and
+again. This is especially useful when an unusual event happens like
+the death of Steve Jobs and the ensuing massive amount of Steve Jobs
+related links that flooded Facebook.  While users may like to see a
+few links on the topic, their interest in similar links decreases over
+time and diversity in recommendations could help address this
+saturation effect.
+\item Another future direction this work can go to is to incorporate
+active learning in the algorithms.  This would ensure that the SCF
+algorithm did not exploit the learned preferences too much and made an
+active effort to discover better link preferences that are available.
+\item Probably the biggest assumption we have made in our
+implementations is how we inferred the implicit dislikes of users in
+the Facebook data.  A better and method of inferring implicit dislikes
+will give a big boost to the SCF algorithms. As evidenced by the
+results of training on ACTIVE and UNION data, having a more accurate
+list of likes and dislikes greatly improves the performance of the SCF
+algorithms.
+\item Finally, there may be a better metric than MAP for offline
+evaluation that more accurately correlates with live human
+preference and research should continue to evaluate a variety
+of existing SCF evaluation metrics in order to identify what
+offline evaluation metrics correlate with human judgments of
+algorithm performance.
+\end{itemize}
+
+While there are many exciting extensions of this work possible
+as outlined above, 
+this paper represents a critical step forward in SCF
+algorithms based on top-performing MF methods and their ability to
+fully exploit the breadth of information available on social networks
+to achieve state-of-the-art link recommendation.
+
