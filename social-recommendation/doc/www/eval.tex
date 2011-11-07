@@ -1,33 +1,32 @@
 In this chapter we first discuss our Facebook Link Recommendation
-(LinkR) application and then proceed to discuss how it can be
-evaluated using general principles of evaluation used in the
-machine learning and information retrieval fields.
+(LinkR) application, specific definitions for user and item features
+as well as definitions of an interaction, and our evaluation
+methodology.
 
-\subsection{Facebook}
+\subsection{Link Recommendation App on Facebook}
 
-Facebook is a social networking service that is currently the largest
-in the world. As of July 2011 it had more that 750 million active
-users. Users in Facebook create a profile and establish ``friend''
-connections between users to establish their social network. Each user
-has a ``Wall'' where they and their friends can make posts to.  These
-posts can be links, photos, status updates, etc.  Items that have been
-posted by a user can be ``liked'', shared, or commented upon by other
-users.  An example of a link post on a Wall that had been liked
-by others was provided previously in Figure~\ref{fig:ex_link}.
+To evaluate existing and newly proposed CF and SCF methods discussed in
+this paper, we created a Facebook application (i.e., a Facebook
+``App'') that recommends links to users everyday, where the users may
+give their feedback on the links indicating whether they \emph{liked}
+it or \emph{disliked} it.  Figure~\ref{fig:linkr_app} shows a portion
+of the Facebook LinkR App as it appears to users.
 
-%\begin{figure}[h]
-%\centering
-%\subfigure{\includegraphics[scale=0.50]{img/posted-link.png}}
-%\subfigure{\includegraphics[scale=0.50]{img/posted-link.eps}}
-%\caption{A link posted by the author that has been liked by three other users.}
-%\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[t!]
+\hspace{-2mm} \subfigure{\includegraphics[scale=0.42]{img/linkr.eps}}
+\caption{The Facebook LinkR App showing two link recommendations to a 
+user.  One link recommendation is from a friend and includes the
+friend's commentary on the link as well as the generic link
+description extracted from meta-tags at the link source.  The other link
+recommendation is from a non-friend and hence only shows the link
+description extracted from meta-tags at the link source.
+Users have the option of liking or disliking a recommendation
+as well as providing explicit feedback commentary.}
+\label{fig:linkr_app}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-This thesis seeks to find out how best to recommend links to
-individual users such that there is a high likelihood that they will
-``like'' their recommended links.  We do this by creating a
-Facebook application (i.e., `Facebook ``App'') that recommends links
-to users everyday, where the users may give their feedback on the
-links indicating whether they \emph{liked} it or \emph{disliked} it.
 We discuss this application in detail next.
 
 \subsubsection{LinkR}
@@ -42,17 +41,7 @@ are as follows:
 \item{Collect feedback from the users on whether they liked or disliked the recommendations.}
 \end{enumerate}
 
-Figure~\ref{fig:linkr_app} shows the Facebook LinkR App as it appears
-to users.
-\begin{figure}[t!]
-%\subfigure{\includegraphics[scale=0.30]{img/linkr.png}}
-\hspace{-2mm} \subfigure{\includegraphics[scale=0.42]{img/linkr.eps}}
-\caption{The Facebook LinkR App showing one of the recommendations
-as it appears to users of the system.  Users have the option of liking
-or disliking a recommendation as well as providing explicit feedback
-commentary.}
-\label{fig:linkr_app}
-\end{figure}
+
 
 \subsection{Dataset}
 
