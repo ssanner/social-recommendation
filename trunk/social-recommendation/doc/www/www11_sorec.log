@@ -1,4 +1,4 @@
-This is pdfeTeXk, Version 3.141592-1.21a-2.2 (Web2C 7.5.4) (format=latex 2008.12.23)  7 NOV 2011 22:34
+This is pdfeTeXk, Version 3.141592-1.21a-2.2 (Web2C 7.5.4) (format=latex 2008.12.23)  8 NOV 2011 03:07
 entering extended mode
  file:line:error style messages enabled.
  %&-line parsing enabled.
@@ -289,36 +289,41 @@ Overfull \hbox (6.79947pt too wide) in paragraph at lines 219--219
  []
 
 (./newobjfuns.tex
-Overfull \hbox (1.19397pt too wide) in paragraph at lines 15--18
+Overfull \hbox (2.68993pt too wide) in paragraph at lines 13--16
+[]\T1/aer/m/n/9 We take a com-pos-able ap-proach to MF-based (S)CF, where
+ []
+
+
+Overfull \hbox (1.19397pt too wide) in paragraph at lines 18--23
 \T1/aer/m/n/9 Because each ob-jec-tive may be weighted dif-fer-ently, a weight-
 
  []
 
 
-Overfull \hbox (17.23615pt too wide) in paragraph at lines 19--29
-[]\T1/aer/m/n/9 Most tar-get pre-dic-tions are bi-nary classification-based ($\
-OMS/cmsy/m/n/9 f\OT1/cmr/m/n/9 0\OML/cmm/m/it/9 ; \OT1/cmr/m/n/9 1\OMS/cmsy/m/n
-/9 g$\T1/aer/m/n/9 ),
+Overfull \hbox (2.45142pt too wide) in paragraph at lines 72--72
+[]\subsecfnt Regularization of $\OML/cmm/m/it/9 U$\subsecfnt , $\OML/cmm/m/it/9
+ V$\subsecfnt , & $\OT1/cmr/bx/n/9 w$ \subsecfnt ($[][]\OML/cmm/m/it/9 ; [][]; 
+[][]$\subsecfnt ) 
  []
 
-
-Overfull \hbox (2.6524pt too wide) in paragraph at lines 84--92
-[]\T1/aer/m/n/9 This method is an ex-ten-sion of ex-ist-ing SCF tech-niques [17
-,
+[4]
+Overfull \hbox (5.32574pt too wide) in paragraph at lines 219--224
+\T1/aer/m/n/9 preference reg-u-lar-iza-tion does not re-quire knowl-edge of fri
+end-
  []
 
-[4]) (./eval.tex
+) (./eval.tex
 
 LaTeX Warning: Reference `fig:ex_link' on page \thepage  undefined on input lin
 e 16.
 
+[5]
 File: img/linkr.eps Graphic file (type eps)
-<img/linkr.eps>
+ <img/linkr.eps>
 Overfull \hbox (21.95253pt too wide) in paragraph at lines 49--53
 []  [] 
  []
 
-[5]
 
 LaTeX Warning: Reference `sec:notation' on page \thepage  undefined on input li
 ne 78.
@@ -366,26 +371,26 @@ File: img/live-nonfriend-likes2.eps Graphic file (type eps)
 
 <img/live-nonfriend-likes2.eps> [8]) (./conclusions.tex [9]) (./www11_sorec.bbl
 [10]) (./derivatives.tex
-Overfull \hbox (19.10612pt too wide) in paragraph at lines 73--73
+Overfull \hbox (19.10612pt too wide) in paragraph at lines 74--74
+[] 
+ []
+
+[11]
+Overfull \hbox (20.52403pt too wide) in paragraph at lines 80--80
 [] 
  []
 
 
-Overfull \hbox (20.52403pt too wide) in paragraph at lines 78--78
+Overfull \hbox (20.89653pt too wide) in paragraph at lines 86--86
 [] 
  []
 
 
-Overfull \hbox (20.89653pt too wide) in paragraph at lines 83--83
+Overfull \hbox (4.08015pt too wide) in paragraph at lines 100--100
 [] 
  []
 
-
-Overfull \hbox (4.08015pt too wide) in paragraph at lines 102--102
-[] 
- []
-
-[11]) [12
+) [12
 
 ] (./www11_sorec.aux)
 
@@ -393,12 +398,12 @@ LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 2657 strings out of 94501
- 31765 string characters out of 1176788
- 93534 words of memory out of 1000000
- 5752 multiletter control sequences out of 10000+50000
+ 2663 strings out of 94501
+ 31837 string characters out of 1176788
+ 92671 words of memory out of 1000000
+ 5758 multiletter control sequences out of 10000+50000
  42117 words of font info for 58 fonts, out of 500000 for 2000
  580 hyphenation exceptions out of 1000
  39i,24n,26p,691b,302s stack positions out of 1500i,500n,5000p,200000b,5000s
 
-Output written on www11_sorec.dvi (12 pages, 93004 bytes).
+Output written on www11_sorec.dvi (12 pages, 96916 bytes).

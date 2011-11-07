@@ -1,4 +1,4 @@
-\subsection{Gradient-based Optimization}
+%\subsection{Gradient-based Optimization}
 
 We seek to optimize sums of the objectives in Section~\ref{sec:NewObjFuns}
 and will use gradient descent for this purpose.
@@ -23,8 +23,9 @@ Because most objectives below are not convex in $U$, $V$,
 or $\w$, we apply an \emph{alternating gradient descent} approach~\cite{pmf}.
 In short, we take derivatives of $U$, $V$, and $\w$ in turn while holding
 the others constant.  Then we apply gradient descent in a round-robin
-fashion until we've reached local minima for all parameters.  The method
-we use is a straightforward generalization of~\cite{pmf}. 
+fashion until we've reached local minima for all parameters; for gradient
+descent on one of $U$, $V$, or $\w$ with the others held constant, we
+apply the L-BFGS optimizer~\cite{lbfgs} with derivatives defined below.
 
 Before we proceed to our objective gradients, we define abbreviations
 for two useful vectors:
@@ -36,7 +37,7 @@ for two useful vectors:
 All matrix derivatives used for the objectives below can be
 verified in~\cite{matrix}.
 
-\subsection{Derivatives for SCF Objectives}
+%\subsection{Derivatives for SCF Objectives}
 
 \begin{align}
 \frac{\partial}{\partial U} \Obj_\pmcf & = \frac{\partial}{\partial U} \sum_{(\x,\y) \in D} \frac{1}{2} \left( \underbrace{(R_{\x,\y} - [\sigma] \overbrace{x^T U^T V\y}^{o_{\x,\y}})}_{\delta_{\x,\y}} \right)^2 \nonumber \\
@@ -50,7 +51,8 @@ verified in~\cite{matrix}.
 \end{align}
 
 \begin{align}
-\frac{\partial}{\partial U} \Obj_\ru & = \frac{\partial}{\partial U} \frac{1}{2} \tr(U^T U) = U \nonumber
+\frac{\partial}{\partial U} \Obj_\ru & = \frac{\partial}{\partial U} \frac{1}{2} \tr(U^T U) = U \nonumber \qquad \frac{\partial}{\partial V} \Obj_\rv = V \\
+\frac{\partial}{\partial \w} \Obj_\rw & = \frac{\partial}{\partial \w} \frac{1}{2} \w^T \w = \w \nonumber
 \end{align}
 
 \begin{align}
@@ -64,28 +66,24 @@ verified in~\cite{matrix}.
 %& = \sum_{\x} \sum_{\z \in \mathit{friends}(\x)} \frac{1}{2} S^+_{\x,\z} U ((\x - \z)(\x - \z)^T + (\x - \z)(\x - \z)^T)\\
 & = \sum_{\x} \sum_{\z \in \mathit{friends}(\x)} S^+_{\x,\z} U (\x - \z)(\x - \z)^T \nonumber
 \end{align}
-We can state the identical case substituting $V$ for $U$.
 
 \begin{align*}
 \frac{\partial}{\partial \w} \Obj_\phy & = \frac{\partial}{\partial \w} \sum_{(\x,\y) \in D} \frac{1}{2} \left( \underbrace{R_{\x,\y} - [\sigma] \overbrace{\w^T \f_{\x,\y}}^{o^1_{\x,\y}} - [\sigma] \x^T U^T V\y}_{\delta_{\x,\y}} \right)^2 \\
 %& = \sum_{(\x,\y) \in D} \delta_{\x,\y} \frac{\partial}{\partial \w} - [\sigma] \w^T \f_{\x,\y} \\
 & = - \sum_{(\x,\y) \in D} \delta_{\x,\y} [\sigma(o^1_{\x,\y}) (1 - \sigma(o^1_{\x,\y}))] \f_{\x,\y} 
 \end{align*}
+
 \begin{align*}
 \frac{\partial}{\partial U} \Obj_\phy & = \frac{\partial}{\partial U} \sum_{(\x,\y) \in D} \frac{1}{2} \left( \underbrace{R_{\x,\y} - [\sigma] \w^T \f_{\x,\y} - [\sigma] \overbrace{\x^T U^T V\y}^{o^2_{\x,\y}}}_{\delta_{\x,\y}}\right)^2 \\
 %& = \sum_{(\x,\y) \in D} \delta_{\x,\y} \frac{\partial}{\partial U} - [\sigma] \x^T U^T V\y \\
 & = - \sum_{(\x,\y) \in D} \delta_{\x,\y} [\sigma(o^2_{\x,\y}) (1 - \sigma(o^2_{\x,\y}))] \t \x^T
 \end{align*}
+
 \begin{align*}
 \frac{\partial}{\partial V} \Obj_\phy & = \frac{\partial}{\partial V} \sum_{(\x,\y) \in D} \frac{1}{2} \left( \underbrace{R_{\x,\y} - [\sigma] \w^T \f_{\x,\y} - [\sigma] \overbrace{\x^T U^T V\y}^{o^2_{\x,\y}}}_{\delta_{\x,\y}}\right)^2 \\
 %& = \sum_{(\x,\y) \in D}  \delta_{\x,\y} \frac{\partial}{\partial V} - [\sigma] \x^T U^T V\y \\
-& = - \sum_{(\x,\y) \in D}  \delta_{\x,\y} [\sigma(o^2_{\x,\y}) (1 - \sigma(o^2_{\x,\y}))] \s \y^T \\
+& = - \sum_{(\x,\y) \in D}  \delta_{\x,\y} [\sigma(o^2_{\x,\y}) (1 - \sigma(o^2_{\x,\y}))] \s \y^T 
 \end{align*}
-
-\begin{align}
-\frac{\partial}{\partial \w} \Obj_\rw & = \frac{\partial}{\partial \w} \frac{1}{2} \w^T \w = \w \nonumber
-\end{align}
-
 \begin{align*}
 \frac{\partial}{\partial U} \Obj_\rsc & = \frac{\partial}{\partial U} \sum_{(\x,\z,\y) \in C} \frac{1}{2} \left( \underbrace{P_{\x,\z,\y} - \x^T U^T \diag(V\y) U \z}_{\delta_{\x,\z,\y}} \right)^2\\
 %%& = \sum_{(\x,\z,\y) \in C} \delta_{\x,\z,\y} \frac{\partial}{\partial U} - \x^T U^T \diag(V\y) U \z \\
