@@ -1,4 +1,4 @@
-This is pdfeTeXk, Version 3.141592-1.21a-2.2 (Web2C 7.5.4) (format=latex 2008.12.23)  8 NOV 2011 03:07
+This is pdfeTeXk, Version 3.141592-1.21a-2.2 (Web2C 7.5.4) (format=latex 2008.12.23)  8 NOV 2011 05:02
 entering extended mode
  file:line:error style messages enabled.
  %&-line parsing enabled.
@@ -307,30 +307,16 @@ Overfull \hbox (2.45142pt too wide) in paragraph at lines 72--72
  []
 
 [4]
-Overfull \hbox (5.32574pt too wide) in paragraph at lines 219--224
+Overfull \hbox (5.32574pt too wide) in paragraph at lines 221--226
 \T1/aer/m/n/9 preference reg-u-lar-iza-tion does not re-quire knowl-edge of fri
 end-
  []
 
-) (./eval.tex
-
-LaTeX Warning: Reference `fig:ex_link' on page \thepage  undefined on input lin
-e 16.
-
-[5]
+) (./eval.tex [5]
 File: img/linkr.eps Graphic file (type eps)
  <img/linkr.eps>
-Overfull \hbox (21.95253pt too wide) in paragraph at lines 49--53
+Overfull \hbox (21.95253pt too wide) in paragraph at lines 17--23
 []  [] 
- []
-
-
-LaTeX Warning: Reference `sec:notation' on page \thepage  undefined on input li
-ne 78.
-
-
-Overfull \hbox (4.60466pt too wide) in paragraph at lines 94--96
-\T1/aer/m/n/9 Additionally, links that have been rec-om-mended by the LinkR
  []
 
 [6]) (./empirical_results.tex
@@ -375,7 +361,7 @@ Overfull \hbox (19.10612pt too wide) in paragraph at lines 74--74
 [] 
  []
 
-[11]
+
 Overfull \hbox (20.52403pt too wide) in paragraph at lines 80--80
 [] 
  []
@@ -385,7 +371,7 @@ Overfull \hbox (20.89653pt too wide) in paragraph at lines 86--86
 [] 
  []
 
-
+[11]
 Overfull \hbox (4.08015pt too wide) in paragraph at lines 100--100
 [] 
  []
@@ -399,11 +385,11 @@ LaTeX Warning: There were undefined references.
  ) 
 Here is how much of TeX's memory you used:
  2663 strings out of 94501
- 31837 string characters out of 1176788
- 92671 words of memory out of 1000000
+ 31840 string characters out of 1176788
+ 92997 words of memory out of 1000000
  5758 multiletter control sequences out of 10000+50000
  42117 words of font info for 58 fonts, out of 500000 for 2000
  580 hyphenation exceptions out of 1000
- 39i,24n,26p,691b,302s stack positions out of 1500i,500n,5000p,200000b,5000s
+ 39i,24n,26p,691b,298s stack positions out of 1500i,500n,5000p,200000b,5000s
 
-Output written on www11_sorec.dvi (12 pages, 96916 bytes).
+Output written on www11_sorec.dvi (12 pages, 96720 bytes).
