@@ -1,25 +1,33 @@
-In this chapter we discuss the first set of four SCF algorithms that
-was implemented for the LinkR application and then show how each
-algorithm performed during the live user trial, how satisfied the
-users were with links being recommended to them through LinkR, and the
-results of offline passive experiments with the algorithms.
-
-All code available.
-\url{http://code.google.com/p/social-recommendation/}
-Research received ethics approval from the ANU, but we are prohibited
-from attempting to release the present data (in raw or anonymized form).
+In this section we discuss the algorithms evaluated in our two online
+trials\footnote{All code used in these experiments is available at
+\url{http://code.google.com/p/social-recommendation/}.  The conditions
+of our ethics approval \#2011/142 from the Australian National
+University for conducting human trials on Facebook require our
+privacy policy
+(\url{http://dmm.anu.edu.au/linkr/website/pp.php}) to
+prohibit public sharing of data collected during these experiments.}
+and additional analysis regarding trends and patterns in our social
+recommendation setting.
 
 \subsection{First Trial}
 
-The CF and SCF algorithms used for the first user trial were:
-
+In our first trial, our objective was to evaluate four CF and SCF
+approaches to establish which was the most promising direction for
+SCF extension:
 \begin{enumerate}
-\item{ {\bf $k$-Nearest Neighbor (KNN)}: We use the user-based approach as described in Section~\ref{sec:nn}.}
-\item{{\bf Support Vector Machines (SVM)}: We use the the SVM implementation described in Section~\ref{sec:svm} using the features described in Section~\ref{sec:dataset}.}
-\item{{\bf Matchbox (Mbox)}: Matchbox MF  + L2 $U$ Regularization + L2 $V$ Regularization}
-\item{{\bf Social Matchbox (Soc. Mbox)}: Matchbox MF + Social Regularization + L2 Regularization}
+\item {\bf $k$-Nearest Neighbor (KNN)}: See Section~\ref{sec:nn}.
+\item {\bf Support Vector Machines (SVM)}: See Section~\ref{sec:cbf}.
+\item {\bf Matchbox (Mbox)}: Gradient optimization of the $L_2$ regularized
+Matchbox objective:
+$$\Obj_\pmcf + \lambda \Obj_\ru + \lambda \Obj_\rv$$
+\item {\bf Social Matchbox (Soc. Mbox)}: Gradient optimization of the 
+$L_2$ and \emph{feature socially regularized} Matchbox objective:
+$$\Obj_\pmcf + \lambda_\rs \Obj_\rs + \lambda \Obj_\ru + \lambda \Obj_\rv$$
 \end{enumerate}
-
+Mbox and Soc. Mbox are optimized via gradient descent as outlined
+in Appendix~\ref{derivatives}.  
+KNN and MBox may be viewed as pure CF methods.  As discussed previously,
+both SVM and Soc. Mbox may be viewed as SCF methods.  
 Social Matchbox uses the Social Regularization method to incorporate
 the social information of the FB data. SVM incorporates social
 information in the $\f_{\x,\y}$ features that it uses. Matchbox and
