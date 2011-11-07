@@ -140,6 +140,8 @@ compared to or extended in this paper.
 
 \subsection{Content-based Filtering (CBF)}
 
+\label{sec:cbf}
+
 Since our objective in this work is to classify whether a user likes
 an item or not (i.e., a binary objective), we focus on binary
 classification-based CBF approaches in this paper.  While a variety of
@@ -150,14 +152,24 @@ well-known for its state-of-the-art classification performance.
 For the experiments in this paper, we use a \emph{linear} SVM
 (implemented in the \emph{LibSVM}~\cite{libsvm} toolkit) with feature
 vector $\f \in \mathbb{R}^F$ derived from $(\x,\y) \in D$, denoted as
-$\f_{\x,\y}$.  A detailed list of features used in the SVM for the
-Facebook link recommendation task evaluated in this paper are defined
-in Section~\ref{sec:dataset} --- these include \emph{user features} such as
-age and gender (binary), \emph{item features} such as popularity (number of
-times shared on Facebook) and as a crude, but effective
-\emph{information diffusion}~\cite{inf_diffusion} model, binary features
+$\f_{\x,\y}$.  A linear SVM learns a weight vector $\w \in
+\R^F$ such that $\w^T \f_{\x,\y} > 0$ indicates a 
+like (1) classification of $\f_{\x,\y}$ and $\w^T \f_{\x,\y} \leq 0$
+indicates a dislike (0) classification.
+
+A detailed list of features used in the SVM for the Facebook link
+recommendation task evaluated in this paper are defined in
+Section~\ref{sec:dataset} --- these include \emph{user features} such
+as age and gender (binary) and \emph{item features} such as popularity
+(number of times the item was shared).  Going one step beyond standard
+CBF, our SVM features also include \emph{joint} user and item
+features from the social network, in particular binary 
+\emph{information diffusion}~\cite{inf_diffusion} features
 for \emph{each} friend $\z \in \mathit{friends}_\x$ indicating if $\z$
-liked (or disliked) $\y$.
+liked (or disliked) $\y$.  Crucially we note that our SVM
+implementation of CBF using social network features actually
+represents a \emph{social CBF} extension since it can learn when a friend
+$\z$'s preference for items are predictive of user $\x$'s preferences.
 
 \subsection{Collaborative Filtering (CF)}
 
@@ -248,7 +260,7 @@ define a reconstruction error objective we wish to minimize as a
 function of $U$ and $V$ and then use gradient descent to optimize it;
 formally then, we can optimize the following MF objective~\cite{pmf}:
 \begin{align}
-\sum_{(\x,\y) \in D} \frac{1}{2} (R_{\x,\y} - U_\x^T V_\y)^2
+\sum_{(\x,\y) \in D} \frac{1}{2} (R_{\x,\y} - U_\x^T V_\y)^2 \label{eq:basic_mf}
 \end{align}
 While this objective is technically bilinear, 
 we can easily apply an
@@ -287,7 +299,8 @@ are two closely related social regularization methods that directly
 constrain $U_\x$ and $U_\z$ for user $\x$ and $\z$ based on evidence
 $S_{\x,\z}$ of interaction between $\x$ and $\z$.  The first class of
 methods are simply termed \emph{social
-regularization}~\cite{lla,socinf}
+regularization}~\cite{lla,socinf} where $\la \cdot, \cdot \ra$ denotes an inner
+product
 % Note that these previous methods do not use user and item features
 %\begin{itemize}
 %\item {\bf Social regularization~\cite{lla,socinf}}:

@@ -2,44 +2,44 @@ This is BibTeX, Version 0.99c (Web2C 7.5.4)
 The top-level auxiliary file: www11_sorec.aux
 The style file: abbrv.bst
 Database file #1: thesis.bib
-You've used 17 entries,
+You've used 18 entries,
             2118 wiz_defined-function locations,
-            583 strings with 5838 characters,
-and the built_in function-call counts, 5669 in all, are:
-= -- 514
-> -- 290
+            592 strings with 6007 characters,
+and the built_in function-call counts, 6004 in all, are:
+= -- 549
+> -- 303
 < -- 4
-+ -- 114
-- -- 96
-* -- 350
-:= -- 921
-add.period$ -- 49
-call.type$ -- 17
-change.case$ -- 98
++ -- 119
+- -- 100
+* -- 378
+:= -- 976
+add.period$ -- 52
+call.type$ -- 18
+change.case$ -- 103
 chr.to.int$ -- 0
-cite$ -- 17
-duplicate$ -- 244
-empty$ -- 491
-format.name$ -- 96
-if$ -- 1209
+cite$ -- 18
+duplicate$ -- 255
+empty$ -- 518
+format.name$ -- 100
+if$ -- 1277
 int.to.chr$ -- 0
-int.to.str$ -- 17
-missing$ -- 15
-newline$ -- 86
-num.names$ -- 34
-pop$ -- 143
+int.to.str$ -- 18
+missing$ -- 16
+newline$ -- 91
+num.names$ -- 36
+pop$ -- 146
 preamble$ -- 1
-purify$ -- 82
+purify$ -- 86
 quote$ -- 0
-skip$ -- 168
+skip$ -- 176
 stack$ -- 0
-substring$ -- 241
-swap$ -- 58
+substring$ -- 271
+swap$ -- 59
 text.length$ -- 4
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 68
+type$ -- 72
 warning$ -- 0
-while$ -- 48
-width$ -- 19
-write$ -- 175
+while$ -- 52
+width$ -- 20
+write$ -- 186

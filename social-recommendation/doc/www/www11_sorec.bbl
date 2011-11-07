@@ -42,6 +42,11 @@ W.-J. Li and D.-Y. Yeung.
 \newblock Relation regularized matrix factorization.
 \newblock In {\em IJCAI-09}, 2009.
 
+\bibitem{lbfgs}
+D.~C. Liu and J.~Nocedal.
+\newblock {On the limited memory BFGS method for large scale optimization}.
+\newblock {\em Mathematical Programming}, 45(1):503--528, Aug 1989.
+
 \bibitem{ste}
 H.~Ma, I.~King, and M.~R. Lyu.
 \newblock Learning to recommend with social trust ensemble.
