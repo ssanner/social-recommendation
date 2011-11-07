@@ -54,6 +54,7 @@
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.2}Regularization of $U$, $V$, \& $\@mathbf {w}$ ($\@mathit {Obj}_\@mathit {ru}, \@mathit {Obj}_\@mathit {rv}, \@mathit {Obj}_\@mathbf {w}$)}{\thepage }}
 \newlabel{eq:reg}{{11}{\thepage }}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.3}New Objective Functions}{\thepage }}
+\newlabel{sec:newobjfun_defs}{{3.3}{\thepage }}
 \citation{lla}
 \citation{socinf}
 \citation{sr}
@@ -82,30 +83,25 @@
 \@writefile{toc}{\contentsline {section}{\numberline {5}Empirical Results}{\thepage }}
 \newlabel{sec:EmpResults}{{5}{\thepage }}
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.1}First Trial}{\thepage }}
-\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Number of Users Assigned per Algorithm.}}{\thepage }}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Number of users assigned per algorithm in the first trial (left) and second trial (right).}}{\thepage }}
 \newlabel{tab:Assigned1}{{1}{\thepage }}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.1.1}Online Results}{\thepage }}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.1.2}Summary}{\thepage }}
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Results of the online live trials. The percentage of Liked ratings are stacked on top of the percentage of Disliked ratings per algorithm. Social Matchbox was found to be the best performing of the four algorithms evaluated in the first trial. *** Results of the online live trials, split between friends and non-friends. The percentage of Liked ratings are stacked on top of the percentage of Disliked ratings per algorithm. There is a significant drop in performance between recommending friend links and recommending non-friend links.}}{\thepage }}
-\newlabel{fig:OnlineResult1}{{2}{\thepage }}
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Second Trial}{\thepage }}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.2.1}Online Results}{\thepage }}
-\newlabel{sec:online2}{{5.2.1}{\thepage }}
-\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Number of Users Assigned per Algorithm.}}{\thepage }}
-\newlabel{tab:assigned2}{{2}{\thepage }}
 \citation{matchbox}
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Results of online live trials. The percentage of Liked ratings are stacked on top of the percentage of Disliked ratings per algorithm. Spectral Matchbox achieved the highest ratio of likes to dislikes among the four algorithms. Spectral social regularization in general appears to be a better way to socially regularize compared to social regularization. *** Results of the online live trials, split between friends and non-friends. As in the first trial, there is a significant drop in performance between recommending friend links and recommending non-friend links.}}{\thepage }}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Stacked bar graphs of online results for the first user trial. The fraction of likes is displayed above the fraction of dislikes. (left) all links, (center) friend links, (right) non-friend links. The 95\% confidence interval on all results is $< \pm 0.02$ so all differences are signficant except for MBox and SVM in the center and the virtual tie between three algorithms on the right.}}{\thepage }}
+\newlabel{fig:OnlineResult1}{{2}{\thepage }}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Stacked bar graphs of online results for the second user trial. The fraction of likes is displayed above the fraction of dislikes. (left) all links, (center) friend links, (right) non-friend links. The 95\% confidence interval on all results is $< \pm 0.026$ so all differences except Spec. Mbox and Soc. Hybrid in the center graph are significant. }}{\thepage }}
 \newlabel{fig:online2}{{3}{\thepage }}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.2.2}Summary}{\thepage }}
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Algorithm Independent Observations}{\thepage }}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {5.3.1}Click evidence}{\thepage }}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {5.3.2}Impact of Popularity}{\thepage }}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.3.3}Impact of Interactions}{\thepage }}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.3.4}Impact of Steve Jobs}{\thepage }}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.3.5}Impact of Genre}{\thepage }}
 \@writefile{toc}{\contentsline {section}{\numberline {6}Conclusions}{\thepage }}
 \newlabel{sec:Conclusions}{{6}{\thepage }}
 \@writefile{toc}{\contentsline {subsection}{\numberline {6.1}Summary}{\thepage }}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Stacked bar graphs of online results for the first user trial. The fraction of likes (or clicks) is displayed above the fraction of dislikes (or non-clicks) and above fraction of not rated links (if third bar segment present). (left) ratings for clicked links, (center) click rates if text description not present, (right) percentage liked if click description not present.}}{\thepage }}
+\newlabel{fig:click_evidence}{{4}{\thepage }}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Stacked bar graphs of online results for the first user trial. The fraction of likes is displayed above the fraction of dislikes. Shown are the ratings vs. quartile of popularity for (left) friend and (right) non-friend links.}}{\thepage }}
+\newlabel{fig:popularity}{{5}{\thepage }}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.2}Future Work}{\thepage }}
 \bibstyle{abbrv}
 \bibdata{thesis}
 \bibcite{fab}{1}
@@ -126,12 +122,11 @@
 \bibcite{pmf}{16}
 \bibcite{matchbox}{17}
 \bibcite{lla}{18}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.2}Future Work}{\thepage }}
+\citation{pmf}
+\citation{lbfgs}
+\citation{matrix}
 \@writefile{toc}{\contentsline {section}{\numberline {7}Additional Authors}{\thepage }}
 \@writefile{toc}{\contentsline {section}{\numberline {8}References}{\thepage }}
 \@writefile{toc}{\contentsline {section}{\numberline {A}Gradient-based Optimization}{\thepage }}
 \newlabel{app:Derivatives}{{A}{\thepage }}
 \newlabel{eq:sum_der}{{16}{\thepage }}
-\citation{pmf}
-\citation{lbfgs}
-\citation{matrix}

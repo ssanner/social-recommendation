@@ -1,4 +1,4 @@
-This is pdfeTeXk, Version 3.141592-1.21a-2.2 (Web2C 7.5.4) (format=latex 2008.12.23)  8 NOV 2011 06:02
+This is pdfeTeXk, Version 3.141592-1.21a-2.2 (Web2C 7.5.4) (format=latex 2008.12.23)  8 NOV 2011 07:16
 entering extended mode
  file:line:error style messages enabled.
  %&-line parsing enabled.
@@ -307,7 +307,7 @@ Overfull \hbox (2.45142pt too wide) in paragraph at lines 72--72
  []
 
 [4]
-Overfull \hbox (5.32574pt too wide) in paragraph at lines 221--226
+Overfull \hbox (5.32574pt too wide) in paragraph at lines 223--228
 \T1/aer/m/n/9 preference reg-u-lar-iza-tion does not re-quire knowl-edge of fri
 end-
  []
@@ -324,14 +324,9 @@ LaTeX Font Info:    Try loading font information for T1+aett on input line 8.
  (/usr/share/texmf/tex/latex/ae/t1aett.fd
 File: t1aett.fd 1997/11/16 Font definitions for T1/aett.
 )
-Overfull \hbox (8.6427pt too wide) in paragraph at lines 23--25
-\T1/aer/m/n/9 miza-tion of the $\OML/cmm/m/it/9 L[]$ \T1/aer/m/n/9 and \T1/aer/
-m/it/9 fea-ture so-cially reg-u-lar-ized \T1/aer/m/n/9 Match-
+Overfull \hbox (4.0003pt too wide) in paragraph at lines 54--64
+[][] 
  []
-
-
-LaTeX Warning: Reference `derivatives' on page \thepage  undefined on input lin
-e 28.
 
 File: img/live-likes1.eps Graphic file (type eps)
 <img/live-likes1.eps>
@@ -340,34 +335,38 @@ File: img/live-friend-likes1.eps Graphic file (type eps)
 File: img/live-nonfriend-likes1.eps Graphic file (type eps)
 
 <img/live-nonfriend-likes1.eps>
-
-LaTeX Warning: Reference `fig:OnlineFriend1' on page \thepage  undefined on inp
-ut line 87.
-
-
-LaTeX Warning: Reference `fig:OnlineFriend1' on page \thepage  undefined on inp
-ut line 90.
-
-[7]
 File: img/live-likes2.eps Graphic file (type eps)
  <img/live-likes2.eps>
 File: img/live-friend-likes2.eps Graphic file (type eps)
- <img/live-friend-likes2.eps>
-File: img/live-nonfriend-likes2.eps Graphic file (type eps)
 
-<img/live-nonfriend-likes2.eps> [8]) (./conclusions.tex
+<img/live-friend-likes2.eps>
+File: img/live-nonfriend-likes2.eps Graphic file (type eps)
+ <img/live-nonfriend-likes2.eps> [7]
+File: img/clickedLikes.eps Graphic file (type eps)
+
+<img/clickedLikes.eps>
+File: img/descriptionClicked.eps Graphic file (type eps)
+ <img/descriptionClicked.eps>
+File: img/descriptionLiked.eps Graphic file (type eps)
+ <img/descriptionLiked.eps>
+File: img/percentileFriend.eps Graphic file (type eps)
+
+<img/percentileFriend.eps>
+File: img/percentileNon-Friend.eps Graphic file (type eps)
+ <img/percentileNon-Friend.eps>) (./conclusions.tex
+[8]
 Overfull \hbox (11.02133pt too wide) in paragraph at lines 28--32
 \T1/aer/m/n/9 di-rect mod-el-ing of in-for-ma-tion fea-tures, and co-preference
 
  []
 
-[9]
+
 Overfull \hbox (15.34354pt too wide) in paragraph at lines 32--35
 []\T1/aer/m/n/9 Click feed-back is not al-ways as use-ful as ex-plicit like/dis
 like
  []
 
-) (./www11_sorec.bbl) (./derivatives.tex [10]
+[9]) (./www11_sorec.bbl) (./derivatives.tex [10]
 Overfull \hbox (19.10612pt too wide) in paragraph at lines 74--74
 [] 
  []
@@ -387,18 +386,16 @@ Overfull \hbox (4.08015pt too wide) in paragraph at lines 100--100
 [] 
  []
 
-) [11] (./www11_sorec.aux)
+) [11
 
-LaTeX Warning: There were undefined references.
-
- ) 
+] (./www11_sorec.aux) ) 
 Here is how much of TeX's memory you used:
- 2665 strings out of 94501
- 31860 string characters out of 1176788
- 92184 words of memory out of 1000000
- 5759 multiletter control sequences out of 10000+50000
+ 2674 strings out of 94501
+ 32080 string characters out of 1176788
+ 90317 words of memory out of 1000000
+ 5763 multiletter control sequences out of 10000+50000
  43620 words of font info for 59 fonts, out of 500000 for 2000
  580 hyphenation exceptions out of 1000
- 39i,24n,26p,691b,298s stack positions out of 1500i,500n,5000p,200000b,5000s
+ 39i,24n,26p,666b,298s stack positions out of 1500i,500n,5000p,200000b,5000s
 
-Output written on www11_sorec.dvi (11 pages, 92776 bytes).
+Output written on www11_sorec.dvi (11 pages, 87700 bytes).
