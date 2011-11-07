@@ -32,17 +32,16 @@ network content in recommendation algorithms?
 
 Many existing \emph{social CF} (SCF)
 approaches~\cite{ste,sorec,lla,socinf,sr,rrmf} extend \emph{matrix
-factorization} (MF) techniques such as~\cite{pmf} used
-in the non-social CF setting.
-These MF approaches have proved quite powerful and indeed, we will
-show empirically in Section~\ref{sec:Baselines} that existing social
-extensions of MF outperform a variety of other non-MF SCF baselines.  The
-power of CF MF methods stems from their ability to project users
-and items into latent vector spaces of reduced dimensionality where
-each is effectively grouped by similarity; in turn, the power of many
-of the SCF MF extensions stems
-from their ability to use social network evidence to further
-constrain (or regularize) latent user projections.
+factorization} (MF) techniques such as~\cite{pmf} used in the
+non-social CF setting.  These MF approaches have proved quite powerful
+and indeed, we will show empirically in Section~\ref{sec:EmpResults} 
+that existing social extensions of MF outperform a variety of other
+non-MF SCF baselines.  The power of CF MF methods stems from their
+ability to project users and items into latent vector spaces of
+reduced dimensionality where each is effectively grouped by
+similarity; in turn, the power of many of the SCF MF extensions stems
+from their ability to use social network evidence to further constrain
+(or regularize) latent user projections.
 
 Given the strong performance of existing MF approaches to SCF, we aim
 to further improve on their performance in this paper.  To do this, we
@@ -83,66 +82,36 @@ users and their 34,000+ friends.  These results show that the
 extensions proposed to resolve (a)--(c) outperform a wide range of
 previously existing SCF algorithms.
 
-\COMMENT
-On a final note, in order to evaluate a large number of SCF algorithms
-as we do in this paper, it is important to identify offline evaluation
-paradigms that correlate with actively elicited human judgments.  The
-benefits of doing this are many-fold.  When designing new SCF
-algorithms, there are myriad design choices to be made, for which
-actual performance evaluation is the only way to validate the correct
-choice.  Furthermore, simple parameter tuning is crucial for best
-performance and SCF algorithms are often highly sensitive to
-well-tuned parameters.  Thus for the purpose of algorithm design and
-tuning, it is crucial to have methods and metrics that can be
-evaluated offline on previously collected data (i.e., a data set of
-user preferences for previous recommendations) that are shown to
-correlate with human judgments in an online setting (where users
-actively rate explicit recommendations) in order to avoid the
-time-consuming process of evaluating the algorithms in live human
-trials.  To this end, we identify train/test paradigms for the
-ranking metric of \emph{mean average precision} (MAP)
-that agree with online.
-\ENDCOMMENT
-
-To this end, the remaining sections of this paper are organized as follows:
+To this end, the remaining sections of the paper are organized as follows:
 \begin{itemize}
 \item {\bf Section~\ref{sec:Background} -- Definitions and Background:} 
 We define mathematical notation used throughout the paper along
 with a discussion of related work and all baseline comparison methods
 we use in this paper.
-\item {\bf Section~\ref{sec:Background} -- New Objective Functions for
+\item {\bf Section~\ref{sec:NewObjFuns} -- New Objective Functions for
 SCF:} We propose novel extensions to address (a)--(c) within a unified
-mathematical framework and derive the formulae required to optimize them.
+mathematical framework.  Gradients for optimizing these functions
+are provided in Appendix~\ref{app:Derivatives}.
 \item {\bf Section~\ref{sec:Evaluation} -- Evaluation Framework:} We
 discuss the details of our Facebook App for link
-recommendation as well as our evaluation methodology for both offline
-and online (live user trial) experimentation.  
-\COMMENT Our goal here
-is to evaluate a variety of performance objectives, both qualitative
-and quantitative, in order to evaluate the user experience with each
-recommendation algorithm and to determine which online evaluations
-correlate with which offline evaluations.  
-\ENDCOMMENT
-\item {\bf Section~\ref{sec:Baselines} -- Baselines:} We
-identify MF-based SCF as the best-performing baseline algorithm in
-our first online human evaluation trial.  Then we attempt to
-identify the train/test paradigm and \emph{mean average precision}
-(MAP) metric for offline evaluation that agrees the most with online
-human feedback.  We later use this offline evaluation metric as a
-surrogate for online human feedback evaluation in order to evaluate a
-wide range of algorithm configurations that could not be evaluated
-in online human trials due to limitations on the number of users and
-the evaluation time.
-\item {\bf Section~\ref{sec:NovelAlgs} -- New Objective Functions:}
-Based on results from Section~\ref{sec:Baselines}, we choose a subset
-of novel MF-based SCF objective function combinations from
-Section~\ref{sec:Background} to evaluate in a second online human
-evaluation trial.  After showing where each extension improves on the
-baselines, we propose a number of additional hypotheses which we then
-proceed to evaluate offline.
+recommendation as well as our evaluation methodology for 
+online (live user trial) experimentation.  
+\item {\bf Section~\ref{sec:EmpResults} -- Empirical Results:} In our
+first online trial, we identify an MF-based SCF method as the
+best-performing baseline algorithm.  This directly motivated our
+decision to extend MF-based methods in Section~\ref{sec:NewObjFuns}
+and hence we compare these new objectives to the best-performing SCF
+MF baseline from the first trial.  After showing where each extension
+improves on the baseline, we propose a number of additional
+experiments to better understand trends and patterns in our social
+recommendation setting such as the use of explicit like/dislike
+feedback vs. link click information, the relationship between like
+popularity and user preference, and importantly, why Steve Jobs
+passing almost ruined our second trial results and what insight we can
+gain from such extreme events.
 \item {\bf Section~\ref{sec:Conclusions} -- Conclusions:} We summarize
-our conclusions from the empirical evaluations and outline directions
-for future research.
+our conclusions from the empirical evaluations and outline 
+future research directions stemming from the current work.
 % NOTE: one possible conclusion: beware of using passive evaluation 
 %       metrics with inferred false labels.
 \end{itemize}

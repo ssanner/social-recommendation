@@ -1,0 +1,2 @@
+dvips www11_sorec.dvi -t letter -Ppdf -o www11_sorec.ps
+ps2pdf www11_sorec.ps
