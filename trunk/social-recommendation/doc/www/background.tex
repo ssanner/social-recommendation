@@ -340,10 +340,11 @@ set of users to which $\x$ is connected directly in the social network.
 %
 
 The second class of methods are termed 
-\emph{social spectral regularization}~\cite{sr,rrmf}
+\emph{social spectral regularization}~\cite{sr,rrmf}:
 %\item {\bf Social spectral regularization~\cite{sr,rrmf}}:
 \begin{align}
 \sum_{\x} & \sum_{\z \in \mathit{friends}_\x} \frac{1}{2} S^+_{\x,\z} \| U_\x - U_\z \|_2^2 \label{eq:simple_spectral_sr}
+\text{.}
 \end{align}
 %\end{itemize}
 We refer to the latter as \emph{spectral} regularization methods since they are
@@ -371,7 +372,7 @@ is $S_{\x,\z}$ restricted to the range $[0,1]$
 %\end{itemize}
 
 The second class of SCF MF approaches represented by the single
-examplar of the {\it Social Trust Ensemble} (STE)~\cite{ste} can be termed as a
+exemplar of the {\it Social Trust Ensemble} (STE)~\cite{ste} can be termed as a
 \emph{weighted friend average} approach since this approach simply composes a
 prediction for item $\y$ from an $\alpha$-weighted average ($\alpha
 \in [0,1]$) of a user $\x$'s predictions \emph{as well as} their friends

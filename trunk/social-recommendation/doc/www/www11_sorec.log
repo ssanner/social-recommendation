@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.11 (TeX Live 2010) (format=pdflatex 2010.7.21)  8 NOV 2011 09:04
+This is pdfTeX, Version 3.1415926-1.40.11 (TeX Live 2010) (format=pdflatex 2010.7.21)  8 NOV 2011 09:39
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -369,15 +369,8 @@ Overfull \hbox (1.19397pt too wide) in paragraph at lines 18--23
 
  []
 
-
-Overfull \hbox (2.45142pt too wide) in paragraph at lines 72--72
-[]\subsecfnt Regularization of $\OML/cmm/m/it/9 U$\subsecfnt , $\OML/cmm/m/it/9
- V$\subsecfnt , & $\OT1/cmr/bx/n/9 w$ \subsecfnt ($[][]\OML/cmm/m/it/9 ; [][]; 
-[][]$\subsecfnt ) 
- []
-
 [4]
-Overfull \hbox (5.32574pt too wide) in paragraph at lines 223--228
+Overfull \hbox (5.32574pt too wide) in paragraph at lines 227--232
 \T1/aer/m/n/9 preference reg-u-lar-iza-tion does not re-quire knowl-edge of fri
 end-
  []
@@ -656,7 +649,7 @@ texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2010/texmf-d
 ist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2010/texmf-dist/fonts/
 type1/urw/times/utmr8a.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/urw/
 times/utmri8a.pfb>
-Output written on www11_sorec.pdf (11 pages, 615997 bytes).
+Output written on www11_sorec.pdf (11 pages, 615930 bytes).
 PDF statistics:
  594 PDF objects out of 1000 (max. 8388607)
  140 compressed objects within 2 object streams
