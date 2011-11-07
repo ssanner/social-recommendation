@@ -191,24 +191,34 @@ CF, \emph{user-based} and \emph{item-based} --- both
 methods generally assume that no user or item features are provided,
 so here $\x$ and $\y$ are simply respective user and item indices.
 When the
-number of items is far fewer than the number of users, it has been
-found that the item-based approach usually provides better predictions
+number of users is far fewer than the number of items, it has been
+found that the user-based approach usually provides better predictions
 as well as being more efficient in computations~\cite{bellkor};
-this holds for the evaluation in this paper as well so 
-we focus on the item-based approach here.
+this holds for the evaluation in this paper, so 
+we focus on the user-based approach.
 
-Given a user $\x$ and an item $\y$, let $N(\y:\x)$ be the set of
-\emph{item} nearest neighbors of $\y$ that have also been rated by
-$\x$ and let $S_{\y,\y'}$ be the cosine similarity (i.e., normalized
-dot product) between two vectors of item ratings for $\y$ and $\y'$ with
-an index for each user that has rated both items.  Following~\cite{bellkor},
+Given a user $\x$ and an item $\y$, let $N(\x:\y)$ be the set of
+\emph{user} nearest neighbors of $\x$ that have also given a rating
+for $\y$
+%$N(\y:\x)$ be the set of
+%\emph{item} nearest neighbors of $\y$ that have also been rated by
+%$\x$ 
+and let $S_{\x,\z}$ be the cosine similarity (i.e., normalized
+dot product) between two vectors of ratings for users $\x$ and $\z$
+(when both have rated the same item).  
+%measure of similarity rating between users $\x$ and $\z$
+%defined prevui
+%$S_{\y,\y'}$ be the cosine similarity (i.e., normalized
+%dot product) between two vectors of item ratings for $\y$ and $\y'$ with
+%an index for each user that has rated both items.  
+Following~\cite{bellkor},
 the predicted rating $\hat{R}_{\x,\y} \in [0,1]$ that the user $\x$
 gives item $\y$ can then be calculated as
 %\begin{itemize}
 %\item {\bf Item-based similarity nearest neighbor:}
 \begin{equation}
-\hat{R}_{\x,\y} = \frac{\sum_{\y' \in N(\y:\x)} {S_{\y,\y'} R_{\x,\y'}} } {\sum_{\y' \in N(\y:\x)}{S_{\y,\y'}}} .
-\end{equation}
+%\hat{R}_{\x,\y} = \frac{\sum_{\y' \in N(\y:\x)} {S_{\y,\y'} R_{\x,\y'}} } {\sum_{\y' \in N(\y:\x)}{S_{\y,\y'}}} .
+\hat{R}_{\x,\y} = \frac{\sum_{\z \in N(\x:\y)} {S_{\x,\z} R_{\z,\y}} } {\sum_{\z \in N(\x:\y)}{S_{\x,\z}}}\end{equation}
 %\end{itemize}
 
 %\begin{comment}
