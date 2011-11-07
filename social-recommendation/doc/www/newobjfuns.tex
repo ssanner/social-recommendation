@@ -69,16 +69,20 @@ its objective in the following log likelihood form:
 %to~\eqref{eq:basic_mf}.  However, in general it permits general real-valued
 %feature vectors for $\x$ and $\y$ and hence a feature-based MF approach to CF.
 
-\subsubsection{Regularization of $U$, $V$, \& $\w$ ($\Obj_\ru, \Obj_\rv, \Obj_\w$)}
-
+\subsubsection{Regularization of $U$, $V$ \& $\w$ ($\Obj_\ru, \Obj_\rv, \Obj_\w$)}
+%
 To help in generalization, it is important to regularize any free
 matrix parameters $U$ and $V$ (e.g., from
 Section~\ref{sec:matchbox_def}) or vector parameters $\w$ (e.g., from
-Section~\ref{sec:cbf}) to prevent overfitting in the presence of
+Section~\ref{sec:cbf}) to prevent overfitting  
+% in the presence of
+when dealing with 
 sparse data. This can be done with a simple $L_2$ regularizer that
-models a spherical Gaussian prior of $0$ on the parameters.  This
-regularization component can be specified for $U$, $V$, and $\w$
-simply as follows:
+models a spherical Gaussian prior % of $0$  % ebonilla
+on the parameters.  This
+regularization component can be specified for $U$, $V$, and $\w$ 
+% simply % ebonilla
+ as follows:
 \begin{align}
 \Obj_\ru & = \frac{1}{2} \| U \|_\Fro^2 = \frac{1}{2} \tr(U^T U) \qquad
 \Obj_\rv = \frac{1}{2} \tr(V^T V) \nonumber \\
@@ -92,7 +96,7 @@ simply as follows:
 Now we return to our observations concerning the deficiencies of
 existing SCF MF methods as outlined in Section~\ref{sec:Introduction}
 and propose new objective functions to address these issues.  
-Gradient optimization for these new objectives and all necessary derivatives 
+Gradient-based optimization for these new objectives and all necessary derivatives 
 are covered in Appendix~\ref{app:Derivatives}.
 
 \subsubsection{Feature Social Regularization ($\Obj_\rs$ \& $\Obj_\rss$)}
@@ -159,7 +163,7 @@ has posted or liked, then we would like to shortcut the latent
 representation and simply learn to recommend user $\z$'s likes and posts 
 to user $\x$.
 
-We fix this deficit of MF by introducing another objective component
+We fix this deficiency of MF by introducing another objective component
 in addition to the standard MF objective, which serves as
 a simple linear regressor for such information diffusion
 observations.  The resulting hybrid objective component then becomes a
