@@ -197,7 +197,10 @@ as well as being more efficient in computations~\cite{bellkor};
 this holds for the evaluation in this paper, so 
 we focus on the user-based approach.
 
-Given a user $\x$ and an item $\y$, let $N(\x:\y)$ be the set of
+Given a user $\x$ and an item $\y$, % let $N(\x:\y)$ 
+% ebonilla: notation clashed before 
+let ${\mathcal N}(\x:\y)$
+be the set of
 \emph{user} nearest neighbors of $\x$ that have also given a rating
 for $\y$
 %$N(\y:\x)$ be the set of
@@ -254,7 +257,7 @@ V =
 In this setting, we \emph{do not} leverage user and item features;
 hence, the $\x$ and $\y$ indices simply pick out the respective
 rows and columns of $U$ and $V$ such that $U_\x^T V_\y$ acts as a
-measure of affinity between user $\x$ and item $\y$ in respective
+measure of affinity between user $\x$ and item $\y$ in their respective % ebonilla
 $K$-dimensional latent spaces $U_\x$ and $V_\y$.
 %Then we see that the
 %basic idea behind matrix factorization techniques is to project the
@@ -279,7 +282,7 @@ we can easily apply an
 \emph{alternating gradient descent} approach to approximately
 optimize it and determine good projections $U$ and
 $V$ that (locally) minimize the reconstruction error of the observed
-responses $R_{\x,\y}$~\cite{pmf}.
+responses $R_{\x,\y}$ (see e.g.~\cite{pmf}). % ebonilla
 
 %These are well-known MF approaches to CF, however in the context of
 %social networks, we'll need to adapt them to this richer setting to
@@ -291,11 +294,21 @@ responses $R_{\x,\y}$~\cite{pmf}.
 %note that the GLFM and Bidirectional similarity papers do not meet these
 %requirements
 
-In this work on \emph{social CF} (SCF), we opt to focus on extending
-MF-based SCF objectives since gradient descent MF optimization
-approaches allow us a flexible language to design and optimize
+In this work on \emph{social CF} (SCF), we % opt to % ebonilla 
+focus on extending
+MF-based SCF 
+% objectives since 
+% gradient descent MF optimization
+%approaches allow us a flexible language to design and optimize
+%objective functions that take into account a vast array of social
+%network information.
+% ebonilla
+approaches as  they allow us to incorporate flexible 
 objective functions that take into account a vast array of social
-network information.
+network information. Additionally, we can learn the parameters 
+of the proposed algorithms from data by using
+gradient-based optimization.
+
 
 To date, there are essentially two general classes of MF methods
 applied to SCF of which the authors are aware.  
@@ -305,21 +318,28 @@ applied to SCF of which the authors are aware.
 %$\z$ below should be treated as user indices as defined previously for
 %the non-feature case.
 The first class of social MF methods can be termed as \emph{social
-regularization} approaches in that they somehow constrain the latent
+regularization} approaches in that they % somehow  % ebonilla
+constrain the latent
 projection of users according to social network information.  There
 are two closely related social regularization methods that directly
 constrain $U_\x$ and $U_\z$ for user $\x$ and $\z$ based on evidence
 $S_{\x,\z}$ of interaction between $\x$ and $\z$.  The first class of
 methods are simply termed \emph{social
 regularization}~\cite{lla,socinf} where $\la \cdot, \cdot \ra$ denotes an inner
-product
+product:
 % Note that these previous methods do not use user and item features
 %\begin{itemize}
 %\item {\bf Social regularization~\cite{lla,socinf}}:
 \begin{align}
 \sum_{\x} & \sum_{\z \in \mathit{friends}_\x} \frac{1}{2} (S_{\x,\z} - \la U_\x, U_\z \ra)^2 \label{eq:simple_sr}
+\text{,} % ebonilla
 \end{align}
-while the second class of methods are termed 
+% ebonilla
+where  $\mathit{friends}_\x$ refers to the set of friends of user $\x$, or more generally, the 
+set of users to which $\x$ is connected directly in the social network.
+%
+
+The second class of methods are termed 
 \emph{social spectral regularization}~\cite{sr,rrmf}
 %\item {\bf Social spectral regularization~\cite{sr,rrmf}}:
 \begin{align}
