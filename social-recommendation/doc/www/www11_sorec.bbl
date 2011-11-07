@@ -1,27 +1,32 @@
 \begin{thebibliography}{10}
 
 \bibitem{fab}
-Marko Balabanovi\'{c} and Yoav Shoham.
+M.~Balabanovi\'{c} and Y.~Shoham.
 \newblock Fab: content-based, collaborative recommendation.
 \newblock {\em Communications of the {ACM}}, 40:66--72, March 1997.
 
 \bibitem{bellkor}
-Robert~M. Bell and Yehuda Koren.
+R.~M. Bell and Y.~Koren.
 \newblock Scalable collaborative filtering with jointly derived neighborhood
   interpolation weights.
 \newblock In {\em ICDM-07}, 2007.
 
+\bibitem{inf_diffusion}
+J.~Brown and P.~Reinegen.
+\newblock Social ties and word-of-mouth referral behavior.
+\newblock {\em Journal of Consumer Research}, 1(3):350--362, 1987.
+
 \bibitem{libsvm}
-Chih-Chung Chang and Chih-Jen Lin.
+C.-C. Chang and C.-J. Lin.
 \newblock {\em LIBSVM: a Library for Support Vector Machines}, 2001.
 
-\bibitem{svms}
-Corinna Cortes and Vladimir Vapnik.
+\bibitem{svm}
+C.~Cortes and V.~Vapnik.
 \newblock Support-vector networks.
 \newblock In {\em Machine Learning}, pages 273--297, 1995.
 
 \bibitem{socinf}
-Peng Cui, Fei Wang, Shaowei Liu, Mingdong Ou, and Shiqiang Yang.
+P.~Cui, F.~Wang, S.~Liu, M.~Ou, and S.~Yang.
 \newblock Who should share what? item-level social influence prediction for
   users and posts ranking.
 \newblock In {\em International ACM SIGIR Conference (SIGIR)}, 2011.
@@ -33,7 +38,7 @@ K.~Lang.
   pages 331--339, 1995.
 
 \bibitem{rrmf}
-Wu-Jun Li and Dit-Yan Yeung.
+W.-J. Li and D.-Y. Yeung.
 \newblock Relation regularized matrix factorization.
 \newblock In {\em IJCAI-09}, 2009.
 
@@ -49,7 +54,7 @@ H.~Ma, H.~Yang, M.~R. Lyu, and I.~King.
 \newblock In {\em CIKM-08}, 2008.
 
 \bibitem{sr}
-Hao Ma, Dengyong Zhou, Chao Liu, Michael~R. Lyu, and Irwin King.
+H.~Ma, D.~Zhou, C.~Liu, M.~R. Lyu, and I.~King.
 \newblock Recommender systems with social regularization.
 \newblock In {\em WSDM-11}, 2011.
 
@@ -60,28 +65,22 @@ A.~Ng, M.~Jordan, and Y.~Weiss.
   2001.
 
 \bibitem{matrix}
-Kaare~Brandt Petersen and Michael~Syskind Pedersen.
+K.~B. Petersen and M.~S. Pedersen.
 \newblock The matrix cookbook, 2008.
 
-\bibitem{tf}
-S.~Rendle, L.~B. Marinho, A.~Nanopoulos, and L.~Schmidt-Thieme.
-\newblock Learning optimal ranking with tensor factorization for tag
-  recommendation.
-\newblock In {\em KDD-09}, 2009.
-
 \bibitem{collab_filtering}
-Paul Resnick and Hal~R. Varian.
+P.~Resnick and H.~R. Varian.
 \newblock Recommender systems.
 \newblock {\em Communications of the ACM}, 40:56--58, March 1997.
 
 \bibitem{pmf}
-Ruslan Salakhutdinov and Andriy Mnih.
+R.~Salakhutdinov and A.~Mnih.
 \newblock Probabilistic matrix factorization.
 \newblock In {\em Advances in Neural Information Processing Systems},
   volume~20, 2008.
 
 \bibitem{matchbox}
-David~H. Stern, Ralf Herbrich, and Thore Graepel.
+D.~H. Stern, R.~Herbrich, and T.~Graepel.
 \newblock Matchbox: large scale online bayesian recommendations.
 \newblock In {\em WWW-09}, pages 111--120, 2009.
 

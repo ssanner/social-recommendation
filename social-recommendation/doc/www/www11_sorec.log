@@ -1,4 +1,4 @@
-This is pdfeTeXk, Version 3.141592-1.21a-2.2 (Web2C 7.5.4) (format=latex 2008.12.23)  7 NOV 2011 05:55
+This is pdfeTeXk, Version 3.141592-1.21a-2.2 (Web2C 7.5.4) (format=latex 2008.12.23)  7 NOV 2011 22:34
 entering extended mode
  file:line:error style messages enabled.
  %&-line parsing enabled.
@@ -261,110 +261,85 @@ LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 117.
 LaTeX Font Info:    ... okay on input line 117.
 LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 117.
 LaTeX Font Info:    ... okay on input line 117.
-LaTeX Font Info:    Try loading font information for U+msa on input line 175.
+LaTeX Font Info:    Try loading font information for U+msa on input line 181.
 
 (/usr/share/texmf/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2002/01/19 v2.2g AMS font definitions
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 175.
+LaTeX Font Info:    Try loading font information for U+msb on input line 181.
 
 (/usr/share/texmf/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2002/01/19 v2.2g AMS font definitions
 )
-LaTeX Font Info:    Try loading font information for U+lasy on input line 175.
+LaTeX Font Info:    Try loading font information for U+lasy on input line 181.
 
 (/usr/share/texmf/tex/latex/base/ulasy.fd
 File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
-) (./intro.tex
-Underfull \vbox (badness 1831) has occurred while \output is active []
-
- [1
+) (./intro.tex [1
 
 
-]
-(Commented text...) (Commented text...)) (./background.tex
+]) (./background.tex
 Overfull \hbox (2.60812pt too wide) in paragraph at lines 35--36
 []\T1/aer/m/n/9 Expressed pref-er-ences (likes/dislikes of posts and links). 
  []
 
 [2] [3])
-Overfull \hbox (6.79947pt too wide) in paragraph at lines 213--213
+Overfull \hbox (6.79947pt too wide) in paragraph at lines 219--219
 []\secfnt NEW OB-JEC-TIVE FUNC-TIONS FOR SCF 
  []
 
 (./newobjfuns.tex
-Overfull \hbox (6.91844pt too wide) in paragraph at lines 7--13
-[]\T1/aer/m/n/9 If we ex-am-ine the pre-vi-ously de-fined SCF ob-jec-tives in 2
-.3.3[],
- []
-
-
-Overfull \hbox (1.19397pt too wide) in paragraph at lines 28--33
+Overfull \hbox (1.19397pt too wide) in paragraph at lines 15--18
 \T1/aer/m/n/9 Because each ob-jec-tive may be weighted dif-fer-ently, a weight-
 
  []
 
 
-Overfull \hbox (17.23615pt too wide) in paragraph at lines 35--45
+Overfull \hbox (17.23615pt too wide) in paragraph at lines 19--29
 []\T1/aer/m/n/9 Most tar-get pre-dic-tions are bi-nary classification-based ($\
 OMS/cmsy/m/n/9 f\OT1/cmr/m/n/9 0\OML/cmm/m/it/9 ; \OT1/cmr/m/n/9 1\OMS/cmsy/m/n
 /9 g$\T1/aer/m/n/9 ),
  []
 
-[4]
-Overfull \hbox (2.6524pt too wide) in paragraph at lines 139--147
+
+Overfull \hbox (2.6524pt too wide) in paragraph at lines 84--92
 []\T1/aer/m/n/9 This method is an ex-ten-sion of ex-ist-ing SCF tech-niques [17
 ,
  []
 
-
-Overfull \hbox (19.10612pt too wide) in paragraph at lines 207--207
-[] 
- []
-
-
-Overfull \hbox (20.52403pt too wide) in paragraph at lines 212--212
-[] 
- []
-
-[5]
-Overfull \hbox (20.89653pt too wide) in paragraph at lines 217--217
-[] 
- []
-
-
-Overfull \hbox (4.08015pt too wide) in paragraph at lines 267--267
-[] 
- []
-
-
-Underfull \vbox (badness 1874) has occurred while \output is active []
-
-)
-(./eval.tex
+[4]) (./eval.tex
 
 LaTeX Warning: Reference `fig:ex_link' on page \thepage  undefined on input lin
 e 16.
 
 File: img/linkr.eps Graphic file (type eps)
 <img/linkr.eps>
-Overfull \hbox (21.95253pt too wide) in paragraph at lines 54--58
+Overfull \hbox (21.95253pt too wide) in paragraph at lines 49--53
 []  [] 
  []
 
-[6]
+[5]
 
 LaTeX Warning: Reference `sec:notation' on page \thepage  undefined on input li
-ne 83.
+ne 78.
 
 
-Overfull \hbox (4.60466pt too wide) in paragraph at lines 99--101
+Overfull \hbox (4.60466pt too wide) in paragraph at lines 94--96
 \T1/aer/m/n/9 Additionally, links that have been rec-om-mended by the LinkR
  []
 
-[7]) (./baselines.tex
+[6]) (./empirical_results.tex
+LaTeX Font Info:    Try loading font information for T1+aett on input line 8.
+ (/usr/share/texmf/tex/latex/ae/t1aett.fd
+File: t1aett.fd 1997/11/16 Font definitions for T1/aett.
+)
+Overfull \hbox (66.75594pt too wide) in paragraph at lines 7--11
+[]\T1/aer/m/n/9 All code avail-able. $\T1/aett/m/n/9 http : / / code . google .
+ com / p / social-[]recommendation/$
+ []
 
-LaTeX Warning: Reference `sec:svm' on page \thepage  undefined on input line 13
+
+LaTeX Warning: Reference `sec:svm' on page \thepage  undefined on input line 18
 .
 
 File: img/live-likes1.eps Graphic file (type eps)
@@ -376,49 +351,54 @@ File: img/live-nonfriend-likes1.eps Graphic file (type eps)
 <img/live-nonfriend-likes1.eps>
 
 LaTeX Warning: Reference `fig:OnlineFriend1' on page \thepage  undefined on inp
-ut line 71.
+ut line 79.
 
 
 LaTeX Warning: Reference `fig:OnlineFriend1' on page \thepage  undefined on inp
-ut line 74.
+ut line 82.
 
-File: img/not-seen.eps Graphic file (type eps)
-<img/not-seen.eps>
-File: img/relevant.eps Graphic file (type eps)
- <img/relevant.eps>
-File: img/adapted.eps Graphic file (type eps)
- <img/adapted.eps>
-File: img/satisfied.eps Graphic file (type eps)
- <img/satisfied.eps>
-[8])
-Overfull \hbox (16.867pt too wide) in paragraph at lines 225--225
-[]\secfnt NOVEL AL-GO-RITHMS FOR SO-CIAL REC-
- []
-
-(./newalgs.tex [9]
+[7]
 File: img/live-likes2.eps Graphic file (type eps)
  <img/live-likes2.eps>
 File: img/live-friend-likes2.eps Graphic file (type eps)
  <img/live-friend-likes2.eps>
 File: img/live-nonfriend-likes2.eps Graphic file (type eps)
 
-<img/live-nonfriend-likes2.eps>) (./conclusions.tex [10] [11])
-(Commented text...) (./www11_sorec.bbl
-LaTeX Font Info:    Try loading font information for T1+aett on input line 1.
- (/usr/share/texmf/tex/latex/ae/t1aett.fd
-File: t1aett.fd 1997/11/16 Font definitions for T1/aett.
-)) [12] (./www11_sorec.aux)
+<img/live-nonfriend-likes2.eps> [8]) (./conclusions.tex [9]) (./www11_sorec.bbl
+[10]) (./derivatives.tex
+Overfull \hbox (19.10612pt too wide) in paragraph at lines 73--73
+[] 
+ []
+
+
+Overfull \hbox (20.52403pt too wide) in paragraph at lines 78--78
+[] 
+ []
+
+
+Overfull \hbox (20.89653pt too wide) in paragraph at lines 83--83
+[] 
+ []
+
+
+Overfull \hbox (4.08015pt too wide) in paragraph at lines 102--102
+[] 
+ []
+
+[11]) [12
+
+] (./www11_sorec.aux)
 
 LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 2668 strings out of 94501
- 31857 string characters out of 1176788
- 91754 words of memory out of 1000000
- 5758 multiletter control sequences out of 10000+50000
- 43620 words of font info for 59 fonts, out of 500000 for 2000
+ 2657 strings out of 94501
+ 31765 string characters out of 1176788
+ 93534 words of memory out of 1000000
+ 5752 multiletter control sequences out of 10000+50000
+ 42117 words of font info for 58 fonts, out of 500000 for 2000
  580 hyphenation exceptions out of 1000
- 39i,24n,26p,691b,304s stack positions out of 1500i,500n,5000p,200000b,5000s
+ 39i,24n,26p,691b,302s stack positions out of 1500i,500n,5000p,200000b,5000s
 
-Output written on www11_sorec.dvi (12 pages, 94788 bytes).
+Output written on www11_sorec.dvi (12 pages, 93004 bytes).

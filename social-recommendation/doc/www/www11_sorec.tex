@@ -134,38 +134,44 @@
 \author{
 \alignauthor
 Joseph Noel\\
-\affaddr{ANU}\\
-\affaddr{Canberra, Australia}\\
+%\affaddr{ANU}\\
+%\affaddr{Canberra, Australia}\\
+\affaddr{ANU; Canberra, AU}\\
 \email{jinonoel@gmail.com}
 \alignauthor
 Scott Sanner\\
-\affaddr{NICTA \& ANU}\\
-\affaddr{Canberra, Australia}\\
+%\affaddr{NICTA \& ANU}\\
+%\affaddr{Canberra, Australia}\\
+\affaddr{NICTA \& ANU; Canberra, AU}\\
 \email{first.last@nicta.com.au}
 \alignauthor
 Khoi-Nguyen Tran\\
-\affaddr{ANU}\\
-\affaddr{Canberra, Australia}\\
+%\affaddr{ANU}\\
+%\affaddr{Canberra, Australia}\\
+\affaddr{ANU; Canberra, AU}\\
 \email{first.last@anu.edu.au}
 \and
 \alignauthor
 Peter Christen\\
-\affaddr{ANU}\\
-\affaddr{Canberra, Australia}\\
+%\affaddr{ANU}\\
+%\affaddr{Canberra, Australia}\\
+\affaddr{ANU; Canberra, AU}\\
 \email{first.last@anu.edu.au}
 \alignauthor
 Lexing Xie\\
-\affaddr{ANU}\\
-\affaddr{Canberra, Australia}\\
+%\affaddr{ANU}\\
+%\affaddr{Canberra, Australia}\\
+\affaddr{ANU; Canberra, AU}\\
 \email{first.last@anu.edu.au}
 \alignauthor
 Edwin Bonilla\\
-\affaddr{NICTA \& ANU}\\
-\affaddr{Canberra, Australia}\\
+%\affaddr{NICTA \& ANU}\\
+%\affaddr{Canberra, Australia}\\
+\affaddr{NICTA \& ANU; Canberra, AU}\\
 \email{first.last@nicta.com.au}
 }
 \additionalauthors{
-Additional authors: Ehsan Abbasnejad (ANU \& NICTA,
+Additional authors: Ehsan Abbasnejad (ANU \& NICTA; Canberra, AU; 
 email: {\texttt{first.last@nicta.com.au}}).}
 %\author{
 %\alignauthor
@@ -218,133 +224,21 @@ friends.
 \label{sec:Evaluation}
 \input{eval}
 
-\section{Baseline Comparision}
-\label{sec:Baselines}
-\input{baselines}
-
-\section{Novel Algorithms for Social Recommendation}
-\label{sec:NovelAlgs}
-\input{newalgs}
+\section{Empirical Results}
+\label{sec:EmpResults}
+\input{empirical_results}
 
 \section{Conclusions}
 \label{sec:Conclusions}
 \input{conclusions}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\COMMENT
-\subsection{Algorithms}
-
-Here we outline simple baseline algorithms evaluated:
-\begin{itemize}
-\item {\it GP}: Most globally popular links -- user-independent
-\item {\it FLL}: Most liked links among user friends -- user-centric (FLL) 
-\item {\it FUW}: Friend uniform weighting -- sample links posted by friends, weighting friends uniformly
-\item {\it FIW}: Friend interaction weighting -- sample links posted by friends, weighting friends according to number of interactions
-\item {\it NN}: Nearest neighbor -- similar to Bell and Koren's Netflix work
-\end{itemize}
-
-Here we outline the SCF learning algorithms evaluated in the first
-1-month Facebook trial in terms of
-the primary and regularization objectives used:
-\begin{itemize}
-\item {\it CBF}: $\Obj_\pcbf + \lambda_\rw \Obj_\rw$ -- but trained with hinge loss (SVM) rather than $L_2$ loss
-\item {\it CF}: $\Obj_\pcbf + \lambda_\ru \Obj_\ru + \lambda_\rv \Obj_\rv$ -- standard Matchbox-style CF model
-\item {\it SCF}: $\Obj_\pcbf + \lambda_\ru \Obj_\ru + \lambda_\rv \Obj_\rv + \lambda_\rs \Obj_\rs$ -- social CF (similar to that used in many papers)
-\end{itemize}
-
-Here we outline the SCF learning algorithms to be evaluated for inclusion
-in the 2nd-month Facebook trial in terms of
-the primary and regularization objectives used:
-\begin{itemize}
-\item {\it HSCF}: $\Obj_\phy + \lambda_\rw \Obj_\rw + \lambda_\ru \Obj_\ru + \lambda_\rv \Obj_\rv + \lambda_\rs \Obj_\rs$ -- hybrid social CF
-\item {\it SSCF}: $\Obj_\pcbf + \lambda_\ru \Obj_\ru + \lambda_\rv \Obj_\rv + \lambda_\rss \Obj_\rss$ -- social spectral CF
-%\item {\it HSSCF}: $\Obj_\phy + \lambda_\rw \Obj_\rw + \lambda_\ru \Obj_\ru + \lambda_\rv \Obj_\rv + \lambda_\rs \Obj_\rs$ -- hybrid spectral social CF
-\item {\it SCCF}: $\Obj_\pcbf + \lambda_\ru \Obj_\ru + \lambda_\rv \Obj_\rv + \lambda_\rsc \Obj_\rsc$ -- social co-preference CF
-\item {\it SCCF}: $\Obj_\pcbf + \lambda_\ru \Obj_\ru + \lambda_\rv \Obj_\rv + \lambda_\rscs \Obj_\rscs$
-\item (hybrid variants of the above only if HSCF outperforms SCF)
-\item (might try combining social and co-preference regularization)
-\end{itemize}
-In these models, the predictor for evaluation purposes is always
-formed from the predictor in the primary objective.
-
-\subsection{Related work}
-
-There is a massive amount of related work on 
-SCF~\cite{matchbox,ste,lla,glfm,tf,sorec,sr,rrmf,bisim,socinf} embodying some of the
-ideas above, however there are a few aspects covered here, not covered
-in this related work:
-\begin{enumerate}
-\item Existing SCF methods \emph{cannot} capture some of the basic features that are used in standard CBF systems due to the inherent independent factorization between user and items (e.g., how much one user follows another) --- this is the motivation behind the \emph{hybrid} objectives.
-\item All methods \emph{except} for Matchbox~\cite{matchbox} ignore the issue of user and item features.  We extend the Matchbox approach above in our SCF methods. 
-\item \emph{None} of the methods that propose social regularization~\cite{ste,sr,rrmf,lla,glfm,socinf} incorporate user features into this regularization (as done above).
-\item Tensor-based factorizations such as~\cite{tf} use a full $K \times K \times K$ tensor for collaborative filtering w.r.t.\ tag prediction for users and items.  While our co-preference regularization models above were motivated by tensor approaches, we instead take an item-reweighted approach to the standard inner products to (a) avoid introducing yet more parameters and (b) as a way to introduce additional regularization in a way that supports the standard Matchbox~\cite{matchbox} CF model where prediction at run-time is made for a (user,item) pair, not for triples of (user,item,tag) as assumed in the tensor models.
-\end{enumerate}
-
-\section{Evaluation}
-
-\subsection{Train and test framework}
-
-\begin{itemize}
-\item Data is (user, item) pairs [time must be ignored due to the fact that Facebook does not record timestamps for "likes"]
-\item If test data drawn from subset of train data 
-then: randomly select x\% of data for $x \in [10,30]$ (nominally 20\%) for testing -- ensure that train/test (user,item) sets *do not* overlap\\
-else if train/test drawn from disjoint candidate sets: select all test data available\item Eventually will want to cross-validate (repeatedly train/test) but for now stderrs over user means is OK
-\end{itemize}
-
-Restrictions for training set of (user,item) pairs:
-
-\begin{itemize}
-\item (Active) Actively recommended LinkR like/dislike data (must limit to App users)
-\item (Passive) Passively liked/posted data (i.e., non-LinkR) -- infer dislikes as you are currently doing (but don't use any Active LinkR info) 
-\item (Union) Union of Active and Passive
-\end{itemize}
-
-Restrictions for testing set of (user,item) pairs:
-
-\begin{itemize}
-\item (FB-User-Passive) All Facebook users in data, all available passive links for data set (infer dislikes as currently doing)
-\item (App-User-Passive) App users only, all available passive links for data set (infer dislikes as currently doing)
-\item (App-User-Active-All) App users only, all available active friend \& non-friend links for data set
-\item (App-User-Active-Friend) App users only, all available active friend links for data set
-\item (App-User-Active-Non-friend) App users only, all available active non-friend links for data set
-\end{itemize}
-
-Note 1: for App-User-Active-?, discard users who don't have at least one like and dislike.
-
-Note 2: in case where training is on Active data and testing on Passive data (or vice versa), the train/test data will be drawn from disjoint candidate sets.  In all other cases, it is possible to build the train/test set by splitting the same candidate set.  See notes above on how to choose size of test set.
-
-\subsection{Evaluation metrics}
-
-\begin{itemize}
-\item Ranking view: mean average precision (MAP)... result lists per user can be determined in different ways (see below).
-\item Binary classification view: area under the curve (AUC) on App-User-Active-?
-\item (might consider other ranking metrics like DCG, MRR)
-\end{itemize}
-
-Note -- no need to compute for now: Recall@k, F-score@k [a recommender systems researcher pointed out to me that Recall@k (and hence F-score@k) don't make as much sense and are usually *not* cited in the literature... so let's ignore]
-
-When determining candidate lists for MAP, there are two reasonable choices:
-\begin{itemize}
-\item (Same) List of all links available to be ranked in test set -- same for all users
-\item (Spec) In the special case of App-User-Active-?, can build a specialized list of links per *App* user... just rank their *explicit likes/dislikes*
-\end{itemize}
-
-Thus, overall evaluation choices are a cross-product:$$\{\mbox{metric}\} \times [ \{\mbox{list candidate set}\}] \times \{\mbox{train}\} \times \{\mbox{test}\}$$.
-
-\subsection{Evaluation configurations}
-
-It would be good to have scripts to generate any of the following results:
-
-\begin{itemize}
-\item $\{\mbox{AUC}\} \times \{\mbox{Passive,Active,Union}\} \times \{\mbox{App-User-Active-?}\}$
-\item $\{\mbox{MAP}\} \times \{\mbox{Same,Spec}\} \times \{\mbox{Passive,Active,Union}\} \times \{\mbox{App-User-Active-?}\}$
-\item $\{\mbox{MAP}\} \times \{\mbox{Same}\} \times \{\mbox{Passive,Active,Union}\}$\\ $ \times \{\mbox{FB-User-Passive, App-User-Passive, App-User-Active-?}\}$
-\end{itemize}
-\ENDCOMMENT
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\bibliographystyle{plain}
+%\bibliographystyle{plain}
+\bibliographystyle{abbrv}
 \bibliography{thesis}
+
+\appendix
+\section{Derivatives}
+\label{app:Derivatives}
+\input{derivatives}
 
 \end{document}

@@ -1,92 +1,40 @@
-%Because our online human evaluation trials prevent comparison of a large
-%number of algorithms, we focus on extending variants of social and
-%social spectral regularization given their relative popularity in the
-%literature and their minimal computational overhead compared to their
-%non-social variants.
-
-If we examine the previously defined SCF objectives in~\ref{sec:scf_original},
-we note a number of deficiencies as outlined in the Introduction.  In this
-section we introduce a unified matrix factorization framework for
-expressing all (old and new) MF objectives optimized in this paper
-followed by our novel contributions and the gradients required to optimize
-all composable models.
+In this section we introduce a unified matrix factorization framework
+for expressing all MF objectives evaluated in this paper, including
+newly proposed objectives to address observed deficiencies of SCF
+MF methods as outlined in Section~\ref{sec:Introduction}
 
 \subsection{Mathematical Preliminaries}
 
 \subsubsection{Composable Objectives}
 
-%we extend the Social regularization technique also
-%described in Section~\ref{sec:mf} to exploit user features as in
-%Matchbox.
-
-We take a composable approach to (S)CF 
-where an optimization 
-objective $\mathit{Obj}$ is composed of sums of one or more
-objective components:
+We take a composable approach to (S)CF where an optimization objective
+$\mathit{Obj}$ is composed of sums of one or more objective
+components:
 \begin{align}
 \mathit{Obj} = \sum_i \lambda_i \mathit{Obj}_i
 \end{align}
-Because each objective may be weighted differently, a 
-weighting term $\lambda_i \in \R$ is included for each 
-component.
-%optimized via cross-validation.
+Because each objective may be weighted differently, a weighting term
+$\lambda_i \in \R$ is included for each component.
 
-%{\it Binary and ternary prediction:} 
-Most target predictions are binary 
-classification-based ($\{0,1\}$), therefore
-a sigmoidal transform 
-%\begin{align}
-$\sigma(o) = \frac{1}{1 + e^{-o}}$
-%\end{align}
-of a prediction $o \in \R$ may be used to squash it 
-to the range $[0, 1]$.  
-In places where the $\sigma$ transform may be optionally included, 
-this is written as $[\sigma]$.  
-
-\subsubsection{Gradient-based Optimization}
-
-We seek to optimize sums of the above objectives and will use
-gradient descent for this purpose.  
-
-For the overall objective, the partial derivative 
-w.r.t. parameters $\a$ are as follows:
-\begin{align}
-\frac{\partial}{\partial \a} \mathit{Obj} & = \frac{\partial}{\partial \a} \sum_i \lambda_i \mathit{Obj}_i = \sum_i \lambda_i \frac{\partial}{\partial \a} \mathit{Obj}_i \label{eq:sum_der}
-\end{align}
-
-Anywhere a sigmoidal transform occurs $\sigma(o[\cdot])$, we
-can easily calculate the partial derivatives as follows
-\begin{align}
- \frac{\partial}{\partial \a}\sigma(o[\cdot]) & = \sigma(o[\cdot]) (1 - \sigma(o[\cdot])) \frac{\partial}{\partial \a} o[\cdot] .
-\end{align}
-Hence anytime a $[\sigma(o[\cdot])]$ is optionally introduced in place
-of $o[\cdot]$, we simply insert $[\sigma(o[\cdot]) (1 -
-\sigma(o[\cdot]))]$ in the corresponding derivatives
-below.\footnote{We note that our experiments using the sigmoidal
-transform in objectives with $[0,1]$ predictions did not generally
-demonstrate a clear advantage vs. the omission of this transform as
-originally written (although they do not demonstrate a clear
-disadvantage either).}
-
-Before we proceed to our objective gradients, we define abbreviations
-for two useful vectors:
-\begin{align*}
-\s & = U \x \qquad \s_{k} = (U \x)_{k}; \; k=1\ldots K\\
-\t & = V \y \qquad \t_{k} = (V \y)_{k}; \; k=1\ldots K\\
-\r & = U \z \qquad \r_{k} = (U \z)_{k}; \; k=1\ldots K
-\end{align*}
-All matrix derivatives used for the objectives below can be
-verified in~\cite{matrix}.
+Most target predictions are binary classification-based ($\{0,1\}$),
+therefore a sigmoidal transform $\sigma(o) = \frac{1}{1 + e^{-o}}$ of
+a prediction $o \in \R$ may be used to squash it to the range $[0,
+1]$.  In places where the $\sigma$ transform may be optionally
+included, this is written as $[\sigma]$.  While $\sigma$ transforms 
+are generally advocated for real-valued regressor outputs when used in
+a classification setting, we note that our experiments
+showed little variation in results whether including or omitting it.
+Nonetheless we include the possibility of a $\sigma$ transform 
+here where appropriate since it may prove useful in other settings.
 
 \subsection{Existing Objective Functions}
 
 \subsubsection{Matchbox Matrix Factorization ($\Obj_\pmcf $)}
 
-As a first step towards
-addressing our first observed deficiency that \emph{all} 
-SCF methods of Section~\ref{sec:scf_original} do not exploit user
-or item features, we must first identify an MF objective that
-supports this.  
+%As a first step towards addressing our first observed deficiency that
+%%the six surveyed SCF MF methods of Section~\ref{sec:scf_original} do not
+%exploit user or item features.  In extending these methods to support
+%features, we must first identify
 
 If we \emph{do} have user and item features, we can respectively
 represent the latent projections of user and item as $(U \x)_{1 \ldots
@@ -95,21 +43,10 @@ U^T V \y$ as a measure of affinity between user $\x$ and item $\y$.
 Now we are faced with what objective to optimize in this feature-based
 MF case; fortunately, the answer comes in the form of the basic
 objective function used in Matchbox~\cite{matchbox} --- although
-Matchbox used Bayesian optimization methods, when its objective is
-expressed in the following log likelihood form, we easily derive its
-gradient:
+Matchbox used Bayesian optimization methods, we can easily express
+its objective in the following log likelihood form:
 \begin{align}
-\Obj_\pmcf & = \sum_{(\x,\y) \in D} \frac{1}{2} (R_{\x,\y} - [\sigma] \x^T U^T V y)^2
-\end{align}
-\begin{align}
-\frac{\partial}{\partial U} \Obj_\pmcf & = \frac{\partial}{\partial U} \sum_{(\x,\y) \in D} \frac{1}{2} \left( \underbrace{(R_{\x,\y} - [\sigma] \overbrace{x^T U^T V\y}^{o_{\x,\y}})}_{\delta_{\x,\y}} \right)^2 \nonumber \\
-%& = \sum_{(\x,\y) \in D} \delta_{\x,\y} \frac{\partial}{\partial U} - [\sigma] \x^T U^T \t \\
-& = - \sum_{(\x,\y) \in D} \delta_{\x,\y} [\sigma(o_{\x,\y}) (1 - \sigma(o_{\x,\y}))] \t \x^T \nonumber 
-\end{align}
-\begin{align}
-\frac{\partial}{\partial V} \Obj_\pmcf & = \frac{\partial}{\partial V} \sum_{(\x,\y) \in D} \frac{1}{2} \left( \underbrace{(R_{\x,\y} - [\sigma] \overbrace{x^T U^T V\y}^{o_{\x,\y}})}_{\delta_{\x,\y}} \right)^2 \nonumber \\
-%& = \sum_{(\x,\y) \in D} \delta_{\x,\y} \frac{\partial}{\partial V} - [\sigma] \s^T V \y \\
-& = - \sum_{(\x,\y) \in D} \delta_{\x,\y} [\sigma(o_{\x,\y}) (1 - \sigma(o_{\x,\y}))] \s \y^T \nonumber 
+\Obj_\pmcf & = \sum_{(\x,\y) \in D} \frac{1}{2} (R_{\x,\y} - [\sigma] \x^T U^T V \y)^2
 \end{align}
 
 \subsubsection{$L_2$ Regularization of $U$ and $V$ ($\Obj_\ru, \Obj_\rv$)}
@@ -120,10 +57,18 @@ sparse data. This can be done with the $L_2$ regularizer that models a
 prior of $0$ on the parameters. The regularization component for $U$
 is
 \begin{align}
-\Obj_\ru & = \frac{1}{2} \| U \|_\Fro^2 = \frac{1}{2} \tr(U^T U)\\
-\frac{\partial}{\partial U} \Obj_\ru & = \frac{\partial}{\partial U} \frac{1}{2} \tr(U^T U) = U \nonumber
+\Obj_\ru & = \frac{1}{2} \| U \|_\Fro^2 = \frac{1}{2} \tr(U^T U)
 \end{align}
 We can state the identical case substituting $V$ for $U$.
+
+In the same manner as $U$ and $V$, it is important to regularize the
+free parameter $\w$ to prevent overfitting in the presence of sparse
+data.  This can again be done with the $L_2$ regularizer that models a
+prior of $0$ on the parameters. The objective and gradient for the
+$L_2$ regularizer for $\w$ is:
+\begin{align}
+ \Obj_\rw & = \frac{1}{2} \| \w \|_2^2 = \frac{1}{2} \w^T \w\\
+\end{align}
 
 \subsection{New Objective Functions}
 
@@ -146,10 +91,7 @@ Regularization method incorporates user features to learn similarities
 between users in the latent space.
 \begin{align}
 \Obj_\rs = & \sum_{\x} \sum_{\z \in \mathit{friends}(\x)} \frac{1}{2} (S_{\x,\z} - \la U\x, U\z \ra)^2 \\
-& = \sum_{\x} \sum_{\z \in \mathit{friends}(\x)} \frac{1}{2} (S_{\x,\z} - \x^T U^T U \z)^2 \nonumber \\
-\frac{\partial}{\partial U} \Obj_\rs & = \frac{\partial}{\partial U} \sum_{\x} \sum_{\z \in \mathit{friends}(\x)} \frac{1}{2} \left( \underbrace{S_{\x,\z} - \x^T U^T U \z}_{\delta_{\x,\y}} \right)^2 \nonumber \\
-%& = \sum_{\x} \sum_{\z \in \mathit{friends}(\x)} \delta_{\x,\y} \frac{\partial}{\partial U} - \x^T U^T U \z \\
-& = - \sum_{\x} \sum_{\z \in \mathit{friends}(\x)} \delta_{\x,\y} U (\x \z^T + \z \x^T) \nonumber
+& = \sum_{\x} \sum_{\z \in \mathit{friends}(\x)} \frac{1}{2} (S_{\x,\z} - \x^T U^T U \z)^2 \nonumber 
 \end{align}
 
 \subsubsection{Social Spectral Regularization ($\Obj_\rss$)}
@@ -158,17 +100,12 @@ As we did with the Social Regularization method in
 Section~\ref{sec:SocRec}, we build on ideas used in
 Matchbox~\cite{matchbox} to extend social spectral
 regularization~\cite{sr,rrmf} by incorporating user features into the
-objective. The objective function for our extension to social spectral
+objective.  The objective function for our extension to social spectral
 regularization is:
 \begin{align}
 \Obj_\rss = & \sum_{\x} \sum_{\z \in \mathit{friends}(\x)} \frac{1}{2} S^+_{\x,\z} \| U\x - U\z \|_2^2 \\
 %& = \sum_{\x} \sum_{\z \in \mathit{friends}(\x)} \frac{1}{2} S^+_{\x,\z} \| U (\x - \z) \|_2^2 \nonumber \\
 & = \sum_{\x} \sum_{\z \in \mathit{friends}(\x)} \frac{1}{2} S^+_{\x,\z} (\x - \z)^T U^T U (\x - \z) \nonumber
-\end{align}
-\begin{align}
-\frac{\partial}{\partial U} \Obj_\rss & = \frac{\partial}{\partial U} \sum_{\x} \sum_{\z \in \mathit{friends}(\x)} \frac{1}{2} S^+_{\x,\z} (\x - \z)^T U^T U (\x - \z) \nonumber \\
-%& = \sum_{\x} \sum_{\z \in \mathit{friends}(\x)} \frac{1}{2} S^+_{\x,\z} U ((\x - \z)(\x - \z)^T + (\x - \z)(\x - \z)^T)\\
-& = \sum_{\x} \sum_{\z \in \mathit{friends}(\x)} S^+_{\x,\z} U (\x - \z)(\x - \z)^T \nonumber
 \end{align}
 
 %\subfive Note: standard spectral regularization 
@@ -179,17 +116,33 @@ regularization is:
 
 \subsubsection{Hybrid Objective ($\Obj_\phy$ )}
 
-As specified in Chapter 1, one weakness of  MF methods is that they cannot model joint features over user and items, and hence the cannot model direct user-user information diffusion. Information diffusion models the unidirectional flow of links from one user to another (i.e., one user likes/shares what another user posts). We believe that this information will be useful for SCF, and is lacking in current SCF methods.
+As specified in Chapter 1, one weakness of MF methods is that they
+cannot model joint features over user and items, and hence the cannot
+model direct user-user information diffusion. Information diffusion
+models the unidirectional flow of links from one user to another
+(i.e., one user likes/shares what another user posts). We believe that
+this information will be useful for SCF, and is lacking in current SCF
+methods.
 
-We fix this by introducing another objective component in addition to the standard MF objective, and this component serves as a simple linear regressor for such information diffusion observations. The resulting hybrid objective component becomes a combination of latent MF and linear regression objectives.
+We fix this by introducing another objective component in addition to
+the standard MF objective, and this component serves as a simple
+linear regressor for such information diffusion observations. The
+resulting hybrid objective component becomes a combination of latent
+MF and linear regression objectives.
 
-We make use of the $\f_{\x,\y}$ features detailed in Section~\ref{sec:dataset} to make the linear regressor. $\f_{\x,\y}$ models user-user information diffusion because it is a joint feature between users and the links. It allows us to learn information diffusion models whether certain users always likes content from another specific user.
+We make use of the $\f_{\x,\y}$ features detailed in
+Section~\ref{sec:dataset} to make the linear regressor. $\f_{\x,\y}$
+models user-user information diffusion because it is a joint feature
+between users and the links. It allows us to learn information
+diffusion models whether certain users always likes content from
+another specific user.
 
 %the $F'_{\x,\y}$ indicator function of which of the user's friends have liked a particular link along with the user.
 
-Using $\la \cdot,\cdot \ra$ to denote an inner product, we define a weight
-vector $\w \in \R^F$ such that $\la \w, \f_{\x,\y} \ra = \w^T \f_{\x,\y}$ is the prediction of the system. The objective of the linear regression component is therefore
-
+Using $\la \cdot,\cdot \ra$ to denote an inner product, we define a
+weight vector $\w \in \R^F$ such that $\la \w, \f_{\x,\y} \ra = \w^T
+\f_{\x,\y}$ is the prediction of the system.  The objective of the
+linear regression component is therefore
 \begin{align*}
 \Obj_\phy = \sum_{(\x,\y) \in D} \frac{1}{2} (R_{\x,\y} - [\sigma] \w^T \f_{\x,\y})^2
 \end{align*}
@@ -199,30 +152,6 @@ Matchbox output $[\sigma] \x^T U^T V y$, to get a hybrid objective
 component. The full objective function for this hybrid model is
 \begin{align}
 \sum_{(\x,\y) \in D} \frac{1}{2} (R_{\x,\y} - [\sigma] \w^T \f_{\x,\y} - [\sigma] \x^T U^T V y)^2
-\end{align}
-\begin{align*}
-\frac{\partial}{\partial \w} \Obj_\phy & = \frac{\partial}{\partial \w} \sum_{(\x,\y) \in D} \frac{1}{2} \left( \underbrace{R_{\x,\y} - [\sigma] \overbrace{\w^T \f_{\x,\y}}^{o^1_{\x,\y}} - [\sigma] \x^T U^T V\y}_{\delta_{\x,\y}} \right)^2 \\
-%& = \sum_{(\x,\y) \in D} \delta_{\x,\y} \frac{\partial}{\partial \w} - [\sigma] \w^T \f_{\x,\y} \\
-& = - \sum_{(\x,\y) \in D} \delta_{\x,\y} [\sigma(o^1_{\x,\y}) (1 - \sigma(o^1_{\x,\y}))] \f_{\x,\y} 
-\end{align*}
-\begin{align*}
-\frac{\partial}{\partial U} \Obj_\phy & = \frac{\partial}{\partial U} \sum_{(\x,\y) \in D} \frac{1}{2} \left( \underbrace{R_{\x,\y} - [\sigma] \w^T \f_{\x,\y} - [\sigma] \overbrace{\x^T U^T V\y}^{o^2_{\x,\y}}}_{\delta_{\x,\y}}\right)^2 \\
-%& = \sum_{(\x,\y) \in D} \delta_{\x,\y} \frac{\partial}{\partial U} - [\sigma] \x^T U^T V\y \\
-& = - \sum_{(\x,\y) \in D} \delta_{\x,\y} [\sigma(o^2_{\x,\y}) (1 - \sigma(o^2_{\x,\y}))] \t \x^T
-\end{align*}
-\begin{align*}
-\frac{\partial}{\partial V} \Obj_\phy & = \frac{\partial}{\partial V} \sum_{(\x,\y) \in D} \frac{1}{2} \left( \underbrace{R_{\x,\y} - [\sigma] \w^T \f_{\x,\y} - [\sigma] \overbrace{\x^T U^T V\y}^{o^2_{\x,\y}}}_{\delta_{\x,\y}}\right)^2 \\
-%& = \sum_{(\x,\y) \in D}  \delta_{\x,\y} \frac{\partial}{\partial V} - [\sigma] \x^T U^T V\y \\
-& = - \sum_{(\x,\y) \in D}  \delta_{\x,\y} [\sigma(o^2_{\x,\y}) (1 - \sigma(o^2_{\x,\y}))] \s \y^T \\
-\end{align*}
-In the same manner as $U$ and $V$, it is important to regularize the
-free parameter $\w$ to prevent overfitting in the presence of sparse
-data. This can again be done with the $L_2$ regularizer that models a
-prior of $0$ on the parameters. The objective and gradient for the
-$L_2$ regularizer for $\w$ is:
-\begin{align}
- \Obj_\rw & = \frac{1}{2} \| \w \|_2^2 = \frac{1}{2} \w^T \w\\
-\frac{\partial}{\partial \w} \Obj_\rw & = \frac{\partial}{\partial \w} \frac{1}{2} \w^T \w = \w \nonumber
 \end{align}
 
 \subsubsection{Social Co-preference Regularization ($\Obj_\rsc$)}
@@ -251,27 +180,6 @@ with its expanded form is
 \Obj_\rsc & = \sum_{(\x,\z,\y) \in C} \frac{1}{2} (P_{\x,\z,\y} - \la U\x, U\z \ra_{V\y})^2 \\
 & = \sum_{(\x,\z,\y) \in C} \frac{1}{2} (P_{\x,\z,\y} - \x^T U^T \diag(V\y) U \z)^2 \nonumber
 \end{align}
-\begin{align*}
-\frac{\partial}{\partial U} \Obj_\rsc & = \frac{\partial}{\partial U} \sum_{(\x,\z,\y) \in C} \frac{1}{2} \left( \underbrace{P_{\x,\z,\y} - \x^T U^T \diag(V\y) U \z}_{\delta_{\x,\z,\y}} \right)^2\\
-%%& = \sum_{(\x,\z,\y) \in C} \delta_{\x,\z,\y} \frac{\partial}{\partial U} - \x^T U^T \diag(V\y) U \z \\
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%& = \delta \frac{\partial}{\partial U} - \tr(\diag(\x) U^T \diag(V\y) U \diag(\z)) \\
-%& = - \delta \diag(\z) \diag(\x) U^T \diag(V\y) + \diag(\x)^T \diag(\z)^T U^T \diag(V\y)^T\\
-%& = - \delta \diag(V\y)^T U \diag(\x)^T \diag(\z)^T + \diag(V\y)^T U \diag(\z)^T \diag(\x)^T\\
-%& = - \delta \diag(V\y)^T U (\diag(\x) \diag(\z) + \diag(\z) \diag(\x)) \\
-%& = - \delta \diag(V\y)^T U (\z \x^T + \x \z^T) \\
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Found it, see here for direct derivative: http://www.ee.ic.ac.uk/hp/staff/dmb/matrix/calculus.html
-%%& = - \sum_{(\x,\z,\y) \in C} \delta_{\x,\z,\y} (\diag(V\y)^T U \x \z^T + \diag(V\y) U \z \x^T)\\ % \diag(V\y)^T = \diag(V\y)
-& = - \sum_{(\x,\z,\y) \in C} \delta_{\x,\z,\y} \diag(V\y) U (\x \z^T + \z \x^T)
-\end{align*}
-In the following, $\circ$ is the Hadamard elementwise product:
-\begin{align*}
-\frac{\partial}{\partial V} \Obj_\rsc & = \frac{\partial}{\partial V} \sum_{(\x,\z,\y) \in C} \frac{1}{2} (P_{\x,\z,\y} - \x^T U^T \diag(V\y) U \z)^2\\
- & = \frac{\partial}{\partial V} \sum_{(\x,\z,\y) \in C} \frac{1}{2} \left( \underbrace{P_{\x,\z,\y} -  (\overbrace{U\x}^\s \circ \overbrace{U\z}^\r)^T V\y}_{\delta_{\x,\z,\y}} \right)^2\\
-%% & = \sum_{(\x,\z,\y) \in C} \delta_{\x,\z,\y} \frac{\partial}{\partial V} - (\s \circ \r)^T V\y\\
- & = - \sum_{(\x,\z,\y) \in C} \delta_{\x,\z,\y} (\s \circ \r) \y^T
-\end{align*}
 We might also define a co-preference spectral regularization approach,
 but our experiments have indicated this does not work as well as the
 non-spectral objective above, so we omit it here.
@@ -293,13 +201,4 @@ relevant only to item $\y$.
 %& = \sum_{(\x,\z,\y) \in C} \frac{1}{2} P_{\x,\z,\y} \| U (\x - \z) \|_{2,V\y}^2 \nonumber \\
 & = \sum_{(\x,\z,\y) \in C} \frac{1}{2} P_{\x,\z,\y} (\x - \z)^T U^T \diag(V\y) U (\x - \z) \nonumber 
 \end{align}
-\begin{align*}
-\frac{\partial}{\partial U} \Obj_\rscs & = \frac{\partial}{\partial U} \sum_{(\x,\z,\y) \in C} \frac{1}{2} P_{\x,\z,\y} (\x - \z)^T U^T \diag(V\y) U (\x - \z)\\
-& = \sum_{(\x,\z,\y) \in C} \frac{1}{2} P_{\x,\z,\y} \left( \diag(V\y)^T U (\x - \z) (\x - \z)^T \right.\\
-& \left. \qquad \qquad \qquad \qquad + \diag(V\y) U (\x - \z) (\x - \z)^T \right)\\
-& = \sum_{(\x,\z,\y) \in C} P_{\x,\z,\y} \diag(V\y) U (\x - \z) (\x - \z)^T\\
-\frac{\partial}{\partial V} \Obj_\rscs & = \frac{\partial}{\partial V} \sum_{(\x,\z,\y) \in C} \frac{1}{2} P_{\x,\z,\y} (\x - \z)^T U^T \diag(V\y) U (\x - \z)\\
-& = \frac{\partial}{\partial V} \sum_{(\x,\z,\y) \in C} \frac{1}{2} P_{\x,\z,\y} (U(\x-\z) \circ U(\x-\z))^T V\y\\
-& = \frac{1}{2} \sum_{(\x,\z,\y) \in C} P_{\x,\z,\y} (U(\x-\z) \circ U(\x-\z)) \y^T
-\end{align*}
 \end{comment}

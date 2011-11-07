@@ -15,12 +15,16 @@
 \@writefile{toc}{\contentsline {section}{\numberline {2}Definitions and Background}{\thepage }}
 \newlabel{sec:Background}{{2}{\thepage }}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Notation}{\thepage }}
-\citation{svms}
+\citation{svm}
 \citation{libsvm}
+\citation{inf_diffusion}
 \citation{bellkor}
 \citation{bellkor}
 \citation{bellkor}
 \citation{pmf}
+\citation{pmf}
+\citation{lla}
+\citation{socinf}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Content-based Filtering (CBF)}{\thepage }}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Collaborative Filtering (CF)}{\thepage }}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {2.3.1}$k$-Nearest Neighbor}{\thepage }}
@@ -29,34 +33,29 @@
 \newlabel{sec:mf}{{2.3.2}{\thepage }}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {2.3.3}Social Collaborative Filtering (SCF)}{\thepage }}
 \newlabel{sec:scf_original}{{2.3.3}{\thepage }}
-\citation{lla}
-\citation{socinf}
 \citation{sr}
 \citation{rrmf}
 \citation{spectral}
 \citation{sorec}
 \citation{ste}
-\citation{matrix}
 \citation{matchbox}
+\citation{lla}
+\citation{socinf}
 \newlabel{eq:simple_sr}{{5}{\thepage }}
 \newlabel{eq:simple_spectral_sr}{{6}{\thepage }}
 \@writefile{toc}{\contentsline {section}{\numberline {3}New Objective Functions for SCF}{\thepage }}
 \newlabel{sec:NewObjFuns}{{3}{\thepage }}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Mathematical Preliminaries}{\thepage }}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.1}Composable Objectives}{\thepage }}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.2}Gradient-based Optimization}{\thepage }}
-\newlabel{eq:sum_der}{{10}{\thepage }}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Existing Objective Functions}{\thepage }}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.1}Matchbox Matrix Factorization ($\@mathit {Obj}_\@mathit {pmcf}$)}{\thepage }}
-\citation{lla}
-\citation{socinf}
-\citation{matchbox}
-\citation{sr}
-\citation{rrmf}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.2}$L_2$ Regularization of $U$ and $V$ ($\@mathit {Obj}_\@mathit {ru}, \@mathit {Obj}_\@mathit {rv}$)}{\thepage }}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.3}New Objective Functions}{\thepage }}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.1}Social Regularization ($\@mathit {Obj}_\@mathit {rs}$)}{\thepage }}
 \newlabel{sec:SocRec}{{3.3.1}{\thepage }}
+\citation{matchbox}
+\citation{sr}
+\citation{rrmf}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.2}Social Spectral Regularization ($\@mathit {Obj}_\@mathit {rss}$)}{\thepage }}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.3}Hybrid Objective ($\@mathit {Obj}_\@mathit {phy}$ )}{\thepage }}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.4}Social Co-preference Regularization ($\@mathit {Obj}_\@mathit {rsc}$)}{\thepage }}
@@ -74,51 +73,60 @@
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.3}Interaction Data}{\thepage }}
 \newlabel{sec:interactions}{{4.2.3}{\thepage }}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.4}Live Online Recommendation Trials}{\thepage }}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Empirical Results}{\thepage }}
+\newlabel{sec:EmpResults}{{5}{\thepage }}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}First Trial}{\thepage }}
 \@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Number of Users Assigned per Algorithm.}}{\thepage }}
 \newlabel{tab:Assigned1}{{1}{\thepage }}
-\@writefile{toc}{\contentsline {section}{\numberline {5}Baseline Comparision}{\thepage }}
-\newlabel{sec:Baselines}{{5}{\thepage }}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Algorithms}{\thepage }}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Online Results}{\thepage }}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Survey Results}{\thepage }}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.4}Summary}{\thepage }}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.1.1}Online Results}{\thepage }}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.1.2}Summary}{\thepage }}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Second Trial}{\thepage }}
 \@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Results of the online live trials. The percentage of Liked ratings are stacked on top of the percentage of Disliked ratings per algorithm. Social Matchbox was found to be the best performing of the four algorithms evaluated in the first trial. *** Results of the online live trials, split between friends and non-friends. The percentage of Liked ratings are stacked on top of the percentage of Disliked ratings per algorithm. There is a significant drop in performance between recommending friend links and recommending non-friend links.}}{\thepage }}
 \newlabel{fig:OnlineResult1}{{2}{\thepage }}
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Results of the user survey after the first trial. The survey answers from the users reflect the online results that Social Matchbox was the best recommendation algorithm in this trial.}}{\thepage }}
-\newlabel{fig:survey1}{{3}{\thepage }}
-\@writefile{toc}{\contentsline {section}{\numberline {6}Novel Algorithms for Social Recommendation}{\thepage }}
-\newlabel{sec:NovelAlgs}{{6}{\thepage }}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.1}Second Trial}{\thepage }}
 \@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Number of Users Assigned per Algorithm.}}{\thepage }}
 \newlabel{tab:assigned2}{{2}{\thepage }}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.1.1}Online Results}{\thepage }}
-\newlabel{sec:online2}{{6.1.1}{\thepage }}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.2.1}Online Results}{\thepage }}
+\newlabel{sec:online2}{{5.2.1}{\thepage }}
 \citation{matchbox}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.2}Summary}{\thepage }}
-\@writefile{toc}{\contentsline {section}{\numberline {7}Conclusions}{\thepage }}
-\newlabel{sec:Conclusions}{{7}{\thepage }}
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.1}Summary}{\thepage }}
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Results of online live trials. The percentage of Liked ratings are stacked on top of the percentage of Disliked ratings per algorithm. Spectral Matchbox achieved the highest ratio of likes to dislikes among the four algorithms. Spectral social regularization in general appears to be a better way to socially regularize compared to social regularization. *** Results of the online live trials, split between friends and non-friends. As in the first trial, there is a significant drop in performance between recommending friend links and recommending non-friend links.}}{\thepage }}
-\newlabel{fig:online2}{{4}{\thepage }}
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.2}Future Work}{\thepage }}
-\bibstyle{plain}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Results of online live trials. The percentage of Liked ratings are stacked on top of the percentage of Disliked ratings per algorithm. Spectral Matchbox achieved the highest ratio of likes to dislikes among the four algorithms. Spectral social regularization in general appears to be a better way to socially regularize compared to social regularization. *** Results of the online live trials, split between friends and non-friends. As in the first trial, there is a significant drop in performance between recommending friend links and recommending non-friend links.}}{\thepage }}
+\newlabel{fig:online2}{{3}{\thepage }}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.2.2}Summary}{\thepage }}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Algorithm Independent Observations}{\thepage }}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.3.1}Click evidence}{\thepage }}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.3.2}Impact of Popularity}{\thepage }}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.3.3}Impact of Interactions}{\thepage }}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.3.4}Impact of Steve Jobs}{\thepage }}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.3.5}Impact of Genre}{\thepage }}
+\@writefile{toc}{\contentsline {section}{\numberline {6}Conclusions}{\thepage }}
+\newlabel{sec:Conclusions}{{6}{\thepage }}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.1}Summary}{\thepage }}
+\bibstyle{abbrv}
 \bibdata{thesis}
 \bibcite{fab}{1}
 \bibcite{bellkor}{2}
-\bibcite{libsvm}{3}
-\bibcite{svms}{4}
-\bibcite{socinf}{5}
-\bibcite{newsweeder}{6}
-\bibcite{rrmf}{7}
-\bibcite{ste}{8}
-\bibcite{sorec}{9}
-\bibcite{sr}{10}
-\bibcite{spectral}{11}
-\bibcite{matrix}{12}
-\bibcite{tf}{13}
+\bibcite{inf_diffusion}{3}
+\bibcite{libsvm}{4}
+\bibcite{svm}{5}
+\bibcite{socinf}{6}
+\bibcite{newsweeder}{7}
+\bibcite{rrmf}{8}
+\bibcite{ste}{9}
+\bibcite{sorec}{10}
+\bibcite{sr}{11}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.2}Future Work}{\thepage }}
+\@writefile{toc}{\contentsline {section}{\numberline {7}Additional Authors}{\thepage }}
+\@writefile{toc}{\contentsline {section}{\numberline {8}References}{\thepage }}
+\bibcite{spectral}{12}
+\bibcite{matrix}{13}
 \bibcite{collab_filtering}{14}
 \bibcite{pmf}{15}
 \bibcite{matchbox}{16}
 \bibcite{lla}{17}
-\@writefile{toc}{\contentsline {section}{\numberline {8}Additional Authors}{\thepage }}
-\@writefile{toc}{\contentsline {section}{\numberline {9}References}{\thepage }}
+\citation{pmf}
+\citation{pmf}
+\citation{matrix}
+\@writefile{toc}{\contentsline {section}{\numberline {A}Derivatives}{\thepage }}
+\newlabel{app:Derivatives}{{A}{\thepage }}
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.1}Gradient-based Optimization}{\thepage }}
+\newlabel{eq:sum_der}{{18}{\thepage }}
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.2}Derivatives for SCF Objectives}{\thepage }}
