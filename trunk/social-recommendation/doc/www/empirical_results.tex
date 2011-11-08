@@ -25,7 +25,8 @@ feature-based \emph{socially regularized} Matchbox SCF
 $$\Obj_\pmcf + \lambda_\rs \Obj_\rs + \lambda \Obj_\ru + \lambda \Obj_\rv$$
 \end{enumerate}
 KNN and MBox may be viewed as pure CF methods.  As discussed previously,
-both SVM and Soc. Mbox may be viewed as SCF methods
+both SVM and Soc. Mbox may be viewed as SCF methods; all objectives
+for these were given in Section~\ref{sec:NewObjFuns}
 and were both optimized via gradient descent as outlined
 in Appendix~\ref{app:Derivatives}.  
 
@@ -120,7 +121,8 @@ $$\Obj_\pmcf + \lambda_\rs \Obj_\rs + \lambda_\phy \Obj_\phy + \lambda \Obj_\ru 
 $$\Obj_\pmcf + \lambda_\rscs \Obj_\rscs + \lambda \Obj_\ru + \lambda \Obj_\rv$$
 %Matchbox MF + Social Co-preference Spectral Regularization + L2 $U$ Regularization + L2 $V$ Regularization
 \end{itemize}
-All objectives are optimized via gradient descent as outlined
+All objectives are defined in Section~\ref{sec:NewObjFuns} 
+and optimized via gradient descent as outlined
 in Appendix~\ref{app:Derivatives}.  
 
 The second trial with the above algorithms ran from October 13, 2011
@@ -153,8 +155,8 @@ shown in Figure~\ref{fig:online2}, following are the key observations:
 \item Soc. MBox did not perform as well in the second trial as it had
 in the first trial.  One key difference in the second trial is that
 all of the first trial data was available for training and thus
-Soc. MBox may have been more difficult to optimize given this larger 
-quantity of data (not available in the first trial).
+Soc. MBox may have proved more difficult to optimize given this larger 
+quantity of training data.
 \item Spec. Mbox clearly performed the best in the second trial 
 and this suggests that spectral social 
 regularization is likely a better method of regularization 
@@ -165,14 +167,14 @@ links and most poorly on non-friend links (where there is no direct
 user-to-user information diffusion).  Soc. Hybrid slightly outperforms
 Spec. MBox, but not statistically significantly given the more limited
 data in the second trial.  Nonetheless, 
-Soc. Hybrid clearly outperform its Soc. MBox variant that lacks 
+Soc. Hybrid clearly outperforms its Soc. MBox variant that lacks 
 information diffusion features.
 \item Spec. CP leads to a statistically significant improvement
 on recommending non-friend links over Soc. MBox and Soc. Hybrid,
 which perform poorly on recommending non-friend links.  Clearly then
 Spec. CP is benefitting somewhat in learning from copreferences
 since it can socially regularize across two users that are \emph{not}
-friends.
+friends, unlike the other approaches.
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -190,14 +192,13 @@ LinkR App that can be helpful in building future SCF systems.
 In Figure~\ref{fig:click_evidence}, we observe the ratings of links
 that users clicked on.  The most important thing we notice in 
 Figure~\ref{fig:click_evidence} (left) is that even though users
-clicked on a link, they were highly likely to rate it as a dislike.
+clicked on a link, they were somewhat likely to rate it as a dislike.
 
 One might hypothesize that perhaps users clicked on links more often with
 no description to find out what they were and most often disliked them ---
 this might explain the high number of dislikes for clicked links.  However,
 examining both 
-Figure~\ref{fig:click_evidence} (center) and 
-Figure~\ref{fig:click_evidence} (right)
+Figure~\ref{fig:click_evidence} (center) and (right)
 for non-friend links, we observe that whether a description was present
 had very little impact on whether a link was liked or not, so we cannot
 infer that all the disliked links were simply the ones lacking a description.
