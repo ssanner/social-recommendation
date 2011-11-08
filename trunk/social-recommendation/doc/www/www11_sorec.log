@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.11 (TeX Live 2010) (format=pdflatex 2010.7.21)  8 NOV 2011 09:39
+This is pdfTeX, Version 3.1415926-1.40.11 (TeX Live 2010) (format=pdflatex 2011.1.22)  8 NOV 2011 12:07
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -7,15 +7,15 @@ entering extended mode
 (./www11_sorec.tex
 LaTeX2e <2009/09/24>
 Babel <v3.8l> and hyphenation patterns for english, dumylang, nohyphenation, ge
-rman-x-2009-06-19, ngerman-x-2009-06-19, ancientgreek, ibycus, arabic, armenian
-, basque, bulgarian, catalan, pinyin, coptic, croatian, czech, danish, dutch, u
-kenglish, usenglishmax, esperanto, estonian, farsi, finnish, french, galician, 
-german, ngerman, swissgerman, monogreek, greek, hungarian, icelandic, assamese,
- bengali, gujarati, hindi, kannada, malayalam, marathi, oriya, panjabi, tamil, 
-telugu, indonesian, interlingua, irish, italian, kurmanji, lao, latin, latvian,
- lithuanian, mongolian, mongolianlmc, bokmal, nynorsk, polish, portuguese, roma
-nian, russian, sanskrit, serbian, slovak, slovenian, spanish, swedish, turkish,
- turkmen, ukrainian, uppersorbian, welsh, loaded.
+rman-x-2009-06-19, ngerman-x-2009-06-19, afrikaans, ancientgreek, ibycus, arabi
+c, armenian, basque, bulgarian, catalan, pinyin, coptic, croatian, czech, danis
+h, dutch, ukenglish, usenglishmax, esperanto, estonian, ethiopic, farsi, finnis
+h, french, galician, german, ngerman, swissgerman, monogreek, greek, hungarian,
+ icelandic, assamese, bengali, gujarati, hindi, kannada, malayalam, marathi, or
+iya, panjabi, tamil, telugu, indonesian, interlingua, irish, italian, kurmanji,
+ lao, latin, latvian, lithuanian, mongolian, mongolianlmc, bokmal, nynorsk, pol
+ish, portuguese, romanian, russian, sanskrit, serbian, slovak, slovenian, spani
+sh, swedish, turkish, turkmen, ukrainian, uppersorbian, welsh, loaded.
 (./sig-alternate.cls
 (/usr/local/texlive/2010/texmf-dist/tex/latex/graphics/epsfig.sty
 Package: epsfig 1999/02/16 v1.7a (e)psfig emulation (SPQR)
@@ -39,7 +39,7 @@ File: graphics.cfg 2010/04/23 v1.9 graphics configuration of TeX Live
 Package graphics Info: Driver file: pdftex.def on input line 91.
 
 (/usr/local/texlive/2010/texmf-dist/tex/latex/pdftex-def/pdftex.def
-File: pdftex.def 2010/02/14 v0.04n Graphics/color for pdfTeX
+File: pdftex.def 2010/11/26 v0.05c Graphics/color for pdfTeX
 \Gread@gobject=\count79
 ))
 \Gin@req@height=\dimen102
@@ -229,7 +229,7 @@ Package: array 2008/09/09 v2.4c Tabular extension package (FMi)
 \backup@length=\skip51
 )
 (/usr/local/texlive/2010/texmf-dist/tex/latex/mh/mathtools.sty
-Package: mathtools 2010/07/11 v1.08 mathematical typesetting tools (MH)
+Package: mathtools 2010/07/21 v1.08b mathematical typesetting tools (MH)
 
 (/usr/local/texlive/2010/texmf-dist/tex/latex/tools/calc.sty
 Package: calc 2007/08/22 v4.3 Infix arithmetic (KKT,FJ)
@@ -329,22 +329,24 @@ G,.JBIG2,.JB2,.eps]
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
-LaTeX Font Info:    Try loading font information for U+msa on input line 181.
+LaTeX Font Info:    Try loading font information for U+msa on input line 193.
 
 (/usr/local/texlive/2010/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2009/06/22 v3.00 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 181.
+LaTeX Font Info:    Try loading font information for U+msb on input line 193.
 
 (/usr/local/texlive/2010/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2009/06/22 v3.00 AMS symbols B
 )
-LaTeX Font Info:    Try loading font information for U+lasy on input line 181.
+LaTeX Font Info:    Try loading font information for U+lasy on input line 193.
 
 (/usr/local/texlive/2010/texmf-dist/tex/latex/base/ulasy.fd
 File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
 ) (./intro.tex
-[1{/usr/local/texlive/2010/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [1{/usr/local/texlive/2010/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
 
 
 ])
@@ -354,7 +356,7 @@ Overfull \hbox (2.60812pt too wide) in paragraph at lines 35--36
  []
 
 [2] [3])
-Overfull \hbox (6.79947pt too wide) in paragraph at lines 219--219
+Overfull \hbox (6.79947pt too wide) in paragraph at lines 242--242
 []\secfnt NEW OB-JEC-TIVE FUNC-TIONS FOR SCF 
  []
 
@@ -375,19 +377,21 @@ Overfull \hbox (5.32574pt too wide) in paragraph at lines 227--232
 end-
  []
 
-) (./eval.tex [5]
+) (./eval.tex
 Package epstopdf Info: Source file: <img/linkr.eps>
-(epstopdf)                    date: 2011-11-08 08:20:53
+(epstopdf)                    date: 2011-11-08 12:06:32
 (epstopdf)                    size: 194125 bytes
 (epstopdf)             Output file: <img/linkr-eps-converted-to.pdf>
-(epstopdf)                    date: 2011-11-08 08:30:56
-(epstopdf)                    size: 142278 bytes
 (epstopdf)             Command: <epstopdf --outfile=img/linkr-eps-converted-to.
 pdf img/linkr.eps>
 (epstopdf)             \includegraphics on input line 17.
-Package epstopdf Info: Output file is already uptodate.
+runsystem(epstopdf --outfile=img/linkr-eps-converted-to.pdf img/linkr.eps)...ex
+ecuted.
 
-<img/linkr-eps-converted-to.pdf, id=39, 632.3625pt x 626.34pt>
+Package epstopdf Info: Result file: <img/linkr-eps-converted-to.pdf>
+(epstopdf)                    date: 2011-11-08 12:07:08
+(epstopdf)                    size: 142278 bytes.
+ <img/linkr-eps-converted-to.pdf, id=36, 632.3625pt x 626.34pt>
 File: img/linkr-eps-converted-to.pdf Graphic file (type pdf)
 
 <use img/linkr-eps-converted-to.pdf>
@@ -395,7 +399,7 @@ Overfull \hbox (21.95189pt too wide) in paragraph at lines 17--23
 []  [] 
  []
 
-[6 <./img/linkr-eps-converted-to.pdf>]) (./empirical_results.tex
+[5] [6 <./img/linkr-eps-converted-to.pdf>]) (./empirical_results.tex
 LaTeX Font Info:    Try loading font information for T1+aett on input line 8.
 
 (/usr/local/texlive/2010/texmf-dist/tex/latex/ae/t1aett.fd
@@ -406,10 +410,10 @@ Overfull \hbox (4.0003pt too wide) in paragraph at lines 54--64
  []
 
 Package epstopdf Info: Source file: <img/live-likes1.eps>
-(epstopdf)                    date: 2011-11-08 08:20:53
+(epstopdf)                    date: 2011-11-08 12:06:32
 (epstopdf)                    size: 29900 bytes
 (epstopdf)             Output file: <img/live-likes1-eps-converted-to.pdf>
-(epstopdf)                    date: 2011-11-08 08:20:53
+(epstopdf)                    date: 2011-11-08 12:06:32
 (epstopdf)                    size: 15528 bytes
 (epstopdf)             Command: <epstopdf --outfile=img/live-likes1-eps-convert
 ed-to.pdf img/live-likes1.eps>
@@ -420,11 +424,11 @@ File: img/live-likes1-eps-converted-to.pdf Graphic file (type pdf)
 
 <use img/live-likes1-eps-converted-to.pdf>
 Package epstopdf Info: Source file: <img/live-friend-likes1.eps>
-(epstopdf)                    date: 2011-11-08 08:20:53
+(epstopdf)                    date: 2011-11-08 12:06:32
 (epstopdf)                    size: 29663 bytes
 (epstopdf)             Output file: <img/live-friend-likes1-eps-converted-to.pd
 f>
-(epstopdf)                    date: 2011-11-08 08:20:53
+(epstopdf)                    date: 2011-11-08 12:06:32
 (epstopdf)                    size: 15452 bytes
 (epstopdf)             Command: <epstopdf --outfile=img/live-friend-likes1-eps-
 converted-to.pdf img/live-friend-likes1.eps>
@@ -436,11 +440,11 @@ File: img/live-friend-likes1-eps-converted-to.pdf Graphic file (type pdf)
 
 <use img/live-friend-likes1-eps-converted-to.pdf>
 Package epstopdf Info: Source file: <img/live-nonfriend-likes1.eps>
-(epstopdf)                    date: 2011-11-08 08:20:53
+(epstopdf)                    date: 2011-11-08 12:06:32
 (epstopdf)                    size: 29907 bytes
 (epstopdf)             Output file: <img/live-nonfriend-likes1-eps-converted-to
 .pdf>
-(epstopdf)                    date: 2011-11-08 08:20:53
+(epstopdf)                    date: 2011-11-08 12:06:32
 (epstopdf)                    size: 15625 bytes
 (epstopdf)             Command: <epstopdf --outfile=img/live-nonfriend-likes1-e
 ps-converted-to.pdf img/live-nonfriend-likes1.eps>
@@ -452,150 +456,176 @@ File: img/live-nonfriend-likes1-eps-converted-to.pdf Graphic file (type pdf)
 
 <use img/live-nonfriend-likes1-eps-converted-to.pdf>
 Package epstopdf Info: Source file: <img/live-likes2.eps>
-(epstopdf)                    date: 2011-11-08 08:20:53
+(epstopdf)                    date: 2011-11-08 12:06:32
 (epstopdf)                    size: 31618 bytes
 (epstopdf)             Output file: <img/live-likes2-eps-converted-to.pdf>
-(epstopdf)                    date: 2011-11-08 08:30:56
-(epstopdf)                    size: 21899 bytes
 (epstopdf)             Command: <epstopdf --outfile=img/live-likes2-eps-convert
 ed-to.pdf img/live-likes2.eps>
 (epstopdf)             \includegraphics on input line 139.
-Package epstopdf Info: Output file is already uptodate.
+runsystem(epstopdf --outfile=img/live-likes2-eps-converted-to.pdf img/live-like
+s2.eps)...executed.
+
+Package epstopdf Info: Result file: <img/live-likes2-eps-converted-to.pdf>
+(epstopdf)                    date: 2011-11-08 12:07:08
+(epstopdf)                    size: 16115 bytes.
 
 <img/live-likes2-eps-converted-to.pdf, id=51, 578.16pt x 433.62pt>
 File: img/live-likes2-eps-converted-to.pdf Graphic file (type pdf)
 
 <use img/live-likes2-eps-converted-to.pdf>
 Package epstopdf Info: Source file: <img/live-friend-likes2.eps>
-(epstopdf)                    date: 2011-11-08 08:20:53
+(epstopdf)                    date: 2011-11-08 12:06:32
 (epstopdf)                    size: 31744 bytes
 (epstopdf)             Output file: <img/live-friend-likes2-eps-converted-to.pd
 f>
-(epstopdf)                    date: 2011-11-08 08:30:57
-(epstopdf)                    size: 22151 bytes
 (epstopdf)             Command: <epstopdf --outfile=img/live-friend-likes2-eps-
 converted-to.pdf img/live-friend-likes2.eps>
 (epstopdf)             \includegraphics on input line 140.
-Package epstopdf Info: Output file is already uptodate.
+runsystem(epstopdf --outfile=img/live-friend-likes2-eps-converted-to.pdf img/li
+ve-friend-likes2.eps)...executed.
+
+Package epstopdf Info: Result file: <img/live-friend-likes2-eps-converted-to.pd
+f>
+(epstopdf)                    date: 2011-11-08 12:07:08
+(epstopdf)                    size: 16320 bytes.
 
 <img/live-friend-likes2-eps-converted-to.pdf, id=52, 578.16pt x 433.62pt>
 File: img/live-friend-likes2-eps-converted-to.pdf Graphic file (type pdf)
 
 <use img/live-friend-likes2-eps-converted-to.pdf>
 Package epstopdf Info: Source file: <img/live-nonfriend-likes2.eps>
-(epstopdf)                    date: 2011-11-08 08:20:53
+(epstopdf)                    date: 2011-11-08 12:06:32
 (epstopdf)                    size: 32138 bytes
 (epstopdf)             Output file: <img/live-nonfriend-likes2-eps-converted-to
 .pdf>
-(epstopdf)                    date: 2011-11-08 08:30:57
-(epstopdf)                    size: 22610 bytes
 (epstopdf)             Command: <epstopdf --outfile=img/live-nonfriend-likes2-e
 ps-converted-to.pdf img/live-nonfriend-likes2.eps>
 (epstopdf)             \includegraphics on input line 141.
-Package epstopdf Info: Output file is already uptodate.
+runsystem(epstopdf --outfile=img/live-nonfriend-likes2-eps-converted-to.pdf img
+/live-nonfriend-likes2.eps)...executed.
+
+Package epstopdf Info: Result file: <img/live-nonfriend-likes2-eps-converted-to
+.pdf>
+(epstopdf)                    date: 2011-11-08 12:07:09
+(epstopdf)                    size: 16678 bytes.
 
 <img/live-nonfriend-likes2-eps-converted-to.pdf, id=53, 578.16pt x 433.62pt>
 File: img/live-nonfriend-likes2-eps-converted-to.pdf Graphic file (type pdf)
 
 <use img/live-nonfriend-likes2-eps-converted-to.pdf> [7]
 Package epstopdf Info: Source file: <img/clickedLikes.eps>
-(epstopdf)                    date: 2011-11-08 08:20:53
+(epstopdf)                    date: 2011-11-08 12:06:32
 (epstopdf)                    size: 26024 bytes
 (epstopdf)             Output file: <img/clickedLikes-eps-converted-to.pdf>
-(epstopdf)                    date: 2011-11-08 08:30:57
-(epstopdf)                    size: 18421 bytes
 (epstopdf)             Command: <epstopdf --outfile=img/clickedLikes-eps-conver
 ted-to.pdf img/clickedLikes.eps>
 (epstopdf)             \includegraphics on input line 186.
-Package epstopdf Info: Output file is already uptodate.
+runsystem(epstopdf --outfile=img/clickedLikes-eps-converted-to.pdf img/clickedL
+ikes.eps)...executed.
+
+Package epstopdf Info: Result file: <img/clickedLikes-eps-converted-to.pdf>
+(epstopdf)                    date: 2011-11-08 12:07:09
+(epstopdf)                    size: 13687 bytes.
 
 <img/clickedLikes-eps-converted-to.pdf, id=59, 578.16pt x 433.62pt>
 File: img/clickedLikes-eps-converted-to.pdf Graphic file (type pdf)
 
 <use img/clickedLikes-eps-converted-to.pdf>
 Package epstopdf Info: Source file: <img/descriptionClicked.eps>
-(epstopdf)                    date: 2011-11-08 08:20:53
+(epstopdf)                    date: 2011-11-08 12:06:32
 (epstopdf)                    size: 27204 bytes
 (epstopdf)             Output file: <img/descriptionClicked-eps-converted-to.pd
 f>
-(epstopdf)                    date: 2011-11-08 08:30:57
-(epstopdf)                    size: 18863 bytes
 (epstopdf)             Command: <epstopdf --outfile=img/descriptionClicked-eps-
 converted-to.pdf img/descriptionClicked.eps>
 (epstopdf)             \includegraphics on input line 187.
-Package epstopdf Info: Output file is already uptodate.
+runsystem(epstopdf --outfile=img/descriptionClicked-eps-converted-to.pdf img/de
+scriptionClicked.eps)...executed.
+
+Package epstopdf Info: Result file: <img/descriptionClicked-eps-converted-to.pd
+f>
+(epstopdf)                    date: 2011-11-08 12:07:09
+(epstopdf)                    size: 14046 bytes.
 
 <img/descriptionClicked-eps-converted-to.pdf, id=60, 578.16pt x 433.62pt>
 File: img/descriptionClicked-eps-converted-to.pdf Graphic file (type pdf)
 
 <use img/descriptionClicked-eps-converted-to.pdf>
 Package epstopdf Info: Source file: <img/descriptionLiked.eps>
-(epstopdf)                    date: 2011-11-08 08:20:53
+(epstopdf)                    date: 2011-11-08 12:06:32
 (epstopdf)                    size: 26545 bytes
 (epstopdf)             Output file: <img/descriptionLiked-eps-converted-to.pdf>
 
-(epstopdf)                    date: 2011-11-08 08:30:58
-(epstopdf)                    size: 18132 bytes
 (epstopdf)             Command: <epstopdf --outfile=img/descriptionLiked-eps-co
 nverted-to.pdf img/descriptionLiked.eps>
 (epstopdf)             \includegraphics on input line 188.
-Package epstopdf Info: Output file is already uptodate.
+runsystem(epstopdf --outfile=img/descriptionLiked-eps-converted-to.pdf img/desc
+riptionLiked.eps)...executed.
+
+Package epstopdf Info: Result file: <img/descriptionLiked-eps-converted-to.pdf>
+
+(epstopdf)                    date: 2011-11-08 12:07:09
+(epstopdf)                    size: 13552 bytes.
 
 <img/descriptionLiked-eps-converted-to.pdf, id=61, 578.16pt x 433.62pt>
 File: img/descriptionLiked-eps-converted-to.pdf Graphic file (type pdf)
 
 <use img/descriptionLiked-eps-converted-to.pdf>
 Package epstopdf Info: Source file: <img/percentileFriend.eps>
-(epstopdf)                    date: 2011-11-08 08:20:53
+(epstopdf)                    date: 2011-11-08 12:06:32
 (epstopdf)                    size: 24374 bytes
 (epstopdf)             Output file: <img/percentileFriend-eps-converted-to.pdf>
 
-(epstopdf)                    date: 2011-11-08 08:30:58
-(epstopdf)                    size: 15685 bytes
 (epstopdf)             Command: <epstopdf --outfile=img/percentileFriend-eps-co
 nverted-to.pdf img/percentileFriend.eps>
 (epstopdf)             \includegraphics on input line 212.
-Package epstopdf Info: Output file is already uptodate.
+runsystem(epstopdf --outfile=img/percentileFriend-eps-converted-to.pdf img/perc
+entileFriend.eps)...executed.
+
+Package epstopdf Info: Result file: <img/percentileFriend-eps-converted-to.pdf>
+
+(epstopdf)                    date: 2011-11-08 12:07:10
+(epstopdf)                    size: 11828 bytes.
 
 <img/percentileFriend-eps-converted-to.pdf, id=62, 578.16pt x 433.62pt>
 File: img/percentileFriend-eps-converted-to.pdf Graphic file (type pdf)
 
 <use img/percentileFriend-eps-converted-to.pdf>
 Package epstopdf Info: Source file: <img/percentileNon-Friend.eps>
-(epstopdf)                    date: 2011-11-08 08:20:53
+(epstopdf)                    date: 2011-11-08 12:06:32
 (epstopdf)                    size: 26135 bytes
 (epstopdf)             Output file: <img/percentileNon-Friend-eps-converted-to.
 pdf>
-(epstopdf)                    date: 2011-11-08 08:30:58
-(epstopdf)                    size: 16072 bytes
 (epstopdf)             Command: <epstopdf --outfile=img/percentileNon-Friend-ep
 s-converted-to.pdf img/percentileNon-Friend.eps>
 (epstopdf)             \includegraphics on input line 213.
-Package epstopdf Info: Output file is already uptodate.
+runsystem(epstopdf --outfile=img/percentileNon-Friend-eps-converted-to.pdf img/
+percentileNon-Friend.eps)...executed.
+
+Package epstopdf Info: Result file: <img/percentileNon-Friend-eps-converted-to.
+pdf>
+(epstopdf)                    date: 2011-11-08 12:07:10
+(epstopdf)                    size: 12165 bytes.
 
 <img/percentileNon-Friend-eps-converted-to.pdf, id=63, 578.16pt x 433.62pt>
 File: img/percentileNon-Friend-eps-converted-to.pdf Graphic file (type pdf)
 
 <use img/percentileNon-Friend-eps-converted-to.pdf>) (./conclusions.tex
+Overfull \hbox (4.4702pt too wide) in paragraph at lines 14--21
+\T1/aer/m/n/9 crete step for-ward in SCF al-go-rithms based on top-performing
+ []
+
 [8 <./img/live-likes1-eps-converted-to.pdf> <./img/live-friend-likes1-eps-conve
 rted-to.pdf> <./img/live-nonfriend-likes1-eps-converted-to.pdf> <./img/live-lik
 es2-eps-converted-to.pdf> <./img/live-friend-likes2-eps-converted-to.pdf> <./im
-g/live-nonfriend-likes2-eps-converted-to.pdf>]
-Overfull \hbox (11.02133pt too wide) in paragraph at lines 28--32
-\T1/aer/m/n/9 di-rect mod-el-ing of in-for-ma-tion fea-tures, and co-preference
+g/live-nonfriend-likes2-eps-converted-to.pdf>]) (./www11_sorec.bbl
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
- []
+ [9 <./img/clickedLikes-eps-converted-to.pdf> <./img/descriptionClicked-eps-con
+verted-to.pdf> <./img/descriptionLiked-eps-converted-to.pdf> <./img/percentileF
+riend-eps-converted-to.pdf> <./img/percentileNon-Friend-eps-converted-to.pdf>])
 
-
-Overfull \hbox (15.34354pt too wide) in paragraph at lines 32--35
-[]\T1/aer/m/n/9 Click feed-back is not al-ways as use-ful as ex-plicit like/dis
-like
- []
-
-[9 <./img/clickedLikes-eps-converted-to.pdf> <./img/descriptionClicked-eps-conv
-erted-to.pdf> <./img/descriptionLiked-eps-converted-to.pdf> <./img/percentileFr
-iend-eps-converted-to.pdf> <./img/percentileNon-Friend-eps-converted-to.pdf>])
-(./www11_sorec.bbl) (./derivatives.tex [10]
+(./derivatives.tex
 Overfull \hbox (19.10612pt too wide) in paragraph at lines 74--74
 [] 
  []
@@ -615,44 +645,42 @@ Overfull \hbox (4.08015pt too wide) in paragraph at lines 100--100
 [] 
  []
 
-) [11
-
-] (./www11_sorec.aux) ) 
+) [10] (./www11_sorec.aux) ) 
 Here is how much of TeX's memory you used:
- 3544 strings out of 493747
- 47850 string characters out of 3143546
- 114227 words of memory out of 3000000
- 6699 multiletter control sequences out of 15000+200000
+ 3602 strings out of 493763
+ 48610 string characters out of 3144954
+ 121348 words of memory out of 3000000
+ 6764 multiletter control sequences out of 15000+200000
  56116 words of font info for 77 fonts, out of 3000000 for 9000
- 714 hyphenation exceptions out of 8191
- 39i,24n,26p,666b,249s stack positions out of 5000i,500n,10000p,200000b,50000s
-{/usr/local/texlive/2010/texmf-dist/fonts/enc/dvips/base
-/8r.enc}</usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx
-5.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx6.
-pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pf
-b></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmex9
-.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.p
-fb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb
-></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb><
-/usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></us
-r/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/l
-ocal/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/loca
-l/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/local/
-texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/te
-xlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/local/texl
-ive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmti7.pfb></usr/local/texliv
-e/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmti9.pfb></usr/local/texlive/
-2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb></usr/local/texlive/20
-10/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texliv
-e/2010/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/local/texlive/2010/
-texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2010/texmf-d
-ist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2010/texmf-dist/fonts/
-type1/urw/times/utmr8a.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/urw/
-times/utmri8a.pfb>
-Output written on www11_sorec.pdf (11 pages, 615930 bytes).
+ 715 hyphenation exceptions out of 8191
+ 39i,24n,26p,666b,259s stack positions out of 5000i,500n,10000p,200000b,50000s
+{/usr/local/texlive/2010/texmf-dist/fonts/enc/dvips
+/base/8r.enc}</usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm
+/cmbx5.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/c
+mbx6.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmb
+x9.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cmextra/
+cmex9.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cm
+mi5.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi
+6.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.
+pfb></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb
+></usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></
+usr/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr
+/local/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/l
+ocal/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/loc
+al/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/local
+/texlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmti7.pfb></usr/local/t
+exlive/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmti9.pfb></usr/local/tex
+live/2010/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb></usr/local/texli
+ve/2010/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/t
+exlive/2010/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/local/texlive/
+2010/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2010/te
+xmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2010/texmf-dist/f
+onts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1
+/urw/times/utmri8a.pfb>
+Output written on www11_sorec.pdf (10 pages, 571590 bytes).
 PDF statistics:
- 594 PDF objects out of 1000 (max. 8388607)
- 140 compressed objects within 2 object streams
+ 591 PDF objects out of 1000 (max. 8388607)
+ 138 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
  61 words of extra memory for PDF output out of 10000 (max. 10000000)
 

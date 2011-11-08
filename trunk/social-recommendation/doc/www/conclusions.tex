@@ -1,72 +1,90 @@
 % This is rough, needs editing.
 
-\subsection{Summary}
+%\subsection{Summary}
 
 In this paper, we evaluated existing algorithms and proposed new
 algorithms for social collaborative filtering via the task of link
 recommendation on Facebook.  Importantly, we outlined three main
 deficiencies in existing social collaborative filtering (SCF) matrix
-factorization (MF) techniques and proposed novel techniques in
-Section~\ref{sec:NewObjFuns} to address them:
-\begin{itemize}
-\item[(a)] {\bf Non-feature-based user similarity:} 
-We extended existing social regularization and \emph{social spectral regularization} methods to incorporate \emph{user features} to learn user-user similarities in the latent space.
-\item[(b)] {\bf Model direct user-user information diffusion:} 
-We defined a new hybrid SCF method where we \emph{combined} the \emph{collaborative filtering (CF) matrix factorization (MF) objective} used by Matchbox~\cite{matchbox} with a \emph{linear content-based filtering (CBF) objective} used to model direct user-user information diffusion in the social network.
-\item[(c)] {\bf Restricted common interests:}
-We defined a new social co-preference regularization method that \emph{learns from pairs of user preferences} over the same item to learn \emph{user similarities in specific areas} --- a contrast to previous methods that typically enforce global user similarity when regularizing.
-\end{itemize}
+factorization (MF) techniques and proposed novel objective functions that 
+learns user similarity from features using social spectral regularization,
+models direct user-user information diffusion by extending Matchbox~\cite{matchbox}
+and models restricted common interests with social co-preference regularization.
 
-Having evaluated existing baselines (with minor extensions) and then
+Having evaluated existing baselines variants and then
 evaluating these new algorithms in Section~\ref{sec:EmpResults} in
 live online user trials with over 100 Facebook App users and data for
-over 30,000 unique Facebook users, we summarize the main results of
-the paper:
-\begin{itemize}
-\item In the first user trial, 
-SCF MF beats all other baseline CF methods evaluated including MF.
-\item In the second user trial,
-each of social regularization, direct modeling of information
-features, and co-preference regularization improve performance over the best
-baseline from the first trial.
-\item Click feedback is not always as useful as explicit like/dislike
-ratings.% this is not simply due to lack of link context and the desire
-%to click to find out more followed by disappointment.
-\item Most popular links are not the most liked ones --- they may be most
-liked by the most people, but they are not well-liked on average by everyone.
-%\item Anecdotal evidence of need for diversity.
-\end{itemize}
-
-\subsection{Future Work}
-
-This work just represents the tip of the iceberg in different
-improvements that SCF can make over more traditional non-social CF
-methods.  Here we identify a number of additional future extensions
-that can potentially further improve the proposed algorithms in this paper:
-\begin{itemize}
-\item One critical feature that
-would have been useful is including a $\mathit{genre}$ feature in the
-links (e.g., indicating whether the link represented a blog, news,
-video, etc.)  to provide a fine-grained model of which types of links
-that users prefers to receive.  This additional information would have
-likely prevented a number of observed dislikes from users regarding
-specific genres of links that they categorically disliked.
-\item Enforcing diversity in the recommended links would prevent
-redundant links about the same topic being recommended again and
-again. This is especially useful when an unusual event happens like
-the death of Steve Jobs and the ensuing massive amount of Steve Jobs
-related links that flooded Facebook.  While users may like to see a
-few links on the topic, their interest in similar links decreases over
-time and diversity in recommendations could help address this
-saturation effect.
-\item Another future direction this work can go to is to incorporate
-active learning in the algorithms.  This would ensure that the SCF
-algorithm did not exploit the learned preferences too much and made an
-active effort to discover better link preferences that are available.
-\end{itemize}
-While there are many exciting extensions of this work possible as
-outlined above, this paper represents a critical step forward in SCF
+over 30,000 unique Facebook users
+This paper represents one concrete step forward in SCF
 algorithms based on top-performing MF methods and their ability to
-fully exploit the breadth of information available on social networks
-to achieve state-of-the-art link recommendation.
+fully exploit the breadth of information available on social networks.
+
+%% move these statements to end of INTRO
+%\begin{itemize}
+%\item[(a)] {\bf Non-feature-based user similarity:} 
+%We extended existing social regularization and \emph{social spectral regularization} methods to incorporate \emph{user features} to learn user-user similarities in the latent space.
+%\item[(b)] {\bf Model direct user-user information diffusion:} 
+%We defined a new hybrid SCF method where we \emph{combined} the \emph{collaborative filtering (CF) matrix factorization (MF) objective} used by Matchbox~\cite{matchbox} with a \emph{linear content-based filtering (CBF) objective} used to model direct user-user information diffusion in the social network.
+%\item[(c)] {\bf Restricted common interests:}
+%We defined a new social co-preference regularization method that \emph{learns from pairs of user preferences} over the same item to learn \emph{user similarities in specific areas} --- a contrast to previous methods that typically enforce global user similarity when regularizing.
+%\end{itemize}
+%
+%Having evaluated existing baselines (with minor extensions) and then
+%evaluating these new algorithms in Section~\ref{sec:EmpResults} in
+%live online user trials with over 100 Facebook App users and data for
+%over 30,000 unique Facebook users, we summarize the main results of
+%the paper:
+%\begin{itemize}
+%\item In the first user trial, 
+%SCF MF beats all other baseline CF methods evaluated including MF.
+%\item In the second user trial,
+%each of social regularization, direct modeling of information
+%features, and co-preference regularization improve performance over the best
+%baseline from the first trial.
+%\item Click feedback is not always as useful as explicit like/dislike
+%ratings.% this is not simply due to lack of link context and the desire
+%%to click to find out more followed by disappointment.
+%\item Most popular links are not the most liked ones --- they may be most
+%liked by the most people, but they are not well-liked on average by everyone.
+%%\item Anecdotal evidence of need for diversity.
+%\end{itemize}
+
+%\subsection{Future Work}
+
+Our work opened up many new possibilities for further improving 
+SCF algorithms and systems. Future work can include:
+incorporating content $\mathit{genre}$ feature 
+to provide a fine-grained model about user preference among different types of links;
+enforcing diversity among recommended links;
+devising active learning strategies for recommendation, and others.
+%This work just represents the tip of the iceberg in different
+%improvements that SCF can make over more traditional non-social CF
+%methods.  Here we identify a number of additional future extensions
+%that can potentially further improve the proposed algorithms in this paper:
+%\begin{itemize}
+%\item One critical feature that
+%would have been useful is including a $\mathit{genre}$ feature in the
+%links (e.g., indicating whether the link represented a blog, news,
+%video, etc.)  to provide a fine-grained model of which types of links
+%that users prefers to receive.  This additional information would have
+%likely prevented a number of observed dislikes from users regarding
+%specific genres of links that they categorically disliked.
+%\item Enforcing diversity in the recommended links would prevent
+%redundant links about the same topic being recommended again and
+%again. This is especially useful when an unusual event happens like
+%the death of Steve Jobs and the ensuing massive amount of Steve Jobs
+%related links that flooded Facebook.  While users may like to see a
+%few links on the topic, their interest in similar links decreases over
+%time and diversity in recommendations could help address this
+%saturation effect.
+%\item Another future direction this work can go to is to incorporate
+%active learning in the algorithms.  This would ensure that the SCF
+%algorithm did not exploit the learned preferences too much and made an
+%active effort to discover better link preferences that are available.
+%\end{itemize}
+%While there are many exciting extensions of this work possible as
+%outlined above, this paper represents a critical step forward in SCF
+%algorithms based on top-performing MF methods and their ability to
+%fully exploit the breadth of information available on social networks
+%to achieve state-of-the-art link recommendation.
 
