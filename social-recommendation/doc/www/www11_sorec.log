@@ -1,4 +1,4 @@
-This is pdfeTeXk, Version 3.141592-1.21a-2.2 (Web2C 7.5.4) (format=latex 2008.12.23)  8 NOV 2011 15:54
+This is pdfeTeXk, Version 3.141592-1.21a-2.2 (Web2C 7.5.4) (format=latex 2008.12.23)  8 NOV 2011 16:33
 entering extended mode
  file:line:error style messages enabled.
  %&-line parsing enabled.
@@ -317,7 +317,7 @@ LaTeX Font Info:    Try loading font information for T1+aett on input line 8.
  (/usr/share/texmf/tex/latex/ae/t1aett.fd
 File: t1aett.fd 1997/11/16 Font definitions for T1/aett.
 )
-Overfull \hbox (4.0003pt too wide) in paragraph at lines 54--64
+Overfull \hbox (4.0003pt too wide) in paragraph at lines 55--65
 [][] 
  []
 
@@ -335,12 +335,12 @@ File: img/live-friend-likes2.eps Graphic file (type eps)
 <img/live-friend-likes2.eps>
 File: img/live-nonfriend-likes2.eps Graphic file (type eps)
  <img/live-nonfriend-likes2.eps>
-Overfull \hbox (5.08287pt too wide) in paragraph at lines 162--170
+Overfull \hbox (5.08287pt too wide) in paragraph at lines 164--172
 \T1/aer/m/n/9 user-to-user in-for-ma-tion dif-fu-sion). Soc. Hy-brid slightly
  []
 
 
-Overfull \hbox (4.91286pt too wide) in paragraph at lines 170--176
+Overfull \hbox (4.91286pt too wide) in paragraph at lines 172--178
 \T1/aer/m/n/9 ment on rec-om-mend-ing non-friend links over Soc. MBox
  []
 
@@ -356,12 +356,7 @@ File: img/percentileFriend.eps Graphic file (type eps)
  <img/percentileFriend.eps>
 File: img/percentileNon-Friend.eps Graphic file (type eps)
 
-<img/percentileNon-Friend.eps>) (./conclusions.tex
-Overfull \hbox (4.4702pt too wide) in paragraph at lines 14--21
-\T1/aer/m/n/9 crete step for-ward in SCF al-go-rithms based on top-performing
- []
-
-[8]) (./www11_sorec.bbl
+<img/percentileNon-Friend.eps>) (./conclusions.tex [8]) (./www11_sorec.bbl
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [9])
@@ -395,4 +390,4 @@ Here is how much of TeX's memory you used:
  580 hyphenation exceptions out of 1000
  39i,24n,26p,666b,304s stack positions out of 1500i,500n,5000p,200000b,5000s
 
-Output written on www11_sorec.dvi (10 pages, 85536 bytes).
+Output written on www11_sorec.dvi (10 pages, 85876 bytes).

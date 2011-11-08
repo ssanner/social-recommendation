@@ -6,16 +6,18 @@ In this paper, we evaluated existing algorithms and proposed new
 algorithms for social collaborative filtering via the task of link
 recommendation on Facebook.  Importantly, we outlined three main
 deficiencies in existing social collaborative filtering (SCF) matrix
-factorization (MF) techniques and proposed novel objective functions that 
-learns user similarity from features using social spectral regularization,
-models direct user-user information diffusion by extending Matchbox~\cite{matchbox}
-and models restricted common interests with social co-preference regularization.
+factorization (MF) techniques and proposed novel objective functions
+that (a) learns user similarity from features using social spectral
+regularization, (b) models direct user-user information diffusion by
+extending Matchbox~\cite{matchbox}, and (c) models restricted common
+interests with social co-preference regularization.
 
-Having evaluated existing baselines variants and then
-evaluating these new algorithms in Section~\ref{sec:EmpResults} in
-live online user trials with over 100 Facebook App users and data for
-over 30,000 unique Facebook users
-This paper represents one concrete step forward in SCF
+We evaluated existing baseline (variants) and then evaluated these new
+algorithms in Section~\ref{sec:EmpResults} in live online user trials
+with over 100 Facebook App users and data for over 30,000 unique
+Facebook users showing the settings in which our newly proposed
+objective functions helped the most in comparison to baselines.  As
+such, this paper represents one concrete step forward in SCF
 algorithms based on top-performing MF methods and their ability to
 fully exploit the breadth of information available on social networks.
 
@@ -55,8 +57,9 @@ Our work opened up many new possibilities for further improving
 SCF algorithms and systems. Future work can include:
 incorporating content $\mathit{genre}$ feature 
 to provide a fine-grained model about user preference among different types of links;
-enforcing diversity among recommended links;
-devising active learning strategies for recommendation, and others.
+enforcing diversity among recommended links to prevent redundancy; and 
+devising active learning strategies to better explore the social recommendation
+space.
 %This work just represents the tip of the iceberg in different
 %improvements that SCF can make over more traditional non-social CF
 %methods.  Here we identify a number of additional future extensions
