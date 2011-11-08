@@ -17,23 +17,23 @@ SCF extension:
 \begin{enumerate}
 \item {\bf $k$-Nearest Neighbor (KNN)}: See Section~\ref{sec:nn}.
 \item {\bf Support Vector Machines (SVM)}: See Section~\ref{sec:cbf}.
-\item {\bf Matchbox (Mbox)}: Optimization of the $L_2$ regularized
-Matchbox objective:
+\item {\bf Matchbox (Mbox)}: simple Matchbox CF %Optimization of the $L_2$ regularized Matchbox objective:
 $$\Obj_\pmcf + \lambda \Obj_\ru + \lambda \Obj_\rv$$
-\item {\bf Social Matchbox (Soc. Mbox)}: Optimization of the 
-$L_2$ and \emph{feature socially regularized} Matchbox objective:
+\item {\bf Social Matchbox (Soc. Mbox)}: %Optimization of the 
+%$L_2$ and 
+feature-based \emph{socially regularized} Matchbox SCF
 $$\Obj_\pmcf + \lambda_\rs \Obj_\rs + \lambda \Obj_\ru + \lambda \Obj_\rv$$
 \end{enumerate}
-Mbox and Soc. Mbox are optimized via gradient descent as outlined
-in Appendix~\ref{app:Derivatives}.  All $\lambda$ parameters were manually
-tuned in offline experiments.
 KNN and MBox may be viewed as pure CF methods.  As discussed previously,
-both SVM and Soc. Mbox may be viewed as SCF methods.  
+both SVM and Soc. Mbox may be viewed as SCF methods
+and were both optimized via gradient descent as outlined
+in Appendix~\ref{app:Derivatives}.  
 
-The first live user trial was run from August 25 to October 13
-with 108 users and yielded 2,493 like/dislike ratings of recommended
+The first live user trial was run from August 25, 2011 to October 13, 2011 
+with 108 users and yielded 2,493 combined like and 
+dislike ratings of recommended
 links over the 49 day period.  Algorithms were assigned randomly to the
-users with counts shown in Table~\ref{tab:Assigned1} (left).
+users with assignment counts shown in Table~\ref{tab:Assigned1} (left).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{table}[t!]
@@ -68,17 +68,16 @@ and second trial (right).}
 \end{table}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-As shown in Figure~\ref{fig:OnlineResult1}, Social Matchbox was the
+As shown in Figure~\ref{fig:OnlineResult1}, Soc. Mbox was the
 best performing algorithm in the first trial and in fact was the only
 algorithm to receive more like ratings than dislike ratings. 
-This suggests that using social information in conjunction with
-MF-based CF does indeed provide useful information.  We also note a
+This suggests that using social regularization in conjunction with
+MF-based CF does indeed provide more useful information than simple
+MBox without social regularization.  We also note a
 significant drop in performance between recommending friend links and
 recommending non-friend links, indicating that users had a bias to
 like links recommended by friends more (importantly, we note that
-users could see the friends who had already posted the link along with
-their comments).
-
+users could see the names and comments of friends whose links were recommended).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure*}[t!]
 \centering
@@ -106,8 +105,8 @@ For the second online trial, we again chose four algorithms to
 randomly assign to the LinkR application users.  Social Matchbox
 was included again as a baseline since it was the best performing
 algorithm in the first trial.  The remaining three algorithms
-were all orthogonal extensions (or variants) of Social Matchbox
-based on the three novel objective functions defined in 
+were all relatively orthogonal extensions (or variants) of Social Matchbox
+based on the \emph{three novel objective functions} defined in 
 Section~\ref{sec:newobjfun_defs}:
 \begin{itemize}
 \item {\bf Social Matchbox (Soc. Mbox)} : unchanged.
@@ -123,7 +122,6 @@ $$\Obj_\pmcf + \lambda_\rscs \Obj_\rscs + \lambda \Obj_\ru + \lambda \Obj_\rv$$
 \end{itemize}
 All objectives are optimized via gradient descent as outlined
 in Appendix~\ref{app:Derivatives}.  
-All $\lambda$ parameters were manually tuned in offline experiments.
 
 The second trial with the above algorithms ran from October 13, 2011
 to November 5, 2011 with 103 users and yielded 1,435 like/dislike
@@ -149,36 +147,65 @@ and Soc. Hybrid in the center graph are significant. }
 \end{figure*}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-{\bf TODO} 
-Results shown in Figure~\ref{fig:online2}, observations:
+Results for the second trial are 
+shown in Figure~\ref{fig:online2}, following are the key observations:
 \begin{itemize}
-\item Spec. Mbox clearly the best and demonstrates that spectral social 
-regularization is better than just social regularization.
-\item Soc. Hybrid is capturing information diffusion well on friend links, 
-nearly outperforming all other algorithms.
-\item Spec. CP helps on non-friend links vs. baseline since it can capture 
-information in copreferences of users even when they are not friends.
+\item Soc. MBox did not perform as well in the second trial as it had
+in the first trial.  One key difference in the second trial is that
+all of the first trial data was available for training and thus
+Soc. MBox may have been more difficult to optimize given this larger 
+quantity of data (not available in the first trial).
+\item Spec. Mbox clearly performed the best in the second trial 
+and this suggests that spectral social 
+regularization is likely a better method of regularization 
+than the original social regularization variant.
+\item Soc. Hybrid does an excellent job of capturing information diffusion
+in the social network and hence performs best on recommending friend
+links and most poorly on non-friend links (where there is no direct
+user-to-user information diffusion).  Soc. Hybrid slightly outperforms
+Spec. MBox, but not statistically significantly given the more limited
+data in the second trial.  Nonetheless, 
+Soc. Hybrid clearly outperform its Soc. MBox variant that lacks 
+information diffusion features.
+\item Spec. CP leads to a statistically significant improvement
+on recommending non-friend links over Soc. MBox and Soc. Hybrid,
+which perform poorly on recommending non-friend links.  Clearly then
+Spec. CP is benefitting somewhat in learning from copreferences
+since it can socially regularize across two users that are \emph{not}
+friends.
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Algorithm Independent Observations}
+\subsection{User Behavior Analysis}
 
-{\bf TODO: To save space we could merge both of the following
-figures by dropping the center and right graphs of Figure~\ref{fig:click_evidence}
-if we agree this is not too informative (interesting but not groundbreaking).
-Otherwise we can keep as is.}
+\label{sec:behavior}
+
+Here we briefly analyze user behavior during both trials of the Facebook
+LinkR App that can be helpful in building future SCF systems.
 
 \subsubsection{Click evidence}
 
-{\bf TODO:} Trying to show that clicks are not good
-surrogates for like/dislike (warning to future experimenters!),
-and that the reason for poor correlation isn't just lack of link context (seems
-to have no impact) so people weren't just hating links with no context
-that they clicked on to understand better, rather 
-they hated links with/without context equally well.
-Figure~\ref{fig:click_evidence}.
+In Figure~\ref{fig:click_evidence}, we observe the ratings of links
+that users clicked on.  The most important thing we notice in 
+Figure~\ref{fig:click_evidence} (left) is that even though users
+clicked on a link, they were highly likely to rate it as a dislike.
+
+One might hypothesize that perhaps users clicked on links more often with
+no description to find out what they were and most often disliked them ---
+this might explain the high number of dislikes for clicked links.  However,
+examining both 
+Figure~\ref{fig:click_evidence} (center) and 
+Figure~\ref{fig:click_evidence} (right)
+for non-friend links, we observe that whether a description was present
+had very little impact on whether a link was liked or not, so we cannot
+infer that all the disliked links were simply the ones lacking a description.
+
+Then the insight from this analysis is extremely important 
+for SCF recommendation design because it states that click data is a very
+weak indicator of likes and explicit feedback should be used if at all
+possible.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure*}[t!]
@@ -188,8 +215,8 @@ Figure~\ref{fig:click_evidence}.
 \subfigure{\includegraphics[scale=0.28]{img/descriptionLiked.eps}}
 \caption{Stacked bar graphs of online results for the first 
 user trial.  The fraction of likes (or clicks) is displayed above 
-the fraction of dislikes (or non-clicks) and above fraction of not rated
-links (if third bar segment present).  
+the fraction of dislikes (or non-clicks) -- and above the fraction of not-rated
+links for the left-most figure.  
 (left) ratings for clicked links, (center) click rates if
 text description not present, 
 (right) percentage liked if click description not present.}
@@ -199,12 +226,17 @@ text description not present,
 
 \subsubsection{Impact of Popularity}
 
-{\bf TODO:} Links were sorted by global popularity (shares).
-Users like esoteric (0-25\%) links as much, if not
-more, than they like the most popular (75\%-100\%) (and again friends
-more than non-friends but same general trend).  Most interesting
-are the links that are kind of popular.
-Figure~\ref{fig:popularity}.
+In Figure~\ref{fig:popularity} we analyze the impact of global link
+popularity (in terms of total shares on Facebook) 
+on how much Facebook LinkR App users liked a link.
+The trend is clear for both friend (left) and non-friend (right)
+links: users tend to like the most popular (top quartile) 
+links the least, or at least as much as the least popular (bottom quartile)
+links.  In general users tended to prefer links that were somewhat
+popular (second highest quartile).  From this we can infer that
+link popularity should not be used too heavily in determining link
+recommendations since clearly the most popular links are not liked
+the most on average.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure*}[t!]

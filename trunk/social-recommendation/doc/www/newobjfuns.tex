@@ -1,10 +1,11 @@
 Having surveyed previous CF work, especially MF-based CF and SCF
 methods, we now present the major conceptual contributions of the
-paper.  However, before we get into details, we introduce a unified
+paper.  We begin by introducing a unified
 matrix factorization framework for optimizing all MF objectives
-evaluated in this paper, including newly proposed objectives to
-address observed deficiencies of SCF MF methods as outlined in
-Section~\ref{sec:Introduction}.
+evaluated in this paper --- old and new.
+%, including newly proposed objectives to
+%address observed deficiencies of SCF MF methods as outlined in
+%Section~\ref{sec:Introduction}.
 
 \subsection{A Composable Objective Framework}
 
@@ -95,9 +96,9 @@ regularization component can be specified for $U$, $V$, and $\w$
 
 Now we return to our observations concerning the deficiencies of
 existing SCF MF methods as outlined in Section~\ref{sec:Introduction}
-and propose new objective functions to address these issues.  
-Gradient-based optimization for these new objectives and all necessary derivatives 
-are covered in Appendix~\ref{app:Derivatives}.
+and propose new objective functions to address these issues.
+Gradient-based optimization for these new objectives and all necessary
+derivatives are covered in Appendix~\ref{app:Derivatives}.
 
 \subsubsection{Feature Social Regularization ($\Obj_\rs$ \& $\Obj_\rss$)}
 \label{sec:SocRec}
@@ -133,13 +134,17 @@ objective:
 & = \sum_{\x} \sum_{\z \in \mathit{friends}(\x)} \frac{1}{2} S^+_{\x,\z} (\x - \z)^T U^T U (\x - \z) \nonumber
 \end{align}
 
-While we note these extensions are straightforward, they have
-the simple property that they allow the system to learn the latent
-user projection matrix $U$ \emph{as a function of user features}
-in order to minimize the social regularization penalty.
-Compared to non-socially regularized CF objectives, we will
-demonstrate that both of these approaches are quite powerful in 
-Section~\ref{sec:EmpResults}.
+While we note these extensions are straightforward, they have the
+simple property that they allow the system to learn the latent user
+projection matrix $U$ \emph{as a function of user features} in order
+to minimize the social regularization penalty.  Just as the Matchbox
+objective in Section~\ref{sec:matchbox_def} allows us to exploit user
+and item features in MF-based CF, these new social regularization
+objectives permit more flexibility in exploiting user features in
+\emph{learning} user similarity.
+%Compared to non-socially regularized CF objectives, we will
+%demonstrate that both of these approaches are quite powerful in 
+%Section~\ref{sec:EmpResults}.
 
 %\subfive Note: standard spectral regularization 
 %assumes $S^+_{\x,\z} \in [0,1]$;
@@ -156,12 +161,12 @@ joint features over user and items --- they must model user and item
 features independently in order to compute the independent latent
 projections $U\x$ and $U\z$.  Unfortunately, this prevents standard MF
 objectives from modeling direct user-to-user information
-diffusion~\cite{inf_diffusion} --- the 
-unidirectional flow of links from one user to another.
-This is problematic because if user $\x$ \emph{always} likes what $\z$
-has posted or liked, then we would like to shortcut the latent
-representation and simply learn to recommend user $\z$'s likes and posts 
-to user $\x$.
+diffusion~\cite{inf_diffusion} --- the unidirectional flow of
+information (e.g., links) from one user to another.  This is
+problematic because if user $\x$ \emph{always} likes what $\z$ has
+posted or liked, then we would like to shortcut the latent
+representation and simply learn to recommend user $\z$'s liked or 
+posted items to user $\x$.
 
 We fix this deficiency of MF by introducing another objective component
 in addition to the standard MF objective, which serves as
@@ -182,14 +187,14 @@ liked (or disliked) $\y$.  As a consequence, learning $\w$ allows the
 linear regressor to predict in a personalized way for any user $\x$
 whether they are likely to follow their friend $\z$'s preference for $\y$.
 
-Formally, to define our hybrid information diffusion + SCF objective,
+Formally, to define our hybrid information diffusion plus SCF objective,
 we combine the output of the linear regression prediction with the
 Matchbox prediction, to get a hybrid objective component. The full
-objective function for this hybrid model is then
+objective function for this hybrid model then becomes 
 \begin{align}
 \Obj_\phy = \sum_{(\x,\y) \in D} \frac{1}{2} (R_{\x,\y} - [\sigma] \w^T \f_{\x,\y} - [\sigma] \x^T U^T V y)^2
 \end{align}
-While again we note that this simple hybrid MF + linear regression
+While again we note that this simple hybrid MF plus linear regression
 objective is straightforward, the ability to use joint user and item
 features to model information diffusion between users turns out to be 
 extremely powerful in our later experiments.
@@ -208,14 +213,11 @@ $\x$ and $\z$ who have similar or opposing preferences to be similar
 or opposite in the same latent latent space relevant to item $\y$.
 
 We use $\la \cdot, \cdot \ra_{\bullet}$ to denote a re-weighted inner
-product. The purpose of this inner product is to tailor the latent
-space similarities or dissimilarities between users to specific sets
-of items.  This addresses the issue detailed in the previous paragraph by
-allowing users $\x$ and $\z$ to be similar or opposite in the same
-latent latent space relevant only to item $\y$.
-
-The objective component for \emph{Co-preference regularization} along
-with its expanded form is
+product. The purpose of this inner product is to ``mask'' enforcement
+of latent space similarities or dissimilarities between users to be restricted
+to the same latent spaces as the co-preferred items.  To this end, the
+objective component for \emph{co-preference regularization} 
+along with its expanded form is
 \begin{align}
 \Obj_\rsc & = \sum_{(\x,\z,\y) \in C} \frac{1}{2} (P_{\x,\z,\y} - \la U\x, U\z \ra_{V\y})^2 \\
 & = \sum_{(\x,\z,\y) \in C} \frac{1}{2} (P_{\x,\z,\y} - \x^T U^T \diag(V\y) U \z)^2 \nonumber

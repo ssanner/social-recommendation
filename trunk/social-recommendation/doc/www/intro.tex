@@ -14,8 +14,7 @@ users will have similar preferences.
 %the popular Netflix prize competition~\cite{netflix} 
 %used an ensemble of CF methods.}
 
-%As 
-The web has become more social with the emergence of Facebook,
+As the web has become more social with the emergence of Facebook,
 Twitter, LinkedIn, and most recently Google+, this adds myriad new
 dimensions to the recommendation problem by making available a rich
 labeled graph structure of social content from which user preferences
@@ -43,140 +42,80 @@ reduced dimensionality where each is effectively grouped by
 similarity; in turn, the power of many of the SCF MF extensions stems
 from their ability to use social network evidence to further constrain
 (or regularize) latent user projections.
-%%lexing: the following paragraph mixed up argument structure
-%%lexing: it says deficiencies but the headings are the main features/improvements being proposed
-%%lexing: edited to read as "features"
 %Given the strong performance of existing MF approaches to SCF, we aim
 %to further improve on their performance in this paper.  To do this, we
 %have first identified a number of major deficiencies of 
 
-Despite being the state-of-the-art in SCF systems, we notice that
-existing SCF MF objective functions can be improved in three key aspects:
-%\begin{enumerate}
-%\item[(a)] {\bf Feature-based user similarity learning:} 
-%%lexing:remove enumeration for better flow
-%%lexing:
-%%lexing:please double-check the revised statements
-(a) Learning user similarity. %Feature-based user similarity learning.
-In Existing SCF MF objectives, the mapping from user features 
-to user similarity is fixed. It will be desirable to learn such similarity 
-among a large number of profile attributes from data, 
-such as two users are more similar when they have the same gender, or reside in the same city.
-%Existing SCF
-%MF objectives do not fully exploit user features when learning user
-%similarity. % based on observed interactions. 
-%For example, one may %might 
-%enforce that two users are similar when their gender matches, but
-%existing SCF MF objectives do not allow \emph{learning} such a
-%property in cases where the data supports it.
-% Note: potential for latent item information diffusion here
-%\item[(b)] {\bf Direct learning of user-to-user information
-%diffusion:} 
-%%lexing:not clear what item (b) meant, please revisit
-(b) Direct learning of user-to-user information diffusion.
+Despite providing state-of-the-art performance on SCF problems, we
+notice that existing SCF MF objective functions can be improved in
+three key aspects, which form the basis for our key algorithmic
+contributions in this paper:
+\begin{enumerate}
+\item[(a)] {\bf Learning user similarity:}
+In Existing SCF MF objectives, the mapping from user features to user
+similarity is fixed.  It will be desirable to learn such similarity
+among a large number of profile attributes from data, such as two
+users are more similar when they have the same gender or age.
+To address this, we extend existing social regularization and
+\emph{social spectral regularization} objectives to incorporate
+\emph{user features} to learn user-user similarities in the latent
+space.
+\item[(b)] {\bf Direct learning of user-to-user information diffusion:}
 Existing SCF MF objectives do not permit directly modeling
 user-to-user information diffusion according to the social graph
 structure.  For example, if a certain user \emph{always} likes content
-liked by a friend, this cannot be directly \emph{learned}
-by optimizing existing SCF MF objectives.
-%\item[(c)] {\bf Learning restricted interests:}
-(c) Learning restricted interests. 
-Existing SCF MF
-objectives treat users as globally (dis)similar although they may only
-be (dis)similar in specific areas of interest.  For example, a
-friend and their co-worker may both like technology-oriented news
-content, but have differing interests when it comes to
-politically-oriented news content.  
-%Existing SCF MF objective
-%functions do not 
-We propose to leverage \emph{co-preference 
-(dis)agreement}, i.e., whether two users agreed or disagreed in their
-rating of the \emph{same} item, to encourage \emph{learning}
-latent areas of user preference. %where two users are (dis)similar.
+liked by a friend, this cannot be directly \emph{learned} by
+optimizing existing SCF MF objectives.
+To address this, we define a new hybrid SCF method where we
+\emph{combine} the \emph{collaborative filtering (CF) matrix
+factorization (MF) objective} used by Matchbox~\cite{matchbox} with a
+\emph{linear content-based filtering (CBF) objective} used to model
+direct user-user information diffusion in the social network.
+\item[(c)] {\bf Learning restricted interests:} 
+Existing SCF MF objectives treat users as globally (dis)similar
+although they may only be (dis)similar in specific areas of latent interest.
+For example, a friend and their co-worker may both like
+technology-oriented news content, but have differing interests when it
+comes to politically-oriented news content.
+To address this, we define a new social co-preference regularization
+method that \emph{learns from pairs of user preferences} over the same
+item to learn \emph{user similarities in specific areas} --- a
+contrast to previous methods that typically enforce global user
+similarity when regularizing.
+\end{enumerate}
+
+%We propose to leverage \emph{co-preference 
+%(dis)agreement}, i.e., whether two users agreed or disagreed in their
+%rating of the \emph{same} item, to encourage \emph{learning}
+%latent areas of user preference. %where two users are (dis)similar.
 %\end{enumerate}
-This paper proposes novel objective functions to address aspects (a)--(c)
-in a unified latent factorization framework, optimized using gradient descent. 
+%This paper proposes novel objective functions to address aspects (a)--(c)
+%in a unified latent factorization framework, optimized using gradient descent. 
+The key application contribution of our paper is to evaluate the
+proposed recommendation algorithms in online human trials of a
+custom-developed Facebook App for link recommendation.  We use data
+collected over three months from over 100 active App users and their
+34,000+ friends.  Results confirm that each of the proposed objectives
+--- feature-based social regularization, direct modeling of
+information diffusion features, and co-preference regularization ---
+improve performance against a range of existing SCF baselines.  
 
-%%lexing:todo -- merge with the above
-%%lexing: summary pitch need to be further tuned with complete results
-The key algorithmic novelty of this paper is in three aspects:
-\begin{itemize}
-\item[(a)] Learning user similarity.
-We extended existing social regularization and \emph{social spectral regularization} methods to incorporate \emph{user features} to learn user-user similarities in the latent space.
-\item[(b)] Modeling direct user-user information diffusion. 
-We defined a new hybrid SCF method where we \emph{combined} the \emph{collaborative filtering (CF) matrix factorization (MF) objective} used by Matchbox~\cite{matchbox} with a \emph{linear content-based filtering (CBF) objective} used to model direct user-user information diffusion in the social network.
-\item[(c)] Modeling restricted common interests.
-We defined a new social co-preference regularization method that \emph{learns from pairs of user preferences} over the same item to learn \emph{user similarities in specific areas} --- a contrast to previous methods that typically enforce global user similarity when regularizing.
-\end{itemize}
+In addition, deploying our algorithm on a real social network provided
+us with a number of interesting observations on training and user
+behavior discussed in Section~\ref{sec:behavior}.  For example, click
+feedback correlates very weakly with like ratings.
+Also, the most popular links may be liked by the most people, but they
+are not liked by everyone on average.
 
-The key application contribution of our paper is in
-%We present results of our
-evaluate the proposed recommendation algorithms in online human
-trials of a custom-developed Facebook App for link recommendation.
-We use data collected over three months from over 100 active App
-users and their 34,000+ friends. Results confirm that each of 
-the proposed objectives, e.g., social regularization, direct modeling of information
-features, and co-preference regularization improve performance over 
-a wide range of existing SCF algorithms. 
-%Among the existing baseline methods, SCF MF is superior to 
-%all others including MF.
-%the best
-%existing baseline%to resolve (a)--(c) 
-%outperform a wide range of existing SCF algorithms.
-In addition, deploying our algorithm in a real social app gave us a few interesting 
-observations on training and user behavior. For example, click feedback is not always as useful as explicit like/dislike
-ratings.% this is not simply due to lack of link context and the desire
-%to click to find out more followed by disappointment.
- Most popular links are not the most liked ones --- they may be most
-liked by the most people, but they are not well-liked on average by everyone.
-%\item Anecdotal evidence of need for diversity.
-
-
-%%lexing: add a summary of key contributions??
-%%lexing: candidates (1) new objective (2) comprehensive evaluations
-
-In the rest of this paper, Section~\ref{sec:Background} provides a succint overview 
-of CF and SCF algorithms, Section~\ref{sec:NewObjFuns} proposes 
-three variants of novel objective functions, Section~\ref{sec:Evaluation} dicusses the details 
-of our Facebook application for link recommendation, Section~\ref{sec:EmpResults}
-presents two rounds of evaluation on a variety of metrics,
-Section~\ref{sec:Conclusions} concludes this study.
-
-%%lexing: cut down the long table-of-contents
-
-%To this end, the remaining sections of the paper are organized as follows:
-%\begin{itemize}
-%\item {\bf Section~\ref{sec:Background} -- Definitions and Background:} 
-%We define mathematical notation used throughout the paper along
-%with a discussion of related work and all baseline comparison methods
-%we use in this paper.
-%\item {\bf Section~\ref{sec:NewObjFuns} -- New Objective Functions for
-%SCF:} We propose novel extensions to address (a)--(c) within a unified
-%mathematical framework.  Gradients for optimizing these functions
-%are provided in Appendix~\ref{app:Derivatives}.
-%\item {\bf Section~\ref{sec:Evaluation} -- Evaluation Framework:} We
-%discuss the details of our Facebook App for link
-%recommendation as well as our evaluation methodology for 
-%online (live user trial) experimentation.  
-%\item {\bf Section~\ref{sec:EmpResults} -- Empirical Results:} In our
-%first online trial, we identify an MF-based SCF method as the
-%best-performing baseline algorithm.  This directly motivated our
-%decision to extend MF-based methods in Section~\ref{sec:NewObjFuns}
-%and hence we compare these new objectives to the best-performing SCF
-%MF baseline from the first trial.  After showing where each extension
-%improves on the baseline, we propose a number of additional
-%experiments to better understand trends and patterns in our social
-%recommendation setting such as the use of explicit like/dislike
-%feedback vs. link click information, the relationship between like
-%popularity and user preference, and importantly, why Steve Jobs
-%passing almost ruined our second trial results and what insight we can
-%gain from such extreme events.
-%\item {\bf Section~\ref{sec:Conclusions} -- Conclusions:} We summarize
-%our conclusions from the empirical evaluations and outline 
-%future research directions stemming from the current work.
-% NOTE: one possible conclusion: beware of using passive evaluation 
-%       metrics with inferred false labels.
-%\end{itemize}
+In the rest of this paper, Section~\ref{sec:Background} provides a
+succint overview of CF and SCF algorithms,
+Section~\ref{sec:NewObjFuns} proposes three novel objective functions
+to address (a)--(c), Section~\ref{sec:Evaluation} dicusses the details
+of our Facebook application for link recommendation,
+Section~\ref{sec:EmpResults} presents two rounds of evaluation on a
+variety of metrics with further analysis of behavioral trends in our
+social recommendation setting, and Section~\ref{sec:Conclusions}
+concludes this study.
 
 %All combined, this paper represents a critical step forward in
 %powerful SCF recommendation algorithms based on latent factorization
