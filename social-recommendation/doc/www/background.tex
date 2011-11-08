@@ -20,7 +20,7 @@ of item and user features as well as multiple users, we refer to it as
 CF although in some sense it may be viewed as a combined CF and CBF
 approach.
 
-We define \emph{social CF} (SCF) simply as the task of CF augmented
+We define \emph{social CF} (SCF) as the task of CF augmented
 with additional social network information such as the following:
 %that are available on social networking sites such as Facebook:
 \begin{itemize}
@@ -51,7 +51,7 @@ baselines in our later experiments on SCF.
 
 \label{sec:notation}
 
-We attempt to present all algorithms for CF and SCF using the following
+We present all algorithms for CF and SCF using the following
 mathematical notation:
 \begin{itemize}
 \item $N$ users.  For methods that can exploit user features, we define 
@@ -146,7 +146,7 @@ compared to or extended in this paper.
 
 Since our objective in this work is to classify whether a user likes
 an item or not (i.e., a binary objective), we focus on binary
-classification-based CBF approaches in this paper.  While a variety of
+classification-based CBF approaches.  While a variety of
 classifiers may work well, we choose the
 \emph{support vector machine} (SVM)~\cite{svm} since it is
 well-known for its state-of-the-art classification performance.
@@ -254,7 +254,7 @@ V =
   V_{K,1} & \hdots  & V_{K,J} \\
 \end{bmatrix}
 \end{equation*}
-In this setting, we \emph{do not} leverage user and item features;
+In this initial MF setting, we \emph{do not} leverage user and item features;
 hence, the $\x$ and $\y$ indices simply pick out the respective
 rows and columns of $U$ and $V$ such that $U_\x^T V_\y$ acts as a
 measure of affinity between user $\x$ and item $\y$ in their respective % ebonilla
@@ -332,11 +332,11 @@ product:
 %\item {\bf Social regularization~\cite{lla,socinf}}:
 \begin{align}
 \sum_{\x} & \sum_{\z \in \mathit{friends}_\x} \frac{1}{2} (S_{\x,\z} - \la U_\x, U_\z \ra)^2 \label{eq:simple_sr}
-\text{,} % ebonilla
+%\text{,} % ebonilla
 \end{align}
 % ebonilla
-where  $\mathit{friends}_\x$ refers to the set of friends of user $\x$, or more generally, the 
-set of users to which $\x$ is connected directly in the social network.
+%where  $\mathit{friends}_\x$ refers to the set of friends of user $\x$, or more generally, the 
+%set of users to which $\x$ is connected directly in the social network.
 %
 
 The second class of methods are termed 
