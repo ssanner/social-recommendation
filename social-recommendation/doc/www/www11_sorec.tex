@@ -126,53 +126,65 @@
 %copyright information). For use with
 %SIG-ALTERNATE.CLS. Supported by ACM.}
 
-\numberofauthors{7} % in this sample file, there are a *total*
-% of EIGHT authors. SIX appear on the 'first-page' (for formatting
-% reasons) and the remaining two appear in the \additionalauthors section.
-%
-% Joseph, Scott, Nguyen, Peter, Lexing, Edwin, Ehsan
+%%lexing: merged author entries
+\numberofauthors{1}
 \author{
 \alignauthor
-Joseph Noel\\
-%\affaddr{ANU}\\
-%\affaddr{Canberra, Australia}\\
-\affaddr{ANU; Canberra, AU}\\
-\email{jinonoel@gmail.com}
-\alignauthor
-Scott Sanner\\
-%\affaddr{NICTA \& ANU}\\
-%\affaddr{Canberra, Australia}\\
-\affaddr{NICTA \& ANU; Canberra, AU}\\
-\email{first.last@nicta.com.au}
-\alignauthor
-Khoi-Nguyen Tran\\
-%\affaddr{ANU}\\
-%\affaddr{Canberra, Australia}\\
-\affaddr{ANU; Canberra, AU}\\
-\email{first.last@anu.edu.au}
-\and
-\alignauthor
-Peter Christen\\
-%\affaddr{ANU}\\
-%\affaddr{Canberra, Australia}\\
-\affaddr{ANU; Canberra, AU}\\
-\email{first.last@anu.edu.au}
-\alignauthor
-Lexing Xie\\
-%\affaddr{ANU}\\
-%\affaddr{Canberra, Australia}\\
-\affaddr{ANU; Canberra, AU}\\
-\email{first.last@anu.edu.au}
-\alignauthor
-Edwin Bonilla\\
-%\affaddr{NICTA \& ANU}\\
-%\affaddr{Canberra, Australia}\\
-\affaddr{NICTA \& ANU; Canberra, AU}\\
-\email{first.last@nicta.com.au}
+Joseph Noel$^*$, Scott Sanner$^{\dag*}$, Khoi-Nguyen Tran$^*$, Peter Christen$^*$, Lexing Xie$^*$\\ 
+Edwin Bonilla$^{\dag*}$, Ehsan Abbasnejad$^{\dag*}$ \\
+\affaddr{$^*$Australian National University, $^\dag$National ICT Australia}\\
+\email{jinonoel@gmail.com, scott.sanner@nicta.com.au, \\
+\{khoi-nguyen.tran, peter.christen, lexing.xie\}@anu.edu.au \\
+\{edwin.bonilla, ehsan.abbasnejad\}@nicta.com.au
 }
-\additionalauthors{
-Additional authors: Ehsan Abbasnejad (ANU \& NICTA; Canberra, AU; 
-email: {\texttt{first.last@nicta.com.au}}).}
+}
+%\numberofauthors{7} % in this sample file, there are a *total*
+%% of EIGHT authors. SIX appear on the 'first-page' (for formatting
+%% reasons) and the remaining two appear in the \additionalauthors section.
+%%
+%% Joseph, Scott, Nguyen, Peter, Lexing, Edwin, Ehsan
+%\author{
+%\alignauthor
+%Joseph Noel\\
+%%\affaddr{ANU}\\
+%%\affaddr{Canberra, Australia}\\
+%\affaddr{ANU; Canberra, AU}\\
+%\email{jinonoel@gmail.com}
+%\alignauthor
+%Scott Sanner\\
+%%\affaddr{NICTA \& ANU}\\
+%%\affaddr{Canberra, Australia}\\
+%\affaddr{NICTA \& ANU; Canberra, AU}\\
+%\email{first.last@nicta.com.au}
+%\alignauthor
+%Khoi-Nguyen Tran\\
+%%\affaddr{ANU}\\
+%%\affaddr{Canberra, Australia}\\
+%\affaddr{ANU; Canberra, AU}\\
+%\email{first.last@anu.edu.au}
+%\and
+%\alignauthor
+%Peter Christen\\
+%%\affaddr{ANU}\\
+%%\affaddr{Canberra, Australia}\\
+%\affaddr{ANU; Canberra, AU}\\
+%\email{first.last@anu.edu.au}
+%\alignauthor
+%Lexing Xie\\
+%%\affaddr{ANU}\\
+%%\affaddr{Canberra, Australia}\\
+%\affaddr{ANU; Canberra, AU}\\
+%\email{first.last@anu.edu.au}
+%\alignauthor
+%Edwin Bonilla\\
+%%\affaddr{NICTA \& ANU}\\
+%%\affaddr{Canberra, Australia}\\
+%\affaddr{NICTA \& ANU; Canberra, AU}\\
+%\email{first.last@nicta.com.au}
+%}
+%\additionalauthors{
+%Additional authors: Ehsan Abbasnejad (ANU \& NICTA; Canberra, AU; 
+%email: {\texttt{first.last@nicta.com.au}}).}
 %\author{
 %\alignauthor
 %Anonymous\\
@@ -181,7 +193,9 @@ email: {\texttt{first.last@nicta.com.au}}).}
 \maketitle
 \begin{abstract}
 This paper examines the problem of social \emph{collaborative
-filtering} (CF) algorithms to recommend items of interest to users in
+filtering} (CF) 
+%algorithms  %%lexing: SCF problem, not "problem of SCF algorithm"
+to recommend items of interest to users in
 a social network setting.  Unlike standard CF algorithms using
 relatively simple user and item features, recommendation in social
 networks poses the more complex problem of learning user preferences
@@ -190,15 +204,24 @@ information.  Many existing \emph{social CF} methods have extended
 % NOTE: Separating out information diffusion and social regularization
 % aspects may be important for revising this paper in future.
 traditional CF \emph{matrix factorization}, but have overlooked
-important aspects germane to the social setting; specifically,
-existing matrix factorization methods (a) do not exploit user features
-in all aspects of learning, (b) do not permit directly modeling
-user-to-user information diffusion, and (c) use objectives that treat
-users as globally (dis)similar even though they may only be
-(dis)similar in specific latent areas of interest.  This paper
-proposes a unified framework for social CF matrix factorization that
-addresses (a)--(c) by introducing novel objective functions for
-training.  We demonstrate that optimizing these new objectives
+important aspects germane to the social setting. %%full stop %%lexing 
+%%lexing: moved the assertive statement forward
+%%lexing: cut the suspense, flip the drawbacks statement as features (as in intro)
+%%lexing: get rid of numbered list, flows better this way
+We propose a unified framework for social CF matrix factorization
+by introducing novel objective functions for training.
+Our objective functions has three key features that address 
+the main drawbacks of existing algorithms.
+Namely, we fully exploit feature-based user similarity, our framework 
+permit direct learning of user-to-user information diffusion, 
+and is able to learn restricted user interests by leveraging 
+co-preference and (dis)agreement.
+%(a) do not exploit user features
+%in all aspects of learning, (b) do not permit directly modeling
+%user-to-user information diffusion, and (c) use objectives that treat
+%users as globally (dis)similar even though they may only be
+%(dis)similar in specific latent areas of interest.  
+We demonstrate that optimizing the new objectives
 significantly outperforms a variety of CF and social CF baselines on
 live user trials in a custom-developed Facebook App involving data
 collected over two months from over 100 App users and their 34,000+
