@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import org.nicta.lr.util.LinkUtil;
 import org.nicta.lr.util.SQLUtil;
 
 public abstract class Recommender 
@@ -38,6 +39,89 @@ public abstract class Recommender
 		HashMap<Long, Double> averagePrecisions = new HashMap<Long, Double>();
 
 		for (long userId : predictions.keySet()) {
+			Map<Long, Double> userPredictions = predictions.get(userId);
+			
+			ArrayList<Double> scores = new ArrayList<Double>();
+			ArrayList<Long> ids = new ArrayList<Long>();
+			
+			for (long linkId: userPredictions.keySet()) {
+				double prediction = userPredictions.get(linkId);
+				
+				scores.add(prediction);
+				ids.add(linkId);
+			}
+	
+			Object[] sorted = sort(scores, ids);
+			double ap = getUserAP(sorted, userId);
+			averagePrecisions.put(userId, ap);
+		}
+		
+		return averagePrecisions;
+	}
+	
+	public Map<Long, Double> getFriendAveragePrecisions(Map<Long, Map<Long, Double>> predictions, Map<Long, Map<Long, Double>> friendships, Map<Long, Long[]> linkPosters)
+	{
+		HashMap<Long, Double> averagePrecisions = new HashMap<Long, Double>();
+
+		for (long userId : predictions.keySet()) {
+			Map<Long, Double> friends = friendships.get(userId);
+			Map<Long, Double> userPredictions = predictions.get(userId);
+			
+			ArrayList<Double> scores = new ArrayList<Double>();
+			ArrayList<Long> ids = new ArrayList<Long>();
+			
+			for (long linkId: userPredictions.keySet()) {
+				if (!friends.containsKey(linkPosters.get(linkId)[0])) continue;
+				
+				double prediction = userPredictions.get(linkId);
+				
+				scores.add(prediction);
+				ids.add(linkId);
+			}
+	
+			Object[] sorted = sort(scores, ids);
+			double ap = getUserAP(sorted, userId);
+			averagePrecisions.put(userId, ap);
+		}
+		
+		return averagePrecisions;
+	}
+	
+	public Map<Long, Double> getNonFriendAveragePrecisions(Map<Long, Map<Long, Double>> predictions, Map<Long, Map<Long, Double>> friendships, Map<Long, Long[]> linkPosters)
+	{
+		HashMap<Long, Double> averagePrecisions = new HashMap<Long, Double>();
+
+		for (long userId : predictions.keySet()) {
+			Map<Long, Double> userPredictions = predictions.get(userId);
+			Map<Long, Double> friends = friendships.get(userId);
+			
+			ArrayList<Double> scores = new ArrayList<Double>();
+			ArrayList<Long> ids = new ArrayList<Long>();
+			
+			for (long linkId: userPredictions.keySet()) {
+				if (friends.containsKey(linkPosters.get(linkId)[0])) continue;
+				
+				double prediction = userPredictions.get(linkId);
+				
+				scores.add(prediction);
+				ids.add(linkId);
+			}
+	
+			Object[] sorted = sort(scores, ids);
+			double ap = getUserAP(sorted, userId);
+			averagePrecisions.put(userId, ap);
+		}
+		
+		return averagePrecisions;
+	}
+
+	public Map<Long, Double> getActiveAveragePrecisions(Map<Long, Map<Long, Double>> predictions, Set<Long> appUsers)
+	{
+		HashMap<Long, Double> averagePrecisions = new HashMap<Long, Double>();
+
+		for (long userId : predictions.keySet()) {
+			if (!appUsers.contains(userId)) continue;
+			
 			Map<Long, Double> userPredictions = predictions.get(userId);
 			
 			ArrayList<Double> scores = new ArrayList<Double>();

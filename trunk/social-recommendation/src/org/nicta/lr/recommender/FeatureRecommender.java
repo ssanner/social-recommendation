@@ -18,7 +18,7 @@ public class FeatureRecommender extends MFRecommender
 		super(linkLikes, userFeatures, linkFeatures, null);
 		
 		K = 5;
-		lambda = 1000;
+		lambda = 100;
 		type = "feature";
 		
 		if (Configuration.DEPLOYMENT_TYPE == Constants.TEST || Configuration.INITIALIZE) {

@@ -66,30 +66,25 @@ public class BaselineGlobalRecommender extends Recommender
 		return precisionRecalls;
 	}
 	
-	public Map<Long, Double> getAveragePrecisions(Map<Long, Set<Long>> testData)
+	public Map<Long, Map<Long, Double>> getPredictions(Map<Long, Set<Long>> testData)
 	{
-		HashMap<Long, Double> averagePrecisions = new HashMap<Long, Double>();
+		Map<Long, Map<Long, Double>> predictions = new HashMap<Long, Map<Long, Double>>();
 		
 		for (long userId : testData.keySet()) {
-			Set<Long> testLinks = testData.get(userId);
+			HashMap<Long, Double> userPredictions = new HashMap<Long, Double>();
+			predictions.put(userId, userPredictions);
 			
-			ArrayList<Double> scores = new ArrayList<Double>();
-			ArrayList<Long> ids = new ArrayList<Long>();
+			Set<Long> testLinks = testData.get(userId);
 			
 			for (long testId : testLinks) {
 				Double[] feature = linkFeatures.get(testId);
 				double prediction = feature[0] + feature[1];
 				
-				scores.add(prediction);
-				ids.add(testId);
+				userPredictions.put(testId, prediction);
 			}
-			
-			Object[] sorted = sort(scores, ids);
-			double ap = getUserAP(sorted, userId);
-			averagePrecisions.put(userId, ap);
 		}
 		
-		return averagePrecisions;
+		return predictions;
 	}
 	
 	public void saveModel()
