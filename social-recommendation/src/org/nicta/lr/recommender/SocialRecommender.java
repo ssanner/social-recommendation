@@ -25,9 +25,9 @@ public class SocialRecommender extends MFRecommender
 		super(linkLikes, userFeatures, linkFeatures, friends);
 		
 		K = 5;
-		lambda = 1000;
+		lambda = 100;
 		
-		this.type = "social";
+		this.type = type;
 		friendships = friends;
 		
 		if (Configuration.DEPLOYMENT_TYPE == Constants.TEST || Configuration.INITIALIZE) {
@@ -45,12 +45,12 @@ public class SocialRecommender extends MFRecommender
 		if (Constants.SOCIAL.equals(type) || Constants.HYBRID_SOCIAL.equals(type)) {
 			System.out.println("Type: " + type);
 			socialRegularizer = new SocialRegularizer();
-			beta = 1.0E-3;
+			beta = 0.001;
 		}
 		else if (Constants.SPECTRAL.equals(type) || Constants.HYBRID_SPECTRAL.equals(type)){
 			System.out.println("Type: " + type);
 			socialRegularizer = new SocialSpectralRegularizer();
-			beta = .01;
+			beta = .001;
 		}
 		else {
 			System.out.println("Type: Non social");
@@ -81,6 +81,7 @@ public class SocialRecommender extends MFRecommender
 			}
 			
 			friendConnections = UserUtil.getFriendInteractionMeasure(trainSamples.keySet());
+			//friendConnections = friendships;
 			
 			//checkDerivative(trainSamples);
 			minimizeByThreadedLBFGS(trainSamples);

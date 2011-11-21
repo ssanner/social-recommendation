@@ -1,18 +1,21 @@
 package org.nicta.lr.recommender;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.nicta.lr.component.SocialCopreferenceRegularizer;
 import org.nicta.lr.component.SocialRegularizer;
 import org.nicta.lr.component.SocialSpectralRegularizer;
+import org.nicta.lr.component.SpectralCopreferenceRegularizer;
+import org.nicta.lr.component.SocialCopreferenceRegularizer;
 import org.nicta.lr.thread.CopreferenceLinkIdThread;
 import org.nicta.lr.thread.CopreferenceLinkMFThread;
 import org.nicta.lr.thread.CopreferenceUserIdThread;
 import org.nicta.lr.thread.CopreferenceUserMFThread;
 import org.nicta.lr.util.Configuration;
 import org.nicta.lr.util.Constants;
+import org.nicta.lr.util.UserUtil;
 import org.nicta.social.LBFGS;
 
 public class CopreferenceRecommender extends SocialRecommender
@@ -27,13 +30,13 @@ public class CopreferenceRecommender extends SocialRecommender
 		
 		if (Constants.SOCIAL_COPREFERENCE.equals(type)) {
 			System.out.println("copreference Type: " + type);
-			socialRegularizer = new SocialRegularizer();
-			beta = 1.0E-3;
+			socialCopreferenceRegularizer = new SocialCopreferenceRegularizer();
+			beta = .00001;
 		}
 		else if (Constants.SPECTRAL_COPREFERENCE.equals(type)){
 			System.out.println("copreference Type: " + type);
-			socialRegularizer = new SocialSpectralRegularizer();
-			beta = .01;
+			socialCopreferenceRegularizer = new SpectralCopreferenceRegularizer();
+			beta = .00001;
 		}
 		else {
 			System.out.println("copreference Type: Non social");
@@ -65,11 +68,12 @@ public class CopreferenceRecommender extends SocialRecommender
 		return predictions;
 	}
 	
-	public void buildCopreferences(Map<Long, Set<Long>> linkLikes, Set<Long> userIds, Map<Long, Set<Long>> userLinkSamples)
-	{
+	public void buildCopreferences(Map<Long, Set<Long>> linkLikes, Map<Long, Set<Long>> userLinkSamples)
+	{	
 		copreferences = new HashMap<Long, Map<Long, Map<Long, Double>>>();
 		
-		Object[] users = userIds.toArray();
+		int count = 0;
+		Object[] users = userLinkSamples.keySet().toArray();
 		for (long linkId : linkLikes.keySet()) {
 			HashMap<Long, Map<Long, Double>> linkCopreferences = new HashMap<Long, Map<Long, Double>>();
 			copreferences.put(linkId, linkCopreferences);
@@ -85,29 +89,39 @@ public class CopreferenceRecommender extends SocialRecommender
 				linkCopreferences.put(user1, userCopreferences);
 				
 				for (int b = a+1; b < users.length; b++) {
-					Long user2 = (Long)users[a];
+					Long user2 = (Long)users[b];
 					Set<Long> user2Links = userLinkSamples.get(user2);
-					if (!user2Links.contains(user2)) continue;
+					if (!user2Links.contains(linkId)) continue;
 					
 					boolean user2Liked = linkLikes.get(linkId).contains(user2);
 					
-					userCopreferences.put(user2, user1Liked == user2Liked ? 1d : -1d);
+					userCopreferences.put(user2, user1Liked == user2Liked ? 1d : 0d);
+					
+					count++;
 				}
 			}
 		}
+		
+		System.out.println("link copreference count: " + copreferences.size());
+		System.out.println("total copreferences count: " + count);
 	}
 	
 	public double getCopreferenceError(Double[][] userFeatureMatrix, Double[][] linkFeatureMatrix, 
 			Map<Long, Double[]> userIdColumns, Map<Long, Double[]> linkIdColumns,
-			Map<Long, Map<Long, Double>> predictions, Map<Long, Map<Long, Map<Long, Double>>> predictedCopreferences)
+			Map<Long, Map<Long, Double>> predictions, Map<Long, Map<Long, Map<Long, Double>>> predictedCopreferences, Map<Long, Map<Long, Double>> connections)
 	{
 		double error = 0;
 	
 		if (socialCopreferenceRegularizer != null) {
 			error += socialCopreferenceRegularizer.getValue(predictedCopreferences, copreferences);
+			
+			if (socialRegularizer != null) {
+				error += socialRegularizer.getValue(connections, friendConnections);
+			}
+			
 			error *= beta;
 		}
-		
+			
 		error += objective.getValue(predictions, linkLikes);
 
 		//Get User and Link norms for regularisation
@@ -122,12 +136,18 @@ public class CopreferenceRecommender extends SocialRecommender
 	}
 	
 	public double getCopreferenceErrorDerivativeOverUserAttribute(Map<Long, Double[]> linkTraits, Map<Long, Map<Long, Double>> predictions, 
-														Map<Long, Map<Long, Map<Long, Double>>> predictedCopreferences, int x, int y)
+														Map<Long, Map<Long, Map<Long, Double>>> predictedCopreferences, Map<Long, Map<Long, Double>> connections,
+														int x, int y)
 	{
 		double errorDerivative = userFeatureMatrix[x][y] * lambda;
 		
-		if (socialRegularizer != null) {
+		if (socialCopreferenceRegularizer != null) {
 			double socDerivative = socialCopreferenceRegularizer.getDerivativeValueOverUserAttribute(userFeatureMatrix, userFeatures, userIdColumns, linkTraits, predictedCopreferences, copreferences, x, y);
+			
+			if (socialRegularizer != null) {
+				socDerivative += socialRegularizer.getDerivativeValueOverAttribute(userFeatureMatrix, userFeatures, userIdColumns, connections, friendConnections, x, y);
+			}
+			
 			errorDerivative += beta * socDerivative;
 		}
 		
@@ -138,13 +158,18 @@ public class CopreferenceRecommender extends SocialRecommender
 	
 	
 	public double getCopreferenceErrorDerivativeOverUserId(Map<Long, Double[]> linkTraits, Map<Long, Map<Long, Double>> predictions, 
-															Map<Long, Map<Long, Map<Long, Double>>> predictedCopreferences, int k, long userId)
+															Map<Long, Map<Long, Map<Long, Double>>> predictedCopreferences, Map<Long, Map<Long, Double>> connections,
+															int k, long userId)
 	{
 		Double[] idColumn = userIdColumns.get(userId);
 		double errorDerivative = idColumn[k] * lambda;
 
-		if (socialRegularizer != null) {
+		if (socialCopreferenceRegularizer != null) {
 			double socDerivative = socialCopreferenceRegularizer.getDerivativeValueOverUserId(userFeatureMatrix, userFeatures, userIdColumns, linkTraits, predictedCopreferences, copreferences, userId, k);
+			
+			if (socialRegularizer != null) {
+				socDerivative = socialRegularizer.getDerivativeValueOverId(userFeatureMatrix, userFeatures, userIdColumns, connections, friendConnections, userId, k);
+			}
 			errorDerivative += beta * socDerivative;
 		}
 		
@@ -158,7 +183,7 @@ public class CopreferenceRecommender extends SocialRecommender
 	{
 		double errorDerivative = linkFeatureMatrix[x][y] * lambda;
 		
-		if (socialRegularizer != null) {
+		if (socialCopreferenceRegularizer != null) {
 			double socDerivative = socialCopreferenceRegularizer.getDerivativeValueOverLinkAttribute(userTraits, linkFeatures, predictedCopreferences, copreferences, x, y);
 			errorDerivative += beta * socDerivative;
 		}
@@ -174,8 +199,12 @@ public class CopreferenceRecommender extends SocialRecommender
 		Double[] idColumn = linkIdColumns.get(linkId);
 		double errorDerivative = idColumn[x] * lambda;
 		
-		if (socialRegularizer != null) {
-			double socDerivative = socialCopreferenceRegularizer.getDerivativeValueOverLinkId(userTraits, predictedCopreferences, copreferences, linkId, x);
+		if (socialCopreferenceRegularizer != null) {
+			if (!copreferences.containsKey(linkId)) {
+				return 0;
+			}
+			
+			double socDerivative = socialCopreferenceRegularizer.getDerivativeValueOverLinkId(userTraits, copreferences, predictedCopreferences, linkId, x);
 			errorDerivative += beta * socDerivative;
 		}
 		
@@ -185,6 +214,8 @@ public class CopreferenceRecommender extends SocialRecommender
 	}
 	public void minimizeByThreadedLBFGS(Map<Long, Set<Long>> userLinkSamples)
 	{
+		System.out.println("Training copreference");
+		
 		boolean go = true;	
 		int iterations = 0;
 		
@@ -211,6 +242,8 @@ public class CopreferenceRecommender extends SocialRecommender
 			
 			Map<Long, Double[]> linkTraits = getLinkTraitVectors(linkFeatureMatrix, linkIdColumns, linkFeatures);
 
+			System.out.println("Get connections");
+			Map<Long, Map<Long, Double>> connections = getConnections(userFeatureMatrix, userIdColumns, userFeatures, userLinkSamples);
 			System.out.println("Getting Copreferences");
 			Map<Long, Map<Long, Map<Long, Double>>> predictedCopreferences = predictCopreferences(copreferences);
 			System.out.println("Getting Predictions");
@@ -240,9 +273,9 @@ public class CopreferenceRecommender extends SocialRecommender
 			System.out.println("Starting threads");
 			long start = System.currentTimeMillis();
 			for (int k = 0; k < K; k++) {
-				userThreads[k] = new CopreferenceUserMFThread(k, linkTraits, predictedCopreferences, predictions, userDerivative, userIdDerivative, userLinkSamples, this);
+				userThreads[k] = new CopreferenceUserMFThread(k, linkTraits, predictedCopreferences, predictions, connections, userDerivative, userIdDerivative, userLinkSamples, this);
 				userThreads[k].start();
-				userIdThreads[k] = new CopreferenceUserIdThread(k, linkTraits, predictedCopreferences, predictions, userDerivative, userIdDerivative, userLinkSamples, this);
+				userIdThreads[k] = new CopreferenceUserIdThread(k, linkTraits, predictedCopreferences, predictions, connections, userDerivative, userIdDerivative, userLinkSamples, this);
 				userIdThreads[k].start();
 			}
 			
@@ -327,7 +360,7 @@ public class CopreferenceRecommender extends SocialRecommender
 				}
 			}
 			
-			double error = getCopreferenceError(userFeatureMatrix, linkFeatureMatrix, userIdColumns, linkIdColumns, predictions, predictedCopreferences);
+			double error = getCopreferenceError(userFeatureMatrix, linkFeatureMatrix, userIdColumns, linkIdColumns, predictions, predictedCopreferences, connections);
 			
 			System.out.println("New Error: " + error);
 			System.out.println("");
@@ -376,29 +409,32 @@ public class CopreferenceRecommender extends SocialRecommender
 	
 	public void checkDerivative(Map<Long, Set<Long>> userLinkSamples)
 	{	
-		System.out.println("Checking copreference... user");
+		System.out.println("Checking copreference... link");
 		
 		double H = 1e-5;
 		
 		for (int K = 0; K < K; K++) {
+			/*
 			for (int l = 0; l < Configuration.USER_FEATURE_COUNT; l++) {
 				Map<Long, Double[]> userTraits = getUserTraitVectors(userFeatureMatrix, userIdColumns, userFeatures);
 				Map<Long, Double[]> linkTraits = getLinkTraitVectors(linkFeatureMatrix, linkIdColumns, linkFeatures);
-				Map<Long, Map<Long, Map<Long, Double>>> connections = predictCopreferences(copreferences);
+				Map<Long, Map<Long, Map<Long, Double>>> pCopreferences = predictCopreferences(copreferences);
 				Map<Long, Map<Long, Double>> predictions = getPredictions(userTraits, linkTraits, userLinkSamples);
+				Map<Long, Map<Long, Double>> connections = getConnections(userFeatureMatrix, userIdColumns, userFeatures, userLinkSamples);
 				
-				double calculatedDerivative = getCopreferenceErrorDerivativeOverUserAttribute(linkTraits, predictions, connections, K, l);
-				double oldError = getCopreferenceError(userFeatureMatrix, linkFeatureMatrix, userIdColumns, linkIdColumns, predictions, connections);
+				double calculatedDerivative = getCopreferenceErrorDerivativeOverUserAttribute(linkTraits, predictions, pCopreferences, connections, K, l);
+				double oldError = getCopreferenceError(userFeatureMatrix, linkFeatureMatrix, userIdColumns, linkIdColumns, predictions, pCopreferences, connections);
 				
 				double tmp = userFeatureMatrix[K][l];
 				userFeatureMatrix[K][l] += H;
 				
 				userTraits = getUserTraitVectors(userFeatureMatrix, userIdColumns, userFeatures);
 				linkTraits = getLinkTraitVectors(linkFeatureMatrix, linkIdColumns, linkFeatures);
-				connections = predictCopreferences(copreferences);
+				pCopreferences= predictCopreferences(copreferences);
 				predictions = getPredictions(userTraits, linkTraits, userLinkSamples);
+				connections = getConnections(userFeatureMatrix, userIdColumns, userFeatures, userLinkSamples);
 				
-				double newError = getCopreferenceError(userFeatureMatrix, linkFeatureMatrix, userIdColumns, linkIdColumns, predictions, connections);
+				double newError = getCopreferenceError(userFeatureMatrix, linkFeatureMatrix, userIdColumns, linkIdColumns, predictions, pCopreferences, connections);
 				userFeatureMatrix[K][l] = tmp;
 				double diff = (newError - oldError) / H;
 				
@@ -412,22 +448,24 @@ public class CopreferenceRecommender extends SocialRecommender
 			for (long userId : userLinkSamples.keySet()) {
 				Map<Long, Double[]> userTraits = getUserTraitVectors(userFeatureMatrix, userIdColumns, userFeatures);
 				Map<Long, Double[]> linkTraits = getLinkTraitVectors(linkFeatureMatrix, linkIdColumns, linkFeatures);
-				Map<Long, Map<Long, Map<Long, Double>>> connections = predictCopreferences(copreferences);
+				Map<Long, Map<Long, Map<Long, Double>>> pCopreferences = predictCopreferences(copreferences);
 				Map<Long, Map<Long, Double>> predictions = getPredictions(userTraits, linkTraits, userLinkSamples);
+				Map<Long, Map<Long, Double>> connections = getConnections(userFeatureMatrix, userIdColumns, userFeatures, userLinkSamples);
 				
-				double calculatedDerivative = getCopreferenceErrorDerivativeOverUserId(linkTraits, predictions, connections, K, userId);
+				double calculatedDerivative = getCopreferenceErrorDerivativeOverUserId(linkTraits, predictions, pCopreferences, connections, K, userId);
 				
-				double oldError = getCopreferenceError(userFeatureMatrix, linkFeatureMatrix, userIdColumns, linkIdColumns, predictions, connections);
+				double oldError = getCopreferenceError(userFeatureMatrix, linkFeatureMatrix, userIdColumns, linkIdColumns, predictions, pCopreferences, connections);
 				
 				double tmp = userIdColumns.get(userId)[K];
 				userIdColumns.get(userId)[K] += H;
 				
 				userTraits = getUserTraitVectors(userFeatureMatrix, userIdColumns, userFeatures);
 				linkTraits = getLinkTraitVectors(linkFeatureMatrix, linkIdColumns, linkFeatures);
-				connections = predictCopreferences(copreferences);
+				pCopreferences = predictCopreferences(copreferences);
 				predictions = getPredictions(userTraits, linkTraits, userLinkSamples);
+				connections = getConnections(userFeatureMatrix, userIdColumns, userFeatures, userLinkSamples);
 				
-				double newError = getCopreferenceError(userFeatureMatrix, linkFeatureMatrix, userIdColumns, linkIdColumns, predictions, connections);
+				double newError = getCopreferenceError(userFeatureMatrix, linkFeatureMatrix, userIdColumns, linkIdColumns, predictions, pCopreferences, connections);
 				userIdColumns.get(userId)[K] = tmp;
 				double diff = (newError - oldError) / H;
 				
@@ -436,6 +474,7 @@ public class CopreferenceRecommender extends SocialRecommender
 				System.out.println("Diff: " + (calculatedDerivative - diff));
 				System.out.println("");
 			}
+			*/
 		}
 		
 		for (int q = 0; q < K; q++) {
@@ -443,21 +482,22 @@ public class CopreferenceRecommender extends SocialRecommender
 			for (int l = 0; l < Configuration.LINK_FEATURE_COUNT; l++) {
 				Map<Long, Double[]> userTraits = getUserTraitVectors(userFeatureMatrix, userIdColumns, userFeatures);
 				Map<Long, Double[]> linkTraits = getLinkTraitVectors(linkFeatureMatrix, linkIdColumns, linkFeatures);
-				Map<Long, Map<Long, Map<Long, Double>>> connections = predictCopreferences(copreferences);
+				Map<Long, Map<Long, Map<Long, Double>>> pCopreferences = predictCopreferences(copreferences);
 				Map<Long, Map<Long, Double>> predictions = getPredictions(userTraits, linkTraits, userLinkSamples);
+				Map<Long, Map<Long, Double>> connections = getConnections(userFeatureMatrix, userIdColumns, userFeatures, userLinkSamples);
 				
-				double calculatedDerivative = getErrorDerivativeOverLinkAttribute(userTraits, predictions, q, l);
-				double oldError = getCopreferenceError(userFeatureMatrix, linkFeatureMatrix, userIdColumns, linkIdColumns, predictions, connections);
+				double calculatedDerivative = getCopreferenceErrorDerivativeOverLinkAttribute(userTraits, predictions, pCopreferences, q, l);
+				double oldError = getCopreferenceError(userFeatureMatrix, linkFeatureMatrix, userIdColumns, linkIdColumns, predictions, pCopreferences, connections);
 				
 				double tmp = linkFeatureMatrix[q][l];
 				linkFeatureMatrix[q][l] += H;
 				
 				userTraits = getUserTraitVectors(userFeatureMatrix, userIdColumns, userFeatures);
 				linkTraits = getLinkTraitVectors(linkFeatureMatrix, linkIdColumns, linkFeatures);
-				connections = predictCopreferences(copreferences);
+				pCopreferences = predictCopreferences(copreferences);
 				predictions = getPredictions(userTraits, linkTraits, userLinkSamples);
 				
-				double newError = getCopreferenceError(userFeatureMatrix, linkFeatureMatrix, userIdColumns, linkIdColumns, predictions, connections);
+				double newError = getCopreferenceError(userFeatureMatrix, linkFeatureMatrix, userIdColumns, linkIdColumns, predictions, pCopreferences, connections);
 				linkFeatureMatrix[q][l] = tmp;
 				
 				double diff = (newError - oldError) / H;
@@ -468,24 +508,26 @@ public class CopreferenceRecommender extends SocialRecommender
 				System.out.println("");
 			}
 			
+			
 			for (long linkId : linkIdColumns.keySet()) {
 				Map<Long, Double[]> userTraits = getUserTraitVectors(userFeatureMatrix, userIdColumns, userFeatures);
 				Map<Long, Double[]> linkTraits = getLinkTraitVectors(linkFeatureMatrix, linkIdColumns, linkFeatures);
-				Map<Long, Map<Long, Map<Long, Double>>> connections = predictCopreferences(copreferences);
+				Map<Long, Map<Long, Map<Long, Double>>> pCopreferences = predictCopreferences(copreferences);
 				Map<Long, Map<Long, Double>> predictions = getPredictions(userTraits, linkTraits, userLinkSamples);
+				Map<Long, Map<Long, Double>> connections = getConnections(userFeatureMatrix, userIdColumns, userFeatures, userLinkSamples);
 				
-				double calculatedDerivative = getErrorDerivativeOverLinkId(userTraits, predictions, q, linkId);
-				double oldError = getCopreferenceError(userFeatureMatrix, linkFeatureMatrix, userIdColumns, linkIdColumns, predictions, connections);
+				double calculatedDerivative = getCopreferenceErrorDerivativeOverLinkId(userTraits, predictions, pCopreferences, q, linkId);
+				double oldError = getCopreferenceError(userFeatureMatrix, linkFeatureMatrix, userIdColumns, linkIdColumns, predictions, pCopreferences, connections);
 				
 				double tmp = linkIdColumns.get(linkId)[q];
 				linkIdColumns.get(linkId)[q] += H;
 				
 				userTraits = getUserTraitVectors(userFeatureMatrix, userIdColumns, userFeatures);
 				linkTraits = getLinkTraitVectors(linkFeatureMatrix, linkIdColumns, linkFeatures);
-				connections = predictCopreferences(copreferences);
+				pCopreferences = predictCopreferences(copreferences);
 				predictions = getPredictions(userTraits, linkTraits, userLinkSamples);
 				
-				double newError = getCopreferenceError(userFeatureMatrix, linkFeatureMatrix, userIdColumns, linkIdColumns, predictions, connections);
+				double newError = getCopreferenceError(userFeatureMatrix, linkFeatureMatrix, userIdColumns, linkIdColumns, predictions, pCopreferences, connections);
 				linkIdColumns.get(linkId)[q] = tmp;
 				
 				double diff = (newError - oldError) / H;
@@ -495,6 +537,37 @@ public class CopreferenceRecommender extends SocialRecommender
 				System.out.println("Diff: " + (calculatedDerivative - diff));
 				System.out.println("");
 			}
+		}
+	}
+	
+	public void train(Map<Long, Set<Long>> trainSamples) 
+	{
+		try {
+			int linkCount = 0;
+			
+			//Remove users that do not have data yet.
+			HashSet<Long> remove = new HashSet<Long>();
+			for (long trainId : trainSamples.keySet()) {
+				if (! userFeatures.containsKey(trainId)) {
+					remove.add(trainId);
+				}
+				else {
+					linkCount += trainSamples.get(trainId).size();
+				}
+			}
+		
+			for (long userId : remove) {
+				trainSamples.remove(userId);
+			}
+			
+			buildCopreferences(linkLikes, trainSamples);
+			friendConnections = UserUtil.getFriendInteractionMeasure(trainSamples.keySet());
+			
+			//checkDerivative(trainSamples);
+			minimizeByThreadedLBFGS(trainSamples);
+		}
+		catch (Exception ex) {
+			ex.printStackTrace();
 		}
 	}
 }

@@ -28,7 +28,7 @@ public class HybridRecommender extends SocialRecommender
 	{
 		super(linkLikes, userFeatures, linkFeatures, friends, type);
 		
-		lambda = 10;
+		lambda = 10000;
 	}
 	
 	public double getError(Double[][] userFeatureMatrix, Double[][] linkFeatureMatrix, 
@@ -36,7 +36,8 @@ public class HybridRecommender extends SocialRecommender
 			Map<Long, Map<Long, Double>> predictions, Map<Long, Map<Long, Double>> connections)
 	{
 		double error = 0;
-
+		
+		
 		double weightNorm = l2.getValue(weightVector);
 		weightNorm *= lambda;
 		weightNorm /= 2;
@@ -124,17 +125,17 @@ public class HybridRecommender extends SocialRecommender
 			System.out.println("Starting threads");
 			long start = System.currentTimeMillis();
 			for (int k = 0; k < K; k++) {
-				userThreads[k] = new UserMFThread(k, linkTraits, weightPredictions, mfPredictions, userDerivative, userIdDerivative, userLinkSamples, this);
+				userThreads[k] = new UserMFThread(k, linkTraits, connections, predictions, userDerivative, userIdDerivative, userLinkSamples, this);
 				userThreads[k].start();
-				userIdThreads[k] = new UserIdThread(k, linkTraits, weightPredictions, mfPredictions, userDerivative, userIdDerivative, userLinkSamples, this);
+				userIdThreads[k] = new UserIdThread(k, linkTraits, connections, predictions, userDerivative, userIdDerivative, userLinkSamples, this);
 				userIdThreads[k].start();
 			}
 			
 			//Get link derivatives
 			for (int q = 0; q < K; q++) {
-				linkThreads[q] = new LinkMFThread(q, userTraits, mfPredictions, linkDerivative, linkIdDerivative, linkIdColumns.keySet(), this);
+				linkThreads[q] = new LinkMFThread(q, userTraits, predictions, linkDerivative, linkIdDerivative, linkIdColumns.keySet(), this);
 				linkThreads[q].start();
-				linkIdThreads[q] = new LinkIdThread(q, userTraits, mfPredictions, linkDerivative, linkIdDerivative, linkIdColumns.keySet(), this);
+				linkIdThreads[q] = new LinkIdThread(q, userTraits, predictions, linkDerivative, linkIdDerivative, linkIdColumns.keySet(), this);
 				linkIdThreads[q].start();
 			}
 		
