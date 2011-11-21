@@ -11,33 +11,35 @@ public class CopreferenceUserMFThread extends Thread
 {
 	int k;
 	Map<Long, Double[]> linkTraits;
-	Map<Long, Map<Long, Map<Long, Double>>> connections;
+	Map<Long, Map<Long, Map<Long, Double>>> predictedCopreferences;
 	Map<Long, Map<Long, Double>> predictions;
 	Double[][] userDerivative;
 	HashMap<Long, Double[]> userIdDerivative;
 	Map<Long, Set<Long>> userLinkSamples;
+	Map<Long, Map<Long, Double>> connections;
 	CopreferenceRecommender backpointer;
 	
 	
-	public CopreferenceUserMFThread(int k, Map<Long, Double[]> linkTraits, Map<Long, Map<Long, Map<Long, Double>>> connections, 
-										Map<Long, Map<Long, Double>> predictions, Double[][] userDerivative, 
+	public CopreferenceUserMFThread(int k, Map<Long, Double[]> linkTraits, Map<Long, Map<Long, Map<Long, Double>>> pc, 
+										Map<Long, Map<Long, Double>> predictions, Map<Long, Map<Long, Double>> c, Double[][] userDerivative, 
 										HashMap<Long, Double[]> userIdDerivative, Map<Long, Set<Long>> userLinkSamples,
 										CopreferenceRecommender backpointer)
 	{
 		this.k = k;
 		this.linkTraits = linkTraits;
-		this.connections = connections;
+		this.predictedCopreferences = pc;
 		this.predictions = predictions;
 		this.userDerivative = userDerivative;
 		this.userIdDerivative = userIdDerivative;
 		this.userLinkSamples = userLinkSamples;
+		this.connections = c;
 		this.backpointer = backpointer;
 	}
 	
 	public void run()
 	{
 		for (int l = 0; l < Configuration.USER_FEATURE_COUNT; l++) {
-			userDerivative[k][l] = backpointer.getCopreferenceErrorDerivativeOverUserAttribute(linkTraits, predictions, connections, k, l);	
+			userDerivative[k][l] = backpointer.getCopreferenceErrorDerivativeOverUserAttribute(linkTraits, predictions, predictedCopreferences, connections, k, l);	
 		}
 	}
 }
