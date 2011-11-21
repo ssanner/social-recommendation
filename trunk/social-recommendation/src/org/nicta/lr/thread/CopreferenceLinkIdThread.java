@@ -27,6 +27,7 @@ public class CopreferenceLinkIdThread extends Thread
 		this.linkDerivative = linkDerivative;
 		this.linkIdDerivative = linkIdDerivative;
 		this.linkIds = linkIds;
+		this.predictedCopreferences = predictedCopreferences;
 		this.backpointer = backpointer;
 	}
 	
