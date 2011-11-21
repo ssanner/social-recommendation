@@ -98,6 +98,10 @@ public class UserUtil
 			
 			feature[2] = birthYear / 2012.0;
 			
+			//feature[0] = 0.0;
+			//feature[1] = 0.0;
+			//feature[2] = 0.0;
+		
 			//feature[2] = currentLocation;
 			//feature[3] = hometownLocation;
 			
@@ -155,6 +159,10 @@ public class UserUtil
 			}
 			
 			feature[2] = birthYear / 2012.0;
+			
+			//feature[0] = 0.0;
+			//feature[1] = 0.0;
+			//feature[2] = 0.0;
 			
 			//feature[2] = currentLocation;
 			//feature[3] = hometownLocation;
