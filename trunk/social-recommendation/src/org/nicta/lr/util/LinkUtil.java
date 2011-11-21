@@ -90,6 +90,10 @@ public class LinkUtil
 			feature[1] = result.getDouble("like_count") / 10000000;
 			feature[2] = result.getDouble("comment_count") / 10000000;
 			
+			//feature[0] = 0.0;
+			//feature[1] = 0.0;
+			//feature[2] = 0.0;
+			
 			linkFeatures.put(result.getLong("link_id"), feature);
 		}
 		
@@ -104,8 +108,9 @@ public class LinkUtil
 		Statement statement = SQLUtil.getStatement();
 		
 		String itemQuery = "SELECT link_id FROM linkrLinks"
-							+ " WHERE DATE(created_time) >= ADDDATE(CURRENT_DATE(), -" + Configuration.TRAINING_WINDOW_RANGE + ") ";
-		
+							//+ " WHERE DATE(created_time) >= ADDDATE(CURRENT_DATE(), -" + Configuration.TRAINING_WINDOW_RANGE + ") ";
+							+ " WHERE DATE(created_time) >= ADDDATE(DATE('2011-11-05'), -" + Configuration.TRAINING_WINDOW_RANGE + ") "
+							+ " AND DATE(created_time) <= DATE('2011-11-05')";
 		ResultSet result = statement.executeQuery(itemQuery);
 	
 		while (result.next()) {
