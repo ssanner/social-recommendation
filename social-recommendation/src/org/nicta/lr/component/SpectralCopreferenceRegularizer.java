@@ -4,11 +4,12 @@ import java.util.Map;
 
 import org.nicta.lr.util.Configuration;
 
-public class SpectralCopreferenceRegularizer
+public class SpectralCopreferenceRegularizer extends SocialCopreferenceRegularizer
 {
 	public double getValue(Map<Long, Map<Long, Map<Long, Double>>> predictedCopreferences, Map<Long, Map<Long, Map<Long, Double>>> copreferences)
 	{
 		double error = 0;
+		int count = 0;
 		
 		for (long linkId : copreferences.keySet()) {
 			Map<Long, Map<Long, Double>> linkCopreferences = copreferences.get(linkId);
@@ -21,9 +22,12 @@ public class SpectralCopreferenceRegularizer
 					double predicted = predictedCopreferences.get(linkId).get(uid1).get(uid2);
 	
 					error += Math.pow(actual - predicted, 2);
+					count++;
 				}
 			}
 		}
+		System.out.println("link copreference count: " + copreferences.size());
+		System.out.println("total copreferences count: " + count);
 		
 		return error / 2;
 	}

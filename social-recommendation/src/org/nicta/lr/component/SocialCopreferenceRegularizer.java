@@ -141,6 +141,10 @@ public class SocialCopreferenceRegularizer
 	public double getDerivativeValueOverLinkId(Map<Long, Double[]> userTraits, Map<Long, Map<Long, Map<Long, Double>>> copreferences, Map<Long, Map<Long, Map<Long, Double>>> connections, 
 												long linkId, int k)
 	{
+		//System.out.println("Link id derivative");
+		//System.out.println("cop: " + copreferences.size());
+		//System.out.println("con: " + connections.size());
+		
 		double derivative = 0;
 
 		//for (long linkId : copreferences.keySet()) {
