@@ -10,13 +10,15 @@ import java.util.Set;
 import java.util.Iterator;
 import java.io.IOException;
 import java.util.Map;
+import java.util.Random;
 
+import org.nicta.lr.recommender.HybridRecommender;
 import org.nicta.lr.recommender.FeatureRecommender;
 import org.nicta.lr.recommender.NNRecommender;
 import org.nicta.lr.recommender.Recommender;
 import org.nicta.lr.recommender.SVMRecommender;
 import org.nicta.lr.recommender.SocialRecommender;
-//import org.nicta.lr.recommender.LogisticSocialRecommender;
+import org.nicta.lr.recommender.CopreferenceRecommender;
 import org.nicta.lr.recommender.BaselineGlobalRecommender;
 import org.nicta.lr.recommender.BaselineRecommender;
 import org.nicta.lr.util.Constants;
@@ -29,26 +31,31 @@ import com.cybozu.labs.langdetect.DetectorFactory;
 import com.cybozu.labs.langdetect.Detector;
 import com.cybozu.labs.langdetect.LangDetectException;
 
+
 public class LinkRecommender 
 {
-	String type;
+	public static String type;
 	
 	Map<Long, Set<Long>> friendLinksToRecommend;
 	Map<Long, Set<Long>> nonFriendLinksToRecommend;
 	
+	double value = 0;
+	
+	Random random = new Random();
+
 	public static void main(String[] args)
 		throws Exception
 	{	
 		LinkRecommender lr = new LinkRecommender();
 		lr.parseArgs(args);
-		lr.run();
+		lr.run(0);
 	}
 	
 	public void parseArgs(String[] args)
 	{
 		for (int x = 0; x < args.length; x += 2) {
 			if (args[x].equals("type")) {
-				this.type = args[x+1];
+				type = args[x+1];
 			}
 			else if (args[x].equals("train")) {
 				Configuration.TRAINING_DATA = args[x+1];
@@ -62,10 +69,13 @@ public class LinkRecommender
 		}
 	}
 	
-	public void run()
+	public void run(double val)
 		throws SQLException, IOException
 	{	
-		System.out.println("Starting run");
+		random.setSeed(1);
+		
+		System.out.println("Starting run: " + val);
+		value = val;
 		
 		Map<Long, Map<Long, Double>> friendships = UserUtil.getFriendships();
 		
@@ -100,6 +110,8 @@ public class LinkRecommender
 		friendLinksToRecommend = getFriendLinksForRecommending(friendships, type);
 		nonFriendLinksToRecommend = getNonFriendLinksForRecommending(friendships, type);
 		
+		//usersNeeded.addAll(friendLinksToRecommend.keySet());
+		usersNeeded.addAll(nonFriendLinksToRecommend.keySet());
 		
 		HashSet<Long> recommendingIds = new HashSet<Long>();
 		
@@ -123,10 +135,16 @@ public class LinkRecommender
 			String message = words[0];
 			String description = words[1];
 			
+			if (message.trim().length() == 0 && description.trim().length() == 0) {
+				removeNonEnglish.add(id);
+				continue;
+			}
+			
 			try {
 				Detector messageDetector = DetectorFactory.create();
 				messageDetector.append(message);				
 				String messageLang = messageDetector.detect();
+				
 				if (!messageLang.equals("en")) {
 					removeNonEnglish.add(id);
 					continue;
@@ -141,6 +159,7 @@ public class LinkRecommender
 				}
 			}
 			catch (LangDetectException e) {
+				removeNonEnglish.add(id);
 				continue;
 			}
 		}
@@ -265,92 +284,30 @@ public class LinkRecommender
 			testData.remove(userId);
 		}	
 		
+		Map<Long, Long[]> linkPosters = LinkUtil.getLinkPosters(linksNeeded);
+		
 		Recommender recommender = getRecommender(type, linkLikes, users, links, friendships);
 		recommender.train(trainData);
+		Map<Long, Map<Long, Double>> predictions = recommender.getPredictions(testData);
 		
-		//System.out.println("APP USER");
-		outputMap(recommender, testData);
-		outputAUC(recommender, testData);
+		Map<Long, Double> averagePrecisions = recommender.getAveragePrecisions(predictions);
+		//Map<Long, Double> friendPrecisions = recommender.getFriendAveragePrecisions(predictions, friendships, linkPosters);
+		//Map<Long, Double> nonFriendPrecisions = recommender.getNonFriendAveragePrecisions(predictions, friendships, linkPosters);
+		
+		System.out.println("Test: ALL");
+		outputMap(averagePrecisions);
+		
+		//System.out.println("Test: Friend");
+		//outputMap(friendPrecisions);
+		
+		//System.out.println("Test: NonFriend");
+		//outputMap(nonFriendPrecisions);
 		
 		
 		/*
-		Configuration.TEST_DATA = Constants.FB_USER_PASSIVE;
-		forTesting = getTestData(trainData, linkLikes, friendships);
-		testData = forTesting[0];
-		
-		testCount = 0;
-		for (long userId : testData.keySet()) {
-			testCount += testData.get(userId).size();
-		}
-		System.out.println("Total Test: " + testCount);
-		
-		testLikes = forTesting[1];
-		for (long linkId : testLikes.keySet()) {
-			Set<Long> likes = testLikes.get(linkId);
-			
-			if (linkLikes.containsKey(linkId)) {
-				linkLikes.get(linkId).addAll(likes);
-			}
-			else {
-				linkLikes.put(linkId, likes);
-			}
-		}
-		
-		usersNeeded.addAll(testData.keySet());
-		for (long userId : testData.keySet()) {
-			linksNeeded.addAll(testData.get(userId));
-		}
-		
-		users = UserUtil.getUserFeatures(usersNeeded);
-		links = LinkUtil.getLinkFeatures(linksNeeded);
-		
-		SQLUtil.closeSqlConnection();
-		
-		//Clean up links that are not in the linkrLinkInfo table. Clean up users after
-		removeUsers = new HashSet<Long>();
-		for (long userId : trainData.keySet()) {
-			if (!users.containsKey(userId)) {
-				removeUsers.add(userId);
-				continue;
-			}
-			
-			Set<Long> samples = trainData.get(userId);
-			HashSet<Long> remove = new HashSet<Long>();
-			
-			for (long linkId : samples) {
-				if (!links.containsKey(linkId)) {
-					remove.add(linkId);
-				}
-			}
-			
-			samples.removeAll(remove);
-		}	
-		for (long userId : removeUsers) {
-			trainData.remove(userId);
-		}
-		removeUsers = new HashSet<Long>();
-		for (long userId : testData.keySet()) {
-			if (!users.containsKey(userId)) {
-				removeUsers.add(userId);
-				continue;
-			}
-			Set<Long> samples = testData.get(userId);
-			HashSet<Long> remove = new HashSet<Long>();
-			
-			for (long linkId : samples) {
-				if (!links.containsKey(linkId)) {
-					remove.add(linkId);
-				}
-			}
-			
-			samples.removeAll(remove);
-		}	
-		for (long userId : removeUsers) {
-			testData.remove(userId);
-		}
-		System.out.println("FB USER");
-		outputMap(recommender, testData);
-		outputAUC(recommender, testData);
+		Map<Long, Double> activePrecisions = recommender.getActiveAveragePrecisions(predictions, UserUtil.getAppUserIds());
+		System.out.println("Test: Active");
+		outputMap(nonFriendPrecisions);
 		*/
 	}
 	
@@ -534,7 +491,7 @@ public class LinkRecommender
 		HashMap<Long, Set<Long>> trainData = new HashMap<Long, Set<Long>>();
 		Map<Long, Set<Long>> linkLikes = new HashMap<Long, Set<Long>>();
 		
-		if (Configuration.TRAINING_DATA.equals(Constants.PASSIVE) || Configuration.TRAINING_DATA.equals(Constants.PASSIVE)) {
+		if (Configuration.TRAINING_DATA.equals(Constants.PASSIVE) || Configuration.TRAINING_DATA.equals(Constants.UNION)) {
 			Map<Long, Set<Long>>[] passiveData = getPassiveData(friendships);
 			Map<Long, Set<Long>> passiveSamples = passiveData[0];
 			Map<Long, Set<Long>> passiveLikes = passiveData[1];
@@ -629,6 +586,9 @@ public class LinkRecommender
 		while (result.next()) {
 			long linkId = result.getLong("link_id");
 			long userId = result.getLong("uid_clicked");
+			
+			//Link has already been either liked or disliked by the user. Don't change anymore
+			if (trainData.containsKey(userId) && trainData.get(userId).contains(linkId)) continue;
 			
 			if (!linkLikes.containsKey(linkId)) {
 				linkLikes.put(linkId, new HashSet<Long>());
@@ -742,7 +702,8 @@ public class LinkRecommender
 			HashSet<Long> userTest = new HashSet<Long>();
 			
 			while (addedLike < testLikeCount) {
-				int randomIndex = (int)(Math.random() * links.length);
+				
+				int randomIndex = (int)(random.nextDouble() * links.length);
 				Long linkId = (Long)links[randomIndex];
 				
 				if (active != null && active.contains(linkId)) continue;
@@ -754,7 +715,7 @@ public class LinkRecommender
 			}
 			
 			while (addedNotLike < testNotLikeCount) {
-				int randomIndex = (int)(Math.random() * links.length);
+				int randomIndex = (int)(random.nextDouble() * links.length);
 				Long linkId = (Long)links[randomIndex];
 				
 				if (active != null && active.contains(linkId)) continue;
@@ -801,7 +762,7 @@ public class LinkRecommender
 			
 			Set<Long> active = activeData.get(userId);
 			
-			System.out.println("User links train: " + userLinks.size() + " User active: " + active.size());
+			//System.out.println("User links train: " + userLinks.size() + " User active: " + active.size());
 			
 			for (long linkId : userLinks) {
 				if (active == null || !active.contains(linkId)) {
@@ -853,7 +814,7 @@ public class LinkRecommender
 			HashSet<Long> userTest = new HashSet<Long>();
 			
 			while (addedLike < testLikeCount) {
-				int randomIndex = (int)(Math.random() * links.length);
+				int randomIndex = (int)(random.nextDouble() * links.length);
 				Long linkId = (Long)links[randomIndex];
 				
 				if (active == null || !active.contains(linkId)) continue;
@@ -878,7 +839,7 @@ public class LinkRecommender
 			}
 			
 			while (addedNotLike < testNotLikeCount) {
-				int randomIndex = (int)(Math.random() * links.length);
+				int randomIndex = (int)(random.nextDouble() * links.length);
 				Long linkId = (Long)links[randomIndex];
 				
 				if (active == null || !active.contains(linkId)) continue;
@@ -932,7 +893,7 @@ public class LinkRecommender
 		HashMap<Long, Integer> userIds = new HashMap<Long, Integer>();
 		ResultSet result = statement.executeQuery("SELECT linkrUser.uid, trackUserUpdates.max_links FROM linkrUser, trackUserUpdates "
 													+ "WHERE linkrUser.uid=trackUserUpdates.uid "
-													+ "AND is_app_user=1 AND algorithm='" + type + "'");
+													+ "AND is_app_user=1 AND algorithm2='" + type + "'");
 		
 		while (result.next()) {
 			userIds.put(result.getLong("uid"), result.getInt("max_links"));
@@ -1035,7 +996,7 @@ public class LinkRecommender
 		HashMap<Long, Integer> userIds = new HashMap<Long, Integer>();
 		ResultSet result = statement.executeQuery("SELECT linkrUser.uid, trackUserUpdates.max_links FROM linkrUser, trackUserUpdates "
 													+ "WHERE linkrUser.uid=trackUserUpdates.uid "
-													+ "AND is_app_user=1 AND algorithm='" + type + "'");
+													+ "AND is_app_user=1 AND algorithm2='" + type + "'");
 		
 		while (result.next()) {
 			userIds.put(result.getLong("uid"), result.getInt("max_links"));
@@ -1125,10 +1086,31 @@ public class LinkRecommender
 		Recommender recommender = null;
 		
 		if (Constants.SOCIAL.equals(type)) {
-			recommender = new SocialRecommender(linkLikes, users, links, friendships);
+			recommender = new SocialRecommender(linkLikes, users, links, friendships, type);
+			//System.out.println("Setting social beta: " + value);
+			//((SocialRecommender)recommender).setBeta(value);
+		}
+		else if (Constants.SPECTRAL.equals(type)) {
+			recommender = new SocialRecommender(linkLikes, users, links, friendships, type);
+			//System.out.println("Setting spectral beta: " + value);
+			//((SocialRecommender)recommender).setBeta(value);
+		}
+		else if (Constants.HYBRID.equals(type)) {
+			recommender = new HybridRecommender(linkLikes, users, links, friendships, type);
+			//System.out.println("Setting lambda: " + value);
+			//((HybridRecommender)recommender).setLambda(value);
+		}
+		else if (Constants.HYBRID_SOCIAL.equals(type)) {
+			recommender = new HybridRecommender(linkLikes, users, links, friendships, type);
+			//System.out.println("Setting beta: " + value);
+			//((SocialRecommender)recommender).setBeta(value);
+		}
+		else if (Constants.HYBRID_SPECTRAL.equals(type)) {
+			recommender = new HybridRecommender(linkLikes, users, links, friendships, type);
 		}
 		else if (Constants.FEATURE.equals(type)) {
 			recommender = new FeatureRecommender(linkLikes, users, links);
+			//((FeatureRecommender)recommender).setLambda(value);
 		}
 		else if (Constants.SVM.equals(type)) {
 			recommender = new SVMRecommender(linkLikes, users, links, friendships);
@@ -1143,9 +1125,17 @@ public class LinkRecommender
 			recommender = new BaselineRecommender(linkLikes, users, links, friendships, type);
 		}
 		else if (Constants.LOGISTIC.equals(type)) {
-			new Exception("Should not get here").printStackTrace(System.err);
-			System.exit(1);
 			//recommender = new LogisticSocialRecommender(linkLikes, users, links, friendships);
+		}
+		else if (Constants.SOCIAL_COPREFERENCE.equals(type)) {
+			recommender = new CopreferenceRecommender(linkLikes, users, links, friendships, type);
+			//System.out.println("Setting copreference  social beta: " + value);
+			//((CopreferenceRecommender)recommender).setBeta(value);
+		}
+		else if (Constants.SPECTRAL_COPREFERENCE.equals(type)) {
+			recommender = new CopreferenceRecommender(linkLikes, users, links, friendships, type);
+			//System.out.println("Setting copreference spectral beta: " + value);
+			//((CopreferenceRecommender)recommender).setBeta(value);
 		}
 		
 		return recommender;
@@ -1237,9 +1227,9 @@ public class LinkRecommender
 		
 		for (Long userId : userLinkSamples.keySet()) {
 			Set<Long> samples = userLinkSamples.get(userId);
-			if (samples.size() < 5) {
-				//remove.add(userId);
-				//continue;
+			if (samples.size() < 2) {
+				remove.add(userId);
+				continue;
 			}
 			
 			System.out.println("User: " + ++count + " " + samples.size());
@@ -1252,7 +1242,7 @@ public class LinkRecommender
 			//Links here should be links that were shared by friends to increase the chance that the user has actually seen this and not
 			//liked them
 			for (long linkId : links.keySet()) {
-				if (samples.size() >= likeCount * 10) break;
+				//if (samples.size() >= likeCount * 10) break;
 				Long[] link = links.get(linkId);
 				
 				if (friends.contains(link[1]) && !samples.contains(linkId)) {
@@ -1270,12 +1260,8 @@ public class LinkRecommender
 		return userLinkSamples;
 	}
 	
-	public void outputMap(Recommender recommender, Map<Long, Set<Long>> testData)
+	public void outputMap(Map<Long, Double> averagePrecisions)
 	{	
-		Map<Long, Map<Long, Double>> predictions = recommender.getPredictions(testData);
-		
-		Map<Long, Double> averagePrecisions = recommender.getAveragePrecisions(predictions);
-		
 		double map = 0;
 		for (long userId : averagePrecisions.keySet()) {
 			double pre = averagePrecisions.get(userId);
@@ -1300,7 +1286,7 @@ public class LinkRecommender
 		System.out.println("SD: " + standardDev);
 		System.out.println("SE: " + standardError);
 	}
-	
+
 	public void outputAUC(Recommender recommender, Map<Long, Set<Long>> testData)
 	{
 		int gCount = 20;
@@ -1348,8 +1334,8 @@ public class LinkRecommender
 			aucMetrics[i] = metrics;
 		}
 		
-		//for (int i = 1; i < gCount; i++) {
-		for (int i = gCount -2; i >= 0; i--) {
+		for (int i = 0; i < gCount-1; i++) {
+		//for (int i = gCount -2; i >= 0; i--) {
 			Integer[] metrics = aucMetrics[i];
 			int truePos = metrics[0];
 			int falsePos = metrics[1];
@@ -1362,20 +1348,28 @@ public class LinkRecommender
 			double xPrev = 0;
 			double yPrev = 0;
 			
-			if (i > 0) {
-				Integer[] prevMetrics = aucMetrics[i+1];
-				int truePosPrev = prevMetrics[0];
-				int falsePosPrev = prevMetrics[1];
-				int trueNegPrev = prevMetrics[2];
-				int falseNegPrev = prevMetrics[3];
+			Integer[] prevMetrics = aucMetrics[i+1];
+			int truePosPrev = prevMetrics[0];
+			int falsePosPrev = prevMetrics[1];
+			int trueNegPrev = prevMetrics[2];
+			int falseNegPrev = prevMetrics[3];
 				
-				xPrev = (double)falsePosPrev / (double)(falsePosPrev + trueNegPrev);
-				yPrev = (double)truePosPrev / (double)(truePosPrev + falseNegPrev); 
-			}
+			xPrev = (double)falsePosPrev / (double)(falsePosPrev + trueNegPrev);
+			yPrev = (double)truePosPrev / (double)(truePosPrev + falseNegPrev); 
 			
 			g -= (x - xPrev) * (y + yPrev);
-			//System.out.println(x + " " + y + " " + truePos + " " + falsePos + " " + trueNeg + " " + falseNeg);
+			System.out.println(x + " " + y + " " + truePos + " " + falsePos + " " + trueNeg + " " + falseNeg);
 		}
+		
+		Integer[] prevMetrics = aucMetrics[gCount-1];
+		int truePos = prevMetrics[0];
+		int falsePos = prevMetrics[1];
+		int trueNeg = prevMetrics[2];
+		int falseNeg = prevMetrics[3];
+		
+		double x = (double)falsePos / (double)(falsePos + trueNeg);
+		double y = (double)truePos / (double)(truePos + falseNeg); 
+		System.out.println(x + " " + y + " " + truePos + " " + falsePos + " " + trueNeg + " " + falseNeg);
 		
 		System.out.println("G: " + g);
 		double auc = (1 - g) / 2;
