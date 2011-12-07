@@ -108,9 +108,9 @@ public class LinkUtil
 		Statement statement = SQLUtil.getStatement();
 		
 		String itemQuery = "SELECT link_id FROM linkrLinks"
-							//+ " WHERE DATE(created_time) >= ADDDATE(CURRENT_DATE(), -" + Configuration.TRAINING_WINDOW_RANGE + ") ";
-							+ " WHERE DATE(created_time) >= ADDDATE(DATE('2011-11-05'), -" + Configuration.TRAINING_WINDOW_RANGE + ") "
-							+ " AND DATE(created_time) <= DATE('2011-11-05')";
+							+ " WHERE DATE(created_time) >= ADDDATE(CURRENT_DATE(), -" + Configuration.TRAINING_WINDOW_RANGE + ") ";
+							//+ " WHERE DATE(created_time) >= ADDDATE(DATE('2011-11-05'), -" + Configuration.TRAINING_WINDOW_RANGE + ") "
+							//+ " AND DATE(created_time) <= DATE('2011-11-05')";
 		ResultSet result = statement.executeQuery(itemQuery);
 	
 		while (result.next()) {

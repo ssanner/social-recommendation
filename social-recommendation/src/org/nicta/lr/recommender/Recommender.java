@@ -166,9 +166,6 @@ public abstract class Recommender
 					}
 				}
 				else {
-					if (threshold == 0.0) {
-						System.out.println("ANO TO:"  + prediction);
-					}
 					if (linkLikes.containsKey(linkId) && linkLikes.get(linkId).contains(userId)) {
 						falseNeg++;
 					}

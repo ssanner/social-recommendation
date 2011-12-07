@@ -284,31 +284,25 @@ public class LinkRecommender
 			testData.remove(userId);
 		}	
 		
-		Map<Long, Long[]> linkPosters = LinkUtil.getLinkPosters(linksNeeded);
-		
 		Recommender recommender = getRecommender(type, linkLikes, users, links, friendships);
 		recommender.train(trainData);
+		
 		Map<Long, Map<Long, Double>> predictions = recommender.getPredictions(testData);
+		Map<Long, Map<Long, Double>> trainPredictions = recommender.getPredictions(trainData);
 		
-		Map<Long, Double> averagePrecisions = recommender.getAveragePrecisions(predictions);
-		//Map<Long, Double> friendPrecisions = recommender.getFriendAveragePrecisions(predictions, friendships, linkPosters);
-		//Map<Long, Double> nonFriendPrecisions = recommender.getNonFriendAveragePrecisions(predictions, friendships, linkPosters);
+		double threshold = getOptimalThreshold(trainPredictions, linkLikes);
 		
-		System.out.println("Test: ALL");
-		outputMap(averagePrecisions);
+		System.out.println("Type: " + type);
+		System.out.println("Threshold: " + threshold);
+		System.out.println("Train");
+		getScore2(trainPredictions, linkLikes, threshold);
 		
-		//System.out.println("Test: Friend");
-		//outputMap(friendPrecisions);
+		System.out.println("Test");
+		double score = getScore2(predictions, linkLikes, threshold);
+		System.out.println("Right minus wrong: " + score);
 		
-		//System.out.println("Test: NonFriend");
-		//outputMap(nonFriendPrecisions);
-		
-		
-		/*
-		Map<Long, Double> activePrecisions = recommender.getActiveAveragePrecisions(predictions, UserUtil.getAppUserIds());
-		System.out.println("Test: Active");
-		outputMap(nonFriendPrecisions);
-		*/
+		System.out.println("Metrics:");
+		getTotalSimpleMetrics(predictions, linkLikes, threshold);
 	}
 	
 	public Map<Long, Set<Long>>[] getTestData(Map<Long, Set<Long>> trainData, Map<Long, Set<Long>> trainLikes, Map<Long, Map<Long, Double>> friendships)
@@ -536,6 +530,8 @@ public class LinkRecommender
 	{
 		Set<Long> userIds = UserUtil.getUserIds();
 		Set<Long> linkIds = LinkUtil.getLinkIds();
+		
+		System.out.println("Link ids: " + linkIds.size());
 		
 		Map<Long, Long[]> linkPosters = LinkUtil.getLinkPosters(linkIds);
 		
@@ -1287,6 +1283,376 @@ public class LinkRecommender
 		System.out.println("SE: " + standardError);
 	}
 
+	
+	public double getOptimalThreshold(Map<Long, Map<Long, Double>> predictions, Map<Long, Set<Long>> linkLikes)
+	{
+		double maxThreshold = 10;
+		double optimalThreshold = 0;
+		double optimalF1 = -Double.MAX_VALUE;
+		
+		double threshold = -10;
+		
+		while (threshold < maxThreshold) {
+			double f1 = getTotalF1(predictions, linkLikes, threshold);
+			
+			if (f1 > optimalF1) {
+				optimalF1 = f1;
+				optimalThreshold = threshold;
+			}
+			
+			threshold += 0.1;
+		}
+		
+		return optimalThreshold;
+	}
+	
+	public double getF1(Map<Long, Map<Long, Double>> predictions, Map<Long, Set<Long>> linkLikes, double threshold)
+	{
+		Map<Long, Double[]> metrics = new HashMap<Long, Double[]>();
+		
+		for (long userId : predictions.keySet()) {
+			Map<Long, Double> userPredictions = predictions.get(userId);
+			
+			double truePos = 0;
+			double falsePos = 0;
+			double trueNeg = 0;
+			double falseNeg = 0;
+			
+			for (long linkId : userPredictions.keySet()) {
+				Set<Long> likes = linkLikes.get(linkId);
+				boolean trueLikes = false;
+				if (likes != null && likes.contains(userId)) trueLikes = true;
+				
+				double val = userPredictions.get(linkId);
+				boolean predicted = false;
+				if (val >= threshold) predicted = true;
+				
+				if (predicted) {
+					if (trueLikes) {
+						truePos++;
+					}
+					else {
+						falsePos++;
+					}
+				}
+				else {
+					if (trueLikes) {
+						falseNeg++;
+					}
+					else {
+						trueNeg++;
+					}
+				}
+			}
+			double precision = truePos / (truePos + falsePos);
+			if ((truePos + falsePos) == 0) precision = 0;
+			
+			double recall = truePos / (truePos + falseNeg);
+			if ((truePos + falseNeg) == 0) recall = 0;
+			
+			double f1 = 2 * (precision * recall) / (precision + recall);
+			if ((precision + recall) == 0) f1 = 0;
+			
+			metrics.put(userId, new Double[]{precision, recall, f1});
+		}
+	
+		double avF1 = 0;
+		
+		for (long userId : metrics.keySet()) {
+			Double[] values = metrics.get(userId);
+			avF1 += values[2];
+		}
+		
+		avF1 /= (double)metrics.size();
+		return avF1;
+	}
+	
+	public double getTotalF1(Map<Long, Map<Long, Double>> predictions, Map<Long, Set<Long>> linkLikes, double threshold)
+	{
+		double truePos = 0;
+		double falsePos = 0;
+		double trueNeg = 0;
+		double falseNeg = 0;
+		
+		for (long userId : predictions.keySet()) {
+			Map<Long, Double> userPredictions = predictions.get(userId);
+			
+			for (long linkId : userPredictions.keySet()) {
+				Set<Long> likes = linkLikes.get(linkId);
+				boolean trueLikes = false;
+				if (likes != null && likes.contains(userId)) trueLikes = true;
+				
+				double val = userPredictions.get(linkId);
+				boolean predicted = false;
+				if (val >= threshold) predicted = true;
+				
+				if (predicted) {
+					if (trueLikes) {
+						truePos++;
+					}
+					else {
+						falsePos++;
+					}
+				}
+				else {
+					if (trueLikes) {
+						falseNeg++;
+					}
+					else {
+						trueNeg++;
+					}
+				}
+			}
+		}
+		
+		double precision = truePos / (truePos + falsePos);
+		if ((truePos + falsePos) == 0) precision = 0;
+		
+		double recall = truePos / (truePos + falseNeg);
+		if ((truePos + falseNeg) == 0) recall = 0;
+		
+		double f1 = 2 * (precision * recall) / (precision + recall);
+		if ((precision + recall) == 0) f1 = 0;
+		
+		return f1;
+	}
+	
+	public void getTotalSimpleMetrics(Map<Long, Map<Long, Double>> predictions, Map<Long, Set<Long>> linkLikes, double threshold)
+	{
+		double truePos = 0;
+		double falsePos = 0;
+		double trueNeg = 0;
+		double falseNeg = 0;
+		
+		int totalCount = 0;
+		
+		for (long userId : predictions.keySet()) {
+			Map<Long, Double> userPredictions = predictions.get(userId);
+			
+			for (long linkId : userPredictions.keySet()) {
+				totalCount++;
+				
+				Set<Long> likes = linkLikes.get(linkId);
+				boolean trueLikes = false;
+				if (likes != null && likes.contains(userId)) trueLikes = true;
+				
+				double val = userPredictions.get(linkId);
+				boolean predicted = false;
+				if (val >= threshold) predicted = true;
+				
+				if (predicted) {
+					if (trueLikes) {
+						truePos++;
+					}
+					else {
+						falsePos++;
+					}
+				}
+				else {
+					if (trueLikes) {
+						falseNeg++;
+					}
+					else {
+						trueNeg++;
+					}
+				}
+			}
+		}
+		
+		double accuracy = (truePos + trueNeg) / (truePos + trueNeg + falsePos + falseNeg);
+		if ((truePos + trueNeg + falsePos + falseNeg) == 0) accuracy = 0;
+		
+		double precision = truePos / (truePos + falsePos);
+		if ((truePos + falsePos) == 0) precision = 0;
+		
+		double recall = truePos / (truePos + falseNeg);
+		if ((truePos + falseNeg) == 0) recall = 0;
+		
+		double f1 = 2 * (precision * recall) / (precision + recall);
+		if ((precision + recall) == 0) f1 = 0;
+		
+		double confidence = 2 * Math.sqrt((accuracy * (1 - accuracy)) / totalCount);
+		
+		System.out.println("TP: " + truePos + " FP: " + falsePos + " TN: " + trueNeg + " FN: " + falseNeg);
+		System.out.println("Accuracy: " + accuracy);
+		System.out.println("Confidence Interval: " + confidence);
+		System.out.println("Precision: " + precision);
+		System.out.println("Recall: " + recall);
+		System.out.println("F1: " + f1);
+	}
+	
+	public void getSimpleMetrics(Map<Long, Map<Long, Double>> predictions, Map<Long, Set<Long>> linkLikes, double threshold)
+	{
+		Map<Long, Double[]> metrics = new HashMap<Long, Double[]>();
+		
+		double totalTruePos = 0;
+		double totalFalsePos = 0;
+		double totalTrueNeg = 0;
+		double totalFalseNeg = 0;
+		
+		for (long userId : predictions.keySet()) {
+			Map<Long, Double> userPredictions = predictions.get(userId);
+			
+			double truePos = 0;
+			double falsePos = 0;
+			double trueNeg = 0;
+			double falseNeg = 0;
+			
+			for (long linkId : userPredictions.keySet()) {
+				Set<Long> likes = linkLikes.get(linkId);
+				boolean trueLikes = false;
+				if (likes != null && likes.contains(userId)) trueLikes = true;
+				
+				double val = userPredictions.get(linkId);
+				boolean predicted = false;
+				if (val >= threshold) predicted = true;
+				
+				if (predicted) {
+					if (trueLikes) {
+						truePos++;
+					}
+					else {
+						falsePos++;
+					}
+				}
+				else {
+					if (trueLikes) {
+						falseNeg++;
+					}
+					else {
+						trueNeg++;
+					}
+				}
+			}
+			
+			totalTruePos += truePos;
+			totalFalsePos += falsePos;
+			totalTrueNeg += trueNeg;
+			totalFalseNeg += falseNeg;
+			
+			double accuracy = (truePos + trueNeg) / (truePos + trueNeg + falsePos + falseNeg);
+			if ((truePos + trueNeg + falsePos + falseNeg) == 0) accuracy = 0;
+			
+			double precision = truePos / (truePos + falsePos);
+			if ((truePos + falsePos) == 0) precision = 0;
+			
+			double recall = truePos / (truePos + falseNeg);
+			if ((truePos + falseNeg) == 0) recall = 0;
+			
+			double f1 = 2 * (precision * recall) / (precision + recall);
+			if ((precision + recall) == 0) f1 = 0;
+			
+			metrics.put(userId, new Double[]{accuracy, precision, recall, f1});
+		}
+		
+		double avAccuracy = 0;
+		double avPrecision = 0;
+		double avRecall = 0;
+		double avF1 = 0;
+		
+		for (long userId : metrics.keySet()) {
+			Double[] values = metrics.get(userId);
+			
+			avAccuracy += values[0];
+			avPrecision += values[1];
+			avRecall += values[2];
+			avF1 += values[3];
+		}
+		
+		avAccuracy /= (double)metrics.size();
+		avPrecision /= (double)metrics.size();
+		avRecall /= (double)metrics.size();
+		avF1 /= (double)metrics.size();
+		
+		double stdAccuracy = 0;
+		double stdPrecision = 0;
+		double stdRecall = 0;
+		double stdF1 = 0;
+		
+		for (long userId : metrics.keySet()) {
+			Double[] values = metrics.get(userId);
+			
+			stdAccuracy += Math.pow(avAccuracy - values[0], 2);
+			stdPrecision += Math.pow(avPrecision - values[1], 2);
+			stdRecall += Math.pow(avRecall - values[2], 2);
+			stdF1 += Math.pow(avF1 - values[3], 2);
+		}
+		
+		stdAccuracy = Math.sqrt(stdAccuracy / (double)metrics.size());
+		stdPrecision = Math.sqrt(stdPrecision / (double)metrics.size());
+		stdRecall = Math.sqrt(stdRecall / (double)metrics.size());
+		stdF1 = Math.sqrt(stdF1 / (double)metrics.size());
+		
+		double seAccuracy = stdAccuracy / Math.sqrt(metrics.size());
+		double sePrecision = stdPrecision / Math.sqrt(metrics.size());
+		double seRecall = stdPrecision / Math.sqrt(metrics.size());
+		double seF1 = stdPrecision / Math.sqrt(metrics.size());
+		
+		System.out.println("TP: " + totalTruePos + " FP: " + totalFalsePos + " TN: " + totalTrueNeg + " FN: " + totalFalseNeg);
+		System.out.println("Accuracy: " + avAccuracy + " " + seAccuracy);
+		System.out.println("Precision: " + avPrecision + " " + sePrecision);
+		System.out.println("Recall: " + avRecall + " " + seRecall);
+		System.out.println("F1: " + avF1 + " " + seF1);
+	}
+	
+	public int getScore(Map<Long, Map<Long, Double>> predictions, Map<Long, Set<Long>> linkLikes, double threshold)
+	{
+		int score = 0;
+		
+		for (long userId : predictions.keySet()) {
+			Map<Long, Double> userPredictions = predictions.get(userId);
+			
+			for (long linkId : userPredictions.keySet()) {
+				Set<Long> likes = linkLikes.get(linkId);
+				boolean trueLikes = false;
+				if (likes != null && likes.contains(userId)) trueLikes = true;
+				
+				double val = userPredictions.get(linkId);
+				boolean predicted = false;
+				if (val >= threshold) predicted = true;
+				
+				if (trueLikes == predicted) score++;
+				else score--;
+			}
+		}
+		
+		return score;
+	}
+	
+	public int getScore2(Map<Long, Map<Long, Double>> predictions, Map<Long, Set<Long>> linkLikes, double threshold)
+	{
+		int score = 0;
+		int right = 0;
+		int wrong = 0;
+		
+		for (long userId : predictions.keySet()) {
+			Map<Long, Double> userPredictions = predictions.get(userId);
+			
+			for (long linkId : userPredictions.keySet()) {
+				Set<Long> likes = linkLikes.get(linkId);
+				boolean trueLikes = false;
+				if (likes != null && likes.contains(userId)) trueLikes = true;
+				
+				double val = userPredictions.get(linkId);
+				boolean predicted = false;
+				if (val >= threshold) predicted = true;
+				
+				if (trueLikes == predicted) {
+					score++;
+					right++;
+				}
+				else {
+					score--;
+					wrong++;
+				}
+			}
+		}
+		
+		System.out.println("Right: " + right);
+		System.out.println("Wrong: " + wrong);
+		return score;
+	}
+	
 	public void outputAUC(Recommender recommender, Map<Long, Set<Long>> testData)
 	{
 		int gCount = 20;

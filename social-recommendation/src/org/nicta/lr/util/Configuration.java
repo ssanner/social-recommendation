@@ -16,7 +16,7 @@ public class Configuration
 	public static String DB_STRING = Constants.SERVER_DB_STRING;
 	public static String LANG_PROFILE_FOLDER = Constants.SERVER_LANG_PROFILE_FOLDER;
 	
-	public static String TRAINING_DATA = Constants.UNION;
+	public static String TRAINING_DATA = Constants.ACTIVE;
 	public static String TEST_DATA = Constants.APP_USER_ACTIVE_ALL;
 	
 	//public static String TRAINING_DATA = Constants.PASSIVE;
