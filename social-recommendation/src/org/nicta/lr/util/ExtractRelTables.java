@@ -199,13 +199,6 @@ public class ExtractRelTables {
 
 	}
 
-	private static Map<Long, Set<Long>> FilterGroups(
-			Map<Long, Set<Long>> uid_2_groupid,
-			Map<Long, Integer> groupid_2_sz, InteractionType itype) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	public static void ShowLikes(String restriction) throws SQLException {
 	
 		for (LikeType type : LikeType.values()) {
