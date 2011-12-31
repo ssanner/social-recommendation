@@ -107,7 +107,7 @@ public class UserUtil
 		
 		if (type == InteractionType.GROUPS_SZ_2_5 || type == InteractionType.GROUPS_SZ_6_10 || type == InteractionType.GROUPS_SZ_11_25 || 
 			type == InteractionType.GROUPS_SZ_26_50 || type == InteractionType.GROUPS_SZ_51_100 || type == InteractionType.GROUPS_SZ_101_500 || 
-			type == InteractionType.GROUPS_SZ_500_PLUS) {
+			type == InteractionType.GROUPS_SZ_500_PLUS || type == InteractionType.GROUPS_SZ_2_2) {
 			return getUserInteractionsByGroup(type, complete_colikes);
 		}
 		
@@ -117,6 +117,7 @@ public class UserUtil
 		String target_uid = null;
 		String interacting_uid = null;
 		switch (type) {
+			case FRIENDS:        table = "linkrfriends"; target_uid = "uid1"; interacting_uid = "uid2"; break;
 			case LINK_LIKES:     table = "linkrlinklikes"; target_uid = "uid"; interacting_uid = "id"; break;
 			case LINK_COMMENTS:  table = "linkrlinkcomments"; target_uid = "uid"; interacting_uid = "from_id"; break;
 			case POST_LIKES:     table = "linkrpostlikes"; target_uid = "uid"; interacting_uid = "id"; break;
@@ -128,6 +129,10 @@ public class UserUtil
 			case VIDEO_LIKES:    table = "linkrvideolikes"; target_uid = "uid"; interacting_uid = "id"; break;
 			case VIDEO_COMMENTS: table = "linkrvideocomments"; target_uid = "uid"; interacting_uid = "from_id"; break;
 			case VIDEO_TAGS:     table = "linkrvideotags"; target_uid = "uid1"; interacting_uid = "uid2"; break;
+			default: {
+				System.out.println("ERROR: Illegal type -- " + type);
+				System.exit(1);
+			}
 		}
 		
 		String sql_query = "SELECT " + target_uid + ", " + interacting_uid + " FROM " + table;
@@ -156,6 +161,7 @@ public class UserUtil
 		int lb = 1;
 		int ub = Integer.MAX_VALUE;
 		switch (type) {
+			case GROUPS_SZ_2_2:      lb = 2;   ub = 2;   break;
 			case GROUPS_SZ_2_5:      lb = 2;   ub = 5;   break;
 			case GROUPS_SZ_6_10:     lb = 6;   ub = 10;  break;
 			case GROUPS_SZ_11_25:    lb = 11;  ub = 25;  break; 
