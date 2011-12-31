@@ -18,7 +18,6 @@ public class UserUtil
 	 * @return
 	 * @throws SQLException
 	 */
-	
 	public static Set<Long> getUserIds()
 		throws SQLException
 	{
@@ -53,6 +52,246 @@ public class UserUtil
 		statement.close();
 		
 		return userIds;
+	}
+	
+	public static Map<Long,Set<Long>> getLikes(LikeType type)
+		throws SQLException
+	{
+		// uid -> set(likeIDs)
+		HashMap<Long,Set<Long>> user2likeIDs = new HashMap<Long,Set<Long>>();
+		
+		Statement statement = SQLUtil.getStatement();
+		
+		String table = null;
+		String liked_id = null;
+		switch (type) {
+			case LINK:  table = "linkrlinklikes";  liked_id = "link_id"; break;
+			case POST:  table = "linkrpostlikes";  liked_id = "post_id"; break;
+			case PHOTO: table = "linkrphotolikes"; liked_id = "photo_id"; break;
+			case VIDEO: table = "linkrvideolikes"; liked_id = "video_id"; break;
+		}
+		String userQuery = "SELECT " + liked_id + ", id FROM " + table;
+		
+		ResultSet result = statement.executeQuery(userQuery);
+		while (result.next()) {
+			long LIKED_ID = result.getLong(1);
+			long USER_ID = result.getLong(2);
+			Set<Long> likedIDs = user2likeIDs.get(USER_ID);
+			if (likedIDs == null) {
+				likedIDs = new HashSet<Long>();
+				user2likeIDs.put(USER_ID, likedIDs);
+			}
+			likedIDs.add(LIKED_ID);
+		}
+		statement.close();
+		
+		return user2likeIDs;		
+	}
+	
+	/**
+	 * 
+	 * @param type -- see InteractionType
+	 * @param complete_colikes -- currently unused... whether to complete all pairs of people
+	 *                            liking same item
+	 * @return
+	 * @throws SQLException
+	 */
+	public static Interaction getUserInteractions(
+			InteractionType type, boolean complete_colikes) 
+		throws SQLException
+	{
+		if (complete_colikes) {
+			System.out.println("ERROR: UserUtil.getUserInteractions(..., complete_colikes=true) currently unsupported");
+			System.exit(1);
+		}
+		
+		if (type == InteractionType.GROUPS_SZ_2_5 || type == InteractionType.GROUPS_SZ_6_10 || type == InteractionType.GROUPS_SZ_11_25 || 
+			type == InteractionType.GROUPS_SZ_26_50 || type == InteractionType.GROUPS_SZ_51_100 || type == InteractionType.GROUPS_SZ_101_500 || 
+			type == InteractionType.GROUPS_SZ_500_PLUS) {
+			return getUserInteractionsByGroup(type, complete_colikes);
+		}
+		
+		Interaction i = new Interaction(); // currently treat interactions as undirected
+
+		String table = null;
+		String target_uid = null;
+		String interacting_uid = null;
+		switch (type) {
+			case LINK_LIKES:     table = "linkrlinklikes"; target_uid = "uid"; interacting_uid = "id"; break;
+			case LINK_COMMENTS:  table = "linkrlinkcomments"; target_uid = "uid"; interacting_uid = "from_id"; break;
+			case POST_LIKES:     table = "linkrpostlikes"; target_uid = "uid"; interacting_uid = "id"; break;
+			case POST_COMMENTS:  table = "linkrpostcomments"; target_uid = "uid"; interacting_uid = "from_id"; break;
+			case POST_TAGS:      table = "linkrposttags"; target_uid = "uid1"; interacting_uid = "uid2"; break;
+			case PHOTO_LIKES:    table = "linkrphotolikes"; target_uid = "uid"; interacting_uid = "id"; break;
+			case PHOTO_COMMENTS: table = "linkrphotocomments"; target_uid = "uid"; interacting_uid = "from_id"; break; 
+			case PHOTO_TAGS:     table = "linkrphototags"; target_uid = "uid1"; interacting_uid = "uid2"; break;
+			case VIDEO_LIKES:    table = "linkrvideolikes"; target_uid = "uid"; interacting_uid = "id"; break;
+			case VIDEO_COMMENTS: table = "linkrvideocomments"; target_uid = "uid"; interacting_uid = "from_id"; break;
+			case VIDEO_TAGS:     table = "linkrvideotags"; target_uid = "uid1"; interacting_uid = "uid2"; break;
+		}
+		
+		String sql_query = "SELECT " + target_uid + ", " + interacting_uid + " FROM " + table;
+		
+		Statement statement = SQLUtil.getStatement();
+		ResultSet result = statement.executeQuery(sql_query);
+		while (result.next()) {
+			long TARGET_ID = result.getLong(1);
+			long FROM_ID = result.getLong(2);
+			i.addInteraction(TARGET_ID, FROM_ID);
+		}
+		statement.close();
+		
+		return i;
+	}
+	
+	public static Interaction getUserInteractionsByGroup
+		(InteractionType type, boolean complete_colikes)
+	throws SQLException {
+		
+		Interaction i = new Interaction(); // currently treat interactions as undirected
+
+		Map<Long,Set<Long>> UID_2_GROUPID = UserUtil.getUser2Groups();
+		Map<Long,Set<Long>> GROUPID_2_UID = UserUtil.getGroup2Users();
+		
+		int lb = 1;
+		int ub = Integer.MAX_VALUE;
+		switch (type) {
+			case GROUPS_SZ_2_5:      lb = 2;   ub = 5;   break;
+			case GROUPS_SZ_6_10:     lb = 6;   ub = 10;  break;
+			case GROUPS_SZ_11_25:    lb = 11;  ub = 25;  break; 
+			case GROUPS_SZ_26_50:    lb = 26;  ub = 50;  break;
+			case GROUPS_SZ_51_100:   lb = 51;  ub = 100; break;
+			case GROUPS_SZ_101_500:  lb = 101; ub = 500; break; 
+			case GROUPS_SZ_500_PLUS: lb = 500; break;
+			default: {
+				System.out.println("ERROR: Illegal type -- " + type);
+				System.exit(1);
+			}
+		}
+		
+		//int k = 0;
+		for (long uid : UID_2_GROUPID.keySet()) {
+			Set<Long> groups = UID_2_GROUPID.get(uid);
+			if (groups != null) 
+				for (Long gid : groups) {
+					Set<Long> other_gids = GROUPID_2_UID.get(gid);
+					if (other_gids == null || other_gids.size() < lb || other_gids.size() > ub)
+						continue;
+					for (long uid2 : other_gids) { 
+						if (uid2 == uid)
+							continue;
+						i.addInteraction(uid, uid2);
+						//System.out.println(uid + ":" + gid + ":" + uid2);
+						//k++;
+					}
+				}
+			//if (k > 100) System.exit(1);
+		}
+		
+		return i;
+	}
+
+	public static Map<Long,String> getUserNames() 
+		throws SQLException
+	{
+		HashMap<Long,String> userID2Name = new HashMap<Long,String>();
+		
+		Statement statement = SQLUtil.getStatement();
+		
+		String userQuery = "SELECT uid, name FROM linkruser";
+		
+		ResultSet result = statement.executeQuery(userQuery);
+		while (result.next()) {
+			userID2Name.put(result.getLong(1), result.getString(2));
+		}
+		statement.close();
+		
+		return userID2Name;
+	}
+
+	public static Map<Long,String> getGroupNames() 
+	throws SQLException
+	{
+		HashMap<Long,String> groupID2Name = new HashMap<Long,String>();
+		
+		Statement statement = SQLUtil.getStatement();
+		
+		String userQuery = "SELECT id, name FROM linkrgroups";
+		
+		ResultSet result = statement.executeQuery(userQuery);
+		while (result.next()) {
+			groupID2Name.put(result.getLong(1), result.getString(2));
+		}
+		statement.close();
+		
+		return groupID2Name;
+	}
+
+	public static Map<Long, Integer> getGroupID2Size() 
+	throws SQLException {
+		HashMap<Long, Integer> groupid2size = new HashMap<Long, Integer>();
+		
+		Statement statement = SQLUtil.getStatement();
+		String query = "select id, count(id) as ncount from linkrgroups group by name order by ncount desc";
+
+		ResultSet result = statement.executeQuery(query);
+		while (result.next()) {
+			long uid = result.getLong(1);
+			int group_size = result.getInt(2);
+			if (group_size > 1) // No need for groups of size 1
+				groupid2size.put(uid, group_size);
+		}
+		statement.close();
+		
+		return groupid2size;
+	}
+	
+	public static Map<Long, Set<Long>> getUser2Groups()
+	throws SQLException {
+		HashMap<Long,Set<Long>> user2groups = new HashMap<Long,Set<Long>>();
+		Statement statement = SQLUtil.getStatement();
+		String query = "select uid, id from linkrgroups order by uid";
+		
+		ResultSet result = statement.executeQuery(query);
+		long last_uid = -1;
+		Set<Long> group_ids = null;
+		while (result.next()) {
+			long uid = result.getLong(1);
+			long group_id = result.getLong(2);
+			if (uid != last_uid) { // Starting a new set for uid
+				group_ids = new HashSet<Long>();
+				user2groups.put(uid, group_ids);
+			}
+			last_uid = uid;
+			group_ids.add(group_id);
+		}
+		statement.close();
+		
+		return user2groups;
+	}
+	
+	public static Map<Long, Set<Long>> getGroup2Users()
+	throws SQLException {
+		HashMap<Long,Set<Long>> group2users = new HashMap<Long,Set<Long>>();
+		Statement statement = SQLUtil.getStatement();
+		String query = "select uid, id from linkrgroups order by id";
+		
+		ResultSet result = statement.executeQuery(query);
+		long last_group_id = -1;
+		Set<Long> uids = null;
+		while (result.next()) {
+			long uid = result.getLong(1);
+			long group_id = result.getLong(2);
+			if (group_id != last_group_id) { // Starting a new set for uid
+				uids = new HashSet<Long>();
+				group2users.put(group_id, uids);
+			}
+			last_group_id = group_id;
+			uids.add(uid);
+		}
+		statement.close();
+		
+		return group2users;
 	}
 	
 	public static Map<Long, Double[]> getUserFeatures()
