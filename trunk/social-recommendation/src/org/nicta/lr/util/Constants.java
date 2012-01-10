@@ -4,7 +4,7 @@ public class Constants
 {
 	public static final long APPLICATION_ID = 149458388467879l;
 	
-	public static final String SERVER_DB_STRING = "jdbc:mysql://localhost/linkrData?user=linkrAdmin&password=w39ve5S97GjtATP7";
+	public static final String SERVER_DB_STRING = "jdbc:mysql://localhost/linkrData?user=linkrAdmin&password=???";
 	public static final String LOCAL_DB_STRING = "jdbc:mysql://localhost/sorec?user=socrec&password=sorec";
 	public static final String SCOTT_DB_STRING = "jdbc:mysql://localhost/linkrData?user=root&password=smlopinionwatch";
 
