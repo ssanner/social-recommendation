@@ -138,7 +138,7 @@ public class ExtractRelTables {
 	
 	public static void ShowCondProbs(String restriction) throws SQLException {
 		
-		Set<Long> id_set = ALL_USERS;
+		Set<Long> id_set = APP_USERS;
 
 		for (InteractionType itype : InteractionType.values()) {
 			System.out.println("=========================");
