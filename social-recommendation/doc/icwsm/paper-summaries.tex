@@ -1,0 +1,180 @@
+% Paper summaries for related works section of ICDSM-2012 paper 
+% PC, Jan 2012
+
+% Algorithm to analyse influences and conformity based on both
+% positive and negative interactions - not sure if relevant to our
+% work.
+
+@inproceedings{Li:2011:CTC:2063576.2063721,
+ author = {Li, Hui and Bhowmick, Sourav S. and Sun, Aixin},
+ title = {CASINO: towards conformity-aware social influence analysis in online social networks},
+ booktitle = {Proceedings of the 20th ACM international conference on Information and knowledge management},
+ series = {CIKM '11},
+ year = {2011},
+ isbn = {978-1-4503-0717-8},
+ location = {Glasgow, Scotland, UK},
+ pages = {1007--1012},
+ numpages = {6},
+ url = {http://doi.acm.org/10.1145/2063576.2063721},
+ doi = {http://doi.acm.org/10.1145/2063576.2063721},
+ acmid = {2063721},
+ publisher = {ACM},
+ address = {New York, NY, USA},
+ keywords = {conformity, influence, signed edge, social networks, topic-based subgraphs, twitter},
+} 
+
+Li et al.~\cite{Li:2011:CTC:2063576.2063721} recently presented an
+algorithm to analyse influences in social networks. Using both positive
+interactions (such as agreements and trust) as well as negative
+interactions (like distrust and disagreements) between individuals in
+a network, they calculate an influence and a conformity index for each
+individual. Their CASINO algorithm was successful to identify both
+influential as well as conforming individuals in several
+different types of social networks.
+
+% -------------------------------
+
+% Analysis of incoming and outgoing activities, similar to what we do,
+% on Facebook, Twiter and Enron email.
+
+@inproceedings{saez2011high,
+  title={High Correlation between Incoming and Outgoing Activity: A Distinctive Property of Online Social Networks?},
+  author={Saez-Trumper, D. and Nettleton, D. and Baeza-Yates, R.},
+  booktitle={Fifth International AAAI Conference on Weblogs and Social Media},
+  year={2011}
+}
+
+Saez-Trumper and Nettleton~\cite{saez2011high} analysed three
+different types of social networks with regard to the incoming and
+outgoing activity of users, and they found that in both data from
+Facebook and Twitter there is a high correlation between incoming and
+outgoing activities. However, only a low correlation on these
+activities was found in the Enron email data set. In the Facebook
+data, the outgoing activity was calculated according to the number of
+posts done by a user, while the incoming activity was the number of
+posts received. For the Twitter data, outgoing activity was the number
+of tweets done while the incoming activity was the number of followers
+a user had on Twitter. With the Enron data sets, outgoing and incoming
+activities were calculated as the number of emails sent and received.
+The conclusion of this analysis was that in social network media one
+important factor that can influence if one becomes an influential user
+is to generate outgoing activity, i.e.\ to for example post on other
+user's wall.
+
+% ----------------------
+
+% Predicting tie strength, using several dimensions, based on Facebook
+% data and follow-up interviews
+
+@inproceedings{gilbert2009predicting,
+  title={Predicting tie strength with social media},
+  author={Gilbert, E. and Karahalios, K.},
+  booktitle={Proceedings of the 27th international conference on Human factors in computing systems},
+  pages={211--220},
+  year={2009},
+  organization={ACM}
+}
+
+Gilbert and Karahalios~\cite{gilbert2009predicting} analysed a data
+set consisting of over 2,000 Facebook friendships with the aim to
+predict the strengths of ties in social media data. This data set was
+manually collected from the Facebook accounts of 35 users who
+additionally answered five questions to assess tie strengths. Included
+in these five questions were, for example, `How strong is your
+friendship with this person' and `How would you feel asking this person
+to load you \$100 or more?'. Based on the data collected, 74 variables
+were used in a linear model to predict tie strength. Extending earlier
+work on tie strength, conducted mostly in the social sciences, Gilbert
+and Karahalios defined seven dimensions for tie strengths. They found
+that the three most predictive dimensions were intimacy (32.8\%,
+measured as the recency of the last communication, number of common
+friends and intimate words used), followed by intensity (19.7\%,
+measured by the number of words posted on a friends Facebook wall, the
+number of outbound posts and the depth of communication threads
+between friends), and duration (16.5\% measured as the time when the
+first communication between friends occurred). The four less predictive
+dimensions were social distance, services, emotional support and
+structural information such interest overlaps or common group
+memberships~\cite{gilbert2009predicting}. Classifying tie strength
+into weak and strong as has previously been proposed by social science
+researchers, the model proposed by Gilbert and Karahalios achieved an
+accuracy of over 85\% when distinguishing between weak and strong ties.
+
+% ----------------------
+
+% modelling of spread of information through networks based on
+% epidemiological models.
+
+@inproceedings{ver2011stops,
+  title={What Stops Social Epidemics?},
+  author={Ver Steeg, G. and Ghosh, R. and Lerman, K.},
+  booktitle={Proc. 5th Int. Conf. on Weblogs and Social Media},
+  year={2011}
+}
+
+Ver Steeg et al.~\cite{ver2011stops} recently investigated how
+information is spread though social networks by employing models that
+originally have been developed in the area of epidemiology to model
+the spread of contagious diseases. They extracted network data from
+the social news site Digg constraining around 3,500 stories and nearly
+140,000 users who actively voted for at least one of these stories.
+They then built a friendship network with more than 1.7 million
+directed links between users according who they nominated as their
+friends. Based on this network they then analysed how stories spread
+as users vote for a story which is then exposed to their friends in
+Digg. The spread of a story through Digg's network is described as a
+`social infection' process, and because several user can initially
+vote for a  story independently from others, many cascades are started
+for the same story. Interestingly, contrary to epidemiological models,
+the likelihood that a user votes for a story (i.e.\ recommends a
+story) reduces with repeated exposure (i.e.\ the more of their friends
+vote for the story). As a result, in their analysis, Ver Steeg et
+al.\ discovered that most stories do no spread through more then 0.1\%
+of Digg's network structure. A theoretical analysis comparing the real
+Digg data with simulated data confirms these empirical results.
+
+% ----------------------
+
+% Analysis of different interactions on Facebook: communication versus
+% viewing (similar to our real / virtual friends?)
+
+@inproceedings{backstrom2011center,
+  title={Center of attention: How facebook users allocate attention across friends},
+  author={Backstrom, L. and Bakshy, E. and Kleinberg, J. and Lento, T.M. and Rosenn, I.},
+  booktitle={Proc. 5th International Conference on Weblogs and Social Media},
+  year={2011}
+}
+
+Backstrom et al.~\cite{backstrom2011center} propose a measure to
+express how users divide their attention across their friends in
+Facebook. They classify attention into two groups: communication,
+which includes sending messages, leaving comments on a photo or video,
+and wall posts; and viewing of profiles and photos of another user.
+Using a Facebook data set covering the full year of 2010, they find
+that communication interactions are much more focussed with a
+higher portion of an individual's attention going towards a small
+number of friends compared to viewing attention which is much more
+dispersed across all friends of a user. Drilling down into the data,
+they find that older user are having a more focussed viewing behaviour
+while at the same time exhibiting a more disperse communication
+behaviour. Similarly, male users are more focussed in their
+attention than females. Further differences were found in the
+interactions between genders, and between individuals that had
+different relationship status.
+
+
+
+% ----------------------
+
+% TODO
+
+@inproceedings{wilson2009user,
+  title={User interactions in social networks and their implications},
+  author={Wilson, C. and Boe, B. and Sala, A. and Puttaswamy, K.P.N. and Zhao, B.Y.},
+  booktitle={Proceedings of the 4th ACM European conference on Computer systems},
+  pages={205--218},
+  year={2009},
+  organization={Acm}
+}
+
+
