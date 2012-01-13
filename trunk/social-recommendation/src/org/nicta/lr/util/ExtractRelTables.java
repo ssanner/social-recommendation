@@ -1,7 +1,12 @@
 package org.nicta.lr.util;
 
+import java.io.FileOutputStream;
+import java.io.PrintStream;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.*;
+
+import util.Statistics;
 
 //Objective: to define various "groups" from a user-centric perspective and see 
 //amount of overlap between users and their local "groups" in terms of overlap 
@@ -72,6 +77,8 @@ import java.util.*;
 
 public class ExtractRelTables {
 
+	public static DecimalFormat _df = new DecimalFormat("0.000");
+	
 	public static Set<Long> APP_USERS;
 	public static Set<Long> ALL_USERS;
 	public static Map<Long,String> UID_2_NAME;
@@ -101,14 +108,14 @@ public class ExtractRelTables {
 	/**
 	 * @param args
 	 */
-	public static void main(String[] args) throws SQLException {
+	public static void main(String[] args) throws Exception {
 		
 		System.out.println("App users: " + APP_USERS.size());
 		System.out.println("All users: " + ALL_USERS.size());	
 		
 		//ShowLikes("Sonia");
 		//ShowInteractions("Sonia");
-		ShowCondProbs("Sonia");
+		ShowCondProbs();
 		//ShowGroups();
 		
 		//for (FriendType friend_type : FriendType.values()) {
@@ -116,8 +123,8 @@ public class ExtractRelTables {
 		//}
 	}
 
-	public static Set<Long> GetLikesInteractions(long uid, Interaction i, Map<Long,Set<Long>> id2likes) {
-		HashSet<Long> likes = new HashSet<Long>();
+	public static HashMap<Long,Integer> GetLikesInteractions(long uid, Interaction i, Map<Long,Set<Long>> id2likes) {
+		HashMap<Long,Integer> likes = new HashMap<Long,Integer>();
 		Set<Long> others = i.getInteractions(uid);
 		
 		//Set<Long> uid_likes = id2likes.get(uid);
@@ -129,46 +136,90 @@ public class ExtractRelTables {
 				continue;
 			
 			Set<Long> other_likes = id2likes.get(uid2);
-			if (other_likes != null)
-				likes.addAll(other_likes);
+			if (other_likes != null) {
+				for (Long item : other_likes) {
+					Integer cur_count = likes.get(item);
+					likes.put(item, cur_count == null ? 1 : cur_count + 1);
+				}
+			}
 		}
 		
 		return likes;
 	}
 	
-	public static void ShowCondProbs(String restriction) throws SQLException {
+	public static Set<Long> ThresholdAtK(HashMap<Long,Integer> counts, int k) {
+		Set<Long> ret = new HashSet<Long>();
+		for (Map.Entry<Long, Integer> entry : counts.entrySet())
+			if (entry.getValue() >= k)
+				ret.add(entry.getKey());
+		return ret;
+	}
+	
+	public static void ShowCondProbs() throws Exception {
 		
+		PrintStream log = new PrintStream(new FileOutputStream("cond_probs.txt"));
 		Set<Long> id_set = APP_USERS;
 
-		for (InteractionType itype : InteractionType.values()) {
-			System.out.println("=========================");
-			Interaction i = UserUtil.getUserInteractions(itype, false);
+		for (LikeType ltype : LikeType.values()) {
 
-			for (LikeType ltype : LikeType.values()) {
-				System.out.println("=========================");
-				Map<Long,Set<Long>> id2likes = UserUtil.getLikes(ltype);
+		for (InteractionType itype : InteractionType.values()) {
 			
-				double accum_prob = 0d;
-				for (long uid : id_set) {
-					String uid_name = UID_2_NAME.get(uid);
-					//if (!uid_name.contains(restriction))
-					//	continue;
-					Set<Long> other_likes_ids = GetLikesInteractions(uid, i, id2likes);
-					//P(like | friend likes) = P(like and friend likes) / P(friend likes)
-					//                       = F(like and friend likes) / F(friend likes)
-					Set<Long> likes_intersect_other_likes_ids = id2likes.get(uid);
-					double prob = 0d;
-					if (likes_intersect_other_likes_ids != null && other_likes_ids != null && other_likes_ids.size() > 0) {
-						likes_intersect_other_likes_ids.retainAll(other_likes_ids);
-						prob = (double)likes_intersect_other_likes_ids.size() / (double)other_likes_ids.size();
+			if (itype == InteractionType.GROUPS_SZ_2_5 || itype == InteractionType.GROUPS_SZ_6_10 || itype == InteractionType.GROUPS_SZ_11_25 || 
+				itype == InteractionType.GROUPS_SZ_26_50 || itype == InteractionType.GROUPS_SZ_51_100 || itype == InteractionType.GROUPS_SZ_101_500 || 
+				itype == InteractionType.GROUPS_SZ_500_PLUS || itype == InteractionType.GROUPS_SZ_2_2)
+					continue;
+
+			System.out.println("*************************");
+			log.println("*************************");
+
+			for (Direction dir : Direction.values()) {
+		
+				Interaction i = UserUtil.getUserInteractions(itype, dir, false);
+
+				//for (LikeType ltype : LikeType.values()) {
+					System.out.println("=========================");
+					log.println("=========================");
+					Map<Long,Set<Long>> id2likes = UserUtil.getLikes(ltype);
+	
+					// Number of friends who also like the same thing
+					ArrayList<Double> prob_at_k = new ArrayList<Double>();
+					for (int k = 1; k <= 10; k++) {
+						
+						ArrayList<Double> probs = new ArrayList<Double>();
+						for (long uid : id_set) {
+							String uid_name = UID_2_NAME.get(uid);
+							//if (!uid_name.contains(restriction))
+							//	continue;
+							HashMap<Long,Integer> other_likes_id2count = GetLikesInteractions(uid, i, id2likes);
+							//P(like | friend likes) = P(like and friend likes) / P(friend likes)
+							//                       = F(like and friend likes) / F(friend likes)
+							Set<Long> other_likes_ids = ThresholdAtK(other_likes_id2count, k);
+							Set<Long> likes_intersect_other_likes_ids = id2likes.get(uid);
+							if (likes_intersect_other_likes_ids == null && other_likes_ids.size() > 0) 
+								probs.add(0d); // uid didn't like anything
+							else if (other_likes_ids.size() > 0) {
+								likes_intersect_other_likes_ids.retainAll(other_likes_ids);
+								probs.add((double)likes_intersect_other_likes_ids.size() / (double)other_likes_ids.size());
+							} // else (other_likes_ids.size() == 0) -- friends didn't like anything so undefined
+						}
+						if (probs.size() > 10) {
+							String line = "** " + ltype + " likes | " + itype + " inter & " + dir + " & >" + k + " likes " + ": " +
+								(_df.format(Statistics.Avg(probs)) + " +/- " + _df.format(Statistics.StdError95(probs)) + " #" + probs.size() + " [ " + _df.format(Statistics.Min(probs)) + ", " + _df.format(Statistics.Max(probs)) + " ]");
+							log.println(line);
+							log.flush();
+							System.out.println(line);
+						}
+						prob_at_k.add(Statistics.Avg(probs));
 					}
-					accum_prob += prob;
-					//System.out.println(uid + ", " + uid_name + " -- " + ltype + " / " + itype + ": " + prob);
+					//for (int k = 1; k < 10; k++) {
+					//	System.out.println(k + ": " + prob_at_k.get(k-1) + "   ");
+					//}
+					System.out.println("=========================");
+					log.println("=========================");
 				}
-				System.out.println("** " + ltype + " / " + itype + ": " + (accum_prob / id_set.size()));
-				System.out.println("=========================");
 			}
 		}
+		log.close();
 	}
 	
 	public static void ShowGroups() throws SQLException {
@@ -219,7 +270,7 @@ public class ExtractRelTables {
 
 		for (InteractionType type : InteractionType.values()) {
 			System.out.println("=========================");
-			Interaction i = UserUtil.getUserInteractions(type, false);
+			Interaction i = UserUtil.getUserInteractions(type, Direction.BIDIR, false);
 			for (long uid : APP_USERS) {
 				String uid_name = UID_2_NAME.get(uid);
 				if (!uid_name.contains(restriction))

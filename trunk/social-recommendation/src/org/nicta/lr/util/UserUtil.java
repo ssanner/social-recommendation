@@ -97,7 +97,7 @@ public class UserUtil
 	 * @throws SQLException
 	 */
 	public static Interaction getUserInteractions(
-			InteractionType type, boolean complete_colikes) 
+			InteractionType type, Direction dir, boolean complete_colikes) 
 		throws SQLException
 	{
 		if (complete_colikes) {
@@ -140,9 +140,10 @@ public class UserUtil
 		Statement statement = SQLUtil.getStatement();
 		ResultSet result = statement.executeQuery(sql_query);
 		while (result.next()) {
+			// INCOMING if in correct order
 			long TARGET_ID = result.getLong(1);
 			long FROM_ID = result.getLong(2);
-			i.addInteraction(TARGET_ID, FROM_ID);
+			i.addInteraction(TARGET_ID, FROM_ID, type == InteractionType.FRIENDS ? Direction.BIDIR : dir);
 		}
 		statement.close();
 		
@@ -186,7 +187,7 @@ public class UserUtil
 					for (long uid2 : other_gids) { 
 						if (uid2 == uid)
 							continue;
-						i.addInteraction(uid, uid2);
+						i.addInteraction(uid, uid2, Direction.BIDIR);
 						//System.out.println(uid + ":" + gid + ":" + uid2);
 						//k++;
 					}
