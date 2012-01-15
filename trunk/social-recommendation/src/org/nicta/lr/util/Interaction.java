@@ -15,9 +15,9 @@ public class Interaction {
 	 * @param uid1
 	 * @param uid2
 	 */		
-	public void addInteraction(long uid1, long uid2, Direction dir) {
+	public void addInteraction(long uid1, long uid2, EDirectionType dir) {
 		
-		if (dir == Direction.INCOMING || dir == Direction.BIDIR) {
+		if (dir == EDirectionType.INCOMING || dir == EDirectionType.BIDIR) {
 			Set<Long> interactions1 = _interactions.get(uid1);
 			if (interactions1 == null) {
 				interactions1 = new HashSet<Long>();
@@ -26,7 +26,7 @@ public class Interaction {
 			interactions1.add(uid2);
 		}
 		
-		if (dir == Direction.OUTGOING || dir == Direction.BIDIR) {
+		if (dir == EDirectionType.OUTGOING || dir == EDirectionType.BIDIR) {
 			Set<Long> interactions2 = _interactions.get(uid2);
 			if (interactions2 == null) {
 				interactions2 = new HashSet<Long>();
@@ -44,6 +44,34 @@ public class Interaction {
 		return _interactions;
 	}
 	
+	public void addAllInteractions(Interaction i) {
+		for (Map.Entry<Long,Set<Long>> e : i._interactions.entrySet()) { // i's keyset
+			long uid = e.getKey();
+			Set<Long> to_add = e.getValue();
+			if (to_add == null || to_add.size() == 0)
+				continue;			
+			Set<Long> interactions = this._interactions.get(uid); // this's keys
+			if (interactions == null) {
+				interactions = new HashSet<Long>();
+				this._interactions.put(uid, interactions);
+			}
+			interactions.addAll(to_add);
+		}
+	}
+	
+	public void removeAllInteractions(Interaction i) {
+		for (Map.Entry<Long,Set<Long>> e : i._interactions.entrySet()) { // i's keyset
+			long uid = e.getKey();
+			Set<Long> to_remove = e.getValue();
+			if (to_remove == null || to_remove.size() == 0)
+				continue;			
+			Set<Long> interactions = this._interactions.get(uid); // this's keys
+			if (interactions == null || interactions.size() == 0) 
+				continue;
+			interactions.removeAll(to_remove);
+		}
+	}
+	
 	/**
 	 * @param args
 	 */
@@ -51,7 +79,7 @@ public class Interaction {
 		Interaction i = new Interaction();
 		//Direction dir = Direction.BIDIRECTIONAL;
 		//Direction dir = Direction.INCOMING;
-		Direction dir = Direction.OUTGOING;
+		EDirectionType dir = EDirectionType.OUTGOING;
 		i.addInteraction(1, 2, dir);
 		i.addInteraction(3, 4, dir);
 		i.addInteraction(1, 3, dir);

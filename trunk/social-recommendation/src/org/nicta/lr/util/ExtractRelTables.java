@@ -78,6 +78,7 @@ import util.Statistics;
 public class ExtractRelTables {
 
 	public static DecimalFormat _df = new DecimalFormat("0.000");
+	public static DecimalFormat _df2 = new DecimalFormat("0.00000");
 	
 	public static Set<Long> APP_USERS;
 	public static Set<Long> ALL_USERS;
@@ -160,29 +161,43 @@ public class ExtractRelTables {
 		PrintStream log = new PrintStream(new FileOutputStream("cond_probs.txt"));
 		Set<Long> id_set = APP_USERS;
 
-		for (LikeType ltype : LikeType.values()) {
-
-		for (InteractionType itype : InteractionType.values()) {
-			
-			if (itype == InteractionType.GROUPS_SZ_2_5 || itype == InteractionType.GROUPS_SZ_6_10 || itype == InteractionType.GROUPS_SZ_11_25 || 
-				itype == InteractionType.GROUPS_SZ_26_50 || itype == InteractionType.GROUPS_SZ_51_100 || itype == InteractionType.GROUPS_SZ_101_500 || 
-				itype == InteractionType.GROUPS_SZ_500_PLUS || itype == InteractionType.GROUPS_SZ_2_2)
-					continue;
-
-			System.out.println("*************************");
-			log.println("*************************");
-
-			for (Direction dir : Direction.values()) {
+//		////////////////
+//		Set<Double> test = new HashSet<Double>();
+//		for (ELikeType ltype : ELikeType.values()) {
+//			for (EInteractionType itype : EInteractionType.values()) {
+//				for (EDirectionType dir : EDirectionType.values()) {
+//					test.add(0d + 
+//							(dir.index() - 1)*105 + (ltype.index() - 1)*21 + itype.index());
+//					test.add(0d + 
+//						315 + (dir.index() - 1)*105 + (ltype.index() - 1)*21 + itype.index());
+//				}
+//			}
+//		}
+//		System.out.println("Size: " + test.size());
+//		ArrayList<Double> test2 = new ArrayList<Double>(test);
+//		System.out.println("Min: " + Statistics.Min(test2) + ", Max: " + Statistics.Max(test2) + ", Avg: " + Statistics.Avg(test2));
+//		System.exit(1);
+//		////////////////
 		
-				Interaction i = UserUtil.getUserInteractions(itype, dir, false);
+		HashMap<Integer,double[]> data = new HashMap<Integer,double[]>(); 
+		for (ELikeType ltype : ELikeType.values()) {
 
-				//for (LikeType ltype : LikeType.values()) {
+			for (EInteractionType itype : EInteractionType.values()) {
+				
+				System.out.println("*************************");
+				log.println("*************************");
+	
+				for (EDirectionType dir : EDirectionType.values()) {
+			
+					Interaction i = UserUtil.getUserInteractions(itype, dir);
+	
 					System.out.println("=========================");
 					log.println("=========================");
 					Map<Long,Set<Long>> id2likes = UserUtil.getLikes(ltype);
 	
 					// Number of friends who also like the same thing
-					ArrayList<Double> prob_at_k = new ArrayList<Double>();
+					double[] prob_at_k   = new double[10];
+					double[] stderr_at_k = new double[10];
 					for (int k = 1; k <= 10; k++) {
 						
 						ArrayList<Double> probs = new ArrayList<Double>();
@@ -208,17 +223,38 @@ public class ExtractRelTables {
 							log.println(line);
 							log.flush();
 							System.out.println(line);
+							prob_at_k[k-1]   = Statistics.Avg(probs);
+							stderr_at_k[k-1] = Statistics.StdError95(probs);
+						} else {
+							prob_at_k[k-1]   = Double.NaN;
+							stderr_at_k[k-1] = Double.NaN;
 						}
-						prob_at_k.add(Statistics.Avg(probs));
+						
 					}
 					//for (int k = 1; k < 10; k++) {
 					//	System.out.println(k + ": " + prob_at_k.get(k-1) + "   ");
 					//}
+					data.put((dir.index() - 1)*105 + (ltype.index() - 1)*21 + itype.index(), prob_at_k);
+					data.put(315 + (dir.index() - 1)*105 + (ltype.index() - 1)*21 + itype.index(), stderr_at_k);
 					System.out.println("=========================");
 					log.println("=========================");
 				}
 			}
 		}
+		
+		// Export data
+		System.out.print("\n\nExporting data...");
+		PrintStream likes_data = new PrintStream(new FileOutputStream("likes_data.txt"));
+		for (int i = 1; i <= 630; i++) {
+			double[] arr = data.get(i);
+			for (int k = 0; k < arr.length; k++) {
+				likes_data.print((k > 0 ? "\t" : "") + (Double.isNaN(arr[k]) ? "NaN" : _df2.format(arr[k])));
+			}
+			likes_data.println();
+		}
+		likes_data.close();
+		System.out.println("done.");
+		
 		log.close();
 	}
 	
@@ -252,7 +288,7 @@ public class ExtractRelTables {
 
 	public static void ShowLikes(String restriction) throws SQLException {
 	
-		for (LikeType type : LikeType.values()) {
+		for (ELikeType type : ELikeType.values()) {
 			System.out.println("=========================");
 			Map<Long,Set<Long>> id2likes = UserUtil.getLikes(type);
 			for (long uid : APP_USERS) {
@@ -268,9 +304,9 @@ public class ExtractRelTables {
 	
 	public static void ShowInteractions(String restriction) throws SQLException {
 
-		for (InteractionType type : InteractionType.values()) {
+		for (EInteractionType type : EInteractionType.values()) {
 			System.out.println("=========================");
-			Interaction i = UserUtil.getUserInteractions(type, Direction.BIDIR, false);
+			Interaction i = UserUtil.getUserInteractions(type, EDirectionType.BIDIR);
 			for (long uid : APP_USERS) {
 				String uid_name = UID_2_NAME.get(uid);
 				if (!uid_name.contains(restriction))
