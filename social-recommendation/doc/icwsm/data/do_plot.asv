@@ -1,0 +1,39 @@
+function [] = do_plot(xlabel_name, ylabel_name, likes_data, legend_content, subm, subn, subfigm, subfign, fontsize, data)
+
+%fontsize = 14;
+subplot(subm,subn,(subfigm-1)*subn+subfign,'replace');
+
+% data comes in rows
+num_lines = size(data,1) % rows
+
+% plot remaining lines
+if (num_lines 
+line_types = { 'r.-', 'b.--', 'g.-.', 'm.:' };
+hold off;
+plotted = 0;
+for j = 1:num_lines
+    if (data(j) == -1)
+        continue;
+    end
+    if plotted == 1
+        hold on;
+    end
+    errorbar([1:10],likes_data(data(j),:),likes_data(315 + data(1),:),line_types{j});
+    plotted = 1;
+end
+
+xlabel(xlabel_name,'FontSize',fontsize);
+ylabel(ylabel_name,'FontSize',fontsize);
+axis tight;
+if subfigm == subm && subfign == subn
+    hold on;
+    for j = 1:4
+        plot([0],[0],line_types{j});
+    end
+    legend(legend_content);
+end
+
+%print(gcf, '-depsc', [varname,'_error.eps']);
+%fixPSlinestyle([varname,'_error.eps'],[varname,'_error_fix.eps']);
+
+
