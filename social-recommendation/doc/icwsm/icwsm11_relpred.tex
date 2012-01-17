@@ -16,10 +16,12 @@
 \def\argmin{\operatornamewithlimits{arg\,min}}
 
 
-\setcounter{secnumdepth}{0}  
+\setcounter{secnumdepth}{0}
 
 
- \begin{document}
+
+
+\begin{document}
 % The file aaai.sty is the style file for AAAI Press 
 % proceedings, working notes, and technical reports.
 %
@@ -30,10 +32,12 @@
 %Canberra, Australia\\
 %{\tt ssanner@nicta.com.au}
 %\And
-%...\\
-%...\\
-%...\\
-%{\tt ...@anu.edu.au}
+%Khoi-Nguyen Tran\and
+%Lexing Xie\and
+%Peter Christen\\
+%Research School of Computer Science\\
+%Australian National University\\
+%{\tt \{khoi-nguyen.tran,lexing.xie,peter.christen\}@anu.edu.au}
 %}
 \maketitle
 \begin{abstract}
@@ -49,57 +53,37 @@ Social networks such as Facebook are full of a rich set of user preferences (lik
 Introduction. \cite{influence}
 
 
+\newpage
+
+
+\mbox{}
+
+
+\newpage
+
+
 \section{Related Work}
 
 
-Interactions between users and their friends reveal many behaviors unique to virtual online social interactions. Finding commonalities in these interactions have revealed many common behaviors about users.
+Interactions between users and their friends reveal many behaviors unique to virtual online social interactions. Finding commonalities in these interactions have revealed many common behaviors of users.
 
 
-Online social interactions can provide indications of real-world social interactions, but the differences can be substantial.~\cite{wilson2009user} investigate the question if social links can be used as valid indicators of real-world social interactions. They evaluate detailed user interactions using Facebook data from more than 10 million users containing over 940 million social links and 24 million interactions. They found that user interactions on Facebook are significantly different from real social links between users. Many users tend to interact with a small sub-set of their Facebook friends, while not having any interactions with more than half of their other friends. They then propose interaction graphs which quantify user interactions on a social network by only connecting two users if they have been actively interacting with each other, parameterised by a minimum number of $n$ interactions in a time period $t$. They compare these interaction graphs with the full network graph which connects all users who are friends on Facebook with each other. The presented results indicate significant differences in network properties, such a larger network diameters, lower clustering coefficients, and higher assortativity in interaction graphs compared to full friendship graphs.
+With the average Facebook user having 130 friends\footnote{https://www.facebook.com/press/info.php?statistics}, users naturally characterise and divide their interaction and attention amongst their friends. Two studies of over 10 million Facebook users shows how users interact and divide their attention amongst small subsets of Facebook friends.~\cite{wilson2009user} built interaction graphs that better reflect real-world interactions. These graphs show more favorable network properties to the full Facebook friendship graphs.~\cite{backstrom2011center} studied two types of attention: communication interaction and viewing attention (e.g. looking at profiles or photos). Users' communication attention is focused on small number of friends, but viewing attention is dispersed across all friends. Demographics also affect attention, such as male users are more focused in their attention than females.
 
 
-With the average Facebbok user having 130 friends\footnote{https://www.facebook.com/press/info.php?statistics}, the way a user characterise and divide their attention amongst their friends can be seen from the profile of his/her friends and the interactions that occur.~\cite{backstrom2011center} propose a measure to express how users divide their attention across their friends in Facebook. They classify attention into two groups: communication, which includes sending messages, leaving comments on a photo or video, and wall posts; and viewing of profiles and photos of another user. Using a Facebook data set covering the full year of 2010, they find that communication interactions are much more focussed with a higher portion of an individual's attention going towards a small number of friends compared to viewing attention which is much more dispersed across all friends of a user. Drilling down into the data, they find that older user are having a more focused viewing behaviour while at the same time exhibiting a more disperse communication behaviour. Similarly, male users are more focused in their attention than females. Further differences were found in the interactions between genders, and between individuals that had different relationship status.
+Which friends and with whom a user interacts with on social networking sites depend on some defining factors.~\cite{gilbert2009predicting} asked 35 Facebook users to assess their friendship strengths by answering questions on trust of friends. Friendship strength seems to be (most to least) predictable on seven dimensions: intimacy, intensity, duration, social distance, services, emotional support, and structural information. These friendship strengths are also partially observed by~\cite{singla2008yes} on MSN chat log and web search log. MSN users who chat with each other regularly are more likely to share interests and other personal characteristics, and have stronger relationships.
 
 
-~\cite{gilbert2009predicting} analysed a data set consisting of over 2,000 Facebook friendships with the aim to predict the strengths of ties in social media data. This data set was manually collected from the Facebook accounts of 35 users who additionally answered five questions to assess tie strengths. Included in these five questions were, for example, `How strong is your friendship with this person' and `How would you feel asking this person to load you \$100 or more?'. Based on the data collected, 74 variables were used in a linear model to predict tie strength. Extending earlier work on tie strength, conducted mostly in the social sciences, Gilbert and Karahalios defined seven dimensions for tie strengths. They found that the three most predictive dimensions were intimacy (32.8\%, measured as the recency of the last communication, number of common friends and intimate words used), followed by intensity (19.7\%, measured by the number of words posted on a friends Facebook wall, the number of outbound posts and the depth of communication threads between friends), and duration (16.5\% measured as the time when the first communication between friends occurred). The four less predictive dimensions were social distance, services, emotional support and structural information such interest overlaps or common group memberships~\cite{gilbert2009predicting}. Classifying tie strength into weak and strong as has previously been proposed by social science researchers, the model proposed by Gilbert and Karahalios achieved an accuracy of over 85\% when distinguishing between weak and strong ties.
+Influence is an important user trait that results from interactions.~\cite{li2011casino} presented an algorithm to analyse influences in social networks based on positive and negative interactions. Their algorithm was successful to identify both influential as well as conforming individuals in several different types of social networks.~\cite{saez2011high} analysed three social networks: Enron email data set, Facebook and Twitter. Facebook and Twitter shows high correlation between incoming and outgoing activities. To become an influential user on Facebook or Twitter, a user needs to generate outgoing activity.
 
 
-~\cite{saez2011high} analysed three different types of social networks with regard to the incoming and outgoing activity of users, and they found that in both data from Facebook and Twitter there is a high correlation between incoming and outgoing activities. However, only a low correlation on these activities was found in the Enron email data set. In the Facebook data, the outgoing activity was calculated according to the number of posts done by a user, while the incoming activity was the number of posts received. For the Twitter data, outgoing activity was the number of tweets done while the incoming activity was the number of followers a user had on Twitter. With the Enron data sets, outgoing and incoming activities were calculated as the number of emails sent and received. The conclusion of this analysis was that in social network media one important factor that can influence if one becomes an influential user is to generate outgoing activity, i.e.\ to for example post on other user's wall.
+Facebook profiles also determines perceptions of real sociability and attractiveness.~\cite{tong2008too} recruited 153 Facebook users to evaluate their perception of crafted Facebook profiles. The number of friends a user has influences perception of social attractiveness, physical attractiveness and extraversion.~\cite{utz2010showme} observed further cues of influencing impressions of profiles on Hyves, a Dutch social networking site comparable to Facebook: information generated by the user, the user’s friends, and the system. The combination of these cues have strong effects on perceptions of popularity, introversion, extroversion, communal orientation, similarity of friends, and other traits.
 
 
+The spread of information on social networks is determined by influence and interaction.~\cite{ver2011stops} investigated information diffusion in social networks using epidemiology models of the spread of contagious diseases. From 3,500 stories and 140,000 users who voted on a story on Digg, a directed friendship network with more than 1.7 million links was created according to who the users nominated as friends. The study analysed the `social infection' process, where a user votes on a story which then exposed to their friends. Contrary to epidemiological models, the likelihood that a user votes on a story reduces with repeated exposure (i.e. more friends vote for that story). Most stories do not spread through more than 0.1\% of Digg’s network structure. A theoretical analysis comparing the real Digg data with simulated data confirms these empirical results.
 
 
-~\cite{gomes2011social} recently presented an approach to represent social interactions using a set of hand-crafted rules. These rules are written in a formal symbolic language, called the Mechner language as developed by a behavioural psychologist. Using data collected from over 1,000 Facebook users, in total over 300,000 interactions, the authors evaluated a set of rules using the measures support, confidence and cosine correlation, as used in data mining. Ranking these rules according to confidence and support they found that users are more likely to `like' another user's post or comment than to actively comment on it, and that the action of a `like' or `comment' by one user does no affect the involvement of other users in social interactions.
-
-
-
-
-
-
-Beyond Facebook,many other factors of a user’s profile on social networking sites can reveal how users and their friends interact with each other.
-
-
-~\cite{utz2010showme} analyzes the formation of impression of profiles on a Dutch social networking site Hyves; comparable to Facebook in functionality and usage. Three main cues influencing impressions of a profile are information generated by the user, the user’s friends, and the system. The combinations of these cues, additively and/or multiplicatively, have strong effects on popularity, introversion, extroversion, communal orientation, similarity of friends, social attractiveness, and other traits. However, these virtual impressions are not neccessarily reflective of real world impressions.
-
-
-~\cite{singla2008yes} large-scale data analysis on MSN chat log + web search log about what (interactions) correlate with (search) interests.   " ... analysis reveals that people who chat with each other (using instant messaging) are more likely to share interests (their Web searches are the same or topically similar). The more time they spend talking, the stronger this relationship is. People who chat with each other are also more likely to share other personal characteristics, such as their age and location (and, they are likely to be of opposite gender). Similar findings hold for people who do not necessarily talk to each other but do have a friend in common." -- findings not surprising.
-
-
-~\cite{li2011casino} recently presented an algorithm to analyse influences in social networks. Using both positive interactions (such as agreements and trust) as well as negative interactions (like distrust and disagreements) between individuals in a network, they calculate an influence and a conformity index for each individual. Their CASINO algorithm was successful to identify both influential as well as conforming individuals in several different types of social networks.
-
-
-~\cite{ver2011stops} recently investigated how information is spread though social networks by employing models that originally have been developed in the area of epidemiology to model the spread of contagious diseases. They extracted network data from the social news site Digg constraining around 3,500 stories and nearly 140,000 users who actively voted for at least one of these stories. They then built a friendship network with more than 1.7 million directed links between users according who they nominated as their friends. Based on this network they then analysed how stories spread as users vote for a story which is then exposed to their friends in Digg. The spread of a story through Digg's network is described as a `social infection' process, and because several user can initially vote for a  story independently from others, many cascades are started for the same story. Interestingly, contrary to epidemiological models, the likelihood that a user votes for a story (i.e.\ recommends a story) reduces with repeated exposure (i.e.\ the more of their friends vote for the story). As a result, in their analysis, Ver Steeg et al.\ discovered that most stories do no spread through more then 0.1\% of Digg's network structure. A theoretical analysis comparing the real Digg data with simulated data confirms these empirical results.
-
-
-~\cite{nori2011exploiting} examines the predictability of user actions on twitter from actions in both twitter and deli.cio.us (identity association via friendfeed). Contains evaluation of pair-wise correlation via linear regression (seem questionable, hasn't read all details), and then proposes an ActionGraph (bipartite graph) model and then uses its Laplacian to build better predictions (beats LDA and tensor). 
-
-
-
-
-
-
-
-
+User interactions can be predicted using data mining and machine learning techniques.~\cite{gomes2011social} represented over 1,000 Facebook users' interactions as rules. These handcrafted rules followed a formal symbolic language developed by a behavioral psychologist. From data mining these rules, ranking them on confidence and support, the study found users are more likely to `like' another user's post or comment than to actively comment on it, and that the action of a `like' or `comment' by one user does not affect the involvement of other users in social interactions.~\cite{nori2011exploiting} examines the predictability of user actions on twitter from actions in both twitter and del.icio.us. The study proposes an bipartite graph model and uses its Laplacian to improve predictions over LDA and tensor models.
 
 
 \textbf{This paper (Wilson et al.~\cite{wilson2009user}) contains an excellent description of the Facebook user interactions - might be worth considering to add something like this to our paper:}
@@ -123,7 +107,7 @@ Data about Facebook users and their Facebook friends are collected through our F
 Experiments that consisted of many different recommenders were performed between August 15th -- November 15th 2011. LinkR remains on display until its associated ethics protocol ends or no longer having research value. During this period, over 200 users installed and at any time, around 100 users are actively using LinkR. From these core LinkR users, LinkR has access to 39,850 friends, totalling 37,617 unique (and mostly private) Facebook profiles with details and interaction data. Note that data from the core users' friends are incomplete as LinkR cannot obtain their friends' data (i.e. all tracked users are one friendship from the core users).
 
 
-LinkR tracked nearly many user details and interactions on Facebook, but relevant to this paper are a user's: group membership, page likes, wall posts\footnote{Wall posts include status updates, activity updates (e.g. new friendships) and interactions (e.g. user liked these pages) made by a user.}, link posts\footnote{Link posts are a subset of wall posts, but a distinction is made because Facebook collects statistics on these links. Links do not have tagging of other Facebook users.}, photo posts, video posts, and the comments, likes, and tagging of their friends in these posts. As of writing this paper, the current size of LinkR tables are shown in Table~\ref{tab:db}. LinkR does not track deletions of user data on Facebook made after the data collection time each day. For example, a wall post or comment may be deleted by the user on Facebook, but remains in LinkR's database. This was done for performance reasons as users were not exposed to their deleted data. Few deletions of posts, likes or comments were observed in the initial testing of LinkR.
+LinkR tracked nearly many user details and interactions on Facebook, but relevant to this paper are a user's: group membership, page likes, wall posts\footnote{Wall posts include status updates, activity updates (e.g. new friendships) and interactions (e.g. user liked these pages) made by a user.}, link posts\footnote{Link posts are a subset of wall posts, but a distinction is made because Facebook collects statistics on these links. Links do not have tagging of other Facebook users.}, photo posts, video posts, and the comments, likes, and tagging of their friends in these posts. As of writing this paper, the current size of LinkR tables are shown in Table~\ref{tab:db}. LinkR does not track deletions of user data (i.e. posts, comments) on Facebook; users were not exposed to their deleted data. Few deletions of posts, likes or comments were observed in the initial testing of LinkR.
 
 
 A post on a user's wall contains a rich variety of content and interaction data. Each post is distinguished by Facebook to be of various object types has various interactions available to users' friends. LinkR distinguishes only four types and focuses on four main interactions. The quantity of records in Table~\ref{tab:db} for each object and its interactions indicates the importance of each interaction. Wall posts and links are purely virtual interactions, while photos and videos suggest\footnote{Users can tag whichever friends in whichever photos/videos, even without people present. This has been observed in usage of Facebook over time, but we do not deem this to be common.} physical interaction with people by the very high number of tags, and high number of comments and likes. Virtual interactions on Facebook extend to two types of groups: the traditional group with membership restrictions and pages, which are essentially groups with open membership.
