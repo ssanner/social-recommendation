@@ -53,6 +53,315 @@ Social networks such as Facebook are full of a rich set of user preferences (lik
 Introduction. \cite{influence}
 
 
+\section{Data Description}
+
+
+Data about Facebook users and their Facebook friends are collected through our Facebook application: LinkR\footnote{LinkR homepage and application: (to be added in camera copy).}, a simple branding for ``Link Recommender''. The data collection is performed with full permission from the user and inaccordance with Ethics Protocol (to be added in camera copy). The LinkR application provided the following functionalities:
+\begin{enumerate}
+\item Daily collection of user data.
+\item Coordinating execution of recommenders for each user.
+\item Provide daily recommendations of links (URLs) to users.
+\item Collection of user feedback on the quality of the recommended links.
+\end{enumerate}
+Experiments that consisted of many different recommenders were performed between August 15th -- November 15th 2011. LinkR remains on display until its associated ethics protocol ends or no longer having research value. During this period, over 200 users installed and at any time, around 100 users are actively using LinkR. From these core LinkR users, LinkR has access to 39,850 friends, totalling 37,617 unique (and mostly private) Facebook profiles with details and interaction data. Note that data from the core users' friends are incomplete as LinkR cannot obtain their friends' data (i.e. all tracked users are one friendship from the core users).
+
+
+LinkR tracked nearly many user details and interactions on Facebook, but relevant to this paper are a user's: group membership, page likes, wall posts\footnote{Wall posts include status updates, activity updates (e.g. new friendships) and interactions (e.g. user liked these pages) made by a user.}, link posts\footnote{Link posts are a subset of wall posts, but a distinction is made because Facebook collects statistics on these links. Links do not have tagging of other Facebook users.}, photo posts, video posts, and the comments, likes, and tagging of their friends in these posts. As of writing this paper, the current size of LinkR tables are shown in Table~\ref{tab:interactions:users}. LinkR does not track deletions of user data (i.e. posts, comments) on Facebook; users were not exposed to their deleted data. Few deletions of posts, likes or comments were observed in the initial testing of LinkR.
+
+
+A post on a user's wall contains a rich variety of content and interaction data. Each post is distinguished by Facebook to be of various object types has various interactions available to users' friends. LinkR distinguishes only four types and focuses on four main interactions. The quantity of records in Table~\ref{tab:interactions:users} for each object and its interactions indicates the importance of each interaction. Wall posts and links are purely virtual interactions, while photos and videos suggest\footnote{Users can tag whichever friends in whichever photos/videos, even without people present. This has been observed in usage of Facebook over time, but we do not deem this to be common.} physical interaction with people by the very high number of tags, and high number of comments and likes. Virtual interactions on Facebook extend to two types of groups: the traditional group with membership restrictions and pages, which are essentially groups with open membership.
+
+
+
+
+% 17th Jan 2012
+\begin{table}
+\centering
+\caption{\small Number of records in Objects and Interactions for \textbf{LinkR users}. Rows are type of Facebook object and columns are type of Facebook interaction.}
+\label{tab:interactions:users}
+\begin{tabular}{|>{\small}l|>{\small}r|>{\small}r|>{\small}r|>{\small}r|}
+\hline
+ & \textbf{Posts} & \textbf{Comments} & \textbf{Likes} & \textbf{Tags} \\
+\hline
+\textbf{Wall} &  &  &  &  \\
+\hline
+\textbf{Link} &  &  &  & --- \\
+\hline
+\textbf{Photo} &  &  &  &  \\
+\hline
+\textbf{Video} &  &  &  &  \\
+\hline
+\end{tabular}
+\end{table}
+
+
+
+
+% 17th Jan 2012
+\begin{table}
+\centering
+\caption{\small Number of records in Objects and Interactions for \textbf{LinkR users and friends}.}
+\label{tab:interactions:usersfriends}
+\begin{tabular}{|>{\small}l|>{\small}r|>{\small}r|>{\small}r|>{\small}r|}
+\hline
+ & \textbf{Posts} & \textbf{Comments} & \textbf{Likes} & \textbf{Tags} \\
+\hline
+\textbf{Wall} & 3,381,355 & 2,149,379 & 1,554,183 & 911,814 \\
+\hline
+\textbf{Link} & 513,844 & 693,010 & 665,227 & --- \\
+\hline
+\textbf{Photo} & 1,098,679 & 2,978,635 & 1,960,138 & 8,407,822 \\
+\hline
+\textbf{Video} & 56,241 & 463,401 & 308,763 & 858,054 \\
+\hline
+\end{tabular}
+\end{table}
+
+
+
+
+% 17th Jan 2012
+\begin{table}[h!]
+\centering
+\caption{\small Demographics Table}
+\label{tab:demographics}
+\begin{tabular}{|>{\small}p{2cm}|>{\small}r|>{\small}r|}
+\hline
+\textbf{Table} & \textbf{\#Records} & \textbf{\#Records} \\
+& \textbf{(LinkR Users)} & \textbf{(LinkR User} \\
+& & \textbf{and Friends)} \\
+\hline
+Users &  & 36,900 \\
+\hline
+\hline
+\textbf{Column} & \textbf{\#Non-empty} & \textbf{\#Non-empty} \\
+& \textbf{(LinkR Users)} & \textbf{(LinkR User} \\
+& & \textbf{and Friends)} \\
+\hline
+UID & Facebook ID & \\
+\hline
+First Name & & \\
+\hline
+Last Name & & \\
+\hline
+Gender & & \\
+\hline
+Locale & & \\
+\hline
+Timezone & & \\
+\hline
+Birthday & & \\
+\hline
+Hometown\par Location & 1 & 23242 \\
+\hline
+Current\par Location & & \\
+\hline
+\hline
+\textbf{Breakdown} & \textbf{Count} & \textbf{Count} \\
+& \textbf{(LinkR Users)} & \textbf{(LinkR User} \\
+& & \textbf{and Friends)} \\
+\hline
+Male & & \\
+\hline
+Female & & \\
+\hline
+Age: 16-20 & & \\
+\hline
+Age: 21-25 & & \\
+\hline
+Age: 26-30 & & \\
+\hline
+Age: 31-35 & & \\
+\hline
+Degree:\par High School & & \\
+\hline
+Degree:\par College & & \\
+\hline
+Degree:\par Graduate School & & \\
+\hline
+\end{tabular}
+\end{table}
+
+
+
+
+% 17th Jan 2012
+\begin{table}
+\centering
+\caption{\small History Tables}
+\label{tab:history}
+\begin{tabular}{|>{\small}p{2cm}|>{\small}r|>{\small}r|}
+\hline
+\textbf{Table} & \textbf{\#Records} & \textbf{\#Records} \\
+& \textbf{(LinkR Users)} & \textbf{(LinkR User} \\
+& & \textbf{and Friends)} \\
+\hline
+Education &  & 66,462 \\
+\hline
+School &  & 27,635 \\
+\hline
+School Classes &  & 5,825 \\
+\hline
+School Class With Friends &  & 8,313 \\
+\hline
+School Degree &  & 1,730 \\
+\hline
+School Degree Concentration &  & 14,429 \\
+\hline
+School With Friends &  & 12,575 \\
+\hline
+Work &  & 28,610 \\
+\hline
+Work Employer &  & 19,053 \\
+\hline
+Work Position &  & 7,947 \\
+\hline
+Work Projects &  & 1,336 \\
+\hline
+Work Projects With Friends &  & 4,466 \\
+\hline
+Work With Friends &  & 5,204 \\
+\hline
+\end{tabular}
+\end{table}
+
+
+
+
+
+
+% 17th Jan 2012
+\begin{table}
+\centering
+\caption{\small Groups of interests.}
+\label{tab:interests}
+\begin{tabular}{|>{\small}p{2cm}|>{\small}r|>{\small}r|}
+\hline
+\textbf{Table} & \textbf{\#Records} & \textbf{\#Records} \\
+& \textbf{(LinkR Users)} & \textbf{(LinkR User} \\
+& & \textbf{and Friends)} \\
+\hline
+Activities &  & 92,148 \\
+\hline
+Books &  & 52,689 \\
+\hline
+Favorite Athletes &  & 23,009 \\
+\hline
+Favorite Teams &  & 14,772 \\
+\hline
+Groups &  & 778,751 \\
+\hline
+Inspirational People &  & 7,815 \\
+\hline
+Interests &  & 36,085 \\
+\hline
+Movies &  & 149,197 \\
+\hline
+Music &  & 318,295 \\
+\hline
+Pages &  & 3,004,353 \\
+\hline
+School &  & 27,635 \\
+\hline
+Sports &  & 8,663 \\
+\hline
+Television &  & 144,308 \\
+\hline
+\end{tabular}
+\end{table}
+
+
+
+
+
+
+% 17th Jan 2012
+\begin{table}
+\centering
+\caption{\small All other records.}
+\label{tab:all}
+\begin{tabular}{|>{\small}p{2cm}|>{\small}r|>{\small}r|}
+\hline
+\textbf{Table} & \textbf{\#Records} & \textbf{\#Records} \\
+& \textbf{(LinkR Users)} & \textbf{(LinkR User} \\
+& & \textbf{and Friends)} \\
+\hline
+Activities &  & 92,148 \\
+\hline
+Books &  & 52,689 \\
+\hline
+Education &  & 66,462 \\
+\hline
+Favorite Athletes &  & 23,009 \\
+\hline
+Favorite Teams &  & 14,772 \\
+\hline
+Friends &  & 39,870 \\
+\hline
+Groups &  & 778,751 \\
+\hline
+Inspirational People &  & 7,815 \\
+\hline
+Interests &  & 36,085 \\
+\hline
+Location &  & 6,636 \\
+\hline
+Movies &  & 149,197 \\
+\hline
+Music &  & 318,295 \\
+\hline
+Pages &  & 3,004,353 \\
+\hline
+School &  & 27,635 \\
+\hline
+School Classes &  & 5,825 \\
+\hline
+School Class With Friends &  & 8,313 \\
+\hline
+School Degree &  & 1,730 \\
+\hline
+School Degree Concentration &  & 14,429 \\
+\hline
+School With Friends &  & 12,575 \\
+\hline
+Sports &  & 8,663 \\
+\hline
+Sports With Friends &  & 3,577 \\
+\hline
+Television &  & 144,308 \\
+\hline
+Work &  & 28,610 \\
+\hline
+Work Employer &  & 19,053 \\
+\hline
+Work Position &  & 7,947 \\
+\hline
+Work Projects &  & 1,336 \\
+\hline
+Work Projects With Friends &  & 4,466 \\
+\hline
+Work With Friends &  & 5,204 \\
+\hline
+\end{tabular}
+\end{table}
+
+
+
+
+
+
+\section{Evaluation}
+
+
+Evaluation.
+
+
+\newpage
+
+
+\mbox{}
+
+
 \newpage
 
 
@@ -94,255 +403,6 @@ User interactions can be predicted using data mining and machine learning techni
 
 
 \textbf{Each profile includes a message board called the “Wall” that serves as the primary asynchronous messaging mechanism between friends. Users can upload photos, which must be grouped into albums, and can mark or “tag” their friends in them. Comments can also be left on photos. All Wall posts and photo comments are labeled with the name of the user who performed the action and the date/time of submission. Another useful feature is the Mini-Feed, a detailed log of each user’s actions on Facebook over time. It allows each user’s friends to see at a glance what he or she has been doing on Facebook, including activity in applications and interactions with common friends. Other events include new Wall posts, photo uploads and comments profile updates, and status changes. The Mini-Feed is ordered by date, and only displays the 100 most recent actions.}
-
-
-
-
-\section{Data Description}
-
-
-Data about Facebook users and their Facebook friends are collected through our Facebook application: LinkR, a simple branding for ``Link Recommender''. The data collection is performed with full permission from the user and inaccordance with Ethics Protocol (to be added in camera copy). The LinkR application provided the following functionalities:
-\begin{enumerate}
-\item Daily collection of user data.
-\item Coordinating execution of recommenders for each user.
-\item Provide daily recommendations of links (URLs) to users.
-\item Collection of user feedback on the quality of the recommended links.
-\end{enumerate}
-Experiments that consisted of many different recommenders were performed between August 15th -- November 15th 2011. LinkR remains on display until its associated ethics protocol ends or no longer having research value. During this period, over 200 users installed and at any time, around 100 users are actively using LinkR. From these core LinkR users, LinkR has access to 39,850 friends, totalling 37,617 unique (and mostly private) Facebook profiles with details and interaction data. Note that data from the core users' friends are incomplete as LinkR cannot obtain their friends' data (i.e. all tracked users are one friendship from the core users).
-
-
-LinkR tracked nearly many user details and interactions on Facebook, but relevant to this paper are a user's: group membership, page likes, wall posts\footnote{Wall posts include status updates, activity updates (e.g. new friendships) and interactions (e.g. user liked these pages) made by a user.}, link posts\footnote{Link posts are a subset of wall posts, but a distinction is made because Facebook collects statistics on these links. Links do not have tagging of other Facebook users.}, photo posts, video posts, and the comments, likes, and tagging of their friends in these posts. As of writing this paper, the current size of LinkR tables are shown in Table~\ref{tab:interactions}. LinkR does not track deletions of user data (i.e. posts, comments) on Facebook; users were not exposed to their deleted data. Few deletions of posts, likes or comments were observed in the initial testing of LinkR.
-
-
-A post on a user's wall contains a rich variety of content and interaction data. Each post is distinguished by Facebook to be of various object types has various interactions available to users' friends. LinkR distinguishes only four types and focuses on four main interactions. The quantity of records in Table~\ref{tab:db} for each object and its interactions indicates the importance of each interaction. Wall posts and links are purely virtual interactions, while photos and videos suggest\footnote{Users can tag whichever friends in whichever photos/videos, even without people present. This has been observed in usage of Facebook over time, but we do not deem this to be common.} physical interaction with people by the very high number of tags, and high number of comments and likes. Virtual interactions on Facebook extend to two types of groups: the traditional group with membership restrictions and pages, which are essentially groups with open membership.
-
-
-
-
-% 17th Jan 2012
-\begin{table}
-\centering
-\caption{\small Number of records in Objects and Interactions. Rows are type of Facebook object and columns are type of Facebook interaction.}
-\label{tab:interactions}
-\begin{tabular}{|>{\small}l|>{\small}r|>{\small}r|>{\small}r|>{\small}r|}
-\hline
- & \textbf{Posts} & \textbf{Comments} & \textbf{Likes} & \textbf{Tags} \\
-\hline
-\textbf{Wall} & 3,381,355 & 2,149,379 & 1,554,183 & 911,814 \\
-\hline
-\textbf{Link} & 513,844 & 693,010 & 665,227 & --- \\
-\hline
-\textbf{Photo} & 1,098,679 & 2,978,635 & 1,960,138 & 8,407,822 \\
-\hline
-\textbf{Video} & 56,241 & 463,401 & 308,763 & 858,054 \\
-\hline
-\end{tabular}
-\end{table}
-
-
-
-
-% 17th Jan 2012
-\begin{table}
-\centering
-\caption{\small Demographics Table}
-\label{tab:demographics}
-\begin{tabular}{|>{\small}l|>{\small}r|}
-\hline
-\textbf{Table} & \textbf{\#Records} \\
-\hline
-User & 36,900 \\
-\hline
-\hline
-\textbf{Column} & \textbf{Description} \\
-\hline
-UID & Facebook ID \\
-\hline
-First Name &  \\
-\hline
-Last Name &  \\
-\hline
-Gender &  \\
-\hline
-Locale &  \\
-\hline
-Timezone &  \\
-\hline
-Birthday &  \\
-\hline
-Hometown Location &  \\
-\hline
-Current Location &  \\
-\hline
-\end{tabular}
-\end{table}
-
-
-
-
-% 17th Jan 2012
-\begin{table}
-\centering
-\caption{\small History Tables}
-\label{tab:history}
-\begin{tabular}{|>{\small}l|>{\small}r|}
-\hline
-\textbf{Table} & \textbf{\#Records} \\
-\hline
-Education & 66,462 \\
-\hline
-School & 27,635 \\
-\hline
-School Classes & 5,825 \\
-\hline
-School Class With Friends & 8,313 \\
-\hline
-School Degree & 1,730 \\
-\hline
-School Degree Concentration & 14,429 \\
-\hline
-School With Friends & 12,575 \\
-\hline
-Work & 28,610 \\
-\hline
-Work Employer & 19,053 \\
-\hline
-Work Position & 7,947 \\
-\hline
-Work Projects & 1,336 \\
-\hline
-Work Projects With Friends & 4,466 \\
-\hline
-Work With Friends & 5,204 \\
-\hline
-\end{tabular}
-\end{table}
-
-
-
-
-
-
-% 17th Jan 2012
-\begin{table}
-\centering
-\caption{\small Groups of interests.}
-\label{tab:interests}
-\begin{tabular}{|>{\small}l|>{\small}r|}
-\hline
-\textbf{Table} & \textbf{\#Records} \\
-\hline
-Activities & 92,148 \\
-\hline
-Books & 52,689 \\
-\hline
-Favorite Athletes & 23,009 \\
-\hline
-Favorite Teams & 14,772 \\
-\hline
-Groups & 778,751 \\
-\hline
-Inspirational People & 7,815 \\
-\hline
-Interests & 36,085 \\
-\hline
-Movies & 149,197 \\
-\hline
-Music & 318,295 \\
-\hline
-Pages & 3,004,353 \\
-\hline
-School & 27,635 \\
-\hline
-Sports & 8,663 \\
-\hline
-Television & 144,308 \\
-\hline
-\end{tabular}
-\end{table}
-
-
-
-
-
-
-% 17th Jan 2012
-\begin{table}
-\centering
-\caption{\small All other records.}
-\label{tab:all}
-\begin{tabular}{|>{\small}l|>{\small}r|}
-\hline
-\textbf{Table} & \textbf{\#Records} \\
-\hline
-Activities & 92,148 \\
-\hline
-Books & 52,689 \\
-\hline
-Education & 66,462 \\
-\hline
-Favorite Athletes & 23,009 \\
-\hline
-Favorite Teams & 14,772 \\
-\hline
-Friends & 39,870 \\
-\hline
-Groups & 778,751 \\
-\hline
-Inspirational People & 7,815 \\
-\hline
-Interests & 36,085 \\
-\hline
-Location & 6,636 \\
-\hline
-Movies & 149,197 \\
-\hline
-Music & 318,295 \\
-\hline
-Pages & 3,004,353 \\
-\hline
-School & 27,635 \\
-\hline
-School Classes & 5,825 \\
-\hline
-School Class With Friends & 8,313 \\
-\hline
-School Degree & 1,730 \\
-\hline
-School Degree Concentration & 14,429 \\
-\hline
-School With Friends & 12,575 \\
-\hline
-Sports & 8,663 \\
-\hline
-Sports With Friends & 3,577 \\
-\hline
-Television & 144,308 \\
-\hline
-Work & 28,610 \\
-\hline
-Work Employer & 19,053 \\
-\hline
-Work Position & 7,947 \\
-\hline
-Work Projects & 1,336 \\
-\hline
-Work Projects With Friends & 4,466 \\
-\hline
-Work With Friends & 5,204 \\
-\hline
-\end{tabular}
-\end{table}
-
-
-
-
-
-
-\section{Evaluation}
-
-
-Evaluation.
 
 
 \section{Conclusions}
