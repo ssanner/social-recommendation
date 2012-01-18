@@ -1,12 +1,12 @@
 
-Data about Facebook users and their Facebook friends are collected through our Facebook application: LinkR\footnote{LinkR homepage and application: (to be added in camera copy).}, a simple branding for ``Link Recommender''. The data collection is performed with full permission from the user and inaccordance with Ethics Protocol (to be added in camera copy). The LinkR application provided the following functionalities:
+Data about Facebook users and their Facebook friends are collected through our Facebook application: LinkR\footnote{LinkR homepage and application: (to be added in camera copy).}, a simple branding for ``Link Recommender''. The data collection is performed with full permission from the user and inaccordance with Ethics Protocol (to be added in camera copy). The LinkR application has the following functionalities:
 \begin{enumerate}
 \item Daily collection of user data.
 \item Coordinating execution of recommenders for each user.
 \item Provide daily recommendations of links (URLs) to users.
 \item Collection of user feedback on the quality of the recommended links.
 \end{enumerate}
-Experiments that consisted of many different recommenders were performed between August 15th -- November 15th 2011. LinkR remains on display until its associated ethics protocol ends or no longer having research value. During this period, over 200 users installed and at any time, around 100 users are actively using LinkR. From these core LinkR users, LinkR has access to 39,850 friends, totalling 37,617 unique (and mostly private) Facebook profiles with details and interaction data. Note that data from the core users' friends are incomplete as LinkR cannot obtain their friends' data (i.e. all tracked users are one friendship from the core users).
+Experiments that consisted of many different recommenders were performed between August 15th -- November 15th 2011. LinkR remains on display until its associated ethics protocol ends or no longer having research value. During this period, over 200 users installed and at any time, around 100 users are actively using LinkR. From these core LinkR users, LinkR has access to 39,850 friends, totalling 36,900 unique (and mostly private) Facebook profiles with details and interaction data. Note that data from the core users' friends are incomplete as LinkR cannot obtain their friends' data (i.e. all tracked users are one friendship from the core users).
 
 
 LinkR tracked nearly many user details and interactions on Facebook, but relevant to this paper are a user's: group membership, page likes, wall posts\footnote{Wall posts include status updates, activity updates (e.g. new friendships) and interactions (e.g. user liked these pages) made by a user.}, link posts\footnote{Link posts are a subset of wall posts, but a distinction is made because Facebook collects statistics on these links. Links do not have tagging of other Facebook users.}, photo posts, video posts, and the comments, likes, and tagging of their friends in these posts. As of writing this paper, the current size of LinkR tables are shown in Table~\ref{tab:interactions:users}. LinkR does not track deletions of user data (i.e. posts, comments) on Facebook; users were not exposed to their deleted data. Few deletions of posts, likes or comments were observed in the initial testing of LinkR.
@@ -18,13 +18,13 @@ A post on a user's wall contains a rich variety of content and interaction data.
 
 
 % 18th Jan 2012
-\begin{table}
+\begin{table}[p]
 \centering
-\caption{\small Number of records in Objects and Interactions for \textbf{LinkR users}. Rows are type of Facebook object and columns are type of Facebook interaction.}
-\label{tab:interactions:users}
+\caption{\small Number of records in Objects and Interactions. Rows are type of Facebook object and columns are type of Facebook interaction.}
+\label{tab:interactions}
 \begin{tabular}{|>{\small}l|>{\small}r|>{\small}r|>{\small}r|>{\small}r|}
 \hline
- & \textbf{Posts} & \textbf{Comments} & \textbf{Likes} & \textbf{Tags} \\
+\textbf{LinkR Users} & \textbf{Posts} & \textbf{Comments} & \textbf{Likes} & \textbf{Tags} \\
 \hline
 \textbf{Wall} & 27,955 & 15,121 & 11,033 & 5,256 \\
 \hline
@@ -34,18 +34,9 @@ A post on a user's wall contains a rich variety of content and interaction data.
 \hline
 \textbf{Video} & 211 & 1,687 & 710 & 2,105 \\
 \hline
-\end{tabular}
-\end{table}
-
-
-% 18th Jan 2012
-\begin{table}
-\centering
-\caption{\small Number of records in Objects and Interactions for \textbf{LinkR users and friends}.}
-\label{tab:interactions:usersfriends}
-\begin{tabular}{|>{\small}l|>{\small}r|>{\small}r|>{\small}r|>{\small}r|}
 \hline
- & \textbf{Posts} & \textbf{Comments} & \textbf{Likes} & \textbf{Tags} \\
+\textbf{LinkR Users} & \textbf{Posts} & \textbf{Comments} & \textbf{Likes} & \textbf{Tags} \\
+\textbf{and Friends} & & & & \\
 \hline
 \textbf{Wall} & 3,384,740 & 2,152,321 & 1,555,225 & 912,687 \\
 \hline
@@ -62,7 +53,7 @@ A post on a user's wall contains a rich variety of content and interaction data.
 
 
 % 18th Jan 2012
-\begin{table}[h!]
+\begin{table}[p]
 \centering
 \caption{\small Demographics Table}
 \label{tab:demographics}
@@ -151,7 +142,7 @@ Degree:\par Graduate School & 56 & 7733 \\
 
 
 % 18th Jan 2012
-\begin{table}
+\begin{table}[p]
 \centering
 \caption{\small History Tables}
 \label{tab:history}
@@ -167,13 +158,16 @@ School & 275 & 27,635 \\
 \hline
 School Classes & 89 & 5,825 \\
 \hline
-School Class With Friends & 115 & 8,313 \\
+School Class & 115 & 8,313 \\
+With Friends & & \\
 \hline
 School Degree & 275 & 1,730 \\
 \hline
-School Degree Concentration & 96 & 14,429 \\
+School Degree & 96 & 14,429 \\
+Concentration & & \\
 \hline
-School With Friends & 80 & 12,575 \\
+School & 80 & 12,575 \\
+With Friends & & \\
 \hline
 Work & 134 & 28,610 \\
 \hline
@@ -183,9 +177,11 @@ Work Position & 134 & 7,947 \\
 \hline
 Work Projects & 9 & 1,336 \\
 \hline
-Work Projects With Friends & 0 & 4,466 \\
+Work Projects & 0 & 4,466 \\
+With Friends & & \\
 \hline
-Work With Friends & 21 & 5,204 \\
+Work & 21 & 5,204 \\
+With Friends & & \\
 \hline
 \end{tabular}
 \end{table}
@@ -196,7 +192,7 @@ Work With Friends & 21 & 5,204 \\
 
 
 % 18th Jan 2012
-\begin{table}
+\begin{table}[p]
 \centering
 \caption{\small Groups of interests.}
 \label{tab:interests}
@@ -237,7 +233,7 @@ Television & 819 & 144,308 \\
 
 
 
-
+\begin{comment}
 % 18th Jan 2012
 \begin{table}
 \centering
@@ -309,4 +305,5 @@ Work With Friends & 21 & 5,204 \\
 \hline
 \end{tabular}
 \end{table}
+\end{comment}
 
