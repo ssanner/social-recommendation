@@ -1,4 +1,4 @@
-function [] = do_plot(xlabel_name, ylabel_name, likes_data, legend_content, subm, subn, subfigm, subfign, fontsize, data)
+function [] = do_plot(xlabel_name, ylabel_name, title_name, likes_data, legend_content, subm, subn, subfigm, subfign, fontsize, data)
 
 %fontsize = 14;
 subplot(subm,subn,(subfigm-1)*subn+subfign,'replace');
@@ -8,11 +8,11 @@ num_lines = size(data,1) % rows
 
 % plot remaining lines
 if (num_lines == 3)
-    line_types = { 'b.--', 'r.-', 'g.:' };
+    line_types = { 'g.-', 'b.--', 'm.:' };
 elseif (num_lines == 4)
-    line_types = { 'r.-', 'b.--', 'g.-.', 'm.:' };
+    line_types = { 'r.-', 'g.-', 'b.--', 'm.:' };
 else
-    line_types = { 'r.-', 'b.--', 'g.-.', 'k.:', 'm.:' };
+    line_types = { 'k.:', 'r.-', 'g.-', 'b.--', 'm.:' };
 end
 hold off;
 plotted = 0;
@@ -30,6 +30,7 @@ end
 
 xlabel(xlabel_name,'FontSize',fontsize);
 ylabel(ylabel_name,'FontSize',fontsize);
+title(title_name,'FontSize',fontsize);
 axis tight;
 if subfigm == subm && subfign == subn
     legend(legend_content);
