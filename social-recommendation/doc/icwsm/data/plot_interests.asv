@@ -1,0 +1,23 @@
+load GENERAL_LIKES_probs.txt
+GL = GENERAL_LIKES_probs;
+load GROUPS_probs.txt
+GR = GROUPS_probs;
+load MOVIES_probs.txt;
+MOV = MOVIES_probs;
+load MUSIC_probs.txt;
+MUS = MUSIC_probs;
+load TELEVISION_probs.txt;
+TEL = TELEVISION_probs;
+figure(2);
+n = [1,2,4,8,16,32,64,128,256,512];
+line_types = { 'k.:', 'r.-', 'g.-', 'b.--', 'm.:' };
+
+errorbar(n,GR(:,2),GR(:,12),line_types(1));
+errorbar(n,GL(:,2),GL(:,12),line_types(2));
+errorbar(n,MOV(:,2),MOV(:,12),line_types(3));
+errorbar(n,MUS(:,2),MUS(:,12),line_types(4));
+errorbar(n,TEL(:,2),TEL(:,12),line_types(5));
+
+xlabel('n: Groups Shared with Maximum n Friends');
+ylanel('P(likes | k, n)')
+
