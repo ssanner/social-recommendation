@@ -12,23 +12,27 @@ are actually reflective of common preferences.
 
 To evaluate this question, we have built a Facebook App to collect a
 large subset of user information available through the Facebook App
-API for over 100 users who have agreed to use this App for over a 4
-month period.  This has provided us with access to full interactions
-for these App users with their over 39,000+ friends which allows us to
-perform a fine-grained analysis of what user interactions
-and user interests are predictive of preferences 
-expressed as ``likes'' on Facebook.  For example, in this paper,
-we provide an empirical analysis for questions such as the following:
+API. We have recuited over 100 users who have agreed to use this App for over a 4
+month period.  This provides us with access to full interactions
+for these App users with their over 39,000+ friends. This is a sufficiently-rich dataset
+for  performing a fine-grained analysis of what user interactions
+and user interests are predictive of preferences, 
+expressed as ``likes'' on Facebook. In this paper,
+we provide empirical answers for questions such as the following:
 \begin{itemize}
-\item What is the probability that a random user $u$ will like
-photos that have been liked at least $k$ times by friends whose
-posts $u$ has commented on?
-\item What is the probability that a random user $u$ will like any
-link liked at least $k=2$ times by friends sharing common interests
-(movies, television, etc.) or history (same school or employer) where
-the maximum number of friends sharing this interest is at most $n$?
-\item What is the probability that a random male user $u$ 
-will like items liked at least $k=1$ time by his female friends?
+%%lexing: make it sound a bit less technical and maintain the specificity, this is icwsm, hem
+%\item What is the probability that 
+\item How likely will a random user $u$ like
+photos that have been liked at least $k$ times by friends? 
+or friends whose posts $u$ has commented on?
+%\item What is the probability that a random user $u$ will like any
+\item How likely will a random user $u$ like a
+link that is liked at least $k=2$ times by friends sharing common interests
+(movies, television, etc.), or sharing life history (same school or employer)?
+what if the maximum number of friends sharing this interest is at most $n$?
+%\item What is the probability that a random male user $u$ 
+\item How likely will a male user $u$ like
+items liked at least $k=1$ times by his female friends?
 \end{itemize}
 
 While many of these queries may seem very narrow, we note that subtle
@@ -40,13 +44,17 @@ wall comment interactions to photo comments, changing from $k=1$ to
 $k=2$ or $n=2$ to $n=4$, and changing the group definition from common
 school to common employer.
 
-To better understand these subleties and to understand what what
+To better understand these subleties and to understand what
 social interactions and user traits reflect common preferences on
 Facebook, we proceed in the following sections to describe our data,
 our experimental methodology, and various analyses according to our
-methodology that shed light on the above questions.  We then compare
-our observations and analysis in this study to those of related work
-and conclude with a summary of the key novel observations arising
+methodology that shed light on the above questions. 
+On one hand our observations confirm certain observations made previous 
+on different networks, such as the diminishing returns of repeated exposures, 
+on the other we also see a few new clues such as 
+that outgoing interactions are more predictive 
+than incoming ones. 
+We then conclude with a summary of the key novel observations arising
 from this study.
 
 
