@@ -84,6 +84,26 @@ Hill, R., and Dunbar, R.
 \newblock Social network size in humans.
 \newblock {\em Human Nature} 14(1):53--72.
 
+\bibitem[\protect\citeauthoryear{Lerman and
+  Ghosh}{2010}]{lerman2010information}
+Lerman, K., and Ghosh, R.
+\newblock 2010.
+\newblock Information contagion: An empirical study of the spread of news on
+  digg and twitter social networks.
+
+\bibitem[\protect\citeauthoryear{Ma \bgroup et al.\egroup }{2008}]{sorec}
+Ma, H.; Yang, H.; Lyu, M.~R.; and King, I.
+\newblock 2008.
+\newblock Sorec: Social recommendation using probabilistic matrix
+  factorization.
+\newblock In {\em CIKM-08}.
+
+\bibitem[\protect\citeauthoryear{Ma, King, and Lyu}{2009}]{ste}
+Ma; King; and Lyu.
+\newblock 2009.
+\newblock Learning to recommend with social trust ensemble.
+\newblock In {\em SIGIR-09}.
+
 \bibitem[\protect\citeauthoryear{Nori, Bollegala, and
   Ishizuka}{2011}]{nori2011exploiting}
 Nori, N.; Bollegala, D.; and Ishizuka, M.
@@ -137,5 +157,12 @@ Wilson, C.; Boe, B.; Sala, A.; Puttaswamy, K.; and Zhao, B.
 \newblock 2009.
 \newblock User interactions in social networks and their implications.
 \newblock EuroSys'09,  205--218.
+
+\bibitem[\protect\citeauthoryear{Yang \bgroup et al.\egroup }{2011}]{lla}
+Yang; Long; Smola; Sadagopan; Zheng; and Zha.
+\newblock 2011.
+\newblock Like like alike: Joint friendship and interest propagation in social
+  networks.
+\newblock In {\em WWW-11}.
 
 \end{thebibliography}

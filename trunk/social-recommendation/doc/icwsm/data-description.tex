@@ -1,28 +1,84 @@
+For this paper, data about Facebook users and their Facebook friends
+are collected through our Facebook App\footnote{Name and link omitted
+for anonymity.}.  The data collection is performed with full
+permission from the user and inaccordance with Ethics
+Protocol\footnote{Link omitted for anonymity.}.
 
-Data about Facebook users and their Facebook friends are collected through our Facebook application: LinkR\footnote{LinkR homepage and application: (to be added in camera copy).}, a simple branding for ``Link Recommender''. The data collection is performed with full permission from the user and inaccordance with Ethics Protocol (to be added in camera copy). The LinkR application has the following functionalities:
-\begin{enumerate}
-\item Daily collection of user data.
-\item Coordinating execution of recommenders for each user.
-\item Provide daily recommendations of links (URLs) to users.
-\item Collection of user feedback on the quality of the recommended links.
-\end{enumerate}
-Experiments that consisted of many different recommenders were performed between August 15th -- November 15th 2011. LinkR remains on display until its associated ethics protocol ends or no longer having research value. During this period, over 200 users installed and at any time, around 100 users are actively using LinkR. From these core LinkR users, LinkR has access to 39,850 friends, totalling 36,900 unique (and mostly private) Facebook profiles with details and interaction data. Note that data from the core users' friends are incomplete as LinkR cannot obtain their friends' data (i.e. all tracked users are one friendship link from the core users).
+Over 200 users installed the Facebook App at some time during the
+evaluation period at any time, around 100 users are actively using
+App. From these core App users, the App has access to 39,850 friends
+and their (mostly private) Facebook profiles with details and
+interaction data.  While we have complete interaction data for the App
+users with their friends, and complete profile data (including all
+wall post data) for the App users and friends, we do not have complete
+interactions for the App users' friends (unless they themselves are
+App users).  Hence in the forthcoming analysis, we limit our
+evaluation to App users for which we are assured to have full
+interaction data.
 
-LinkR tracks many user (and their friends') details and interactions on Facebook. Interactions occur through wall posts provided a rich variety of content and interaction data. LinkR distinguishes four Facebook objects from wall posts: general posts\footnote{Examples: status updates, activity updates such as new friends, and interactions such as the user liked these pages.}, links, photos and videos. Four main interactions on these objects are permitted by Facebook\footnote{Some Facebook interaction features such as liking comments were introduced after LinkR user studies began and so are not tracked.}: posting object on a friend's wall, commenting, liking, and tagging. LinkR does not track deletions of these objects and interactions for performance and few deletions were observed in the initial testing of LinkR.
+App tracks many user (and their friends') details and interactions on
+Facebook. Interactions occur through wall posts provided a rich
+variety of content and interaction data.  The App distinguishes four
+Facebook items from wall posts: general posts (e.g., status updates,
+activity updates such as new friends, and interactions such as the
+user liked these pages), links, photos and videos. Four main
+interactions on these items are permitted by Facebook\footnote{Some
+Facebook interaction features such as liking comments were introduced
+after App user studies began and so are not tracked.}: posting items
+on a friend's wall, commenting, liking, and tagging.  The App does not
+track deletions of these items and interactions for performance and
+few deletions were observed in the initial testing of App.
 
-The tables presented distinguish the data from the core LinkR users from all the data (LinkR users and friends). Table~\ref{tab:interactions} summarises the number of records for each object and interaction combination. Table~\ref{tab:demographics} shows some demographics of the users from data collected on user profiles\footnote{Note that count of degrees are not unique as each user can attend more than one degree of the same type.}. Figures~\ref{fig:agegroups:users} and~\ref{fig:agegroups:usersfriends} show the distribution of age of users and their friends. Table~\ref{tab:history} shows some historical data in the user profiles are education and work information and the general level of detail of connections provided by Facebook. The final set of data collected by LinkR in Table~\ref{tab:interests} are important in the study of groups. This set of data provides the implicit groups of interests expressed but users (e.g. books, movies, music) and the explicit actions of users to join groups (e.g. groups with membership restrictions and pages, which essentially are groups without membership restrictions.
+%% Scott edited up to this point: please don't undo unless something
+%% stated is incorrect.  We cannot use the name LinkR b/c it reveals
+%% who we are.  I deleted some details of the ethics protocol as they
+%% are not needed in this submitted version of the paper for review,
+%% can add in camera-ready if needed.  Changed object -> item to be
+%% consistent with later terminology.
 
-LinkR has collected numerous interaction and groups data for determining common preferences on Facebook. Some of these virtual interactions suggest real-world interactions as seen in photos and videos with tagging. Tagging of friends in photos and videos have some drawbacks, but we assume that tags are correct and are of real people interacting in real environments. The virtual interactions and virtual groups provide insight into Facebook communities and their diversity of topics, users and interactions with non-friends.
+%% Nguyen: please edit from this point on, only including statistics
+%% that are relevant to data shown in the various plots, plus age
+%% info as well (since this is useful to know).  So for example, 
+%% you can comment out all non-gender, non-age demographics (locale, 
+%% location, etc.) as well as unused table data (e.g., note that *only*
+%% education and school -- first two rows of Table 3 are needed).
+%% SVN has the record if we ever need to add this data back in.
+%%
+%% I did a search replace of LinkR with App... need to fix some 
+%% awkward mentions.
+%%
+%% In short make sure all data mentioned is relevant to evaluation
+%% section, other information is superfluous.
+
+The tables presented distinguish the data from the core App users from
+all the data (App users and friends). Table~\ref{tab:interactions}
+summarises the number of records for each item and interaction
+combination. Table~\ref{tab:demographics} shows some demographics of
+the users from data collected on user profiles\footnote{Note that
+count of degrees are not unique as each user can attend more than one
+degree of the same type.}. Figures~\ref{fig:agegroups:users}
+and~\ref{fig:agegroups:usersfriends} show the distribution of age of
+users and their friends. Table~\ref{tab:history} shows some historical
+data in the user profiles are education and work information and the
+general level of detail of connections provided by Facebook. The final
+set of data collected by App in Table~\ref{tab:interests} are
+important in the study of groups. This set of data provides the
+implicit groups of interests expressed but users (e.g. books, movies,
+music) and the explicit actions of users to join groups (e.g. groups
+with membership restrictions and pages, which essentially are groups
+without membership restrictions.
+
+App has collected numerous interaction and groups data for determining common preferences on Facebook. Some of these virtual interactions suggest real-world interactions as seen in photos and videos with tagging. Tagging of friends in photos and videos have some drawbacks, but we assume that tags are correct and are of real people interacting in real environments. The virtual interactions and virtual groups provide insight into Facebook communities and their diversity of topics, users and interactions with non-friends.
 
 
 % 18th Jan 2012
 \begin{table}
 \centering
-\caption{\small Number of records in Objects and Interactions Tables. Rows are type of Facebook object and columns are type of Facebook interaction.}
+\caption{\small Number of records in Items and Interactions Tables. Rows are type of Facebook item and columns are type of Facebook interaction.}
 \label{tab:interactions}
 \begin{tabular}{|>{\small}l|>{\small}r|>{\small}r|>{\small}r|>{\small}r|}
 \hline
-\textbf{LinkR Users} & \textbf{Posts} & \textbf{Comments} & \textbf{Likes} & \textbf{Tags} \\
+\textbf{App Users} & \textbf{Posts} & \textbf{Comments} & \textbf{Likes} & \textbf{Tags} \\
 \hline
 \textbf{Wall} & 27,955 & 15,121 & 11,033 & 5,256 \\
 \hline
@@ -33,7 +89,7 @@ LinkR has collected numerous interaction and groups data for determining common 
 \textbf{Video} & 211 & 1,687 & 710 & 2,105 \\
 \hline
 \hline
-\textbf{LinkR Users} & \textbf{Posts} & \textbf{Comments} & \textbf{Likes} & \textbf{Tags} \\
+\textbf{App Users} & \textbf{Posts} & \textbf{Comments} & \textbf{Likes} & \textbf{Tags} \\
 \textbf{and Friends} & & & & \\
 \hline
 \textbf{Wall} & 3,384,740 & 2,152,321 & 1,555,225 & 912,687 \\
@@ -58,14 +114,14 @@ LinkR has collected numerous interaction and groups data for determining common 
 \begin{tabular}{|>{\small}p{2cm}|>{\small}r|>{\small}r|}
 \hline
 \textbf{Table} & \textbf{\#Records} & \textbf{\#Records} \\
-& \textbf{(LinkR Users)} & \textbf{(LinkR User} \\
+& \textbf{(App Users)} & \textbf{(App User} \\
 & & \textbf{and Friends)} \\
 \hline
 Users & 103 & 36,900 \\
 \hline
 \hline
 \textbf{Column} & \textbf{\#Non-empty} & \textbf{\#Non-empty} \\
-& \textbf{(LinkR Users)} & \textbf{(LinkR User} \\
+& \textbf{(App Users)} & \textbf{(App User} \\
 & & \textbf{and Friends)} \\
 \hline
 Gender & 102 & 36,401 \\
@@ -82,7 +138,7 @@ Current\par Location & 71 & 20,088 \\
 \hline
 \hline
 \textbf{Breakdown} & \textbf{Count} & \textbf{Count} \\
-& \textbf{(LinkR Users)} & \textbf{(LinkR User} \\
+& \textbf{(App Users)} & \textbf{(App User} \\
 & & \textbf{and Friends)} \\
 \hline
 Male & 73 & 19,742 \\
@@ -103,7 +159,7 @@ Degree:\par Graduate School & 56 & 7733 \\
 \centering
 \includegraphics[scale=0.5]{data/age_groups_linkr_users.pdf}
 \vspace{-15pt}
-\caption{\small Number of LinkR Users by Age Groups}
+\caption{\small Number of App Users by Age Groups}
 \label{fig:agegroups:users}
 \end{figure}
 
@@ -111,7 +167,7 @@ Degree:\par Graduate School & 56 & 7733 \\
 \centering
 \includegraphics[scale=0.5]{data/age_groups_linkr_users_friends.pdf}
 \vspace{-25pt}
-\caption{\small Number of LinkR Users and Friends by Age Groups}
+\caption{\small Number of App Users and Friends by Age Groups}
 \label{fig:agegroups:usersfriends}
 \end{figure}
 
@@ -166,7 +222,7 @@ Age: 100+ & 1 & 55 \\
 \begin{tabular}{|>{\small}p{2cm}|>{\small}r|>{\small}r|}
 \hline
 \textbf{Table} & \textbf{\#Records} & \textbf{\#Records} \\
-& \textbf{(LinkR Users)} & \textbf{(LinkR User} \\
+& \textbf{(App Users)} & \textbf{(App User} \\
 & & \textbf{and Friends)} \\
 \hline
 Education & 275 & 66,462 \\
@@ -216,7 +272,7 @@ With Friends & & \\
 \begin{tabular}{|>{\small}p{2cm}|>{\small}r|>{\small}r|}
 \hline
 \textbf{Table} & \textbf{\#Records} & \textbf{\#Records} \\
-& \textbf{(LinkR Users)} & \textbf{(LinkR User} \\
+& \textbf{(App Users)} & \textbf{(App User} \\
 & & \textbf{and Friends)} \\
 \hline
 Activities & 394 & 92,148 \\
@@ -259,7 +315,7 @@ Television & 819 & 144,308 \\
 \begin{tabular}{|>{\small}p{2cm}|>{\small}r|>{\small}r|}
 \hline
 \textbf{Table} & \textbf{\#Records} & \textbf{\#Records} \\
-& \textbf{(LinkR Users)} & \textbf{(LinkR User} \\
+& \textbf{(App Users)} & \textbf{(App User} \\
 & & \textbf{and Friends)} \\
 \hline
 Activities & 394 & 92,148 \\
