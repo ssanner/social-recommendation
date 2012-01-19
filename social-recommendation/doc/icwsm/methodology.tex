@@ -1,3 +1,5 @@
+\label{sec:methodology}
+
 Having now described the data we have at our disposal, we proceed
 to describe the evaluation methodology.
 
@@ -58,11 +60,20 @@ or $L_\all$.
       (with the one exception in Facebook that $u$ cannot tag
       a link with user $v$ -- for the obvious reason that this is
       nonsensical).
-      \item \textbf{Interaction Directionality:} Here we can look
+      \item \textbf{Interaction Directionality:} Motivated
+      by~\cite{saez2011high}, we can look
       at \textit{incoming} and \textit{outgoing} interactions, i.e.,
       if user $u$ comments on, tags, or likes user $v$'s item,
       then $u$ is in the set of incoming interactions for $v$
       and $v$ is in the set of outgoing interactions for $u$.
+      \item \textbf{Real vs. Virtual:} \cite{brandtzag2011facebook}
+      defines real vs. virtual interactions as those interactions
+      occurring between friends who spend any time together offline
+      (real) and those interactions with friends that are only online
+      (virtual).  We define the \textit{real} friend group of $u$ as
+      those friends $v$ who are tagged in the same photo or
+      video, and all other friends in the \textit{virtual} friend group
+      of $u$.
     \end{itemize}
     \item \textbf{Interests:} We can define groups $G$ according to
       those having common interests with $u$; in this paper there was
@@ -80,23 +91,29 @@ or $L_\all$.
       to look at small vs. large groups by restricting the group
       size for $u$ to be a maximum of $n$ friends.  We hypothesizes
       that small groups may be more predictive than large groups since
-      they define narrower interest -- we revisit this hypothesis
-      in light of our analysis in Section~\ref{sec:interest_history}.
+      they define narrower interest -- we later revisit this hypothesis
+      in light of our forthcoming analysis.
+      % in Section~\ref{sec:interest_history}.
     \item \textbf{Demographics:} We can restrict our group definition
       according to usual demographic criteria such as \emph{gender}.
       The user base was sufficiently narrow in this paper (most were
       University students) such that analysis by \emph{age} and other
       traits did not yield sufficient differentiation for
-      interpretable evaluation; hence only demographic analysis by
-      gender is presented in Section~\ref{src:demographics}.
+      interpretable evaluation.%; hence only demographic analysis by
+      %gender is presented in Section~\ref{sec:demographics}.
   \end{itemize}
 \item \textbf{Link Criteria:} Our main link criteria restriction $C$
-      used to form the group link set $L_{G,C}$ for link set $L$
-      and user group $G$ was to only include links that had at least
-      $k$ likes among the members of $G$.  One might hypothesize
-      that links liked by more people in $G$ (i.e., higher $k$)
-      would directly correlate with user $u$'s preferences -- we
-      revisit this hypothesis in Section~\ref{ref:interactions}.
+      used to form the group liked item set $L_{G,C}$ from item set
+      $L$ and user group $G$ was to only include links that had
+      \emph{at least $k$ likes} among the members of $G$.  
+      %One might
+      %hypothesize that links liked by more people in $G$ (i.e., higher
+      %$k$) would directly correlate with user $u$'s preferences -- we
+      %revisit this hypothesis in light of our forthcoming analysis.
+      \cite{Romero2011hashtag} refers to plots vs. $k$ as
+      \emph{exposure} curves since they provide a rough indicator of
+      $u$'s exposure to a liked item.
+      %Section~\ref{sec:interactions}.
 \end{itemize}
 
 Regarding statistical aspects of the analysis, 
