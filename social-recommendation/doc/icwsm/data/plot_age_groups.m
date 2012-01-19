@@ -1,5 +1,8 @@
-% b = textscan(fopen('age_groups.csv'), '%s %d %d', 'delimiter', ',')
+%b = textscan(fopen('age_groups.csv'), '%s %d %d', 'delimiter', ',')
 %g1 = bar(b{2}); set(gca, 'XTickLabel', b{1}); set(gca, 'FontSize', 11); title('Number of LinkR Users binned by Age Group');
+%figure
+%subplot(2,1,1); bar(b{2}); set(gca, 'XTickLabel', b{1}); set(gca, 'FontSize', 11); title('Number of App Users by Age Group');
+%subplot(2,1,2); bar(b{3}); set(gca, 'XTickLabel', b{1}); set(gca, 'FontSize', 11); title('Number of App Users and Friends by Age Group');
 
 function plot_age_groups(yvector1)
 %CREATEFIGURE(YVECTOR1)
@@ -9,7 +12,7 @@ function plot_age_groups(yvector1)
 
 % Create figure
 figure1 = figure('Renderer','painters','PaperType','<custom>',...
-    'PaperSize',[17 11],...
+    'PaperSize',[16 6],...
     'InvertHardcopy','off',...
     'Color',[1 1 1]);
 
@@ -28,7 +31,4 @@ hold(axes1,'all');
 
 % Create bar
 bar(yvector1);
-
-% Create title
-title('Number of LinkR Users binned by Age Group');
 
