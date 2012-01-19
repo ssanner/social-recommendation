@@ -8,6 +8,7 @@
 \usepackage{array}
 \usepackage{amsmath,amssymb}
 \usepackage{epsfig,subfigure}
+%\usepackage{hyperref}
 \frenchspacing
 
 \newcommand{\link}{\mathit{link}}
@@ -16,6 +17,18 @@
 \newcommand{\video}{\mathit{video}}
 \newcommand{\all}{\mathit{all}}
 \newcommand{\app}{\mathit{app}}
+
+% place holder spacing hacks
+\newcommand{\secmoveup}{\vspace{-1.2mm}}                %{\vspace{-0.12in}}
+\newcommand{\bigsecmoveup}{\secmoveup\vspace{-.0mm}}   %{\vspace{-0.08in}}
+\newcommand{\textmoveup}{\vspace{-0mm}}               %{\vspace{-0.08in}}
+\newcommand{\bigtextmoveup}{\textmoveup\vspace{-0.0in}} %{\vspace{-0.06in}}
+\newcommand{\itemmoveup}{\vspace{-0mm}}              %{\vspace{-0.04in}}
+\newcommand{\eqmoveup}{\vspace{-0.0in}}                 %{\vspace{-0.16in}}
+\newcommand{\captionmoveup}{\eqmoveup\vspace{-0.0in}}   %{\vspace{-0.16in}}
+\newcommand{\refitemmoveup}{\vspace{-0mm}}            %{\vspace{-0.16in}}
+% hold but hide chunks of text
+\newcommand{\eat}[1]{}
 
 \newcommand{\true}{\mathit{true}}
 \newcommand{\false}{\mathit{false}}
@@ -46,12 +59,14 @@
 \maketitle
 \begin{abstract}
 %\begin{quote}
-Social networks such as Facebook are full of a rich set of user
+Social networks such as Facebook has
+%are full of %%lexing
+a rich set of user
 preferences (likes of links, posts, photos, videos) and user traits
 and interactions (conversation streams, tagging, group memberships,
 interests, personal history and demographic data). However, which 
 interactions or common traits among friends are actually reflective of
-their common preferences as expressed by their likes?  In this work, we
+their common preferences, explicitly expressed by their likes?  In this work, we
 evaluate these questions using a data set of over 100 Facebook users
 and their complete interactions with over 39,000+ 
 friends over a four month study period. Our analysis shows a large
