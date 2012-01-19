@@ -1,51 +1,177 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure*}[t!]
-\centering
-\includegraphics[scale=0.70]{data/dir_vs_lwppv_fix}
-\caption{Caption.}
-\label{fig:res1}
-\end{figure*}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%              Romero2011hashtag exposure curve -- we find a new
+%              mechanism for reducing persistence
 
+In the following sections, we subdivide our analysis of $P(u \mbox{
+likes } i | i \in L_{G,C})$ according to three dimensions: social
+interaction properties, interest and history user traits, and user
+demographic data.  All restrictions on $L$,$G$, and $C$ referenced
+below have been defined in Section~\ref{sec:methodology}.  
+
+\subsection{Predictiveness of Interactions}
+
+\label{sec:interactions}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure*}[t!]
 \centering
 \includegraphics[scale=0.70]{data/likes_vs_inter_fix}
-\caption{Caption.}
+\vspace{-15mm}
+\caption{All graphs plot $P(u \mbox{ likes } i | i \in L_{G,C})$
+vs. the link criteria that at least $k$ members of $G$ liked item $i$.
+The columns restrict $G$ to different 
+\textit{Interaction Actions} and the rows restrict $G$ to
+different \textit{Interaction Modalities}.  Per graph, each line 
+analyzes a different \textit{Interaction Directionality} with
+a baseline comparison to groups defined by friends.}
 \label{fig:res2}
 \end{figure*}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+In Figure~\ref{fig:res2}, we plot the exposure curves for 
+all liked items w.r.t.\ different \textit{Interaction Actions},
+\textit{Interaction Modalities}, and
+\textit{Interaction Directionality}.  A few important points
+are worth noting:
+\begin{itemize}
+\item As in~\cite{Romero2011hashtag}, we note a saturation
+effect as the number of a times an item has been liked
+increases, i.e., the curves often peak around 6--8 interactions
+then fall off.  
+While Romero {\it et al} noted that the
+peak of the saturation curve was \emph{topic-dependent}, as a novel
+observation we note that the peak is \emph{interaction-dependent}.
+Indeed, one can clearly see that when defining groups according
+to post interactions (of any directionality), the exposure
+curve peaks much earlier than the baseline friends group
+exposure curve.  One possible explanation for this is that
+post interactions increase exposure to content on a friend's
+wall (which are not explicitly recorded as likes) and these
+implicit unrecorded exposures thereby lead to a perceived
+earlier peak as a function of explicit like exposures.
+\item As noted by previous work~\cite{saez2011high}, interaction
+direction is highly reflective of preferences.  In general,
+the interaction groups with the highest overlap of likes
+are the \textit{outgoing} interaction groups --- this makes
+perfect sense in a social network setting --- one may tend
+to like the same things as the people one is most likely
+to initiate an interaction with.
+\item For this Facebook data, we note that the specific
+interactions with highest predictiveness (both by
+statistical signficance and the maximum probability)
+are \emph{outgoing post tags}, \emph{outgoing photo likes},
+\emph{outgoing post likes}, and \emph{outgoing video comments}.
+We hypothesize that video comments are more predictive than
+other comments since watching a video (in order to comment on it)
+indicates a much higher level of interest in a user than other
+commenting interactions (link, post, and photo).
+\end{itemize}
+
+% - saturation effect, exposure curve
+% - earlier saturation for post interactions (*new modality for 
+%   reducing persistence -- more exposures b/c interacting on 
+%   user's wall)
+% - highest / most significant -- outgoing post tags, photo likes, post likes, video comments -- watch
+%   *outgoing study
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{figure*}[t!]
+%\centering
+%\includegraphics[scale=0.70]{data/dir_vs_lwppv_fix}
+%\vspace{-7mm}
+%\caption{All graphs plot $P(u \mbox{ likes } i | i \in L_{G,C})$
+%vs. the link criteria that at least $k$ members of $G$ liked item $i$.
+%The columns restrict $G$ to different 
+%\textit{Interaction Actions} and the rows restrict $G$ to
+%different \textit{Interaction Directionalities}.}
+%\label{fig:res1}
+%\end{figure*}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%In Figure~\ref{fig:res1}
+% Come back to this -- basically just outgoing / incoming analysis
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure*}[t!]
 \centering
 \includegraphics[scale=0.70]{data/linktype_vs_inter_fix}
-\caption{Caption.}
+\vspace{-15mm}
+\caption{All graphs plot $P(u \mbox{ likes } i | i \in L_{G,C})$
+vs. the link criteria that at least $k$ members of $G$ liked item $i$.
+The columns restrict $G$ to different 
+\textit{Interaction Actions} and the rows restrict $G$ to
+different \textit{Like Types}.    Per graph, each line 
+analyzes a different \textit{Interaction Directionality} with
+a baseline comparison to groups defined by friends.}
 \label{fig:res3}
 \end{figure*}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+In Figure~\ref{fig:res3}, we plot the exposure curves for 
+different \textit{Like Types} 
+ w.r.t.\ different \textit{Interaction Actions} and
+\textit{Interaction Directionality}.  A few important points
+are worth noting:
+\begin{itemize}
+\item For this Facebook data, we note that the specific interactions
+with highest predictiveness (both by statistical signficance and the
+maximum probability) invariant of the \textit{Like Type} is simply
+\emph{outgoing likes}; this seems quite reasonable: users are
+likely to like any item liked by users who have posted items they have
+liked previously.
+\item While all \emph{outgoing interactions} do not predict \emph{post
+likes} and \emph{link likes} well, all \emph{outgoing interactions}
+appear to predict \emph{photo likes} and \emph{video likes} well.
+\end{itemize}
+% - all outgoing likes predictive of likes for each individual type
+% - outgoing comments mainly predictive for photos and video
+% - co-posting groups saturate early
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure*}[t!]
 \centering
 \includegraphics[scale=0.75]{data/real_vs_virtual_fix}
-\caption{Caption.}
+\vspace{-7mm}
+\caption{All graphs plot $P(u \mbox{ likes } i | i \in L_{G,C})$
+vs. the link criteria that at least $k$ members of $G$ liked item $i$.
+The columns restrict $G$ to different 
+\textit{Interaction Directionalities}.  Per graph, each line 
+analyzes \textit{Real vs. Virtual} with
+a baseline comparison to groups defined by friends.}
 \label{fig:res4}
 \end{figure*}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+We evaluate in Figure~\ref{fig:res4} which of \emph{incoming} or
+\emph{outgoing}, \emph{real} or \emph{virtual} interactions are most
+predictive of a user's likes.  In short, while incoming interactions
+do not show either real or virtual interacting friends 
+to be more predictive of likes than general friends, there is
+a stronger trend (although not statistically significant for
+any single data point) that \emph{outgoing} interactions for 
+\emph{real} friends are more predictive of preferences
+than for friends and virtual friends in general. 
+
+\subsection{Predictiveness of Interests and History}
+
+\label{sec:interest_history}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure*}[t!]
 \centering
 \includegraphics[scale=0.80]{data/interests_fix}
 %\includegraphics[scale=0.65]{data/interests1_fix} \includegraphics[scale=0.65]{data/interests2_fix}
+\vspace{-5mm}
 \caption{Caption.}
 \label{fig:res5}
 \end{figure*}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+In Figure~\ref{fig:res5}
+
+
+\subsection{Predictiveness of Demographics}
+
+\label{sec:demographics}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{table*}[t!]
@@ -66,4 +192,6 @@
 \label{fig:res6}
 \end{table*}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+In Figure~\ref{fig:res6}
 
