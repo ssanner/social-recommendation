@@ -72,6 +72,22 @@ public class Interaction {
 		}
 	}
 	
+	public void retainAllInteractions(Interaction i) {
+		Set<Long> EMPTY_SET = new HashSet<Long>();
+		for (Map.Entry<Long,Set<Long>> e : i._interactions.entrySet()) { // i's keyset
+			long uid = e.getKey();
+			Set<Long> to_retain = e.getValue();
+			if (to_retain == null) { 
+				// Nothing to retain here
+				to_retain = EMPTY_SET;
+			}
+			Set<Long> interactions = this._interactions.get(uid); // this's keys
+			if (interactions == null || interactions.size() == 0) 
+				continue;
+			interactions.retainAll(to_retain);
+		}
+	}
+	
 	/**
 	 * @param args
 	 */

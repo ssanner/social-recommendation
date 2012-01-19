@@ -134,17 +134,23 @@ public class UserUtil
 		Interaction i = new Interaction(); // currently treat interactions as undirected
 
 		// Repeated calls or direct
-		if (type == EInteractionType.REAL) {
+		if (type == EInteractionType.ALL_INTER) {
+			Interaction all_inter = getUserInteractions(EInteractionType.ALL_LIKES, dir);
+			all_inter.addAllInteractions(getUserInteractions(EInteractionType.ALL_COMMENTS, dir));
+			all_inter.addAllInteractions(getUserInteractions(EInteractionType.ALL_TAGS, dir));			
+			return all_inter;
+			
+		} else if (type == EInteractionType.REAL) {
 			Interaction photo_tags = getUserInteractions(EInteractionType.PHOTO_TAGS, dir);
 			Interaction video_tags = getUserInteractions(EInteractionType.VIDEO_TAGS, dir);
 			video_tags.addAllInteractions(photo_tags);
 			return video_tags;
 			
 		} else if (type == EInteractionType.VIRTUAL) {
-			Interaction real    = getUserInteractions(EInteractionType.REAL, dir);
-			Interaction friends = getUserInteractions(EInteractionType.FRIENDS, dir);
-			friends.removeAllInteractions(real);
-			return friends;
+			Interaction real = getUserInteractions(EInteractionType.REAL, dir);
+			Interaction virtual = getUserInteractions(EInteractionType.ALL_INTER, dir);
+			virtual.removeAllInteractions(real);
+			return virtual;
 			
 		} else if (type == EInteractionType.ALL_LIKES) {
 			Interaction link_likes  = getUserInteractions(EInteractionType.LINK_LIKES, dir);
@@ -245,50 +251,52 @@ public class UserUtil
 		}
 	}
 	
-//	public static Interaction getUserInteractionsByGroup(
-//			InteractionType type, Direction dir, boolean complete_colikes) 
-//		throws SQLException {
-//
-//	}
+	public static Map<EInterestType,Map<Long,Set<Long>>> EINT_2_UID_2_GROUPID = new HashMap<EInterestType,Map<Long,Set<Long>>>();
+	public static Map<EInterestType,Map<Long,Set<Long>>> EINT_2_GROUPID_2_UID = new HashMap<EInterestType,Map<Long,Set<Long>>>();
+	public static Interaction FRIEND_INTER = null;
+	public static Map<Long,String> USER_NAMES = null; 
 	
-	public static Interaction getUserInteractionsByGroup
-		(EInteractionType type, boolean complete_colikes)
+	public static Interaction getGroupInterAmongFriends(EInterestType type, int ub)
 	throws SQLException {
 		
-		Interaction i = new Interaction(); // currently treat interactions as undirected
+		// Cache all friends and names
+		if (FRIEND_INTER == null)
+			FRIEND_INTER = UserUtil.getUserInteractions(EInteractionType.FRIENDS, EDirectionType.BIDIR);
+		if (USER_NAMES == null)
+			USER_NAMES = UserUtil.getUserNames();
+		
+		// Get interactions for (type, ub)
+		Interaction interest_group_inter = new Interaction(); // currently treat interactions as undirected
 
-		Map<Long,Set<Long>> UID_2_GROUPID = UserUtil.getUser2Groups();
-		Map<Long,Set<Long>> GROUPID_2_UID = UserUtil.getGroup2Users();
+		Map<Long,Set<Long>> UID_2_GROUPID = EINT_2_UID_2_GROUPID.get(type);
+		Map<Long,Set<Long>> GROUPID_2_UID = EINT_2_GROUPID_2_UID.get(type);
+		if (UID_2_GROUPID == null) {
+			UID_2_GROUPID = UserUtil.getUser2InterestGroups(type);
+			GROUPID_2_UID = UserUtil.getInterestGroup2Users(type);
+			EINT_2_UID_2_GROUPID.put(type, UID_2_GROUPID);
+			EINT_2_GROUPID_2_UID.put(type, GROUPID_2_UID);
+		}
 		
-		int lb = 1;
-		int ub = Integer.MAX_VALUE;
-//		switch (type) {
-//			case GROUPS_SZ_2_2:      lb = 2;   ub = 2;   break;
-//			case GROUPS_SZ_2_5:      lb = 2;   ub = 5;   break;
-//			case GROUPS_SZ_6_10:     lb = 6;   ub = 10;  break;
-//			case GROUPS_SZ_11_25:    lb = 11;  ub = 25;  break; 
-//			case GROUPS_SZ_26_50:    lb = 26;  ub = 50;  break;
-//			case GROUPS_SZ_51_100:   lb = 51;  ub = 100; break;
-//			case GROUPS_SZ_101_500:  lb = 101; ub = 500; break; 
-//			case GROUPS_SZ_500_PLUS: lb = 500; break;
-//			default: {
-//				System.out.println("ERROR: Illegal type -- " + type);
-//				System.exit(1);
-//			}
-//		}
-		
-		//int k = 0;
+		int lb = 2; // Don't want a group of size < 2
 		for (long uid : UID_2_GROUPID.keySet()) {
 			Set<Long> groups = UID_2_GROUPID.get(uid);
 			if (groups != null) 
 				for (Long gid : groups) {
-					Set<Long> other_gids = GROUPID_2_UID.get(gid);
-					if (other_gids == null || other_gids.size() < lb || other_gids.size() > ub)
+					Set<Long> other_gids = new HashSet<Long>(GROUPID_2_UID.get(gid));
+					if (other_gids == null) // Nothing to retain
+						continue;
+					Set<Long> friend_interactions = FRIEND_INTER.getInteractions(uid);
+					if (friend_interactions == null) // Retain nothing
+						continue;
+					//else 
+					//	System.out.println("No friends for: " + uid + " -- " + USER_NAMES.get(uid));
+					other_gids.retainAll(friend_interactions);
+					if (other_gids.size() < lb || other_gids.size() > ub)
 						continue;
 					for (long uid2 : other_gids) { 
 						if (uid2 == uid)
 							continue;
-						i.addInteraction(uid, uid2, EDirectionType.BIDIR);
+						interest_group_inter.addInteraction(uid, uid2, EDirectionType.BIDIR);
 						//System.out.println(uid + ":" + gid + ":" + uid2);
 						//k++;
 					}
@@ -296,7 +304,7 @@ public class UserUtil
 			//if (k > 100) System.exit(1);
 		}
 		
-		return i;
+		return interest_group_inter;
 	}
 
 	public static Map<Long,String> getUserNames() 
@@ -317,14 +325,42 @@ public class UserUtil
 		return userID2Name;
 	}
 
-	public static Map<Long,String> getGroupNames() 
+	public static String GetInterestGroupTable(EInterestType type) {
+		switch (type) {
+			case GROUPS:               return "linkrgroups"; 
+			case ACTIVITIES:           return "linkractivities"; 
+			case BOOKS:                return "linkrbooks"; 
+			case FAVORITE_ATHLETES:    return "linkrfavoriteathletes"; 
+			case FAVORITE_TEAMS:       return "linkrfavoriteteams"; 
+			case INSPIRATIONAL_PEOPLE: return "linkrinspirationalpeople"; 
+			case INTERESTS:            return "linkrinterests"; 
+			case GENERAL_LIKES:        return "linkrlikes"; 
+			case MOVIES:               return "linkrmovies";  
+			case MUSIC:                return "linkrmusic"; 
+			case SPORTS:               return "linkrsports"; 
+			case TELEVISION:           return "linkrtelevision"; 
+			case SCHOOL:               return "linkreducation";
+			case WORK:                 return "linkrwork";
+			default: {
+				System.out.println("ERROR: Illegal type -- " + type);
+				System.exit(1);
+			}
+		}
+		return null;
+	}
+	
+	public static Map<Long,String> getGroupNames(EInterestType type) 
 	throws SQLException
 	{
 		HashMap<Long,String> groupID2Name = new HashMap<Long,String>();
+		if (type == EInterestType.SCHOOL || type == EInterestType.WORK)
+			return groupID2Name; // No explicit names here without doing a table join
 		
+		String table = GetInterestGroupTable(type);
+				
 		Statement statement = SQLUtil.getStatement();
 		
-		String userQuery = "SELECT id, name FROM linkrgroups";
+		String userQuery = "SELECT id, name from " + table;
 		
 		ResultSet result = statement.executeQuery(userQuery);
 		while (result.next()) {
@@ -335,12 +371,17 @@ public class UserUtil
 		return groupID2Name;
 	}
 
-	public static Map<Long, Integer> getGroupID2Size() 
+	public static Map<Long, Integer> getGroupID2Size(EInterestType type) 
 	throws SQLException {
+
 		HashMap<Long, Integer> groupid2size = new HashMap<Long, Integer>();
-		
+		if (type == EInterestType.SCHOOL || type == EInterestType.WORK)
+			return groupid2size; // No explicit names here without doing a table join
+
+		String table = GetInterestGroupTable(type);
+				
 		Statement statement = SQLUtil.getStatement();
-		String query = "select id, count(id) as ncount from linkrgroups group by name order by ncount desc";
+		String query = "select id, count(id) as ncount from " + table + " group by name order by ncount desc";
 
 		ResultSet result = statement.executeQuery(query);
 		while (result.next()) {
@@ -354,11 +395,21 @@ public class UserUtil
 		return groupid2size;
 	}
 	
-	public static Map<Long, Set<Long>> getUser2Groups()
+	public static Map<Long, Set<Long>> getUser2InterestGroups(EInterestType type)
 	throws SQLException {
+		
+		// Base case retrieval
+		String table = GetInterestGroupTable(type);
+		String target_uid = "uid";
+		String target_id = "id";
+		if (type == EInterestType.SCHOOL)
+			target_id = "school_id";
+		else if (type == EInterestType.WORK)
+			target_id = "employer_id";
+		
 		HashMap<Long,Set<Long>> user2groups = new HashMap<Long,Set<Long>>();
 		Statement statement = SQLUtil.getStatement();
-		String query = "select uid, id from linkrgroups order by uid";
+		String query = "select " + target_uid + ", " + target_id + " from " + table + " order by " + target_uid;
 		
 		ResultSet result = statement.executeQuery(query);
 		long last_uid = -1;
@@ -378,11 +429,21 @@ public class UserUtil
 		return user2groups;
 	}
 	
-	public static Map<Long, Set<Long>> getGroup2Users()
+	public static Map<Long, Set<Long>> getInterestGroup2Users(EInterestType type)
 	throws SQLException {
+		
+		// Base case retrieval
+		String table = GetInterestGroupTable(type);
+		String target_uid = "uid";
+		String target_id = "id";
+		if (type == EInterestType.SCHOOL)
+			target_id = "school_id";
+		else if (type == EInterestType.WORK)
+			target_id = "employer_id";
+
 		HashMap<Long,Set<Long>> group2users = new HashMap<Long,Set<Long>>();
 		Statement statement = SQLUtil.getStatement();
-		String query = "select uid, id from linkrgroups order by id";
+		String query = "select " + target_uid + ", " + target_id + " from " + table + " order by " + target_id;
 		
 		ResultSet result = statement.executeQuery(query);
 		long last_group_id = -1;
@@ -400,6 +461,130 @@ public class UserUtil
 		statement.close();
 		
 		return group2users;
+	}
+	
+	public static class DemographicData {
+		public int _lb;
+		public int _ub;
+		public Map<Long,Integer> _uid2index;
+		public DemographicData(int lb, int ub, Map<Long,Integer> uid2index) {
+			_lb = lb;
+			_ub = ub;
+			_uid2index = uid2index;
+		}
+	}
+		
+	public static DemographicData getUser2Demographic(EDemographicType type) 
+	throws SQLException {
+		
+		Statement statement = SQLUtil.getStatement();
+		DemographicData d = new DemographicData(
+				Integer.MAX_VALUE, Integer.MIN_VALUE, new HashMap<Long,Integer>());
+		
+		if (type == EDemographicType.GENDER) {
+			
+			String userQuery = "SELECT uid, gender FROM linkrUser";
+			ResultSet result = statement.executeQuery(userQuery);
+
+			d._lb = 0;
+			d._ub = 1;
+			while (result.next()) {
+			
+				long uid = result.getLong("uid");
+				int  gender = result.getString("gender").equals("male") ? 1 : 0;
+				d._uid2index.put(uid, gender);
+			}
+		
+		} else if (type == EDemographicType.AGE) {
+
+			String userQuery = "SELECT uid, birthday FROM linkrUser";
+			ResultSet result = statement.executeQuery(userQuery);
+
+			while (result.next()) {
+			
+				long uid = result.getLong("uid");
+
+				int birthYear = 0;
+				String birthday = result.getString("birthday");
+				if (birthday.length() == 10) {
+					birthYear = Integer.parseInt(birthday.split("/")[2]);
+				}
+				if (birthYear > 1900 && birthYear <= 2012) {
+					int age_group = (int)Math.floor((2012 - birthYear) / 5d);
+					d._lb = Math.min(d._lb, age_group);
+					d._ub = Math.max(d._ub, age_group);
+					d._uid2index.put(uid, age_group);
+				}
+			}
+
+		} else if (type == EDemographicType.EDUCATION_DEGREE) {
+
+			String userQuery = "SELECT uid, type FROM linkrEducation";
+			ResultSet result = statement.executeQuery(userQuery);
+
+			d._lb = 0;
+			d._ub = 2;
+			while (result.next()) {
+			
+				long uid = result.getLong("uid");
+				String degree = result.getString("type");
+				Integer cur_degree = d._uid2index.get(uid);
+				
+				// Set degree to highest degree if cur_degree exists
+				if (degree.equals("Graduate School")) // highest degree, always overrides
+					d._uid2index.put(uid, 2);
+				else if (degree.equals("College") && (cur_degree == null || cur_degree < 1))
+					d._uid2index.put(uid, 1);
+				else if (degree.equals("High School") && cur_degree == null)
+					d._uid2index.put(uid, 0);
+			}
+		
+		} else {
+			System.out.println("Retrieval of EDemographicType '" + type + "' currently not supported.");
+			//System.exit(1);
+			return null;
+		}
+		
+		return d;
+	}
+
+	public static Set<Long> getIDSubsetWithDemographic(Set<Long> src, DemographicData d, int type_id) {
+		
+		Set<Long> ret = new HashSet<Long>();
+		
+		for (long uid : src) {
+			Integer type = d._uid2index.get(uid);
+			if (type != null && type == type_id)
+				ret.add(uid);
+		}
+		
+		return ret;
+	}
+	
+	public static Set<Long> getFriendUIDsWithDemographic(
+			long uid, DemographicData d, int friend_type_target_id) throws SQLException {
+		
+		Set<Long> ret = new HashSet<Long>();
+		
+		// Cache all friends and names
+		if (FRIEND_INTER == null)
+			FRIEND_INTER = UserUtil.getUserInteractions(EInteractionType.FRIENDS, EDirectionType.BIDIR);
+
+		Set<Long> friends = FRIEND_INTER.getInteractions(uid);
+		if (friends == null) {
+			//if (USER_NAMES == null)
+			//	USER_NAMES = getUserNames();
+			//System.out.println("WARNING: NO FRIENDS FOR: " + USER_NAMES.get(uid));
+			return ret;
+		}
+		
+		for (Long uid2 : friends) {
+			Integer friend_type_id = d._uid2index.get(uid2);
+			if (uid2 != uid && friend_type_id != null && friend_type_id == friend_type_target_id)
+				ret.add(uid2);
+		}
+		
+		return ret;
 	}
 	
 	public static Map<Long, Double[]> getUserFeatures()
