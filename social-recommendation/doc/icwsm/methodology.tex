@@ -1,0 +1,121 @@
+Having now described the data we have at our disposal, we proceed
+to describe the evaluation methodology.
+
+% Need to previously define G and U
+
+Our primary objective in this paper is to evaluate what user-to-user
+interactions and shared user traits (interests, history, demographics)
+are predictive of common preferences among friends.  For the purpose
+of this paper, we simply define an \emph{expressed unary preference}
+as the click of the \emph{like button} on a link, post, photo, or
+video in Facebook, with each set of liked items respectively defined as
+$L_\link$, $L_\post$, $L_\photo$, $L_\video$, and all likes as $L_\all
+= L_\link \cup L_\post \cup L_\photo \cup L_\video$.
+
+Given this candidate set of preferences and a set of Facebook users
+$U$ (where the subset of LinkR app users for whom 
+we have complete interaction data with all 39,000+ friends
+is denoted by $U_\app \subseteq U$), the main
+question we want to answer is the following: 
+
+\begin{quote}
+For a random user $u \in U_\app$, a set of candidate items to like $L
+\subseteq L_\all$, a subgroup $G \subseteq U$ of user's friends
+meeting some \emph{group criteria} (e.g., a group of at most $n$
+members) and the subset of items $L_{G,C} \subseteq L$ liked by $G$
+meeting some \emph{link critera} $C$ (e.g., links liked at least $k$
+times by members of $G$), what is the probability that $u$ will like
+any item $i \in L_G$?
+\end{quote}
+
+Defining, $L_u \subseteq L$ as the subset of candidate items liked
+by user $u$, this query can be computed very easily as follows
+\begin{equation}
+P(u \mbox{ likes } i | i \in L_{G,C}) = \frac{|L_u \cap L_{G,C}|}{|L_{G,C}|}
+\end{equation}
+where $|\cdot|$ is the usual set cardinality operator.
+
+There are a wide range of critera we can use to define this
+query which we enumerate now:
+\begin{itemize}
+\item \textbf{Like Type:} In the query, we can define the like
+set $L$ as any one of $L_\link$, $L_\post$, $L_\photo$, $L_\video$,
+or $L_\all$.
+\item \textbf{Group Criteria:}  We can define 
+    groups $G$ according to various relationships between users where
+    any user $v$ in $u$'s friend group $G$ must meet all specified
+    critera:
+  \begin{itemize}
+    \item \textbf{Interactions:} We can define 
+    groups $G$ according to social interactions between users:
+      \begin{itemize}
+      \item \textbf{Interaction Modality:} User $u$ can interact with
+       user $v$ via \textit{links}, \textit{posts}, 
+       \textit{photos}, and \textit{videos}.
+      \item \textbf{Interaction Action:} A user $u$ can
+      \textit{comment} on or \textit{like} user $v$'s item,
+      or \textit{tag} user $v$ on an item 
+      (with the one exception in Facebook that $u$ cannot tag
+      a link with user $v$ -- for the obvious reason that this is
+      nonsensical).
+      \item \textbf{Interaction Directionality:} Here we can look
+      at \textit{incoming} and \textit{outgoing} interactions, i.e.,
+      if user $u$ comments on, tags, or likes user $v$'s item,
+      then $u$ is in the set of incoming interactions for $v$
+      and $v$ is in the set of outgoing interactions for $u$.
+    \end{itemize}
+    \item \textbf{Interests:} We can define groups $G$ according to
+      those having common interests with $u$; in this paper there was
+      sufficient data to evaluate five interest types: membership in
+      Facebook \textit{groups} (e.g., fan clubs), Facebook
+      \textit{page likes} (e.g., the ``re-elect Obama in 2012'' page),
+      and usual interests such as \textit{movies}, \textit{music}, and
+      \textit{television}.
+    \item \textbf{History:} We can define groups $G$ according to
+      those having common historical traits with $u$; in this paper
+      there was sufficient data to evaluate two history groups:
+      people who've attended the same \textit{schools} for education,
+      and people who have had the same \textit{employer}.
+    \item \textbf{Group Size:} We can restrict our group definition
+      to look at small vs. large groups by restricting the group
+      size for $u$ to be a maximum of $n$ friends.  We hypothesizes
+      that small groups may be more predictive than large groups since
+      they define narrower interest -- we revisit this hypothesis
+      in light of our analysis in Section~\ref{sec:interest_history}.
+    \item \textbf{Demographics:} We can restrict our group definition
+      according to usual demographic criteria such as \emph{gender}.
+      The user base was sufficiently narrow in this paper (most were
+      University students) such that analysis by \emph{age} and other
+      traits did not yield sufficient differentiation for
+      interpretable evaluation; hence only demographic analysis by
+      gender is presented in Section~\ref{src:demographics}.
+  \end{itemize}
+\item \textbf{Link Criteria:} Our main link criteria restriction $C$
+      used to form the group link set $L_{G,C}$ for link set $L$
+      and user group $G$ was to only include links that had at least
+      $k$ likes among the members of $G$.  One might hypothesize
+      that links liked by more people in $G$ (i.e., higher $k$)
+      would directly correlate with user $u$'s preferences -- we
+      revisit this hypothesis in Section~\ref{ref:interactions}.
+\end{itemize}
+
+Regarding statistical aspects of the analysis, 
+because we compute $P(u \mbox{ likes } i | i \in L_{G,C})$ for each
+user $u \in U_\app$, we report the mean over $u$ and also compute 95\%
+confidence intervals on this average probability.  Cases where
+$L_{G,C} = \emptyset$ were discarded as these lead undefined
+probabilities; in cases where fewer than 10 users $u$ had well-defined
+probabilities, we omit these results altogether.  Confidence intervals
+are omitted on some graphs where none of the results were
+statistically significant w.r.t.\ these intervals --- in these cases,
+we simply analyze the graphs to identify general trends across
+multiple data points.
+
+With the data and methodology now defined including all of the
+dimensions for our analysis, 
+%To better understand these subleties and to understand what
+%what social interactions and user traits reflect common
+%preferences on Facebook, 
+we now proceed to an in-depth evaluation of various
+queries such as those outline in Section~\ref{sec:introduction}.
+

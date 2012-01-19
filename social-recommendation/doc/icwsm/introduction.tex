@@ -1,0 +1,52 @@
+\label{sec:introduction}
+
+Social networks such as Facebook record an extremely rich set of user
+preferences (likes of links, posts, photos, videos) and user traits
+and interactions (conversation streams, tagging, group memberships,
+interests, personal history and demographic data).  In the context of
+both recent work on social recommendation~\cite{sorec,ste,lla} and
+information diffusion in social network analysis
+~\cite{lerman2010information,Romero2011hashtag,Bakshy2012chamber}, 
+it is important to know which of these interactions or common traits
+are actually reflective of common preferences.
+
+To evaluate this question, we have built a Facebook App to collect a
+large subset of user information available through the Facebook App
+API for over 100 users who have agreed to use this App for over a 4
+month period.  This has provided us with access to full interactions
+for these App users with their over 39,000+ friends which allows us to
+perform a fine-grained analysis of what user interactions
+and user interests are predictive of preferences 
+expressed as ``likes'' on Facebook.  For example, in this paper,
+we provide an empirical analysis for questions such as the following:
+\begin{itemize}
+\item What is the probability that a random user $u$ will like
+photos that have been liked at least $k$ times by friends whose
+posts $u$ has commented on?
+\item What is the probability that a random user $u$ will like any
+link liked at least $k=2$ times by friends sharing common interests
+(movies, television, etc.) or history (same school or employer) where
+the maximum number of friends sharing this interest is at most $n$?
+\item What is the probability that a random male user $u$ 
+will like items liked at least $k=1$ time by his female friends?
+\end{itemize}
+
+While many of these queries may seem very narrow, we note that subtle
+changes in the query conditions and parameters above can lead to
+drastic swings in predictive probability.  For example, in the above
+queries, large variations in probability may be 
+observed by changing photo likes to post likes, changing
+wall comment interactions to photo comments, changing from $k=1$ to
+$k=2$ or $n=2$ to $n=4$, and changing the group definition from common
+school to common employer.
+
+To better understand these subleties and to understand what what
+social interactions and user traits reflect common preferences on
+Facebook, we proceed in the following sections to describe our data,
+our experimental methodology, and various analyses according to our
+methodology that shed light on the above questions.  We then compare
+our observations and analysis in this study to those of related work
+and conclude with a summary of the key novel observations arising
+from this study.
+
+
