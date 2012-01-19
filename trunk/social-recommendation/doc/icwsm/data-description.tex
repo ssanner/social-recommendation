@@ -5,7 +5,7 @@ permission from the user and inaccordance with Ethics
 Protocol\footnote{Link omitted for anonymity.}.
 
 Over 200 users installed the Facebook App at some time during the
-evaluation period at any time, around 100 users are actively using
+evaluation period at any time, around 100 users are actively using the
 App. From these core App users, the App has access to 39,850 friends
 and their (mostly private) Facebook profiles with details and
 interaction data.  While we have complete interaction data for the App
@@ -16,8 +16,8 @@ App users).  Hence in the forthcoming analysis, we limit our
 evaluation to App users for which we are assured to have full
 interaction data.
 
-App tracks many user (and their friends') details and interactions on
-Facebook. Interactions occur through wall posts provided a rich
+Our App tracks many user (and their friends') details and interactions on
+Facebook. Interactions that occur through wall posts provided a rich
 variety of content and interaction data.  The App distinguishes four
 Facebook items from wall posts: general posts (e.g., status updates,
 activity updates such as new friends, and interactions such as the
@@ -26,7 +26,7 @@ interactions on these items are permitted by Facebook\footnote{Some
 Facebook interaction features such as liking comments were introduced
 after App user studies began and so are not tracked.}: posting items
 on a friend's wall, commenting, liking, and tagging.  The App does not
-track deletions of these items and interactions for performance and
+track deletions of these items and interactions for performance reasons and
 few deletions were observed in the initial testing of App.
 
 %% Scott edited up to this point: please don't undo unless something
@@ -50,25 +50,23 @@ few deletions were observed in the initial testing of App.
 %% In short make sure all data mentioned is relevant to evaluation
 %% section, other information is superfluous.
 
-The tables presented distinguish the data from the core App users from
-all the data (App users and friends). Table~\ref{tab:interactions}
+The tables presented distinguish the data from the App users and from
+all App users and friends. Table~\ref{tab:interactions}
 summarises the number of records for each item and interaction
 combination. Table~\ref{tab:demographics} shows some demographics of
 the users from data collected on user profiles\footnote{Note that
 count of degrees are not unique as each user can attend more than one
-degree of the same type.}. Figures~\ref{fig:agegroups:users}
-and~\ref{fig:agegroups:usersfriends} show the distribution of age of
-users and their friends. Table~\ref{tab:history} shows some historical
-data in the user profiles are education and work information and the
-general level of detail of connections provided by Facebook. The final
-set of data collected by App in Table~\ref{tab:interests} are
+degree of the same type.}. Figure~\ref{fig:agegroups} shows the distribution of age of
+users and their friends\footnote{Many users did not specify a birthday or birth year and number of 100+ year old users are not shown.}. Table~\ref{tab:history} shows some historical
+data in the user profiles that are related to education and work information. The final
+set of data collected by the App in Table~\ref{tab:interests} are
 important in the study of groups. This set of data provides the
-implicit groups of interests expressed but users (e.g. books, movies,
+implicit groups of interests expressed by users (e.g. books, movies,
 music) and the explicit actions of users to join groups (e.g. groups
 with membership restrictions and pages, which essentially are groups
-without membership restrictions.
+without membership restrictions).
 
-App has collected numerous interaction and groups data for determining common preferences on Facebook. Some of these virtual interactions suggest real-world interactions as seen in photos and videos with tagging. Tagging of friends in photos and videos have some drawbacks, but we assume that tags are correct and are of real people interacting in real environments. The virtual interactions and virtual groups provide insight into Facebook communities and their diversity of topics, users and interactions with non-friends.
+The App collects numerous interaction and groups data for determining common preferences on Facebook. Some of these virtual interactions suggest real-world interactions as seen in photos and videos with tagging. Tagging of friends in photos and videos have some drawbacks, but we assume that tags are correct and correspond to real people interacting in real environments. The virtual interactions and virtual groups provide insight into Facebook communities and their diversity of topics, users and interactions with non-friends.
 
 
 % 18th Jan 2012
@@ -78,27 +76,27 @@ App has collected numerous interaction and groups data for determining common pr
 \label{tab:interactions}
 \begin{tabular}{|>{\small}l|>{\small}r|>{\small}r|>{\small}r|>{\small}r|}
 \hline
-\textbf{App Users} & \textbf{Posts} & \textbf{Comments} & \textbf{Likes} & \textbf{Tags} \\
+\textbf{App Users} & \textbf{Posts} & \textbf{Tags} & \textbf{Comments} & \textbf{Likes} \\
 \hline
-\textbf{Wall} & 27,955 & 15,121 & 11,033 & 5,256 \\
+\textbf{Wall} & 27,955 & 5,256 & 15,121 & 11,033 \\
 \hline
-\textbf{Link} & 3,974 & 5,757 & 4,279 & --- \\
+\textbf{Link} & 3,974 & --- & 5,757 & 4,279 \\
 \hline
-\textbf{Photo} & 4,147 & 8,677 & 5,938 & 22,633 \\
+\textbf{Photo} & 4,147 & 22,633 & 8,677 & 5,938 \\
 \hline
-\textbf{Video} & 211 & 1,687 & 710 & 2,105 \\
+\textbf{Video} & 211 & 2,105 & 1,687 & 710 \\
 \hline
 \hline
-\textbf{App Users} & \textbf{Posts} & \textbf{Comments} & \textbf{Likes} & \textbf{Tags} \\
+\textbf{App Users} & \textbf{Posts} & \textbf{Tags} & \textbf{Comments} & \textbf{Likes} \\
 \textbf{and Friends} & & & & \\
 \hline
-\textbf{Wall} & 3,384,740 & 2,152,321 & 1,555,225 & 912,687 \\
+\textbf{Wall} & 3,384,740 & 912,687 & 2,152,321 & 1,555,225 \\
 \hline
-\textbf{Link} & 514,475 & 693,930 & 666,631 & --- \\
+\textbf{Link} & 514,475 & --- & 693,930 & 666,631 \\
 \hline
-\textbf{Photo} & 1,098,679 & 2,978,635 & 1,960,138 & 8,407,822 \\
+\textbf{Photo} & 1,098,679 & 8,407,822 & 2,978,635 & 1,960,138 \\
 \hline
-\textbf{Video} & 56,241 & 463,401 & 308,763 & 858,054 \\
+\textbf{Video} & 56,241 & 858,054 & 463,401 & 308,763 \\
 \hline
 \end{tabular}
 \end{table}
@@ -117,7 +115,7 @@ App has collected numerous interaction and groups data for determining common pr
 & \textbf{(App Users)} & \textbf{(App User} \\
 & & \textbf{and Friends)} \\
 \hline
-Users & 103 & 36,900 \\
+Users & 103 & 39,850 \\
 \hline
 \hline
 \textbf{Column} & \textbf{\#Non-empty} & \textbf{\#Non-empty} \\
@@ -125,16 +123,16 @@ Users & 103 & 36,900 \\
 & & \textbf{and Friends)} \\
 \hline
 Gender & 102 & 36,401 \\
-\hline
-Locale & 103 & 36,900 \\
-\hline
-Timezone & 103 & 117 \\
+%\hline
+%Locale & 103 & 36,900 \\
+%\hline
+%Timezone & 103 & 117 \\
 \hline
 Birthday & 103 & 27,624 \\
-\hline
-Hometown\par Location & 63 & 17,584 \\
-\hline
-Current\par Location & 71 & 20,088 \\
+%\hline
+%Hometown\par Location & 63 & 17,584 \\
+%\hline
+%Current\par Location & 71 & 20,088 \\
 \hline
 \hline
 \textbf{Breakdown} & \textbf{Count} & \textbf{Count} \\
@@ -157,19 +155,12 @@ Degree:\par Graduate School & 56 & 7733 \\
 
 \begin{figure}[t!]
 \centering
-\includegraphics[scale=0.5]{data/age_groups_linkr_users.pdf}
-\vspace{-15pt}
+\includegraphics[scale=0.6]{data/age_groups_all.pdf}
+\vspace{-30pt}
 \caption{\small Number of App Users by Age Groups}
-\label{fig:agegroups:users}
+\label{fig:agegroups}
 \end{figure}
 
-\begin{figure}[t!]
-\centering
-\includegraphics[scale=0.5]{data/age_groups_linkr_users_friends.pdf}
-\vspace{-25pt}
-\caption{\small Number of App Users and Friends by Age Groups}
-\label{fig:agegroups:usersfriends}
-\end{figure}
 
 \begin{comment}
 \hline
@@ -228,33 +219,33 @@ Age: 100+ & 1 & 55 \\
 Education & 275 & 66,462 \\
 \hline
 School & 275 & 27,635 \\
-\hline
-School Classes & 89 & 5,825 \\
-\hline
-School Class & 115 & 8,313 \\
-With Friends & & \\
-\hline
-School Degree & 275 & 1,730 \\
-\hline
-School Degree & 96 & 14,429 \\
-Concentration & & \\
-\hline
-School & 80 & 12,575 \\
-With Friends & & \\
+%\hline
+%School Classes & 89 & 5,825 \\
+%\hline
+%School Class & 115 & 8,313 \\
+%With Friends & & \\
+%\hline
+%School Degree & 275 & 1,730 \\
+%\hline
+%School Degree & 96 & 14,429 \\
+%Concentration & & \\
+%\hline
+%School & 80 & 12,575 \\
+%With Friends & & \\
 \hline
 Work & 134 & 28,610 \\
-\hline
-Work Employer & 134 & 19,053 \\
-\hline
-Work Position & 134 & 7,947 \\
-\hline
-Work Projects & 9 & 1,336 \\
-\hline
-Work Projects & 0 & 4,466 \\
-With Friends & & \\
-\hline
-Work & 21 & 5,204 \\
-With Friends & & \\
+%\hline
+%Work Employer & 134 & 19,053 \\
+%\hline
+%Work Position & 134 & 7,947 \\
+%\hline
+%Work Projects & 9 & 1,336 \\
+%\hline
+%Work Projects & 0 & 4,466 \\
+%With Friends & & \\
+%\hline
+%Work & 21 & 5,204 \\
+%With Friends & & \\
 \hline
 \end{tabular}
 \end{table}
@@ -274,28 +265,28 @@ With Friends & & \\
 \textbf{Table} & \textbf{\#Records} & \textbf{\#Records} \\
 & \textbf{(App Users)} & \textbf{(App User} \\
 & & \textbf{and Friends)} \\
-\hline
-Activities & 394 & 92,148 \\
-\hline
-Books & 266 & 52,690 \\
-\hline
-Favorite Athletes & 58 & 23,009 \\
-\hline
-Favorite Teams & 35 & 14,772 \\
+%\hline
+%Activities & 394 & 92,148 \\
+%\hline
+%Books & 266 & 52,690 \\
+%\hline
+%Favorite Athletes & 58 & 23,009 \\
+%\hline
+%Favorite Teams & 35 & 14,772 \\
 \hline
 Groups & 3,792 & 778,751 \\
-\hline
-Inspirational People & 39 & 7,815 \\
-\hline
-Interests & 153 & 36,085 \\
+%\hline
+%Inspirational People & 39 & 7,815 \\
+%\hline
+%Interests & 153 & 36,085 \\
 \hline
 Movies & 616 & 149,197 \\
 \hline
 Music & 1,245 & 318,296 \\
 \hline
-Pages & 11,973 & 3,004,360 \\
-\hline
-Sports & 48 & 8,663 \\
+Page Likes & 11,973 & 3,004,360 \\
+%\hline
+%Sports & 48 & 8,663 \\
 \hline
 Television & 819 & 144,308 \\
 \hline
