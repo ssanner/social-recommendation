@@ -7,6 +7,7 @@ import java.text.DecimalFormat;
 import java.util.*;
 
 import util.Statistics;
+import org.nicta.lr.util.UserUtil.DemographicData;
 
 //Objective: to define various "groups" from a user-centric perspective and see 
 //amount of overlap between users and their local "groups" in terms of overlap 
@@ -74,6 +75,11 @@ import util.Statistics;
 //    }
 //  }
 //}
+//
+// TODO: Fix VIRTUAL
+//       Fix plot order to go in reverse?
+//       Drop bidirectional?
+//       LATER: Add ALL_LIKES: update this code and Matlab including offsets :(
 
 public class ExtractRelTables {
 
@@ -116,8 +122,11 @@ public class ExtractRelTables {
 		
 		//ShowLikes("Sonia");
 		//ShowInteractions("Sonia");
-		ShowCondProbs();
-		//ShowGroups();
+		//ShowGroupInterests();
+		
+		//ShowCondProbs();
+		//ShowGroupInterestProbs();
+		ShowDemographicProbs();
 		
 		//for (FriendType friend_type : FriendType.values()) {
 		//	System.out.println(friend_type.toString());
@@ -148,6 +157,28 @@ public class ExtractRelTables {
 		return likes;
 	}
 	
+	private static HashMap<Long, Integer> GetLikesForUIDSet(Set<Long> others, Map<Long, Set<Long>> id2likes) {
+		
+		HashMap<Long,Integer> likes = new HashMap<Long,Integer>();
+		
+		//Set<Long> uid_likes = id2likes.get(uid);
+		//if (uid_likes != null)
+		//	likes.addAll(uid_likes);
+		
+		if (others != null) for (long uid2 : others) {
+			
+			Set<Long> other_likes = id2likes.get(uid2);
+			if (other_likes != null) {
+				for (Long item : other_likes) {
+					Integer cur_count = likes.get(item);
+					likes.put(item, cur_count == null ? 1 : cur_count + 1);
+				}
+			}
+		}
+		
+		return likes;
+	}
+
 	public static Set<Long> ThresholdAtK(HashMap<Long,Integer> counts, int k) {
 		Set<Long> ret = new HashSet<Long>();
 		for (Map.Entry<Long, Integer> entry : counts.entrySet())
@@ -167,9 +198,9 @@ public class ExtractRelTables {
 //			for (EInteractionType itype : EInteractionType.values()) {
 //				for (EDirectionType dir : EDirectionType.values()) {
 //					test.add(0d + 
-//							(dir.index() - 1)*105 + (ltype.index() - 1)*21 + itype.index());
+//							(dir.index() - 1)*110 + (ltype.index() - 1)*22 + itype.index());
 //					test.add(0d + 
-//						315 + (dir.index() - 1)*105 + (ltype.index() - 1)*21 + itype.index());
+//						330 + (dir.index() - 1)*110 + (ltype.index() - 1)*22 + itype.index());
 //				}
 //			}
 //		}
@@ -209,7 +240,8 @@ public class ExtractRelTables {
 							//P(like | friend likes) = P(like and friend likes) / P(friend likes)
 							//                       = F(like and friend likes) / F(friend likes)
 							Set<Long> other_likes_ids = ThresholdAtK(other_likes_id2count, k);
-							Set<Long> likes_intersect_other_likes_ids = id2likes.get(uid);
+							Set<Long> tmp = id2likes.get(uid);
+							Set<Long> likes_intersect_other_likes_ids = tmp == null ? null : new HashSet<Long>(tmp);
 							if (likes_intersect_other_likes_ids == null && other_likes_ids.size() > 0) 
 								probs.add(0d); // uid didn't like anything
 							else if (other_likes_ids.size() > 0) {
@@ -234,8 +266,8 @@ public class ExtractRelTables {
 					//for (int k = 1; k < 10; k++) {
 					//	System.out.println(k + ": " + prob_at_k.get(k-1) + "   ");
 					//}
-					data.put((dir.index() - 1)*105 + (ltype.index() - 1)*21 + itype.index(), prob_at_k);
-					data.put(315 + (dir.index() - 1)*105 + (ltype.index() - 1)*21 + itype.index(), stderr_at_k);
+					data.put((dir.index() - 1)*110 + (ltype.index() - 1)*22 + itype.index(), prob_at_k);
+					data.put(330 + (dir.index() - 1)*110 + (ltype.index() - 1)*22 + itype.index(), stderr_at_k);
 					System.out.println("=========================");
 					log.println("=========================");
 				}
@@ -245,7 +277,7 @@ public class ExtractRelTables {
 		// Export data
 		System.out.print("\n\nExporting data...");
 		PrintStream likes_data = new PrintStream(new FileOutputStream("likes_data.txt"));
-		for (int i = 1; i <= 630; i++) {
+		for (int i = 1; i <= 660; i++) {
 			double[] arr = data.get(i);
 			for (int k = 0; k < arr.length; k++) {
 				likes_data.print((k > 0 ? "\t" : "") + (Double.isNaN(arr[k]) ? "NaN" : _df2.format(arr[k])));
@@ -258,32 +290,219 @@ public class ExtractRelTables {
 		log.close();
 	}
 	
-	public static void ShowGroups() throws SQLException {
+	// Demographic analysis: gender, age group, degree, ...
+	// 
+	// want to produce full tables here, so get unique names for a column
+	// check cross interactions... users who have trait and friends who have trait
+	//
+	// for basic info on gender, age group, degree, just produce tables directly
+	// I think
+	
+	// Could do history here, also demographics: location, timezone, employment type, degree specialty
+	//
+	// Can be more careful here: ingoing, outgoing based on originating and destination type
+	public static void ShowGroupInterestProbs() throws Exception {
 		
-		Map<Long,String> GROUPID_2_NAME   = UserUtil.getGroupNames();
-		Map<Long,Set<Long>> UID_2_GROUPID = UserUtil.getUser2Groups();
-		Map<Long,Set<Long>> GROUPID_2_UID = UserUtil.getGroup2Users();
-		Map<Long,Integer> GROUPID_2_SZ    = UserUtil.getGroupID2Size();
-		
-		System.out.println("=========================");
-		for (long uid : APP_USERS) {
-			String uid_name = UID_2_NAME.get(uid);
-			Set<Long> groups = UID_2_GROUPID.get(uid);
-			System.out.println(uid + ", " + uid_name + " -- #groups: " + (groups == null ? 0 : groups.size()));
-			System.out.print(" * [ ");
-			boolean first = true;
-			if (groups != null) 
-				for (Long gid : groups) {
-					String  gid_name = GROUPID_2_NAME.get(gid);
-					Integer gid_size = GROUPID_2_SZ.get(gid);
-					Set<Long> other_users = GROUPID_2_UID.get(gid);
-					System.out.print((first ? "" : ", ") + gid_name + ":" + gid_size + "/" + other_users.size());
-					first = false;
-				}
-			System.out.println(" ]");
-		}
-		System.out.println("=========================");
+		Set<Long> id_set = APP_USERS;
+				
+		// Compute tables of data
+		for (EInterestType itype : EInterestType.values()) {
 
+			System.out.println("*************************");
+
+			// 10 different sizes
+			int[] sizes = new int[] { 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024 };
+			int MAX_K = 10;
+			
+			double[][] avg_stderr = new double[sizes.length][MAX_K*2];
+			
+			for (int sz_index = 0; sz_index < sizes.length; sz_index++) {
+				
+				int ub = sizes[sz_index];
+				
+				Interaction i = UserUtil.getGroupInterAmongFriends(itype, ub);
+
+				System.out.println("=========[" + ub + "]==========");
+				Map<Long,Set<Long>> id2likes = UserUtil.getLikes(ELikeType.ALL);
+
+				// Number of friends who also like the same thing
+				for (int k = 1; k <= MAX_K; k++) {
+					
+					ArrayList<Double> probs = new ArrayList<Double>();
+					for (long uid : id_set) {
+						String uid_name = UID_2_NAME.get(uid);
+						//if (!uid_name.contains(restriction))
+						//	continue;
+						HashMap<Long,Integer> other_likes_id2count = GetLikesInteractions(uid, i, id2likes);
+						//P(like | friend likes) = P(like and friend likes) / P(friend likes)
+						//                       = F(like and friend likes) / F(friend likes)
+						Set<Long> other_likes_ids = ThresholdAtK(other_likes_id2count, k);
+						Set<Long> tmp = id2likes.get(uid);
+						Set<Long> likes_intersect_other_likes_ids = tmp == null ? null : new HashSet<Long>(tmp);
+						if (likes_intersect_other_likes_ids == null && other_likes_ids.size() > 0) 
+							probs.add(0d); // uid didn't like anything
+						else if (other_likes_ids.size() > 0) {
+							likes_intersect_other_likes_ids.retainAll(other_likes_ids);
+							probs.add((double)likes_intersect_other_likes_ids.size() / (double)other_likes_ids.size());
+						} 
+					}
+					if (probs.size() > 10) {
+						String line = "** " + itype + " group inter & < " + ub + " size & >=" + k + " likes " + ": " +
+							(_df.format(Statistics.Avg(probs)) + " +/- " + _df.format(Statistics.StdError95(probs)) + " #" + probs.size() + " [ " + _df.format(Statistics.Min(probs)) + ", " + _df.format(Statistics.Max(probs)) + " ]");
+						System.out.println(line);
+						avg_stderr[sz_index][k-1]         = Statistics.Avg(probs);
+						avg_stderr[sz_index][k-1 + MAX_K] = Statistics.StdError95(probs);
+					} else {
+						avg_stderr[sz_index][k-1]         = Double.NaN;
+						avg_stderr[sz_index][k-1 + MAX_K] = Double.NaN;
+					}
+					
+				}
+				//for (int k = 1; k < 10; k++) {
+				//	System.out.println(k + ": " + prob_at_k.get(k-1) + "   ");
+				//}
+			
+				// Finish for this ub
+				
+			}
+			
+			// Export all data
+			PrintStream data_out = new PrintStream(new FileOutputStream(itype + "_probs.txt"));
+			for (int n = 0; n < avg_stderr.length; n++) {
+				for (int k = 0; k < avg_stderr[n].length; k++) {
+					double val = avg_stderr[n][k];
+					String sval = Double.isNaN(val) ? "NaN" : _df2.format(val);
+					data_out.print((k > 0 ? "\t" : "") + sval);
+					System.out.print((k > 0 ? "\t" : "") + sval);
+				}
+				data_out.println();
+				System.out.println();
+			}
+			data_out.close();
+			System.out.println("=========================");
+		}
+	}
+
+	// Could do history here, also demographics: location, timezone, employment type, degree specialty
+	//
+	// Can be more careful here: ingoing, outgoing based on originating and destination type?
+	public static void ShowDemographicProbs() throws Exception {
+		
+		Set<Long> id_set = APP_USERS;
+		Map<Long,Set<Long>> id2likes = UserUtil.getLikes(ELikeType.ALL);
+				
+		// Compute tables of data
+		for (EDemographicType dtype : EDemographicType.values()) {
+
+			DemographicData d = UserUtil.getUser2Demographic(dtype); 
+			if (d == null)
+				continue;
+			
+			for (int k = 1; k <= 5; k++) {
+				
+				System.out.println("*************************");
+				double[][] data_avg = new double[d._ub - d._lb + 1][d._ub - d._lb + 1];
+				double[][] data_stderr = new double[d._ub - d._lb + 1][d._ub - d._lb + 1];
+				for (int uid_type = d._lb; uid_type <= d._ub; uid_type++) {
+					
+					Set<Long> uids_with_type = UserUtil.getIDSubsetWithDemographic(id_set, d, uid_type);
+					for (int uid2_type = d._lb; uid2_type <= d._ub; uid2_type++) {
+					
+						// Average values over each uid
+						ArrayList<Double> probs = new ArrayList<Double>();
+						for (long uid : uids_with_type) {
+							
+							Set<Long> uid2s_with_type = UserUtil.getFriendUIDsWithDemographic(uid, d, uid2_type);
+							HashMap<Long,Integer> other_likes_id2count = GetLikesForUIDSet(uid2s_with_type, id2likes);
+	
+							Set<Long> other_likes_ids = ThresholdAtK(other_likes_id2count, k);
+							Set<Long> tmp = id2likes.get(uid);
+							Set<Long> likes_intersect_other_likes_ids = tmp == null ? null : new HashSet<Long>(tmp);
+							if (likes_intersect_other_likes_ids == null && other_likes_ids.size() > 0) 
+								probs.add(0d); // uid didn't like anything
+							else if (other_likes_ids.size() > 0) {
+								likes_intersect_other_likes_ids.retainAll(other_likes_ids);
+								probs.add((double)likes_intersect_other_likes_ids.size() / (double)other_likes_ids.size());
+							} 
+						}
+						if (probs.size() > 10) {
+							String line = "** " + dtype + " demographic type (orig:" + uid_type + ", src likes:" + uid2_type + ") & >" + k + " likes " + ": " +
+								(_df.format(Statistics.Avg(probs)) + " +/- " + _df.format(Statistics.StdError95(probs)) + " #" + probs.size() + " [ " + _df.format(Statistics.Min(probs)) + ", " + _df.format(Statistics.Max(probs)) + " ]");
+							System.out.println(line);
+							data_avg[uid_type - d._lb][uid2_type - d._lb] = Statistics.Avg(probs);
+							data_stderr[uid_type - d._lb][uid2_type - d._lb] = Statistics.StdError95(probs);
+						} else {
+							data_avg[uid_type - d._lb][uid2_type - d._lb] = Double.NaN;
+							data_stderr[uid_type - d._lb][uid2_type - d._lb] = Double.NaN;
+						}
+						
+					}
+					//for (int k = 1; k < 10; k++) {
+					//	System.out.println(k + ": " + prob_at_k.get(k-1) + "   ");
+					//}
+				
+					// Finish for this ub
+					
+				}
+				
+				// Export all data
+				PrintStream data_out1 = new PrintStream(new FileOutputStream(dtype + "_" + k + "_prob.txt"));
+				//PrintStream data_out2 = new PrintStream(new FileOutputStream(dtype + "_" + k + "_std.txt"));
+	
+				// Each row is a different uid type 
+				for (int n = 0; n < data_avg.length; n++) {
+	
+					// Each col is a different uid2 type (src)
+					for (int n2 = 0; n2 < data_avg[n].length; n2++) {
+						double val1 = data_avg[n][n2];
+						String sval1= Double.isNaN(val1) ? "NaN" : _df2.format(val1);
+						double val2 = data_stderr[n][n2];
+						String sval2 = Double.isNaN(val2) ? "NaN" : _df2.format(val2);
+						data_out1.print((n2 > 0 ? "\t" : "") + sval1 + " +/- " + sval2);
+						//data_out2.print((n2 > 0 ? "\t" : "") + sval2);
+						System.out.print((n2 > 0 ? "\t" : "") + sval1 + " +/- " + sval2);
+					}
+					data_out1.println();
+					//data_out2.println();
+					System.out.println();
+				}
+				data_out1.close();
+				//data_out2.close();
+				System.out.println("=========================");
+			}
+		}
+	}
+	
+	public static void ShowGroupInterests() throws SQLException {
+		
+		for (EInterestType type : EInterestType.values()) {
+			
+			// TODO: Just these affacted by
+			Map<Long,Integer> GROUPID_2_SZ    = UserUtil.getGroupID2Size(type);
+			Map<Long,String> GROUPID_2_NAME   = UserUtil.getGroupNames(type);
+			Map<Long,Set<Long>> UID_2_GROUPID = UserUtil.getUser2InterestGroups(type);
+			Map<Long,Set<Long>> GROUPID_2_UID = UserUtil.getInterestGroup2Users(type);
+			
+			System.out.println("*************************\n" + type);
+			System.out.println("*************************");
+			for (long uid : APP_USERS) {
+				String uid_name = UID_2_NAME.get(uid);
+				Set<Long> groups = UID_2_GROUPID.get(uid);
+				System.out.println(uid + ", " + uid_name + " -- #groups: " + (groups == null ? 0 : groups.size()));
+				System.out.print(" * [ ");
+				boolean first = true;
+				if (groups != null) 
+					for (Long gid : groups) {
+						String  gid_name = GROUPID_2_NAME.get(gid);
+						Integer gid_size = GROUPID_2_SZ.get(gid);
+						Set<Long> other_users = GROUPID_2_UID.get(gid);
+						System.out.print((first ? "" : ", ") + gid_name + ":" + gid_size + "/" + other_users.size());
+						first = false;
+					}
+				System.out.println(" ]");
+			}
+			System.out.println("=========================");
+		}
 	}
 
 	public static void ShowLikes(String restriction) throws SQLException {
