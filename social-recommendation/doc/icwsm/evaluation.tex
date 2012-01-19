@@ -151,27 +151,13 @@ any single data point) that \emph{outgoing} interactions for
 \emph{real} friends are more predictive of preferences
 than for friends and virtual friends in general. 
 
-\subsection{Predictiveness of Interests and History}
+\subsection{Predictiveness of User Traits}
 
 \label{sec:interest_history}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure*}[t!]
-\centering
-\includegraphics[scale=0.80]{data/interests_fix}
-%\includegraphics[scale=0.65]{data/interests1_fix} \includegraphics[scale=0.65]{data/interests2_fix}
-\vspace{-5mm}
-\caption{Caption.}
-\label{fig:res5}
-\end{figure*}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-In Figure~\ref{fig:res5}
-
-
-\subsection{Predictiveness of Demographics}
-
-\label{sec:demographics}
+While in the previous section we analyzed the predictiveness
+of various user interactions, now we analyze the predictiveness
+of different user traits.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{table*}[t!]
@@ -188,10 +174,74 @@ In Figure~\ref{fig:res5}
 \textbf{Female User} & $0.085 \pm 0.033$ & $0.059 \pm 0.024$ \\ \hline
 \textbf{Male User}   & $0.043 \pm 0.016$ & $0.055 \pm 0.030$ \\ \hline
 \end{tabular}
-\caption{Caption.}
+\caption{These two tables plot $P(u \mbox{ likes } i | i \in L_{G,C})$
+for different gender demographics where rows indicate the
+users $u$ being evaluated and columns indicate the friend groups
+being considered.  Results are shown for exposures of both
+$k=1$ and $k=2$.}
 \label{fig:res6}
 \end{table*}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-In Figure~\ref{fig:res6}
+Briefly in Table~\ref{fig:res6}, we show predictiveness for
+the demographic trait of gender for two exposures.  
+While most of these differences are
+not statistically significant, both $k=1$ and $k=2$ demonstrate
+the same general trend that there is a slight same-gender
+preference for item likes in this dataset.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure*}[t!]
+\centering
+\includegraphics[scale=0.80]{data/interests_fix}
+%\includegraphics[scale=0.65]{data/interests1_fix} \includegraphics[scale=0.65]{data/interests2_fix}
+\vspace{-5mm}
+\caption{All graphs plot $P(u \mbox{ likes } i | i \in L_{G,C})$
+vs. the link criteria that at least $k$ members of $G$ liked item $i$.
+The rows restrict $G$ to different  types of common 
+\textit{Interest} or \textit{History} while the columns
+indicate exposures of $k=1$ and $k=2$.  Per graph, each line 
+analyzes different types of \textit{Interest} or \textit{History}.}
+\label{fig:res5}
+\end{figure*}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+In Figure~\ref{fig:res5}, we evaluate the predictiveness of different
+types of common \textit{Interest} or \textit{History}.  While none of
+these results are statistically significant for any single data point,
+there are a number of fascinating trends to observe here:
+\begin{itemize}
+\item For an exposure of $k=1$ like from different \textit{Interest}
+groups, we note that smaller groups are generally more predictive of
+user likes than larger groups, which reflects the common sense notion
+that large groups appeal more broadly may not be as discriminative of
+specific user tastes.  However, it seems this is \emph{not} true for
+Movie interests where indeed large groups are more predictive than
+similar size groups of other interests. Likewise for \textit{History}
+groups, large co-worker groups seem to be more predictive than small
+co-worker groups, whereas large groups of schoolmates tend not to be
+as predictive.  
+%This shows that general
+%patterns of interest for \emph{Movies} and \emph{Co-worker} history
+%may obey different patterns which makes them predictive in settings
+%different from the remaining interests and history.
+\item For an exposure of $k=2$ likes, predictiveness of
+\textit{Interests} is improved by the general trends from $k=1$
+are preserved.  However, it is fascinating to note that 
+for \text{History}, the trends are reversed between $k=1$
+and $k=2$, with an exposure of $k=2$ for schoolmates indicating
+extremely high average predictiveness (above $0.25$, twice
+as predictive as any other interest or history displayed).
+\end{itemize}
+In short, it appears that not all interests and history traits obey
+the same trends of predictiveness as a function of group size or
+exposure.  On the other hand, the relative predictiveness (or
+statistical signficance) of the analysis in this section is somewhat
+of a moot point given that the absolute predictiveness of user
+interactions from the previous section shows to be much greater (and
+statistical signficantly) than any of the user trait analysis in this
+section.
+
+
+
 
