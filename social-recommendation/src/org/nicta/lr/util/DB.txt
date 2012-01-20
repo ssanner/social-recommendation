@@ -1,0 +1,1701 @@
+=======================================================================================
+
+DB linkrdata
+
++--------------------------+
+| Tables_in_linkrdata      |
++--------------------------+
+| linkractivities          |
+| linkrbooks               |
+| linkreducation           |
+| linkrfavoriteathletes    |
+| linkrfavoriteteams       |
+| linkrfriends             |
+| linkrgroups              |
+| linkrinspirationalpeople |
+| linkrinterests           |
+| linkrlikes               |
+| linkrlinkcomments        |
+| linkrlinkinfo            |
+| linkrlinklikes           |
+| linkrlinks               |
+| linkrlocation            |
+| linkrmovies              |
+| linkrmusic               |
+| linkrphotocomments       |
+| linkrphotolikes          |
+| linkrphotos              |
+| linkrphototags           |
+| linkrpost                |
+| linkrpostcomments        |
+| linkrpostlikes           |
+| linkrposttags            |
+| linkrschool              |
+| linkrschoolclasses       |
+| linkrschoolclasseswith   |
+| linkrschoolconcentration |
+| linkrschooldegree        |
+| linkrschoolwith          |
+| linkrsports              |
+| linkrsportswith          |
+| linkrtelevision          |
+| linkruser                |
+| linkrvideocomments       |
+| linkrvideolikes          |
+| linkrvideos              |
+| linkrvideotags           |
+| linkrwork                |
+| linkrworkemployer        |
+| linkrworkposition        |
+| linkrworkprojects        |
+| linkrworkprojectswith    |
+| linkrworkwith            |
+| linkryear                |
+| lrlinkmatrix             |
+| lrrecommendations        |
+| lrusermatrix             |
+| lrwordcolumns            |
+| trackalgorithms          |
+| trackappuseraction       |
+| tracklinkclicked         |
+| trackrecommendedlinks    |
+| tracksurvey              |
+| tracksurvey_u1q2         |
+| tracksurvey_u1q3         |
+| tracktablerows           |
+| trackuserupdates         |
++--------------------------+
+
+=======================================================================================
+
+** linkractivities
+
+~82000 entries
+27652 names
+106 categories
+
+id => name, category
+id <=> name
+
++--------+-----------------+--------------+----------------+--------------------------+
+| uid    | id              | name         | category       | created_time             |
++--------+-----------------+--------------+----------------+--------------------------+
+| 202974 | 101876133187165 | Card tricks  | Interest       | 2010-05-24T10:03:52+0000 |
+| 202974 | 108170975877442 | Photography  | Field of study | 2010-06-25T06:41:38+0000 |
+| 216113 | 106052116101781 | Biking       | Sport          | 2010-05-06T16:35:48+0000 |
+| 216113 | 108170975877442 | Photography  | Field of study | 2010-05-06T16:35:48+0000 |
+| 221423 | 103090306397293 | Drinking     | Interest       |                          |
+| 221423 | 105819692786271 | Eating       | Interest       | 2011-05-27T04:29:55+0000 |
+| 221423 | 107874725900895 | Scuba diving | Sport          |                          |
+| 221423 | 109301862430120 | Ice cream    | Interest       | 2011-05-27T04:29:57+0000 |
+| 221423 | 136550053041283 | Reading      | Interest       |                          |
+| 222021 | 110534865635330 | Traveling    | Interest       | 2010-07-15T02:51:39+0000 |
++--------+-----------------+--------------+----------------+--------------------------+
+
+=======================================================================================
+
+** linkrbooks
+
+46512 entries
+15792 distinct names
+85 distinct categories
+
+id => name, category (much more than just book & author)
+id <=> name
+(not clear that category would be predictive, but maybe restriction to category such
+ as author would be?) 
+
++-------+-----------------+-------------------------+----------+--------------------------+
+| uid   | id              | name                    | category | created_time             |
++-------+-----------------+-------------------------+----------+--------------------------+
+| 14185 | 104019519635601 | Leviathan               | Book     | 2010-04-23T20:12:27+0000 |
+| 14185 | 104049779632558 | Wallace Stevens         | Author   | 2010-04-23T20:12:27+0000 |
+| 14185 | 108357189196052 | Shakespeare             | Author   | 2010-04-23T20:12:27+0000 |
+| 14185 | 115637018446690 | Ursula K Leguin         | Author   | 2010-04-27T16:03:38+0000 |
+| 19313 | 102252969811638 | The First Three Minutes | Book     | 2010-05-27T12:40:54+0000 |
+| 19313 | 103065263066336 | Clifford Geertz         | Author   | 2010-05-27T21:37:07+0000 |
+| 19313 | 103096343063642 | Foucault's Pendulum     | Book     | 2010-05-27T12:40:52+0000 |
+| 19313 | 103132096393695 | E. T. A. Hoffmann       | Author   | 2010-05-27T18:26:46+0000 |
+| 19313 | 103135246393201 | Thomas Pynchon          | Author   | 2010-05-27T12:55:52+0000 |
+| 19313 | 103151863058589 | The Golden Pot          | Book     | 2010-05-27T12:40:53+0000 |
++-------+-----------------+-------------------------+----------+--------------------------+
+
+=======================================================================================
+
+** linkreducation
+
+50357 entries
+
+school_id: ~21000 distinct
+degree_id: only 6% (~3000) have this
+type: 3 distinct (shown)
+year_id: 130 distinct ids, ~29000 list a year
+
++-------+-----------------+-----------------+-----------------+-----------------+
+| uid   | school_id       | degree_id       | year_id         | type            |
++-------+-----------------+-----------------+-----------------+-----------------+
+| 12530 |      6192688417 |               0 | 141778012509913 | Graduate School |
+| 12530 |    105930651606 |               0 | 140617569303679 | College         |
+| 12530 | 105517352815443 |               0 |               0 | College         |
+| 12530 | 109608455732612 |               0 | 194603703904595 | High School     |
+| 14185 |    105930651606 |               0 |               0 | College         |
+| 14185 |    105930651606 |               0 | 144503378895008 | College         |
+| 14185 | 105951542778167 |               0 |               0 | High School     |
+| 19313 |    105930651606 | 151896998201233 | 140617569303679 | Graduate School |
+| 19313 | 105491302817425 |               0 | 135676686463386 | High School     |
+| 19313 | 114647471886043 |               0 | 144560162276732 | College         |
++-------+-----------------+-----------------+-----------------+-----------------+
+
+=======================================================================================
+
+** linkrfavoriteathletes
+
+(maybe just liking an athlete is predictive?)
+
+19969 entries
+5632 distinct names
+
++---------+-----------------+------------------+
+| uid     | id              | name             |
++---------+-----------------+------------------+
+|  103259 |     54299704360 | Chase Utley      |
+|  202974 |     12967714071 | Sourav Ganguly   |
+|  202974 |     14475565358 | Sachin Tendulkar |
+|  202974 | 112080055474625 | Andre Agassi     |
+| 3406143 |     64760994940 | Roger Federer    |
+| 3406143 |     64822581025 | Rafael Nadal     |
+| 3406143 | 109648702394972 | Chin-Feng Chen   |
+| 6028816 |     62975399193 | Michael Jordan   |
+| 6028816 |     64760994940 | Roger Federer    |
+| 6028816 | 105584309474266 | Pete Sampras     |
++---------+-----------------+------------------+
+
+=======================================================================================
+
+** linkrfavoriteteams
+
+12658 entries
+3371 distinct favorites
+
++---------+-----------------+----------------------+
+| uid     | id              | name                 |
++---------+-----------------+----------------------+
+|  103259 | 120163518021430 | Philadelphia Eagles  |
+|  202974 |      8507150821 | India                |
+|  221423 |     61490642668 | San Jose Sharks      |
+|  221423 | 163638897010609 | SF Giants            |
+| 1206650 |      8273627777 | UCLA Bruins          |
+| 1413913 |     48589510188 | Washington Nationals |
+| 1934241 |     95501124594 | Tampa Bay Buccaneers |
+| 1934241 |    133691530109 | Indianapolis Colts   |
+| 3233289 | 139851852712554 | Longboard Girls Crew |
+| 3400304 |     19034719952 | Real Madrid C.F.     |
++---------+-----------------+----------------------+
+
+=======================================================================================
+
+** linkrfriends
+
+36445 entries (friend links) 
+109 distinct uid1
+32845 distinct uid2
+
+(also a token field, but not useful for data analysis)
+
++--------+--------+---------------------------+
+| uid1   | uid2   | created_time              |
++--------+--------+---------------------------+
+| 120780 |  19313 | 2011-09-26T00:55:29+10:00 |
+| 120780 |  33536 | 2011-09-26T00:55:29+10:00 |
+| 120780 |  35516 | 2011-09-26T00:55:29+10:00 |
+| 120780 | 100448 | 2011-09-26T00:55:29+10:00 |
+| 120780 | 102040 | 2011-09-26T00:55:29+10:00 |
+| 120780 | 107279 | 2011-09-26T00:55:29+10:00 |
+| 120780 | 108552 | 2011-09-26T00:55:29+10:00 |
+| 120780 | 108987 | 2011-09-26T00:55:29+10:00 |
+| 120780 | 109083 | 2011-09-26T00:55:29+10:00 |
+| 120780 | 116521 | 2011-09-26T00:55:29+10:00 |
++--------+--------+---------------------------+
+
+=======================================================================================
+
+** linkrgroups
+
+669040 entries
+316111 distinct uids
+308766 distinct names
+
++-------+------------+----------------------------------------------+
+| uid   | id         | name                                         |
++-------+------------+----------------------------------------------+
+| 12530 | 2200023198 | Class of 2007                                |
+| 12530 | 2200023703 | Red Sox Nation                               |
+| 12530 | 2200031077 | Chester French                               |
+| 12530 | 2200031135 | Harvard-Radcliffe Asian American Association |
+| 12530 | 2200042634 | Cognoscenti of the Kong                      |
+| 12530 | 2200047885 | Harvard Hong Kong Society                    |
+| 12530 | 2200048250 | Harvard against Things That Suck (hatts)     |
+| 12530 | 2200049971 | Transfers!                                   |
+| 12530 | 2200053028 | Mather House!                                |
+| 12530 | 2200074322 | Harvard Australian Club                      |
++-------+------------+----------------------------------------------+
+
+mysql> select name, count(name) as ncount from linkrgroups group by name order by ncount desc limit 100;
++------------------------------------------------------------------------------------------------------+--------+
+| name                                                                                                 | ncount |
++------------------------------------------------------------------------------------------------------+--------+
+| 1,000,000  Hamish and Andy Fans by 01/01/10                                                          |   1410 |
+| Feed a Child with a Click                                                                            |   1327 |
+| ANU StalkerSpace                                                                                     |   1221 |
+| Australian National University                                                                       |    839 |
+| When I was your age, Pluto was a planet.                                                             |    822 |
+| 1,000,000 PROUD AUSSIES BEFORE AUSTRALIA DAY 2010                                                    |    761 |
+| Join this group and get YOUR NAME in the Guinness Book of Records!                                   |    738 |
+| I grew up in Australia in the 90s                                                                    |    700 |
+| Can we find 1 MILLION people that DON'T want smoking back in pubs?                                   |    661 |
+| Snow Ball Effect - Official Experiment                                                               |    658 |
+| PETITION FOR FACEBOOK TO INSTALL A DISLIKE BUTTON - the original                                     |    649 |
+| No, I Don't Care If I Die At 12AM, I Refuse To Pass On Your Chain Letter.                            |    638 |
+| I Dont care How Comfortable Crocs Are, You Look Like A Dumbass. ->fan FHS                            |    623 |
+| Earth Hour                                                                                           |    585 |
+| TURN FACEBOOK PINK FOR A DAY TO RAISE BREAST CANCER AWARNESS                                         |    582 |
+| Lift ACT ban on fireworks                                                                            |    547 |
+| MILLIONS AGAINST FACEBOOK's PRIVACY POLICIES AND LAYOUT REDESIGN                                     |    525 |
+| I was doing homework, then I ended up on Facebook                                                    |    506 |
+| The Chaser Appreciation Society                                                                      |    455 |
+| Ultimate Social ExperimentXXX                                                                        |    433 |
+| I bet we can find 1,000,000 People who Support Same Sex Marriage                                     |    416 |
+| Goal - $1,077,816: "For each person that joins this group, we'll donate $1 to fight global poverty." |    414 |
+| LetXXs try to gather all facebook members in one group! is it possible?                              |    410 |
+| I FLIP MY PILLOW OVER TO GET TO THE COLD SIDE                                                        |    403 |
+| If 1m people join, girlfriend will let me turn our house into a pirate ship                          |    400 |
+| Facebook Developers                                                                                  |    391 |
+| Stop the usage of dogs as live bait for sharks!                                                      |    384 |
+| we CAN find 10,000,000 Christians on facebook                                                        |    375 |
+| Six Degrees Of Separation                                                                            |    365 |
+| Largest Facebook Group Ever! We need 9,999,999 Members to Break a World Rec                          |    364 |
+| No Australian Internet Censorship                                                                    |    362 |
+| I Use my Cell Phone to See in the Dark                                                               |    362 |
+| PLEASE GIVE US OUR OLD NEWS FEED BACK!                                                               |    359 |
+| Join this if you want the police to yell "PIKACHUUUUUU!!" before tasing                              |    359 |
+| People Who Always Have To Spell Their Names For Other People                                         |    355 |
+| Students In Canberra                                                                                 |    355 |
+| We Will Not Pay To Use Facebook. We Are Gone If This Happens XXXXXX INVITE ALL!                      |    332 |
+| FUCK OFF JAPAN... LEAVE THE WHALES ALONE!!!                                                          |    332 |
+|  Derek Zoolander's Group For Really Really Ridiculously Good Looking People                          |    329 |
+| I read the group name, I laugh, I join, I never look at it again.                                    |    329 |
+| Roshani Sharma                                                                                       |    316 |
+| Largest Facebook group ever! We need 9,999,998 members to break a world rec                          |    313 |
+| People who don't sleep enough because they stay up late for no reason                                |    312 |
+| Yes, I live in Australia. And yes, I do ride a kangaroo to school.                                   |    309 |
+| Why Yes, I Do Frequently Burst Out in Song                                                           |    303 |
+| Support Matthew Johns                                                                                |    295 |
+| 1,000,000,000,000,000,000 for the reconstruction of the death star                                   |    294 |
+| OWEEK '09 - join the circus!                                                                         |    288 |
+| I don't smoke. There are cooler ways to die.                                                         |    285 |
+| iDiscount ANU                                                                                        |    284 |
+| XXXXXXXXXXXXXXXXXXXXXX                                                                               |    282 |
+| An Arbitrary Number of People Demanding That Some Sort Of Action Be Taken                            |    274 |
+| You were sexy until I saw that cigarette in your hand.                                               |    271 |
+| I am Australian and I would rather Immigrants living here than racists                               |    271 |
+| If You Can't Differentiate Between "Your" and "You're" You Deserve To Die                            |    268 |
+| I judge you when you use poor grammar.                                                               |    267 |
+| We Hate The New Facebook, so STOP CHANGING IT!!!                                                     |    262 |
+| The Five Stages Of an All-nighter.                                                                   |    261 |
+| DonXXXt Let The Legislative Assembly Stop Cheap Drinks Nights                                        |    257 |
+|  Keep Your Fucking Hand Down in Lecture and Shut Up. No One Cares.                                   |    256 |
+| Fuck The War In Iraq, We Have To Catch Voldemort                                                     |    254 |
+| I Am Fluent in Sarcasm                                                                               |    253 |
+| 1,000,000 Members By 10/10/10!!!                                                                     |    251 |
+| Scholarships for the Belgrade Summer School                                                          |    248 |
+| You Know You're From Canberra When...                                                                |    246 |
+| Overheard at the Ateneo de Manila University                                                         |    245 |
+| 2.4 MILLION STRONG GROUP FOR GENERAL DISCUSSION. INVITE ALL!                                         |    244 |
+| 20,000,000 for lower gas prices                                                                      |    243 |
+| Bring back the $18k Gap-Year Youth Allowance eligibility criteria!                                   |    242 |
+| GO GREEN!!                                                                                           |    242 |
+| If 1,000,000 People Join I'll Legally Change My Name To Mclovin- yoga05.com                          |    239 |
+| "Studying" is student and dying put together                                                         |    239 |
+| 1.111.111.members.by11/11/11? pleas invite all your friends                                          |    239 |
+| Fuck This...I'm Going To Hogwarts                                                                    |    238 |
+| Stop LIVE animal skinning in China - sign the petition                                               |    237 |
+| No Matter How Hot It Is, I Cant Sleep Unless A Lil Bit Of Blanket Is On Me                           |    235 |
+| Indeed, your point is rather well substantiated. However, your mum.                                  |    230 |
+| 16 Years Later and I'm Still Pissed Mufasa Died                                                      |    229 |
+| You're not a vampire, you're a sparkly douchebag in a tree.                                          |    227 |
+| CAN YOU LIKE, WALK A LITTLE FASTER OR GET THE FUCK OUT OF MY WAY?!                                   |    227 |
+| Facebook, give us a "THAT'S WHAT SHE SAID" button!!                                                  |    226 |
+| The Official rules for shotgun                                                                       |    225 |
+| We Won't Accept It - No To Mandatory Internet Censorship In Australia                                |    224 |
+| The Official Petition for Colored Profiles on Facebook.                                              |    223 |
+| All Facebook Females Unite In One Group! {JOIN AND INVITE FEMALES ONLY!! }                           |    222 |
+| First 3 Million Get a Free Smiley T-Shirt!                                                           |    219 |
+| "Nerd?" We prefer the term "intellectual badass."                                                    |    219 |
+| 52 notifications later and i regret liking your status                                               |    219 |
+| One Million Australians Feel Sorry.                                                                  |    218 |
+| 30 Things To Do In An Exam When You Know You're Going To Fail It Anyways!                            |    217 |
+| I bet i can find 1,000,000 people who HATE COLLINGWOOD                                               |    217 |
+| i feel my phone vibrate when it doesn't.                                                             |    217 |
+| Pooh Bear Corner (Clyde Mountain)                                                                    |    215 |
+| ANU AFEC                                                                                             |    212 |
+| It's Not My Fault What You Said Can Be Misconstrued as A Sexual Innuendo                             |    211 |
+| You know you're Australian when...                                                                   |    211 |
+| Grow up Australia - R18+ Rating for Computer Games                                                   |    211 |
+| I Will Go Slightly Out of My Way To Step On That Crunchy-looking Leaf                                |    210 |
+| Back In The Day, I Used My Eraser As A Fortune-Teller                                                |    210 |
+| Basic Rules for Driving in Canberra                                                                  |    208 |
++------------------------------------------------------------------------------------------------------+--------+
+
+=======================================================================================
+
+** linkrinspirationalpeople
+
+6856 entries
+1834 distinct uids
+4101 distinct id
+3873 distinct name
+
++---------+-----------------+--------------------------------------+
+| uid     | id              | name                                 |
++---------+-----------------+--------------------------------------+
+|  202974 |     42592340815 | Richard P. Feynman                   |
+|  202974 |     51836816880 | Mohandas Karamchand Gandhi (Mahatma) |
+|  714895 |     31325960871 | Richard Branson                      |
+|  714895 |     64263459777 | Lance Armstrong                      |
+|  714895 | 108428009181613 | Jack Welch                           |
+|  714895 | 111883358823792 | Mother Teresa                        |
+| 9113881 |      5794733873 | David Suzuki                         |
+| 9113881 |    130014597792 | Jonathan Safran Foer                 |
+| 9113881 |    288649476913 | Temple Grandin                       |
+| 9113881 | 106142132750178 | Joseph Pulitzer                      |
++---------+-----------------+--------------------------------------+
+
+=======================================================================================
+
+** linkrinterests
+
+33441 entries
+7926 distinct uids
+12660 distinct ids
+12032 distinct names
+143 distinct categories
+
++--------+-----------------+--------------+----------------+--------------------------+
+| uid    | id              | name         | category       | created_time             |
++--------+-----------------+--------------+----------------+--------------------------+
+|  14185 | 106303419405901 | Sports       | Interest       | 2010-04-27T16:03:38+0000 |
+|  14185 | 114789915205100 | Partying     | Interest       | 2010-04-23T20:12:26+0000 |
+| 108552 |    411452561137 | Food Tasting | Interest       | 2010-05-23T23:44:16+0000 |
+| 108552 | 100962249959163 | Chatting     | Interest       | 2011-03-09T22:36:28+0000 |
+| 108552 | 106921586003154 | Working Out  | Interest       | 2010-05-23T23:44:15+0000 |
+| 108552 | 111925778823301 | Painting     | Field of study | 2010-05-23T23:44:16+0000 |
+| 108552 | 112232205460865 | Karaoke      | Interest       | 2010-05-23T23:44:16+0000 |
+| 109083 | 108647179166314 | Coffee shops | Interest       | 2010-09-18T04:32:46+0000 |
+| 109083 | 109368782422374 | Running      | Sport          | 2010-10-25T01:01:43+0000 |
+| 109083 | 110525815643144 | Restaurants  | Interest       | 2010-09-18T04:32:45+0000 |
++--------+-----------------+--------------+----------------+--------------------------+
+
+=======================================================================================
+
+** linkrlikes
+
+2539820 entries
+26080 distinct uids
+639037 distinct id
+582310 distinct names
+202 distinct categories
+
++-------+-----------------+---------------------+-----------------------+--------------------------+
+| uid   | id              | name                | category              | created_time             |
++-------+-----------------+---------------------+-----------------------+--------------------------+
+| 12530 |      5281959998 | The New York Times  | Media/news/publishing | 2008-02-10T09:38:01+0000 |
+| 12530 |     15253175252 | Coldplay            | Musician/band         | 2011-06-28T06:54:30+0000 |
+| 12530 | 139719909380851 | one republic        | Music                 | 2011-06-28T06:54:30+0000 |
+| 14185 |      8770211279 | Intervention on A&E | Tv show               | 2011-03-04T18:09:14+0000 |
+| 14185 |     36720376072 | Dilated Peoples     | Musician/band         | 2011-01-05T20:22:22+0000 |
+| 14185 |    200781835525 | ElliptiGO           | Company               | 2010-04-29T20:25:25+0000 |
+| 14185 |    234157302679 | Sights & Sounds     | Local business        | 2010-09-06T21:51:13+0000 |
+| 14185 |    373657659227 | Copy Clara Copyshop | Local business        | 2010-08-11T14:07:10+0000 |
+| 14185 | 102974306408353 | UterqXXe            | Clothing              | 2011-07-20T14:46:46+0000 |
+| 14185 | 103748079663884 | Werner Herzog       | Actor/director        | 2010-04-23T20:12:28+0000 |
++-------+-----------------+---------------------+-----------------------+--------------------------+
+
+=======================================================================================
+
+** linkrlinkcomments
+
+509596 entries
+15524 distinct uid
+140270 distinct link_id
+481138 distinct comment_id (maybe some comments corrected or changed?)
+159691 distinct from_name
+
++--------+-----------------+------------+------------+-------------------+-----------------+--------------------------+
+| uid    | link_id         | comment_id | from_id    | from_name         | message         | created_time             |
++--------+-----------------+------------+------------+-------------------+-----------------+--------------------------+
+|  12530 | 131055150273318 |     864908 |    1301261 | Simon XXXX        | any med ones?!  | 2010-08-16T10:43:49+0000 |
+|  12530 | 226053460754341 |    3446162 |    1104248 | Ben XXXXXXXX      | Jenny XXXX!     | 2011-05-30T00:40:36+0000 |
+|  14185 |      9598297110 |      66098 |  557910033 | Kathryn XXXXXXXXX | WTF?            | 2008-01-23T14:45:36+0000 |
+| 107279 | 113170715410964 |     330278 |  539046207 | Alexandria XXXXXX | Mutha.          | 2010-10-02T02:14:44+0000 |
+| 107279 | 158142877532563 |    1550291 |  746050503 | David XXXXX       | you're lunching | 2010-09-02T21:25:22+0000 |
+| 108987 |    329727915541 |    7540160 | 1191997353 | David XX          | lol             | 2009-11-10T22:22:18+0000 |
+| 108987 | 103035426441949 |      44069 |  510203968 | Isabel XXXXX      | hahaha cute     | 2011-02-17T19:39:26+0000 |
+| 108987 | 103035426441949 |      46852 |  508794547 | Rhonda XXXXX      | cute            | 2011-02-18T18:42:44+0000 |
+| 108987 | 141870162495861 |    1087166 |  598930632 | Sona XXXXXXX      | :)              | 2010-07-11T01:54:32+0000 |
+| 108987 | 147080928651531 |    1248688 |  503220659 | Neo XXXX          | I want one!!    | 2010-08-11T13:11:00+0000 |
++--------+-----------------+------------+------------+-------------------+-----------------+--------------------------+
+
+NOTE: Scott = 627624281 
+
++-----------+-----------------+------------+-----------+------------+------------------------------+
+| uid       | link_id         | comment_id | from_id   | from_name  | message                      |
++-----------+-----------------+------------+-----------+------------+------------------------------+
+| 517557287 | 133465266666995 |     821320 | 510448562 | Sonia XXXX | Yeah, Kenny!!!               |
+| 627624281 | 122105207890194 |     141924 | 510448562 | Sonia XXXX | Someone's procrastinating :P |
+| 627624281 | 150732708330265 |    1233879 | 510448562 | Sonia XXXX | That made my day!            |
++-----------+-----------------+------------+-----------+------------+------------------------------+
+
+NOTE: here two link_id's with different comments by different people at different times
+
+--------------------------------------------------------------------------------------------
+|   65202565 | 2221972899 |       7477 |  512155663 | Kiel XXXXXX             | I like ittt. And you used the Finger lad
+y's lyrics! Tre awesome. | 06-12-01T00:27:04+0000 |
+|   65202565 | 2221972899 |       7509 |   65202628 | Katrina XXXXXX          | I like it Chel.  It's so sad though :( 
+| 06-12-01T03:30:30+0000 |
+|   65202565 | 2221972899 |       7554 |   65202565 | Chel XXXXXXX            | Well, yeah.. I guess it's sad. I cried w
+riting a lot of the stuff. But it's nice to look at the work, and sort of declare that period of sadness enough for now.
+ Then I can be happy again. :) 
+ | 06-12-01T20:30:21+0000 |
+--------------------------------------------------------------------------------------------
+
+=======================================================================================
+
+** linkrlinkinfo
+
+308515 entries
+272494 have click_count = 0
+36021 have click_count > 0
+22028 have click_count > 10
+10421 have click_count > 100
+3013 have click_count > 1000
+457 have click_count > 10000
+19 have click_count > 100000
+
+mysql> select url, share_count, like_count, comment_count, total_count, click_count from linkrlinkinfo where click_count
+ > 90000 AND length(url) < 46;
++--------------------------------------------+-------------+------------+---------------+-------------+-------------+
+| url                                        | share_count | like_count | comment_count | total_count | click_count |
++--------------------------------------------+-------------+------------+---------------+-------------+-------------+
+| http://www.youtube.com/watch               |     4407639 |    2202780 |       2680052 |     9290471 |     3959670 |
+| http://facebook.com/                       |    33400653 |    1245245 |       1481027 |    36126925 |      243646 |
+| http://www.yahoo.com/                      |      455455 |      53041 |         57439 |      565935 |      162158 |
+| http://google.com/                         |     1151850 |     597100 |        554379 |     2303329 |      265614 |
+| http://www.theanimalrescuesite.com/        |       21734 |       6432 |         10701 |       38867 |      102921 |
+| http://www.corneliamarie.com/              |        7306 |      63806 |         14340 |       85452 |      413458 |
+| http://neave.com/strobe/                   |       82922 |      36731 |         78460 |      198113 |      102889 |
+| http://www.linkinpark.com/                 |       89620 |     816778 |        106355 |     1012753 |      160469 |
+| http://www.facebook.com/                   |    33838253 |    1289236 |       1521705 |    36649194 |      243646 |
+| http://www.neave.com/strobe/               |       82922 |      36731 |         78460 |      198113 |      102889 |
+| http://www.cristgaming.com/pirate.swf      |      130524 |      44396 |        120952 |      295872 |      241973 |
+| http://www.youtube.com/watch?v=Vo_0UXRY_rY |      924293 |    1501348 |        689088 |     3114729 |       93428 |
+| http://badoo.com/                          |       36900 |     382489 |          5506 |      424895 |      200342 |
+| http://linkinpark.com/                     |       89620 |     817964 |        106355 |     1013939 |      160469 |
+| http://translate.google.com/               |      413733 |     134723 |        239260 |      787716 |      143516 |
+| http://cristgaming.com/pirate.swf          |      130524 |      44396 |        120952 |      295872 |      241973 |
+| http://www.youtube.com/watch?v=_OBlgSz8sSM |     1790915 |    1630300 |       1429580 |     4850795 |      176345 |
+| http://www.google.com/                     |     1153350 |     597000 |        554379 |     2304729 |      265614 |
++--------------------------------------------+-------------+------------+---------------+-------------+-------------+
+
+NOTE: First 10 with link_hash (why not link_id?  connected to link_id in linkrlinks table below)
+
++----------------------------------+-------------------------------------------------------------------
+--+-------------+------------+---------------+-------------+-------------+
+| link_hash                        | url
+  | share_count | like_count | comment_count | total_count | click_count |
++----------------------------------+-------------------------------------------------------------------
+--+-------------+------------+---------------+-------------+-------------+
+| 0002bcc4a814f3df83013de7fbceb93b | http://www.youtube.com/watch?v=TQmz6Rbpnu0&feature=related
+  |       18197 |      17050 |         10921 |       46168 |          50 |
+| 0003730fd9d754a37d53524092ce6377 | http://www.youtube.com/watch?v=xxGkQjiX8Tw
+  |        3513 |       1371 |          2442 |        7326 |          40 |
+| 000941bca46b6aa037ad07b730f31fb5 | http://www.astro.umd.edu/~marshall/smileys.html
+  |         522 |         59 |           168 |         749 |         130 |
+| 001228407a485f9b02ff07514e7c15b7 | http://www.youtube.com/watch?v=TPAmQjI1Sog
+  |        4034 |       1912 |          1338 |        7284 |          26 |
+| 0017ec7325c88f8e2e804ca260aa00eb | http://www.cspinet.org/nah/10foods_bad.html
+  |        5214 |       1785 |          3894 |       10893 |        1068 |
+| 001cc50c4ff97ad0eea4cde4904cd66a | http://www.youtube.com/watch?v=aBTZOg6l6cA&feature=player_embedded
+  |        2266 |        804 |           563 |        3633 |         115 |
+| 001fe04c170ae6312c5f3b34e43f9753 | http://members.iinet.net.au/~pontipak/redsquare.html
+  |       22919 |       2908 |         29403 |       55230 |        6735 |
+| 002a3ae65d8e7f830dc6107ea811fdf6 | http://xkcd.com/169/
+  |        3608 |       1400 |          2459 |        7467 |        2547 |
+
+=======================================================================================
+
+** linkrlinklikes
+
+444879 entries
+16116 distinct uids
+176415 distinct link_ids
+228635 distinct ids
+
++-------+-----------------+-----------+-------------------------+
+| uid   | link_id         | id        | name                    |
++-------+-----------------+-----------+-------------------------+
+|  1214 | 150869834960426 |      2860 | Summer XXXXXXXXXXXXXXXX |
+|  1214 | 150869834960426 | 699336146 | Caroline XXXXXXX        |
+|  1214 | 166598613356622 | 670056139 | Michael XXXX            |
+|  1214 | 171091676242833 | 699336146 | Caroline XXXXXXX        |
+|  1214 | 173840605976079 | 219001864 | Phoebe XXXXXXX          |
+|  1214 | 173840605976079 | 784467243 | Tatiana XXXXX           |
+| 12530 | 226053460754341 | 809015018 | Zori XXXXXXXXX          |
+| 14185 |    147063192390 |    223839 | PenXX XXXXXXXXXXXXX     |
+| 14185 | 100337563384415 | 510030928 | Wilbert XXXXXXXXX       |
+| 14185 | 101635639914816 | 510030928 | Wilbert XXXXXXXXX       |
++-------+-----------------+-----------+-------------------------+
+
+NOTE: Scott = 627624281 so uid is the person who posted link_id
+
++-----------+-----------------+-----------+--------------+
+| uid       | link_id         | id        | name         |
++-----------+-----------------+-----------+--------------+
+| 656856635 | 252879148074625 | 627624281 | Scott XXXXXX |
++-----------+-----------------+-----------+--------------+
+
+=======================================================================================
+
+** linkrlinks
+
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| uid          | bigint(20)  |      |     | 0       |       |
+| link_id      | bigint(20)  |      | PRI | 0       |       |
+| from_id      | bigint(20)  |      | PRI | 0       |       |
+| from_name    | tinytext    |      |     |         |       |
+| message      | text        | YES  |     | NULL    |       |
+| picture      | text        | YES  |     | NULL    |       |
+| link         | text        |      |     |         |       |
+| link_hash    | varchar(32) |      |     |         |       |
+| name         | text        | YES  |     | NULL    |       |
+| description  | text        | YES  |     | NULL    |       |
+| created_time | tinytext    | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+
+| 1214 |    283131564581 |    1214 | Alex XXXXX | Awesome: http://www.onemanepic.com/index.php | 
+| http://www.onemanepic.com/index.php | 6cdf7f487c26feeed193e20c36fb6c05 | One Man Epic | 
+On the 26th of February 2010, Australian Tom Smitheringale will set out from Ward Hunt Island 
+at the northernmost edge of Canada with the aim of of being the first Australian to reach the 
+geographic North Pole solo and unsupported. ... | 2010-02-03T23:24:50+0000 |
+
+| 1214 | 104648362900754 |    1214 | Alex XXXXX | | | 
+http://www.ft.com/cms/s/2/628a8500-ff1c-11de-a677-00144feab49a.html?a | 
+eb1f14bb3490760c5b417fc385b31530 | www.ft.com | | 2010-03-31T14:40:08+0000 |
+
+=======================================================================================
+
+** linkrlocation
+
+5988 entries (exactly one per 5988 link_ids)
+5968 distinct names
+
++-----------------+------------------------------------------------------+
+| id              | name                                                 |
++-----------------+------------------------------------------------------+
+|               0 |                                                      |
+|     83030773935 | Visit Salt Lake                                      |
+| 100239533351565 | Panaga, Brunei                                       |
+| 100240953351547 | Al Khawr, Al Khawr, Qatar                            |
+| 100241073351103 | Meadow Bank, Essequibo Islands-West Demerara, Guyana |
+| 100241340017327 | Kampong Lenggeng, Negeri Sembilan, Malaysia          |
+| 100241356683687 | Djokja, Yogyakarta, Indonesia                        |
+| 100241816683681 | Jahore Bahru, Johor, Malaysia                        |
+| 100242276684010 | Haren, Groningen, Netherlands                        |
+| 100242666684118 | Hoogstraten, Antwerpen, Belgium                      |
++-----------------+------------------------------------------------------+
+
+=======================================================================================
+
+** linkrmovies
+
+131014 entries
+14946 distinct uids
+25979 distinct ids
+23083 distinct names
+80 distinct categories
+
++-------+-----------------+------------------------+----------------+--------------------------+
+| uid   | id              | name                   | category       | created_time             |
++-------+-----------------+------------------------+----------------+--------------------------+
+| 14185 | 103748079663884 | Werner Herzog          | Actor/director | 2010-04-23T20:12:28+0000 |
+| 14185 | 104110336291420 | Alfred Hitchcock       | Actor/director | 2010-04-23T20:12:28+0000 |
+| 14185 | 105542242813913 | Aliens                 | Movie          | 2010-04-23T20:12:27+0000 |
+| 14185 | 108697242488601 | Terrence Malick        | Actor/director | 2010-04-23T20:12:28+0000 |
+| 14185 | 229922243691637 | Coming to America      | Movie          | 2011-06-30T19:43:15+0000 |
+| 19313 | 103148829725267 | Yi Yi: A One and a Two | Movie          | 2010-05-27T12:40:55+0000 |
+| 19313 | 104077456295122 | You Can Count on Me    | Movie          | 2010-05-27T12:40:55+0000 |
+| 19313 | 105489476151205 | High Fidelity          | Movie          | 2010-05-27T12:40:55+0000 |
+| 19313 | 108142885874601 | The Thin Red Line      | Movie          | 2010-05-27T12:40:55+0000 |
+| 19313 | 108254012528862 | Pi                     | Movie          | 2010-05-27T12:40:55+0000 |
++-------+-----------------+------------------------+----------------+--------------------------+
+
+=======================================================================================
+
+** linkrmusic
+
+287681 entries
+18793 distinct uids
+67583 distinct ids
+60974 distinct names
+128 distinct categories
+
++-------+-----------------+-----------------------+---------------+--------------------------+
+| uid   | id              | name                  | category      | created_time             |
++-------+-----------------+-----------------------+---------------+--------------------------+
+| 12530 |     15253175252 | Coldplay              | Musician/band | 2011-06-28T06:54:30+0000 |
+| 12530 | 139719909380851 | one republic          | Music         | 2011-06-28T06:54:30+0000 |
+| 14185 |     36720376072 | Dilated Peoples       | Musician/band | 2011-01-05T20:22:22+0000 |
+| 14185 | 107794749242340 | Yo La Tengo           | Musician/band | 2010-04-23T20:12:27+0000 |
+| 14185 | 107977302556930 | Black Francis         | Musician/band | 2010-04-23T20:12:26+0000 |
+| 19313 |      9012139058 | Joe Satriani          | Musician/band | 2010-05-27T12:40:52+0000 |
+| 19313 |     68240789745 | The Walkmen           | Musician/band | 2010-07-01T22:39:21+0000 |
+| 19313 | 104000526301994 | The Walkmen           | Musician/band | 2010-05-27T12:40:51+0000 |
+| 19313 | 108191049214061 | Velvet Underground    | Musician/band | 2010-05-27T12:40:52+0000 |
+| 19313 | 109641582387812 | Toots and the Maytals | Musician/band | 2011-06-03T07:57:38+0000 |
++-------+-----------------+-----------------------+---------------+--------------------------+
+
+=======================================================================================
+
+** linkrphotocomments
+
+GENERAL PHOTO NOTE: Only appear to be seeing info related to photos posted on walls (given by uid).
+
+1357299 photo comments
+206168 distinct photo_id (can link to original poster using (photo_)id, from_id columns of linkrphotos
+959704 distinct comment_ids (same comment can appear for multiple uids... see second table for
+                             examples, uid is for *anyone* who was tagged in photo... use linkrphotos 
+                             to see who originally posted)
+502430 distinct from_ids (comment posters)
+21717 distinct uids (people's who wall comments is posted to... includes anyone tagged)
+
++--------+-------------------+------------+------------+----------------+------------------+--------------------------+
+| uid    | photo_id          | comment_id | from_id    | from_name      | message          | created_time             |
++--------+-------------------+------------+------------+----------------+------------------+--------------------------+
+|  12530 |      732521928021 |    6839365 |  291900185 | Whitney XXXXX  | Haha.            | 2010-06-08T16:35:58+0000 |
+|  14185 |       78408570354 |    2733602 |  804010601 | Patrick XXXX   | nice!            | 2008-09-23T15:48:06+0000 |
+|  14185 |      632676434472 |   17731753 |  617370075 | Golnaz XXXXX   | Nice, sweet      | 2008-07-10T13:51:35+0000 |
+|  33536 |      156745961354 |    2159441 |   11325239 | Ethel XXXXX    | BSO...           | 2009-09-08T03:38:48+0000 |
+|  33536 |      156745961354 |    2180354 | 1721290600 | Bing XXXX      | cool!            | 2009-09-13T03:02:23+0000 |
+| 108552 |      583397639292 |    5978058 |  548080283 | Ding XXXX      | charlie's angels | 2009-01-28T04:04:37+0000 |
+| 108552 |      583397639292 |    5982737 |  612270278 | Xu XXXX        | agree~~          | 2009-01-30T04:52:09+0000 |
+| 108552 | 10150296094024092 |    4875516 | 1511679779 | Alex XXXX      | super cute       | 2011-09-21T16:32:29+0000 |
+| 108987 |      490576605632 |    3543209 |  598930632 | Sona XXXXXXX   | Mersi dostam :)  | 2011-01-01T18:48:04+0000 |
+| 108987 |      490582560632 |    3543765 | 1032407001 | Aynaz XXXXXXXX | haha .lol        | 2011-01-01T20:30:27+0000 |
++--------+-------------------+------------+------------+----------------+------------------+--------------------------+
+
+NOTE: appears highly incomplete, i.e., photo comments for Sonia, only App users or friends for uid
+      (wall posted on)?
+
++------------+-------------------+------------+-----------+------------+------------------------------------------------
+---------------------------------------------------------------------------------------+
+| uid        | photo_id          | comment_id | from_id   | from_name  | message
+                                                                                       |
++------------+-------------------+------------+-----------+------------+------------------------------------------------
+---------------------------------------------------------------------------------------+
+|  122606344 |       10100250299 |    1370825 | 510448562 | Sonia XXXX | I agree, we have to have another race including
+ Gary and Nancy.... The're like lightning.  You're like slow turtles compared to them! |
+|  204400455 | 10150259619431866 |    4957850 | 510448562 | Sonia XXXX | Awwww, do I have to be Sammi.  She's the crazie
+st of the bunch!                                                                       |
+|  508557646 |       10100250299 |    1370825 | 510448562 | Sonia XXXX | I agree, we have to have another race including
+ Gary and Nancy.... The're like lightning.  You're like slow turtles compared to them! |
+|  510448562 |        4437199314 |     135703 | 510448562 | Sonia XXXX | Oh Baseflow Crew.... Alas, it wasn't that long
+ago was it?                                                                            |
+|  510448562 |       97030720299 |    3080324 | 510448562 | Sonia XXXX | Rubbing it for good luck!!
+                                                                                       |
+|  510448562 | 10150259619431866 |    4957850 | 510448562 | Sonia XXXX | Awwww, do I have to be Sammi.  She's the crazie
+st of the bunch!                                                                       |
+|  517557287 |      129488622287 |    1580778 | 510448562 | Sonia XXXX | I miss her!
+                                                                                       |
+|  517557287 | 10150456639470300 |   10391883 | 510448562 | Sonia XXXX | Looks like so much fun!!!
+                                                                                       |
+|  517557287 | 10150498380405300 |   10429224 | 510448562 | Sonia XXXX | I have a feeling water got into dem boots.
+                                                                                       |
+|  619061973 |      205133611973 |    2118958 | 510448562 | Sonia XXXX | Looking spiffy Uncle Terry!
+                                                                                       |
+|  627624281 |      171596693562 |    1570406 | 510448562 | Sonia XXXX | It works a little better if someone else commen
+ts on you honey.  But yes that is a sexy guy.                                          |
+|  627624281 | 10150259619431866 |    4957850 | 510448562 | Sonia XXXX | Awwww, do I have to be Sammi.  She's the crazie
+st of the bunch!                                                                       |
+|  813671865 | 10150259619431866 |    4957850 | 510448562 | Sonia XXXX | Awwww, do I have to be Sammi.  She's the crazie
+st of the bunch!                                                                       |
+|  871080236 | 10150414433180300 |   10030421 | 510448562 | Sonia XXXX | Are they the same age?  Soleil is so tiny!
+                                                                                       |
+| 1472746408 | 10150259619431866 |    4957850 | 510448562 | Sonia XXXX | Awwww, do I have to be Sammi.  She's the crazie
+st of the bunch!                                                                       |
++------------+-------------------+------------+-----------+------------+------------------------------------------------
+---------------------------------------------------------------------------------------+
+
+=======================================================================================
+
+** linkrphotolikes
+
+707138 distinct likes
+20830 distinct uids
+186162 distinct photo_ids
+426162 distinct ids
+
+uid is wall of person where photo_id occurred 
+id, name is liker
+
++-------+-------------------+------------+----------------------+
+| uid   | photo_id          | id         | name                 |
++-------+-------------------+------------+----------------------+
+| 14185 |      754672024332 |   48920263 | Maryam XXXXXXXXX     |
+| 14185 | 10150483318920584 |     620859 | Jenn XXXXXXXXXXXXXXX |
+| 33536 |      654516321882 |  612478751 | Wei XXX              |
+| 33536 |      654516321882 |  724541538 | Meng XXXXX           |
+| 33536 |      654516321882 |  799657009 | Wenbo XXX            |
+| 33536 |      654516321882 | 1083219438 | Xinxin XXXX          |
+| 33536 |      654516321882 | 1124017887 | Chang XXX            |
+| 33536 |      954380860941 |       9223 | Yi-XXXX XXX          |
+| 33536 |      954380860941 |  507974522 | Jian XXX             |
+| 33536 |      954380860941 |  573296153 | Qiulei XX            |
++-------+-------------------+------------+----------------------+
+
+NOTE: sort by id
+
++------------+-------------------+------+------------------------+
+| uid        | photo_id          | id   | name                   |
++------------+-------------------+------+------------------------+
+|  548299715 | 10150165498690784 |  511 | Nicole XXX             |
+|   36812592 |      874421251009 |  707 | Brandon XXXXXXXX       |
+|  592745238 | 10150331123620239 | 1149 | Leian XXXX             |
+| 1544322217 | 10150331123620239 | 1149 | Leian XXXX             |
+|  695345257 |      726546263328 | 2049 | Ben XXXXXXX            |
+|  695345257 | 10150750904990258 | 2049 | Ben XXXXXXX            |
+|     807032 | 10150602112210313 | 2234 | Sean XXXXXXXX          |
+|  695345257 |      736742694577 | 4560 | Julia XXXXX            |
+| 1038356057 | 10150574371980022 | 5621 | Piriya XXXXXXXXXXXXXXX |
+|     903031 | 10100407331067080 | 6714 | Cindy XXXX             |
++------------+-------------------+------+------------------------+
+
+=======================================================================================
+
+** linkrphotos
+
+563201 photo entries
+522803 distinct ids (photos)
+22557 distinct uids (appears to be *wall* where photo was posted since in many cases
+                     the uid and the from_id are the same, also coincides somewhat
+                     with tagging which makes sense if posted to a wall)
+134058 distinct from_ids (original posters of photos)
+
+NOTE: id here is photo_id in other tables
+
+NOTE: from_id is the poster; uids are **some** people who are tagged in photo... not
+      necessarily complete.
+
++--------------+------------+------+-----+---------+-------+
+| Field        | Type       | Null | Key | Default | Extra |
++--------------+------------+------+-----+---------+-------+
+| uid          | bigint(20) |      | PRI | 0       |       |
+| id           | bigint(20) |      | PRI | 0       |       |
+| from_id      | bigint(20) |      |     | 0       |       |
+| from_name    | tinytext   |      |     |         |       |
+| name         | text       |      |     |         |       |
+| link         | text       |      |     |         |       |
+| created_time | tinytext   |      |     |         |       |
+| updated_time | tinytext   |      |     |         |       |
++--------------+------------+------+-----+---------+-------+
+
++------------+-------------------+-----------+--------------+------+----------------------------------------------------
+--------+--------------------------+--------------------------+
+| uid        | id                | from_id   | from_name    | name | link
+        | created_time             | updated_time             |
++------------+-------------------+-----------+--------------+------+----------------------------------------------------
+--------+--------------------------+--------------------------+
+|  204400455 | 10150259619431866 | 813671865 | Chris XXXXXX |      | http://www.facebook.com/photo.php?pid=7337813&id=81
+3671865 | 2011-07-11T11:29:47+0000 | 2011-07-11T11:29:48+0000 |
+|  510448562 | 10150259619431866 | 813671865 | Chris XXXXXX |      | http://www.facebook.com/photo.php?pid=7337813&id=81
+3671865 | 2011-07-11T11:29:47+0000 | 2011-07-11T11:29:48+0000 |
+|  627624281 | 10150259619431866 | 813671865 | Chris XXXXXX |      | http://www.facebook.com/photo.php?pid=7337813&id=81
+3671865 | 2011-07-11T11:29:47+0000 | 2011-07-11T11:29:48+0000 |
+|  813671865 | 10150259619431866 | 813671865 | Chris XXXXXX |      | http://www.facebook.com/photo.php?pid=7337813&id=81
+3671865 | 2011-07-11T11:29:47+0000 | 2011-07-11T11:29:48+0000 |
+| 1472746408 | 10150259619431866 | 813671865 | Chris XXXXXX |      | http://www.facebook.com/photo.php?pid=7337813&id=81
+3671865 | 2011-07-11T11:29:47+0000 | 2011-07-11T11:29:48+0000 |
++------------+-------------------+-----------+--------------+------+----------------------------------------------------
+--------+--------------------------+--------------------------+
+
+=======================================================================================
+
+** linkrphototags
+
+4076034 entries
+22554 distinct uid1
+521924 distinct tags
+1662566 distinct uid2
+uid1 is wall where photo was posted 
+uid2 is tag assigned... all tags listed (will obviously need to fill in all pairs)
+
++-------+--------------+-----------+---------------+
+| uid1  | photo_id     | uid2      | name          |
++-------+--------------+-----------+---------------+
+| 12530 | 401575115302 |     12530 | Tom XXX       |
+| 12530 | 401575115302 | 589658742 | Catherine XXX |
+| 12530 | 401575115302 | 658930190 | Francesca XXX |
+| 12530 | 685877384430 |     12530 | Tom XXX       |
+| 12530 | 685877384430 |  36914367 | Julie XXX     |
+| 12530 | 685877449300 |     12530 | Tom XXX       |
+| 12530 | 685877454290 |     12530 | Tom XXX       |
+| 12530 | 685877454290 |  36914367 | Julie XXX     |
+| 12530 | 685877469260 |     12530 | Tom XXX       |
+| 12530 | 685877479240 |     12530 | Tom XXX       |
++-------+--------------+-----------+---------------+
+
+=======================================================================================
+
+** linkrpost
+
+1519915 entries
+32820 distinct uids
+1519574 distinct post ids
+213043 distinct from_ids
+
++------------------+------------+------+-----+---------+-------+
+| Field            | Type       | Null | Key | Default | Extra |
++------------------+------------+------+-----+---------+-------+
+| uid              | bigint(20) |      | PRI | 0       |       |
+| post_id          | bigint(20) |      | PRI | 0       |       |
+| from_id          | bigint(20) |      |     | 0       |       |
+| from_name        | tinytext   |      |     |         |       |
+| message          | text       | YES  |     | NULL    |       |
+| type             | tinytext   |      |     |         |       |
+| application_id   | tinytext   | YES  |     | NULL    |       |
+| application_name | tinytext   | YES  |     | NULL    |       |
+| created_time     | tinytext   | YES  |     | NULL    |       |
+| updated_time     | tinytext   | YES  |     | NULL    |       |
++------------------+------------+------+-----+---------+-------+
+
+---------------+--------+----------------+------------------+--------------------------+--------------------------+
+| uid  | post_id         | from_id   | from_name          | message
+
+               | type   | application_id | application_name | created_time             | updated_time             |
++------+-----------------+-----------+--------------------+-------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------
+---------------+--------+----------------+------------------+--------------------------+--------------------------+
+| 1214 |    885233303201 |      1214 | Alex XXXXX         |
+
+               | status |                |                  | 2011-04-12T08:24:07+0000 | 2011-04-12T08:24:07+0000 |
+| 1214 |    889102619061 |      1214 | Alex XXXXX         |
+
+               | status |                |                  | 2011-04-16T11:57:05+0000 | 2011-04-16T11:57:05+0000 |
+| 1214 |    941540029071 |      1214 | Alex XXXXX         |
+
+               | status |                |                  | 2011-06-20T01:16:06+0000 | 2011-06-20T01:16:06+0000 |
+| 1214 |    949644133381 |      1214 | Alex XXXXX         |
+
+               | photo  |                |                  | 2011-06-26T10:42:45+0000 | 2011-06-26T10:42:45+0000 |
+| 1214 |    952253534121 | 721165217 | Tadhg XXXXXXXX     | You+james+your left over Jager equals my friday pregame
+
+               | status |                |                  | 2011-07-02T00:19:18+0000 | 2011-07-02T00:19:34+0000 |
+| 1214 |    962109068551 |      2943 | William XXXXXXXXXX | Hey Cokie - I'm hanging out with Alex XXXXX in Australia, an
+d he fondly remembers the time you woke him in the middle of the night by barking in his face. We both hope you're doing
+ well!
+
+- Will | status |                |                  | 2011-07-25T10:37:23+0000 | 2011-07-25T10:37:23+0000 |
+| 1214 |    964905309861 |      1214 | Alex XXXXX         |
+
+               | status |                |                  | 2011-08-09T00:16:47+0000 | 2011-08-09T00:16:47+0000 |
+| 1214 |    967723552081 |      1214 | Alex XXXXX         | "Customers Who Bought This Item Also Bought" = "But wait, th
+ere's more!"
+               | status |                |                  | 2011-08-08T14:40:23+0000 | 2011-08-08T14:40:23+0000 |
+| 1214 | 120300961387974 |      1214 | Alex XXXXX         | http://canberraphotoforum.org/
+
+               | link   |                |                  | 2011-06-05T11:15:36+0000 | 2011-06-05T11:15:36+0000 |
+| 1214 | 178248772227283 |      1214 | Alex XXXXX         | Sadly, what fraction of people voting would believe this ins
+tead of tv ads?
+               | link   |                |                  | 2011-04-13T11:48:29+0000 | 2011-04-13T11:48:29+0000 |
++------+-----------------+-----------+--------------------+-------------------------------------------------------------
+
+=======================================================================================
+
+** linkrpostcomments
+
+NOTE: Can get ENTIRE CONVERSATION TRAIL and interactions from this data and time stamps.
+
+971768 entries
+25094 distinct uid
+237562 distinct post_id
+911281 distinct comment_id
+240273 distinct from_id
+
++--------+-----------------+------------+------------+---------------+---------------------+--------------------------+
+| uid    | post_id         | comment_id | from_id    | from_name     | message             | created_time             |
++--------+-----------------+------------+------------+---------------+---------------------+--------------------------+
+|  12530 |    965065129581 |    2763909 |      12530 | Tom XXX       | yeh, want to come?  | 2011-08-02T00:23:34+0000 |
+|  12530 |    965065129581 |    2771330 |   37003504 | Simon XX      | i'm not judging btw | 2011-08-02T22:38:53+0000 |
+|  12530 |    965065129581 |    2779309 |      12530 | Tom XXX       | seirously?! come!   | 2011-08-03T21:45:55+0000 |
+|  12530 |    967863671281 |    2818706 |  291900185 | Whitney XXXXX | Go to Farming!!!    | 2011-08-08T21:30:02+0000 |
+|  14185 | 132591220172083 |     240765 |   28103260 | Ley XXXX      | love zakaria's view | 2011-09-12T21:38:44+0000 |
+|  33536 |    898595031191 |    2120989 |      33536 | Yong XXX      | Thx:)               | 2011-05-12T00:27:55+0000 |
+|  33536 |    934736034331 |    2311644 |  574071354 | Shixin XXX    | She is awesome!     | 2011-06-04T18:58:51+0000 |
+| 108552 |    907727364922 |    2617449 |    1227183 | Sally XXX     | Godspeed!           | 2011-06-24T18:15:10+0000 |
+| 108552 |    907727364922 |    2618113 |  735738416 | Bob XXX       | Where?              | 2011-06-24T19:42:18+0000 |
+| 108552 |    907727364922 |    2618350 | 1042908515 | Joyce XX      | Best of luck!       | 2011-06-24T20:15:57+0000 |
++--------+-----------------+------------+------------+---------------+---------------------+--------------------------+
+
+=======================================================================================
+
+** linkrpostlikes
+
+669744 entries
+22890 distinct uids
+208839 distinct post_id
+313569 distinct id
+
++--------+-----------------+------------+-------------------+
+| uid    | post_id         | id         | name              |
++--------+-----------------+------------+-------------------+
+|   1214 |    967723552081 |  643577542 | Melissa XXXXXXXXX |
+|  14185 |    962171209021 |  766287344 | Eileen XXX        |
+|  14185 | 105378249565629 |  781970400 | Ali XXXXXXXXX     |
+|  14185 | 132591220172083 | 1012713633 | Shohreh XXXX      |
+|  14185 | 235398089834790 | 1285466436 | Jinhsiao XXX      |
+|  33536 |    934626329181 |  592236019 | Jing XX           |
+|  33536 |    934736034331 |  574071354 | Shixin XXX        |
+| 107279 |    930555432292 |  552083016 | Carson XXXX       |
+| 107279 |    930555432292 |  633725046 | Aditi XXX         |
+| 107279 |    930555432292 | 1104271363 | Jennifer XXXXXX   |
++--------+-----------------+------------+-------------------+
+
+=======================================================================================
+
+** linkrposttags (seems that posts get tagged 
+
+405598 entries
+192583 distinct uid1 (the poster)
+350731 distinct post_id
+62933 distinct uid2 (tag of post, or destination wall... posts on destination person's 
+                     wall get tagged with their name)
+
++------+-------------------------+-------------------+------------+-------------------------+
+| uid1 | name1                   | post_id           | uid2       | name2                   |
++------+-------------------------+-------------------+------------+-------------------------+
+|  411 | Antoinette XXXXXXXX     |     2239050461944 | 1418499616 | Cornel XXXXXXX          |
+|  802 | Rashmi XXXXX            | 10150273782874034 |  581704033 | Paolo XXXXXXXXX         |
+| 1660 | Kathryn XXXXXXX         |      989915394451 |      14185 | Eric XXX                |
+| 1870 | Neeraj XXXXXXXXXXXXXXXX | 10150336991650991 |  724735990 | Kanishka XXXXXXXXXXXX   |
+| 2077 | Matt XXXXXXX            |      966342749221 |      12530 | Tom XXX                 |
+| 2166 | Matthew XXXXX           | 10150264470226966 |  506136965 | Neil XXXXXXXXXXXXXXXXXX |
+| 2568 | Drew XXXX               |      688040983198 |     714895 | Yiting XXXX             |
+| 2943 | William XXXXXXXXXX      |      962109068551 |       1214 | Alex XXXXX              |
+| 2943 | William XXXXXXXXXX      |      962109068551 | 1126970675 | Cokie XXXXX             |
+| 3466 | Manuela XXXXXXXXXXXX    |      590858479901 |  219000748 | Mimi XXX                |
++------+-------------------------+-------------------+------------+-------------------------+
+
+NOTE: from_id=411 (Antoinette) is the person who posted this onto uid=1418499616 (Cornel)'s wall
+
+mysql> select * from linkrpost where post_id = 2239050461944;
++------------+---------------+---------+---------------------+--------------------------------+--------+----------------
++---------------------+--------------------------+--------------------------+
+| uid        | post_id       | from_id | from_name           | message                        | type   | application_id
+| application_name    | created_time             | updated_time             |
++------------+---------------+---------+---------------------+--------------------------------+--------+----------------
++---------------------+--------------------------+--------------------------+
+| 1418499616 | 2239050461944 |     411 | Antoinette E. Nibbs | Sup? How is life treating you? | status | 6628568379
+| Facebook for iPhone | 2011-07-27T15:02:48+0000 | 2011-07-27T15:02:48+0000 |
++------------+---------------+---------+---------------------+--------------------------------+--------+----------------
++---------------------+--------------------------+--------------------------+
+
+=======================================================================================
+
+** linkrschool
+
+21576 entries and distinct ids
+20238 distinct names
+
++------------+------------------------------+
+| id         | name                         |
++------------+------------------------------+
+| 5588828700 | University of North Texas    |
+| 5606464563 | Mississippi State University |
+| 5625209996 | George Mason University      |
+| 5755052206 | University of Sydney         |
+| 5826202566 | Xavier University            |
+| 5915554308 | Griffith                     |
+| 6010469068 | University of Northern Iowa  |
+| 6065332529 | University of Kent           |
+| 6079123461 | Calvin College               |
+| 6096033309 | The University of Arizona    |
++------------+------------------------------+
+
+mysql> select name, count(name) as ncount from linkrschool group by name order by ncount desc limit 30;
++----------------------------------+--------+
+| name                             | ncount |
++----------------------------------+--------+
+| Australian National University   |      7 |
+| Central High School              |      7 |
+| University of Santo Tomas        |      6 |
+| Ateneo de Manila University      |      6 |
+| Dalian University of Technology  |      6 |
+| Trinity College                  |      6 |
+| Singapore Polytechnic            |      6 |
+| Macquarie University             |      5 |
+| Ngee Ann Polytechnic             |      5 |
+| Texas Tech University            |      5 |
+| Temasek Polytechnic              |      5 |
+| National University of Singapore |      5 |
+| Keio University                  |      5 |
+| John Paul College                |      5 |
+| University of New South Wales    |      5 |
+| Heritage Christian School        |      5 |
+| University of Wollongong         |      5 |
+| Trinity Christian High School    |      5 |
+| UNSW                             |      5 |
+| Campbell High School             |      5 |
+| Xavier High School               |      5 |
+| Southern Cross University        |      5 |
+| Trinity Christian School         |      5 |
+| University of Sydney             |      4 |
+| Virginia Commonwealth University |      4 |
+| Aligarh Muslim University        |      4 |
+| Monash University                |      4 |
+| Nanyang Polytechnic              |      4 |
+| Republic Polytechnic             |      4 |
+| Temasek Junior College           |      4 |
++----------------------------------+--------+
+
+=======================================================================================
+
+** linkrschoolclasses
+
+4118 entries
+2381 distinct uids
+1814 distinct school_ids
+2457 distinct class_ids
+
++-----------+-----------------+-----------+-----------------+-----------------+-------------------+-------------+
+| uid       | school_id       | degree_id | year_id         | class_id        | name              | description |
++-----------+-----------------+-----------+-----------------+-----------------+-------------------+-------------+
+|   3433049 | 111568985526707 |         0 |               0 | 171176016263305 | Wu65              |             |
+|   5711578 | 109423009083904 |         0 |               0 | 139953102733702 | 2001              |             |
+|  14233473 | 122051704478715 |         0 |               0 | 102223719858628 | 94-97             |             |
+|  43202846 | 106256089405726 |         0 |               0 | 192259410803415 | 2010              |             |
+|  66504788 | 108758115822564 |         0 |               0 | 113924145350838 | Into to Fine Arts |             |
+| 122201051 | 115544665125792 |         0 |               0 | 144150255644049 | 2002              |             |
+| 160201294 | 104018192966815 |         0 | 142963519060927 | 189873264368867 | 2011              |             |
+| 204400085 | 108101625889784 |         0 |               0 | 187088724658336 | 2005              |             |
+| 204400622 | 104979132871880 |         0 |               0 | 152038918185497 | Class of 2005     |             |
+| 204400955 | 108018792564056 |         0 |               0 | 197270260285892 | 1999-2003         |             |
++-----------+-----------------+-----------+-----------------+-----------------+-------------------+-------------+
+
+=======================================================================================
+
+** linkrschoolclasseswith
+
+5667 entries
+1534 distinct uid1
+4312 distinct uid2
+
++-----------+-----------------+-----------------+-----------+-----------------+-----------------+
+| uid1      | uid2            | school_id       | degree_id | year_id         | class_id        |
++-----------+-----------------+-----------------+-----------+-----------------+-----------------+
+|   3433049 | 100000598129790 | 111568985526707 |         0 |               0 | 171176016263305 |
+|  14233473 | 100000811429002 | 122051704478715 |         0 |               0 | 102223719858628 |
+|  66504788 |       608824971 | 108758115822564 |         0 |               0 | 113924145350838 |
+| 160201294 | 100000852233307 | 104018192966815 |         0 | 142963519060927 | 189873264368867 |
+| 204400085 |        13733161 | 108101625889784 |         0 |               0 | 187088724658336 |
+| 204400622 |       506166551 | 104979132871880 |         0 |               0 | 152038918185497 |
+| 204400622 |       506495469 | 104979132871880 |         0 |               0 | 152038918185497 |
+| 204400622 |       549548046 | 104979132871880 |         0 |               0 | 152038918185497 |
+| 204400622 |      1331915044 | 104979132871880 |         0 |               0 | 152038918185497 |
+| 204400955 | 100000701698937 | 108018792564056 |         0 |               0 | 197270260285892 |
++-----------+-----------------+-----------------+-----------+-----------------+-----------------+
+
+=======================================================================================
+
+** linkrschoolconcentration
+
+11591 entries
+6953 distinct uid
+3228 distinct school_ids
+673 distinct degree_id
+71 distinct year_id
+5279 distinct id
+5236 distinct name
+
++--------+-----------------+-----------------+-----------------+-----------------+------------------------------+
+| uid    | school_id       | degree_id       | year_id         | id              | name                         |
++--------+-----------------+-----------------+-----------------+-----------------+------------------------------+
+|  12530 |    105930651606 |               0 | 140617569303679 | 104076956295773 | Computer Science             |
+|  12530 |    105930651606 |               0 | 140617569303679 | 184336311605453 | Engineering Sciences         |
+|  14185 |    105930651606 |               0 |               0 | 111572518919683 | Computer Science, Philosophy |
+|  14185 |    105930651606 |               0 | 144503378895008 | 111572518919683 | Computer Science, Philosophy |
+|  19313 |    105930651606 | 151896998201233 | 140617569303679 | 188793194486042 | Design/Architecture          |
+|  19313 | 114647471886043 |               0 | 144560162276732 | 107935225893581 | Anthropology                 |
+|  19313 | 114647471886043 |               0 | 144560162276732 | 163382150377213 | Organismal Biology           |
+| 103259 | 103127603061486 |               0 | 137616982934053 | 108507619171523 | Psychology                   |
+| 107279 | 103127603061486 |               0 |               0 | 106166156082069 | Electrical engineering       |
+| 107279 | 103127603061486 | 170434169669210 | 136328419721520 | 106166156082069 | Electrical engineering       |
++--------+-----------------+-----------------+-----------------+-----------------+------------------------------+
+
+mysql> select name, count(name) as ncount from linkrschoolconcentration group by name order by ncount desc limit 20;
++-------------------------+--------+
+| name                    | ncount |
++-------------------------+--------+
+| Computer Science        |    391 |
+| Economics               |    152 |
+| Finance                 |    141 |
+| Law                     |    138 |
+| Psychology              |    136 |
+| Accounting              |    123 |
+| Electrical engineering  |    117 |
+| Mathematics             |    117 |
+| Mechanical engineering  |    104 |
+| Information technology  |     99 |
+| Physics                 |     89 |
+| Engineering             |     85 |
+| Medicine                |     77 |
+| Software engineering    |     75 |
+| Marketing               |     73 |
+| International relations |     70 |
+| Political science       |     62 |
+| Business Administration |     62 |
+| International business  |     61 |
+| Bachelor of Science     |     61 |
++-------------------------+--------+
+
+=======================================================================================
+
+** linkrschooldegree
+
+1354 entries, distinct ids
+1334 distinct names
+
++-----------------+------------------------------+
+| id              | name                         |
++-----------------+------------------------------+
+|    150096783178 | BAPit                        |
+|    365182446066 | Eating and Sleeping          |
+|    401277524578 | Viool                        |
+|    408338636012 | Jess                         |
+|    435378012976 | Engineering and Science      |
+| 100112203402885 | LLB Law                      |
+| 100157116732534 | PhD Mathematics & Statistics |
+| 100281806718518 | PhD program                  |
+| 100315230047466 | Dr.-Ing.                     |
+| 100408643372807 | BS Computer Engineering      |
++-----------------+------------------------------+
+
+=======================================================================================
+
+** linkrschoolwith
+
+11160 entries
+3665 distinct uid1
+9446 distinct uid2
+2830 distinct school_id
+
++---------+-----------------+-----------------+-----------------+-----------------+
+| uid1    | uid2            | school_id       | degree_id       | year_id         |
++---------+-----------------+-----------------+-----------------+-----------------+
+|  202061 |          203734 |      6192688417 |               0 |               0 |
+|  222021 |      1426750341 | 108060535881886 |               0 | 132393000129123 |
+|  223680 |          223238 |      6192688417 | 193640483997198 | 140617569303679 |
+|  223680 |          223238 | 126031490806597 |               0 |               0 |
+|  302280 | 100000458334280 | 105586819475691 |               0 |               0 |
+|  432293 | 100002064531260 | 100531916692320 |               0 | 137616982934053 |
+|  903031 |          913429 |     20697868961 |               0 | 137616982934053 |
+| 3007264 |       504829115 | 104009006303595 | 170434169669210 |               0 |
+| 3007264 |       725781013 | 146465678710436 |               0 |               0 |
+| 3317494 |       560019121 | 108047109223278 |               0 | 142963519060927 |
++---------+-----------------+-----------------+-----------------+-----------------+
+
+=======================================================================================
+
+** linkrsports
+
+7479 entries 
+3833 distinct uid
+1236 distinct id 
+1138 distinct name
+
++----------+-----------------+------------------+--------------------+
+| uid      | id              | name             | description        |
++----------+-----------------+------------------+--------------------+
+|  3400304 | 108614982500363 | Basketball       |                    |
+|  3413200 | 105650876136555 | Tennis           |                    |
+|  3413200 | 112421242104622 | Ice skating      |                    |
+|  5003914 | 174972259189240 | Soccer and Rugby |                    |
+|  6304827 | 112285278784684 | Badminton        |                    |
+|  8811272 | 110664595627519 | Ultimate Frisbee | Ferocious Tang!!!! |
+|  8811272 | 137121109674560 | Kickball         | Juice!             |
+| 15609619 | 165538210148171 | Hip-Hop          |                    |
+| 15622172 | 103992339636529 | Cricket          |                    |
+| 18404155 | 145724878811386 | Tonsil Hockey    |                    |
++----------+-----------------+------------------+--------------------+
+
+=======================================================================================
+
+** linkrsportswith
+
+3163 entries
+1282 distinct uid1
+2613 distinct uid2
+368 distinct sports_id
+
++---------+-----------------+-----------------+
+| uid1    | uid2            | sports_id       |
++---------+-----------------+-----------------+
+| 6304827 |       506202615 | 112285278784684 |
+| 6304827 |      1246973877 | 112285278784684 |
+| 6304827 | 100002627012707 | 112285278784684 |
+| 8811272 |         3106073 | 110664595627519 |
+| 8811272 |         4001175 | 110664595627519 |
+| 8811272 |         7502243 | 110664595627519 |
+| 8811272 |         7800220 | 137121109674560 |
+| 8811272 |         7807628 | 137121109674560 |
+| 8811272 |        11016299 | 137121109674560 |
+| 8811272 |        14223255 | 110664595627519 |
++---------+-----------------+-----------------+
+
+=======================================================================================
+
+** linkrtelevision
+
+132319 entries
+16436 distinct uid
+18065 distinct id
+16034 distinct name
+86 distinct category
+
++-------+-----------------+--------------------------+----------+--------------------------+
+| uid   | id              | name                     | category | created_time             |
++-------+-----------------+--------------------------+----------+--------------------------+
+| 14185 |      8770211279 | Intervention on A&E      | Tv show  | 2011-03-04T18:09:14+0000 |
+| 14185 | 107578405932197 | News                     | Tv genre | 2010-04-27T16:03:38+0000 |
+| 14185 | 112049278811681 | Married... with Children | Tv show  | 2010-04-23T20:12:28+0000 |
+| 19313 |      5991693871 | The Wire                 | Tv show  | 2010-05-27T12:40:56+0000 |
+| 19313 |      6092929747 | The Office               | Tv show  | 2010-05-27T12:40:56+0000 |
+| 19313 |    301274037739 | The Sopranos             | Tv show  | 2010-05-27T14:28:56+0000 |
+| 19313 | 102320369805232 | A Very British Coup      | Tv       | 2010-05-27T12:40:56+0000 |
+| 19313 | 107494892613153 | I, Claudius              | Tv show  | 2010-05-27T12:40:56+0000 |
+| 33536 |     14176232250 | 24                       | Tv show  | 2010-11-06T20:11:08+0000 |
+| 33536 |     22577904575 | FRIENDS (TV Show)        | Tv show  | 2011-03-02T18:36:08+0000 |
++-------+-----------------+--------------------------+----------+--------------------------+
+
+mysql> select name, count(name) as ncount from linkrtelevision group by name order by ncount DESC limit 30;
++-------------------------------+--------+
+| name                          | ncount |
++-------------------------------+--------+
+| How I Met Your Mother         |   2636 |
+| The Big Bang Theory           |   2334 |
+| The Simpsons                  |   1879 |
+| Family Guy                    |   1856 |
+| Scrubs                        |   1791 |
+| House                         |   1560 |
+| Glee                          |   1520 |
+| South Park                    |   1353 |
+| Top Gear                      |   1275 |
+| Two and a Half Men            |   1241 |
+| FRIENDS (TV Show)             |   1215 |
+| Gossip Girl                   |   1193 |
+| Black Books                   |   1172 |
+| Futurama                      |   1069 |
+| Grey's Anatomy                |   1025 |
+| NCIS                          |    952 |
+| Dexter                        |    854 |
+| SpongeBob SquarePants         |    818 |
+| Man vs. Wild with Bear Grylls |    768 |
+| MTV                           |    699 |
+| Art Attack                    |    693 |
+| True Blood                    |    672 |
+| Skins                         |    660 |
+| Modern Family                 |    657 |
+| Supernatural                  |    645 |
+| Sex and the City              |    630 |
+| Lost                          |    609 |
+| The Office                    |    600 |
+| Prison Break                  |    585 |
+| Bones                         |    569 |
++-------------------------------+--------+
+
+=======================================================================================
+
+** linkruser
+
+33520 entries, distinct uid
+15971 distinct hometown_id
+17337 distinct location_id
+
+mysql> select count(*) from linkruser where hometown_id = location_id AND hometown_id <> '';
+3721 of the 15971 non-empty hometown_ids live in same location_id
+
++--------------+------------+------+-----+---------+-------+
+| Field        | Type       | Null | Key | Default | Extra |
++--------------+------------+------+-----+---------+-------+
+| uid          | bigint(20) |      | PRI | 0       |       |
+| name         | text       |      |     |         |       |
+| first_name   | tinytext   | YES  |     | NULL    |       |
+| last_name    | tinytext   | YES  |     | NULL    |       |
+| gender       | tinytext   | YES  |     | NULL    |       |
+| locale       | tinytext   | YES  |     | NULL    |       |
+| link         | tinytext   | YES  |     | NULL    |       |
+| username     | tinytext   | YES  |     | NULL    |       |
+| timezone     | tinytext   | YES  |     | NULL    |       |
+| updated_time | tinytext   | YES  |     | NULL    |       |
+| verified     | tinytext   | YES  |     | NULL    |       |
+| about        | text       | YES  |     | NULL    |       |
+| bio          | text       | YES  |     | NULL    |       |
+| birthday     | tinytext   | YES  |     | NULL    |       |
+| email        | tinytext   | YES  |     | NULL    |       |
+| hometown_id  | bigint(20) | YES  |     | NULL    |       |
+| location_id  | bigint(20) | YES  |     | NULL    |       |
+| quotes       | text       | YES  |     | NULL    |       |
+| website      | text       | YES  |     | NULL    |       |
++--------------+------------+------+-----+---------+-------+
+
+---------------------------+---------------------------+
+|   1214 | Alex XXXXX        | Alex       | XXXXX       | male   | en_GB  | http://www.facebook.com/XXXXX
+  | XXXXX      |          | 2011-04-01T01:05:56+0000 |          |       | What would you like to know? |            |
+    |               0 | 106270089409734 | "Everything is Ephemeral" - unattributed
+"In heaven, all the interesting people are missing" - Nietzsche |                           |
+|  12530 | Tom XXX           | Tom        | XXX         | male   | en_US  | http://www.facebook.com/tom.XXX
+  | tom.XXX    |          | 2011-04-15T20:51:41+0000 |          |       |                              | 09/28      |
+    | 102146663160831 | 114952118516947 |
+                           |                           |
+|  14185 | Eric XXX          | Eric       | XXX         | male   | en_US  | http://www.facebook.com/eXXXX
+  | eXXXX      |          | 2011-08-17T14:45:18+0000 |          |       |                              | 09/19/1978 |
+    | 107896495900379 | 104022926303756 | "The shit's chess, it ain't checkers."
+                           | www.XXXXXXXXXXXXX.edu/~eXXXX |
+---------------------------+---------------------------+
+    
+=======================================================================================
+                           
+** linkrvideocomments
+
+358512 entries
+9224 distinct uid
+26874 distinct video_id
+252999 distinct comment_id
+123394 distinct from_id
+
++---------+-----------------+------------+------------+--------------------+-----------+--------------------------+
+| uid     | video_id        | comment_id | from_id    | from_name          | message   | created_time             |
++---------+-----------------+------------+------------+--------------------+-----------+--------------------------+
+|  126272 |     99779135893 |    2509643 | 1108208067 | Anna XXXXXXXXXXXXX | BONZER!   | 2009-06-20T23:33:49+0000 |
+|  126272 |    638355114072 |     115361 | 1058729859 | Paul XXXXXXXXX     | awesome!  | 2009-06-23T16:05:16+0000 |
+|  126272 |    638355114072 |     115501 |  522549350 | Kervilyn XXXX      | congrats! | 2009-06-23T18:06:56+0000 |
+|  126272 |    643829213932 |     147864 |  529115351 | Ivi XXXXXXXXX      | so sweet! | 2009-07-23T00:28:05+0000 |
+|  126272 |    716523678642 |     935767 |  516248326 | Cimberly XXXXX     | awww!!!!  | 2010-07-06T21:44:27+0000 |
+|  126272 |    933462157192 |    2746870 |    1242773 | Valerie XXXXXXXXX  | gigil!    | 2011-07-10T05:07:53+0000 |
+|  404388 |   2350512921726 |    2897736 | 1171987490 | Jarvis XXXXX       | SALAMAT!  | 2011-08-16T16:43:33+0000 |
+|  404388 | 235792829790337 |    3265117 | 1597086211 | Lacey XXXXXXX      | gO GALAW! | 2011-08-17T13:08:55+0000 |
+| 1230379 |    327471206359 |   11857921 |  564926976 | XXXXXXXXX          | ^^        | 2010-02-24T21:40:38+0000 |
+| 1934241 |    737855070380 |      43465 |  116508409 | Chris XXXXXX       | !FAR OUT! | 2008-10-30T04:04:52+0000 |
++---------+-----------------+------------+------------+--------------------+-----------+--------------------------+
+
+NOTE: below ordered by comment_id and video_id
+      same comment_id for same video_id can be posted on walls of all people tagged in video
+
+mysql> select uid, video_id, comment_id, from_id, from_name, message from linkrvideocomments where length(message) < 20
+order by comment_id limit 10;
++------------+---------------+------------+------------+-------------------------+--------------------+
+| uid        | video_id      | comment_id | from_id    | from_name               | message            |
++------------+---------------+------------+------------+-------------------------+--------------------+
+| 1534140160 | 1002146343964 |          1 | 1534140160 | Laurie XXXXX            | haha.. YES!!!!     |
+| 1437990087 | 1002763156184 |          1 |  525935446 | Chris XXXXXX            | ........           |
+| 1551540012 | 1003073567729 |          2 |  585245686 | Ali XXXXXXXX            | HAHAHAHHAHAHAH     |
+| 1520040068 | 1002163301218 |          2 | 1525050218 | Alison XXXXXX           | HAHAHAHA i love it |
+| 1437990087 | 1002163301218 |          2 | 1525050218 | Alison XXXXXX           | HAHAHAHA i love it |
+| 1551540012 | 1003073567729 |          3 |  530951680 | Sarah XXXXXX            | BAHAHAH            |
+| 1228950076 | 1002184304532 |          3 | 1228950076 | Angeleyna Marie XXXXXXX | LMFAO!!!!          |
+| 1520040068 | 1002163301218 |          3 | 1525830071 | Kara Turner XXXXXXX     | yes.               |
+| 1437990087 | 1002163301218 |          3 | 1525830071 | Kara Turner XXXXXXX     | yes.               |
+| 1437990087 | 1002763156184 |          3 |  506861649 | Shawn XXXXXXX           | Lamest video ever  |
++------------+---------------+------------+------------+-------------------------+--------------------+
+10 rows in set (3.38 sec)
+
+mysql> select uid, video_id, comment_id, from_id, from_name, message from linkrvideocomments where length(message) < 20
+order by video_id limit 10;
++------------+------------+------------+------------+---------------------------+---------------------+
+| uid        | video_id   | comment_id | from_id    | from_name                 | message             |
++------------+------------+------------+------------+---------------------------+---------------------+
+|  500934490 | 2387109490 |      44158 |  120802797 | Dave XXXXXXX              | Dope Video          |
+|  584511639 | 2411728316 |      34293 |  504063316 | Trason XXXXXXXXXXXXXXXXXX | haha thanks mike    |
+|  512145884 | 2429186928 |      38207 | 1550310018 | Amy XXXXXXXXXXXXXX        | awww i miss it!     |
+|  512145884 | 2429186928 |      37599 |  588115939 | Nikolee XXXXXXXXXXXX      | Loves It!           |
+| 1520070781 | 2469345673 |      44775 |  503570673 | Shelley XXXXX             | i have no idea..    |
+|  204400940 | 2486635394 |      47391 |  685866365 | Niall XXXXXX              | Do some work!!!     |
+|  577836853 | 2508496853 |      31404 |  577836853 | Sam XXXXXXXXXXX           | sure                |
+|  577836853 | 2508496853 |      31405 |  631321570 | Mai XXXXXXXXXX            | Yep... lol          |
+|  577836853 | 2523566853 |      32163 |  571251789 | Bradley XXXXXXXXX         | 45 SECONDS OF CRAP! |
+|  549005238 | 2701730238 |      32409 |  547572720 | Rochelle XXX              | you're silly :P     |
++------------+------------+------------+------------+---------------------------+---------------------+
+
+=======================================================================================
+
+** linkrvideolikes
+
+217174 entries
+8391 distinct uid
+22217 distinct video_id
+124316 distinct id
+
++--------+-------------+-----------+----------------------+
+| uid    | video_id    | id        | name                 |
++--------+-------------+-----------+----------------------+
+| 126272 | 99779135893 | 219200119 | Kris XXXX            |
+| 126272 | 99779135893 | 501385824 | Martin XXXXX         |
+| 126272 | 99779135893 | 513863167 | Ali XXXX             |
+| 126272 | 99779135893 | 519522162 | Bianca XXXXXX        |
+| 126272 | 99779135893 | 519665613 | Steph XXXXXX         |
+| 126272 | 99779135893 | 535254416 | Samantha XXXXXXXXXXX |
+| 126272 | 99779135893 | 551595818 | Andy XXXX            |
+| 126272 | 99779135893 | 564482363 | Lorina XXX           |
+| 126272 | 99779135893 | 581612161 | Mathias XXXXX        |
+| 126272 | 99779135893 | 595564252 | Julius XXXXXXXX      |
++--------+-------------+-----------+----------------------+
+
+=======================================================================================
+
+** linkrvideos
+
+43397 entries
+9896 distinct uid
+33086 distinct id
+17353 distinct from_id
+
++--------------+------------+------+-----+---------+-------+
+| Field        | Type       | Null | Key | Default | Extra |
++--------------+------------+------+-----+---------+-------+
+| uid          | bigint(20) |      | PRI | 0       |       |
+| id           | bigint(20) |      | PRI | 0       |       |
+| from_id      | bigint(20) |      |     | 0       |       |
+| from_name    | tinytext   |      |     |         |       |
+| name         | text       |      |     |         |       |
+| created_time | tinytext   |      |     |         |       |
+| updated_time | tinytext   |      |     |         |       |
++--------------+------------+------+-----+---------+-------+
+
+mysql> select uid, id, from_id, from_name, name from linkrvideos limit 10;
++--------+--------------+-----------+-----------------------+--------------------------------------------+
+| uid    | id           | from_id   | from_name             | name                                       |
++--------+--------------+-----------+-----------------------+--------------------------------------------+
+| 108552 | 577535324352 | 193103656 | Binchen XX            | Walk it out - FINAL                        |
+| 126272 |  99779135893 | 640160893 | Jason XXXXXXXX        | Stenie and Joseph (Same Day Edit)          |
+| 126272 | 353251326832 | 613541832 | Margot XXXXXXXX       | Excelroof                                  |
+| 126272 | 581802670622 |    126272 | Stephanie XXXXXXXXXXX | Joseph and Stenie Engagement Photo Montage |
+| 126272 | 585080935952 |    126272 | Stephanie XXXXXXXXXXX | The Tarzan Song by Martin and Pops         |
+| 126272 | 630748547692 |    126272 | Stephanie XXXXXXXXXXX | Thriller Dance Practice No. 2              |
+| 126272 | 638355114072 |    126272 | Stephanie XXXXXXXXXXX | Joseph and Stenie Wedding Video by Lito Sy |
+| 126272 | 640288883782 |    126272 | Stephanie XXXXXXXXXXX | Joseph and Stenie Photo Montage            |
+| 126272 | 643829213932 |    126272 | Stephanie XXXXXXXXXXX | Joseph and Stenie AVP                      |
+| 126272 | 647350207832 |    126272 | Stephanie XXXXXXXXXXX | Daddy's Speech at our Wedding              |
++--------+--------------+-----------+-----------------------+--------------------------------------------+
+
+=======================================================================================
+
+** linkrvideotags
+
+638309 entries
+9896 distinct uid1
+33086 distinct video_id
+281734 distinct uid2
+
++--------+--------------+-----------+-------------------------+
+| uid1   | video_id     | uid2      | name                    |
++--------+--------------+-----------+-------------------------+
+| 108552 | 577535324352 |    108552 | Jing XXXX               |
+| 108552 | 577535324352 |   3400465 | Anna XXX                |
+| 108552 | 577535324352 |  10236467 | Wenlong XXXXXXXXXXXX    |
+| 108552 | 577535324352 |  15210477 | Sisi XXXXXXXX           |
+| 108552 | 577535324352 |  16300496 | Andy XXXX               |
+| 108552 | 577535324352 |  29101517 | Yao XXXX                |
+| 108552 | 577535324352 | 193103656 | Binchen XX              |
+| 108552 | 577535324352 | 505564342 | HaoLei XXXX             |
+| 108552 | 577535324352 | 506979615 | Horace XXXXXXXXXXXXXXXX |
+| 108552 | 577535324352 | 548080283 | Ding XXXX               |
++--------+--------------+-----------+-------------------------+
+
+=======================================================================================
+
+** linkrwork
+
+19883 entries
+12034 distinct uid
+14029 distinct employer_id
+1599 distinct location_id
+6385 distinct position_id
+
++-------+-----------------+-----------------+-----------------+-------------+------------+----------+
+| uid   | employer_id     | location_id     | position_id     | description | start_date | end_date |
++-------+-----------------+-----------------+-----------------+-------------+------------+----------+
+| 12530 | 109585672400548 |               0 | 140148106020130 |             | 2010-07    | 0000-00  |
+| 12530 | 111159052243543 |               0 | 147588311921045 |             | 2008-09    | 2009-06  |
+| 19313 | 101067993295890 | 106007332772985 | 115550208495270 |             | 2008-09    | 2009-12  |
+| 19313 | 104971916209120 | 108056275889020 | 105663422800664 |             | 2003-06    | 2004-08  |
+| 19313 | 110375968990198 | 108424279189115 | 108703555821060 |             | 2005-09    | 2006-02  |
+| 19313 | 110375968990198 | 108424279189115 | 138212589552356 |             | 2007-09    | 2008-07  |
+| 19313 | 113962191983649 | 106188806084417 | 105663422800664 |             | 2006-02    | 2006-07  |
+| 19313 | 127529623968976 | 106007332772985 | 105663422800664 |             | 2005-06    | 2005-08  |
+| 19313 | 140302475984590 | 110730292284790 | 120873084626704 |             | 2010-05    | 0000-00  |
+| 19313 | 140302475984590 | 110730292284790 | 137760862928749 |             | 2010-05    | 2011-08  |
++-------+-----------------+-----------------+-----------------+-------------+------------+----------+
+
+=======================================================================================
+
+** linkrworkemployer
+
+14029 entries, distinct id
+13385 distinct name
+
++------------+-------------------------------+
+| id         | name                          |
++------------+-------------------------------+
+| 5550296508 | CNN                           |
+| 5625209996 | George Mason University       |
+| 5630135837 | Joss Stone                    |
+| 5634734484 | University of Iowa Foundation |
+| 5755052206 | University of Sydney          |
+| 5825791887 | SHOP.COM                      |
+| 5870137990 | Picnik                        |
+| 5872682699 | HealthWarehouse.com           |
+| 5898823795 | LifeChurch.TV                 |
+| 5975759948 | Cracked.com                   |
++------------+-------------------------------+
+
+=======================================================================================
+
+** linkrworkposition
+
+6384 entries, distinct id
+6217 distinct name
+
++--------------+-------------------------------+
+| id           | name                          |
++--------------+-------------------------------+
+|  11442460881 | Personal Assiatant            |
+|  21084351088 | Campaign Coordinator          |
+|  58545449269 | Financial Software Consultant |
+|  65109425515 | ALIAJ                         |
+|  79794443683 | Ticket Scanner                |
+| 161537009603 | Kitchen Wench                 |
+| 173327586505 | A humble Servant              |
+| 249767001679 | PANTS ON THE GROUND.          |
+| 350065477608 | Reading Books                 |
+| 360505848691 | Going Out                     |
++--------------+-------------------------------+
+
+=======================================================================================
+
+** linkrworkprojects
+
+856 entries
+498 distinct uid
+511 distinct employer_id
+
++----------+-----------------+-----------------+-----------------+-----------------+---------------------------------+-
+-----------+------------+----------+
+| uid      | employer_id     | location_id     | position_id     | project_id      | name                            |
+escription | start_date | end_date |
++----------+-----------------+-----------------+-----------------+-----------------+---------------------------------+-
+-----------+------------+----------+
+|   405346 | 120611738023180 |               0 | 143212149039647 | 127354510623706 | World Expo 2010                 |
+           |            |          |
+|   405346 | 120611738023180 |               0 | 143212149039647 | 127732743966825 | Flower Expo 2010                |
+           |            |          |
+|   405346 | 120611738023180 |               0 | 143212149039647 | 153623478027900 | Robb Report Best Of The Best    |
+           |            |          |
+|  7800388 | 109188492444534 |               0 |               0 | 130103383726217 | A Christmas Carol               |
+           |            |          |
+|  7800388 | 109577602401818 | 112747725406609 | 127878647257158 | 188843907802769 | The Rocky Horror Show           |
+           |            |          |
+|  8832406 |      5975759948 |               0 |               0 | 218081024919162 | Agents of Cracked               |
+           |            |          |
+| 10055264 | 103062683066840 | 108424279189115 | 137135889656292 | 198013993558010 | Private Wealth Management       |
+           |            |          |
+| 15213079 | 107569355940503 |               0 |               0 | 191418597558558 | For Money or Love               |
+           |            |          |
+| 16728115 | 131514966891914 |               0 |               0 | 165276840190558 | Caleb Jude Green "Golden" album |
+           |            |          |
+| 39604345 | 121050607954158 | 108665395825323 | 149291418420940 |     79322306961 | 6 Nonsmokers                    |
+           | 2009-08    |          |
++----------+-----------------+-----------------+-----------------+-----------------+---------------------------------+-
+-----------+------------+----------+
+
+=======================================================================================
+
+** linkrworkprojectswith
+
+682 entries
+253 distinct uid1
+557 distinct uid2
+
++----------+------------+-----------------+-----------------+-----------------+-----------------+
+| uid1     | uid2       | employer_id     | location_id     | position_id     | project_id      |
++----------+------------+-----------------+-----------------+-----------------+-----------------+
+|  7800388 |   41601503 | 109577602401818 | 112747725406609 | 127878647257158 | 188843907802769 |
+|  7800388 |  564486181 | 109188492444534 |               0 |               0 | 130103383726217 |
+|  8832406 |    3302487 |      5975759948 |               0 |               0 | 218081024919162 |
+| 10055264 |    3436220 | 103062683066840 | 108424279189115 | 137135889656292 | 198013993558010 |
+| 10055264 |  627743965 | 103062683066840 | 108424279189115 | 137135889656292 | 198013993558010 |
+| 15213079 | 1633860568 | 107569355940503 |               0 |               0 | 191418597558558 |
+| 16728115 | 1051418599 | 131514966891914 |               0 |               0 | 165276840190558 |
+| 39604345 |    8230939 | 121050607954158 | 108665395825323 | 149291418420940 |     79322306961 |
+| 39604345 |    8402857 | 121050607954158 | 108665395825323 | 149291418420940 |     79322306961 |
+| 39604345 |   15621707 | 121050607954158 | 108665395825323 | 149291418420940 |     79322306961 |
++----------+------------+-----------------+-----------------+-----------------+-----------------+
+
+=======================================================================================
+
+** linkrworkwith
+
+4715 entries
+1914 distinct uid1
+4170 distinct uid2
+1843 distinct employer_id
+312 distinct location_id
+
++---------+-----------------+-----------------+-------------+-----------------+
+| uid1    | uid2            | employer_id     | location_id | position_id     |
++---------+-----------------+-----------------+-------------+-----------------+
+|  108987 | 100000650239484 |     32148124798 |           0 |               0 |
+|  815175 |          119821 | 121331691217779 |           0 |               0 |
+|  815175 |       693557864 | 121331691217779 |           0 |               0 |
+|  903031 |          913429 |     20528438720 |           0 | 152585418097087 |
+| 1244368 |         6026885 | 108422912519128 |           0 |               0 |
+| 1413913 |          110782 |      6250307292 |           0 | 147417925320408 |
+| 3400304 |         6857818 | 119624714716863 |           0 |               0 |
+| 3433878 |      1009967577 | 106175992753805 |           0 |               0 |
+| 3433878 |      1635571074 | 106175992753805 |           0 |               0 |
+| 5020388 |       546636126 |     42324160403 |           0 |               0 |
++---------+-----------------+-----------------+-------------+-----------------+
+
+=======================================================================================
+
+** linkryear
+
+129 distinct entries
+88 with names of length 4 or less
+
+NOTE: year_id in other tables
+
++-----------------+------------------------------------+
+| id              | name                               |
++-----------------+------------------------------------+
+| 102728923115484 | 1980                               |
+| 102838599769236 | 1979                               |
+| 103823546338323 | 1982                               |
+| 103905752995848 | 1963                               |
+| 104374906274309 | 1949                               |
+| 105127589543050 | 1976                               |
+| 105576766163075 | 2015                               |
+| 107065116009529 | Universitas Kristen Maranatha 2008 |
+| 107638302624745 | 1973                               |
+| 110121155697230 | 1952                               |
++-----------------+------------------------------------+
+
+=======================================================================================
