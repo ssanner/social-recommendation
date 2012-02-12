@@ -1,4 +1,4 @@
-This is pdfeTeXk, Version 3.141592-1.21a-2.2 (Web2C 7.5.4) (format=latex 2008.12.23)  12 FEB 2012 11:39
+This is pdfeTeXk, Version 3.141592-1.21a-2.2 (Web2C 7.5.4) (format=latex 2008.12.23)  12 FEB 2012 11:52
 entering extended mode
  file:line:error style messages enabled.
  %&-line parsing enabled.
@@ -382,10 +382,10 @@ Overfull \hbox (4.08015pt too wide) in paragraph at lines 100--100
 Here is how much of TeX's memory you used:
  2678 strings out of 94501
  32238 string characters out of 1176788
- 97561 words of memory out of 1000000
+ 96588 words of memory out of 1000000
  5765 multiletter control sequences out of 10000+50000
  45111 words of font info for 60 fonts, out of 500000 for 2000
  580 hyphenation exceptions out of 1000
- 39i,24n,26p,953b,304s stack positions out of 1500i,500n,5000p,200000b,5000s
+ 39i,24n,26p,953b,307s stack positions out of 1500i,500n,5000p,200000b,5000s
 
-Output written on www11_sorec.dvi (10 pages, 86220 bytes).
+Output written on www11_sorec.dvi (10 pages, 86240 bytes).
