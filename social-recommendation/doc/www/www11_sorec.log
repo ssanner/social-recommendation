@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.11 (TeX Live 2010) (format=pdflatex 2011.4.2)  12 FEB 2012 15:49
+This is pdfTeX, Version 3.1415926-1.40.11 (TeX Live 2010) (format=pdflatex 2011.4.2)  12 FEB 2012 17:37
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -518,18 +518,12 @@ Package epstopdf Info: Source file: <img_new/clicked-likes.eps>
 (epstopdf)                    size: 29235 bytes
 (epstopdf)             Output file: <img_new/clicked-likes-eps-converted-to.pdf
 >
-(epstopdf)                    date: 2012-02-12 15:11:46
-(epstopdf)                    size: 13986 bytes
+(epstopdf)                    date: 2012-02-12 15:49:26
+(epstopdf)                    size: 13975 bytes
 (epstopdf)             Command: <epstopdf --outfile=img_new/clicked-likes-eps-c
 onverted-to.pdf img_new/clicked-likes.eps>
 (epstopdf)             \includegraphics on input line 214.
-runsystem(epstopdf --outfile=img_new/clicked-likes-eps-converted-to.pdf img_new
-/clicked-likes.eps)...executed.
-
-Package epstopdf Info: Result file: <img_new/clicked-likes-eps-converted-to.pdf
->
-(epstopdf)                    date: 2012-02-12 15:49:26
-(epstopdf)                    size: 13975 bytes.
+Package epstopdf Info: Output file is already uptodate.
 
 <img_new/clicked-likes-eps-converted-to.pdf, id=59, 340.27126pt x 433.62pt>
 File: img_new/clicked-likes-eps-converted-to.pdf Graphic file (type pdf)
@@ -540,18 +534,12 @@ Package epstopdf Info: Source file: <img_new/description-clicked.eps>
 (epstopdf)                    size: 28864 bytes
 (epstopdf)             Output file: <img_new/description-clicked-eps-converted-
 to.pdf>
-(epstopdf)                    date: 2012-02-12 15:27:04
-(epstopdf)                    size: 14246 bytes
+(epstopdf)                    date: 2012-02-12 15:49:26
+(epstopdf)                    size: 14235 bytes
 (epstopdf)             Command: <epstopdf --outfile=img_new/description-clicked
 -eps-converted-to.pdf img_new/description-clicked.eps>
 (epstopdf)             \includegraphics on input line 216.
-runsystem(epstopdf --outfile=img_new/description-clicked-eps-converted-to.pdf i
-mg_new/description-clicked.eps)...executed.
-
-Package epstopdf Info: Result file: <img_new/description-clicked-eps-converted-
-to.pdf>
-(epstopdf)                    date: 2012-02-12 15:49:26
-(epstopdf)                    size: 14235 bytes.
+Package epstopdf Info: Output file is already uptodate.
 
 <img_new/description-clicked-eps-converted-to.pdf, id=60, 340.27126pt x 433.62p
 t>
@@ -562,25 +550,19 @@ Package epstopdf Info: Source file: <img_new/description-liked.eps>
 (epstopdf)                    size: 28962 bytes
 (epstopdf)             Output file: <img_new/description-liked-eps-converted-to
 .pdf>
-(epstopdf)                    date: 2012-02-12 15:38:16
-(epstopdf)                    size: 14180 bytes
+(epstopdf)                    date: 2012-02-12 15:49:27
+(epstopdf)                    size: 14168 bytes
 (epstopdf)             Command: <epstopdf --outfile=img_new/description-liked-e
 ps-converted-to.pdf img_new/description-liked.eps>
 (epstopdf)             \includegraphics on input line 218.
-runsystem(epstopdf --outfile=img_new/description-liked-eps-converted-to.pdf img
-_new/description-liked.eps)...executed.
-
-Package epstopdf Info: Result file: <img_new/description-liked-eps-converted-to
-.pdf>
-(epstopdf)                    date: 2012-02-12 15:49:27
-(epstopdf)                    size: 14168 bytes.
+Package epstopdf Info: Output file is already uptodate.
 
 <img_new/description-liked-eps-converted-to.pdf, id=61, 340.27126pt x 433.62pt>
 File: img_new/description-liked-eps-converted-to.pdf Graphic file (type pdf)
 <use img_new/description-liked-eps-converted-to.pdf>
 Package epstopdf Info: Source file: <img_new/friend-popularity.eps>
-(epstopdf)                    date: 2012-02-12 15:35:39
-(epstopdf)                    size: 30557 bytes
+(epstopdf)                    date: 2012-02-12 17:37:44
+(epstopdf)                    size: 30266 bytes
 (epstopdf)             Output file: <img_new/friend-popularity-eps-converted-to
 .pdf>
 (epstopdf)                    date: 2012-02-12 15:35:51
@@ -588,7 +570,13 @@ Package epstopdf Info: Source file: <img_new/friend-popularity.eps>
 (epstopdf)             Command: <epstopdf --outfile=img_new/friend-popularity-e
 ps-converted-to.pdf img_new/friend-popularity.eps>
 (epstopdf)             \includegraphics on input line 220.
-Package epstopdf Info: Output file is already uptodate.
+runsystem(epstopdf --outfile=img_new/friend-popularity-eps-converted-to.pdf img
+_new/friend-popularity.eps)...executed.
+
+Package epstopdf Info: Result file: <img_new/friend-popularity-eps-converted-to
+.pdf>
+(epstopdf)                    date: 2012-02-12 17:37:56
+(epstopdf)                    size: 15434 bytes.
 
 <img_new/friend-popularity-eps-converted-to.pdf, id=62, 340.27126pt x 433.62pt>
 File: img_new/friend-popularity-eps-converted-to.pdf Graphic file (type pdf)
@@ -670,9 +658,9 @@ exlive/2010/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/local/texlive/
 xmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2010/texmf-dist/f
 onts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2010/texmf-dist/fonts/type1
 /urw/times/utmri8a.pfb>
-Output written on www11_sorec.pdf (10 pages, 581505 bytes).
+Output written on www11_sorec.pdf (10 pages, 581335 bytes).
 PDF statistics:
- 623 PDF objects out of 1000 (max. 8388607)
+ 622 PDF objects out of 1000 (max. 8388607)
  138 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
  61 words of extra memory for PDF output out of 10000 (max. 10000000)
