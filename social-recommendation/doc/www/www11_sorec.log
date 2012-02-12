@@ -1,4 +1,4 @@
-This is pdfeTeXk, Version 3.141592-1.21a-2.2 (Web2C 7.5.4) (format=latex 2008.12.23)  8 NOV 2011 16:33
+This is pdfeTeXk, Version 3.141592-1.21a-2.2 (Web2C 7.5.4) (format=latex 2008.12.23)  12 FEB 2012 11:39
 entering extended mode
  file:line:error style messages enabled.
  %&-line parsing enabled.
@@ -321,46 +321,44 @@ Overfull \hbox (4.0003pt too wide) in paragraph at lines 55--65
 [][] 
  []
 
-File: img/live-likes1.eps Graphic file (type eps)
-<img/live-likes1.eps>
-File: img/live-friend-likes1.eps Graphic file (type eps)
- <img/live-friend-likes1.eps>
-File: img/live-nonfriend-likes1.eps Graphic file (type eps)
+File: img_new/live-likes1-orig.eps Graphic file (type eps)
+<img_new/live-likes1-orig.eps>
+File: img_new/live-friend-likes1-orig.eps Graphic file (type eps)
+ <img_new/live-friend-likes1-orig.eps>
+File: img_new/live-nonfriend-likes1-orig.eps Graphic file (type eps)
 
-<img/live-nonfriend-likes1.eps>
-File: img/live-likes2.eps Graphic file (type eps)
- <img/live-likes2.eps>
-File: img/live-friend-likes2.eps Graphic file (type eps)
+<img_new/live-nonfriend-likes1-orig.eps>
+File: img_new/live-likes2-Feb10.eps Graphic file (type eps)
+ <img_new/live-likes2-Feb10.eps>
+File: img_new/live-friend-likes2-Feb10.eps Graphic file (type eps)
 
-<img/live-friend-likes2.eps>
-File: img/live-nonfriend-likes2.eps Graphic file (type eps)
- <img/live-nonfriend-likes2.eps>
-Overfull \hbox (5.08287pt too wide) in paragraph at lines 164--172
+<img_new/live-friend-likes2-Feb10.eps>
+File: img_new/live-nonfriend-likes2-Feb10.eps Graphic file (type eps)
+
+<img_new/live-nonfriend-likes2-Feb10.eps>
+Overfull \hbox (5.08287pt too wide) in paragraph at lines 163--171
 \T1/aer/m/n/9 user-to-user in-for-ma-tion dif-fu-sion). Soc. Hy-brid slightly
  []
 
 
-Overfull \hbox (4.91286pt too wide) in paragraph at lines 172--178
+Overfull \hbox (4.91286pt too wide) in paragraph at lines 171--177
 \T1/aer/m/n/9 ment on rec-om-mend-ing non-friend links over Soc. MBox
  []
 
 [7]
-File: img/clickedLikes.eps Graphic file (type eps)
- <img/clickedLikes.eps>
-File: img/descriptionClicked.eps Graphic file (type eps)
- <img/descriptionClicked.eps>
-File: img/descriptionLiked.eps Graphic file (type eps)
+File: img_new/clicked-likes.eps Graphic file (type eps)
+ <img_new/clicked-likes.eps>
+File: img_new/description-clicked.eps Graphic file (type eps)
+ <img_new/description-clicked.eps>
+File: img_new/description-liked.eps Graphic file (type eps)
 
-<img/descriptionLiked.eps>
-File: img/percentileFriend.eps Graphic file (type eps)
- <img/percentileFriend.eps>
-File: img/percentileNon-Friend.eps Graphic file (type eps)
+<img_new/description-liked.eps>
+File: img_new/friend-popularity.eps Graphic file (type eps)
+ <img_new/friend-popularity.eps>
+File: img_new/non-friend-popularity.eps Graphic file (type eps)
 
-<img/percentileNon-Friend.eps>) (./conclusions.tex [8]) (./www11_sorec.bbl
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [9])
-(./derivatives.tex
+<img_new/non-friend-popularity.eps>) (./conclusions.tex [8]) (./www11_sorec.bbl
+) (./derivatives.tex [9]
 Overfull \hbox (19.10612pt too wide) in paragraph at lines 74--74
 [] 
  []
@@ -382,12 +380,12 @@ Overfull \hbox (4.08015pt too wide) in paragraph at lines 100--100
 
 ) [10] (./www11_sorec.aux) ) 
 Here is how much of TeX's memory you used:
- 2677 strings out of 94501
- 32110 string characters out of 1176788
- 93572 words of memory out of 1000000
+ 2678 strings out of 94501
+ 32238 string characters out of 1176788
+ 97561 words of memory out of 1000000
  5765 multiletter control sequences out of 10000+50000
  45111 words of font info for 60 fonts, out of 500000 for 2000
  580 hyphenation exceptions out of 1000
- 39i,24n,26p,666b,304s stack positions out of 1500i,500n,5000p,200000b,5000s
+ 39i,24n,26p,953b,304s stack positions out of 1500i,500n,5000p,200000b,5000s
 
-Output written on www11_sorec.dvi (10 pages, 85876 bytes).
+Output written on www11_sorec.dvi (10 pages, 86220 bytes).

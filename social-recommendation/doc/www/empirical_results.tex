@@ -82,10 +82,9 @@ users could see the names and comments of friends whose links were recommended).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure*}[t!]
 \centering
-\subfigure{\includegraphics[scale=0.28]{img/live-likes1.eps}}
-\subfigure{\includegraphics[scale=0.28]{img/live-friend-likes1.eps}}
-\subfigure{\includegraphics[scale=0.28]{img/live-nonfriend-likes1.eps}}
-%\subfigure{\includegraphics[scale=0.35]{img/live-dislikes1.eps}}
+\subfigure{\includegraphics[scale=0.28]{img_new/live-likes1-orig.eps}}
+\subfigure{\includegraphics[scale=0.28]{img_new/live-friend-likes1-orig.eps}}
+\subfigure{\includegraphics[scale=0.28]{img_new/live-nonfriend-likes1-orig.eps}}
 \caption{Stacked bar graphs of online results for the first 
 user trial.  The fraction of likes is displayed above 
 the fraction of dislikes.  (left) all links, (center) friend links,
@@ -115,7 +114,7 @@ Section~\ref{sec:newobjfun_defs}:
 $$\Obj_\pmcf + \lambda_\rss \Obj_\rss + \lambda \Obj_\ru + \lambda \Obj_\rv$$
 %Matchbox MF + Social Spectral Regularization + L2 $U$ Regularization + L2 $V$ Regularization
 \item {\bf Social Hybrid (Soc. Hybrid)}: 
-$$\Obj_\pmcf + \lambda_\rs \Obj_\rs + \lambda_\phy \Obj_\phy + \lambda \Obj_\ru + \lambda \Obj_\rv$$
+$$\lambda_\phy \Obj_\phy + \lambda_\rs \Obj_\rs + \lambda \Obj_\ru + \lambda \Obj_\rv + \lambda \Obj_\rw$$
 %Hybrid + Social Regularization + L2 $U$ Regularization + L2 $V$ Regularization + L2 $\w$ Regularization
 \item {\bf Spectral Co-preference (Spec. CP)}: 
 $$\Obj_\pmcf + \lambda_\rscs \Obj_\rscs + \lambda \Obj_\ru + \lambda \Obj_\rv$$
@@ -136,9 +135,9 @@ to the users is shown in Table~\ref{tab:Assigned1} (right).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure*}[t!]
 \centering
-\subfigure{\includegraphics[scale=0.28]{img/live-likes2.eps}}
-\subfigure{\includegraphics[scale=0.28]{img/live-friend-likes2.eps}}
-\subfigure{\includegraphics[scale=0.28]{img/live-nonfriend-likes2.eps}}
+\subfigure{\includegraphics[scale=0.28]{img_new/live-likes2-Feb10.eps}}
+\subfigure{\includegraphics[scale=0.28]{img_new/live-friend-likes2-Feb10.eps}}
+\subfigure{\includegraphics[scale=0.28]{img_new/live-nonfriend-likes2-Feb10.eps}}
 \caption{Stacked bar graphs of online results for the second
 user trial.  The fraction of likes is displayed above 
 the fraction of dislikes.  (left) all links, (center) friend links,
@@ -211,16 +210,31 @@ possible.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure*}[t!]
 \centering
-\subfigure{\includegraphics[scale=0.28]{img/clickedLikes.eps}}
-\subfigure{\includegraphics[scale=0.28]{img/descriptionClicked.eps}}
-\subfigure{\includegraphics[scale=0.28]{img/descriptionLiked.eps}}
+\subfigure{\includegraphics[scale=0.12]{img_new/clicked-likes.eps}}
+\hspace{-4mm}
+\subfigure{\includegraphics[scale=0.12]{img_new/description-clicked.eps}}
+\hspace{-4mm}
+\subfigure{\includegraphics[scale=0.12]{img_new/description-liked.eps}}
+\hspace{-4mm}
+\subfigure{\includegraphics[scale=0.28]{img_new/friend-popularity.eps}}
+\hspace{-6mm}
+\subfigure{\includegraphics[scale=0.28]{img_new/non-friend-popularity.eps}}
 \caption{Stacked bar graphs of online results for the first 
 user trial.  The fraction of likes (or clicks) is displayed above 
 the fraction of dislikes (or non-clicks) -- and above the fraction of not-rated
 links for the left-most figure.  
 (left) ratings for clicked links, (center) click rates if
 text description not present, 
-(right) percentage liked if click description not present.}
+(right) percentage liked if click description not present.
+Stacked bar graphs of online results for the first 
+user trial.  The fraction of likes is displayed above the fraction of
+dislikes.  Shown are the ratings vs. quartile of popularity for (left)
+friend and (right) non-friend links.
+Stacked bar graphs of online results for the first 
+user trial.  The fraction of likes is displayed above the fraction of
+dislikes.  Shown are the ratings vs. quartile of popularity for (left)
+friend and (right) non-friend links.
+}
 \label{fig:click_evidence}
 \end{figure*}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -242,12 +256,9 @@ the most on average.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure*}[t!]
 \centering
-\subfigure{\includegraphics[scale=0.28]{img/percentileFriend.eps}}
-\subfigure{\includegraphics[scale=0.28]{img/percentileNon-Friend.eps}}
-\caption{Stacked bar graphs of online results for the first 
-user trial.  The fraction of likes is displayed above the fraction of
-dislikes.  Shown are the ratings vs. quartile of popularity for (left)
-friend and (right) non-friend links.}
+%\subfigure{\includegraphics[scale=0.28]{img/percentileFriend.eps}}
+%\subfigure{\includegraphics[scale=0.28]{img/percentileNon-Friend.eps}}
+\caption{***}
 \label{fig:popularity}
 \end{figure*}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
