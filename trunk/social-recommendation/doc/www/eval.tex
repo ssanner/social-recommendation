@@ -7,14 +7,15 @@ methodology.
 
 To evaluate existing and newly proposed (S)CF methods discussed in
 this paper, we created a Facebook application (i.e., a Facebook
-``App'') that recommends links to users everyday, where the users may
+``App'') that recommends links to users every day, where the users may
 give their feedback on the links indicating whether they \emph{liked}
 it or \emph{disliked} it.  Figure~\ref{fig:linkr_app} shows 
 our Facebook LinkR App as it appears to users.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[t!]
-\hspace{-2mm} \subfigure{\includegraphics[scale=0.42]{img/linkr.eps}}
+\hspace{-2mm} \subfigure{\includegraphics[scale=0.43]{img_new/linkr.eps}}
+\vspace{-8mm}
 \caption{The Facebook LinkR App showing two link recommendations to a 
 user.  The first link recommendation is from a non-friend and hence only
 shows the link description.  The second link recommendation is from a
@@ -27,26 +28,25 @@ recommendation as well as providing feedback.}
 
 The functionalities of the LinkR application on a daily basis are as follows:
 \begin{enumerate}
-\item{Collect data that have been shared by users and their friends on Facebook.}
+\item{Collect new data shared by users and their friends.}
 \item{Initiate retraining of all active (S)CF link recommendation algorithms on the latest collected data.  $C$ and $D$ from Section~\ref{sec:notation}
 are populated from 
 all explicit likes and dislikes observed via the Facebook LinkR App
 and all ``likes'' observed via the Facebook interface.}
-\item{Following retraining, recommend three links to the users according to their assigned recommendation algorithm.}
+\item{Post-retrain, recommend three links to the users according to their assigned recommendation algorithm.}
 \item{Collect feedback from the users on whether they liked or disliked the recommendations as well as any additional commentary the user wishes to provide.}
 \end{enumerate}
-Details of the (S)CF link recommendation algorithms and user assignments
-will be discussed shortly, but first we cover the specific data
-collected by the LinkR App and made available for use by the
-recommendation algorithms.
+Details of (S)CF link recommendation algorithms and user assignments
+will be discussed shortly; first we cover data
+collected by the LinkR App and used by the recommenders.
 
 \subsection{Facebook Data Collected}
 
 \label{sec:dataset}
 
-At its peak membership, 108 users had elected to install the Facebook
+At its peak membership, 111 users had elected to install the Facebook
 App developed for this project.  From this user base, we were able to
-gather data on 34,860 users and 437,023 links in total by the end of
+gather data on over 37,626 users and 605,847 links in total by the end of
 the evaluation period.
 
 \subsubsection{User Data}
@@ -57,8 +57,7 @@ App are defined as follows:
 \begin{itemize}
 \item $[\x_\mathit{id} = \mathit{id}] \in \{ 0, 1 \}, \forall \mathit{id}$: 
 every unique Facebook ID (user) recorded in the App was assigned its own
-binary indicator in $\x$; all such indicators are enforced to be
-mutually exclusive.
+binary indicator in $\x$; all $\mathit{id}$ indicators are mutually exclusive.
 \item $\mathit{gender} \in \{ 0 \mbox{ female}, 1 \mbox{ male} \}$.
 \item $\mathit{age} \in \mathbb{N}$.
 %\item {$\mathit{location}_\mathit{id}$:} an integer ID corresponding
@@ -95,6 +94,8 @@ binary indicator feature for the $\mathit{id}$ of the user on whose wall the lin
 
 \subsubsection{Joint User and Link Data}
 
+\label{sec:fxy_def}
+
 The feature vector $\f_{\x,\y}$ used in Sections~\ref{sec:cbf}
 and~\ref{sec:hybrid_scf} for the LinkR Facebook App is defined as the
 \emph{concatenation} of $\x$, $\y$ (above) and the following
@@ -112,7 +113,7 @@ The Facebook social network interactions between users $\x$ and $\z$ that we cou
 are defined as follows:
 \begin{enumerate}
 \item{Being friends.}
-\item{Posting, liking, or commenting on an item (link, photo, video, photo, or message) on a user's wall.}
+\item{Posting, liking, or commenting on an item (link, photo, video, or message) on a user's wall.}
 \item{Being tagged together in the same photo or video.}
 \item{Tagging themselves as attending the same school or class, playing sports together, working together for the same company or on the same project.}
 \end{enumerate}

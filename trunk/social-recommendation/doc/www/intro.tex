@@ -56,10 +56,10 @@ In Existing SCF MF objectives, the mapping from user features to user
 similarity is fixed.  It will be desirable to learn such similarity
 among a large number of profile attributes from data, such as two
 users are more similar when they have the same gender or age.
-To address this, we extend existing social regularization and
+To address this, we extend existing \emph{social regularization} and
 \emph{social spectral regularization} objectives to incorporate
-\emph{user features} to learn user-user similarities in the latent
-space.
+\emph{user features} when learning user-user similarities in a
+\emph{latent} space.
 \item[(b)] {\bf Direct learning of user-to-user information diffusion:}
 Existing SCF MF objectives do not permit directly modeling
 user-to-user information diffusion according to the social graph
@@ -94,16 +94,18 @@ similarity when regularizing.
 The key application contribution of our paper is to evaluate the
 proposed recommendation algorithms in online human trials of a
 custom-developed Facebook App for link recommendation.  We use data
-collected over three months from over 100 active App users and their
-34,000+ friends.  Results confirm that each of the proposed objectives
---- feature-based social regularization, direct modeling of
-information diffusion features, and co-preference regularization ---
-improve performance against a range of existing SCF baselines.  
+collected over five months from over 100 App users and their 37,000+
+friends.  Results show that feature-based social spectral 
+regularization outperforms (i) a range of
+existing CF and SCF baselines, (ii) performs as well on friend
+recommendations as direct modeling of information diffusion features,
+and (iii) provides better social regularization than the co-preference
+approach.
 
 In addition, deploying our algorithm on a real social network provided
 us with a number of interesting observations on training and user
 behavior discussed in Section~\ref{sec:behavior}.  For example, click
-feedback correlates very weakly with like ratings.
+feedback correlates only weakly with like ratings.
 Also, the most popular links may be liked by the most people, but they
 are not liked by everyone on average.
 
@@ -112,8 +114,8 @@ succint overview of CF and SCF algorithms,
 Section~\ref{sec:NewObjFuns} proposes three novel objective functions
 to address (a)--(c), Section~\ref{sec:Evaluation} dicusses the details
 of our Facebook application for link recommendation,
-Section~\ref{sec:EmpResults} presents two rounds of evaluation on a
-variety of metrics with further analysis of behavioral trends in our
+Section~\ref{sec:EmpResults} presents two rounds of evaluation 
+with further analysis of behavioral trends in our
 social recommendation setting, and Section~\ref{sec:Conclusions}
 concludes this study.
 

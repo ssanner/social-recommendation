@@ -106,10 +106,14 @@
 \newcommand{\la}{\langle}
 \newcommand{\ra}{\rangle}
 \renewcommand{\vec}[1]{\mathbf{#1}}
+\newcommand{\Sim}{\mathit{Sim}}
 
 % Define a fourth level subheading (Scott)
 \newcommand{\subfour}{\vspace*{3mm}\hspace{-2.5mm}}
 \newcommand{\subfive}{\hspace{2.5mm}}
+\newcommand{\sql}{\hspace{-.9mm}}
+\newcommand{\sq}{\hspace{-1mm}}
+\newcommand{\sqm}{\hspace{-2mm}}
 
 % Define a command for extended commenting (Scott)
 \long\def\COMMENT#1\ENDCOMMENT{\message{(Commented text...)}\par}
@@ -131,11 +135,11 @@
 \author{
 \alignauthor
 Joseph Noel$^*$, Scott Sanner$^{\dag*}$, Khoi-Nguyen Tran$^*$, Peter Christen$^*$, Lexing Xie$^*$\\ 
-Edwin Bonilla$^{\dag*}$, Ehsan Abbasnejad$^{\dag*}$ \\
+Edwin Bonilla$^{\dag*}$, Ehsan Abbasnejad$^{\dag*}$, Nicol\'as Della Penna$^{\dag*}$ \\
 \affaddr{$^*$Australian National University, $^\dag$National ICT Australia}\\
 \email{jinonoel@gmail.com, scott.sanner@nicta.com.au, \\
-\{khoi-nguyen.tran, peter.christen, lexing.xie\}@anu.edu.au \\
-\{edwin.bonilla, ehsan.abbasnejad\}@nicta.com.au
+\{khoi-nguyen.tran, peter.christen, lexing.xie\}@anu.edu.au, \\
+\{edwin.bonilla, ehsan.abbasnejad\}@nicta.com.au, nikete@gmail.com
 }
 }
 %\numberofauthors{7} % in this sample file, there are a *total*
@@ -221,10 +225,11 @@ users to learn restricted areas of common interest.
 %user-to-user information diffusion, and (c) use objectives that treat
 %users as globally (dis)similar even though they may only be
 %(dis)similar in specific latent areas of interest.  
-We demonstrate that optimizing the new objectives
-significantly outperforms a variety of CF and social CF baselines on
+We evaluate these new social CF objectives, comparing them to 
+each other and to a variety of (social) CF baselines, and analyze
+user behavior on
 live user trials in a custom-developed Facebook App involving data
-collected over two months from over 100 App users and their 34,000+
+collected over five months from over 100 App users and their 37,000+
 friends.
 \end{abstract}
 \category{H.3.3}{Information Search and Retrieval}{information filtering}
