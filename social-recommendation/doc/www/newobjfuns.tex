@@ -18,9 +18,10 @@ components:
 \mathit{Obj} = \sum_i \lambda_i \mathit{Obj}_i
 \end{align}
 Because each objective may be weighted differently, a weighting term
-$\lambda_i \in \R$ is included for each component.  In the current work,
-we manually tuned each $\lambda_i$, except for the last $i$ in $\sum_i$,
-which can be set as $\lambda_i = 1$ without loss of generality.
+$\lambda_i \in \R$ is included for each component.  In the current
+work, we manually tuned each $\lambda_i$, except for the \emph{first} 
+$i$ in $\sum_i$, which can be set as $\lambda_i = 1$ without loss of
+generality.
 
 Most target predictions in this paper are binary ($\{0,1\}$),
 therefore a sigmoidal transform $\sigma(o) = \frac{1}{1 + e^{-o}}$ of
@@ -110,8 +111,8 @@ However, none of these previous three SCF social regularization methods
 exploited user features in the \emph{learning} process; more precisely 
 $U_\x$ and $U_\z$ were regularized, but not the feature-based latent
 spaces $U\x$ and $U\z$.  Hence if a gender difference in $\x$ and $\z$ was the
-crucial factor to differentiating the latent spaces of each user, it \emph{could} 
-be learned if we had a way of socially regularizing $U\x$ and $U\z$
+crucial factor to differentiating the latent spaces of each user, this could 
+be \emph{learned} if we had a way of socially regularizing $U\x$ and $U\z$
 directly.  To address this, we provide two variants of 
 \emph{feature-based social regularization}.
 
@@ -126,7 +127,7 @@ features into that objective:
 %\subsubsection{Social Spectral Regularization ($\Obj_\rss$)}
 
 Alternately, we could extend \emph{social spectral
-regularization}~\cite{sr,rrmf} by incorporating user features into the
+regularization}~\cite{sr,rrmf} by incorporating user features into its
 objective:
 \begin{align}
 \Obj_\rss = & \sum_{\x} \sum_{\z \in \mathit{friends}(\x)} \frac{1}{2} S^+_{\x,\z} \| U\x - U\z \|_2^2 \\
@@ -177,7 +178,7 @@ combination of latent MF and linear regression objectives.
 For the linear regressor $\w^T \f_{\x,\y}$, we make use of the
 \emph{same} weight vector $\w$ and feature vector $\f_{\x,\y}$
 mentioned in Section~\ref{sec:cbf}; $\f_{\x,\y}$ is fully defined for
-our empirical evaluation in Section~\ref{sec:dataset}.  As previously
+our empirical evaluation in Section~\ref{sec:fxy_def}.  As previously
 noted, $\f_{\x,\y}$ includes
 \emph{joint} user and item features from the social network, in
 particular binary
@@ -188,16 +189,15 @@ linear regressor to predict in a personalized way for any user $\x$
 whether they are likely to follow their friend $\z$'s preference for $\y$.
 
 Formally, to define our hybrid information diffusion plus SCF objective,
-we combine the output of the linear regression prediction with the
-Matchbox prediction, to get a hybrid objective component. The full
-objective function for this hybrid model then becomes 
+we additively combine the output of the linear regression prediction with the
+Matchbox prediction:
 \begin{align}
-\Obj_\phy = \sum_{(\x,\y) \in D} \frac{1}{2} (R_{\x,\y} - [\sigma] \w^T \f_{\x,\y} - [\sigma] \x^T U^T V y)^2
+\sqm \Obj_\phy = \sum_{(\x,\y) \in D} \frac{1}{2} (R_{\x,\y} - [\sigma] \w^T \f_{\x,\y} - [\sigma] \x^T U^T V y)^2 
 \end{align}
-While again we note that this simple hybrid MF plus linear regression
-objective is straightforward, the ability to use joint user and item
-features to model information diffusion between users turns out to be 
-extremely powerful in our later experiments.
+%While again we note that this simple hybrid MF plus linear regression
+%objective is straightforward, the ability to use joint user and item
+%features to model information diffusion between users turns out to be 
+%extremely powerful in our later experiments.
 
 \subsubsection{Co-preference Regularization ($\Obj_\rsc$)}
 \label{sec:rsc}
@@ -210,7 +210,7 @@ concerning technology news, but different interests concerning
 political news.  \emph{Co-preference regularization} aims to learn
 such selective co-preferences.  The motivation is to constrain users
 $\x$ and $\z$ who have similar or opposing preferences to be similar
-or opposite in the same latent latent space relevant to item $\y$.
+or opposite in the \emph{same} latent item space relevant to item $\y$.
 
 We use $\la \cdot, \cdot \ra_{\bullet}$ to denote a re-weighted inner
 product. The purpose of this inner product is to ``mask'' enforcement
@@ -229,8 +229,10 @@ this works as well as the above objective.
 In contrast to social regularization
 defined previously, co-preference regularization does not require knowledge
 of friendships or user interactions to determine co-preferences and hence
-can find correlations between users who are not friends --- this important
-observation will indeed surface in our forthcoming experimental evaluation.
+can enforce regularization constraints between \emph{all} users.
+%can 
+%can find correlations between users who are not friends --- this important
+%observation will indeed surface in our forthcoming experimental evaluation.
 
 \begin{comment}
 \subsubsection{Social Co-preference Spectral Regularization ($\Obj_\rscs$)}

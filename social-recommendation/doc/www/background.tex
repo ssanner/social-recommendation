@@ -89,8 +89,8 @@ interaction between user $\x$ and user $\z$ in the term $S_{\x,\z} \in
 \R$.  A definition of $S_{\x,\z} \in \R$ that has been useful is the
 following average-normalized measure of user interactions:
 \begin{align}
-\mathit{Int}_{\x,\z} & = \frac{\mbox{\# interactions between $\x$
-and $\z$}}{\frac{1}{N^2} \sum_{\x',\z'} \mbox{\# interactions between $\x'$
+\mathit{Int}_{\x,\z} & = \frac{\mbox{\# interactions b/w $\x$
+and $\z$}}{\frac{1}{N(N-1)} \sum_{\x',\z'\neq \x'} \mbox{\# interactions b/w $\x'$
 and $\z'$}} \nonumber \\
 S_{\x,\z} & = \ln \left( \mathit{Int}_{\x,\z} \right)
 \end{align}
@@ -154,14 +154,15 @@ well-known for its state-of-the-art classification performance.
 For the experiments in this paper, we use a \emph{linear} SVM
 (implemented in the \emph{LibSVM}~\cite{libsvm} toolkit) with feature
 vector $\f \in \mathbb{R}^F$ derived from $(\x,\y) \in D$, denoted as
-$\f_{\x,\y}$.  A linear SVM learns a weight vector $\w \in
+$\f_{\x,\y}$ and tuning parameter $C$.  A linear SVM learns a weight
+vector $\w \in
 \R^F$ such that $\w^T \f_{\x,\y} > 0$ indicates a 
 like (1) classification of $\f_{\x,\y}$ and $\w^T \f_{\x,\y} \leq 0$
 indicates a dislike (0) classification.
 
-A detailed list of features used in the SVM for the Facebook link
-recommendation task evaluated in this paper are defined in
-Section~\ref{sec:dataset} --- these include \emph{user features} such
+A detailed list of features $\f_{\x,\y}$ used in the SVM for the Facebook link
+recommendation task evaluated in this paper are defined as in
+Section~\ref{sec:fxy_def} --- these include \emph{user features} such
 as age and gender (binary) and \emph{item features} such as popularity
 (number of times the item was shared).  Going one step beyond standard
 CBF, our SVM features also include \emph{joint} user and item
@@ -193,22 +194,16 @@ so here $\x$ and $\y$ are simply respective user and item indices.
 When the
 number of users is far fewer than the number of items, it has been
 found that the user-based approach usually provides better predictions
-as well as being more efficient in computations~\cite{bellkor};
+as well as being more efficient in computation~\cite{bellkor};
 this holds for the evaluation in this paper, so 
 we focus on the user-based approach.
 
-Given a user $\x$ and an item $\y$, % let $N(\x:\y)$ 
-% ebonilla: notation clashed before 
-let ${\mathcal N}(\x:\y)$
-be the set of
+Given a user $\x$ and an item $\y$, 
+let ${\mathcal N}(\x:\y)$ be the set of $N$ 
 \emph{user} nearest neighbors of $\x$ that have also given a rating
-for $\y$
-%$N(\y:\x)$ be the set of
-%\emph{item} nearest neighbors of $\y$ that have also been rated by
-%$\x$ 
-and let $S_{\x,\z}$ be the cosine similarity (i.e., normalized
-dot product) between two vectors of ratings for users $\x$ and $\z$
-(when both have rated the same item).  
+for $\y$, where ``nearest'' is determined by the cosine similarity (i.e.,
+normalized dot product) $\Sim_{\x,\z}$ between two vectors of ratings
+for users $\x$ and $\z$ (when both have rated the same item).
 %measure of similarity rating between users $\x$ and $\z$
 %defined prevui
 %$S_{\y,\y'}$ be the cosine similarity (i.e., normalized
@@ -221,7 +216,7 @@ gives item $\y$ can then be calculated as
 %\item {\bf Item-based similarity nearest neighbor:}
 \begin{equation}
 %\hat{R}_{\x,\y} = \frac{\sum_{\y' \in N(\y:\x)} {S_{\y,\y'} R_{\x,\y'}} } {\sum_{\y' \in N(\y:\x)}{S_{\y,\y'}}} .
-\hat{R}_{\x,\y} = \frac{\sum_{\z \in N(\x:\y)} {S_{\x,\z} R_{\z,\y}} } {\sum_{\z \in N(\x:\y)}{S_{\x,\z}}}\end{equation}
+\hat{R}_{\x,\y} = \frac{\sum_{\z \in N(\x:\y)} {\Sim_{\x,\z} R_{\z,\y}} } {\sum_{\z \in N(\x:\y)}{\Sim_{\x,\z}}}\end{equation}
 %\end{itemize}
 
 %\begin{comment}
@@ -236,7 +231,7 @@ gives item $\y$ can then be calculated as
 
 Another common approach to CF attempts to factorize an (incomplete)
 matrix $R$ of dimension $I \times J$ containing observed ratings $R_{\x,\y}$ 
-(note that $\x$ and $\y$ are assumed to row and column indices)
+(note that $\x$ and $\y$ are assumed to row and column indices of $R_{\x,\y}$)
 into a product $R \approx U^T V$ of real-valued
 rank-$K$ matrices $U$ and $V$:
 \begin{equation*}
@@ -255,8 +250,8 @@ V =
 \end{bmatrix}
 \end{equation*}
 In this initial MF setting, we \emph{do not} leverage user and item features;
-hence, the $\x$ and $\y$ indices simply pick out the respective
-rows and columns of $U$ and $V$ such that $U_\x^T V_\y$ acts as a
+hence, we let $U_\x$ and $U_\y$ pick out the respective $\x$th and $\y$th 
+\emph{columns} of $U$ and $V$ such that $U_\x^T V_\y$ acts as a
 measure of affinity between user $\x$ and item $\y$ in their respective % ebonilla
 $K$-dimensional latent spaces $U_\x$ and $V_\y$.
 %Then we see that the

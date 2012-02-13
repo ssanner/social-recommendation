@@ -1,3 +1,5 @@
+% discuss survey comments... already seen -- similar but not exact
+
 In this section we discuss the algorithms evaluated in our two online
 trials\footnote{All code used in these experiments is available at
 \url{http://code.google.com/p/social-recommendation/}.  The conditions
@@ -15,14 +17,14 @@ In our first trial, our objective was to evaluate four CF and SCF
 approaches to establish which was the most promising direction for
 SCF extension:
 \begin{enumerate}
-\item {\bf $k$-Nearest Neighbor (KNN)}: See Section~\ref{sec:nn}.
-\item {\bf Support Vector Machines (SVM)}: See Section~\ref{sec:cbf}.
+\item {\bf $k$-Nearest Neighbor (KNN)}: Section~\ref{sec:nn} $(N\sql=\sql50)$.
+\item {\bf Support Vector Mach. \sq(SVM)}: Section~\ref{sec:cbf} $(C\sql=\sql2)$.
 \item {\bf Matchbox (Mbox)}: simple Matchbox CF %Optimization of the $L_2$ regularized Matchbox objective:
-$$\Obj_\pmcf + \lambda \Obj_\ru + \lambda \Obj_\rv$$
+$$\Obj_\pmcf + \lambda \Obj_\ru + \lambda \Obj_\rv \, (\lambda\sql=\sql10^2)$$
 \item {\bf Social Matchbox (Soc. Mbox)}: %Optimization of the 
 %$L_2$ and 
 feature-based \emph{socially regularized} Matchbox SCF
-$$\Obj_\pmcf + \lambda_\rs \Obj_\rs + \lambda \Obj_\ru + \lambda \Obj_\rv$$
+$$\Obj_\pmcf + \lambda_\rs \Obj_\rs + \lambda \Obj_\ru + \lambda \Obj_\rv \, (\lambda_\rs\sql=\sql10^{-3}, \lambda\sql=\sql10^2)$$
 \end{enumerate}
 KNN and MBox may be viewed as pure CF methods.  As discussed previously,
 both SVM and Soc. Mbox may be viewed as SCF methods; all objectives
@@ -38,33 +40,32 @@ users with assignment counts shown in Table~\ref{tab:Assigned1} (left).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{table}[t!]
-\centering
-\begin{minipage}{1.5in}
-\begin{tabular}{| l | c |}
-\hline
-{\bf Algorithm} & {\bf Users} \\
-\hline
-Soc. Mbox & 26\\
-Mbox  & 26 \\
-SVM & 28 \\
-KNN & 28 \\
-\hline
+\centering \footnotesize
+\begin{tabular}{|l|l|l|l|l|l|}
+\multicolumn{6}{c}{\bf Trial 1 -- Aug. 25, 2011 to Oct. 13, 2011 } \\ \hline
+ & {\rm SMB} & {\rm MB} & {\rm SVM} & {\rm KNN} & {\rm Total}\\ \hline
+{\rm Users All} & 26 & 26 & 28 & 28 & 108 \\
+{\rm Users $\geq 10$} & 13 & 9 & 13 & 4 & 39 \\
+{\rm Users $\geq 30$} &  9 & 3 & 11 & 2 & 25 \\ \hline
+{\rm Ratings All}  & 819 & 526 & 901 & 242 & 2508 \\
+{\rm Ratings $\geq 10$} & 811 & 505 & 896 & 228 & 2440 \\
+{\rm Ratings $\geq 30$} & 737 & 389 & 851 & 182 & 2159 \\ \hline %23 \% have 86\% ratings
+{\rm Clicks All}   & 383 & 245 & 413 & 218 & 1259 \\ \hline
+\multicolumn{6}{c}{} \\ 
+\multicolumn{6}{c}{\bf Trial 2 -- Oct. 14, 2011 to Feb. 10, 2012} \\ \hline
+ & {\rm SMB} & {\rm Sp.MB} & {\rm Sp.CP} & {\rm SHyb.} & {\rm Total}\\ \hline
+{\rm Users All} & 27 & 27 & 29 & 28 & 111 \\
+{\rm Users $\geq 10$} & 15 & 11 & 8 & 12 & 46 \\
+{\rm Users $\geq 30$} & 12 & 9  & 5 & 10 & 36 \\ \hline
+{\rm Ratings All}  & 1434 & 882 & 879 & 614 & 3809 \\ 
+{\rm Ratings $\geq 10$} & 1411 & 878 & 863 & 602 & 3754 \\
+{\rm Ratings $\geq 30$} & 1348 & 850 & 802 & 570 & 3570 \\ \hline %23 \% have 86\% ratings
+{\rm Clicks All}   & 553  & 320 & 278 & 199 & 1350 \\ \hline
 \end{tabular}
-  \end{minipage}
-  \begin{minipage}{1.3in}
-\begin{tabular}{| l | c |}
-\hline
-{\bf Algorithm} & {\bf Users} \\
-\hline
-Soc. Mbox & 26\\
-Spec. Mbox  & 25 \\
-Spec. CP & 27 \\
-Soc. Hybrid & 25 \\
-\hline
-\end{tabular}
-  \end{minipage}
-\caption{Number of users assigned per algorithm in the first trial (left)
-and second trial (right).}
+\caption{\footnotesize
+Number of users assigned per algorithm in the first and
+second trials.  $\geq 10$ ($\geq 30$) indicates data for
+the subset of users with at least 10 (30) ratings.}
 \label{tab:Assigned1}
 \end{table}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -111,26 +112,24 @@ Section~\ref{sec:newobjfun_defs}:
 \begin{itemize}
 \item {\bf Social Matchbox (Soc. Mbox)} : unchanged.
 \item {\bf Spectral Matchbox (Spec. Mbox)}: 
-$$\Obj_\pmcf + \lambda_\rss \Obj_\rss + \lambda \Obj_\ru + \lambda \Obj_\rv$$
+$$\Obj_\pmcf + \lambda_\rss \Obj_\rss + \lambda_\ru \Obj_\ru + \lambda_\rv \Obj_\rv$$
 %Matchbox MF + Social Spectral Regularization + L2 $U$ Regularization + L2 $V$ Regularization
 \item {\bf Social Hybrid (Soc. Hybrid)}: 
-$$\lambda_\phy \Obj_\phy + \lambda_\rs \Obj_\rs + \lambda \Obj_\ru + \lambda \Obj_\rv + \lambda \Obj_\rw$$
+$$\Obj_\phy + \lambda_\rs \Obj_\rs + \lambda_\ru \Obj_\ru + \lambda_\rv \Obj_\rv + \lambda_rw \Obj_\rw$$
 %Hybrid + Social Regularization + L2 $U$ Regularization + L2 $V$ Regularization + L2 $\w$ Regularization
 \item {\bf Spectral Co-preference (Spec. CP)}: 
-$$\Obj_\pmcf + \lambda_\rscs \Obj_\rscs + \lambda \Obj_\ru + \lambda \Obj_\rv$$
+$$\Obj_\pmcf + \lambda_\rscs \Obj_\rscs + \lambda_\ru \Obj_\ru + \lambda_\rv \Obj_\rv$$
 %Matchbox MF + Social Co-preference Spectral Regularization + L2 $U$ Regularization + L2 $V$ Regularization
 \end{itemize}
 All objectives are defined in Section~\ref{sec:NewObjFuns} 
 and optimized via gradient descent as outlined
 in Appendix~\ref{app:Derivatives}.  
 
-The second trial with the above algorithms ran from October 13, 2011
-to November 5, 2011 with 103 users and yielded 1,435 like/dislike
-ratings of recommended links over the 24 day period; on the start of
-the second trial, users were notified that they would be randomly
-assigned to new algorithms and encouraged to re-engage with the LinkR
-App if they had not been using it.  The distribution of the algorithms
-to the users is shown in Table~\ref{tab:Assigned1} (right).
+The second trial with the above algorithms ran from Oct. 14, 2011 to
+Feb. 10, 2011 as shown in Table~\ref{tab:Assigned1} (bottom); on the
+start of the second trial, users were notified that they would be
+randomly assigned to new algorithms and encouraged to re-engage with
+the LinkR App if they had not been using it.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure*}[t!]
@@ -152,28 +151,66 @@ Results for the second trial are
 shown in Figure~\ref{fig:online2}, following are the key observations:
 \begin{itemize}
 \item Soc. MBox did not perform as well in the second trial as it had
-in the first trial.  One key difference in the second trial is that
-all of the first trial data was available for training and thus
-Soc. MBox may have proved more difficult to optimize given this larger 
-quantity of training data.
+in the first trial.  We left Soc. MBox unchanged between the first and
+second trials so that it could be used as a fixed comparative
+baseline.  However, we hypothesize that Soc. MBox may have performed
+better (comparably to its first trial performance) if $\lambda_rs$ and
+$\lambda$ were better tuned for the amount of data in the second
+trial.  In the following table, we show the accuracy of Soc. MBox at
+predicting link likes/dislikes on second trial data, training on 75\%
+of the data and testing on the remaining 25\%:\\
+$\qquad$\\
+\begin{tabular}{| l | l | l | l | l | l |} \hline
+%& \multicolumn{5}{|c|}{$\lambda_\rs$} \\ \hline
+& {\rm $\lambda_\rs \sql = \sql 10^{-1}$}  \sqm\sqm & {\rm $\sql=\sql10^{-2}$}  \sqm\sqm & {\rm $\sql=\sql10^{-3}$} \sqm\sqm & {\rm $\sql=\sql10^{-4}$} \sqm\sqm & {\rm $\sql=\sql10^{-5}$} \sqm \\ \hline
+\sq {\rm $\lambda$=$10^1$} \sqm\sq & 0.325 & 0.307 & 0.301 & 0.437 & 0.540 \\
+\sq {\rm $\lambda$=$10^2$} \sqm\sq & 0.306 & 0.301 & {\bf 0.300} & 0.295 & 0.300 \\
+\sq {\rm $\lambda$=$10^3$} \sqm\sq & 0.297 & 0.301 & 0.307 & 0.300 & 0.301 \\
+%\sqm {\rm $\lambda$=$10^4$} \sqm & 0.301 & 0.301 & 0.301 & 0.339 & 0.363 \\
+ \hline
+\end{tabular}
+Here we show the parameters used in the second trial in bold which
+achieves a prediction accuracy of 0.300, but with both $\lambda$ and
+$\lambda_\rs$ reduced, we note a substantial improvement to 0.436 and
+0.540.  Intuitively, less regularization is needed in the presence of
+the additional data in the second trial and the drastic performance
+differential here reinforces the importance of careful (and frequent)
+parameter re-tuning for optimal recommendation performance.
+
 \item Spec. Mbox clearly performed the best in the second trial 
-and this suggests that spectral social 
-regularization is likely a better method of regularization 
-than the original social regularization variant.
-\item Soc. Hybrid does an excellent job of capturing information diffusion
-in the social network and hence performs best on recommending friend
-links and most poorly on non-friend links (where there is no direct
-user-to-user information diffusion).  Soc. Hybrid slightly outperforms
-Spec. MBox, but not statistically significantly given the more limited
-data in the second trial.  Nonetheless, 
-Soc. Hybrid clearly outperforms its Soc. MBox variant that lacks 
-information diffusion features.
-\item Spec. CP leads to a statistically significant improvement
-on recommending non-friend links over Soc. MBox and Soc. Hybrid,
-which perform poorly on recommending non-friend links.  Clearly then
-Spec. CP is benefitting somewhat in learning from copreferences
-since it can socially regularize across two users that are \emph{not}
-friends, unlike the other approaches.
+and this suggests that spectral social regularization is likely a
+better method of regularization than the original social
+regularization variant.  Taking into account possible suboptimal
+performance of Soc. Mbox in the second trial, we note that even when
+(i) extrapolating from the previous parameter tuning results to
+conjecture that Soc. Mbox may have achieved up to 54\% accuracy at
+predicting overall likes or (ii) alternately conjecturing a similar
+performance of 50\% for Soc. Mbox as in the first trial, both
+speculative results would still indicate significantly lower accuracy
+of overall likes prediction for Soc. Mbox in the second trial compared to
+Spec. MBox's impressive 66\%.
+
+\item Soc. Hybrid statistically ties Spec. MBox at 
+recommending friend links (where it can learn user-to-user information
+diffusion), but performs less well on non-friend links (where there is
+no such diffusion).
+%However, given the modeling complexity of
+%Soc. Hybrid, which in our evaluation requires training tens of
+%thousands of weights $\vec{w}$ for $\f_{\x,\y}$ as outlined in
+%Section~\ref{sec:fxy_def}, 
+Interestingly, these results suggest that the space- and
+compution-efficient low-dimensional latent user feature learning of
+Spec. MBox can recommend friend links just as well Soc. Hybrid's 
+modeling of explicit user-to-user information diffusion, which is
+important to note given the substantial computational and space
+overhead of the latter.
+
+\item Spec. CP did not perform as well as most other algorithms
+across the different evaluation metrics.  Compared to the simpler
+regularization by social interaction used in the other algorithms,
+we might conjecture that the relative abundance of interaction data
+provides a more reliable social regularizer than the somewhat sparse
+copreference data.
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -188,38 +225,38 @@ LinkR App that can be helpful in building future SCF systems.
 
 \subsubsection{Click evidence}
 
-In Figure~\ref{fig:click_evidence}, we observe the ratings of links
-that users clicked on.  The most important thing we notice in 
-Figure~\ref{fig:click_evidence} (left) is that even though users
+In Figure~\ref{fig:click_evidence}(a), we observe the ratings of links
+that users clicked on.  The most important thing we notice 
+here is that even though users
 clicked on a link, they were somewhat likely to rate it as a dislike.
 
-One might hypothesize that perhaps users clicked on links more often with
-no description to find out what they were and most often disliked them ---
-this might explain the high number of dislikes for clicked links.  However,
-examining both 
-Figure~\ref{fig:click_evidence} (center) and (right)
-for non-friend links, we observe that whether a description was present
-had very little impact on whether a link was liked or not, so we cannot
-infer that all the disliked links were simply the ones lacking a description.
+One might hypothesize that perhaps users clicked on links more often
+with no description to find out what they were and most often disliked
+them --- this might explain the high number of dislikes for clicked
+links.  However, examining both Figures~\ref{fig:click_evidence}(b)
+and (c), we observe that whether a description was present had a
+relatively minor impact on whether a link was clicked or liked, so we
+cannot infer that all the disliked links were simply the ones lacking
+a description.
 
 Then the insight from this analysis is extremely important 
-for SCF recommendation design because it states that click data is a very
-weak indicator of likes and explicit feedback should be used if at all
-possible.
+for SCF recommendation design because it states that click data is a somewhat 
+weak indicator of likes (roughly $\frac{1}{3}$ of clicks are disliked)
+and thus explicit feedback should be used if at all possible.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure*}[t!]
 \centering
-%\subfigure{\includegraphics[width=24mm,height=43mm]{img_new/clicked-likes.eps}}
-\subfigure{\includegraphics[scale=0.28]{img_new/clicked-likes.eps}}
-\hspace{-4mm}
-\subfigure{\includegraphics[scale=0.28]{img_new/description-clicked.eps}}
-\hspace{-4mm}
-\subfigure{\includegraphics[scale=0.28]{img_new/description-liked.eps}}
-\hspace{-4mm}
-\subfigure{\includegraphics[scale=0.28]{img_new/friend-popularity.eps}}
-\hspace{-3mm}
-\subfigure{\includegraphics[scale=0.28]{img_new/non-friend-popularity.eps}}
+\subfigure[]{\includegraphics[scale=0.31]{img_new/clicked-likes.eps}}
+\hspace{-4.2mm}
+\subfigure[]{\includegraphics[scale=0.31]{img_new/description-clicked.eps}}
+\hspace{-4.2mm}
+\subfigure[]{\includegraphics[scale=0.31]{img_new/description-liked.eps}}
+\hspace{-4.2mm}
+\subfigure[]{\includegraphics[scale=0.31]{img_new/friend-popularity.eps}}
+\hspace{-3.3mm}
+\subfigure[]{\includegraphics[scale=0.31]{img_new/non-friend-popularity.eps}}
+%\vspace{-3mm}
 \caption{Stacked bar graphs of online results for the first 
 user trial.  The fraction of likes (or clicks) is displayed above 
 the fraction of dislikes (or non-clicks) -- and above the fraction of not-rated
@@ -242,7 +279,7 @@ friend and (right) non-friend links.
 
 \subsubsection{Impact of Popularity}
 
-In Figure~\ref{fig:popularity} we analyze the impact of global link
+In Figure~\ref{fig:click_evidence}(d,e) we analyze the impact of global link
 popularity (in terms of total shares on Facebook) 
 on how much Facebook LinkR App users liked a link.
 The trend is clear for both friend (left) and non-friend (right)
@@ -255,12 +292,53 @@ recommendations since clearly the most popular links are not liked
 the most on average.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure*}[t!]
-\centering
-%\subfigure{\includegraphics[scale=0.28]{img/percentileFriend.eps}}
-%\subfigure{\includegraphics[scale=0.28]{img/percentileNon-Friend.eps}}
-\caption{***}
-\label{fig:popularity}
-\end{figure*}
+%\begin{table}[t!]
+%\centering
+%\footnotesize
+%\caption{There were two parameters tuned.  The main objective
+%was fixed at 1 since it is only the relative ratios of parameters
+%that matter.  Here we see that for low $\lambda$ and $\beta$ we
+%get better performance, as would be expected since there is now
+%more data and we can let the main objective have a greater
+%influence on the result.}
+%\label{fig:tuning}
+%\end{table}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{table}[t!]
+\centering
+\footnotesize
+\begin{tabular}{c c}
+\hspace{-3mm} 
+\begin{tabular}{|l|r|r|} 
+\multicolumn{3}{c}{Individual Link Comments} \\ \hline
+Comment Type & \# & \% \\ \hline % 241 total
+not interested & 88 & 36.5\% \\
+wrong language & 37 & 15.4\% \\
+really liked it! & 35 & 14.5\% \\
+bad YouTube & 25 & 10.4\% \\
+seen it	already & 25 & 10.4\% \\
+problem / dead & 20 & 8.3\% \\
+not current & 7 & 2.9\% \\	
+miscellaneous & 4 & 1.7\% \\
+%problem	& 4 & \% \\
+%dead & 16 & \% \\
+\hline
+\end{tabular}
+&
+\hspace{-3mm} \begin{tabular}{|p{3.34cm}|}
+\multicolumn{1}{p{3.34cm}}{User Survey Comments}\\ \hline
+want more control over recommendations made (music, blogs, news)\\ \hline
+%and specific preferences (heavy metal vs. rap music)\\ \hline
+want option to see $> 3$ recommendations \\ \hline
+links need description / context or explanation of recommendation \\ \hline 
+more variety, diversity\\ \hline
+\end{tabular}
+\end{tabular}
+\caption{Individual link comments (aggregated) and 
+and overall user survey comments (paraphrased).}
+\label{table:survey}
+\end{table}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
