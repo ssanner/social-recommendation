@@ -62,7 +62,7 @@ Substituting the feature-based $\x^T U^T V \y$ for the featureless
 $U_\x^T V_\y$ in~\eqref{eq:basic_mf}, we arrive at the form of the basic CF 
 objective function used in \emph{Matchbox}~\cite{matchbox} --- although
 Matchbox used Bayesian optimization methods, we can easily express
-its objective in the following log likelihood form:
+its main objective in the following log likelihood form:
 \begin{align}
 \Obj_\pmcf & = \sum_{(\x,\y) \in D} \frac{1}{2} (R_{\x,\y} - [\sigma] \x^T U^T V \y)^2 \label{eq:matchbox_obj}
 \end{align}
