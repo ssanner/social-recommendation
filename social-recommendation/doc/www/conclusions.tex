@@ -1,4 +1,5 @@
-% This is rough, needs editing.
+% Note the use of link features in 4.2.2. with feature-based regularization
+% and prediction... this is why copref outperforms 
 
 %\subsection{Summary}
 
@@ -7,19 +8,20 @@ algorithms for social collaborative filtering via the task of link
 recommendation on Facebook.  Importantly, we outlined three main
 deficiencies in existing social collaborative filtering (SCF) matrix
 factorization (MF) techniques and proposed novel objective functions
-that (a) learns user similarity from features using social spectral
-regularization, (b) models direct user-user information diffusion by
-extending Matchbox~\cite{matchbox}, and (c) models restricted common
-interests with social co-preference regularization.
+that (a) extended existing social regularization SCF 
+approaches to incorporate user features by drawing on ideas
+from Matchbox~\cite{matchbox}, (b) modeled direct user-to-user information
+diffusion, and (c) modeled restricted common interests among all
+users (friend and non-friend) with social co-preference regularization.
 
-We evaluated existing baseline (variants) and then evaluated these new
-algorithms in Section~\ref{sec:EmpResults} in live online user trials
-with over 100 Facebook App users and data for over 30,000 unique
-Facebook users showing the settings in which our newly proposed
-objective functions helped the most in comparison to baselines.  As
-such, this paper represents one concrete step forward in SCF
-algorithms based on top-performing MF methods and their ability to
-fully exploit the breadth of information available on social networks.
+We evaluated existing baselines and then evaluated algorithms based
+on optimization of these new objectives
+in Section~\ref{sec:EmpResults} in live online user trials
+taking place over five months with over 100 Facebook App users and data from over
+37,000 Facebook users.  Results show that our novel feature-based
+social spectral regularization extension of Matchbox achieves an
+overall correct ``likes'' prediction rate of 65\% --- performance
+far exceeding that of all other algorithms trialed.
 
 % importance of tuning regularization parameters
 
@@ -55,13 +57,16 @@ fully exploit the breadth of information available on social networks.
 
 %\subsection{Future Work}
 
-Our work opened up many new possibilities for further improving 
-SCF algorithms and systems. Future work can include:
-incorporating content $\mathit{genre}$ feature 
-to provide a fine-grained model about user preference among different types of links;
-enforcing diversity among recommended links to prevent redundancy; and 
-devising active learning strategies to better explore the social recommendation
-space.
+User feedback has opened up many new possibilities for further improving 
+the SCF user experience.  Future work can include: providing 
+explanations for recommended content; incorporating 
+$\mathit{genre}$ features to provide a fine-grained model of user
+preference among different content; and enforcing diversity among
+recommendations to prevent redundancy.
+
+%devising active learning
+%strategies to better explore the social recommendation space.
+
 %This work just represents the tip of the iceberg in different
 %improvements that SCF can make over more traditional non-social CF
 %methods.  Here we identify a number of additional future extensions
