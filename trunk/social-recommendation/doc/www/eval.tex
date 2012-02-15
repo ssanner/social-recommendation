@@ -58,7 +58,7 @@ App are defined as follows:
 \item $[\x_\mathit{id} = \mathit{id}] \in \{ 0, 1 \}, \forall \mathit{id}$: 
 every unique Facebook ID (user) recorded in the App was assigned its own
 binary indicator in $\x$; all $\mathit{id}$ indicators are mutually exclusive.
-\item $\mathit{gender} \in \{ 0 \mbox{ female}, 1 \mbox{ male} \}$.
+\item $\mathit{gender} \in \{ 0 \mbox{(female)}, 1 \mbox{(male)} \}$.
 \item $\mathit{age} \in \mathbb{N}$.
 %\item {$\mathit{location}_\mathit{id}$:} an integer ID corresponding
 %to the user's specific present location (city and country)
@@ -75,6 +75,8 @@ stored in $\x$.
 %in initial experimentation and were not used in subsequent trials.
 
 \subsubsection{Link Data}
+
+\label{sec:link_data}
 
 Data that are collected and used to define the item feature vector
 $\y$ introduced in Section~\ref{sec:notation} for the LinkR Facebook
@@ -107,50 +109,39 @@ additional social network information diffusion features:
 \subsubsection{Interaction Data}
 \label{sec:interactions}
 
-The Facebook social network interactions between users $\x$ and $\z$ that we count
-(equally weighted) to define
-\emph{\# interactions between $\x$ and $\z$} in Section~\ref{sec:notation} 
-are defined as follows:
+We define \emph{\# interactions between user $\x$ and user $\z$} in 
+Section~\ref{sec:notation} as follows (all interactions are equally weighted):
 \begin{enumerate}
 \item{Being friends.}
 \item{Posting, liking, or commenting on an item (link, photo, video, or message) on a user's wall.}
 \item{Being tagged together in the same photo or video.}
-\item{Tagging themselves as attending the same school or class, playing sports together, working together for the same company or on the same project.}
+\item{Attending the same school or class, playing sports together, working together for a company or on a project.}
 \end{enumerate}
 
 \subsection{Live Online Recommendation Trials}
 
-For the recommendations made to the LinkR application users, we select
-only links posted in the most recent two weeks that the user has not
-already liked (or disliked).  We use only the links from the last two
-weeks since an informal user study has indicated a preference for
-recent links.  Indeed, older links have a greater chance of being
-outdated and are also likely to represent broken links that are no longer
-accessible.  We have chosen to recommend three links per day
-with the aim of avoiding position bias and information overload that
-may occur with longer recommendation lists.
-%to the LinkR users and according to the survey done at the end of the
-%first trial, three links per day seems to be the generally preferred
-%number of daily recommendations.
+LinkR users were randomly and blindly assigned one of four algorithms
+in each of two live trials (algorithm details in
+Section~\ref{sec:EmpResults}).  The rationale for assigning
+recommendation algorithms to individual users was to obtain survey
+feedback from a user on their assigned algorithm to understand
+qualitative recommendation issues from a holistic algorithm
+perspective that may not be obvious from the quantitative performance
+measures alone.
 
-For the live trials, Facebook users who installed the LinkR
-application were \emph{randomly assigned one of four algorithms in
-each of two trials}.  Specific algorithms trialed will be discussed in
-Section~\ref{sec:EmpResults}.  LinkR users were not informed which
-algorithm was assigned to them.  As demonstrated in
-Figure~\ref{fig:linkr_app}, we distinguish our recommended links into
-two major classes: (1) links that were posted by the LinkR user's
-friends, and (2) links that were posted by users other than the LinkR
-user's friends.  LinkR users were encouraged to rate each link as like
-or dislike.  In turn these ratings became part of the training data
-for the recommendation algorithms, and thus were used to improve the
-performance of the algorithms over time.  LinkR users were allowed to
-provide feedback comments on specific links if they wished; based on
-repeated user commentary on annoyances 
-from the first trial period, in the second trial period we avoided
-recommendations of 
-(i) non-English links and (ii) links lacking any available 
-textual description to display.
+Figure~\ref{fig:linkr_app} shows the LinkR App interface, which
+displays two types of recommendations for a user --- those from
+friends, and those from non-friends --- and allows the user to rate
+each link as like or dislike and provide optional feedback.  
+LinkR recommended three links per day with the aim of avoiding position
+bias and information overload that may occur with longer
+recommendation lists.  In preliminary test trials, users 
+often complained that links older than two weeks were no longer relevant or
+were broken so LinkR only recommends links posted in the past two
+weeks that the user has not already posted, liked, or disliked.
+Based on first trial feedback, in the second trial we avoided
+recommendations of (i) non-English links and (ii) links lacking a text 
+description.
 
 %At the end of the first trial, we conducted a user survey with the
 %LinkR users to find out how satisfied they were with the

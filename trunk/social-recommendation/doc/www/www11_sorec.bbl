@@ -66,8 +66,7 @@ H.~Ma, D.~Zhou, C.~Liu, M.~R. Lyu, and I.~King.
 \bibitem{spectral}
 A.~Ng, M.~Jordan, and Y.~Weiss.
 \newblock On spectral clustering: Analysis and an algorithm.
-\newblock In {\em Advances in Neural Information Processing Systems {NIPS} 14},
-  2001.
+\newblock In {\em {NIPS} 14}, 2001.
 
 \bibitem{matrix}
 K.~B. Petersen and M.~S. Pedersen.
@@ -81,13 +80,18 @@ P.~Resnick and H.~R. Varian.
 \bibitem{pmf}
 R.~Salakhutdinov and A.~Mnih.
 \newblock Probabilistic matrix factorization.
-\newblock In {\em Advances in Neural Information Processing Systems},
-  volume~20, 2008.
+\newblock In {\em {NIPS} 20}, 2008.
 
 \bibitem{matchbox}
 D.~H. Stern, R.~Herbrich, and T.~Graepel.
 \newblock Matchbox: large scale online bayesian recommendations.
 \newblock In {\em WWW-09}, pages 111--120, 2009.
+
+\bibitem{wilson_ci}
+E.~B. Wilson.
+\newblock Probable inference, the law of succession, and statistical inference.
+\newblock {\em Journal of the American Statistical Assoc. ({JASA})},
+  22:209--212, 1927.
 
 \bibitem{lla}
 S.~H. Yang, B.~Long, A.~Smola, N.~Sadagopan, Z.~Zheng, and H.~Zha.
