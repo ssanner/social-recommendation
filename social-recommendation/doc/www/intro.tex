@@ -52,7 +52,7 @@ three key aspects, which form the basis for our key algorithmic
 contributions in this paper:
 \begin{enumerate}
 \item[(a)] {\bf Learning user similarity:}
-In Existing SCF MF objectives, the mapping from user features to user
+In existing SCF MF objectives, the mapping from user features to user
 similarity is fixed.  It will be desirable to learn such similarity
 among a large number of profile attributes from data, such as two
 users are more similar when they have the same gender or age.
@@ -103,11 +103,11 @@ and (iii) provides better social regularization than the co-preference
 approach.
 
 In addition, deploying our algorithm on a real social network provided
-us with a number of interesting observations on training and user
-behavior discussed in Section~\ref{sec:behavior}.  For example, click
-feedback correlates only weakly with like ratings.
-Also, the most popular links may be liked by the most people, but they
-are not liked by everyone on average.
+us with a number of interesting observations from user behavior and
+feedback discussed in Section~\ref{sec:behavior}.  For example, click
+feedback correlates weakly with like ratings.  Also, the most
+popular links may be liked by the most people, but they are not liked
+by everyone on average.
 
 In the rest of this paper, Section~\ref{sec:Background} provides a
 succint overview of CF and SCF algorithms,
@@ -115,7 +115,7 @@ Section~\ref{sec:NewObjFuns} proposes three novel objective functions
 to address (a)--(c), Section~\ref{sec:Evaluation} dicusses the details
 of our Facebook application for link recommendation,
 Section~\ref{sec:EmpResults} presents two rounds of evaluation 
-with further analysis of behavioral trends in our
+with further analysis of user data in our
 social recommendation setting, and Section~\ref{sec:Conclusions}
 concludes this study.
 

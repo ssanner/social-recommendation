@@ -76,19 +76,19 @@ asymmetrical Wilson score interval method~\cite{wilson_ci}) are shown
 for the combined data for all users of each algorithm.  While user
 usage varies, this method of combining all user data for CF system
 performance analysis is a standard evaluation approach for CF systems;
-notably, RMSE over all combined ordinal user ratings was used for
+notably, RMSE over \emph{all combined ordinal user ratings} was used for
 determining the winner of the Netflix
 prize\footnote{\texttt{http://www.netflixprize.com/}}.
 
 Except for Mbox, most algorithms performed comparably on non-friend
-recommendations.  For friend recommendations, the performance of
-Soc. Mbox is most notable where it appears that social regularization
+recommendations.  For friend recommendations, 
+Soc. Mbox performed best, where it appears that social regularization
 helped it effectively find latent representations of friends with
 similar interests; it performed better than Mbox without social
 regularization and SVM which attempted to explicitly model information
 diffusion from friends.  While KNN had low usage, it would be
 statistically unlikely to match Soc. Mbox's performance on friend
-recommendations --- to do this if the amount of data were doubled,
+recommendations --- to do so if the amount of KNN data were doubled,
 nearly all new ratings would have to be ``like''.
 % TODO: latent better than explicit information diffusion (data?)
 
@@ -259,7 +259,7 @@ description.
 Then the insight from this analysis is extremely important 
 for SCF recommendation design because it states that click data is a somewhat 
 weak indicator of likes and that even if one could predict 
-clicks with perfect accuracy, this would lead only to 
+clicks with perfect accuracy, this would only yield 
 roughly $\frac{2}{3}$ accuracy for likes prediction.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -298,7 +298,7 @@ quartile) links the least compared to all other quartiles.  In
 general, users tended to most prefer links that were somewhat popular
 (middle quartiles).  From this we can infer that while the most
 popular links may be liked by the most people, they are not liked by
-everyone on average; hence link popularity should not be used too
+everyone on average; this suggests that link popularity should not be used too
 heavily in determining link recommendations.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
