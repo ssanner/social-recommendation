@@ -27,12 +27,13 @@ $$\Obj_\pmcf + \lambda_\rs \Obj_\rs + \lambda \Obj_\ru + \lambda \Obj_\rv$$
 %and Soc. Mbox may be viewed as SCF methods; 
 Objectives for (Soc.) Mbox were given in Section~\ref{sec:NewObjFuns}
 and optimized via gradient descent as in
-Appendix~\ref{app:Derivatives}. $\lambda$ parameters were tuned prior
-to the start of the trial by a systematic grid search over $10^n$ for
-$n \in \{ -5,-3,\ldots,5 \}$ to maximize accuracy on 25\% held-out
-data, training on the other 75\%.  These experiments were repeated for
-$K \in \{ 3,5,7,10,15,20,30 \}$ to find the best $K=5$.  $N$ and $C$ were
-tuned similarly via 1D line search over $N \in \{ 1,2,\ldots,250 \}$ and $C
+Appendix~\ref{app:Derivatives}. $\lambda$'s for (Soc.) Mbox
+were tuned prior to the start of the trial by a systematic line (grid)
+search over $10^n$ for $n \in \{ -5,-4,\ldots,5 \}$ to maximize
+accuracy on 25\% held-out data, training on the other 75\%.  This
+was repeated for $K \in \{ 3,5,7,10,15,20,30 \}$ to find
+the best $K$.  $N$ and $C$ were tuned similarly via line search
+over $N \in \{ 1,2,\ldots,250 \}$ and $C
 \in [10^{-4},10^4]$.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -139,9 +140,10 @@ $$\Obj_\pmcf + \lambda_\rsc \Obj_\rsc + \lambda \Obj_\ru + \lambda \Obj_\rv$$
 All objectives are defined in Section~\ref{sec:NewObjFuns} and
 optimized via gradient descent as in Appendix~\ref{app:Derivatives}.
 $\lambda$ and $K$ parameters for Soc. Mbox were left unchanged from
-the first trial in order to use it as a fixed comparative baseline.  We chose
-$K=5$ for all other recommendation algorithms to provide them with the same
-latent modeling power as Soc. Mbox.  With $K=5$ fixed, all other
+the first trial in order to use it as a fixed comparative baseline across
+both trials.  We chose
+$K=5$ for all other recommendation algorithms to provide a controlled
+comparison with Soc. Mbox.  With $K=5$ fixed, all other
 $\lambda$ parameters were tuned prior to the start of the second trial
 using the same systematic grid search methodology as described for the 
 first trial.
