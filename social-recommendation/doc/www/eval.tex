@@ -1,7 +1,5 @@
-In this section we discuss our Facebook Link Recommendation
-(LinkR) application, definitions for 
-notation in the context of this application, and our evaluation
-methodology.
+Next we discuss our Facebook Link Recommendation
+App (LinkR), data collected, and our evaluation methodology.
 
 \subsection{Link Recommendation App on Facebook}
 
@@ -14,20 +12,21 @@ our Facebook LinkR App as it appears to users.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[t!]
-\hspace{-2mm} \subfigure{\includegraphics[scale=0.43]{img_new/linkr.eps}}
+\hspace{-2mm} \subfigure{\includegraphics[scale=0.43]{img_new/linkr2.eps}}
 \vspace{-8mm}
 \caption{The Facebook LinkR App showing two link recommendations to a 
 user.  The first link recommendation is from a non-friend and hence only
 shows the link description.  
-%The second link recommendation is from a
-%friend and includes the friend's commentary on the link as well as the
-%link description.  
 The second link recommendation is from a
-friend and may include the friend's commentary on the link as well as a 
+friend and includes the friend's commentary on the link as well as the
 link description.  
+%The second link recommendation is from a
+%friend and may include the friend's commentary on the link as well as a 
+%link description.  
 Users have the option of liking or disliking each
 recommendation as well as providing feedback.}
 \label{fig:linkr_app}
+\vspace{-2mm}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -128,24 +127,23 @@ Section~\ref{sec:notation} as follows (all interactions are equally weighted):
 LinkR users were randomly and blindly assigned one of four algorithms
 in each of two live trials (algorithm details in
 Section~\ref{sec:EmpResults}).  The rationale for assigning
-recommendation algorithms to individual users was to obtain survey
+a single recommendation algorithm to a user was to obtain survey
 feedback from a user on their assigned algorithm to understand
 qualitative recommendation issues from a holistic algorithm
-perspective that may not be obvious from the quantitative performance
-measures alone.
+perspective not necessarily obvious from quantitative measures alone.
+%that may not be obvious from the quantitative performance
+%measures alone.
 
 Figure~\ref{fig:linkr_app} shows the LinkR App interface, which
-displays two types of recommendations for a user --- those from
-friends, and those from non-friends --- and allows the user to rate
-each link as like or dislike and provide optional feedback.  
-LinkR recommended three links per day with the aim of avoiding position
-bias and information overload that may occur with longer
-recommendation lists.  In preliminary test trials, users 
-often complained that links older than two weeks were no longer relevant or
-were broken so LinkR only recommends links posted in the past two
-weeks that the user has not already posted, liked, or disliked.
-Based on first trial feedback, in the second trial we avoided
-recommendations of (i) non-English links and (ii) links lacking a text 
+displays both friend and non-friend link recommendations and allows
+the user to rate each link as like or dislike and provide optional
+feedback.  LinkR recommended three links per day to 
+avoid position bias and information overload.  In early testing, users 
+commented that many links older than two weeks were outdated or
+broken so LinkR only recommends links posted in the past two
+weeks that the user has not already posted, liked, or disliked.  Based
+on first trial feedback, in the second trial we avoided
+recommendations of (i) non-English links and (ii) links lacking a text
 description.
 
 %At the end of the first trial, we conducted a user survey with the

@@ -1,22 +1,17 @@
 % discuss survey comments... already seen -- similar but not exact
 
-In this section we discuss algorithm evaluation results for our two online
-LinkR trials\footnote{All code used in these experiments is available at
+Here we analyze results collected during two LinkR 
+trials.\footnote{All code used in these experiments is available at
 \url{http://code.google.com/p/social-recommendation/}.  The conditions
 of our ethics approval \#2011/142 from the Australian National
 University for conducting human trials on Facebook require our
 privacy policy
 (\url{http://dmm.anu.edu.au/linkr/website/pp.php}) to
 prohibit public sharing of data collected during these experiments.}
-and an analysis of user behavior.
-%additional analysis regarding trends and patterns in our social
-%recommendation setting.
 
 \subsection{First Trial}
 
-In our first trial, we evaluated four CF and SCF
-algorithms to determine promising directions for
-extension:
+In our first trial, we evaluated four (S)CF algorithms:
 \denselist
 \begin{enumerate}
 \item {\bf $k$-Nearest Neighbor (KNN)}: Section~\ref{sec:nn} $(N\sql=\sql50)$
@@ -24,15 +19,21 @@ extension:
 \item {\bf Matchbox (Mbox)}: Matchbox CF ($\lambda\sql=\sql10^2, K\sql=\sql5$) %Optimization of the $L_2$ regularized Matchbox objective:
 $$\Obj_\pmcf + \lambda \Obj_\ru + \lambda \Obj_\rv$$
 \item {\bf Social Matchbox (Soc. \sqt Mbox)}: \sq
-user feature socially regularized Matchbox SCF ($\lambda_\rs\sql=\sql10^{-3}, \lambda\sql=\sql10^2, K\sql=\sql5$)
+user feature socially regularized Matchbox SCF 
+($\lambda_\rs\sql=\sql10^{-3}, \lambda\sql=\sql10^2, K\sql=\sql5$)
 $$\Obj_\pmcf + \lambda_\rs \Obj_\rs + \lambda \Obj_\ru + \lambda \Obj_\rv$$
 \end{enumerate}
 %KNN and Mbox are pure CF methods.  As discussed previously, both SVM
 %and Soc. Mbox may be viewed as SCF methods; 
 Objectives for (Soc.) Mbox were given in Section~\ref{sec:NewObjFuns}
-and optimized via gradient descent as in 
-Appendix~\ref{app:Derivatives}. $\lambda$ parameters were tuned manually
-prior to the start of the trial.
+and optimized via gradient descent as in
+Appendix~\ref{app:Derivatives}. $\lambda$ parameters were tuned prior
+to the start of the trial by a systematic grid search over $10^n$ for
+$n \in \{ -4,-3,\ldots,4 \}$ to maximize accuracy on 25\% held-out
+data, training on the other 75\%.  These experiments were repeated for
+$K \in \{ 3,5,7,10,15,20,30 \}$ to find the best $K=5$.  $N$ and $C$ were
+tuned similarly via 1D line search over $N \in \{ 1,2,\ldots,250 \}$ and $C
+\in [10^{-4},10^4]$.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{table}[t!]
@@ -64,7 +65,7 @@ second trials.  $\geq 10$ ($\geq 30$) indicates data for
 the subset of users with at least 10 (30) ratings.  Data
 from non-rating users (and their friends) was important for
 the performance of all algorithms.}
-\vspace{-2mm}
+\vspace{-2.5mm}
 \label{tab:Assigned1}
 \end{table}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -135,12 +136,13 @@ $$\Obj_\phy + \lambda_\rs \Obj_\rs + \lambda \Obj_\ru + \lambda \Obj_\rv + \lamb
 $$\Obj_\pmcf + \lambda_\rsc \Obj_\rsc + \lambda \Obj_\ru + \lambda \Obj_\rv$$
 %Matchbox MF + Social Co-preference Spectral Regularization + L2 $U$ Regularization + L2 $V$ Regularization
 \end{enumerate}
-All objectives are defined in Section~\ref{sec:NewObjFuns} 
-and optimized via gradient descent as in Appendix~\ref{app:Derivatives}. 
-$\lambda$ parameters for Soc. Mbox were left unchanged from the first
-trial so it could be used as a fixed comparative
-baseline.  All other $\lambda$ parameters were tuned manually
-prior to the start of the trial.
+All objectives are defined in Section~\ref{sec:NewObjFuns} and
+optimized via gradient descent as in Appendix~\ref{app:Derivatives}.
+$\lambda$ and $K$ parameters for Soc. Mbox were left unchanged from
+the first trial to use it as a fixed comparative baseline.
+All other $\lambda$ and $K$ parameters were tuned 
+prior to the start of the second trial using the same methodology
+as described for the first trial.
 
 Second trial details are provided in Table~\ref{tab:Assigned1}
 (bottom); on the start of the second trial, users were notified that
@@ -176,9 +178,8 @@ bold, which achieve a prediction accuracy of 0.300; however if both
 $\lambda$ and $\lambda_\rs$ are reduced, we note a substantial
 improvement to 0.436 and 0.540.  Clearly, less regularization of $U$
 and $V$ is needed in the presence of the additional data in the second
-trial and the drastic performance differential here reinforces the
-importance of careful (and perhaps even frequent) parameter re-tuning
-for optimal recommendation performance.
+trial and the accuracy differential here suggests the need to
+periodically re-tune parameters to maintain optimal performance.
 
 \item Spec. Mbox performed exceedingly well in the second trial 
 and this suggests that spectral social regularization is likely a
@@ -210,11 +211,11 @@ user-to-user information diffusion.
 
 \item Given that
 each LinkR user shared co-preferences with 535.1 other users on
-average (indicating that this data is far from sparse), it would
+average (indicating that this data is quite abundant), it would
 appear from the performance of Spec. CP that
 co-preferences serve as a somewhat noisy social regularization
-constraint compared to social regulaization based on interactions between
-friends as used in Soc. Mbox and Spec. Mbox.
+constraint compared to social regularization based on interactions between
+friends as exemplified by Spec. Mbox's performance.
 % does indeed serve as a good surrogate
 %metric for two users with similar preferences.
 
@@ -277,13 +278,12 @@ roughly $\frac{2}{3}$ accuracy for likes prediction.
 
 \vspace{-3mm}
 \caption{Stacked bar graphs for rating and click data collected during both
-trials.  The fraction of likes (or clicks) is displayed above 
-the fraction of dislikes (or non-clicks) -- and above the fraction of not-rated
-links for (a).  Individual graphs are as follows: 
-(a) ratings for clicked links, (b) clicks if
-text description not present, (c) ratings if
-text description not present; (d) ratings
-vs. quartile of popularity for friends, and (e) non-friends.}
+trials.  The fraction of likes (or clicks) is displayed above the
+fraction of dislikes (or non-clicks) -- and above the fraction of
+not-rated links for (a).  95\% binomial proportion confidence
+intervals are shown.  (a) ratings for clicked links, (b) clicks vs. description, 
+(c) ratings vs. description, (d) ratings vs. quartile of
+popularity for friends, and (e) non-friends.}
 \label{fig:click_evidence}
 \end{figure*}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -298,8 +298,8 @@ quartile) links the least compared to all other quartiles.  In
 general, users tended to most prefer links that were somewhat popular
 (middle quartiles).  From this we can infer that while the most
 popular links may be liked by the most people, they are not liked by
-everyone on average; this suggests that link popularity should not be used too
-heavily in determining link recommendations.
+everyone on average; this suggests that link popularity should not be 
+weighted too heavily in determining link recommendations.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{table}[t!]
