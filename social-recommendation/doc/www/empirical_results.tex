@@ -29,7 +29,7 @@ Objectives for (Soc.) Mbox were given in Section~\ref{sec:NewObjFuns}
 and optimized via gradient descent as in
 Appendix~\ref{app:Derivatives}. $\lambda$ parameters were tuned prior
 to the start of the trial by a systematic grid search over $10^n$ for
-$n \in \{ -4,-3,\ldots,4 \}$ to maximize accuracy on 25\% held-out
+$n \in \{ -5,-3,\ldots,5 \}$ to maximize accuracy on 25\% held-out
 data, training on the other 75\%.  These experiments were repeated for
 $K \in \{ 3,5,7,10,15,20,30 \}$ to find the best $K=5$.  $N$ and $C$ were
 tuned similarly via 1D line search over $N \in \{ 1,2,\ldots,250 \}$ and $C
@@ -139,10 +139,12 @@ $$\Obj_\pmcf + \lambda_\rsc \Obj_\rsc + \lambda \Obj_\ru + \lambda \Obj_\rv$$
 All objectives are defined in Section~\ref{sec:NewObjFuns} and
 optimized via gradient descent as in Appendix~\ref{app:Derivatives}.
 $\lambda$ and $K$ parameters for Soc. Mbox were left unchanged from
-the first trial to use it as a fixed comparative baseline.
-All other $\lambda$ and $K$ parameters were tuned 
-prior to the start of the second trial using the same methodology
-as described for the first trial.
+the first trial in order to use it as a fixed comparative baseline.  We chose
+$K=5$ for all other recommendation algorithms to provide them with the same
+latent modeling power as Soc. Mbox.  With $K=5$ fixed, all other
+$\lambda$ parameters were tuned prior to the start of the second trial
+using the same systematic grid search methodology as described for the 
+first trial.
 
 Second trial details are provided in Table~\ref{tab:Assigned1}
 (bottom); on the start of the second trial, users were notified that
@@ -150,9 +152,10 @@ they would be randomly assigned to new algorithms and encouraged to
 re-engage with the LinkR App if they had not been using it.
 Two email reminders were sent during the trial.
 
-Second trial results (same methodology as first trial) 
-are shown in Figure~\ref{fig:trial_results} (bottom).  Following are key
-observations:
+Second trial results using the same evaluation methodology as
+described for the first trial are shown in
+Figure~\ref{fig:trial_results} (bottom).  Following are key
+observations from this trial:
 \begin{itemize}
 \item Soc. Mbox did not perform as well in the second trial as it had
 in the first trial.  We hypothesize that Soc. Mbox may have performed
@@ -172,9 +175,9 @@ $\qquad$\\
 %\sqm {\rm $\lambda$=$10^4$} \sqm & 0.301 & 0.301 & 0.301 & 0.339 & 0.363 \\
  \hline
 \end{tabular}\\
-$\qquad$\\ 
-Here we show the parameters used in the second trial in
-bold, which achieve a prediction accuracy of 0.300; however if both
+
+Here we show results for the second trial parameter settings in
+bold that achieve prediction accuracy of 0.300; however if both
 $\lambda$ and $\lambda_\rs$ are reduced, we note a substantial
 improvement to 0.436 and 0.540.  Clearly, less regularization of $U$
 and $V$ is needed in the presence of the additional data in the second
@@ -182,16 +185,20 @@ trial and the accuracy differential here suggests the need to
 periodically re-tune parameters to maintain optimal performance.
 
 \item Spec. Mbox performed exceedingly well in the second trial 
-and this suggests that spectral social regularization is likely a
-better method of regularization than the social
-regularization of Soc. Mbox.  Even when
-(i) extrapolating from the previous parameter tuning results to
-conjecture that Soc. Mbox may have achieved up to 54\% accuracy at
-predicting overall likes or (ii) alternately conjecturing a similar
-performance of 50\% for Soc. Mbox as in the first trial, both
-hypothetical results would still indicate significantly lower accuracy
-of overall likes prediction for Soc. Mbox in the second trial compared to
-Spec. Mbox's impressive 65\%.
+and this suggests that our novel feature-based 
+\emph{spectral} social regularization is likely
+a better method of regularization for $U$ than the social
+regularization of Soc. Mbox.  Even when considering the best
+achievable performance of Soc. Mbox (54\%), this would still fall well
+below Spec. Mbox's impressive 65\%.
+%Even when
+%(i) extrapolating from the previous parameter tuning results to
+%conjecture that Soc. Mbox may have achieved up to 54\% accuracy at
+%predicting overall likes or (ii) alternately conjecturing a similar
+%performance of 50\% for Soc. Mbox as in the first trial, both
+%hypothetical results would still indicate significantly lower accuracy
+%of overall likes prediction for Soc. Mbox in the second trial compared to
+%Spec. Mbox's impressive 65\%.
 
 \item Soc. Hybrid statistically ties Spec. Mbox at 
 recommending friend links (where it can learn user-to-user information
@@ -206,12 +213,12 @@ no such diffusion).
 %       the ability of the algorithm
 These results suggest that the space- and
 compution-efficient low-dimensional learning of Spec. Mbox can
-recommend friend links just as well Soc. Hybrid's modeling of explicit
+recommend friend links just as well as Soc. Hybrid's modeling of explicit
 user-to-user information diffusion.
 
 \item Given that
 each LinkR user shared co-preferences with 535.1 other users on
-average (indicating that this data is quite abundant), it would
+average (indicating that this data is far from sparse), it would
 appear from the performance of Spec. CP that
 co-preferences serve as a somewhat noisy social regularization
 constraint compared to social regularization based on interactions between
@@ -332,7 +339,7 @@ links need description / context or explanation of recommendation \\ \hline
 more variety, diversity\\ \hline
 \end{tabular}
 \end{tabular}
-\caption{Individual link comments (aggregated) and 
+\caption{Individual link comments (aggregated)  
 and notable user survey requests (paraphrased).}
 \label{table:survey}
 \vspace{-3mm}
