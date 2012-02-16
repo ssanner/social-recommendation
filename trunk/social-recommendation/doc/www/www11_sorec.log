@@ -1,4 +1,4 @@
-This is pdfeTeXk, Version 3.141592-1.21a-2.2 (Web2C 7.5.4) (format=latex 2008.12.23)  17 FEB 2012 00:10
+This is pdfeTeXk, Version 3.141592-1.21a-2.2 (Web2C 7.5.4) (format=latex 2008.12.23)  17 FEB 2012 00:50
 entering extended mode
  file:line:error style messages enabled.
  %&-line parsing enabled.
@@ -343,17 +343,17 @@ File: img_new/live-friend-likes2-Feb10.eps Graphic file (type eps)
 File: img_new/live-nonfriend-likes2-Feb10.eps Graphic file (type eps)
 
 <img_new/live-nonfriend-likes2-Feb10.eps>
-Underfull \hbox (badness 10000) in paragraph at lines 157--183
+Underfull \hbox (badness 10000) in paragraph at lines 160--178
 
  []
 
 
-Overfull \hbox (1.01111pt too wide) in paragraph at lines 157--183
+Overfull \hbox (1.01111pt too wide) in paragraph at lines 160--178
 [] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 157--183
+Underfull \hbox (badness 10000) in paragraph at lines 160--178
 
  []
 
@@ -370,7 +370,7 @@ File: img_new/friend-popularity.eps Graphic file (type eps)
 File: img_new/non-friend-popularity.eps Graphic file (type eps)
 
 <img_new/non-friend-popularity.eps>
-Overfull \hbox (8.43088pt too wide) in paragraph at lines 308--336
+Overfull \hbox (8.43088pt too wide) in paragraph at lines 315--343
  [][] 
  []
 
@@ -404,4 +404,4 @@ Here is how much of TeX's memory you used:
  580 hyphenation exceptions out of 1000
  39i,24n,26p,798b,306s stack positions out of 1500i,500n,5000p,200000b,5000s
 
-Output written on www11_sorec.dvi (10 pages, 94000 bytes).
+Output written on www11_sorec.dvi (10 pages, 93960 bytes).
