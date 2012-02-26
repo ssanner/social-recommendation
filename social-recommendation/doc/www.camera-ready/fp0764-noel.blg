@@ -1,0 +1,45 @@
+This is BibTeX, Version 0.99c (Web2C 7.5.4)
+The top-level auxiliary file: fp0764-noel.aux
+The style file: abbrv.bst
+Database file #1: fp0764-noel.bib
+You've used 19 entries,
+            2118 wiz_defined-function locations,
+            597 strings with 6064 characters,
+and the built_in function-call counts, 6285 in all, are:
+= -- 580
+> -- 310
+< -- 3
++ -- 122
+- -- 102
+* -- 394
+:= -- 1024
+add.period$ -- 55
+call.type$ -- 19
+change.case$ -- 107
+chr.to.int$ -- 0
+cite$ -- 19
+duplicate$ -- 266
+empty$ -- 544
+format.name$ -- 102
+if$ -- 1335
+int.to.chr$ -- 0
+int.to.str$ -- 19
+missing$ -- 17
+newline$ -- 96
+num.names$ -- 38
+pop$ -- 149
+preamble$ -- 1
+purify$ -- 89
+quote$ -- 0
+skip$ -- 182
+stack$ -- 0
+substring$ -- 301
+swap$ -- 59
+text.length$ -- 3
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 76
+warning$ -- 0
+while$ -- 56
+width$ -- 21
+write$ -- 196

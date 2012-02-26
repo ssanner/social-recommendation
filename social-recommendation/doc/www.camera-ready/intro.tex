@@ -1,0 +1,134 @@
+Given the vast amount of content available on the Internet, finding
+information of personal interest (news, blogs, videos, movies, books,
+etc.) is often like finding a needle in a haystack.  Recommender
+systems based on \emph{collaborative filtering}
+(CF)~\cite{collab_filtering} aim to address this problem by 
+leveraging the preferences of similar users in a user population.
+
+%by 
+%automatically identifying similar users and items in order to leverage
+%the collective preferences of a user population.
+
+%and leveraging the preferences of similar users in a user population.
+
+%a user population under the assumption that similar
+%users will have similar preferences.
+
+%These principles underlie the
+%recommendation algorithms powering websites like Amazon and
+%Netflix.\footnote{On Amazon, this is directly evident with statements
+%displayed of the form ``users who looked at item X ended up purchasing
+%item Y 90\% of the time''.  While the exact inner workings of Netflix
+%are not published, the best performing recommendation algorithm in
+%the popular Netflix prize competition~\cite{netflix} 
+%used an ensemble of CF methods.}
+
+As the web has become more social with the emergence of Facebook,
+Twitter, LinkedIn, and most recently Google+, this adds myriad new
+dimensions to the recommendation problem by making available a rich
+labeled graph structure of social content from which user preferences
+can be learned and new recommendations can be made.  In this socially
+connected setting, no longer are web users simply described by an IP
+address (with perhaps associated geographical information and browsing
+history), but rather they are described by a rich user profile (age,
+gender, location, educational and work history, preferences, etc.)
+and a rich history of user interactions with their friends (comments/posts, 
+clicks of the like button, tagging in photos, mutual group
+memberships, etc.).  This rich information poses both an amazing
+opportunity and a daunting challenge for machine learning methods
+applied to social recommendation --- how do we fully exploit rich social
+network content in recommendation algorithms?
+
+Many existing \emph{social CF} (SCF)
+approaches~\cite{ste,sorec,lla,socinf,sr,rrmf} extend \emph{matrix
+factorization} (MF) techniques such as~\cite{pmf} used in the
+non-social CF setting.  These MF approaches have proved quite powerful
+and indeed, we will show empirically in Section~\ref{sec:EmpResults} 
+that existing social extensions of MF outperform a variety of other
+non-MF SCF baselines.  The power of CF MF methods stems from their
+ability to project users and items into latent vector spaces of
+reduced dimensionality where each is effectively grouped by
+similarity; in turn, the power of many of the SCF MF extensions stems
+from their ability to use social network evidence to further constrain
+(or regularize) latent user projections.
+%Given the strong performance of existing MF approaches to SCF, we aim
+%to further improve on their performance in this paper.  To do this, we
+%have first identified a number of major deficiencies of 
+
+Despite providing state-of-the-art performance on SCF problems, we
+notice that existing SCF MF objective functions can be improved in
+three key aspects, which form the basis for our key algorithmic
+contributions in this paper:
+\begin{enumerate}
+\item[(a)] {\bf Learning user similarity:}
+In existing SCF MF objectives, the mapping from user features to user
+similarity is fixed.  It will be desirable to learn such similarity
+among a large number of profile attributes from data, such as two
+users are more similar when they have the same gender or age.
+To address this, we extend existing \emph{social regularization} and
+\emph{social spectral regularization} objectives to incorporate
+\emph{user features} when learning user-user similarities in a
+\emph{latent} space.
+\item[(b)] {\bf Direct learning of user-to-user information diffusion:}
+Existing SCF MF objectives do not permit directly modeling
+user-to-user information diffusion according to the social graph
+structure.  For example, if a certain user \emph{always} likes content
+liked by a friend, this cannot be directly \emph{learned} by
+optimizing existing SCF MF objectives.
+To address this, we define a new hybrid SCF method where we
+\emph{combine} the \emph{collaborative filtering (CF) matrix
+factorization (MF) objective} used by Matchbox~\cite{matchbox} with a
+\emph{linear content-based filtering (CBF) objective} used to model
+direct user-user information diffusion in the social network.
+\item[(c)] {\bf Learning restricted interests:} 
+Existing SCF MF objectives treat users as globally (dis)similar
+although they may only be (dis)similar in specific areas of latent interest.
+For example, a friend and their co-worker may both like
+technology-oriented news content, but have differing interests when it
+comes to politically-oriented news content.
+To address this, we define a new social co-preference regularization
+method that \emph{learns from pairs of user preferences} over the same
+item to learn \emph{user similarities in specific areas} --- a
+contrast to previous methods that typically enforce global user
+similarity when regularizing.
+\end{enumerate}
+
+%We propose to leverage \emph{co-preference 
+%(dis)agreement}, i.e., whether two users agreed or disagreed in their
+%rating of the \emph{same} item, to encourage \emph{learning}
+%latent areas of user preference. %where two users are (dis)similar.
+%\end{enumerate}
+%This paper proposes novel objective functions to address aspects (a)--(c)
+%in a unified latent factorization framework, optimized using gradient descent. 
+The key application contribution of our paper is to evaluate the
+proposed recommendation algorithms in online human trials of a
+custom-developed Facebook App for link recommendation.  We use data
+collected over five months from over 100 App users and their 37,000+
+friends.  Results show that feature-based social spectral 
+regularization outperforms (i) a range of
+existing CF and SCF baselines, (ii) performs as well on friend
+recommendations as direct modeling of information diffusion features,
+and (iii) provides better social regularization than the co-preference
+approach.
+
+In addition, deploying our algorithm on a real social network provided
+us with a number of interesting observations from user behavior and
+feedback discussed in Section~\ref{sec:behavior}.  For example, click
+feedback correlates weakly with like ratings.  Also, the most
+popular links may be liked by the most people, but they are not liked
+by everyone on average.
+
+In the rest of this paper, Section~\ref{sec:Background} provides a
+succint overview of CF and SCF algorithms,
+Section~\ref{sec:NewObjFuns} proposes three novel objective functions
+to address (a)--(c), Section~\ref{sec:Evaluation} dicusses the details
+of our Facebook application for link recommendation,
+Section~\ref{sec:EmpResults} presents two rounds of evaluation 
+with further analysis of user data in our
+social recommendation setting, and Section~\ref{sec:Conclusions}
+concludes this study.
+
+%All combined, this paper represents a critical step forward in
+%powerful SCF recommendation algorithms based on latent factorization
+%methods and their ability to fully exploit the breadth of information
+%available on social networks.

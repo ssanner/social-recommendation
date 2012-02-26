@@ -1,0 +1,394 @@
+% This is "sig-alternate.tex" V1.9 April 2009
+% This file should be compiled with V2.4 of "sig-alternate.cls" April 2009
+%
+% This example file demonstrates the use of the 'sig-alternate.cls'
+% V2.4 LaTeX2e document class file. It is for those submitting
+% articles to ACM Conference Proceedings WHO DO NOT WISH TO
+% STRICTLY ADHERE TO THE SIGS (PUBS-BOARD-ENDORSED) STYLE.
+% The 'sig-alternate.cls' file will produce a similar-looking,
+% albeit, 'tighter' paper resulting in, invariably, fewer pages.
+%
+% ----------------------------------------------------------------------------------------------------------------
+% This .tex file (and associated .cls V2.4) produces:
+% 1) The Permission Statement
+% 2) The Conference (location) Info information
+% 3) The Copyright Line with ACM data
+% 4) NO page numbers
+%
+% as against the acm_proc_article-sp.cls file which
+% DOES NOT produce 1) thru' 3) above.
+%
+% Using 'sig-alternate.cls' you have control, however, from within
+% the source .tex file, over both the CopyrightYear
+% (defaulted to 200X) and the ACM Copyright Data
+% (defaulted to X-XXXXX-XX-X/XX/XX).
+% e.g.
+% \CopyrightYear{2007} will cause 2007 to appear in the copyright line.
+% \crdata{0-12345-67-8/90/12} will cause 0-12345-67-8/90/12 to appear in the copyright line.
+%
+% ---------------------------------------------------------------------------------------------------------------
+% This .tex source is an example which *does* use
+% the .bib file (from which the .bbl file % is produced).
+% REMEMBER HOWEVER: After having produced the .bbl file,
+% and prior to final submission, you *NEED* to 'insert'
+% your .bbl file into your source .tex file so as to provide
+% ONE 'self-contained' source file.
+%
+% ================= IF YOU HAVE QUESTIONS =======================
+% Questions regarding the SIGS styles, SIGS policies and
+% procedures, Conferences etc. should be sent to
+% Adrienne Griscti (griscti@acm.org)
+%
+% Technical questions _only_ to
+% Gerald Murray (murray@hq.acm.org)
+% ===============================================================
+%
+% For tracking purposes - this is V1.9 - April 2009
+\documentclass{www2012-accepted}
+% Import some more mathematical symbols
+
+\usepackage{graphicx}
+\usepackage{makeidx}
+\usepackage{verbatim}
+
+\usepackage{latexsym}
+% Use eps figures
+\usepackage{epsfig}
+% Different array macros, e.g. table row height modification
+\usepackage{subfigure}
+\usepackage{array}
+% Import some more mathematical symbols
+\usepackage{amsmath,amssymb,mathtools}
+% Import an algorithm formatting package
+%\usepackage[vlined,algoruled,titlenumbered]{algorithm2e}
+% Use an extension of the verbatim package
+\usepackage{url}
+%\usepackage[colorlinks=true]{hyperref}
+
+% Define some theorems
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{theorem}[lemma]{Theorem}
+\newtheorem{hypothesis}[lemma]{Hypothesis}
+
+% Define other symbols
+\newcommand{\R}{\mathbb{R}}
+\def\argmax{\operatornamewithlimits{arg\max}}
+\def\argmin{\operatornamewithlimits{arg\min}}
+\def\supmax{\operatornamewithlimits{arg\sup}}
+\newcommand{\grad}{\nabla}
+\newcommand{\I}{\mathbb{I}}
+\newcommand{\Fro}{\mathrm{Fro}}
+\newcommand{\Obj}{\mathit{Obj}}
+\newcommand{\pcbf}{\mathit{pcbf}}
+\newcommand{\pmcf}{\mathit{pmcf}}
+\newcommand{\phy}{\mathit{phy}}
+\newcommand{\ru}{\mathit{ru}}
+\newcommand{\rv}{\mathit{rv}}
+\newcommand{\rw}{\mathit{rw}}
+\newcommand{\rs}{\mathit{rs}}
+\newcommand{\rss}{\mathit{rss}}
+\newcommand{\rsc}{\mathit{cp}}
+\newcommand{\rscs}{\mathit{rscs}}
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\diag}{\operatorname{diag}}
+\renewcommand{\a}{\vec{a}}
+\renewcommand{\b}{\vec{b}}
+\renewcommand{\c}{\vec{c}}
+\newcommand{\x}{\vec{x}}
+\newcommand{\y}{\vec{y}}
+\newcommand{\z}{\vec{z}}
+\newcommand{\w}{\vec{w}}
+\newcommand{\f}{\vec{f}}
+\renewcommand{\r}{\vec{r}}
+\newcommand{\s}{\vec{s}}
+\renewcommand{\t}{\vec{t}}
+\renewcommand{\L}{\mathcal{L}}
+\newcommand{\la}{\langle}
+\newcommand{\ra}{\rangle}
+\renewcommand{\vec}[1]{\mathbf{#1}}
+\newcommand{\Sim}{\mathit{Sim}}
+
+% Define a fourth level subheading (Scott)
+\newcommand{\subfour}{\vspace*{3mm}\hspace{-2.5mm}}
+\newcommand{\subfive}{\hspace{2.5mm}}
+
+% Spacing
+\newcommand{\denselist}{}
+%\newcommand{\denselist}{\itemsep 0pt\partopsep 0pt}
+\newcommand{\sqt}{\hspace{-.5mm}}
+\newcommand{\sql}{\hspace{-.9mm}}
+\newcommand{\sq}{\hspace{-1mm}}
+\newcommand{\sqm}{\hspace{-2mm}}
+
+% Define a command for extended commenting (Scott)
+\long\def\COMMENT#1\ENDCOMMENT{\message{(Commented text...)}\par}
+
+\begin{document}
+\clubpenalty=10000 
+\widowpenalty = 10000
+%
+% --- Author Metadata here ---
+\conferenceinfo{WWW}{'12 Lyon, France}
+%\CopyrightYear{2007} % Allows default copyright year (200X) to be over-ridden - IF NEED BE.
+%\crdata{0-12345-67-8/90/01} % Allows default copyright data (0-89791-88-6/97/05) to be over-ridden - IF NEED BE.
+% --- End of Author Metadata ---
+\title{New Objective Functions for Social Collaborative Filtering}
+%\titlenote{(Produces the permission block, and
+%copyright information). For use with
+%SIG-ALTERNATE.CLS. Supported by ACM.}
+
+%%lexing: merged author entries
+\numberofauthors{1}
+\author{
+\alignauthor
+Joseph Noel$^{\dag*}$, Scott Sanner$^{\dag*}$, Khoi-Nguyen Tran$^*$, Peter Christen$^*$, Lexing Xie$^*$\\ 
+Edwin V. Bonilla$^{\dag*}$, Ehsan Abbasnejad$^{\dag*}$, Nicol\'as Della Penna$^{\dag*}$ \\
+\affaddr{$^\dag$NICTA, $^*$Australian National University}\\
+\email{jinonoel@gmail.com, scott.sanner@nicta.com.au, \\
+\{khoi-nguyen.tran, peter.christen, lexing.xie\}@anu.edu.au, \\
+\{edwin.bonilla, ehsan.abbasnejad\}@nicta.com.au, nikete@gmail.com
+}
+}
+%\numberofauthors{7} % in this sample file, there are a *total*
+%% of EIGHT authors. SIX appear on the 'first-page' (for formatting
+%% reasons) and the remaining two appear in the \additionalauthors section.
+%%
+%% Joseph, Scott, Nguyen, Peter, Lexing, Edwin, Ehsan
+%\author{
+%\alignauthor
+%Joseph Noel\\
+%%\affaddr{ANU}\\
+%%\affaddr{Canberra, Australia}\\
+%\affaddr{ANU; Canberra, AU}\\
+%\email{jinonoel@gmail.com}
+%\alignauthor
+%Scott Sanner\\
+%%\affaddr{NICTA \& ANU}\\
+%%\affaddr{Canberra, Australia}\\
+%\affaddr{NICTA \& ANU; Canberra, AU}\\
+%\email{first.last@nicta.com.au}
+%\alignauthor
+%Khoi-Nguyen Tran\\
+%%\affaddr{ANU}\\
+%%\affaddr{Canberra, Australia}\\
+%\affaddr{ANU; Canberra, AU}\\
+%\email{first.last@anu.edu.au}
+%\and
+%\alignauthor
+%Peter Christen\\
+%%\affaddr{ANU}\\
+%%\affaddr{Canberra, Australia}\\
+%\affaddr{ANU; Canberra, AU}\\
+%\email{first.last@anu.edu.au}
+%\alignauthor
+%Lexing Xie\\
+%%\affaddr{ANU}\\
+%%\affaddr{Canberra, Australia}\\
+%\affaddr{ANU; Canberra, AU}\\
+%\email{first.last@anu.edu.au}
+%\alignauthor
+%Edwin Bonilla\\
+%%\affaddr{NICTA \& ANU}\\
+%%\affaddr{Canberra, Australia}\\
+%\affaddr{NICTA \& ANU; Canberra, AU}\\
+%\email{first.last@nicta.com.au}
+%}
+%\additionalauthors{
+%Additional authors: Ehsan Abbasnejad (ANU \& NICTA; Canberra, AU; 
+%email: {\texttt{first.last@nicta.com.au}}).}
+%\author{
+%\alignauthor
+%Anonymous\\
+%\affaddr{Unknown}\\
+%}
+\maketitle
+\begin{abstract}
+This paper examines the problem of social \emph{collaborative
+filtering} (CF) 
+%algorithms  %%lexing: SCF problem, not "problem of SCF algorithm"
+to recommend items of interest to users in
+a social network setting.  Unlike standard CF algorithms using
+relatively simple user and item features, recommendation in social
+networks poses the more complex problem of learning user preferences
+from a rich and complex set of user profile and interaction
+information.  Many existing \emph{social CF} methods have extended
+% NOTE: Separating out information diffusion and social regularization
+% aspects may be important for revising this paper in future.
+traditional CF \emph{matrix factorization}, but have overlooked
+important aspects germane to the social setting. %%full stop %%lexing 
+%%lexing: moved the assertive statement forward
+%%lexing: cut the suspense, flip the drawbacks statement as features (as in intro)
+%%lexing: get rid of numbered list, flows better this way
+We propose a unified framework for social CF matrix factorization
+by introducing novel objective functions for training.
+Our new objective functions have three key features that address 
+main drawbacks of existing approaches: 
+(a) we fully exploit feature-based user similarity, 
+(b) we permit direct learning of user-to-user information diffusion, 
+and (c) we leverage co-preference (dis)agreement between two
+users to learn restricted areas of common interest.
+%(a) do not exploit user features
+%in all aspects of learning, (b) do not permit directly modeling
+%user-to-user information diffusion, and (c) use objectives that treat
+%users as globally (dis)similar even though they may only be
+%(dis)similar in specific latent areas of interest.  
+We evaluate these new social CF objectives, comparing them to 
+each other and to a variety of (social) CF baselines, and analyze
+user behavior on
+live user trials in a custom-developed Facebook App involving data
+collected over five months from over 100 App users and their 37,000+
+friends.
+\end{abstract}
+\category{H.3.3}{Information Search and Retrieval}{Information Filtering}
+\terms{Algorithms, Experimentation}
+\keywords{social networks, collaborative filtering, machine learning}
+
+\section{Introduction}
+\label{sec:Introduction}
+\input{intro}
+
+\section{Definitions and Background}
+\label{sec:Background}
+\input{background}
+
+\section{New Objective Functions for SCF}
+\label{sec:NewObjFuns}
+\input{newobjfuns}
+
+\section{Evaluation Framework}
+\label{sec:Evaluation}
+\input{eval}
+
+\section{Empirical Results}
+\label{sec:EmpResults}
+\input{empirical_results}
+
+\section{Conclusions}
+\label{sec:Conclusions}
+\input{conclusions}
+
+\section*{Acknowledgements}
+
+This work was partially funded by a Google Research Award.
+%under proposal ``Preference Elicitation for Social Recommendation''.
+NICTA is funded by the Australian Government as represented by
+the Department of Broadband, Communications and the Digital
+Economy and the Australian Research Council through the ICT
+Centre of Excellence program.
+
+\bibliographystyle{abbrv}
+%\bibliography{fp0764-noel}
+
+%%%%%%%%%%%%%%%%%% fp0764-noel.bbl insert %%%%%%%%%%%%%%%%%%%%%
+
+\begin{thebibliography}{10}
+
+\bibitem{fab}
+M.~Balabanovi\'{c} and Y.~Shoham.
+\newblock Fab: content-based, collaborative recommendation.
+\newblock {\em Communications of the {ACM}}, 40:66--72, March 1997.
+
+\bibitem{bellkor}
+R.~M. Bell and Y.~Koren.
+\newblock Scalable collaborative filtering with jointly derived neighborhood
+  interpolation weights.
+\newblock In {\em ICDM-07}, 2007.
+
+\bibitem{inf_diffusion}
+J.~Brown and P.~Reinegen.
+\newblock Social ties and word-of-mouth referral behavior.
+\newblock {\em Journal of Consumer Research}, 1(3):350--362, 1987.
+
+\bibitem{libsvm}
+C.-C. Chang and C.-J. Lin.
+\newblock {\em LIBSVM: a Library for Support Vector Machines}, 2001.
+
+\bibitem{svm}
+C.~Cortes and V.~Vapnik.
+\newblock Support-vector networks.
+\newblock In {\em Machine Learning}, pages 273--297, 1995.
+
+\bibitem{socinf}
+P.~Cui, F.~Wang, S.~Liu, M.~Ou, and S.~Yang.
+\newblock Who should share what? item-level social influence prediction for
+  users and posts ranking.
+\newblock In {\em International ACM SIGIR Conference (SIGIR)}, 2011.
+
+\bibitem{newsweeder}
+K.~Lang.
+\newblock {NewsWeeder}: Learning to filter netnews.
+\newblock In {\em 12th International Conference on Machine Learning {ICML-95}},
+  pages 331--339, 1995.
+
+\bibitem{rrmf}
+W.-J. Li and D.-Y. Yeung.
+\newblock Relation regularized matrix factorization.
+\newblock In {\em IJCAI-09}, 2009.
+
+\bibitem{lbfgs}
+D.~C. Liu and J.~Nocedal.
+\newblock {On the limited memory BFGS method for large scale optimization}.
+\newblock {\em Mathematical Programming}, 45(1):503--528, Aug 1989.
+
+\bibitem{ste}
+H.~Ma, I.~King, and M.~R. Lyu.
+\newblock Learning to recommend with social trust ensemble.
+\newblock In {\em SIGIR-09}, 2009.
+
+\bibitem{sorec}
+H.~Ma, H.~Yang, M.~R. Lyu, and I.~King.
+\newblock Sorec: Social recommendation using probabilistic matrix
+  factorization.
+\newblock In {\em CIKM-08}, 2008.
+
+\bibitem{sr}
+H.~Ma, D.~Zhou, C.~Liu, M.~R. Lyu, and I.~King.
+\newblock Recommender systems with social regularization.
+\newblock In {\em WSDM-11}, 2011.
+
+\bibitem{spectral}
+A.~Ng, M.~Jordan, and Y.~Weiss.
+\newblock On spectral clustering: Analysis and an algorithm.
+\newblock In {\em {NIPS} 14}, 2001.
+
+\bibitem{matrix}
+K.~B. Petersen and M.~S. Pedersen.
+\newblock The matrix cookbook, 2008.
+
+\bibitem{collab_filtering}
+P.~Resnick and H.~R. Varian.
+\newblock Recommender systems.
+\newblock {\em Communications of the ACM}, 40:56--58, March 1997.
+
+\bibitem{pmf}
+R.~Salakhutdinov and A.~Mnih.
+\newblock Probabilistic matrix factorization.
+\newblock In {\em {NIPS} 20}, 2008.
+
+\bibitem{matchbox}
+D.~H. Stern, R.~Herbrich, and T.~Graepel.
+\newblock Matchbox: large scale online bayesian recommendations.
+\newblock In {\em WWW-09}, pages 111--120, 2009.
+
+\bibitem{wilson_ci}
+E.~B. Wilson.
+\newblock Probable inference, the law of succession, and statistical inference.
+\newblock {\em Journal of the American Statistical Assoc. ({JASA})},
+  22:209--212, 1927.
+
+\bibitem{lla}
+S.~H. Yang, B.~Long, A.~Smola, N.~Sadagopan, Z.~Zheng, and H.~Zha.
+\newblock Like like alike: Joint friendship and interest propagation in social
+  networks.
+\newblock In {\em WWW-11}, 2011.
+
+\end{thebibliography}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\appendix
+\section{Gradient-based Optimization}
+\label{app:Derivatives}
+\input{derivatives}
+
+\end{document}

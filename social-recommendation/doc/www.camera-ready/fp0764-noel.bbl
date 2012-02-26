@@ -1,0 +1,102 @@
+\begin{thebibliography}{10}
+
+\bibitem{fab}
+M.~Balabanovi\'{c} and Y.~Shoham.
+\newblock Fab: content-based, collaborative recommendation.
+\newblock {\em Communications of the {ACM}}, 40:66--72, March 1997.
+
+\bibitem{bellkor}
+R.~M. Bell and Y.~Koren.
+\newblock Scalable collaborative filtering with jointly derived neighborhood
+  interpolation weights.
+\newblock In {\em ICDM-07}, 2007.
+
+\bibitem{inf_diffusion}
+J.~Brown and P.~Reinegen.
+\newblock Social ties and word-of-mouth referral behavior.
+\newblock {\em Journal of Consumer Research}, 1(3):350--362, 1987.
+
+\bibitem{libsvm}
+C.-C. Chang and C.-J. Lin.
+\newblock {\em LIBSVM: a Library for Support Vector Machines}, 2001.
+
+\bibitem{svm}
+C.~Cortes and V.~Vapnik.
+\newblock Support-vector networks.
+\newblock In {\em Machine Learning}, pages 273--297, 1995.
+
+\bibitem{socinf}
+P.~Cui, F.~Wang, S.~Liu, M.~Ou, and S.~Yang.
+\newblock Who should share what? item-level social influence prediction for
+  users and posts ranking.
+\newblock In {\em International ACM SIGIR Conference (SIGIR)}, 2011.
+
+\bibitem{newsweeder}
+K.~Lang.
+\newblock {NewsWeeder}: Learning to filter netnews.
+\newblock In {\em 12th International Conference on Machine Learning {ICML-95}},
+  pages 331--339, 1995.
+
+\bibitem{rrmf}
+W.-J. Li and D.-Y. Yeung.
+\newblock Relation regularized matrix factorization.
+\newblock In {\em IJCAI-09}, 2009.
+
+\bibitem{lbfgs}
+D.~C. Liu and J.~Nocedal.
+\newblock {On the limited memory BFGS method for large scale optimization}.
+\newblock {\em Mathematical Programming}, 45(1):503--528, Aug 1989.
+
+\bibitem{ste}
+H.~Ma, I.~King, and M.~R. Lyu.
+\newblock Learning to recommend with social trust ensemble.
+\newblock In {\em SIGIR-09}, 2009.
+
+\bibitem{sorec}
+H.~Ma, H.~Yang, M.~R. Lyu, and I.~King.
+\newblock Sorec: Social recommendation using probabilistic matrix
+  factorization.
+\newblock In {\em CIKM-08}, 2008.
+
+\bibitem{sr}
+H.~Ma, D.~Zhou, C.~Liu, M.~R. Lyu, and I.~King.
+\newblock Recommender systems with social regularization.
+\newblock In {\em WSDM-11}, 2011.
+
+\bibitem{spectral}
+A.~Ng, M.~Jordan, and Y.~Weiss.
+\newblock On spectral clustering: Analysis and an algorithm.
+\newblock In {\em {NIPS} 14}, 2001.
+
+\bibitem{matrix}
+K.~B. Petersen and M.~S. Pedersen.
+\newblock The matrix cookbook, 2008.
+
+\bibitem{collab_filtering}
+P.~Resnick and H.~R. Varian.
+\newblock Recommender systems.
+\newblock {\em Communications of the ACM}, 40:56--58, March 1997.
+
+\bibitem{pmf}
+R.~Salakhutdinov and A.~Mnih.
+\newblock Probabilistic matrix factorization.
+\newblock In {\em {NIPS} 20}, 2008.
+
+\bibitem{matchbox}
+D.~H. Stern, R.~Herbrich, and T.~Graepel.
+\newblock Matchbox: large scale online bayesian recommendations.
+\newblock In {\em WWW-09}, pages 111--120, 2009.
+
+\bibitem{wilson_ci}
+E.~B. Wilson.
+\newblock Probable inference, the law of succession, and statistical inference.
+\newblock {\em Journal of the American Statistical Assoc. ({JASA})},
+  22:209--212, 1927.
+
+\bibitem{lla}
+S.~H. Yang, B.~Long, A.~Smola, N.~Sadagopan, Z.~Zheng, and H.~Zha.
+\newblock Like like alike: Joint friendship and interest propagation in social
+  networks.
+\newblock In {\em WWW-11}, 2011.
+
+\end{thebibliography}

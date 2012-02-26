@@ -1,0 +1,4 @@
+#!/bin/sh
+latex fp0764-noel.tex
+dvips fp0764-noel.dvi -t letter -Ppdf -o fp0764-noel.ps
+ps2pdf fp0764-noel.ps
