@@ -1,0 +1,405 @@
+This is pdfeTeXk, Version 3.141592-1.21a-2.2 (Web2C 7.5.4) (format=latex 2008.12.23)  26 FEB 2012 20:10
+entering extended mode
+ file:line:error style messages enabled.
+ %&-line parsing enabled.
+**fp0764-noel.tex
+(./fp0764-noel.tex
+LaTeX2e <2003/12/01>
+Babel <v3.8d> and hyphenation patterns for american, french, german, ngerman, b
+ahasa, basque, bulgarian, catalan, croatian, czech, danish, dutch, esperanto, e
+stonian, finnish, greek, icelandic, irish, italian, latin, magyar, norsk, polis
+h, portuges, romanian, russian, serbian, slovak, slovene, spanish, swedish, tur
+kish, ukrainian, nohyphenation, loaded.
+(./www2012-accepted.cls (/usr/share/texmf/tex/latex/graphics/epsfig.sty
+Package: epsfig 1999/02/16 v1.7a (e)psfig emulation (SPQR)
+
+(/usr/share/texmf/tex/latex/graphics/graphicx.sty
+Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texmf/tex/latex/graphics/keyval.sty
+Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
+\KV@toks@=\toks14
+)
+(/usr/share/texmf/tex/latex/graphics/graphics.sty
+Package: graphics 2001/07/07 v1.0n Standard LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texmf/tex/latex/graphics/trig.sty
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
+)
+(/usr/share/texmf/tex/latex/graphics/graphics.cfg
+File: graphics.cfg 2005/02/03 v1.3 graphics configuration of teTeX/TeXLive
+)
+Package graphics Info: Driver file: dvips.def on input line 80.
+
+(/usr/share/texmf/tex/latex/graphics/dvips.def
+File: dvips.def 1999/02/16 v3.0i Driver-dependant file (DPC,SPQR)
+))
+\Gin@req@height=\dimen102
+\Gin@req@width=\dimen103
+)
+\epsfxsize=\dimen104
+\epsfysize=\dimen105
+)
+(/usr/share/texmf/tex/latex/amsfonts/amssymb.sty
+Package: amssymb 2002/01/22 v2.2d
+
+(/usr/share/texmf/tex/latex/amsfonts/amsfonts.sty
+Package: amsfonts 2001/10/25 v2.2f
+\@emptytoks=\toks15
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 132.
+))
+(/usr/share/texmf/tex/latex/amsmath/amsmath.sty
+Package: amsmath 2000/07/18 v2.13 AMS math features
+\@mathmargin=\skip41
+
+For additional information on amsmath, use the `?' option.
+(/usr/share/texmf/tex/latex/amsmath/amstext.sty
+Package: amstext 2000/06/29 v2.01
+
+(/usr/share/texmf/tex/latex/amsmath/amsgen.sty
+File: amsgen.sty 1999/11/30 v2.0
+\@emptytoks=\toks16
+\ex@=\dimen106
+))
+(/usr/share/texmf/tex/latex/amsmath/amsbsy.sty
+Package: amsbsy 1999/11/29 v1.2d
+\pmbraise@=\dimen107
+)
+(/usr/share/texmf/tex/latex/amsmath/amsopn.sty
+Package: amsopn 1999/12/14 v2.01 operator names
+)
+\inf@bad=\count79
+LaTeX Info: Redefining \frac on input line 211.
+\uproot@=\count80
+\leftroot@=\count81
+LaTeX Info: Redefining \overline on input line 307.
+\classnum@=\count82
+\DOTSCASE@=\count83
+LaTeX Info: Redefining \ldots on input line 379.
+LaTeX Info: Redefining \dots on input line 382.
+LaTeX Info: Redefining \cdots on input line 467.
+\Mathstrutbox@=\box26
+\strutbox@=\box27
+\big@size=\dimen108
+LaTeX Font Info:    Redeclaring font encoding OML on input line 567.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 568.
+\macc@depth=\count84
+\c@MaxMatrixCols=\count85
+\dotsspace@=\muskip10
+\c@parentequation=\count86
+\dspbrk@lvl=\count87
+\tag@help=\toks17
+\row@=\count88
+\column@=\count89
+\maxfields@=\count90
+\andhelp@=\toks18
+\eqnshift@=\dimen109
+\alignsep@=\dimen110
+\tagshift@=\dimen111
+\tagwidth@=\dimen112
+\totwidth@=\dimen113
+\lineht@=\dimen114
+\@envbody=\toks19
+\multlinegap=\skip42
+\multlinetaggap=\skip43
+\mathdisplay@stack=\toks20
+LaTeX Info: Redefining \[ on input line 2666.
+LaTeX Info: Redefining \] on input line 2667.
+)
+Document Class 'www2012-accepted From www-release by Gerry Murray
+Based in part upon document Style `acmconf' <22 May 89>. Hacked 4/91 by
+shivers@cs.cmu.edu, 4/93 by theobald@cs.mcgill.ca
+Excerpts were taken from (Journal Style) 'esub2acm.cls'.
+****** Bugs/comments/suggestions/technicalities to Gerry Murray -- murray@hq.ac
+m.org ******
+Questions on the style, SIGS policies, etc. to Julie Goetz goetz@acm.org or Adr
+ienne Griscti griscti@acm.org
+\footheight=\dimen115
+\@maxsep=\dimen116
+\@dblmaxsep=\dimen117
+\aucount=\count91
+\originalaucount=\count92
+\auwidth=\dimen118
+\auskip=\dimen119
+\auskipcount=\count93
+\auskip=\dimen120
+\allauboxes=\dimen121
+\addauthors=\toks21
+\addauflag=\count94
+\subtitletext=\toks22
+\savesection=\count95
+\sectioncntr=\count96
+\c@figure=\count97
+\c@table=\count98
+\titleboxnotes=\toks23
+\titleboxnoteflag=\count99
+Document Class: www2012-accepted 2012/01/26 V2.0 based on sig-alt-release.cls
+(/usr/share/texmf/tex/latex/base/latexsym.sty
+Package: latexsym 1998/08/17 v2.2e Standard LaTeX package (lasy symbols)
+\symlasy=\mathgroup6
+LaTeX Font Info:    Overwriting symbol font `lasy' in version `bold'
+(Font)                  U/lasy/m/n --> U/lasy/b/n on input line 47.
+)
+\@acmtitlebox=\box28
+\titlenotecount=\count100
+\tntoks=\toks24
+\tntokstwo=\toks25
+\tntoksthree=\toks26
+\tntoksfour=\toks27
+\tntoksfive=\toks28
+\catcount=\count101
+\copyrightnotice=\toks29
+\conf=\toks30
+\confinfo=\toks31
+\c@part=\count102
+\c@section=\count103
+\c@subsection=\count104
+\c@subsubsection=\count105
+\c@paragraph=\count106
+
+Using 'Abbrev' bibliography style
+LaTeX Info: Redefining \cite on input line 1205.
+\bibindent=\dimen122
+\colcntr=\count107
+\saveb@x=\box29
+\copyrtyr=\toks32
+\acmcopyr=\toks33
+\boilerplate=\toks34
+\copyrightetc=\toks35
+(/usr/share/texmf/tex/latex/base/fontenc.sty
+Package: fontenc 2004/02/22 v1.99f Standard LaTeX package
+
+(/usr/share/texmf/tex/latex/base/t1enc.def
+File: t1enc.def 2004/02/22 v1.99f Standard LaTeX file
+LaTeX Font Info:    Redeclaring font encoding T1 on input line 43.
+)
+LaTeX Font Info:    Try loading font information for T1+aer on input line 100.
+
+(/usr/share/texmf/tex/latex/ae/t1aer.fd
+File: t1aer.fd 1997/11/16 Font definitions for T1/aer.
+)))
+(/usr/share/texmf/tex/latex/base/makeidx.sty
+Package: makeidx 2000/03/29 v1.0m Standard LaTeX package
+)
+(/usr/share/texmf/tex/latex/tools/verbatim.sty
+Package: verbatim 2003/08/22 v1.5q LaTeX2e package for verbatim enhancements
+\every@verbatim=\toks36
+\verbatim@line=\toks37
+\verbatim@in@stream=\read1
+)
+(/usr/share/texmf/tex/latex/subfigure/subfigure.sty
+Package: subfigure 2002/07/30 v2.1.4 subfigure package
+\subfigtopskip=\skip44
+\subfigcapskip=\skip45
+\subfigcaptopadj=\dimen123
+\subfigbottomskip=\skip46
+\subfigcapmargin=\dimen124
+\subfiglabelskip=\skip47
+\c@subfigure=\count108
+\c@lofdepth=\count109
+\c@subtable=\count110
+\c@lotdepth=\count111
+
+****************************************
+* Local config file subfigure.cfg used *
+****************************************
+(/usr/share/texmf/tex/latex/subfigure/subfigure.cfg)
+\subfig@top=\skip48
+\subfig@bottom=\skip49
+)
+(/usr/share/texmf/tex/latex/tools/array.sty
+Package: array 2003/12/17 v2.4a Tabular extension package (FMi)
+\col@sep=\dimen125
+\extrarowheight=\dimen126
+\NC@list=\toks38
+\extratabsurround=\skip50
+\backup@length=\skip51
+)
+(/usr/share/texmf/tex/latex/mh/mathtools.sty
+Package: mathtools 2004/10/10 v1.01a mathematical typesetting tools (MH)
+
+(/usr/share/texmf/tex/latex/tools/calc.sty
+Package: calc 1998/07/07 v4.1b Infix arithmetic (KKT,FJ)
+\calc@Acount=\count112
+\calc@Bcount=\count113
+\calc@Adimen=\dimen127
+\calc@Bdimen=\dimen128
+\calc@Askip=\skip52
+\calc@Bskip=\skip53
+LaTeX Info: Redefining \setlength on input line 59.
+LaTeX Info: Redefining \addtolength on input line 60.
+\calc@denominator=\count114
+)
+(/usr/share/texmf/tex/latex/mh/mhsetup.sty
+Package: mhsetup 2004/10/10 v1.0b programming setup (MH)
+)
+\g_MT_multlinerow_int=\count115
+\l_MT_multwidth_dim=\dimen129
+)
+(/usr/share/texmf/tex/latex/url/url.sty
+\Urlmuskip=\muskip11
+Package: url 2004/03/15  ver 3.1  Verb mode for urls, etc.
+)
+\c@lemma=\count116
+ (./fp0764-noel.aux)
+\openout1 = `fp0764-noel.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 126.
+LaTeX Font Info:    ... okay on input line 126.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 126.
+LaTeX Font Info:    ... okay on input line 126.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 126.
+LaTeX Font Info:    ... okay on input line 126.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 126.
+LaTeX Font Info:    ... okay on input line 126.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 126.
+LaTeX Font Info:    ... okay on input line 126.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 126.
+LaTeX Font Info:    ... okay on input line 126.
+LaTeX Font Info:    Try loading font information for U+msa on input line 204.
+
+(/usr/share/texmf/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2002/01/19 v2.2g AMS font definitions
+)
+LaTeX Font Info:    Try loading font information for U+msb on input line 204.
+
+(/usr/share/texmf/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2002/01/19 v2.2g AMS font definitions
+)
+LaTeX Font Info:    Try loading font information for U+lasy on input line 204.
+
+(/usr/share/texmf/tex/latex/base/ulasy.fd
+File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
+) (./intro.tex [1
+
+
+]) (./background.tex
+Overfull \hbox (2.60812pt too wide) in paragraph at lines 35--36
+[]\T1/aer/m/n/9 Expressed pref-er-ences (likes/dislikes of posts and links). 
+ []
+
+[2] [3])
+Overfull \hbox (6.79947pt too wide) in paragraph at lines 254--254
+[]\secfnt NEW OB-JEC-TIVE FUNC-TIONS FOR SCF 
+ []
+
+(./newobjfuns.tex
+Overfull \hbox (2.68993pt too wide) in paragraph at lines 14--17
+[]\T1/aer/m/n/9 We take a com-pos-able ap-proach to MF-based (S)CF, where
+ []
+
+
+Overfull \hbox (1.19397pt too wide) in paragraph at lines 19--25
+\T1/aer/m/n/9 Because each ob-jec-tive may be weighted dif-fer-ently, a weight-
+
+ []
+
+[4]
+Overfull \hbox (5.32574pt too wide) in paragraph at lines 232--239
+\T1/aer/m/n/9 preference reg-u-lar-iza-tion does not re-quire knowl-edge of fri
+end-
+ []
+
+
+Overfull \hbox (4.93852pt too wide) in paragraph at lines 232--239
+\T1/aer/m/n/9 hence can en-force reg-u-lar-iza-tion con-straints be-tween \T1/a
+er/m/it/9 all \T1/aer/m/n/9 users. 
+ []
+
+) (./eval.tex
+File: img_new/linkr2.eps Graphic file (type eps)
+ <img_new/linkr2.eps>
+Overfull \hbox (2.37637pt too wide) in paragraph at lines 15--27
+[]  []
+ []
+
+[5]) (./empirical_results.tex
+LaTeX Font Info:    Try loading font information for T1+aett on input line 10.
+ (/usr/share/texmf/tex/latex/ae/t1aett.fd
+File: t1aett.fd 1997/11/16 Font definitions for T1/aett.
+)
+Overfull \hbox (1.06732pt too wide) in paragraph at lines 42--68
+ [][] 
+ []
+
+[6]
+File: img_new/live-likes1-orig.eps Graphic file (type eps)
+ <img_new/live-likes1-orig.eps>
+File: img_new/live-friend-likes1-orig.eps Graphic file (type eps)
+ <img_new/live-friend-likes1-orig.eps>
+File: img_new/live-nonfriend-likes1-orig.eps Graphic file (type eps)
+
+<img_new/live-nonfriend-likes1-orig.eps>
+File: img_new/live-likes2-Feb10.eps Graphic file (type eps)
+ <img_new/live-likes2-Feb10.eps>
+File: img_new/live-friend-likes2-Feb10.eps Graphic file (type eps)
+
+<img_new/live-friend-likes2-Feb10.eps>
+File: img_new/live-nonfriend-likes2-Feb10.eps Graphic file (type eps)
+
+<img_new/live-nonfriend-likes2-Feb10.eps>
+Underfull \hbox (badness 10000) in paragraph at lines 162--180
+
+ []
+
+
+Overfull \hbox (1.01111pt too wide) in paragraph at lines 162--180
+[] 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 162--180
+
+ []
+
+[7]
+File: img_new/clicked-likes.eps Graphic file (type eps)
+ <img_new/clicked-likes.eps>
+File: img_new/description-clicked.eps Graphic file (type eps)
+ <img_new/description-clicked.eps>
+File: img_new/description-liked.eps Graphic file (type eps)
+
+<img_new/description-liked.eps>
+File: img_new/friend-popularity.eps Graphic file (type eps)
+ <img_new/friend-popularity.eps>
+File: img_new/non-friend-popularity.eps Graphic file (type eps)
+
+<img_new/non-friend-popularity.eps>
+Overfull \hbox (8.43088pt too wide) in paragraph at lines 317--345
+ [][] 
+ []
+
+[8]) (./conclusions.tex) [9] (./derivatives.tex
+Overfull \hbox (19.10612pt too wide) in paragraph at lines 74--74
+[] 
+ []
+
+
+Overfull \hbox (20.52403pt too wide) in paragraph at lines 80--80
+[] 
+ []
+
+
+Overfull \hbox (20.89653pt too wide) in paragraph at lines 86--86
+[] 
+ []
+
+
+Overfull \hbox (1.84473pt too wide) in paragraph at lines 100--100
+[] 
+ []
+
+) [10] (./fp0764-noel.aux) ) 
+Here is how much of TeX's memory you used:
+ 2680 strings out of 94501
+ 32250 string characters out of 1176788
+ 93389 words of memory out of 1000000
+ 5771 multiletter control sequences out of 10000+50000
+ 45111 words of font info for 60 fonts, out of 500000 for 2000
+ 580 hyphenation exceptions out of 1000
+ 39i,24n,26p,798b,306s stack positions out of 1500i,500n,5000p,200000b,5000s
+
+Output written on fp0764-noel.dvi (10 pages, 93508 bytes).

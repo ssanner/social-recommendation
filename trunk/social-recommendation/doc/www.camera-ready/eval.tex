@@ -1,0 +1,152 @@
+Next we discuss our Facebook Link Recommendation
+App (LinkR), data collected, and our evaluation methodology.
+
+\subsection{Link Recommendation App on Facebook}
+
+To evaluate existing and newly proposed (S)CF methods discussed in
+this paper, we created a Facebook application (i.e., a Facebook
+``App'') that recommends links to users every day, where the users may
+give their feedback on the links indicating whether they \emph{liked}
+it or \emph{disliked} it.  Figure~\ref{fig:linkr_app} shows 
+our Facebook LinkR App as it appears to users.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[t!]
+\hspace{-2mm} \subfigure{\includegraphics[scale=0.43]{img_new/linkr2.eps}}
+\vspace{-5mm}
+\caption{The Facebook LinkR App showing two link recommendations to a 
+user.  The first link recommendation is from a non-friend and hence only
+shows the link description.  
+The second link recommendation is from a
+friend and includes the friend's commentary on the link as well as the
+link description.  
+%The second link recommendation is from a
+%friend and may include the friend's commentary on the link as well as a 
+%link description.  
+Users have the option of liking or disliking each
+recommendation as well as providing feedback.}
+\label{fig:linkr_app}
+\vspace{-1mm}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+The functionalities of the LinkR application on a daily basis are as follows:
+\begin{enumerate}
+\item{Collect new data shared by users and their friends.}
+\item{Initiate retraining of all active (S)CF link recommendation algorithms on the latest collected data.  $C$ and $D$ from Section~\ref{sec:notation}
+are populated from 
+all explicit likes and dislikes observed via the Facebook LinkR App
+and all ``likes'' observed via the Facebook interface.}
+\item{Post-retrain, recommend three links to the users according to their assigned recommendation algorithm.}
+\item{Collect feedback from the users on whether they liked or disliked the recommendations as well as any additional commentary the user wishes to provide.}
+\end{enumerate}
+Details of (S)CF link recommendation algorithms and user assignments
+will be discussed shortly; first we cover data
+collected by the LinkR App and used by the recommenders.
+
+\subsection{Facebook Data Collected}
+
+\label{sec:dataset}
+
+At its peak membership, 111 users had elected to install the Facebook
+App developed for this project.  From this user base, we were able to
+gather data on over 37,626 users and 605,847 links in total by the end of
+the evaluation period.
+
+\subsubsection{User Data}
+
+Data that are collected and used to define the user feature vector
+$\x$ introduced in Section~\ref{sec:notation} for the LinkR Facebook
+App are defined as follows:
+\begin{itemize}
+\item $[\x_\mathit{id} = \mathit{id}] \in \{ 0, 1 \}, \forall \mathit{id}$: 
+every unique Facebook ID (user) recorded in the App was assigned its own
+binary indicator in $\x$; all $\mathit{id}$ indicators are mutually exclusive.
+\item $\mathit{gender} \in \{ 0 \mbox{(female)}, 1 \mbox{(male)} \}$.
+\item $\mathit{age} \in \mathbb{N}$.
+%\item {$\mathit{location}_\mathit{id}$:} an integer ID corresponding
+%to the user's specific present location (city and country)
+%\item {$\mathit{hometown}_\mathit{id}$:} an integer ID corresponding
+%to the user's specific home town (city and country)
+%\item $\forall \y \in \mathit{friends}_{\x}\, \mathit{friend}_{\x,\y} \in \{ 0 \mbox{ not friend}, 1 \mbox{ friend} \}$: 
+\end{itemize}
+We note that the indicator of friendships for $\x$ is stored in the
+$\mathit{friends}_\x$ set defined in Section~\ref{sec:notation} and
+used in various previous objective definitions, but not explicitly 
+stored in $\x$.
+%Although we did include additional binary features representing a user's
+%hometown and present location, these features did not appear to prove helpful 
+%in initial experimentation and were not used in subsequent trials.
+
+\subsubsection{Link Data}
+
+\label{sec:link_data}
+
+Data that are collected and used to define the item feature vector
+$\y$ introduced in Section~\ref{sec:notation} for the LinkR Facebook
+App are defined as follows:
+\begin{itemize}
+\item $[\y_\mathit{poster} = \mathit{id}] \in \{ 0, 1 \}, \forall \mathit{id}$:  
+binary indicator feature for the $\mathit{id}$ of the user who posted the link;
+all such binary indicator features are mutually exclusive.
+\item $[\y_\mathit{wall} = \mathit{id}] \in \{ 0, 1 \}, \forall \mathit{id}$:
+binary indicator feature for the $\mathit{id}$ of the user on whose wall the link was posted; all such binary indicator features are mutually exclusive.
+%\item Text description of the link from the user who posted it.
+%\item Text link summary from the metatags on the target link webpage.
+\item Count of total link ``likes'' on Facebook.
+\item Count of total link shares on Facebook.
+\item Count of total link comments posted on Facebook.
+\end{itemize}
+
+\subsubsection{Joint User and Link Data}
+
+\label{sec:fxy_def}
+
+The feature vector $\f_{\x,\y}$ used in Sections~\ref{sec:cbf}
+and~\ref{sec:hybrid_scf} for the LinkR Facebook App is defined as the
+\emph{concatenation} of $\x$, $\y$ (above) and the following
+additional social network information diffusion features:
+\begin{itemize}
+\item $\mbox{$\z$ liked $\x$} \in \{0, 1\}, \forall \z \in \mathit{friends}_\x$: for every friend $\z$ of user $\x$, we have a binary information diffusion  feature indicating whether user $\z$ liked item $\y$ (recall that $\f_{\x,\y}$ is built w.r.t.\ a specific user $\x$ and item $\y$).
+\end{itemize}
+
+\subsubsection{Interaction Data}
+\label{sec:interactions}
+
+We define \emph{\# interactions between user $\x$ and user $\z$} in 
+Section~\ref{sec:notation} as follows (all interactions are equally weighted):
+\begin{enumerate}
+\item{Being friends.}
+\item{Posting, liking, or commenting on an item (link, photo, video, or message) on a user's wall.}
+\item{Being tagged together in the same photo or video.}
+\item{Attending the same school or class, playing sports together, working together for a company or on a project.}
+\end{enumerate}
+
+\subsection{Live Online Recommendation Trials}
+
+LinkR users were randomly and blindly assigned one of four algorithms
+in each of two live trials (algorithm details in
+Section~\ref{sec:EmpResults}).  The rationale for assigning
+a single recommendation algorithm to a user was to obtain survey
+feedback from a user on their assigned algorithm to understand
+qualitative recommendation issues from a holistic algorithm
+perspective not necessarily obvious from quantitative measures alone.
+%that may not be obvious from the quantitative performance
+%measures alone.
+
+Figure~\ref{fig:linkr_app} shows the LinkR App interface, which
+displays both friend and non-friend link recommendations and allows
+the user to rate each link as like or dislike and provide optional
+feedback.  LinkR recommended three links per day to 
+avoid position bias and information overload.  In early testing, users 
+commented that many links older than two weeks were outdated or
+broken so LinkR only recommends links posted in the past two
+weeks that the user has not already posted, liked, or disliked.  Based
+on first trial feedback, in the second trial we avoided
+recommendations of (i) non-English links and (ii) links lacking a text
+description.
+
+%At the end of the first trial, we conducted a user survey with the
+%LinkR users to find out how satisfied they were with the
+%recommendations they were getting.
+ 
