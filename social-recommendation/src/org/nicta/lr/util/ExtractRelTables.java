@@ -120,13 +120,13 @@ public class ExtractRelTables {
 		System.out.println("App users: " + APP_USERS.size());
 		System.out.println("All users: " + ALL_USERS.size());	
 		
-		//ShowLikes("Sonia");
-		//ShowInteractions("Sonia");
+		//ShowLikes("Scott");
+		ShowInteractions("Scott");
 		//ShowGroupInterests();
 		
 		//ShowCondProbs();
 		//ShowGroupInterestProbs();
-		ShowDemographicProbs();
+		//ShowDemographicProbs();
 		
 		//for (FriendType friend_type : FriendType.values()) {
 		//	System.out.println(friend_type.toString());
