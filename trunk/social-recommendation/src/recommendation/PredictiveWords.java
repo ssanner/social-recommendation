@@ -16,44 +16,22 @@ public class PredictiveWords {
 		p.getAllComments(EInteractionType.ALL_COMMENTS, EDirectionType.OUTGOING);
 	}
 	
-	
-	public static Set<Long> APP_USERS;
-	public static Set<Long> ALL_USERS;
-	public static Map<Long,String> UID_2_NAME;
-	
-	
-	public void getAllComments(EInteractionType type, EDirectionType dir) throws SQLException{
-		
-			try {
-			APP_USERS = UserUtil.getAppUserIds();
-			ALL_USERS = UserUtil.getUserIds();
-			UID_2_NAME = UserUtil.getUserNames();
-			} catch (SQLException e) {
-				System.out.println(e);
-				System.exit(1);
-			}
-		
-			System.out.println("=========================");
+	public void getAllComments(EInteractionType type, EDirectionType dir) throws SQLException{		
 			Interaction i = UserUtil.getUserInteractions(EInteractionType.ALL_COMMENTS, EDirectionType.OUTGOING);
-			for (long uid : APP_USERS) {
-				String uid_name = UID_2_NAME.get(uid);				
+			for (long uid : ExtractRelTables.APP_USERS) {
+				String uid_name = ExtractRelTables.UID_2_NAME.get(uid);				
 				Set<Long> inter = i.getInteractions(uid);
 				System.out.println(uid + ", " + uid_name + " -- " + type + ": " + (inter == null ? 0 : inter.size()));
 				System.out.print(" * [ ");
 				boolean first = true;
 				if (inter != null) 
 					for (Long uid2 : inter) {
-						String uid2_name = UID_2_NAME.get(uid2);
+						String uid2_name = ExtractRelTables.UID_2_NAME.get(uid2);
 						System.out.print((first ? "" : ", ") + uid2_name);
 						first = false;
 					}
 				System.out.println(" ]");
-			}
-			System.out.println("=========================");		
-		
-		
-		
-		
+			}		
 	}
 	
 }
