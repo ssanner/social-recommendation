@@ -56,14 +56,16 @@ public class PredictiveWords {
 		
 		Statement statement = SQLUtil.getStatement();
 		ResultSet result = statement.executeQuery(sql_query);
-		System.out.println(result.getFetchSize());
+		int size = 0;
 		while (result.next()) {
+			size++;
 			// INCOMING if in correct order
 			//long TARGET_ID = result.getLong(1);
 			//long FROM_ID = result.getLong(2);
 			//i.addInteraction(TARGET_ID, FROM_ID, type == EInteractionType.FRIENDS ? EDirectionType.BIDIR : dir);
 			//System.out.println(result.getString(3));
 		}
+		System.out.println(size);
 		statement.close();
 		
 		return i;
