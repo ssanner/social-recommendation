@@ -18,7 +18,7 @@ public class PredictiveWords {
 		
 		Statement statement = SQLUtil.getStatement();
 		
-		String userQuery = "SELECT uid FROM linkrUser";
+		String userQuery = "SELECT uid, message FROM linkrlinkcomments";
 		
 		ResultSet result = statement.executeQuery(userQuery);
 		while (result.next()) {
@@ -26,8 +26,8 @@ public class PredictiveWords {
 		}
 		statement.close();
 		
-		PredictiveWords p = new PredictiveWords();
-		p.getAllComments(EInteractionType.ALL_COMMENTS, EDirectionType.OUTGOING);
+		//PredictiveWords p = new PredictiveWords();
+		//p.getAllComments(EInteractionType.ALL_COMMENTS, EDirectionType.OUTGOING);
 	}
 
 
