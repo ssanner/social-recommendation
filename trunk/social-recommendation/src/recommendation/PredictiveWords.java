@@ -15,6 +15,17 @@ import org.nicta.lr.util.UserUtil;
 public class PredictiveWords {
 
 	public static void main(String[] args) throws SQLException {
+		
+		Statement statement = SQLUtil.getStatement();
+		
+		String userQuery = "SELECT uid FROM linkrUser";
+		
+		ResultSet result = statement.executeQuery(userQuery);
+		while (result.next()) {
+			System.out.println(result.getLong("uid"));
+		}
+		statement.close();
+		
 		PredictiveWords p = new PredictiveWords();
 		p.getAllComments(EInteractionType.ALL_COMMENTS, EDirectionType.OUTGOING);
 	}
