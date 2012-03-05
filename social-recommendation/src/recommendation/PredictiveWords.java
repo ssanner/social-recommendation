@@ -18,7 +18,7 @@ public class PredictiveWords {
 		
 		Statement statement = SQLUtil.getStatement();
 		
-		String userQuery = "SELECT uid FROM linkrbooks";
+		String userQuery = "SELECT uid FROM linkrlinkcomments";
 		
 		ResultSet result = statement.executeQuery(userQuery);
 		while (result.next()) {
@@ -31,17 +31,17 @@ public class PredictiveWords {
 	}
 
 
-	public static Interaction getUserInteractions(EInteractionType type, EDirectionType dir) 
+	public static Interaction getUserComments(EInteractionType type, EDirectionType dir) 
 	throws SQLException
 {
 	Interaction i = new Interaction(); // currently treat interactions as undirected
 
 	// Repeated calls or direct
 	if (type == EInteractionType.ALL_COMMENTS) {
-		Interaction link_comments  = getUserInteractions(EInteractionType.LINK_COMMENTS, dir);
-		Interaction post_comments  = getUserInteractions(EInteractionType.POST_COMMENTS, dir);
-		Interaction photo_comments = getUserInteractions(EInteractionType.PHOTO_COMMENTS, dir);
-		Interaction video_comments = getUserInteractions(EInteractionType.VIDEO_COMMENTS, dir);
+		Interaction link_comments  = getUserComments(EInteractionType.LINK_COMMENTS, dir);
+		Interaction post_comments  = getUserComments(EInteractionType.POST_COMMENTS, dir);
+		Interaction photo_comments = getUserComments(EInteractionType.PHOTO_COMMENTS, dir);
+		Interaction video_comments = getUserComments(EInteractionType.VIDEO_COMMENTS, dir);
 		link_comments.addAllInteractions(post_comments);
 		link_comments.addAllInteractions(photo_comments);
 		link_comments.addAllInteractions(video_comments);
@@ -72,7 +72,7 @@ public class PredictiveWords {
 			//long TARGET_ID = result.getLong(1);
 			//long FROM_ID = result.getLong(2);
 			//i.addInteraction(TARGET_ID, FROM_ID, type == EInteractionType.FRIENDS ? EDirectionType.BIDIR : dir);
-			System.out.println(result);
+			System.out.println(result.getString(3));
 		}
 		statement.close();
 		
@@ -82,7 +82,7 @@ public class PredictiveWords {
 	
 	
 	public void getAllComments(EInteractionType type, EDirectionType dir) throws SQLException{		
-		Interaction i = UserUtil.getUserInteractions(EInteractionType.ALL_COMMENTS, EDirectionType.OUTGOING);
+		Interaction i = getUserComments(EInteractionType.ALL_COMMENTS, EDirectionType.OUTGOING);
 		for (long uid : ExtractRelTables.APP_USERS) {
 			String uid_name = ExtractRelTables.UID_2_NAME.get(uid);				
 			Set<Long> inter = i.getInteractions(uid);

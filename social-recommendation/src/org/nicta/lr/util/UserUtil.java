@@ -314,7 +314,7 @@ public class UserUtil
 		
 		Statement statement = SQLUtil.getStatement();
 		
-		String userQuery = "SELECT uid, name FROM linkruser";
+		String userQuery = "SELECT uid, name FROM linkrUser";
 		
 		ResultSet result = statement.executeQuery(userQuery);
 		while (result.next()) {
