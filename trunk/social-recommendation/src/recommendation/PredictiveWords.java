@@ -3,14 +3,11 @@ package recommendation;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Map;
 import java.util.Set;
 
 import org.nicta.lr.util.EDirectionType;
 import org.nicta.lr.util.EInteractionType;
-import org.nicta.lr.util.Interaction;
 import org.nicta.lr.util.SQLUtil;
-import org.nicta.lr.util.UserUtil;
 
 public class PredictiveWords {
 
@@ -20,17 +17,17 @@ public class PredictiveWords {
 	}
 
 
-	public static Interaction getUserComments(EInteractionType type, EDirectionType dir) 
+	public static CommentsInteraction getUserComments(EInteractionType type, EDirectionType dir) 
 	throws SQLException
 {
-	Interaction i = new Interaction(); // currently treat interactions as undirected
+	CommentsInteraction i = new CommentsInteraction(); // currently treat interactions as undirected
 
 	// Repeated calls or direct
 	if (type == EInteractionType.ALL_COMMENTS) {
-		Interaction link_comments  = getUserComments(EInteractionType.LINK_COMMENTS, dir);
-		Interaction post_comments  = getUserComments(EInteractionType.POST_COMMENTS, dir);
-		Interaction photo_comments = getUserComments(EInteractionType.PHOTO_COMMENTS, dir);
-		Interaction video_comments = getUserComments(EInteractionType.VIDEO_COMMENTS, dir);
+		CommentsInteraction link_comments  = getUserComments(EInteractionType.LINK_COMMENTS, dir);
+		CommentsInteraction post_comments  = getUserComments(EInteractionType.POST_COMMENTS, dir);
+		CommentsInteraction photo_comments = getUserComments(EInteractionType.PHOTO_COMMENTS, dir);
+		CommentsInteraction video_comments = getUserComments(EInteractionType.VIDEO_COMMENTS, dir);
 		link_comments.addAllInteractions(post_comments);
 		link_comments.addAllInteractions(photo_comments);
 		link_comments.addAllInteractions(video_comments);
@@ -71,7 +68,7 @@ public class PredictiveWords {
 	
 	
 	public void getAllComments(EInteractionType type, EDirectionType dir) throws SQLException{		
-		Interaction i = getUserComments(EInteractionType.ALL_COMMENTS, EDirectionType.OUTGOING);
+		CommentsInteraction i = getUserComments(EInteractionType.ALL_COMMENTS, EDirectionType.OUTGOING);
 		for (long uid : ExtractRelTables.APP_USERS) {
 			String uid_name = ExtractRelTables.UID_2_NAME.get(uid);				
 			Set<Long> inter = i.getInteractions(uid);
