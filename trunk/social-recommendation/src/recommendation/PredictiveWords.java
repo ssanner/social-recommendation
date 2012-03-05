@@ -147,7 +147,7 @@ public class PredictiveWords {
 
 
 	public void getAllComments(EInteractionType type, EDirectionType dir) throws SQLException{		
-		Interaction i = getUserInteractions(EInteractionType.ALL_COMMENTS, EDirectionType.OUTGOING);
+		Interaction i = UserUtil.getUserInteractions(EInteractionType.ALL_COMMENTS, EDirectionType.OUTGOING);
 		for (long uid : ExtractRelTables.APP_USERS) {
 			String uid_name = ExtractRelTables.UID_2_NAME.get(uid);				
 			Set<Long> inter = i.getInteractions(uid);
