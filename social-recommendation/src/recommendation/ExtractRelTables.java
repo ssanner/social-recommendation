@@ -135,7 +135,7 @@ public class ExtractRelTables {
 		//}
 	}
 
-	public static HashMap<Long,Integer> GetLikesInteractions(long uid, Interaction i, Map<Long,Set<Long>> id2likes) {
+	public static HashMap<Long,Integer> GetLikesInteractions(long uid, CommentsInteraction i, Map<Long,Set<Long>> id2likes) {
 		HashMap<Long,Integer> likes = new HashMap<Long,Integer>();
 		Set<Long> others = i.getInteractions(uid);
 		
@@ -222,7 +222,7 @@ public class ExtractRelTables {
 	
 				for (EDirectionType dir : EDirectionType.values()) {
 			
-					Interaction i = UserUtil.getUserInteractions(itype, dir); //here add hashma[p data
+					CommentsInteraction i = UserUtil.getUserInteractions(itype, dir); //here add hashma[p data
 	
 					System.out.println("=========================");
 					log.println("=========================");
@@ -322,7 +322,7 @@ public class ExtractRelTables {
 				
 				int ub = sizes[sz_index];
 				
-				Interaction i = UserUtil.getGroupInterAmongFriends(itype, ub);
+				CommentsInteraction i = UserUtil.getGroupInterAmongFriends(itype, ub);
 
 				System.out.println("=========[" + ub + "]==========");
 				Map<Long,Set<Long>> id2likes = UserUtil.getLikes(ELikeType.ALL);
@@ -527,7 +527,7 @@ public class ExtractRelTables {
 
 		for (EInteractionType type : EInteractionType.values()) {
 			System.out.println("=========================");
-			Interaction i = UserUtil.getUserInteractions(type, EDirectionType.BIDIR);
+			CommentsInteraction i = UserUtil.getUserInteractions(type, EDirectionType.BIDIR);
 			for (long uid : APP_USERS) {
 				String uid_name = UID_2_NAME.get(uid);
 				if (!uid_name.contains(restriction))
