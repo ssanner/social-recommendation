@@ -1,5 +1,7 @@
 package recommendation;
 
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -29,9 +31,17 @@ public class PredictiveWords {
 	}
 	
 	
-	public static void main(String[] args) throws SQLException {				
+	public static void main(String[] args) throws SQLException, FileNotFoundException {				
 		PredictiveWords p = new PredictiveWords();
-		p.getAllComments(EInteractionType.ALL_COMMENTS, EDirectionType.OUTGOING);
+		
+		
+		PrintWriter writer = new PrintWriter("outgoing.txt");
+		writer.println("test");
+		writer.println("test2");
+		writer.close();
+		
+		//p.getAllComments(EInteractionType.ALL_COMMENTS, EDirectionType.OUTGOING);
+		//p.getUserComments(EInteractionType.ALL_COMMENTS, EDirectionType.OUTGOING);
 	}
 
 
@@ -86,7 +96,7 @@ public class PredictiveWords {
 	
 	
 	public void getAllComments(EInteractionType type, EDirectionType dir) throws SQLException{		
-		Interaction i = getUserComments(EInteractionType.ALL_COMMENTS, EDirectionType.INCOMING);
+		Interaction i = getUserComments(EInteractionType.ALL_COMMENTS, EDirectionType.OUTGOING);
 		for (long uid : APP_USERS) {
 			String uid_name = UID_2_NAME.get(uid);				
 			Set<Long> inter = i.getInteractions(uid);
