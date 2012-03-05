@@ -14,20 +14,9 @@ import org.nicta.lr.util.UserUtil;
 
 public class PredictiveWords {
 
-	public static void main(String[] args) throws SQLException {
-		
-		Statement statement = SQLUtil.getStatement();
-		
-		String userQuery = "SELECT uid FROM linkrLinkComments";
-		
-		ResultSet result = statement.executeQuery(userQuery);
-		while (result.next()) {
-			System.out.println(result);
-		}
-		statement.close();
-		
-		//PredictiveWords p = new PredictiveWords();
-		//p.getAllComments(EInteractionType.ALL_COMMENTS, EDirectionType.OUTGOING);
+	public static void main(String[] args) throws SQLException {				
+		PredictiveWords p = new PredictiveWords();
+		p.getAllComments(EInteractionType.ALL_COMMENTS, EDirectionType.OUTGOING);
 	}
 
 
@@ -53,10 +42,10 @@ public class PredictiveWords {
 		String target_uid = null;
 		String interacting_uid = null;
 		switch (type) {
-			case LINK_COMMENTS:  table = "linkrlinkcomments"; target_uid = "uid"; interacting_uid = "from_id"; break;
-			case POST_COMMENTS:  table = "linkrpostcomments"; target_uid = "uid"; interacting_uid = "from_id"; break;
-			case PHOTO_COMMENTS: table = "linkrphotocomments"; target_uid = "uid"; interacting_uid = "from_id"; break; 			
-			case VIDEO_COMMENTS: table = "linkrvideocomments"; target_uid = "uid"; interacting_uid = "from_id"; break;
+			case LINK_COMMENTS:  table = "linkrLinkComments"; target_uid = "uid"; interacting_uid = "from_id"; break;
+			case POST_COMMENTS:  table = "linkrPostComments"; target_uid = "uid"; interacting_uid = "from_id"; break;
+			case PHOTO_COMMENTS: table = "linkrPhotoComments"; target_uid = "uid"; interacting_uid = "from_id"; break; 			
+			case VIDEO_COMMENTS: table = "linkrVideoComments"; target_uid = "uid"; interacting_uid = "from_id"; break;
 			default: {
 				System.out.println("ERROR: Illegal type -- " + type);
 				System.exit(1);
