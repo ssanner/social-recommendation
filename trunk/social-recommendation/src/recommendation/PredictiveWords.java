@@ -128,6 +128,8 @@ public class PredictiveWords {
 		
 		String sql_query = "SELECT " + target_uid + ", " + interacting_uid + " FROM " + table;
 		
+		System.out.println(sql_query);
+		
 		Statement statement = SQLUtil.getStatement();
 		ResultSet result = statement.executeQuery(sql_query);
 		while (result.next()) {
