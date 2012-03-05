@@ -22,7 +22,7 @@ public class PredictiveWords {
 		
 		ResultSet result = statement.executeQuery(userQuery);
 		while (result.next()) {
-			System.out.println(result.getLong("uid"));
+			System.out.println(result);
 		}
 		statement.close();
 		
