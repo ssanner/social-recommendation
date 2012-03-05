@@ -75,8 +75,8 @@ public class PredictiveWords {
 			// INCOMING if in correct order
 			long TARGET_ID = result.getLong(1);
 			long FROM_ID = result.getLong(2);
+			String message = result.getString(3);
 			i.addInteraction(TARGET_ID, FROM_ID, type == EInteractionType.FRIENDS ? EDirectionType.BIDIR : dir);
-			//System.out.println(result.getString(3));
 		}
 		statement.close();
 		
@@ -86,7 +86,7 @@ public class PredictiveWords {
 	
 	
 	public void getAllComments(EInteractionType type, EDirectionType dir) throws SQLException{		
-		Interaction i = getUserComments(EInteractionType.ALL_COMMENTS, EDirectionType.OUTGOING);
+		Interaction i = getUserComments(EInteractionType.ALL_COMMENTS, EDirectionType.INCOMING);
 		for (long uid : APP_USERS) {
 			String uid_name = UID_2_NAME.get(uid);				
 			Set<Long> inter = i.getInteractions(uid);
