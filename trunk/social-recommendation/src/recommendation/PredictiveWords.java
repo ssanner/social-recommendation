@@ -24,13 +24,16 @@ public class PredictiveWords {
 
 		Interaction i = new Interaction(); // currently treat interactions as undirected			
 
+		if (type == EInteractionType.ALL_COMMENTS){
 		Interaction link_comments  = getUserInteractions(EInteractionType.LINK_COMMENTS, dir);
 		Interaction post_comments  = getUserInteractions(EInteractionType.POST_COMMENTS, dir);
 		Interaction photo_comments = getUserInteractions(EInteractionType.PHOTO_COMMENTS, dir);
 		Interaction video_comments = getUserInteractions(EInteractionType.VIDEO_COMMENTS, dir);
 		link_comments.addAllInteractions(post_comments);
 		link_comments.addAllInteractions(photo_comments);
-		link_comments.addAllInteractions(video_comments);					
+		link_comments.addAllInteractions(video_comments);
+		return link_comments;
+		} else {
 
 
 		// Base case retrieval
@@ -61,7 +64,7 @@ public class PredictiveWords {
 		statement.close();
 
 		return i;
-
+		}
 	}
 
 
