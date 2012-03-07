@@ -33,9 +33,9 @@ public class PredictiveWords {
 
 	public static void main(String[] args) throws SQLException, FileNotFoundException {				
 		PredictiveWords p = new PredictiveWords();		
-		p.getAllComments(EInteractionType.ALL_COMMENTS, EDirectionType.OUTGOING);
 		System.out.println(UID_2_NAME.get(1624851049));
 		System.exit(0);
+		p.getAllComments(EInteractionType.ALL_COMMENTS, EDirectionType.OUTGOING);		
 	}
 
 	public static Interaction getUserComments(EInteractionType type, EDirectionType dir) throws SQLException {
