@@ -33,7 +33,7 @@ public class PredictiveWords {
 
 	public static void main(String[] args) throws SQLException, FileNotFoundException {				
 		PredictiveWords p = new PredictiveWords();				
-		p.getAllComments(EDirectionType.OUTGOING);		
+		p.getAllComments(EDirectionType.INCOMING);		
 	}
 
 	public static Interaction getUserComments(EDirectionType dir) throws SQLException {
