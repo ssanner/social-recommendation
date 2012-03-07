@@ -12,6 +12,8 @@ import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.TreeMap;
 
+import org.nicta.lr.util.Configuration;
+
 import com.cybozu.labs.langdetect.Detector;
 import com.cybozu.labs.langdetect.DetectorFactory;
 import com.cybozu.labs.langdetect.LangDetectException;
@@ -60,6 +62,7 @@ public class MessageStringUtil {
 	 * English words only
 	 */
 	public static boolean isEnglish(String word) throws LangDetectException{
+		DetectorFactory.loadProfile(Configuration.LANG_PROFILE_FOLDER);
 		Detector messageDetector = DetectorFactory.create();
 		messageDetector.append(word);				
 		String messageLang = messageDetector.detect();
