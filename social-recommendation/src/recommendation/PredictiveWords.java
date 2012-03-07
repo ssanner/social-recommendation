@@ -91,8 +91,7 @@ public class PredictiveWords {
 
 		for (long uid : i.getAllInteractions().keySet()) {
 			
-			String uid_name = UID_2_NAME.get(uid);	
-			
+			String uid_name = UID_2_NAME.get(uid);				
 			System.out.println(uid_name);
 			/*
 			Set<Long> inter = i.getInteractions(uid);
