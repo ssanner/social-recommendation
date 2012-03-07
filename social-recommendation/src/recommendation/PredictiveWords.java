@@ -21,7 +21,8 @@ public class PredictiveWords {
 
 	public static Set<Long> APP_USERS;
 	public static Set<Long> ALL_USERS;
-	public static Map<Long,String> UID_2_NAME;	
+	public static Map<Long,String> UID_2_NAME;
+	public static String MESSAGES_FILE = "messages.txt";
 
 	static {
 		try {
@@ -36,8 +37,8 @@ public class PredictiveWords {
 
 	public static void main(String[] args) throws SQLException, IOException {				
 		PredictiveWords p = new PredictiveWords();
-		p.writeUserComments();
-		//p.buildCommentsDictionary("messages.txt");
+		//p.writeUserComments();
+		p.buildCommentsDictionary(MESSAGES_FILE);
 		//p.getAllComments(EDirectionType.OUTGOING);		
 	}
 	
@@ -48,12 +49,13 @@ public class PredictiveWords {
 		while ((word = br.readLine()) != null){
 			MessageStringUtil.tokenize(word);
 		}
+		MessageStringUtil.viewDictionary();
 	}
 
 	public void writeUserComments() throws SQLException, FileNotFoundException {
 		//Interaction i = new Interaction();
 
-		PrintWriter writer = new PrintWriter("messages.txt");			
+		PrintWriter writer = new PrintWriter(MESSAGES_FILE);			
 		
 		String[] tables = {"linkrLinkComments", "linkrPostComments", "linkrPhotoComments", "linkrVideoComments"};
 		for (String table : tables){
