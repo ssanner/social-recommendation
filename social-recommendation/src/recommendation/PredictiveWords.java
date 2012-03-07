@@ -33,10 +33,10 @@ public class PredictiveWords {
 
 	public static void main(String[] args) throws SQLException, FileNotFoundException {				
 		PredictiveWords p = new PredictiveWords();				
-		p.getAllComments(EInteractionType.ALL_COMMENTS, EDirectionType.OUTGOING);		
+		p.getAllComments(EDirectionType.OUTGOING);		
 	}
 
-	public static Interaction getUserComments(EInteractionType type, EDirectionType dir) throws SQLException {
+	public static Interaction getUserComments(EDirectionType dir) throws SQLException {
 		Interaction i = new Interaction();
 
 		String[] tables = {"linkrLinkComments", "linkrPostComments", "linkrPhotoComments", "linkrVideoComments"};
@@ -46,7 +46,6 @@ public class PredictiveWords {
 			Statement statement = SQLUtil.getStatement();
 			ResultSet result = statement.executeQuery(sql_query);
 			while (result.next()) {
-				// INCOMING if in correct order
 				long TARGET_ID = result.getLong(1);
 				long FROM_ID = result.getLong(2);
 				String message = result.getString(3);			
@@ -58,32 +57,29 @@ public class PredictiveWords {
 		return i;		
 	}
 
-	public void getAllComments(EInteractionType type, EDirectionType dir) throws SQLException, FileNotFoundException{		
-		Interaction i = getUserComments(EInteractionType.ALL_COMMENTS, EDirectionType.OUTGOING);
+	public void getAllComments(EDirectionType dir) throws SQLException, FileNotFoundException{		
+		Interaction i = getUserComments(dir);
 
 		//PrintWriter writer = new PrintWriter("outgoing.txt");
 		//writer.println("//outgoing comments");		
 
 		int totalUsers = 0;
 		int totalComments = 0;
-		
+
 		for (long uid : i.getAllInteractions().keySet()) {
 
 			totalUsers = i.getAllInteractions().size();
-			
+
 			String uid_name = UID_2_NAME.get(uid);				
 			Set<Long> inter = i.getInteractions(uid);
 			ArrayList<String> messages = i.getMessages(uid);						
-						
-			for (Long uid2 : inter) {
-				if (messages.size() > 0){					
-					//System.out.println("=====================================");
-					//System.out.println(uid + ", " + uid_name + " -- " + type + ": " + messages.size());
-					String uid2_name = UID_2_NAME.get(uid2);					
-					for (String message : messages){
-						//System.out.println("(" + uid_name + "->" + uid2_name + ":" + message + ")");
-						totalComments++;
-					}
+
+			if (messages.size() > 0){					
+				//System.out.println("=====================================");
+				//System.out.println(uid + ", " + uid_name + " -- " + type + ": " + messages.size());
+				for (String message : messages){
+					//System.out.println(message);
+					totalComments++;
 				}
 			}									
 		}
