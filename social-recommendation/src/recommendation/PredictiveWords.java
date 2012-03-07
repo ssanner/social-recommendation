@@ -89,7 +89,7 @@ public class PredictiveWords {
 		//PrintWriter writer = new PrintWriter("outgoing.txt");
 		//writer.println("//outgoing comments");		
 		
-		for (long uid : APP_USERS) {
+		for (long uid : i.getAllInteractions().keySet()) {
 			String uid_name = UID_2_NAME.get(uid);				
 			Set<Long> inter = i.getInteractions(uid);			
 			System.out.println(uid + ", " + uid_name + " -- " + type + ": " + (inter == null ? 0 : inter.size()));
