@@ -17,6 +17,8 @@ import org.nicta.lr.util.EInteractionType;
 import org.nicta.lr.util.SQLUtil;
 import org.nicta.lr.util.UserUtil;
 
+import com.cybozu.labs.langdetect.LangDetectException;
+
 public class PredictiveWords {
 
 	public static Set<Long> APP_USERS;
@@ -35,14 +37,14 @@ public class PredictiveWords {
 		}
 	}	
 
-	public static void main(String[] args) throws SQLException, IOException {				
+	public static void main(String[] args) throws SQLException, IOException, LangDetectException {				
 		PredictiveWords p = new PredictiveWords();
 		//p.writeUserComments();
 		p.buildCommentsDictionary(MESSAGES_FILE);
 	}
 	
-	public void buildCommentsDictionary(String fileName) throws IOException{
-		MessageStringUtil.readStopList();
+	public void buildCommentsDictionary(String fileName) throws IOException, LangDetectException{
+		//MessageStringUtil.readStopList();
 		BufferedReader br = new BufferedReader(new FileReader(fileName));
 		String word;
 		while ((word = br.readLine()) != null){

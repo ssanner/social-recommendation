@@ -12,6 +12,10 @@ import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.TreeMap;
 
+import com.cybozu.labs.langdetect.Detector;
+import com.cybozu.labs.langdetect.DetectorFactory;
+import com.cybozu.labs.langdetect.LangDetectException;
+
 /*
  * Process:
  * - Read stop words into a set
@@ -42,15 +46,30 @@ public class MessageStringUtil {
 	/*
 	 * Tokenize each comment and add to dictionary if NOT a stop word
 	 */
-	public static void tokenize(String comment){
+	public static void tokenize(String comment) throws LangDetectException{
 		StringTokenizer tokens = new StringTokenizer(comment, " ");
 		while (tokens.hasMoreTokens()){
 			String word = tokens.nextToken().toLowerCase();
-			if (!stopWords.contains(word)){
+			if (!stopWords.contains(word) && isEnglish(word)){
 				addToDictionary(word);
 			}
 		}
 	}	
+	
+	/*
+	 * English words only
+	 */
+	public static boolean isEnglish(String word) throws LangDetectException{
+		Detector messageDetector = DetectorFactory.create();
+		messageDetector.append(word);				
+		String messageLang = messageDetector.detect();
+		
+		if (!messageLang.equals("en")) {
+			return false;
+		}
+		
+		return true;
+	}
 	
 	/*
 	 * Add word to frequency dictionary
@@ -91,11 +110,7 @@ public class MessageStringUtil {
 	}
 	
 	public static void main(String[] args) throws IOException {
-		MessageStringUtil test = new MessageStringUtil();
-		test.readStopList();
-		test.tokenize("animal is a test sentence");
-		test.tokenize("animal is a test sentence also");
-		test.tokenize("animal is a test sentence sick dog cat  sdf");
+
 	}	
 	
 }
