@@ -25,8 +25,8 @@ public class MessageStringUtil {
 		
 	static HashMap<String, Integer> dictionary = new HashMap<String, Integer>();
 	static Set<String> stopWords = new HashSet<String>();
-	static PrintWriter writer = null;	
 	static String stopList = "stopwords.txt";
+	static String dictionaryFile = "dictionary.txt";
 	
 	/*
 	 * Read stop words to a set
@@ -67,8 +67,10 @@ public class MessageStringUtil {
 	 * Display frequency dictionary terms
 	 * Sorted on frequency then alphabetically
 	 */
-	public static void viewDictionary() throws FileNotFoundException{		
-						
+	public static void writeDictionary() throws FileNotFoundException{		
+				
+		PrintWriter writer = writer = new PrintWriter(dictionaryFile);
+		
 		Comparator<String> vc = new Comparator<String>(){
 			@Override
 			public int compare(String a, String b) {
@@ -82,31 +84,9 @@ public class MessageStringUtil {
 		sortedDictionary.putAll(dictionary);
 		
 		for (String key : sortedDictionary.keySet()){
-			System.out.println(key + ":" + dictionary.get(key));
-		}
-	}
-	
-	/*
-	 * Initialise the printwriter
-	 */
-	public void initialiseWriter(String name) throws FileNotFoundException{
-		writer = new PrintWriter(name);
-	}
-	
-	/*
-	 * Write frequency dictionary to file
-	 */
-	public static void writeDictionary(String output) throws FileNotFoundException{
-		if (writer == null){
-			writer = new PrintWriter("dictionary.txt");
-		}
-		writer.println(output);
-	}
-	
-	/*
-	 * Close frequency dictionary
-	 */
-	public void closeWriter(){
+			writer.println(key + ":" + dictionary.get(key));
+			//System.out.println(key + ":" + dictionary.get(key));
+		}		
 		writer.close();
 	}
 	
@@ -116,8 +96,6 @@ public class MessageStringUtil {
 		test.tokenize("animal is a test sentence");
 		test.tokenize("animal is a test sentence also");
 		test.tokenize("animal is a test sentence sick dog cat  sdf");
-		test.viewDictionary();
-		test.closeWriter();
 	}	
 	
 }
