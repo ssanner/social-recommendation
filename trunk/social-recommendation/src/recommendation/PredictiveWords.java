@@ -37,77 +37,58 @@ public class PredictiveWords {
 	}
 
 	public static Interaction getUserComments(EInteractionType type, EDirectionType dir) throws SQLException {
-		Interaction i = new Interaction(); // currently treat interactions as undirected
+		Interaction i = new Interaction();
 
-		// Repeated calls or direct
-		/*if (type == EInteractionType.ALL_COMMENTS) {
-			Interaction link_comments  = getUserComments(EInteractionType.LINK_COMMENTS, dir);
-			Interaction post_comments  = getUserComments(EInteractionType.POST_COMMENTS, dir);
-			Interaction photo_comments = getUserComments(EInteractionType.PHOTO_COMMENTS, dir);
-			Interaction video_comments = getUserComments(EInteractionType.VIDEO_COMMENTS, dir);
-			link_comments.addAllInteractions(post_comments);
-			link_comments.addAllInteractions(photo_comments);
-			link_comments.addAllInteractions(video_comments);
-			return link_comments;		
-		} else { 	
-			// Base case retrieval
-			String table = null;
-			String target_uid = null;
-			String interacting_uid = null;
-			switch (type) {
-			case LINK_COMMENTS:  table = "linkrLinkComments"; target_uid = "uid"; interacting_uid = "from_id"; break;
-			case POST_COMMENTS:  table = "linkrPostComments"; target_uid = "uid"; interacting_uid = "from_id"; break;
-			case PHOTO_COMMENTS: table = "linkrPhotoComments"; target_uid = "uid"; interacting_uid = "from_id"; break; 			
-			case VIDEO_COMMENTS: table = "linkrVideoComments"; target_uid = "uid"; interacting_uid = "from_id"; break;
-			default: {
-				System.out.println("ERROR: Illegal type -- " + type);
-				System.exit(1);
+		String[] tables = {"linkrLinkComments", "linkrPostComments", "linkrPhotoComments", "linkrVideoComments"};
+		for (String table : tables){
+			String sql_query = "SELECT uid, from_id, message FROM " + table;
+
+			Statement statement = SQLUtil.getStatement();
+			ResultSet result = statement.executeQuery(sql_query);
+			while (result.next()) {
+				// INCOMING if in correct order
+				long TARGET_ID = result.getLong(1);
+				long FROM_ID = result.getLong(2);
+				String message = result.getString(3);			
+				i.addInteraction(TARGET_ID, FROM_ID, dir, message);
 			}
-			}*/
-		
-			String[] tables = {"linkrLinkComments", "linkrPostComments", "linkrPhotoComments", "linkrVideoComments"};
-			for (String table : tables){
-				String sql_query = "SELECT uid, from_id, message FROM " + table;
+			statement.close();
+		}			
 
-				Statement statement = SQLUtil.getStatement();
-				ResultSet result = statement.executeQuery(sql_query);
-				while (result.next()) {
-					// INCOMING if in correct order
-					long TARGET_ID = result.getLong(1);
-					long FROM_ID = result.getLong(2);
-					String message = result.getString(3);			
-					i.addInteraction(TARGET_ID, FROM_ID, dir, message);
-				}
-				statement.close();
-			}			
-
-			return i;		
+		return i;		
 	}
 
-	// 627624281
 	public void getAllComments(EInteractionType type, EDirectionType dir) throws SQLException, FileNotFoundException{		
 		Interaction i = getUserComments(EInteractionType.ALL_COMMENTS, EDirectionType.OUTGOING);
 
 		//PrintWriter writer = new PrintWriter("outgoing.txt");
 		//writer.println("//outgoing comments");		
 
+		int totalUsers = 0;
+		int totalComments = 0;
+		
 		for (long uid : i.getAllInteractions().keySet()) {
+
+			totalUsers = i.getAllInteractions().size();
 			
 			String uid_name = UID_2_NAME.get(uid);				
-			
 			Set<Long> inter = i.getInteractions(uid);
 			ArrayList<String> messages = i.getMessages(uid);						
-
+						
 			for (Long uid2 : inter) {
 				if (messages.size() > 0){					
-					System.out.println("=====================================");
-					System.out.println(uid + ", " + uid_name + " -- " + type + ": " + messages.size());
+					//System.out.println("=====================================");
+					//System.out.println(uid + ", " + uid_name + " -- " + type + ": " + messages.size());
 					String uid2_name = UID_2_NAME.get(uid2);					
 					for (String message : messages){
-						System.out.println("(" + uid_name + "->" + uid2_name + ":" + message + ")");
+						//System.out.println("(" + uid_name + "->" + uid2_name + ":" + message + ")");
+						totalComments++;
 					}
 				}
 			}
+			
+			System.out.println(totalComments + " " + totalUsers);
+			
 		}
 		//	writer.close();
 	}

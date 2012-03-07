@@ -49,7 +49,7 @@ public class Interaction {
 		return _interactions;
 	}
 	
-	public void addAllInteractions(Interaction i) {
+	/*public void addAllInteractions(Interaction i) {
 		for (Map.Entry<Long,InteractionMessageHolder> e : i._interactions.entrySet()) { // i's keyset
 			long uid = e.getKey();
 			Set<Long> to_add = e.getValue().getInteractees();
@@ -65,7 +65,7 @@ public class Interaction {
 		}
 	}
 	
-	/*public void removeAllInteractions(Interaction i) {
+	public void removeAllInteractions(Interaction i) {
 		for (Map.Entry<Long,Set<Long>> e : i._interactions.entrySet()) { // i's keyset
 			long uid = e.getKey();
 			Set<Long> to_remove = e.getValue();
