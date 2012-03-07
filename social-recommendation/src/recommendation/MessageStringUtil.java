@@ -53,7 +53,7 @@ public class MessageStringUtil {
 		StringTokenizer tokens = new StringTokenizer(comment, " ");
 		while (tokens.hasMoreTokens()){
 			String word = tokens.nextToken().toLowerCase();
-			if (!stopWords.contains(word) && isEnglish(word)){
+			if (word.length() > 0 && !stopWords.contains(word) && isEnglish(word)){
 				addToDictionary(word);
 			}
 		}
