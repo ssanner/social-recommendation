@@ -53,7 +53,7 @@ public class MessageStringUtil {
 		StringTokenizer tokens = new StringTokenizer(comment, " ");
 		while (tokens.hasMoreTokens()){
 			String word = tokens.nextToken().toLowerCase();
-			if (word.length() > 0 && !stopWords.contains(word) && isEnglish(word)){
+			if (word.length() > 0 && !stopWords.contains(word) /*&& isEnglish(word)*/){
 				addToDictionary(word);
 			}
 		}
@@ -74,12 +74,10 @@ public class MessageStringUtil {
 			String messageLang = messageDetector.detect();				
 
 			if (!messageLang.equals("en")) {
-				System.out.println(word);
 				return false;
 			}
 		} 
 		catch (LangDetectException e) {
-			System.out.println(word);
 			return false;
 		}
 
