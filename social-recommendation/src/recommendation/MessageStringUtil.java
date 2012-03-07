@@ -28,13 +28,13 @@ import com.cybozu.labs.langdetect.LangDetectException;
  * 
  */
 public class MessageStringUtil {
-		
+
 	static HashMap<String, Integer> dictionary = new HashMap<String, Integer>();
 	static Set<String> stopWords = new HashSet<String>();
 	static String stopList = "stopwords.txt";
 	static String dictionaryFile = "dictionary.txt";
 	static boolean setProfile = false;
-	
+
 	/*
 	 * Read stop words to a set
 	 */
@@ -45,7 +45,7 @@ public class MessageStringUtil {
 			stopWords.add(word);
 		}
 	}
-	
+
 	/*
 	 * Tokenize each comment and add to dictionary if NOT a stop word
 	 */
@@ -58,7 +58,7 @@ public class MessageStringUtil {
 			}
 		}
 	}	
-	
+
 	/*
 	 * English words only
 	 */
@@ -67,19 +67,23 @@ public class MessageStringUtil {
 			DetectorFactory.loadProfile(Configuration.LANG_PROFILE_FOLDER);
 			setProfile = true;
 		}
-		Detector messageDetector = DetectorFactory.create();
-		messageDetector.append(word);				
-		String messageLang = messageDetector.detect();
-		
-		System.out.println(word);
-		
-		if (!messageLang.equals("en")) {
+
+		try {
+			Detector messageDetector = DetectorFactory.create();
+			messageDetector.append(word);				
+			String messageLang = messageDetector.detect();				
+
+			if (!messageLang.equals("en")) {
+				return false;
+			}
+		} 
+		catch (LangDetectException e) {
 			return false;
 		}
-		
+
 		return true;
 	}
-	
+
 	/*
 	 * Add word to frequency dictionary
 	 */
@@ -96,9 +100,9 @@ public class MessageStringUtil {
 	 * Sorted on frequency then alphabetically
 	 */
 	public static void writeDictionary() throws FileNotFoundException{		
-				
+
 		PrintWriter writer = writer = new PrintWriter(dictionaryFile);
-		
+
 		Comparator<String> vc = new Comparator<String>(){
 			@Override
 			public int compare(String a, String b) {
@@ -107,19 +111,19 @@ public class MessageStringUtil {
 				else return compare;
 			}						
 		};
-		
+
 		TreeMap<String, Integer> sortedDictionary = new TreeMap(vc);
 		sortedDictionary.putAll(dictionary);
-		
+
 		for (String key : sortedDictionary.keySet()){
 			writer.println(key + ":" + dictionary.get(key));
 			//System.out.println(key + ":" + dictionary.get(key));
 		}		
 		writer.close();
 	}
-	
+
 	public static void main(String[] args) throws IOException {
 
 	}	
-	
+
 }
