@@ -71,6 +71,8 @@ public class MessageStringUtil {
 		messageDetector.append(word);				
 		String messageLang = messageDetector.detect();
 		
+		System.out.println(word);
+		
 		if (!messageLang.equals("en")) {
 			return false;
 		}
