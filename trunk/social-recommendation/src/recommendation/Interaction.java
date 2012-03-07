@@ -6,10 +6,10 @@ import org.nicta.lr.util.*;
 
 public class Interaction {
 
-	private Map<Long,Set<Long>> _interactions = null;
+	private Map<Long,InteractionMessageHolder> _interactions = null;
 	
 	public Interaction() {
-		_interactions = new HashMap<Long,Set<Long>>();
+		_interactions = new HashMap<Long,InteractionMessageHolder>();
 	}
 	
 	/** Maintain interactions between
@@ -17,51 +17,55 @@ public class Interaction {
 	 * @param uid1
 	 * @param uid2
 	 */		
-	public void addInteraction(long uid1, long uid2, EDirectionType dir) {
-		
+	public void addInteraction(long uid1, long uid2, EDirectionType dir, String message) {						
 		if (dir == EDirectionType.INCOMING || dir == EDirectionType.BIDIR) {
-			Set<Long> interactions1 = _interactions.get(uid1);
-			if (interactions1 == null) {
-				interactions1 = new HashSet<Long>();
-				_interactions.put(uid1, interactions1);
+			InteractionMessageHolder messageHolder = _interactions.get(uid1);			
+			if (messageHolder == null) {
+				messageHolder = new InteractionMessageHolder();				
+				_interactions.put(uid1, messageHolder);
 			}
-			interactions1.add(uid2);
+			messageHolder.add(uid2,message);
 		}
 		
 		if (dir == EDirectionType.OUTGOING || dir == EDirectionType.BIDIR) {
-			Set<Long> interactions2 = _interactions.get(uid2);
-			if (interactions2 == null) {
-				interactions2 = new HashSet<Long>();
-				_interactions.put(uid2, interactions2);
+			InteractionMessageHolder messageHolder = _interactions.get(uid2);
+			if (messageHolder == null) {
+				messageHolder = new InteractionMessageHolder();				
+				_interactions.put(uid2, messageHolder);
 			}
-			interactions2.add(uid1);
+			messageHolder.add(uid1,message);
 		}
 	}
 	
 	public Set<Long> getInteractions(Long uid) {
-		return _interactions.get(uid);
+		return _interactions.get(uid).getInteractees();
 	}
 	
-	public Map<Long,Set<Long>> getAllInteractions() {
+	public ArrayList<String> getMessages(Long uid){
+		return _interactions.get(uid).getMessages();
+	}
+	
+	public Map<Long,InteractionMessageHolder> getAllInteractions() {
 		return _interactions;
 	}
 	
 	public void addAllInteractions(Interaction i) {
-		for (Map.Entry<Long,Set<Long>> e : i._interactions.entrySet()) { // i's keyset
+		for (Map.Entry<Long,InteractionMessageHolder> e : i._interactions.entrySet()) { // i's keyset
 			long uid = e.getKey();
-			Set<Long> to_add = e.getValue();
+			Set<Long> to_add = e.getValue().getInteractees();
 			if (to_add == null || to_add.size() == 0)
-				continue;			
-			Set<Long> interactions = this._interactions.get(uid); // this's keys
-			if (interactions == null) {
-				interactions = new HashSet<Long>();
-				this._interactions.put(uid, interactions);
+				continue;		
+			InteractionMessageHolder messageHolder = this._interactions.get(uid);			
+			if (messageHolder == null) {
+				messageHolder = new InteractionMessageHolder();				
+				this._interactions.put(uid, messageHolder);
 			}
+			Set<Long> interactions = this._interactions.get(uid).getInteractees(); // this's keys
 			interactions.addAll(to_add);
 		}
 	}
 	
-	public void removeAllInteractions(Interaction i) {
+	/*public void removeAllInteractions(Interaction i) {
 		for (Map.Entry<Long,Set<Long>> e : i._interactions.entrySet()) { // i's keyset
 			long uid = e.getKey();
 			Set<Long> to_remove = e.getValue();
@@ -88,7 +92,7 @@ public class Interaction {
 				continue;
 			interactions.retainAll(to_retain);
 		}
-	}
+	}*/
 	
 	/**
 	 * @param args
@@ -97,7 +101,7 @@ public class Interaction {
 		Interaction i = new Interaction();
 		//Direction dir = Direction.BIDIRECTIONAL;
 		//Direction dir = Direction.INCOMING;
-		EDirectionType dir = EDirectionType.OUTGOING;
+		/*EDirectionType dir = EDirectionType.OUTGOING;
 		i.addInteraction(1, 2, dir);
 		i.addInteraction(3, 4, dir);
 		i.addInteraction(1, 3, dir);
@@ -105,7 +109,7 @@ public class Interaction {
 		System.out.println("2: " + i.getInteractions(2l));
 		System.out.println("3: " + i.getInteractions(3l));
 		System.out.println("4: " + i.getInteractions(4l));
-		System.out.println("5: " + i.getInteractions(5l));
+		System.out.println("5: " + i.getInteractions(5l));*/
 	}
 
 }
