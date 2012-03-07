@@ -94,18 +94,14 @@ public class PredictiveWords {
 			Set<Long> inter = i.getInteractions(uid);
 			ArrayList<String> messages = i.getMessages(uid);
 			System.out.println(uid + ", " + uid_name + " -- " + type + ": " + (inter == null ? 0 : inter.size()));
-			System.out.print(" * [ ");
 			boolean first = true;
 			if (inter != null) 
 				for (Long uid2 : inter) {
-					String uid2_name = UID_2_NAME.get(uid2);
-					System.out.print((first ? "" : ", ") + uid2_name);					
-					first = false;
+					String uid2_name = UID_2_NAME.get(uid2);					
 					for (String message : messages){
-						System.out.println(message);
+						System.out.println("(" + uid2_name + "->" + uid_name + ":" + message + ")");
 					}
 				}
-			System.out.println(" ]");
 		}
 		writer.close();
 	}
