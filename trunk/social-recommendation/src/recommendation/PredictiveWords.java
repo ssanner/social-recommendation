@@ -75,7 +75,9 @@ public class PredictiveWords {
 			long FROM_ID = result.getLong(2);
 			String message = result.getString(3);			
 			i.addInteraction(TARGET_ID, FROM_ID, type == EInteractionType.FRIENDS ? EDirectionType.BIDIR : dir, message);
-				System.out.println(TARGET_ID + ":" + UID_2_NAME.get(627624281));
+			if (TARGET_ID == 627624281){
+				System.out.println(message);
+			}
 		}
 		statement.close();
 		
@@ -83,7 +85,7 @@ public class PredictiveWords {
 	}
 }
 	
-	
+	// 627624281
 	public void getAllComments(EInteractionType type, EDirectionType dir) throws SQLException, FileNotFoundException{		
 		Interaction i = getUserComments(EInteractionType.ALL_COMMENTS, EDirectionType.OUTGOING);
 				
