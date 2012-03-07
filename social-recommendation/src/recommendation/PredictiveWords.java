@@ -85,11 +85,9 @@ public class PredictiveWords {
 						totalComments++;
 					}
 				}
-			}
-			
-			System.out.println(totalComments + " " + totalUsers);
-			
+			}									
 		}
+		System.out.println(totalComments + " " + totalUsers);
 		//	writer.close();
 	}
 
