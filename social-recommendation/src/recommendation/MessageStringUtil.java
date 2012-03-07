@@ -23,15 +23,16 @@ import java.util.TreeMap;
  */
 public class MessageStringUtil {
 		
-	HashMap<String, Integer> dictionary = new HashMap<String, Integer>();
-	Set<String> stopWords = new HashSet<String>();
-	PrintWriter writer = null;
+	static HashMap<String, Integer> dictionary = new HashMap<String, Integer>();
+	static Set<String> stopWords = new HashSet<String>();
+	static PrintWriter writer = null;	
+	static String stopList = "stopwords.txt";
 	
 	/*
 	 * Read stop words to a set
 	 */
-	public void readStopList(String fileName) throws IOException{
-		BufferedReader br = new BufferedReader(new FileReader(fileName));
+	public static void readStopList() throws IOException{
+		BufferedReader br = new BufferedReader(new FileReader(stopList));
 		String word;
 		while ((word = br.readLine()) != null){
 			stopWords.add(word);
@@ -41,7 +42,7 @@ public class MessageStringUtil {
 	/*
 	 * Tokenize each comment and add to dictionary if NOT a stop word
 	 */
-	public void tokenize(String comment){
+	public static void tokenize(String comment){
 		StringTokenizer tokens = new StringTokenizer(comment, " ");
 		while (tokens.hasMoreTokens()){
 			String word = tokens.nextToken().toLowerCase();
@@ -54,7 +55,7 @@ public class MessageStringUtil {
 	/*
 	 * Add word to frequency dictionary
 	 */
-	public void addToDictionary(String str){	
+	public static void addToDictionary(String str){	
 		if (dictionary.containsKey(str)){
 			dictionary.put(str, dictionary.get(str)+1);
 		} else {
@@ -66,7 +67,7 @@ public class MessageStringUtil {
 	 * Display frequency dictionary terms
 	 * Sorted on frequency then alphabetically
 	 */
-	public void viewDictionary() throws FileNotFoundException{		
+	public static void viewDictionary() throws FileNotFoundException{		
 						
 		Comparator<String> vc = new Comparator<String>(){
 			@Override
@@ -82,7 +83,6 @@ public class MessageStringUtil {
 		
 		for (String key : sortedDictionary.keySet()){
 			System.out.println(key + ":" + dictionary.get(key));
-			writeDictionary(key + ":" + dictionary.get(key));
 		}
 	}
 	
@@ -96,9 +96,9 @@ public class MessageStringUtil {
 	/*
 	 * Write frequency dictionary to file
 	 */
-	public void writeDictionary(String output) throws FileNotFoundException{
+	public static void writeDictionary(String output) throws FileNotFoundException{
 		if (writer == null){
-			
+			writer = new PrintWriter("dictionary.txt");
 		}
 		writer.println(output);
 	}
@@ -112,7 +112,7 @@ public class MessageStringUtil {
 	
 	public static void main(String[] args) throws IOException {
 		MessageStringUtil test = new MessageStringUtil();
-		test.readStopList("stopwords.txt");
+		test.readStopList();
 		test.tokenize("animal is a test sentence");
 		test.tokenize("animal is a test sentence also");
 		test.tokenize("animal is a test sentence sick dog cat  sdf");

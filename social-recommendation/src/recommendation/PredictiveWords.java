@@ -1,6 +1,9 @@
 package recommendation;
 
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -31,16 +34,26 @@ public class PredictiveWords {
 		}
 	}	
 
-	public static void main(String[] args) throws SQLException, FileNotFoundException {				
+	public static void main(String[] args) throws SQLException, IOException {				
 		PredictiveWords p = new PredictiveWords();
 		p.writeUserComments();
+		//p.buildCommentsDictionary("messages.txt");
 		//p.getAllComments(EDirectionType.OUTGOING);		
+	}
+	
+	public void buildCommentsDictionary(String fileName) throws IOException{
+		//MessageStringUtil.readStopList();
+		BufferedReader br = new BufferedReader(new FileReader(fileName));
+		String word;
+		while ((word = br.readLine()) != null){
+			MessageStringUtil.tokenize(word);
+		}
 	}
 
 	public void writeUserComments() throws SQLException, FileNotFoundException {
 		//Interaction i = new Interaction();
 
-		PrintWriter writer = new PrintWriter("outgoing.txt");			
+		PrintWriter writer = new PrintWriter("messages.txt");			
 		
 		String[] tables = {"linkrLinkComments", "linkrPostComments", "linkrPhotoComments", "linkrVideoComments"};
 		for (String table : tables){
