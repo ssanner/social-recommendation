@@ -52,7 +52,7 @@ public class PredictiveWords {
 		
 		DetectorFactory.loadProfile(Configuration.LANG_PROFILE_FOLDER);
 		Detector messageDetector = DetectorFactory.create();
-		messageDetector.append("This");				
+		messageDetector.append("");				
 		String messageLang = messageDetector.detect();
 		
 		System.out.println(messageLang);
