@@ -37,7 +37,8 @@ public class MessageStringUtil {
 	/*
 	 * Read stop words to a set
 	 */
-	public static void readStopList() throws IOException{
+	public static void readStopList() throws IOException, LangDetectException{
+		DetectorFactory.loadProfile(Configuration.LANG_PROFILE_FOLDER);
 		BufferedReader br = new BufferedReader(new FileReader(stopList));
 		String word;
 		while ((word = br.readLine()) != null){
@@ -61,8 +62,7 @@ public class MessageStringUtil {
 	/*
 	 * English words only
 	 */
-	public static boolean isEnglish(String word) throws LangDetectException{
-		DetectorFactory.loadProfile(Configuration.LANG_PROFILE_FOLDER);
+	public static boolean isEnglish(String word) throws LangDetectException{		
 		Detector messageDetector = DetectorFactory.create();
 		messageDetector.append(word);				
 		String messageLang = messageDetector.detect();
