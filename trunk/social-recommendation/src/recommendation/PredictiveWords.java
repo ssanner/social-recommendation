@@ -32,13 +32,16 @@ public class PredictiveWords {
 	}	
 
 	public static void main(String[] args) throws SQLException, FileNotFoundException {				
-		PredictiveWords p = new PredictiveWords();				
-		p.getAllComments(EDirectionType.INCOMING);		
+		PredictiveWords p = new PredictiveWords();
+		p.writeUserComments();
+		//p.getAllComments(EDirectionType.OUTGOING);		
 	}
 
-	public static Interaction getUserComments(EDirectionType dir) throws SQLException {
-		Interaction i = new Interaction();
+	public void writeUserComments() throws SQLException, FileNotFoundException {
+		//Interaction i = new Interaction();
 
+		PrintWriter writer = new PrintWriter("outgoing.txt");			
+		
 		String[] tables = {"linkrLinkComments", "linkrPostComments", "linkrPhotoComments", "linkrVideoComments"};
 		for (String table : tables){
 			String sql_query = "SELECT uid, from_id, message FROM " + table;
@@ -48,16 +51,19 @@ public class PredictiveWords {
 			while (result.next()) {
 				long TARGET_ID = result.getLong(1);
 				long FROM_ID = result.getLong(2);
-				String message = result.getString(3);			
-				i.addInteraction(TARGET_ID, FROM_ID, dir, message);
+				String message = result.getString(3);
+				writer.println(message);
+				//i.addInteraction(TARGET_ID, FROM_ID, dir, message);
 			}
-			statement.close();
+			statement.close();			
 		}			
 
-		return i;		
+		writer.close();
+		
+		//return i;		
 	}
 
-	public void getAllComments(EDirectionType dir) throws SQLException, FileNotFoundException{		
+	/*public void getAllComments(EDirectionType dir) throws SQLException, FileNotFoundException{		
 		Interaction i = getUserComments(dir);
 
 		//PrintWriter writer = new PrintWriter("outgoing.txt");
@@ -85,6 +91,6 @@ public class PredictiveWords {
 		}
 		System.out.println(totalComments + " " + totalUsers);
 		//	writer.close();
-	}
+	}*/
 
 }
