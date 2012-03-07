@@ -39,11 +39,10 @@ public class PredictiveWords {
 		PredictiveWords p = new PredictiveWords();
 		//p.writeUserComments();
 		p.buildCommentsDictionary(MESSAGES_FILE);
-		//p.getAllComments(EDirectionType.OUTGOING);		
 	}
 	
 	public void buildCommentsDictionary(String fileName) throws IOException{
-		//MessageStringUtil.readStopList();
+		MessageStringUtil.readStopList();
 		BufferedReader br = new BufferedReader(new FileReader(fileName));
 		String word;
 		while ((word = br.readLine()) != null){
