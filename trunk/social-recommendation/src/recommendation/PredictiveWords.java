@@ -32,9 +32,7 @@ public class PredictiveWords {
 	}	
 
 	public static void main(String[] args) throws SQLException, FileNotFoundException {				
-		PredictiveWords p = new PredictiveWords();		
-		System.out.println(UID_2_NAME.get(1624851049));
-		System.exit(0);
+		PredictiveWords p = new PredictiveWords();				
 		p.getAllComments(EInteractionType.ALL_COMMENTS, EDirectionType.OUTGOING);		
 	}
 
@@ -94,16 +92,18 @@ public class PredictiveWords {
 		for (long uid : i.getAllInteractions().keySet()) {
 			String uid_name = UID_2_NAME.get(uid);				
 			Set<Long> inter = i.getInteractions(uid);
-			ArrayList<String> messages = i.getMessages(uid);			
-			System.out.println(uid + ", " + uid_name + " -- " + type + ": " + (inter == null ? 0 : messages.size()));
+			ArrayList<String> messages = i.getMessages(uid);						
 
+			int count = 0;
 			for (Long uid2 : inter) {
-				if (messages.size() > 0){
+				if (messages.size() > 0 && count < 5){					
 					System.out.println("=====================================");
+					System.out.println(uid + ", " + uid_name + " -- " + type + ": " + (inter == null ? 0 : messages.size()));
 					String uid2_name = UID_2_NAME.get(uid2);					
 					for (String message : messages){
 						System.out.println("(" + uid2_name + "->" + uid_name + ":" + message + ")");
 					}
+					count++;
 				}
 			}
 		}
