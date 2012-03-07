@@ -49,7 +49,7 @@ public class PredictiveWords {
 		while ((word = br.readLine()) != null){
 			MessageStringUtil.tokenize(word);
 		}
-		MessageStringUtil.viewDictionary();
+		MessageStringUtil.writeDictionary();
 	}
 
 	public void writeUserComments() throws SQLException, FileNotFoundException {
