@@ -91,16 +91,19 @@ public class PredictiveWords {
 		
 		for (long uid : APP_USERS) {
 			String uid_name = UID_2_NAME.get(uid);				
-			Set<Long> inter = i.getInteractions(uid);
-			ArrayList<String> messages = i.getMessages(uid);
+			Set<Long> inter = i.getInteractions(uid);			
 			System.out.println(uid + ", " + uid_name + " -- " + type + ": " + (inter == null ? 0 : inter.size()));
-			if (inter != null && messages != null) 
+			if (inter != null){
+				ArrayList<String> messages = i.getMessages(uid);			
 				for (Long uid2 : inter) {
+					System.out.println("=====================================");
 					String uid2_name = UID_2_NAME.get(uid2);					
 					for (String message : messages){
 						System.out.println("(" + uid2_name + "->" + uid_name + ":" + message + ")");
 					}
+					System.out.println("=====================================");
 				}
+			}
 		}
 	//	writer.close();
 	}
