@@ -33,7 +33,9 @@ public class PredictiveWords {
 
 	public static void main(String[] args) throws SQLException, FileNotFoundException {				
 		PredictiveWords p = new PredictiveWords();		
-		p.getAllComments(EInteractionType.ALL_COMMENTS, EDirectionType.OUTGOING);						
+		p.getAllComments(EInteractionType.ALL_COMMENTS, EDirectionType.OUTGOING);
+		System.out.println(UID_2_NAME.get(1624851049));
+		System.exit(0);
 	}
 
 	public static Interaction getUserComments(EInteractionType type, EDirectionType dir) throws SQLException {
@@ -96,12 +98,13 @@ public class PredictiveWords {
 			System.out.println(uid + ", " + uid_name + " -- " + type + ": " + (inter == null ? 0 : messages.size()));
 
 			for (Long uid2 : inter) {
-				System.out.println("=====================================");
-				String uid2_name = UID_2_NAME.get(uid2);					
-				for (String message : messages){
-					System.out.println("(" + uid2_name + "->" + uid_name + ":" + message + ")");
+				if (messages.size() > 0){
+					System.out.println("=====================================");
+					String uid2_name = UID_2_NAME.get(uid2);					
+					for (String message : messages){
+						System.out.println("(" + uid2_name + "->" + uid_name + ":" + message + ")");
+					}
 				}
-				System.out.println("=====================================");
 			}
 		}
 		//	writer.close();
