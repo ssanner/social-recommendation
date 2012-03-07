@@ -74,10 +74,12 @@ public class MessageStringUtil {
 			String messageLang = messageDetector.detect();				
 
 			if (!messageLang.equals("en")) {
+				System.out.println(word);
 				return false;
 			}
 		} 
 		catch (LangDetectException e) {
+			System.out.println(word);
 			return false;
 		}
 
