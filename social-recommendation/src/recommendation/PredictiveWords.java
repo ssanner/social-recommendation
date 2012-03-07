@@ -65,7 +65,7 @@ public class PredictiveWords {
 			}
 			}*/
 		
-			String[] tables = {"linkrLinkComments", "linkrPostComments", "LinkrPhotoComments", "linkrVideoComments"};
+			String[] tables = {"linkrLinkComments", "linkrPostComments", "linkrPhotoComments", "linkrVideoComments"};
 			for (String table : tables){
 				String sql_query = "SELECT uid, from_id, message FROM " + table;
 
