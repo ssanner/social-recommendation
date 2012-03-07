@@ -40,7 +40,7 @@ public class PredictiveWords {
 		Interaction i = new Interaction(); // currently treat interactions as undirected
 
 		// Repeated calls or direct
-		if (type == EInteractionType.ALL_COMMENTS) {
+		/*if (type == EInteractionType.ALL_COMMENTS) {
 			Interaction link_comments  = getUserComments(EInteractionType.LINK_COMMENTS, dir);
 			Interaction post_comments  = getUserComments(EInteractionType.POST_COMMENTS, dir);
 			Interaction photo_comments = getUserComments(EInteractionType.PHOTO_COMMENTS, dir);
@@ -63,23 +63,25 @@ public class PredictiveWords {
 				System.out.println("ERROR: Illegal type -- " + type);
 				System.exit(1);
 			}
-			}
+			}*/
+		
+			String[] tables = {"linkrLinkComments", "linkrPostComments", "LinkrPhotoComments", "linkrVideoComments"};
+			for (String table : tables){
+				String sql_query = "SELECT uid, from_id, message FROM " + table;
 
-			String sql_query = "SELECT " + target_uid + ", " + interacting_uid + ", message FROM " + table;
+				Statement statement = SQLUtil.getStatement();
+				ResultSet result = statement.executeQuery(sql_query);
+				while (result.next()) {
+					// INCOMING if in correct order
+					long TARGET_ID = result.getLong(1);
+					long FROM_ID = result.getLong(2);
+					String message = result.getString(3);			
+					i.addInteraction(TARGET_ID, FROM_ID, dir, message);
+				}
+				statement.close();
+			}			
 
-			Statement statement = SQLUtil.getStatement();
-			ResultSet result = statement.executeQuery(sql_query);
-			while (result.next()) {
-				// INCOMING if in correct order
-				long TARGET_ID = result.getLong(1);
-				long FROM_ID = result.getLong(2);
-				String message = result.getString(3);			
-				i.addInteraction(TARGET_ID, FROM_ID, type == EInteractionType.FRIENDS ? EDirectionType.BIDIR : dir, message);
-			}
-			statement.close();
-
-			return i;
-		}
+			return i;		
 	}
 
 	// 627624281
@@ -92,8 +94,7 @@ public class PredictiveWords {
 		for (long uid : i.getAllInteractions().keySet()) {
 			
 			String uid_name = UID_2_NAME.get(uid);				
-			System.out.println(uid);
-			/*
+			
 			Set<Long> inter = i.getInteractions(uid);
 			ArrayList<String> messages = i.getMessages(uid);						
 
@@ -106,7 +107,7 @@ public class PredictiveWords {
 						System.out.println("(" + uid_name + "->" + uid2_name + ":" + message + ")");
 					}
 				}
-			}*/
+			}
 		}
 		//	writer.close();
 	}

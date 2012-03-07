@@ -14,8 +14,8 @@ public class Interaction {
 	
 	/** Maintain interactions between
 	 * 
-	 * @param uid1
-	 * @param uid2
+	 * @param uid1 = uid
+	 * @param uid2 = from_id
 	 */		
 	public void addInteraction(long uid1, long uid2, EDirectionType dir, String message) {						
 		if (dir == EDirectionType.INCOMING) {
