@@ -33,12 +33,12 @@ public class MessageStringUtil {
 	static Set<String> stopWords = new HashSet<String>();
 	static String stopList = "stopwords.txt";
 	static String dictionaryFile = "dictionary.txt";
+	static boolean setProfile = false;
 	
 	/*
 	 * Read stop words to a set
 	 */
-	public static void readStopList() throws IOException, LangDetectException{
-		DetectorFactory.loadProfile(Configuration.LANG_PROFILE_FOLDER);
+	public static void readStopList() throws IOException, LangDetectException{		
 		BufferedReader br = new BufferedReader(new FileReader(stopList));
 		String word;
 		while ((word = br.readLine()) != null){
@@ -62,7 +62,11 @@ public class MessageStringUtil {
 	/*
 	 * English words only
 	 */
-	public static boolean isEnglish(String word) throws LangDetectException{		
+	public static boolean isEnglish(String word) throws LangDetectException{
+		if(!setProfile){
+			DetectorFactory.loadProfile(Configuration.LANG_PROFILE_FOLDER);
+			setProfile = true;
+		}
 		Detector messageDetector = DetectorFactory.create();
 		messageDetector.append(word);				
 		String messageLang = messageDetector.detect();
