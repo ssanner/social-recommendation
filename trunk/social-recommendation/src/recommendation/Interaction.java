@@ -18,7 +18,7 @@ public class Interaction {
 	 * @param uid2
 	 */		
 	public void addInteraction(long uid1, long uid2, EDirectionType dir, String message) {						
-		if (dir == EDirectionType.INCOMING || dir == EDirectionType.BIDIR) {
+		if (dir == EDirectionType.INCOMING) {
 			InteractionMessageHolder messageHolder = _interactions.get(uid1);			
 			if (messageHolder == null) {
 				messageHolder = new InteractionMessageHolder();				
@@ -27,7 +27,7 @@ public class Interaction {
 			messageHolder.add(uid2,message);
 		}
 		
-		if (dir == EDirectionType.OUTGOING || dir == EDirectionType.BIDIR) {
+		if (dir == EDirectionType.OUTGOING) {
 			InteractionMessageHolder messageHolder = _interactions.get(uid2);
 			if (messageHolder == null) {
 				messageHolder = new InteractionMessageHolder();				
