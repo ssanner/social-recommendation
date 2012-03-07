@@ -12,11 +12,14 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
 
+import org.nicta.lr.util.Configuration;
 import org.nicta.lr.util.EDirectionType;
 import org.nicta.lr.util.EInteractionType;
 import org.nicta.lr.util.SQLUtil;
 import org.nicta.lr.util.UserUtil;
 
+import com.cybozu.labs.langdetect.Detector;
+import com.cybozu.labs.langdetect.DetectorFactory;
 import com.cybozu.labs.langdetect.LangDetectException;
 
 public class PredictiveWords {
@@ -40,7 +43,27 @@ public class PredictiveWords {
 	public static void main(String[] args) throws SQLException, IOException, LangDetectException {				
 		PredictiveWords p = new PredictiveWords();
 		//p.writeUserComments();
-		p.buildCommentsDictionary(MESSAGES_FILE);
+		//p.buildCommentsDictionary(MESSAGES_FILE);
+		
+		
+		
+		
+		
+		
+		DetectorFactory.loadProfile(Configuration.LANG_PROFILE_FOLDER);
+		Detector messageDetector = DetectorFactory.create();
+		messageDetector.append("english");				
+		String messageLang = messageDetector.detect();
+		
+		System.out.println(messageLang);
+		
+		
+		
+		
+		
+		
+		
+		
 	}
 	
 	public void buildCommentsDictionary(String fileName) throws IOException, LangDetectException{
