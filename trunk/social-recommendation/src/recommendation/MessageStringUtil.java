@@ -25,7 +25,7 @@ public class MessageStringUtil {
 		
 	HashMap<String, Integer> dictionary = new HashMap<String, Integer>();
 	Set<String> stopWords = new HashSet<String>();
-	PrintWriter writer = new PrintWriter("output.txt");
+	PrintWriter writer = null;
 	
 	/*
 	 * Read stop words to a set
@@ -84,6 +84,13 @@ public class MessageStringUtil {
 			System.out.println(key + ":" + dictionary.get(key));
 			writeDictionary(key + ":" + dictionary.get(key));
 		}
+	}
+	
+	/*
+	 * Initialise the printwriter
+	 */
+	public void initialiseWriter(String name) throws FileNotFoundException{
+		writer = new PrintWriter(name);
 	}
 	
 	/*
