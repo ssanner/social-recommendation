@@ -75,6 +75,7 @@ public class PredictiveWords {
 			long FROM_ID = result.getLong(2);
 			String message = result.getString(3);			
 			i.addInteraction(TARGET_ID, FROM_ID, type == EInteractionType.FRIENDS ? EDirectionType.BIDIR : dir, message);
+			System.out.println(TARGET_ID + ":" + UID_2_NAME.get(TARGET_ID));
 		}
 		statement.close();
 		
