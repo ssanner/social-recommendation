@@ -60,7 +60,7 @@ public class Interaction {
 				messageHolder = new InteractionMessageHolder();				
 				this._interactions.put(uid, messageHolder);
 			}
-			Set<Long> interactions = this._interactions.get(uid).getInteractees(); // this's keys
+			Set<Long> interactions = messageHolder.getInteractees(); // this's keys
 			interactions.addAll(to_add);
 		}
 	}
