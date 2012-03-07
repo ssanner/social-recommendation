@@ -43,27 +43,7 @@ public class PredictiveWords {
 	public static void main(String[] args) throws SQLException, IOException, LangDetectException {				
 		PredictiveWords p = new PredictiveWords();
 		//p.writeUserComments();
-		//p.buildCommentsDictionary(MESSAGES_FILE);
-		
-		
-		
-		
-		
-		
-		DetectorFactory.loadProfile(Configuration.LANG_PROFILE_FOLDER);
-		Detector messageDetector = DetectorFactory.create();
-		messageDetector.append("february");				
-		String messageLang = messageDetector.detect();
-		
-		System.out.println(messageLang);
-		
-		
-		
-		
-		
-		
-		
-		
+		p.buildCommentsDictionary(MESSAGES_FILE);
 	}
 	
 	public void buildCommentsDictionary(String fileName) throws IOException, LangDetectException{
