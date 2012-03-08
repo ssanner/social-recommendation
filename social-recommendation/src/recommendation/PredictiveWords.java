@@ -8,6 +8,7 @@ import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
 
@@ -97,11 +98,17 @@ public class PredictiveWords {
 		BufferedReader br = new BufferedReader(new FileReader(MessageStringUtil.dictionaryFile));
 		String word;
 		int frequency;
-		String[] wordAndFrequency;				
+		String[] wordAndFrequency;	
+		StringBuilder builder;
 		while ((word = br.readLine()) != null){
 			wordAndFrequency = word.split(":");
 			word = wordAndFrequency[0];
-			frequency = Integer.parseInt(wordAndFrequency[1]);
+			builder = new StringBuilder();
+			for(String s : wordAndFrequency) {
+			    builder.append(s);
+			}
+			word = builder.toString();
+			frequency = Integer.parseInt(wordAndFrequency[wordAndFrequency.length-1]);
 			if (frequency > minFrequency){
 				System.out.println(word);			
 			}			
