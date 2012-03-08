@@ -75,10 +75,10 @@ public class UserUtil
 			String table = null;
 			String liked_id = null;
 			switch (type) {
-				case LINK:  table = "linkrlinklikes";  liked_id = "link_id"; break;
-				case POST:  table = "linkrpostlikes";  liked_id = "post_id"; break;
-				case PHOTO: table = "linkrphotolikes"; liked_id = "photo_id"; break;
-				case VIDEO: table = "linkrvideolikes"; liked_id = "video_id"; break;
+				case LINK:  table = "linkrLinkLikes";  liked_id = "link_id"; break;
+				case POST:  table = "linkrPostLikes";  liked_id = "post_id"; break;
+				case PHOTO: table = "linkrPhotoLikes"; liked_id = "photo_id"; break;
+				case VIDEO: table = "linkrVideoLikes"; liked_id = "video_id"; break;
 			}
 			String userQuery = "SELECT " + liked_id + ", id FROM " + table;
 			
@@ -327,20 +327,20 @@ public class UserUtil
 
 	public static String GetInterestGroupTable(EInterestType type) {
 		switch (type) {
-			case GROUPS:               return "linkrgroups"; 
-			case ACTIVITIES:           return "linkractivities"; 
-			case BOOKS:                return "linkrbooks"; 
-			case FAVORITE_ATHLETES:    return "linkrfavoriteathletes"; 
-			case FAVORITE_TEAMS:       return "linkrfavoriteteams"; 
-			case INSPIRATIONAL_PEOPLE: return "linkrinspirationalpeople"; 
-			case INTERESTS:            return "linkrinterests"; 
-			case GENERAL_LIKES:        return "linkrlikes"; 
-			case MOVIES:               return "linkrmovies";  
-			case MUSIC:                return "linkrmusic"; 
-			case SPORTS:               return "linkrsports"; 
-			case TELEVISION:           return "linkrtelevision"; 
-			case SCHOOL:               return "linkreducation";
-			case WORK:                 return "linkrwork";
+			case GROUPS:               return "linkrGroups"; 
+			case ACTIVITIES:           return "linkrActivities"; 
+			case BOOKS:                return "linkrBooks"; 
+			case FAVORITE_ATHLETES:    return "linkrFavoriteAthletes"; 
+			case FAVORITE_TEAMS:       return "linkrFavoriteTeams"; 
+			case INSPIRATIONAL_PEOPLE: return "linkrInspirationalPeople"; 
+			case INTERESTS:            return "linkrInterests"; 
+			case GENERAL_LIKES:        return "linkrLikes"; 
+			case MOVIES:               return "linkrMovies";  
+			case MUSIC:                return "linkrMusic"; 
+			case SPORTS:               return "linkrSports"; 
+			case TELEVISION:           return "linkrTelevision"; 
+			case SCHOOL:               return "linkrEducation";
+			case WORK:                 return "linkrWork";
 			default: {
 				System.out.println("ERROR: Illegal type -- " + type);
 				System.exit(1);
