@@ -8,18 +8,13 @@ import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
 
-import org.nicta.lr.util.Configuration;
-import org.nicta.lr.util.EDirectionType;
-import org.nicta.lr.util.EInteractionType;
+
 import org.nicta.lr.util.SQLUtil;
 import org.nicta.lr.util.UserUtil;
 
-import com.cybozu.labs.langdetect.Detector;
-import com.cybozu.labs.langdetect.DetectorFactory;
 import com.cybozu.labs.langdetect.LangDetectException;
 
 public class PredictiveWords {
@@ -44,7 +39,7 @@ public class PredictiveWords {
 		PredictiveWords p = new PredictiveWords();
 		//p.writeUserMessagesToFile();
 		//p.buildMessagesDictionary(MESSAGES_FILE);
-		ExtractRelTables.ShowCondProbs();
+		p.ShowCondProbs();
 	}
 	
 	/*
@@ -93,6 +88,17 @@ public class PredictiveWords {
 		System.out.println("Messages written to " + MESSAGES_FILE);
 		
 		//return i;		
+	}
+	
+	
+	public static void ShowCondProbs() throws Exception {
+		
+		BufferedReader br = new BufferedReader(new FileReader(MESSAGES_FILE));
+		String word;
+		while ((word = br.readLine()) != null){
+			System.out.println(word);
+		}
+		
 	}
 
 	/*public void getAllComments(EDirectionType dir) throws SQLException, FileNotFoundException{		
