@@ -93,7 +93,7 @@ public class PredictiveWords {
 	
 	public static void ShowCondProbs() throws Exception {
 		
-		BufferedReader br = new BufferedReader(new FileReader(MESSAGES_FILE));
+		BufferedReader br = new BufferedReader(new FileReader(MessageStringUtil.dictionaryFile));
 		String word;
 		while ((word = br.readLine()) != null){
 			System.out.println(word);
