@@ -13,6 +13,9 @@ import java.util.Map;
 import java.util.Set;
 
 
+import org.nicta.lr.util.EDirectionType;
+import org.nicta.lr.util.EInteractionType;
+import org.nicta.lr.util.Interaction;
 import org.nicta.lr.util.SQLUtil;
 import org.nicta.lr.util.UserUtil;
 
@@ -95,12 +98,15 @@ public class PredictiveWords {
 	
 	public static void ShowCondProbs() throws Exception {
 		
+		EDirectionType[] directions = {EDirectionType.INCOMING, EDirectionType.OUTGOING};
 		BufferedReader br = new BufferedReader(new FileReader(MessageStringUtil.dictionaryFile));
 		String word;
 		int frequency;
 		String[] wordAndFrequency;	
 		StringBuilder builder;
 		while ((word = br.readLine()) != null){
+			
+			// split word and frequency value pairs
 			wordAndFrequency = word.split(":");
 			word = wordAndFrequency[0];
 			builder = new StringBuilder();
@@ -109,8 +115,15 @@ public class PredictiveWords {
 			}
 			word = builder.toString();
 			frequency = Integer.parseInt(wordAndFrequency[wordAndFrequency.length-1]);
+			
+			// frequency constraint
 			if (frequency > minFrequency){
-				System.out.println(word);			
+				for (EDirectionType dir : directions){
+					Interaction i = UserUtil.getUserInteractions(EInteractionType.ALL_COMMENTS, dir);
+					for (long uid : APP_USERS){
+						
+					}																				
+				}
 			}			
 		}
 		
