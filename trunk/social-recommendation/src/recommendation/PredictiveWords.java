@@ -23,6 +23,7 @@ public class PredictiveWords {
 	public static Set<Long> ALL_USERS;
 	public static Map<Long,String> UID_2_NAME;
 	public static String MESSAGES_FILE = "messages.txt";
+	public static int minFrequency = 25;
 
 	static {
 		try {
@@ -38,8 +39,8 @@ public class PredictiveWords {
 	public static void main(String[] args) throws Exception {				
 		PredictiveWords p = new PredictiveWords();
 		//p.writeUserMessagesToFile();
-		p.buildMessagesDictionary(MESSAGES_FILE);
-		//p.ShowCondProbs();
+		//p.buildMessagesDictionary(MESSAGES_FILE);
+		p.ShowCondProbs();
 	}
 	
 	/*
@@ -95,8 +96,15 @@ public class PredictiveWords {
 		
 		BufferedReader br = new BufferedReader(new FileReader(MessageStringUtil.dictionaryFile));
 		String word;
+		int frequency;
+		String[] wordAndFrequency;				
 		while ((word = br.readLine()) != null){
-			System.out.println(word);
+			wordAndFrequency = word.split(":");
+			word = wordAndFrequency[0];
+			frequency = Integer.parseInt(wordAndFrequency[1]);
+			if (frequency > minFrequency){
+				System.out.println(word);			
+			}			
 		}
 		
 	}
