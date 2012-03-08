@@ -42,7 +42,7 @@ public class PredictiveWords {
 
 	public static void main(String[] args) throws Exception {				
 		PredictiveWords p = new PredictiveWords();
-		//p.writeUserMessages();
+		//p.writeUserMessagesToFile();
 		p.buildMessagesDictionary(MESSAGES_FILE);
 		//ExtractRelTables.ShowCondProbs();
 	}
@@ -51,14 +51,14 @@ public class PredictiveWords {
 	 * Build message frequency dictionary
 	 */
 	public void buildMessagesDictionary(String fileName) throws IOException, LangDetectException{
-		//MessageStringUtil.readStopList();
+		MessageStringUtil.readStopList();
 		BufferedReader br = new BufferedReader(new FileReader(fileName));
 		String message;
 		int totalComments = 0;
 		while ((message = br.readLine()) != null){
 			MessageStringUtil.tokenize(message);
-			if (totalComments % 100 == 0){
-				System.out.println("Processing comments " + totalComments + " to " + (totalComments+100));
+			if (totalComments % 500 == 0){
+				System.out.println("Processing comments " + totalComments + " to " + (totalComments+500));
 			}
 			totalComments++;
 		}
@@ -68,7 +68,7 @@ public class PredictiveWords {
 	/*
 	 * Write all user messages to file
 	 */
-	public void writeUserMessages() throws SQLException, FileNotFoundException {
+	public void writeUserMessagesToFile() throws SQLException, FileNotFoundException {
 		//Interaction i = new Interaction();
 
 		PrintWriter writer = new PrintWriter(MESSAGES_FILE);			
