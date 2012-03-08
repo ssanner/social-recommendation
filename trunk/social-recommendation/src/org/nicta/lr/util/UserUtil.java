@@ -217,18 +217,18 @@ public class UserUtil
 			String target_uid = null;
 			String interacting_uid = null;
 			switch (type) {
-				case FRIENDS:        table = "linkrfriends"; target_uid = "uid1"; interacting_uid = "uid2"; break;
-				case LINK_LIKES:     table = "linkrlinklikes"; target_uid = "uid"; interacting_uid = "id"; break;
-				case LINK_COMMENTS:  table = "linkrlinkcomments"; target_uid = "uid"; interacting_uid = "from_id"; break;
-				case POST_LIKES:     table = "linkrpostlikes"; target_uid = "uid"; interacting_uid = "id"; break;
-				case POST_COMMENTS:  table = "linkrpostcomments"; target_uid = "uid"; interacting_uid = "from_id"; break;
-				case POST_TAGS:      table = "linkrposttags"; target_uid = "uid1"; interacting_uid = "uid2"; break;
-				case PHOTO_LIKES:    table = "linkrphotolikes"; target_uid = "uid"; interacting_uid = "id"; break;
-				case PHOTO_COMMENTS: table = "linkrphotocomments"; target_uid = "uid"; interacting_uid = "from_id"; break; 
-				case PHOTO_TAGS:     table = "linkrphototags"; target_uid = "uid1"; interacting_uid = "uid2"; break;
-				case VIDEO_LIKES:    table = "linkrvideolikes"; target_uid = "uid"; interacting_uid = "id"; break;
-				case VIDEO_COMMENTS: table = "linkrvideocomments"; target_uid = "uid"; interacting_uid = "from_id"; break;
-				case VIDEO_TAGS:     table = "linkrvideotags"; target_uid = "uid1"; interacting_uid = "uid2"; break;
+				case FRIENDS:        table = "linkrFriends"; target_uid = "uid1"; interacting_uid = "uid2"; break;
+				case LINK_LIKES:     table = "linkrLinkLikes"; target_uid = "uid"; interacting_uid = "id"; break;
+				case LINK_COMMENTS:  table = "linkrLinkComments"; target_uid = "uid"; interacting_uid = "from_id"; break;
+				case POST_LIKES:     table = "linkrPostLikes"; target_uid = "uid"; interacting_uid = "id"; break;
+				case POST_COMMENTS:  table = "linkrPostComments"; target_uid = "uid"; interacting_uid = "from_id"; break;
+				case POST_TAGS:      table = "linkrPostTags"; target_uid = "uid1"; interacting_uid = "uid2"; break;
+				case PHOTO_LIKES:    table = "linkrPhotoLikes"; target_uid = "uid"; interacting_uid = "id"; break;
+				case PHOTO_COMMENTS: table = "linkrPhotoComments"; target_uid = "uid"; interacting_uid = "from_id"; break; 
+				case PHOTO_TAGS:     table = "linkrPhotoTags"; target_uid = "uid1"; interacting_uid = "uid2"; break;
+				case VIDEO_LIKES:    table = "linkrVideoLikes"; target_uid = "uid"; interacting_uid = "id"; break;
+				case VIDEO_COMMENTS: table = "linkrVideoComments"; target_uid = "uid"; interacting_uid = "from_id"; break;
+				case VIDEO_TAGS:     table = "linkrVideoTags"; target_uid = "uid1"; interacting_uid = "uid2"; break;
 				default: {
 					System.out.println("ERROR: Illegal type -- " + type);
 					System.exit(1);
