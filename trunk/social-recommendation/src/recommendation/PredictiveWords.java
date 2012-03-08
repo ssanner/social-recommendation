@@ -43,8 +43,8 @@ public class PredictiveWords {
 	public static void main(String[] args) throws Exception {				
 		PredictiveWords p = new PredictiveWords();
 		//p.writeUserMessagesToFile();
-		p.buildMessagesDictionary(MESSAGES_FILE);
-		//ExtractRelTables.ShowCondProbs();
+		//p.buildMessagesDictionary(MESSAGES_FILE);
+		ExtractRelTables.ShowCondProbs();
 	}
 	
 	/*
@@ -57,8 +57,8 @@ public class PredictiveWords {
 		int totalComments = 0;
 		while ((message = br.readLine()) != null){
 			MessageStringUtil.tokenize(message);
-			if (totalComments % 1000 == 0){
-				System.out.println("Processing comments " + totalComments + " to " + (totalComments+1000));
+			if (totalComments % 10000 == 0){
+				System.out.println("Processing comments " + totalComments + " to " + (totalComments+10000));
 			}
 			totalComments++;
 		}
