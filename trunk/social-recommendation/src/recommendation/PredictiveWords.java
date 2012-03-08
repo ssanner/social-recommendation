@@ -57,8 +57,8 @@ public class PredictiveWords {
 		int totalComments = 0;
 		while ((message = br.readLine()) != null){
 			MessageStringUtil.tokenize(message);
-			if (totalComments % 500 == 0){
-				System.out.println("Processing comments " + totalComments + " to " + (totalComments+500));
+			if (totalComments % 1000 == 0){
+				System.out.println("Processing comments " + totalComments + " to " + (totalComments+1000));
 			}
 			totalComments++;
 		}
@@ -90,6 +90,7 @@ public class PredictiveWords {
 		}			
 
 		writer.close();
+		System.out.println("Messages written to " + MESSAGES_FILE);
 		
 		//return i;		
 	}
