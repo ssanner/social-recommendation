@@ -38,8 +38,8 @@ public class PredictiveWords {
 	public static void main(String[] args) throws Exception {				
 		PredictiveWords p = new PredictiveWords();
 		//p.writeUserMessagesToFile();
-		//p.buildMessagesDictionary(MESSAGES_FILE);
-		p.ShowCondProbs();
+		p.buildMessagesDictionary(MESSAGES_FILE);
+		//p.ShowCondProbs();
 	}
 	
 	/*
