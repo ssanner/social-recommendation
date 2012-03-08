@@ -40,23 +40,35 @@ public class PredictiveWords {
 		}
 	}	
 
-	public static void main(String[] args) throws SQLException, IOException, LangDetectException {				
+	public static void main(String[] args) throws Exception {				
 		PredictiveWords p = new PredictiveWords();
-		//p.writeUserComments();
-		p.buildCommentsDictionary(MESSAGES_FILE);
+		//p.writeUserMessages();
+		p.buildMessagesDictionary(MESSAGES_FILE);
+		//ExtractRelTables.ShowCondProbs();
 	}
 	
-	public void buildCommentsDictionary(String fileName) throws IOException, LangDetectException{
+	/*
+	 * Build message frequency dictionary
+	 */
+	public void buildMessagesDictionary(String fileName) throws IOException, LangDetectException{
 		//MessageStringUtil.readStopList();
 		BufferedReader br = new BufferedReader(new FileReader(fileName));
-		String word;
-		while ((word = br.readLine()) != null){
-			MessageStringUtil.tokenize(word);
+		String message;
+		int totalComments = 0;
+		while ((message = br.readLine()) != null){
+			MessageStringUtil.tokenize(message);
+			if (totalComments % 100 == 0){
+				System.out.println("Processing comments " + totalComments + " to " + (totalComments+100));
+			}
+			totalComments++;
 		}
 		MessageStringUtil.writeDictionary();
 	}
 
-	public void writeUserComments() throws SQLException, FileNotFoundException {
+	/*
+	 * Write all user messages to file
+	 */
+	public void writeUserMessages() throws SQLException, FileNotFoundException {
 		//Interaction i = new Interaction();
 
 		PrintWriter writer = new PrintWriter(MESSAGES_FILE);			
