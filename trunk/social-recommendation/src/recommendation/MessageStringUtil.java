@@ -22,6 +22,7 @@ import com.cybozu.labs.langdetect.LangDetectException;
  * Process:
  * - Read stop words into a set
  * - Read messages from text file
+ * - Ensure they're English
  * - Add words NOT in stop words set to dictionary (hashmap)
  * - Sort dictionary
  * - Write sorted dictionary to file
@@ -50,10 +51,13 @@ public class MessageStringUtil {
 	 * Tokenize each comment and add to dictionary if NOT a stop word
 	 */
 	public static void tokenize(String comment) throws LangDetectException{
+		if (!isEnglish(comment)){
+			return;
+		}		
 		StringTokenizer tokens = new StringTokenizer(comment, " ");
 		while (tokens.hasMoreTokens()){
 			String word = tokens.nextToken().toLowerCase();
-			if (word.length() > 0 && !stopWords.contains(word) /*&& isEnglish(word)*/){
+			if (word.length() > 0 && !stopWords.contains(word)){
 				addToDictionary(word);
 			}
 		}
@@ -78,6 +82,8 @@ public class MessageStringUtil {
 			}
 		} 
 		catch (LangDetectException e) {
+			e.printStackTrace();
+			System.exit(1);
 			return false;
 		}
 
@@ -96,7 +102,7 @@ public class MessageStringUtil {
 	}
 
 	/*
-	 * Display frequency dictionary terms
+	 * Write frequency dictionary terms tp file
 	 * Sorted on frequency then alphabetically
 	 */
 	public static void writeDictionary() throws FileNotFoundException{		
@@ -116,14 +122,12 @@ public class MessageStringUtil {
 		sortedDictionary.putAll(dictionary);
 
 		for (String key : sortedDictionary.keySet()){
-			writer.println(key + ":" + dictionary.get(key));
+			if (dictionary.get(key) > 1){
+				writer.println(key + ":" + dictionary.get(key));
+			}
 			//System.out.println(key + ":" + dictionary.get(key));
 		}		
 		writer.close();
 	}
-
-	public static void main(String[] args) throws IOException {
-
-	}	
 
 }
