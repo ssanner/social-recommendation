@@ -81,9 +81,7 @@ public class MessageStringUtil {
 				return false;
 			}
 		} 
-		catch (LangDetectException e) {
-			e.printStackTrace();
-			System.exit(1);
+		catch (LangDetectException e) {			
 			return false;
 		}
 
