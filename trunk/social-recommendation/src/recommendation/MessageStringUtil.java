@@ -35,6 +35,7 @@ public class MessageStringUtil {
 	static String stopList = "stopwords.txt";
 	static String dictionaryFile = "dictionary.txt";
 	static boolean setProfile = false;
+	static int minFrequency = 10;
 
 	/*
 	 * Read stop words to a set
@@ -120,7 +121,7 @@ public class MessageStringUtil {
 		sortedDictionary.putAll(dictionary);
 
 		for (String key : sortedDictionary.keySet()){
-			if (dictionary.get(key) > 1){
+			if (dictionary.get(key) > minFrequency){
 				writer.println(key + ":" + dictionary.get(key));
 			}
 			//System.out.println(key + ":" + dictionary.get(key));
