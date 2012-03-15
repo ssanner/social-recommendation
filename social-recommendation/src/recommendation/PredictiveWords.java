@@ -123,14 +123,15 @@ public class PredictiveWords {
 		log.println("*************************");
 
 		BufferedReader br = new BufferedReader(new FileReader(MessageStringUtil.dictionaryFile));
+		String dictWord;
 		String word;
 		int frequency;
 		String[] wordAndFrequency;	
 		StringBuilder builder;
-		while ((word = br.readLine()) != null){
+		while ((dictWord = br.readLine()) != null){
 
 			// split word and frequency value pairs
-			wordAndFrequency = word.split(":");
+			wordAndFrequency = dictWord.split(":");
 			builder = new StringBuilder();
 			for(int i = 0; i < wordAndFrequency.length-1; i++) {
 				builder.append(wordAndFrequency[i]);
@@ -138,6 +139,8 @@ public class PredictiveWords {
 			word = builder.toString();
 			frequency = Integer.parseInt(wordAndFrequency[wordAndFrequency.length-1]);
 
+			System.out.println(word);
+			
 			// frequency constraint
 			if (frequency > minFrequency){
 				// each user interaction
@@ -148,7 +151,7 @@ public class PredictiveWords {
 						// each word in the interaction
 						for (String mword : mh.getMessageInteractions().get(uid2)){
 							
-							System.out.println(word +  ":" + mword);
+							//System.out.println(word +  ":" + mword);
 							
 							// check if current dictionary word was used during interaction
 							if (word.equals(mword)) {
