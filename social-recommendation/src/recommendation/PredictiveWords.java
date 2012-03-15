@@ -139,7 +139,7 @@ public class PredictiveWords {
 			word = builder.toString();
 			frequency = Integer.parseInt(wordAndFrequency[wordAndFrequency.length-1]);			
 			
-			System.out.println(word);
+			System.out.println(dictWord + " is " + word);
 			
 			// frequency constraint
 			if (frequency > minFrequency){
