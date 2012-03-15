@@ -151,7 +151,7 @@ public class PredictiveWords {
 							// check if current dictionary word was used during interaction
 							if (word.equals(mword)) {
 
-								System.out.println(UID_2_NAME.get(uid) + "->" + UID_2_NAME.get(uid2) + ":" + word);
+								System.out.println(UID_2_NAME.get(uid) + " -> " + UID_2_NAME.get(uid2) + " : " + word);
 								
 								// Scott Sanner
 								System.out.println("=========================");
