@@ -28,6 +28,7 @@ public class PredictiveWords {
 	public static Map<Long,String> UID_2_NAME;
 	public static String MESSAGES_FILE = "messages.txt";
 	public static int minFrequency = 25;
+	public static MessageInteraction i;
 
 	static {
 		try {
@@ -42,10 +43,39 @@ public class PredictiveWords {
 
 	public static void main(String[] args) throws Exception {				
 		PredictiveWords p = new PredictiveWords();
-		//p.writeUserMessagesToFile();
-		//p.buildMessagesDictionary(MESSAGES_FILE);
-		p.ShowCondProbs();
+		i = new MessageInteraction();				
+		p.processUserMessages(EDirectionType.INCOMING);
+		p.buildMessagesDictionary(MESSAGES_FILE);
+		//p.ShowCondProbs();
 	}
+	
+	/*
+	 * Write all user messages to file and save user interactions
+	 */
+	public void processUserMessages(EDirectionType dir) throws SQLException, FileNotFoundException {
+
+		PrintWriter writer = new PrintWriter(MESSAGES_FILE);			
+		
+		String[] tables = {"linkrLinkComments", "linkrPostComments", "linkrPhotoComments", "linkrVideoComments"};
+		for (String table : tables){
+			String sql_query = "SELECT uid, from_id, message FROM " + table;
+
+			Statement statement = SQLUtil.getStatement();
+			ResultSet result = statement.executeQuery(sql_query);
+			while (result.next()) {
+				long TARGET_ID = result.getLong(1);
+				long FROM_ID = result.getLong(2);
+				String message = result.getString(3);
+				writer.println(message);
+				i.addInteraction(TARGET_ID, FROM_ID, dir, message);
+			}
+			statement.close();			
+		}			
+
+		writer.close();
+		System.out.println("Messages written to " + MESSAGES_FILE);
+				
+	}	
 	
 	/*
 	 * Build message frequency dictionary
@@ -64,38 +94,10 @@ public class PredictiveWords {
 		}
 		MessageStringUtil.writeDictionary();
 	}
-
+	
 	/*
-	 * Write all user messages to file
+	 * Display conditional probabilities
 	 */
-	public void writeUserMessagesToFile() throws SQLException, FileNotFoundException {
-		//Interaction i = new Interaction();
-
-		PrintWriter writer = new PrintWriter(MESSAGES_FILE);			
-		
-		String[] tables = {"linkrLinkComments", "linkrPostComments", "linkrPhotoComments", "linkrVideoComments"};
-		for (String table : tables){
-			String sql_query = "SELECT uid, from_id, message FROM " + table;
-
-			Statement statement = SQLUtil.getStatement();
-			ResultSet result = statement.executeQuery(sql_query);
-			while (result.next()) {
-				long TARGET_ID = result.getLong(1);
-				long FROM_ID = result.getLong(2);
-				String message = result.getString(3);
-				writer.println(message);
-				//i.addInteraction(TARGET_ID, FROM_ID, dir, message);
-			}
-			statement.close();			
-		}			
-
-		writer.close();
-		System.out.println("Messages written to " + MESSAGES_FILE);
-		
-		//return i;		
-	}
-	
-	
 	public static void ShowCondProbs() throws Exception {
 		
 		EDirectionType[] directions = {EDirectionType.INCOMING, EDirectionType.OUTGOING};
@@ -118,45 +120,13 @@ public class PredictiveWords {
 			
 			// frequency constraint
 			if (frequency > minFrequency){
-				for (EDirectionType dir : directions){
-					Interaction i = UserUtil.getUserInteractions(EInteractionType.ALL_COMMENTS, dir);
+				for (EDirectionType dir : directions){					
 					for (long uid : APP_USERS){
-						
+						// ???
 					}																				
 				}
 			}			
-		}
-		
+		}		
 	}
-
-	/*public void getAllComments(EDirectionType dir) throws SQLException, FileNotFoundException{		
-		Interaction i = getUserComments(dir);
-
-		//PrintWriter writer = new PrintWriter("outgoing.txt");
-		//writer.println("//outgoing comments");		
-
-		int totalUsers = 0;
-		int totalComments = 0;
-
-		for (long uid : i.getAllInteractions().keySet()) {
-
-			totalUsers = i.getAllInteractions().size();
-
-			String uid_name = UID_2_NAME.get(uid);				
-			Set<Long> inter = i.getInteractions(uid);
-			ArrayList<String> messages = i.getMessages(uid);						
-
-			if (messages.size() > 0){					
-				//System.out.println("=====================================");
-				//System.out.println(uid + ", " + uid_name + " -- " + type + ": " + messages.size());
-				for (String message : messages){
-					//System.out.println(message);
-					totalComments++;
-				}
-			}									
-		}
-		System.out.println(totalComments + " " + totalUsers);
-		//	writer.close();
-	}*/
 
 }
