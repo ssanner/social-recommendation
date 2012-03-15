@@ -25,7 +25,7 @@ public class MessageInteractionHolder {
 		
 		StringTokenizer tokens = new StringTokenizer(message, " ");
 		while (tokens.hasMoreTokens()){
-			String word = tokens.nextToken().toLowerCase();
+			String word = tokens.nextToken().toLowerCase().trim();
 			currentMessages.add(word);
 		}
 		

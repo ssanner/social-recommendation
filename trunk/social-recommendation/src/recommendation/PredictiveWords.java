@@ -139,6 +139,8 @@ public class PredictiveWords {
 			word = builder.toString();
 			frequency = Integer.parseInt(wordAndFrequency[wordAndFrequency.length-1]);			
 			
+			System.out.println(word);
+			
 			// frequency constraint
 			if (frequency > minFrequency){
 				// each user interaction
