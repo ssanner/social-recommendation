@@ -150,7 +150,9 @@ public class PredictiveWords {
 							// check if current dictionary word was used during interaction
 							if (word.equals(mword)) {
 
-								//	Interaction i = UserUtil.getUserInteractions(itype, dir);
+								System.out.println(UID_2_NAME.get(uid) + "->" + UID_2_NAME.get(uid2) + ":" + word);
+								
+								// Scott Sanner
 								System.out.println("=========================");
 								log.println("=========================");
 								Map<Long,Set<Long>> id2likes = UserUtil.getLikes(ELikeType.ALL);
@@ -161,21 +163,21 @@ public class PredictiveWords {
 								for (int k = 1; k <= 10; k++) {
 
 									ArrayList<Double> probs = new ArrayList<Double>();
-									
-										String uid_name = UID_2_NAME.get(uid2);
-										HashMap<Long,Integer> other_likes_id2count = GetLikesInteractions(uid2, messageInteractions, id2likes);
-										//P(like | friend likes) = P(like and friend likes) / P(friend likes)
-										//                       = F(like and friend likes) / F(friend likes)
-										Set<Long> other_likes_ids = ExtractRelTables.ThresholdAtK(other_likes_id2count, k);
-										Set<Long> tmp = id2likes.get(uid2);
-										Set<Long> likes_intersect_other_likes_ids = tmp == null ? null : new HashSet<Long>(tmp);
-										if (likes_intersect_other_likes_ids == null && other_likes_ids.size() > 0) 
-											probs.add(0d); // uid didn't like anything
-										else if (other_likes_ids.size() > 0) {
-											likes_intersect_other_likes_ids.retainAll(other_likes_ids);
-											probs.add((double)likes_intersect_other_likes_ids.size() / (double)other_likes_ids.size());
-										} // else (other_likes_ids.size() == 0) -- friends didn't like anything so undefined
-									
+
+									String uid_name = UID_2_NAME.get(uid2);
+									HashMap<Long,Integer> other_likes_id2count = GetLikesInteractions(uid2, messageInteractions, id2likes);
+									//P(like | friend likes) = P(like and friend likes) / P(friend likes)
+									//                       = F(like and friend likes) / F(friend likes)
+									Set<Long> other_likes_ids = ExtractRelTables.ThresholdAtK(other_likes_id2count, k);
+									Set<Long> tmp = id2likes.get(uid2);
+									Set<Long> likes_intersect_other_likes_ids = tmp == null ? null : new HashSet<Long>(tmp);
+									if (likes_intersect_other_likes_ids == null && other_likes_ids.size() > 0) 
+										probs.add(0d); // uid didn't like anything
+									else if (other_likes_ids.size() > 0) {
+										likes_intersect_other_likes_ids.retainAll(other_likes_ids);
+										probs.add((double)likes_intersect_other_likes_ids.size() / (double)other_likes_ids.size());
+									} // else (other_likes_ids.size() == 0) -- friends didn't like anything so undefined
+
 									if (probs.size() > 10) {
 										String line = "** " + ELikeType.ALL + " likes | " + word + " word & " + dir + " & >" + k + " likes " + ": " +
 										(ExtractRelTables._df.format(Statistics.Avg(probs)) + " +/- " + ExtractRelTables._df.format(Statistics.StdError95(probs)) + " #" + probs.size() + " [ " + ExtractRelTables._df.format(Statistics.Min(probs)) + ", " + ExtractRelTables._df.format(Statistics.Max(probs)) + " ]");
@@ -204,21 +206,19 @@ public class PredictiveWords {
 		}		
 	}
 
-
-	
-
+	// Scott Sanner
 	public static HashMap<Long,Integer> GetLikesInteractions(long uid, MessageInteraction i, Map<Long,Set<Long>> id2likes) {
 		HashMap<Long,Integer> likes = new HashMap<Long,Integer>();
 		Set<Long> others = i.getInteractions(uid).getMessageInteractions().keySet();
-		
+
 		//Set<Long> uid_likes = id2likes.get(uid);
 		//if (uid_likes != null)
 		//	likes.addAll(uid_likes);
-		
+
 		if (others != null) for (long uid2 : others) {
 			if (uid2 == uid)
 				continue;
-			
+
 			Set<Long> other_likes = id2likes.get(uid2);
 			if (other_likes != null) {
 				for (Long item : other_likes) {
@@ -227,10 +227,8 @@ public class PredictiveWords {
 				}
 			}
 		}
-		
+
 		return likes;
 	}
-	
-	
-	
+
 }
