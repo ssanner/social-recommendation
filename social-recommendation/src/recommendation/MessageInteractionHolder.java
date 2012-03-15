@@ -2,22 +2,24 @@ package recommendation;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 public class MessageInteractionHolder {
 
-	private HashMap<Long, ArrayList<String>> messages = null;
+	private HashMap<Long, Set<String>> messages = null;
 	
 	public MessageInteractionHolder() {
-		messages = new HashMap<Long, ArrayList<String>>();
+		messages = new HashMap<Long, Set<String>>();
 	}
 	
 	/*
 	 * Add new message for user uid
 	 */
 	public void add(Long uid, String message){
-		ArrayList<String> currentMessages = messages.get(uid);
+		Set<String> currentMessages = messages.get(uid);
 		if (currentMessages == null){
-			currentMessages = new ArrayList<String>(); 			
+			currentMessages = new HashSet<String>(); 			
 		} 
 		currentMessages.add(message);
 		messages.put(uid, currentMessages);
@@ -26,7 +28,7 @@ public class MessageInteractionHolder {
 	/*
 	 * Return message interactions
 	 */
-	public HashMap<Long, ArrayList<String>> getMessageInteractions(){
+	public HashMap<Long, Set<String>> getMessageInteractions(){
 		return messages;
 	}
 	
@@ -48,6 +50,7 @@ public class MessageInteractionHolder {
 	 */
 	public static void main(String[] args) {
 		MessageInteractionHolder mh = new MessageInteractionHolder();
+		mh.add(new Long(100), "sup");
 		mh.add(new Long(100), "sup");
 		mh.add(new Long(100), "hi");
 		mh.add(new Long(1100), "derp");
