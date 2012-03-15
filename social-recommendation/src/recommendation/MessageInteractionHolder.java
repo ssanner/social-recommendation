@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.StringTokenizer;
 
 public class MessageInteractionHolder {
 
@@ -21,7 +22,13 @@ public class MessageInteractionHolder {
 		if (currentMessages == null){
 			currentMessages = new HashSet<String>(); 			
 		} 
-		currentMessages.add(message);
+		
+		StringTokenizer tokens = new StringTokenizer(message, " ");
+		while (tokens.hasMoreTokens()){
+			String word = tokens.nextToken().toLowerCase();
+			currentMessages.add(word);
+		}
+		
 		messages.put(uid, currentMessages);
 	}
 	
@@ -51,7 +58,7 @@ public class MessageInteractionHolder {
 	public static void main(String[] args) {
 		MessageInteractionHolder mh = new MessageInteractionHolder();
 		mh.add(new Long(100), "sup");
-		mh.add(new Long(100), "sup");
+		mh.add(new Long(100), "sup bra");
 		mh.add(new Long(100), "hi");
 		mh.add(new Long(1100), "derp");
 		mh.add(new Long(12), "stse");
