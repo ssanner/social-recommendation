@@ -147,6 +147,9 @@ public class PredictiveWords {
 					for (Long uid2 : mh.getMessageInteractions().keySet()){
 						// each word in the interaction
 						for (String mword : mh.getMessageInteractions().get(uid2)){
+							
+							System.out.println(word +  ":" + mword);
+							
 							// check if current dictionary word was used during interaction
 							if (word.equals(mword)) {
 
