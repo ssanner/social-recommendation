@@ -138,9 +138,7 @@ public class PredictiveWords {
 			}
 			word = builder.toString();
 			frequency = Integer.parseInt(wordAndFrequency[wordAndFrequency.length-1]);			
-			
-			System.out.println(dictWord + " is " + word);
-			
+						
 			// frequency constraint
 			if (frequency > minFrequency){
 				// each user interaction
@@ -151,7 +149,7 @@ public class PredictiveWords {
 						// each word in the interaction
 						for (String mword : mh.getMessageInteractions().get(uid2)){
 							
-							//System.out.println(word +  " is " + mword);
+							System.out.println(word +  " is " + dictWord);
 							
 							// check if current dictionary word was used during interaction
 							if (word.equals(mword)) {
