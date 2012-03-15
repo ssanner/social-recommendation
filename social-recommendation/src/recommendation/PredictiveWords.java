@@ -110,7 +110,6 @@ public class PredictiveWords {
 			
 			// split word and frequency value pairs
 			wordAndFrequency = word.split(":");
-			word = wordAndFrequency[0];
 			builder = new StringBuilder();
 			for(String s : wordAndFrequency) {
 			    builder.append(s);
