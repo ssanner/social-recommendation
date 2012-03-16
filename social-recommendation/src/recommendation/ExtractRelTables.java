@@ -278,7 +278,7 @@ public class ExtractRelTables {
 								} // else (other_likes_ids.size() == 0) -- friends didn't like anything so undefined
 							}
 							if (probs.size() > 10) {
-								String line = "** " + ltype + " likes | " + word + " inter & " + dir + " & >" + k + " likes " + ": " +
+								String line = "** " + ltype + " likes | " + word + " word & " + dir + " & >" + k + " likes " + ": " +
 								(_df.format(Statistics.Avg(probs)) + " +/- " + _df.format(Statistics.StdError95(probs)) + " #" + probs.size() + " [ " + _df.format(Statistics.Min(probs)) + ", " + _df.format(Statistics.Max(probs)) + " ]");
 								log.println(line);
 								log.flush();
