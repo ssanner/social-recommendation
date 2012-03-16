@@ -5,9 +5,9 @@ import org.nicta.lr.util.Configuration;
 import org.nicta.lr.util.Constants;
 import org.nicta.lr.util.EDemographicType;
 import org.nicta.lr.util.EDirectionType;
-import org.nicta.lr.util.EInteractionType;
 import org.nicta.lr.util.EInterestType;
 import org.nicta.lr.util.ELikeType;
+import org.nicta.lr.util.Interaction;
 import org.nicta.lr.util.SQLUtil;
 
 import java.sql.ResultSet;
@@ -153,7 +153,6 @@ public class UserUtil
 				long FROM_ID = result.getLong(2);
 				String message = result.getString(3);
 				if (message.contains(word)){
-					System.out.println(word);
 					i.addInteraction(TARGET_ID, FROM_ID, dir);
 				}
 			}
