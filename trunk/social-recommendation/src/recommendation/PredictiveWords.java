@@ -54,9 +54,10 @@ public class PredictiveWords {
 	public static void main(String[] args) throws Exception {				
 		PredictiveWords p = new PredictiveWords();
 		messageInteractions = new MessageInteraction();				
-		p.processUserMessages(dir, false);
+		//p.processUserMessages(dir, false);
 		//p.buildMessagesDictionary(MESSAGES_FILE);
-		p.ShowCondProbs();
+		//p.ShowCondProbs();
+		ExtractRelTables.ShowCondProbs();
 	}
 
 	/*
@@ -140,72 +141,30 @@ public class PredictiveWords {
 			frequency = Integer.parseInt(wordAndFrequency[wordAndFrequency.length-1]);			
 						
 			// frequency constraint
-			if (frequency > minFrequency){
-				// each user interaction
-				for (Long uid : messageInteractions.getAllInteractions().keySet()){
-					MessageInteractionHolder mh = messageInteractions.getAllInteractions().get(uid);
-					// each user interacted with
-					for (Long uid2 : mh.getMessageInteractions().keySet()){
-						// each word in the interaction
-						for (String mword : mh.getMessageInteractions().get(uid2)){														
-							// check if current dictionary word was used during interaction
-							if (word.equals(mword)) {
-
-								System.out.println(UID_2_NAME.get(uid) + " -> " + UID_2_NAME.get(uid2) + " : " + word);
-								
-								// Scott Sanner
-								System.out.println("=========================");
-								log.println("=========================");
-								Map<Long,Set<Long>> id2likes = UserUtil.getLikes(ELikeType.ALL);
-
-								// Number of friends who also like the same thing
-								double[] prob_at_k   = new double[10];
-								double[] stderr_at_k = new double[10];
-								for (int k = 1; k <= 10; k++) {
-
-									ArrayList<Double> probs = new ArrayList<Double>();
-
-									String uid_name = UID_2_NAME.get(uid2);
-									HashMap<Long,Integer> other_likes_id2count = GetLikesInteractions(uid2, messageInteractions, id2likes);
-									//P(like | friend likes) = P(like and friend likes) / P(friend likes)
-									//                       = F(like and friend likes) / F(friend likes)
-									Set<Long> other_likes_ids = ExtractRelTables.ThresholdAtK(other_likes_id2count, k);
-									Set<Long> tmp = id2likes.get(uid2);
-									Set<Long> likes_intersect_other_likes_ids = tmp == null ? null : new HashSet<Long>(tmp);
-									if (likes_intersect_other_likes_ids == null && other_likes_ids.size() > 0) 
-										probs.add(0d); // uid didn't like anything
-									else if (other_likes_ids.size() > 0) {
-										likes_intersect_other_likes_ids.retainAll(other_likes_ids);
-										probs.add((double)likes_intersect_other_likes_ids.size() / (double)other_likes_ids.size());
-									} // else (other_likes_ids.size() == 0) -- friends didn't like anything so undefined
-
-									if (probs.size() > 10) {
-										String line = "** " + ELikeType.ALL + " likes | " + word + " word & " + dir + " & >" + k + " likes " + ": " +
-										(ExtractRelTables._df.format(Statistics.Avg(probs)) + " +/- " + ExtractRelTables._df.format(Statistics.StdError95(probs)) + " #" + probs.size() + " [ " + ExtractRelTables._df.format(Statistics.Min(probs)) + ", " + ExtractRelTables._df.format(Statistics.Max(probs)) + " ]");
-										log.println(line);
-										log.flush();
-										System.out.println(line);
-										prob_at_k[k-1]   = Statistics.Avg(probs);
-										stderr_at_k[k-1] = Statistics.StdError95(probs);
-									} else {
-										prob_at_k[k-1]   = Double.NaN;
-										stderr_at_k[k-1] = Double.NaN;
-									}
-
-								}
-								//data.put((dir.index() - 1)*110 + (ltype.index() - 1)*22 + itype.index(), prob_at_k);
-								//data.put(330 + (dir.index() - 1)*110 + (ltype.index() - 1)*22 + itype.index(), stderr_at_k);
-								System.out.println("=========================");
-								log.println("=========================");
-								log.close();
-
-							}														
-						}
-					}
-				}								
+			if (frequency > minFrequency){					
+												
 			}			
 		}		
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	// Scott Sanner
 	public static HashMap<Long,Integer> GetLikesInteractions(long uid, MessageInteraction i, Map<Long,Set<Long>> id2likes) {
