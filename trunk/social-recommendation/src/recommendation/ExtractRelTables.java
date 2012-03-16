@@ -12,10 +12,8 @@ import util.Statistics;
 
 import org.nicta.lr.util.EDirectionType;
 import org.nicta.lr.util.EInterestType;
-import org.nicta.lr.util.EInteractionType;
 import org.nicta.lr.util.ELikeType;
-import org.nicta.lr.util.EDemographicType;
-import org.nicta.lr.util.UserUtil.DemographicData;
+import org.nicta.lr.util.Interaction;
 
 //Objective: to define various "groups" from a user-centric perspective and see 
 //amount of overlap between users and their local "groups" in terms of overlap 
