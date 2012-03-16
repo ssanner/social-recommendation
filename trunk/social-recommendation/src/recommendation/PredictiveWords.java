@@ -21,7 +21,6 @@ import java.util.Set;
 import org.nicta.lr.util.EDirectionType;
 import org.nicta.lr.util.EInteractionType;
 import org.nicta.lr.util.ELikeType;
-import org.nicta.lr.util.ExtractRelTables;
 import org.nicta.lr.util.Interaction;
 import org.nicta.lr.util.SQLUtil;
 import org.nicta.lr.util.UserUtil;
