@@ -55,8 +55,8 @@ public class PredictiveWords {
 		PredictiveWords p = new PredictiveWords();
 		messageInteractions = new MessageInteraction();				
 		p.processUserMessages(dir, false);
-		p.buildMessagesDictionary(MESSAGES_FILE);
-		//p.ShowCondProbs();
+		//p.buildMessagesDictionary(MESSAGES_FILE);
+		p.ShowCondProbs();
 	}
 
 	/*
