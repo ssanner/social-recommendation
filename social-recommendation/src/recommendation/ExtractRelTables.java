@@ -198,6 +198,8 @@ public class ExtractRelTables {
 		PrintStream log = new PrintStream(new FileOutputStream("cond_probs.txt"));
 		Set<Long> id_set = APP_USERS;
 
+		System.out.println("derp");
+		
 		//		////////////////
 		//		Set<Double> test = new HashSet<Double>();
 		//		for (ELikeType ltype : ELikeType.values()) {
