@@ -153,6 +153,7 @@ public class UserUtil
 				long FROM_ID = result.getLong(2);
 				String message = result.getString(3);
 				if (message.contains(word)){
+					System.out.println(word);
 					i.addInteraction(TARGET_ID, FROM_ID, dir);
 				}
 			}
