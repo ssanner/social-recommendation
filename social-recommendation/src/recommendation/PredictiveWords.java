@@ -55,8 +55,8 @@ public class PredictiveWords {
 		PredictiveWords p = new PredictiveWords();
 		messageInteractions = new MessageInteraction();				
 		p.processUserMessages(dir, false);
-		//p.buildMessagesDictionary(MESSAGES_FILE);
-		p.ShowCondProbs();
+		p.buildMessagesDictionary(MESSAGES_FILE);
+		//p.ShowCondProbs();
 	}
 
 	/*
@@ -131,7 +131,7 @@ public class PredictiveWords {
 		while ((dictWord = br.readLine()) != null){
 
 			// split word and frequency value pairs
-			wordAndFrequency = dictWord.split(":");
+			wordAndFrequency = dictWord.split("<>");
 			builder = new StringBuilder();
 			for(int i = 0; i < wordAndFrequency.length-1; i++) {
 				builder.append(wordAndFrequency[i]);

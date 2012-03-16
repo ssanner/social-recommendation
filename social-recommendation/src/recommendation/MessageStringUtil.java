@@ -120,7 +120,7 @@ public class MessageStringUtil {
 		sortedDictionary.putAll(dictionary);
 
 		for (String key : sortedDictionary.keySet()){
-			writer.println(key + ":" + dictionary.get(key));
+			writer.println(key + "<>" + dictionary.get(key));
 			//System.out.println(key + ":" + dictionary.get(key));
 		}		
 		writer.close();
