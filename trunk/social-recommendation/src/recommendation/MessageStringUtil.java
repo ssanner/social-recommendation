@@ -57,6 +57,9 @@ public class MessageStringUtil {
 		StringTokenizer tokens = new StringTokenizer(comment, " ");
 		while (tokens.hasMoreTokens()){
 			String word = tokens.nextToken().toLowerCase();
+			word = word.replaceAll("!", "");
+			word = word.replaceAll(".", "");
+			word = word.replaceAll(",", "");
 			if (word.length() > 0 && !stopWords.contains(word)){
 				addToDictionary(word);
 			}
@@ -125,4 +128,5 @@ public class MessageStringUtil {
 		}		
 		writer.close();
 	}
+	
 }
