@@ -197,111 +197,112 @@ public class ExtractRelTables {
 
 		PrintStream log = new PrintStream(new FileOutputStream("cond_probs.txt"));
 		Set<Long> id_set = APP_USERS;
+ 						
+		ELikeType ltype = ELikeType.ALL;
+		BufferedReader br = new BufferedReader(new FileReader(MessageStringUtil.dictionaryFile));
+		String dictWord;
+		String word;
+		int frequency;
+		String[] wordAndFrequency;	
+		StringBuilder builder;
 		
-		//		////////////////
-		//		Set<Double> test = new HashSet<Double>();
-		//		for (ELikeType ltype : ELikeType.values()) {
-		//			for (EInteractionType itype : EInteractionType.values()) {
-		//				for (EDirectionType dir : EDirectionType.values()) {
-		//					test.add(0d + 
-		//							(dir.index() - 1)*110 + (ltype.index() - 1)*22 + itype.index());
-		//					test.add(0d + 
-		//						330 + (dir.index() - 1)*110 + (ltype.index() - 1)*22 + itype.index());
-		//				}
-		//			}
-		//		}
-		//		System.out.println("Size: " + test.size());
-		//		ArrayList<Double> test2 = new ArrayList<Double>(test);
-		//		System.out.println("Min: " + Statistics.Min(test2) + ", Max: " + Statistics.Max(test2) + ", Avg: " + Statistics.Avg(test2));
-		//		System.exit(1);
-		//		////////////////
+		int K = 10;
+		HashMap<String, Double>[] avgProbs = new HashMap[K-1];
+		for (int i = 0; i < (K-1); i++){
+			avgProbs[K] = new HashMap<String, Double>();
+		}
+		
+		while ((dictWord = br.readLine()) != null){
 
-		HashMap<Integer,double[]> data = new HashMap<Integer,double[]>(); 
-		for (ELikeType ltype : ELikeType.values()) {
+			// split word and frequency value pairs
+			wordAndFrequency = dictWord.split("<>");
+			builder = new StringBuilder();
+			for(int i = 0; i < wordAndFrequency.length-1; i++) {
+				builder.append(wordAndFrequency[i]);
+			}
+			word = builder.toString();
+			frequency = Integer.parseInt(wordAndFrequency[wordAndFrequency.length-1]);			
 
-			//for (EInteractionType itype : EInteractionType.values()) {						
+			// word frequency constraint
+			if (frequency > 10){					
 
-			BufferedReader br = new BufferedReader(new FileReader(MessageStringUtil.dictionaryFile));
-			String dictWord;
-			String word;
-			int frequency;
-			String[] wordAndFrequency;	
-			StringBuilder builder;
-			while ((dictWord = br.readLine()) != null){
+				System.out.println(word + "*************************");
+				log.println("*************************");
 
-				// split word and frequency value pairs
-				wordAndFrequency = dictWord.split("<>");
-				builder = new StringBuilder();
-				for(int i = 0; i < wordAndFrequency.length-1; i++) {
-					builder.append(wordAndFrequency[i]);
-				}
-				word = builder.toString();
-				frequency = Integer.parseInt(wordAndFrequency[wordAndFrequency.length-1]);			
+				for (EDirectionType dir : EDirectionType.values()) {
 
-				// word frequency constraint
-				if (frequency > 10){					
+					// sort..
+					Interaction i = UserUtil.getUserInteractions(word, dir);
 
-					System.out.println(word + "*************************");
-					log.println("*************************");
+					System.out.println("=========================");
+					log.println("=========================");
+					Map<Long,Set<Long>> id2likes = UserUtil.getLikes(ltype);
 
-					for (EDirectionType dir : EDirectionType.values()) {
+					// Number of friends who also like the same thing
+					double[] prob_at_k   = new double[10];
+					double[] stderr_at_k = new double[10];
+					for (int k = 1; k <= K; k++) {
 
-						Interaction i = UserUtil.getUserInteractions(word, dir);
-
-						System.out.println("=========================");
-						log.println("=========================");
-						Map<Long,Set<Long>> id2likes = UserUtil.getLikes(ltype);
-
-						// Number of friends who also like the same thing
-						double[] prob_at_k   = new double[10];
-						double[] stderr_at_k = new double[10];
-						for (int k = 1; k <= 10; k++) {
-
-							ArrayList<Double> probs = new ArrayList<Double>();
-							for (long uid : id_set) {
-								String uid_name = UID_2_NAME.get(uid);
-								//if (!uid_name.contains(restriction))
-								//	continue;
-								HashMap<Long,Integer> other_likes_id2count = GetLikesInteractions(uid, i, id2likes);
-								//P(like | friend likes) = P(like and friend likes) / P(friend likes)
-								//                       = F(like and friend likes) / F(friend likes)
-								Set<Long> other_likes_ids = ThresholdAtK(other_likes_id2count, k);
-								Set<Long> tmp = id2likes.get(uid);
-								Set<Long> likes_intersect_other_likes_ids = tmp == null ? null : new HashSet<Long>(tmp);
-								if (likes_intersect_other_likes_ids == null && other_likes_ids.size() > 0) 
-									probs.add(0d); // uid didn't like anything
-								else if (other_likes_ids.size() > 0) {
-									likes_intersect_other_likes_ids.retainAll(other_likes_ids);
-									probs.add((double)likes_intersect_other_likes_ids.size() / (double)other_likes_ids.size());
-								} // else (other_likes_ids.size() == 0) -- friends didn't like anything so undefined
-							}
-							if (probs.size() > 2) {
-								String line = "** " + ltype + " likes | " + word + " word & " + dir + " & >" + k + " likes " + ": " +
-								(_df.format(Statistics.Avg(probs)) + " +/- " + _df.format(Statistics.StdError95(probs)) + " #" + probs.size() + " [ " + _df.format(Statistics.Min(probs)) + ", " + _df.format(Statistics.Max(probs)) + " ]");
-								log.println(line);
-								log.flush();
-								System.out.println(line);
-								prob_at_k[k-1]   = Statistics.Avg(probs);
-								stderr_at_k[k-1] = Statistics.StdError95(probs);
-							} else {
-								prob_at_k[k-1]   = Double.NaN;
-								stderr_at_k[k-1] = Double.NaN;
-							}
-
+						ArrayList<Double> probs = new ArrayList<Double>();
+						for (long uid : id_set) {
+							String uid_name = UID_2_NAME.get(uid);
+							//if (!uid_name.contains(restriction))
+							//	continue;
+							HashMap<Long,Integer> other_likes_id2count = GetLikesInteractions(uid, i, id2likes);
+							//P(like | friend likes) = P(like and friend likes) / P(friend likes)
+							//                       = F(like and friend likes) / F(friend likes)
+							Set<Long> other_likes_ids = ThresholdAtK(other_likes_id2count, k);
+							Set<Long> tmp = id2likes.get(uid);
+							Set<Long> likes_intersect_other_likes_ids = tmp == null ? null : new HashSet<Long>(tmp);
+							if (likes_intersect_other_likes_ids == null && other_likes_ids.size() > 0) 
+								probs.add(0d); // uid didn't like anything
+							else if (other_likes_ids.size() > 0) {
+								likes_intersect_other_likes_ids.retainAll(other_likes_ids);
+								probs.add((double)likes_intersect_other_likes_ids.size() / (double)other_likes_ids.size());
+							} // else (other_likes_ids.size() == 0) -- friends didn't like anything so undefined
 						}
-						//for (int k = 1; k < 10; k++) {
-						//	System.out.println(k + ": " + prob_at_k.get(k-1) + "   ");
-						//}
-						//data.put((dir.index() - 1)*110 + (ltype.index() - 1)*22 + itype.index(), prob_at_k);
-						//data.put(330 + (dir.index() - 1)*110 + (ltype.index() - 1)*22 + itype.index(), stderr_at_k);
-						System.out.println("=========================");
-						log.println("=========================");
+						if (probs.size() > 2) {
+							String line = "** " + ltype + " likes | " + word + " word & " + dir + " & >" + k + " likes " + ": " +
+							(_df.format(Statistics.Avg(probs)) + " +/- " + _df.format(Statistics.StdError95(probs)) + " #" + probs.size() + " [ " + _df.format(Statistics.Min(probs)) + ", " + _df.format(Statistics.Max(probs)) + " ]");
+							log.println(line);
+							log.flush();
+							System.out.println(line);
+							prob_at_k[k-1]   = Statistics.Avg(probs);
+							stderr_at_k[k-1] = Statistics.StdError95(probs);
+							avgProbs[k-1].put(word, Statistics.Avg(probs));
+						} else {
+							prob_at_k[k-1]   = Double.NaN;
+							stderr_at_k[k-1] = Double.NaN;
+						}
+
 					}
+					//for (int k = 1; k < 10; k++) {
+					//	System.out.println(k + ": " + prob_at_k.get(k-1) + "   ");
+					//}
+					//data.put((dir.index() - 1)*110 + (ltype.index() - 1)*22 + itype.index(), prob_at_k);
+					//data.put(330 + (dir.index() - 1)*110 + (ltype.index() - 1)*22 + itype.index(), stderr_at_k);
+					System.out.println("=========================");
+					log.println("=========================");
 				}
 			}
 		}
-
-		// Export data
+		//}
+		
+		for (int i = 0; i < avgProbs.length; i++){
+			hashSort h = new hashSort(avgProbs[i], true);
+			TreeMap<String, Double> sortedProbs = new TreeMap(h);
+			sortedProbs.putAll(avgProbs[i]);
+			int show = 0;
+			for (String rankedWord : sortedProbs.keySet()){
+				if (show > 50){
+					break;
+				}
+				System.out.println(rankedWord + " " + sortedProbs.get(rankedWord));
+				show++;
+			}
+		}
+		
+		/*		// Export data
 		System.out.print("\n\nExporting data...");
 		PrintStream likes_data = new PrintStream(new FileOutputStream("likes_data.txt"));
 		for (int i = 1; i <= 660; i++) {
@@ -313,8 +314,35 @@ public class ExtractRelTables {
 		}
 		likes_data.close();
 		System.out.println("done.");
-
+		 */
 		log.close();
+	}
+
+	/*
+	 * sort hashmap on ascending
+	 * 
+	 * TreeMap<String, Double> sortedDictionary = new TreeMap(vc);
+	 * sortedDictionary.putAll(dictionary);
+	 * 
+	 */
+	static class hashSort implements Comparator<String>{
+		Map<String, Double> base;
+		boolean asc;
+		public hashSort(Map base, boolean asc){
+			this.base = base;
+		}
+
+		@Override
+		public int compare(String a, String b) {
+			int compare;
+			if (asc){
+				compare = (int) (base.get(b) - base.get(a));
+			} else {
+				compare = (int) (base.get(a) - base.get(b));
+			}
+			if (compare == 0) return a.compareTo(b);
+			else return compare;
+		}					
 	}
 
 	// Demographic analysis: gender, age group, degree, ...
@@ -499,7 +527,7 @@ public class ExtractRelTables {
 			}
 		}
 	}
-*/
+	 */
 	public static void ShowGroupInterests() throws SQLException {
 
 		for (EInterestType type : EInterestType.values()) {
@@ -547,7 +575,7 @@ public class ExtractRelTables {
 			System.out.println("=========================");
 		}
 	}
-/*
+	/*
 	public static void ShowInteractions(String restriction) throws SQLException {
 
 		for (EInteractionType type : EInteractionType.values()) {
