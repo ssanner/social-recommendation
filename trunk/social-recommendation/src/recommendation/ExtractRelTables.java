@@ -288,6 +288,7 @@ public class ExtractRelTables {
 		}
 		//}
 		
+		System.out.println("Sorting..");
 		for (int i = 0; i < avgProbs.length; i++){
 			hashSort h = new hashSort(avgProbs[i], true);
 			TreeMap<String, Double> sortedProbs = new TreeMap(h);
