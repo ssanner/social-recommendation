@@ -226,7 +226,7 @@ public class ExtractRelTables {
 			frequency = Integer.parseInt(wordAndFrequency[wordAndFrequency.length-1]);			
 
 			// word frequency constraint
-			if (frequency > 1500){					
+			if (frequency > 500){					
 
 				System.out.println(word + "*************************");
 
@@ -261,7 +261,7 @@ public class ExtractRelTables {
 								probs.add((double)likes_intersect_other_likes_ids.size() / (double)other_likes_ids.size());
 							} // else (other_likes_ids.size() == 0) -- friends didn't like anything so undefined
 						}
-						if (probs.size() > 4) {
+						if (probs.size() > 10) {
 							String line = "** " + ltype + " likes | " + word + " word & " + dir + " & >" + k + " likes " + ": " +
 									(_df.format(Statistics.Avg(probs)) + " +/- " + _df.format(Statistics.StdError95(probs)) + " #" + probs.size() + " [ " + _df.format(Statistics.Min(probs)) + ", " + _df.format(Statistics.Max(probs)) + " ]");
 							
@@ -287,6 +287,8 @@ public class ExtractRelTables {
 		}
 		//}
 
+		
+		// should be a function
 		System.out.println("Sorting average probability..");
 		log.println("Max average probability");
 		log.flush();
