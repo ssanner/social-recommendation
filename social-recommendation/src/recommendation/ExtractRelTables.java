@@ -197,7 +197,7 @@ public class ExtractRelTables {
 
 		PrintStream log = new PrintStream(new FileOutputStream("cond_probs.txt"));
 		Set<Long> id_set = APP_USERS;
- 						
+
 		ELikeType ltype = ELikeType.ALL;
 		BufferedReader br = new BufferedReader(new FileReader(MessageStringUtil.dictionaryFile));
 		String dictWord;
@@ -205,13 +205,13 @@ public class ExtractRelTables {
 		int frequency;
 		String[] wordAndFrequency;	
 		StringBuilder builder;
-		
+
 		int K = 10;
 		HashMap<String, Double>[] avgProbs = new HashMap[K-1];
 		for (int i = 0; i < (K-1); i++){
 			avgProbs[i] = new HashMap<String, Double>();
 		}
-		
+
 		while ((dictWord = br.readLine()) != null){
 
 			// split word and frequency value pairs
@@ -263,7 +263,7 @@ public class ExtractRelTables {
 						}
 						if (probs.size() > 4) {
 							String line = "** " + ltype + " likes | " + word + " word & " + dir + " & >" + k + " likes " + ": " +
-							(_df.format(Statistics.Avg(probs)) + " +/- " + _df.format(Statistics.StdError95(probs)) + " #" + probs.size() + " [ " + _df.format(Statistics.Min(probs)) + ", " + _df.format(Statistics.Max(probs)) + " ]");
+									(_df.format(Statistics.Avg(probs)) + " +/- " + _df.format(Statistics.StdError95(probs)) + " #" + probs.size() + " [ " + _df.format(Statistics.Min(probs)) + ", " + _df.format(Statistics.Max(probs)) + " ]");
 							log.println(line);
 							log.flush();
 							System.out.println(line);
@@ -287,22 +287,20 @@ public class ExtractRelTables {
 			}
 		}
 		//}
-		
+
 		System.out.println("Sorting..");
 		for (int i = 0; i < avgProbs.length; i++){
-			hashSort h = new hashSort(avgProbs[i], true);
-			TreeMap<String, Double> sortedProbs = new TreeMap(h);
-			sortedProbs.putAll(avgProbs[i]);
+			Map<String, Double> sortedMap = sortMap(avgProbs[i]);
 			int show = 0;
-			for (String rankedWord : sortedProbs.keySet()){
+			for (Map.Entry<String, Double> entry : sortedMap.entrySet()) {
 				if (show > 50){
 					break;
 				}
-				System.out.println(rankedWord + " " + sortedProbs.get(rankedWord));
-				show++;
+				System.out.println(entry.getKey() + ", " + entry.getValue());
 			}
+
 		}
-		
+
 		/*		// Export data
 		System.out.print("\n\nExporting data...");
 		PrintStream likes_data = new PrintStream(new FileOutputStream("likes_data.txt"));
@@ -320,30 +318,16 @@ public class ExtractRelTables {
 	}
 
 	/*
-	 * sort hashmap on ascending
-	 * 
-	 * TreeMap<String, Double> sortedDictionary = new TreeMap(vc);
-	 * sortedDictionary.putAll(dictionary);
-	 * 
+	 * sort hashmap
 	 */
-	static class hashSort implements Comparator<String>{
-		Map<String, Double> base;
-		boolean asc;
-		public hashSort(Map base, boolean asc){
-			this.base = base;
-		}
-
-		@Override
-		public int compare(String a, String b) {
-			int compare;
-			if (asc){
-				compare = (int) (base.get(b) - base.get(a));
-			} else {
-				compare = (int) (base.get(a) - base.get(b));
+	public static Map<String, Double> sortMap(final Map<String, Double> map) {
+		Map<String, Double> sortedMap = new TreeMap<String, Double>(new Comparator<String>() {
+			public int compare(String o1, String o2) {
+				return map.get(o2).compareTo(map.get(o1));
 			}
-			if (compare == 0) return a.compareTo(b);
-			else return compare;
-		}					
+		});
+		sortedMap.putAll(map);
+		return sortedMap;
 	}
 
 	// Demographic analysis: gender, age group, degree, ...
