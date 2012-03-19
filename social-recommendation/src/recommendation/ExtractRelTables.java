@@ -209,7 +209,7 @@ public class ExtractRelTables {
 		int K = 10;
 		HashMap<String, Double>[] avgProbs = new HashMap[K-1];
 		for (int i = 0; i < (K-1); i++){
-			avgProbs[K] = new HashMap<String, Double>();
+			avgProbs[i] = new HashMap<String, Double>();
 		}
 		
 		while ((dictWord = br.readLine()) != null){
