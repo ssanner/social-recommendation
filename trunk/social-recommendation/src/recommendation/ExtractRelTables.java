@@ -208,8 +208,10 @@ public class ExtractRelTables {
 
 		int K = 10;
 		HashMap<String, Double>[] avgProbs = new HashMap[K-1];
+		HashMap<String, Double>[] avgErr = new HashMap[K-1];
 		for (int i = 0; i < (K-1); i++){
 			avgProbs[i] = new HashMap<String, Double>();
+			avgErr[i] = new HashMap<String, Double>();
 		}
 
 		while ((dictWord = br.readLine()) != null){
@@ -270,6 +272,7 @@ public class ExtractRelTables {
 							prob_at_k[k-1]   = Statistics.Avg(probs);
 							stderr_at_k[k-1] = Statistics.StdError95(probs);
 							avgProbs[k-1].put(word, Statistics.Avg(probs));
+							avgErr[k-1].put(word, Statistics.StdError95(probs));
 						} else {
 							prob_at_k[k-1]   = Double.NaN;
 							stderr_at_k[k-1] = Double.NaN;
@@ -288,17 +291,28 @@ public class ExtractRelTables {
 		}
 		//}
 
-		System.out.println("Sorting..");
+		System.out.println("Sorting average probability..");
 		for (int i = 0; i < avgProbs.length; i++){
-			Map<String, Double> sortedMap = sortMap(avgProbs[i]);
+			Map<String, Double> sortedAvg = sortMap(true, avgProbs[i]);
 			int show = 0;
-			for (Map.Entry<String, Double> entry : sortedMap.entrySet()) {
+			for (Map.Entry<String, Double> entry : sortedAvg.entrySet()) {
 				if (show > 50){
 					break;
 				}
 				System.out.println(entry.getKey() + ", " + entry.getValue());
 			}
-
+		}
+		
+		System.out.println("Sorting average error..");
+		for (int i = 0; i < avgErr.length; i++){
+			Map<String, Double> sortedErr = sortMap(false, avgErr[i]);
+			int show = 0;
+			for (Map.Entry<String, Double> entry : sortedErr.entrySet()) {
+				if (show > 50){
+					break;
+				}
+				System.out.println(entry.getKey() + ", " + entry.getValue());
+			}
 		}
 
 		/*		// Export data
@@ -320,10 +334,14 @@ public class ExtractRelTables {
 	/*
 	 * sort hashmap
 	 */
-	public static Map<String, Double> sortMap(final Map<String, Double> map) {
+	public static Map<String, Double> sortMap(final boolean asc, final Map<String, Double> map) {
 		Map<String, Double> sortedMap = new TreeMap<String, Double>(new Comparator<String>() {
 			public int compare(String o1, String o2) {
-				return map.get(o2).compareTo(map.get(o1));
+				if (asc){
+					return map.get(o2).compareTo(map.get(o1));
+				} else {
+					return map.get(o1).compareTo(map.get(o2));
+				}
 			}
 		});
 		sortedMap.putAll(map);
