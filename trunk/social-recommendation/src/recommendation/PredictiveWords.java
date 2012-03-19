@@ -21,7 +21,7 @@ public class PredictiveWords {
 	public static void main(String[] args) throws Exception {				
 		PredictiveWords p = new PredictiveWords();				
 		//p.processUserMessages();
-		//p.buildMessagesDictionary(MESSAGES_FILE);
+		p.buildMessagesDictionary(MESSAGES_FILE);
 		ExtractRelTables.ShowCondProbs();
 	}
 
