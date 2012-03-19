@@ -224,7 +224,7 @@ public class ExtractRelTables {
 			frequency = Integer.parseInt(wordAndFrequency[wordAndFrequency.length-1]);			
 
 			// word frequency constraint
-			if (frequency > 10){					
+			if (frequency > 100){					
 
 				System.out.println(word + "*************************");
 				log.println("*************************");
