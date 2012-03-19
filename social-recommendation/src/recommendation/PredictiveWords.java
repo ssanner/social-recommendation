@@ -22,7 +22,6 @@ public class PredictiveWords {
 		PredictiveWords p = new PredictiveWords();				
 		//p.processUserMessages();
 		//p.buildMessagesDictionary(MESSAGES_FILE);
-		//p.ShowCondProbs();
 		ExtractRelTables.ShowCondProbs();
 	}
 
