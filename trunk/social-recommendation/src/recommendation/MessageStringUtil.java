@@ -125,5 +125,4 @@ public class MessageStringUtil {
 		}		
 		writer.close();
 	}
-
 }
