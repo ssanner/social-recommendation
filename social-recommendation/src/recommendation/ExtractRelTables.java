@@ -229,15 +229,13 @@ public class ExtractRelTables {
 			if (frequency > 1500){					
 
 				System.out.println(word + "*************************");
-				log.println("*************************");
 
 				for (EDirectionType dir : EDirectionType.values()) {
 
 					// sort..
 					Interaction i = UserUtil.getUserInteractions(word, dir);
 
-					System.out.println("=========================");
-					log.println("=========================");
+					System.out.println("=========================");					
 					Map<Long,Set<Long>> id2likes = UserUtil.getLikes(ltype);
 
 					// Number of friends who also like the same thing
@@ -266,8 +264,7 @@ public class ExtractRelTables {
 						if (probs.size() > 4) {
 							String line = "** " + ltype + " likes | " + word + " word & " + dir + " & >" + k + " likes " + ": " +
 									(_df.format(Statistics.Avg(probs)) + " +/- " + _df.format(Statistics.StdError95(probs)) + " #" + probs.size() + " [ " + _df.format(Statistics.Min(probs)) + ", " + _df.format(Statistics.Max(probs)) + " ]");
-							log.println(line);
-							log.flush();
+							
 							System.out.println(line);
 							prob_at_k[k-1]   = Statistics.Avg(probs);
 							stderr_at_k[k-1] = Statistics.StdError95(probs);
@@ -285,13 +282,14 @@ public class ExtractRelTables {
 					//data.put((dir.index() - 1)*110 + (ltype.index() - 1)*22 + itype.index(), prob_at_k);
 					//data.put(330 + (dir.index() - 1)*110 + (ltype.index() - 1)*22 + itype.index(), stderr_at_k);
 					System.out.println("=========================");
-					log.println("=========================");
 				}
 			}
 		}
 		//}
 
 		System.out.println("Sorting average probability..");
+		log.println("Max average probability");
+		log.flush();
 		for (int i = 0; i < avgProbs.length; i++){
 			Map<String, Double> sortedAvg = sortMap(true, avgProbs[i]);
 			int show = 0;
@@ -299,11 +297,16 @@ public class ExtractRelTables {
 				if (show > 50){
 					break;
 				}
+				String line = entry.getKey() + ", " + entry.getValue();
 				System.out.println(entry.getKey() + ", " + entry.getValue());
+				log.println(line);
+				log.flush();
 			}
 		}
 		
 		System.out.println("Sorting average error..");
+		log.println("Min average error");
+		log.flush();
 		for (int i = 0; i < avgErr.length; i++){
 			Map<String, Double> sortedErr = sortMap(false, avgErr[i]);
 			int show = 0;
@@ -311,7 +314,10 @@ public class ExtractRelTables {
 				if (show > 50){
 					break;
 				}
+				String line = entry.getKey() + ", " + entry.getValue();
 				System.out.println(entry.getKey() + ", " + entry.getValue());
+				log.println(line);
+				log.flush();
 			}
 		}
 
