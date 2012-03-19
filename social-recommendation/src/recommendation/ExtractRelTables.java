@@ -224,7 +224,7 @@ public class ExtractRelTables {
 			frequency = Integer.parseInt(wordAndFrequency[wordAndFrequency.length-1]);			
 
 			// word frequency constraint
-			if (frequency > 500){					
+			if (frequency > 1000){					
 
 				System.out.println(word + "*************************");
 				log.println("*************************");
@@ -326,7 +326,7 @@ public class ExtractRelTables {
 	 * sortedDictionary.putAll(dictionary);
 	 * 
 	 */
-	static class hashSort implements Comparator<String>{
+	static class hashSort implements Comparator<Double>{
 		Map<String, Double> base;
 		boolean asc;
 		public hashSort(Map base, boolean asc){
@@ -334,7 +334,7 @@ public class ExtractRelTables {
 		}
 
 		@Override
-		public int compare(String a, String b) {
+		public int compare(Double a, Double b) {
 			int compare;
 			if (asc){
 				compare = (int) (base.get(b) - base.get(a));
