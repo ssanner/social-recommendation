@@ -195,7 +195,7 @@ public class ExtractRelTables {
 
 	public static void ShowCondProbs() throws Exception {
 
-		PrintStream log = new PrintStream(new FileOutputStream("cond_probs.txt"));
+		PrintStream log = new PrintStream(new FileOutputStream("frequency.txt"));
 		Set<Long> id_set = APP_USERS;
 
 		ELikeType ltype = ELikeType.ALL;
