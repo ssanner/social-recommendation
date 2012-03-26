@@ -43,7 +43,7 @@ public class DataGenerator {
 		Random r = new Random();
         Set<Long> localUnion = new HashSet<Long>(unionLikes);
 		localUnion.removeAll(remove); 
-		Object[] likesArray = (Long[]) localUnion.toArray();		
+		Long[] likesArray = (Long[]) localUnion.toArray(new Long[localUnion.size()]);		
 		for (int i = 0; i < (remove.size() * 9); i++){ // 9 times as much false data
 			writer.print(uid + " " + (Long) likesArray[r.nextInt(localUnion.size())] + " 0 ");
 			buildFCols(uid, (Long) likesArray[r.nextInt(localUnion.size())]);
