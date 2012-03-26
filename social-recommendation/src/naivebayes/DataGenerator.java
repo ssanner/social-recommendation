@@ -92,10 +92,10 @@ public class DataGenerator {
 						allLikes.put(uid, likedIDs);
 					}
 					likedIDs.add(LIKED_ID);
-				}
-				statement.close();
+				}			
 			}
 		}
+		statement.close();
 		
 		unionLikes = new HashSet<Long>();
 		for (Long uid : allLikes.keySet()){
