@@ -60,15 +60,15 @@ public class DataGenerator {
 		String[] direction = new String[]{"Incoming", "Outgoing"};
 		String[] interactionMedium = new String[]{"Post", "Photo", "Video", "Link"};
 		String[] interactionType = new String[]{"Comments", "Tags", "Likes"};
+		String[] row = new String[]{"from_id", "uid1", "id"};
+		String[] where = new String[]{"uid", "uid2", "uid"};		
 
 		for (String interaction : interactionMedium){
-			for (String type : interactionType){
-				if (interaction.equals("Link") && type.equals("Tags")){
+			for (int i = 0; i < interactionType.length; i++){
+				if (interaction.equals("Link") && interactionType[i].equals("Tags")){
 					continue;
 				}
-				String where = (type.equals("Tags")) ? "uid1" : "uid";
-				String row = (type.equals("Tags")) ? "uid2" : "from_id";
-				String userQuery = "SELECT " + row + " FROM linkr" + interaction + type + " WHERE " + where + " = " + uid;
+				String userQuery = "SELECT " + row[i] + " FROM linkr" + interaction + interactionType[i] + " WHERE " + where[i] + " = " + uid;
 				
 				System.out.println(userQuery);
 				
