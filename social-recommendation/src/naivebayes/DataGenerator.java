@@ -11,7 +11,6 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
-import org.nicta.lr.util.ELikeType;
 import org.nicta.lr.util.SQLUtil;
 
 import messagefrequency.UserUtil;
@@ -57,22 +56,36 @@ public class DataGenerator {
 	public static void buildFCols(Long uid, Long lid) throws SQLException{
 		Statement statement = SQLUtil.getStatement();
 
-		String userQuery = "SELECT from_id FROM linkrPhotoComments WHERE uid = " + uid;
-		boolean found = false;
 
-		ResultSet result = statement.executeQuery(userQuery);
-		while (result.next()) {
-			if (allLikes.containsKey(result.getLong("from_id"))){
-				if (allLikes.get(result.getLong("from_id")).contains(lid)){
-					System.out.println("derp");
-					writer.print("1");
-					found = true;
-					break;
+		String[] direction = new String[]{"Incoming", "Outgoing"};
+		String[] interactionMedium = new String[]{"Post", "Photo", "Video", "Link"};
+		String[] interactionType = new String[]{"Comments", "Tags", "Likes"};
+
+		for (String interaction : interactionMedium){
+			for (String type : interactionType){
+				if (interaction.equals("Link") && type.equals("Tags")){
+					continue;
+				}
+				String userQuery = "SELECT from_id FROM linkr" + interaction + type + " WHERE uid = " + uid;
+				
+				System.out.println(userQuery);
+				
+				boolean found = false;
+
+				ResultSet result = statement.executeQuery(userQuery);
+				while (result.next()) {
+					if (allLikes.containsKey(result.getLong("from_id"))){
+						if (allLikes.get(result.getLong("from_id")).contains(lid)){
+							writer.print("1");
+							found = true;
+							break;
+						}
+					}
+				}
+				if (!found){
+					writer.print("0");
 				}
 			}
-		}
-		if (!found){
-			writer.print("0");
 		}
 		statement.close();
 		writer.println();
@@ -104,12 +117,12 @@ public class DataGenerator {
 			}
 		}
 		statement.close();
-		
+
 		unionLikes = new HashSet<Long>();
 		for (Long uid : allLikes.keySet()){
 			unionLikes.addAll(allLikes.get(uid)); // union all likes data
 		}
-		
+
 	}
 
 	public static void main(String[] args) throws FileNotFoundException, SQLException {
