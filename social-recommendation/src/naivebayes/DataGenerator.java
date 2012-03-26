@@ -66,8 +66,9 @@ public class DataGenerator {
 				if (interaction.equals("Link") && type.equals("Tags")){
 					continue;
 				}
+				String where = (type.equals("Tags")) ? "uid1" : "uid";
 				String row = (type.equals("Tags")) ? "uid2" : "from_id";
-				String userQuery = "SELECT " + row + " FROM linkr" + interaction + type + " WHERE uid = " + uid;
+				String userQuery = "SELECT " + row + " FROM linkr" + interaction + type + " WHERE " + where + " = " + uid;
 				
 				System.out.println(userQuery);
 				
