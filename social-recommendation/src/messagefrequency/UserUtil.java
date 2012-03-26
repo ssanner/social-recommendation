@@ -1,4 +1,4 @@
-package recommendation;
+package messagefrequency;
 
 import org.nicta.lr.LinkRecommender;
 import org.nicta.lr.util.Configuration;

@@ -1,4 +1,4 @@
-package recommendation;
+package messagefrequency;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
