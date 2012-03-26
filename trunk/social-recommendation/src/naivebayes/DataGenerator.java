@@ -41,7 +41,7 @@ public class DataGenerator {
 	public static void generateData(Long uid, Set<Long> remove) throws SQLException{
 		System.out.println("Generating false data for " + uid + ":" + (remove.size()*9));
 		Random r = new Random();
-        Set<Long> localUnion = new HashSet<Long>(unionLikes);
+		Set<Long> localUnion = new HashSet<Long>(unionLikes);
 		localUnion.removeAll(remove); 
 		Long[] likesArray = (Long[]) localUnion.toArray(new Long[localUnion.size()]);		
 		for (int i = 0; i < (remove.size() * 9); i++){ // 9 times as much false data
@@ -49,7 +49,7 @@ public class DataGenerator {
 			buildFCols(uid, (Long) likesArray[r.nextInt(localUnion.size())]);
 		}
 	}
-	
+
 	public static void buildFCols(Long uid, Long lid) throws SQLException{
 		Statement statement = SQLUtil.getStatement();
 
@@ -58,10 +58,12 @@ public class DataGenerator {
 
 		ResultSet result = statement.executeQuery(userQuery);
 		while (result.next()) {
-			if (allLikes.get(result.getLong("from_id")).contains(lid)){
-				writer.print("1");
-				found = true;
-				break;
+			if (allLikes.containsKey(result.getLong("from_id"))){
+				if (allLikes.get(result.getLong("from_id")).contains(lid)){
+					writer.print("1");
+					found = true;
+					break;
+				}
 			}
 		}
 		if (!found){
