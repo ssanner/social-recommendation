@@ -25,6 +25,11 @@ public class DataGenerator {
 	 * Extract all likes for all app users
 	 */
 	public static void extractData() throws SQLException{
+		
+		Set<Long> APP_USERS = UserUtil.getAppUserIds();
+		System.out.println(APP_USERS.size());
+		
+		
 		System.out.println("Extracting likes data for " + allLikes.size() + " users");
 		for (Long uid : allLikes.keySet()){
 			for (Long likes : allLikes.get(uid)){
@@ -58,8 +63,7 @@ public class DataGenerator {
 		ResultSet result = statement.executeQuery(userQuery);
 		while (result.next()) {
 			if (allLikes.containsKey(result.getLong("from_id"))){
-				if (allLikes.get(result.getLong("from_id")).contains(lid)){
-					System.out.println("derp");					
+				if (allLikes.get(result.getLong("from_id")).contains(lid)){					
 					writer.print("1");
 					found = true;
 					break;
