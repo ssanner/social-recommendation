@@ -24,8 +24,9 @@ public class DataGenerator {
 	/*
 	 * Extract all likes for all app users
 	 */
-	public static void extractData() throws SQLException{		
+	public static void extractData() throws SQLException{
 		for (Long uid : allLikes.keySet()){
+			System.out.println("Extracting user data for " + uid + ":" + allLikes.get(uid).size());
 			for (Long likes : allLikes.get(uid)){
 				writer.print(uid + " " + likes + " 1 ");
 				buildFCols(uid, likes);
@@ -38,13 +39,14 @@ public class DataGenerator {
 	 * Generate false like data, 9x as much as true data
 	 */
 	public static void generateData(Long uid, Set<Long> remove) throws SQLException{
+		System.out.println("Generating false data for " + uid + ":" + (remove.size()*9));
 		Random r = new Random();
         Set<Long> localUnion = new HashSet<Long>(unionLikes);
-		localUnion.removeAll(remove);
-		Long[] likesArray = (Long[]) localUnion.toArray();
+		localUnion.removeAll(remove); 
+		Object[] likesArray = (Long[]) localUnion.toArray();		
 		for (int i = 0; i < (remove.size() * 9); i++){ // 9 times as much false data
-			writer.print(uid + " " + likesArray[r.nextInt(localUnion.size())] + " 0 ");
-			buildFCols(uid, likesArray[r.nextInt(localUnion.size())]);
+			writer.print(uid + " " + (Long) likesArray[r.nextInt(localUnion.size())] + " 0 ");
+			buildFCols(uid, (Long) likesArray[r.nextInt(localUnion.size())]);
 		}
 	}
 	
