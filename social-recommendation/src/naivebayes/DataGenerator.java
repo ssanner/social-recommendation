@@ -57,33 +57,40 @@ public class DataGenerator {
 		Statement statement = SQLUtil.getStatement();
 
 
-		String[] direction = new String[]{"Incoming", "Outgoing"};
+		String[] directions = new String[]{"Incoming", "Outgoing"};
 		String[] interactionMedium = new String[]{"Post", "Photo", "Video", "Link"};
 		String[] interactionType = new String[]{"Comments", "Tags", "Likes"};
 		String[] row = new String[]{"from_id", "uid1", "id"};
 		String[] where = new String[]{"uid", "uid2", "uid"};		
 
-		for (String interaction : interactionMedium){
-			for (int i = 0; i < interactionType.length; i++){
-				if (interaction.equals("Link") && interactionType[i].equals("Tags")){
-					continue;
-				}
-				String userQuery = "SELECT " + row[i] + " FROM linkr" + interaction + interactionType[i] + " WHERE " + where[i] + " = " + uid;				
-				
-				boolean found = false;
+		for (String direction : directions){
+			for (String interaction : interactionMedium){
+				for (int i = 0; i < interactionType.length; i++){
+					if (interaction.equals("Link") && interactionType[i].equals("Tags")){
+						continue;
+					}
+					String userQuery;
+					if (direction.equals("Outgoing")){
+						userQuery = "SELECT " + row[i] + " FROM linkr" + interaction + interactionType[i] + " WHERE " + where[i] + " = " + uid;
+					} else {
+						userQuery = "SELECT " + where[i] + " FROM linkr" + interaction + interactionType[i] + " WHERE " + row[i] + " = " + uid;
+					}								
 
-				ResultSet result = statement.executeQuery(userQuery);
-				while (result.next()) {
-					if (allLikes.containsKey(result.getLong(row[i]))){
-						if (allLikes.get(result.getLong(row[i])).contains(lid)){
-							writer.print(" 1");
-							found = true;
-							break;
-						}
-					}					
-				}
-				if (!found){
-					writer.print(" 0");
+					boolean found = false;
+
+					ResultSet result = statement.executeQuery(userQuery);
+					while (result.next()) {
+						if (allLikes.containsKey(result.getLong(row[i]))){
+							if (allLikes.get(result.getLong(row[i])).contains(lid)){
+								writer.print(" 1");
+								found = true;
+								break;
+							}
+						}					
+					}
+					if (!found){
+						writer.print(" 0");
+					}
 				}
 			}
 		}
