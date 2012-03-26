@@ -75,6 +75,7 @@ public class DataGenerator {
 	}
 
 	public static void getAppUserLikes() throws SQLException{
+		allLikes = new HashMap<Long,Set<Long>>();
 		Statement statement = SQLUtil.getStatement();
 
 		String[] row = new String[]{"link_id", "post_id", "photo_id", "video_id"};
