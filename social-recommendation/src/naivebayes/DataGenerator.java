@@ -106,7 +106,8 @@ public class DataGenerator {
 
 	public static void main(String[] args) throws FileNotFoundException, SQLException {
 		APP_USERS = UserUtil.getAppUserIds();
-		writer = new PrintWriter("data.txt");		
+		writer = new PrintWriter("data.txt");
+		getAppUserLikes();
 		extractData();
 		writer.close();
 	}
