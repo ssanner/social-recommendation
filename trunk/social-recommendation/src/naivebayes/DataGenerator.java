@@ -76,8 +76,8 @@ public class DataGenerator {
 
 				ResultSet result = statement.executeQuery(userQuery);
 				while (result.next()) {
-					if (allLikes.containsKey(result.getLong("from_id"))){
-						if (allLikes.get(result.getLong("from_id")).contains(lid)){
+					if (allLikes.containsKey(result.getLong(row[i]))){
+						if (allLikes.get(result.getLong(row[i])).contains(lid)){
 							writer.print("1");
 							found = true;
 							break;
