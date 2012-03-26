@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Random;
@@ -20,17 +21,13 @@ public class DataGenerator {
 	static PrintWriter writer;
 	static Map<Long,Set<Long>> allLikes;
 	static Set<Long> unionLikes;
+	public static Set<Long> APP_USERS;
 
 	/*
 	 * Extract all likes for all app users
 	 */
 	public static void extractData() throws SQLException{
-		
-		Set<Long> APP_USERS = UserUtil.getAppUserIds();
-		System.out.println(APP_USERS.size());
-		
-		
-		System.out.println("Extracting likes data for " + allLikes.size() + " users");
+		System.out.println("Extracting likes data for " + allLikes.size() + " app users");
 		for (Long uid : allLikes.keySet()){
 			for (Long likes : allLikes.get(uid)){
 				writer.print(uid + " " + likes + " 1 ");
@@ -77,13 +74,39 @@ public class DataGenerator {
 		writer.println();
 	}
 
-	public static void main(String[] args) throws FileNotFoundException, SQLException {
-		writer = new PrintWriter("data.txt");
-		allLikes = UserUtil.getLikes(ELikeType.ALL);
+	public static void getAppUserLikes() throws SQLException{
+		Statement statement = SQLUtil.getStatement();
+
+		String[] row = new String[]{"link_id", "post_id", "photo_id", "video_id"};
+		String[] table = new String[]{"linkrLinkLikes", "linkrPostLikes", "linkrPhotoLikes", "linkrVideoLikes"};
+
+		for (Long uid : APP_USERS){
+			for (int i = 0; i < row.length; i++){
+				String userQuery = "SELECT " + row[i] + " FROM " + table[i] + " WHERE id = " + uid;
+				ResultSet result = statement.executeQuery(userQuery);
+				while (result.next()) {
+					long LIKED_ID = result.getLong(1);
+					Set<Long> likedIDs = allLikes.get(uid);
+					if (likedIDs == null) {
+						likedIDs = new HashSet<Long>();
+						allLikes.put(uid, likedIDs);
+					}
+					likedIDs.add(LIKED_ID);
+				}
+				statement.close();
+			}
+		}
+		
 		unionLikes = new HashSet<Long>();
 		for (Long uid : allLikes.keySet()){
 			unionLikes.addAll(allLikes.get(uid)); // union all likes data
 		}
+		
+	}
+
+	public static void main(String[] args) throws FileNotFoundException, SQLException {
+		APP_USERS = UserUtil.getAppUserIds();
+		writer = new PrintWriter("data.txt");		
 		extractData();
 		writer.close();
 	}
