@@ -51,6 +51,9 @@ public class DataGenerator {
 		}
 	}
 
+	/*
+	 * build f cols for each user and like
+	 */
 	public static void buildFCols(Long uid, Long lid) throws SQLException{
 		Statement statement = SQLUtil.getStatement();
 
@@ -60,7 +63,8 @@ public class DataGenerator {
 		ResultSet result = statement.executeQuery(userQuery);
 		while (result.next()) {
 			if (allLikes.containsKey(result.getLong("from_id"))){
-				if (allLikes.get(result.getLong("from_id")).contains(lid)){					
+				if (allLikes.get(result.getLong("from_id")).contains(lid)){
+					System.out.println("derp");
 					writer.print("1");
 					found = true;
 					break;
@@ -74,6 +78,9 @@ public class DataGenerator {
 		writer.println();
 	}
 
+	/*
+	 * Extract likes for all app users
+	 */
 	public static void getAppUserLikes() throws SQLException{
 		allLikes = new HashMap<Long,Set<Long>>();
 		Statement statement = SQLUtil.getStatement();
