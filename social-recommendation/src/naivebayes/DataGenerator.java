@@ -61,7 +61,9 @@ public class DataGenerator {
 		String[] interactionMedium = new String[]{"Post", "Photo", "Video", "Link"};
 		String[] interactionType = new String[]{"Comments", "Tags", "Likes"};
 		String[] row = new String[]{"from_id", "uid1", "id"};
-		String[] where = new String[]{"uid", "uid2", "uid"};		
+		String[] where = new String[]{"uid", "uid2", "uid"};
+		String getRow;
+		String getWhere;
 
 		for (String direction : directions){
 			for (String interaction : interactionMedium){
@@ -69,19 +71,22 @@ public class DataGenerator {
 					if (interaction.equals("Link") && interactionType[i].equals("Tags")){
 						continue;
 					}
-					String userQuery;
+					
 					if (direction.equals("Outgoing")){
-						userQuery = "SELECT " + row[i] + " FROM linkr" + interaction + interactionType[i] + " WHERE " + where[i] + " = " + uid;
+						getRow = row[i];
+						getWhere = where[i];
 					} else {
-						userQuery = "SELECT " + where[i] + " FROM linkr" + interaction + interactionType[i] + " WHERE " + row[i] + " = " + uid;
+						getRow = where[i];
+						getWhere = row[i];
 					}								
 
+					String userQuery = "SELECT " + getRow + " FROM linkr" + interaction + interactionType[i] + " WHERE " + getWhere + " = " + uid;
 					boolean found = false;
 
 					ResultSet result = statement.executeQuery(userQuery);
 					while (result.next()) {
-						if (allLikes.containsKey(result.getLong(row[i]))){
-							if (allLikes.get(result.getLong(row[i])).contains(lid)){
+						if (allLikes.containsKey(result.getLong(getRow))){
+							if (allLikes.get(result.getLong(getRow)).contains(lid)){
 								writer.print(" 1");
 								found = true;
 								break;
