@@ -25,8 +25,8 @@ public class DataGenerator {
 	 * Extract all likes for all app users
 	 */
 	public static void extractData() throws SQLException{
+		System.out.println("Extracting likes data for " + allLikes.size() + " users");
 		for (Long uid : allLikes.keySet()){
-			System.out.println("Extracting user data for " + uid + ":" + allLikes.get(uid).size());
 			for (Long likes : allLikes.get(uid)){
 				writer.print(uid + " " + likes + " 1 ");
 				buildFCols(uid, likes);
@@ -39,7 +39,6 @@ public class DataGenerator {
 	 * Generate false like data, 9x as much as true data
 	 */
 	public static void generateData(Long uid, Set<Long> remove) throws SQLException{
-		System.out.println("Generating false data for " + uid + ":" + (remove.size()*9));
 		Random r = new Random();
 		Set<Long> localUnion = new HashSet<Long>(unionLikes);
 		localUnion.removeAll(remove); 
@@ -60,6 +59,7 @@ public class DataGenerator {
 		while (result.next()) {
 			if (allLikes.containsKey(result.getLong("from_id"))){
 				if (allLikes.get(result.getLong("from_id")).contains(lid)){
+					System.out.println("derp");					
 					writer.print("1");
 					found = true;
 					break;
