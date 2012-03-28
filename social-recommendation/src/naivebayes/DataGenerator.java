@@ -15,6 +15,9 @@ import org.nicta.lr.util.SQLUtil;
 
 import messagefrequency.UserUtil;
 
+/*
+ * Generate data for naive bayes model
+ */
 public class DataGenerator {
 
 	static PrintWriter writer;
@@ -54,6 +57,7 @@ public class DataGenerator {
 	 * build f(i) columns for each (user, like) item pair
 	 * i = {ingoing,outgoing} X {post,photo,video,link} X {comment,tag,like}
 	 * alters(i) = all users who have interacted with (user) via (i)
+	 * column is set to 1 if any of the alters have also liked the item associated with the user otherwise 0
 	 */
 	public static void buildFCols(Long uid, Long lid) throws SQLException{
 		Statement statement = SQLUtil.getStatement();
@@ -70,9 +74,8 @@ public class DataGenerator {
 			for (String interaction : interactionMedium){
 				for (int i = 0; i < interactionType.length; i++){
 					if (interaction.equals("Link") && interactionType[i].equals("Tags")){
-						continue;							// no link tags data
-					}
-
+						continue; // no link tags data
+					} 
 					if (direction.equals("Outgoing")){		// outgoing order
 						getRow = row[i];
 						getWhere = where[i];
@@ -81,6 +84,7 @@ public class DataGenerator {
 						getWhere = row[i];
 					}								
 
+					// select incoming/outgoing data for different interaction types
 					String userQuery = "SELECT " + getRow + " FROM linkr" + interaction + interactionType[i] + " WHERE " + getWhere + " = " + uid;
 					boolean found = false;
 
@@ -97,6 +101,7 @@ public class DataGenerator {
 					if (!found){														// if no user has liked the original item
 						writer.print(" 0");
 					}
+
 				}
 			}
 		}
@@ -133,7 +138,7 @@ public class DataGenerator {
 
 		unionLikes = new HashSet<Long>();
 		for (Long uid : allLikes.keySet()){
-			unionLikes.addAll(allLikes.get(uid)); // union all likes data
+			unionLikes.addAll(allLikes.get(uid)); // union all likes data into one big set
 		}
 
 	}
