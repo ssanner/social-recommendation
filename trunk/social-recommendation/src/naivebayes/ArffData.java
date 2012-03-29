@@ -445,10 +445,8 @@ public class ArffData {
 	public static void main(String args[]) {
 		System.out.println("Running ArffData.main:\n");
 		
-		ArffData f1 = new ArffData("src/ml/classifier/vote.arff");
+		ArffData f1 = new ArffData("data.arff");
 		System.out.println(f1);
 		
-		ArffData f2 = new ArffData("src/ml/classifier/vote_sparse.arff");
-		System.out.println(f2);
 	}
 }
