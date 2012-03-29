@@ -373,6 +373,7 @@ public class ArffData {
 				if (index > 0)
 					sb.append(", ");
 				if (_attr.get(index).type == TYPE_CLASS) {
+					System.out.println(o);
 					int id = Integer.parseInt(o.toString());
 					sb.append(_attr.get(index).getClassName(id) + ":" + id);
 				} else
