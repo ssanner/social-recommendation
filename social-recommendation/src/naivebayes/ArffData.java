@@ -139,7 +139,7 @@ public class ArffData {
 		if (type == TYPE_CLASS) 
 			for (int i = 2; i < split.length; i++) {
 				// DEBUG
-				//System.out.println("Adding attribute: \"" + split[i] + "\"");
+				System.out.println("Adding attribute: \"" + split[i] + "\"");
 				a.addClassVal(split[i]);
 			}
 
@@ -447,7 +447,7 @@ public class ArffData {
 		System.out.println("Running ArffData.main:\n");
 
 		ArffData f1 = new ArffData("data.arff");
-		System.out.println(f1);
+		//System.out.println(f1);
 
 	}
 }
