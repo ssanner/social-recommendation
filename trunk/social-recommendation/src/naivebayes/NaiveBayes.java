@@ -93,8 +93,6 @@ public class NaiveBayes /*extends Classifier*/ {
 		// Build conditional probability tables
 		ArffData.Attribute ca = _arffData._attr.get(class_index);		
 		
-		System.out.println(ca);
-		
 		if (ca.type != ArffData.TYPE_CLASS) {
 			System.out.println("Cannot classify non-class attribute index " + 
 					class_index + ":\n" + ca);
@@ -133,7 +131,7 @@ public class NaiveBayes /*extends Classifier*/ {
 
 			// Otherwise compute the conditional probabilities for this attribute
 			ArffData.Attribute a  = _arffData._attr.get(i);
-			if (a.type != ArffData.TYPE_CLASS) {
+			if (a.type != ArffData.TYPE_DOUBLE) {
 				System.out.println("Cannot classify non-class attribute index " + 
 						i + ":\n" + a);
 				System.exit(1);
