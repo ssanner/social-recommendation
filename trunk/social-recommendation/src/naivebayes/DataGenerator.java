@@ -159,7 +159,7 @@ public class DataGenerator {
 					if (interaction.equals("Link") && interactionType[i].equals("Tags")){
 						continue; // no link tags data
 					}
-					writer.println("@attribute '" + direction + "-" + interaction + "-" + interactionType[i] + "' {0,1}");
+					writer.println("@attribute '" + direction + "-" + interaction + "-" + interactionType[i] + "' numeric");
 				}
 			}
 		}
