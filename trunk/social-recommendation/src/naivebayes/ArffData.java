@@ -140,7 +140,9 @@ public class ArffData {
 			for (int i = 2; i < split.length; i++) {
 				// DEBUG
 				//System.out.println("Adding attribute: \"" + split[i] + "\"");
-				a.addClassVal(split[i]);
+				String v = StripQuotes(split[i]);
+				a.addClassVal(v.charAt(0));
+				a.addClassVal(v.charAt(1));
 			}
 
 		//if (type == TYPE_CLASS) 
@@ -230,13 +232,9 @@ public class ArffData {
 			}
 		}
 
-		public int addClassVal(String val) {
-			System.out.println(val);
-			val = StripQuotes(val);
-			System.out.println(val);
-			if (val.length() == 0) return -1;
-			class_vals.add(val);
-			class_id_map.put(val, new Integer(max_val));
+		public int addClassVal(char c) {						
+			class_vals.add(c);
+			class_id_map.put(c, new Integer(max_val));
 			return max_val++;
 		}
 
