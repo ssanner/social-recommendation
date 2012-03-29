@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -23,7 +24,8 @@ public class DataGenerator {
 	static PrintWriter writer;
 	static Map<Long,Set<Long>> allLikes;
 	static Set<Long> unionLikes;
-	public static Set<Long> APP_USERS;
+	static Set<Long> APP_USERS;
+	static ArrayList<String> attributes;
 
 	/*
 	 * Extract all likes for all app users
@@ -76,6 +78,7 @@ public class DataGenerator {
 					if (interaction.equals("Link") && interactionType[i].equals("Tags")){
 						continue; // no link tags data
 					} 
+					attributes.add("@attribute '" + direction + "-" + interaction + "-" + interactionType[i] + "' { 1, 0 }");
 					if (direction.equals("Outgoing")){		// outgoing order
 						getRow = row[i];
 						getWhere = where[i];
@@ -146,8 +149,12 @@ public class DataGenerator {
 	public static void main(String[] args) throws FileNotFoundException, SQLException {
 		APP_USERS = UserUtil.getAppUserIds();
 		writer = new PrintWriter("data.txt");
+		attributes = new ArrayList<String>();
 		getAppUserLikes();
 		extractData();
+		for (String s : attributes){
+			writer.write(s);
+		}
 		writer.close();
 	}
 
