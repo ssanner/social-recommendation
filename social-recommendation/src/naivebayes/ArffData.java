@@ -230,7 +230,8 @@ public class ArffData {
 			}
 		}
 
-		public int addClassVal(String val) {			
+		public int addClassVal(String val) {
+			System.out.println(val);
 			val = StripQuotes(val);
 			System.out.println(val);
 			if (val.length() == 0) return -1;
