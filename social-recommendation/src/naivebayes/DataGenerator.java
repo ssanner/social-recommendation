@@ -152,14 +152,14 @@ public class DataGenerator {
 		writer.println("@relation app-data");
 		writer.println("@attribute 'Uid' numeric");
 		writer.println("@attribute 'Item' numeric");
-		writer.println("@attribute 'Class' {0,1}");
+		writer.println("@attribute 'Class' {'0','1'}");
 		for (String direction : directions){
 			for (String interaction : interactionMedium){
 				for (int i = 0; i < interactionType.length; i++){
 					if (interaction.equals("Link") && interactionType[i].equals("Tags")){
 						continue; // no link tags data
 					}
-					writer.println("@attribute '" + direction + "-" + interaction + "-" + interactionType[i] + "' {0,1}");
+					writer.println("@attribute '" + direction + "-" + interaction + "-" + interactionType[i] + "' {'0','1'}");
 				}
 			}
 		}
