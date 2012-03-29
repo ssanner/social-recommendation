@@ -122,7 +122,8 @@ public class ArffData {
 	}
 
 	public Attribute addAttribute(String line) {
-		String[] split = SplitRespectQuotes(line, WHITESPACE_RESPECT_QUOTES);//line.split(WHITESPACE);
+		//String[] split = SplitRespectQuotes(line, WHITESPACE_RESPECT_QUOTES);//line.split(WHITESPACE);
+		String[] split = line.split(",");
 		int type = TYPE_UNKNOWN;
 		if (split[2].equalsIgnoreCase("real"))
 			type = TYPE_DOUBLE;
@@ -139,7 +140,7 @@ public class ArffData {
 		if (type == TYPE_CLASS) 
 			for (int i = 2; i < split.length; i++) {
 				// DEBUG
-				//System.out.println("Adding attribute: \"" + split[i] + "\"");
+				System.out.println("Adding attribute: \"" + split[i] + "\"");
 				a.addClassVal(split[i]);
 			}
 
@@ -230,10 +231,8 @@ public class ArffData {
 			}
 		}
 
-		public int addClassVal(String val) {
-			System.out.println(val);
-			val = StripQuotes(val);
-			
+		public int addClassVal(String val) {			
+			val = StripQuotes(val);			
 			if (val.length() == 0) return -1;
 			class_vals.add(val);
 			class_id_map.put(val, new Integer(max_val));
