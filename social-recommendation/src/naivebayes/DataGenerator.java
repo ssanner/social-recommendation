@@ -25,7 +25,9 @@ public class DataGenerator {
 	static Map<Long,Set<Long>> allLikes;
 	static Set<Long> unionLikes;
 	static Set<Long> APP_USERS;
-	static ArrayList<String> attributes;
+	static String[] directions = new String[]{"Incoming", "Outgoing"};					
+	static String[] interactionMedium = new String[]{"Post", "Photo", "Video", "Link"};
+	static String[] interactionType = new String[]{"Comments", "Tags", "Likes"};
 
 	/*
 	 * Extract all likes for all app users
@@ -64,9 +66,7 @@ public class DataGenerator {
 	public static void buildFCols(Long uid, Long lid) throws SQLException{
 		Statement statement = SQLUtil.getStatement();
 
-		String[] directions = new String[]{"Incoming", "Outgoing"};					
-		String[] interactionMedium = new String[]{"Post", "Photo", "Video", "Link"};
-		String[] interactionType = new String[]{"Comments", "Tags", "Likes"};
+		
 		String[] row = new String[]{"from_id", "uid1", "id"};			// tables have different names for in/out cols
 		String[] where = new String[]{"uid", "uid2", "uid"};
 		String getRow;
@@ -78,7 +78,7 @@ public class DataGenerator {
 					if (interaction.equals("Link") && interactionType[i].equals("Tags")){
 						continue; // no link tags data
 					} 
-					attributes.add("@attribute '" + direction + "-" + interaction + "-" + interactionType[i] + "' { 1, 0 }");
+					
 					if (direction.equals("Outgoing")){		// outgoing order
 						getRow = row[i];
 						getWhere = where[i];
@@ -148,13 +148,21 @@ public class DataGenerator {
 
 	public static void main(String[] args) throws FileNotFoundException, SQLException {
 		APP_USERS = UserUtil.getAppUserIds();
-		writer = new PrintWriter("data.txt");
-		attributes = new ArrayList<String>();
-		getAppUserLikes();
-		extractData();
-		for (String s : attributes){
-			writer.write(s);
+		writer = new PrintWriter("data.txt");		
+		writer.println("@relation app-data");
+		for (String direction : directions){
+			for (String interaction : interactionMedium){
+				for (int i = 0; i < interactionType.length; i++){
+					if (interaction.equals("Link") && interactionType[i].equals("Tags")){
+						continue; // no link tags data
+					}
+					writer.println("@attribute '" + direction + "-" + interaction + "-" + interactionType[i] + "' { 1, 0 }");
+				}
+			}
 		}
+		writer.println("@data");
+		getAppUserLikes();
+		extractData();		
 		writer.close();
 	}
 
