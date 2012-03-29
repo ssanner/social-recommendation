@@ -137,6 +137,8 @@ public class NaiveBayes /*extends Classifier*/ {
 				System.exit(1);
 			}
 			
+			System.out.println(a);
+			
 			ccp._logprob = new double[a.class_vals.size()][];
 			for (int j = 0; j < a.class_vals.size(); j++) {
 				ccp._logprob[j] = new double[ca.class_vals.size()];
