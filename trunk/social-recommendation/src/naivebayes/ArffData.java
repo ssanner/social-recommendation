@@ -232,6 +232,7 @@ public class ArffData {
 
 		public int addClassVal(String val) {
 			val = StripQuotes(val);
+			System.out.println(val);
 			if (val.length() == 0) return -1;
 			class_vals.add(val);
 			class_id_map.put(val, new Integer(max_val));
