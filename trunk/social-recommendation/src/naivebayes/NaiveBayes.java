@@ -217,7 +217,7 @@ public class NaiveBayes /*extends Classifier*/ {
 		
 		System.out.println("Running NaiveBayes:\n");
 				
-		ArffData data = new ArffData("src/ml/classifier/vote.arff");
+		ArffData data = new ArffData("data.arff");
 		//ArffData data = new ArffData("src/ml/classifier/vote_sparse.arff");		
 		//ArffData data = new ArffData("src/ml/classifier/newsgroups.arff");
 
