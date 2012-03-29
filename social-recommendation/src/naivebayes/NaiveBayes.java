@@ -94,6 +94,7 @@ public class NaiveBayes /*extends Classifier*/ {
 		ArffData.Attribute ca = _arffData._attr.get(class_index);		
 		
 		if (ca.type != ArffData.TYPE_CLASS) {
+			System.out.println("dolan");
 			System.out.println("Cannot classify non-class attribute index " + 
 					class_index + ":\n" + ca);
 			System.exit(1);
@@ -169,7 +170,6 @@ public class NaiveBayes /*extends Classifier*/ {
 		// Get class attribute
 		ArffData.Attribute ca = _arffData._attr.get(_classIndex);
 		if (ca.type != ArffData.TYPE_CLASS) {
-			System.out.println("dolan");
 			System.out.println("Cannot classify non-class attribute index " + 
 					_classIndex + ":\n" + ca);
 			System.exit(1);
