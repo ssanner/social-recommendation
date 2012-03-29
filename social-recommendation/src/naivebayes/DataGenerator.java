@@ -36,7 +36,7 @@ public class DataGenerator {
 		System.out.println("Extracting likes data for " + allLikes.size() + " app users");
 		for (Long uid : allLikes.keySet()){
 			for (Long likes : allLikes.get(uid)){
-				writer.print("'" + uid + "','" + likes + "','1'");
+				writer.print(uid + "," + likes + ",1");
 				buildFCols(uid, likes);
 			}
 			generateData(uid, allLikes.get(uid));
@@ -52,7 +52,7 @@ public class DataGenerator {
 		localUnion.removeAll(remove); 							// remove all liked items for user
 		Long[] likesArray = (Long[]) localUnion.toArray(new Long[localUnion.size()]);		
 		for (int i = 0; i < (remove.size() * 9); i++){ 			// 9 times as much false data
-			writer.print("'" + uid + "','" + (Long) likesArray[r.nextInt(localUnion.size())] + "','0'");
+			writer.print(uid + "," + (Long) likesArray[r.nextInt(localUnion.size())] + ",0");
 			buildFCols(uid, (Long) likesArray[r.nextInt(localUnion.size())]);
 		}
 	}
@@ -95,14 +95,14 @@ public class DataGenerator {
 					while (result.next()) {
 						if (allLikes.containsKey(result.getLong(getRow))){
 							if (allLikes.get(result.getLong(getRow)).contains(lid)){	// if a user in alter set has liked the original item
-								writer.print(",'1'");
+								writer.print(",1");
 								found = true;
 								break;
 							}
 						}					
 					}
 					if (!found){														// if no user has liked the original item
-						writer.print(",'0'");
+						writer.print(",0");
 					}
 
 				}
@@ -152,14 +152,14 @@ public class DataGenerator {
 		writer.println("@relation app-data");
 		writer.println("@attribute 'Uid' numeric");
 		writer.println("@attribute 'Item' numeric");
-		writer.println("@attribute 'Class' {'0','1'}");
+		writer.println("@attribute 'Class' {0,1}");
 		for (String direction : directions){
 			for (String interaction : interactionMedium){
 				for (int i = 0; i < interactionType.length; i++){
 					if (interaction.equals("Link") && interactionType[i].equals("Tags")){
 						continue; // no link tags data
 					}
-					writer.println("@attribute '" + direction + "-" + interaction + "-" + interactionType[i] + "' {'0','1'}");
+					writer.println("@attribute '" + direction + "-" + interaction + "-" + interactionType[i] + "' {0,1}");
 				}
 			}
 		}
