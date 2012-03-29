@@ -143,8 +143,8 @@ public class ArffData {
 				a.addClassVal(split[i]);
 			}
 
-		if (type == TYPE_CLASS) 
-			a.addClassVal("?");
+		//if (type == TYPE_CLASS) 
+			//a.addClassVal("?");
 
 		return a;
 	}
@@ -275,6 +275,7 @@ public class ArffData {
 				sb.append(" }");
 			}
 
+			System.out.println(sb.toString());
 			return sb.toString();
 		}
 	}
