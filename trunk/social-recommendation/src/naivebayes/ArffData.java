@@ -122,8 +122,18 @@ public class ArffData {
 	}
 
 	public Attribute addAttribute(String line) {
-		//String[] split = SplitRespectQuotes(line, WHITESPACE_RESPECT_QUOTES);//line.split(WHITESPACE);
-		String[] split = line.split(",");
+		String[] split = SplitRespectQuotes(line, WHITESPACE_RESPECT_QUOTES);//line.split(WHITESPACE);
+		
+		for (String s : split){
+			System.out.println(s);
+		}
+		System.out.println("dolan");
+		String[] split2 = line.split(",");
+		
+		for (String s : split2){
+			System.out.println(s);
+		}
+		
 		int type = TYPE_UNKNOWN;
 		if (split[2].equalsIgnoreCase("real"))
 			type = TYPE_DOUBLE;
