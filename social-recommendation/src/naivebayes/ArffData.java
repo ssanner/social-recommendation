@@ -412,8 +412,8 @@ public class ArffData {
 		for (int i = 0; i < _attr.size(); i++)
 			sb.append("[" + i + "] " + _attr.get(i) + "\n");
 		sb.append("\nData:\n");
-		//for (int i = 0; i < _data.size(); i++)
-			//sb.append("[" + i + "] " + _data.get(i) + "\n");
+		for (int i = 0; i < _data.size(); i++)
+			sb.append("[" + i + "] " + _data.get(i) + "\n");
 		return sb.toString();
 	}
 
