@@ -448,7 +448,7 @@ public class ArffData {
 		System.out.println("Running ArffData.main:\n");
 
 		ArffData f1 = new ArffData("data.arff");
-		//System.out.println(f1);
+		System.out.println(f1);
 
 	}
 }
