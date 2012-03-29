@@ -148,7 +148,7 @@ public class DataGenerator {
 
 	public static void main(String[] args) throws FileNotFoundException, SQLException {
 		APP_USERS = UserUtil.getAppUserIds();
-		writer = new PrintWriter("data.txt");		
+		writer = new PrintWriter("data.arff");		
 		writer.println("@relation app-data");
 		writer.println("@attribute 'Uid' numeric");
 		writer.println("@attribute 'Item' numeric");
