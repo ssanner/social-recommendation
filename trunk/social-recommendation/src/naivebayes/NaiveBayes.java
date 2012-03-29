@@ -91,9 +91,7 @@ public class NaiveBayes /*extends Classifier*/ {
 		//System.out.println("Training for " + _condProb.size() + " attributes.");
 
 		// Build conditional probability tables
-		ArffData.Attribute ca = _arffData._attr.get(class_index);
-		
-		System.out.println(ca);
+		ArffData.Attribute ca = _arffData._attr.get(class_index);		
 		
 		if (ca.type != ArffData.TYPE_CLASS) {
 			System.out.println("Cannot classify non-class attribute index " + 
@@ -225,7 +223,7 @@ public class NaiveBayes /*extends Classifier*/ {
 		//ArffData data = new ArffData("src/ml/classifier/newsgroups.arff");
 
 		// Assume classification attribute always comes last
-		int CLASS_INDEX = data._attr.size() - 1; 
+		int CLASS_INDEX = 2; 
 		
 		// Split data into train (80%) / test (20%)
 		ArffData.SplitData s = data.splitData(.8d);
