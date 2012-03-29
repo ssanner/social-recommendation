@@ -169,6 +169,7 @@ public class NaiveBayes /*extends Classifier*/ {
 		// Get class attribute
 		ArffData.Attribute ca = _arffData._attr.get(_classIndex);
 		if (ca.type != ArffData.TYPE_CLASS) {
+			System.out.println("dolan");
 			System.out.println("Cannot classify non-class attribute index " + 
 					_classIndex + ":\n" + ca);
 			System.exit(1);
@@ -219,8 +220,6 @@ public class NaiveBayes /*extends Classifier*/ {
 		System.out.println("Running NaiveBayes:\n");
 				
 		ArffData data = new ArffData("data.arff");
-		//ArffData data = new ArffData("src/ml/classifier/vote_sparse.arff");		
-		//ArffData data = new ArffData("src/ml/classifier/newsgroups.arff");
 
 		// Assume classification attribute always comes last
 		int CLASS_INDEX = 2; 
