@@ -240,7 +240,7 @@ public class NaiveBayes /*extends Classifier*/ {
 
 		double totalTrain = 0.0;
 		double totalTest = 0.0;
-		int iterations = 5;
+		int iterations = 10;
 		for (int i = 0; i < iterations; i++){
 			// Split data into train (80%) / test (20%)
 			ArffData.SplitData s = data.splitData(.8d);
