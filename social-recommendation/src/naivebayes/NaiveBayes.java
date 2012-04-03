@@ -101,15 +101,13 @@ public class NaiveBayes /*extends Classifier*/ {
 					class_index + ":\n" + ca);
 			System.exit(1);
 		}
-
-		int nonClass = 0;
+		
 		// For each class, record count with positive and record 
 		// count with negative
 		for (int i = 0; i < _arffData._attr.size(); i++) {
 						
 			if (_arffData._attr.get(i).type != ArffData.TYPE_CLASS){ // dont want to do anything with the real cols
-				System.out.println("Skipping - " + _arffData._attr.get(i));
-				nonClass++;
+				//System.out.println("Skipping - " + _arffData._attr.get(i));
 				continue;
 			}
 			
@@ -143,7 +141,7 @@ public class NaiveBayes /*extends Classifier*/ {
 			// Otherwise compute the conditional probabilities for this attribute
 			ArffData.Attribute a  = _arffData._attr.get(i);
 			if (a.type != ArffData.TYPE_CLASS) {
-				System.out.println("Skipping - " + a);
+				//System.out.println("Skipping - " + a);
 				//System.out.println("Cannot classify non-class attribute index " + 
 				//		i + ":\n" + a);
 				//System.exit(1);
@@ -173,7 +171,7 @@ public class NaiveBayes /*extends Classifier*/ {
 				}
 			}
 		}
-		System.out.println("Constructed " + _condProb.size() + " CPTs.");
+		//System.out.println("Constructed " + _condProb.size() + " CPTs.");
 		//System.out.println(this);
 	}
 
@@ -236,22 +234,33 @@ public class NaiveBayes /*extends Classifier*/ {
 		// Assume classification attribute always comes last
 		int CLASS_INDEX = 2; 
 		
-		// Split data into train (80%) / test (20%)
-		ArffData.SplitData s = data.splitData(.7d);
-		
-		// Build a NB classifier and train
-		NaiveBayes nb = new NaiveBayes(1.0d /* prior counts */);
-		nb.clear();
-		nb.setTrainData(s._train);
-		nb.train(CLASS_INDEX);
-
 		// Diagnostic output
-		System.out.println(data); // View data
-		System.out.println(nb); // View what has been learned
+		//System.out.println(data); // View data
+		//System.out.println(nb); // View what has been learned
 
-		// Evaluate accuracy of trained classifier on train and test data
-		System.out.println("Accuracy on train: " + nb.accuracy(s._train._data));
-		System.out.println("Accuracy on test:  " + nb.accuracy(s._test._data));
+		double totalTrain = 0.0;
+		double totalTest = 0.0;
+		int iterations = 5;
+		for (int i = 0; i < iterations; i++){
+			// Split data into train (80%) / test (20%)
+			ArffData.SplitData s = data.splitData(.8d);
+			
+			// Build a NB classifier and train
+			NaiveBayes nb = new NaiveBayes(1.0d /* prior counts */);
+			nb.clear();
+			nb.setTrainData(s._train);
+			nb.train(CLASS_INDEX);
+
+			// Evaluate accuracy of trained classifier on train and test data
+			System.out.println(i + " Accuracy on train: " + nb.accuracy(s._train._data));
+			System.out.println(i + " Accuracy on test:  " + nb.accuracy(s._test._data));
+			
+			totalTrain += nb.accuracy(s._train._data);
+			totalTest += nb.accuracy(s._test._data);
+		}
+		System.out.println("Train accuracy after " + iterations + " iterations:" + (totalTrain/iterations));
+		System.out.println("Test accuracy after " + iterations + " iterations:" + (totalTest/iterations));
+				
 	}
 
 }

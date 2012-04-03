@@ -17,6 +17,8 @@
 
 package naivebayes;
 
+import java.util.Random;
+
 public class Permutation { 
 	
    public static void main(String[] args) { 
@@ -40,7 +42,7 @@ public class Permutation {
    }
    
    public static int[] permute(int N) {
-
+	  Random ran = new Random(System.currentTimeMillis());
       int[] a = new int[N];
 
       // insert integers 0..N-1
@@ -49,7 +51,7 @@ public class Permutation {
 
       // shuffle
       for (int i = 0; i < N; i++) {
-         int r = (int) (Math.random() * (i+1));     // int between 0 and i
+         int r = (int) (ran.nextDouble() * (i+1));     // int between 0 and i
          int swap = a[r];
          a[r] = a[i];
          a[i] = swap;
