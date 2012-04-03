@@ -365,15 +365,16 @@ public class ArffData {
 			}*/
 			
 			return _entries.get(index);
-		}
+		}		
 		
 		public String toString() {
 			StringBuffer sb = new StringBuffer("[");
 			for (int index = 0; index < _entries.size(); index++) {
-				Object o = _entries.get(index);
+				Object o = _entries.get(index);				
 				if (index > 0)
 					sb.append(", ");
 				if (_attr.get(index).type == TYPE_CLASS) {
+					
 					int id = Integer.parseInt(o.toString());
 					sb.append(_attr.get(index).getClassName(id) + ":" + id);
 				} else
