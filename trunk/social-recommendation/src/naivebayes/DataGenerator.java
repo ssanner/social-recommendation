@@ -152,7 +152,7 @@ public class DataGenerator {
 		writer.println("@relation app-data");
 		writer.println("@attribute 'Uid' numeric");
 		writer.println("@attribute 'Item' numeric");
-		writer.println("@attribute 'Class' { 'n' , 'y' }");
+		writer.println("@attribute 'Class' { 'Doesn't like link' , 'Likes link' }");
 		for (String direction : directions){
 			for (String interaction : interactionMedium){
 				for (int i = 0; i < interactionType.length; i++){
