@@ -94,9 +94,7 @@ public class NaiveBayes /*extends Classifier*/ {
 		//System.out.println("Training for " + _condProb.size() + " attributes.");
 
 		// Build conditional probability tables
-		ArffData.Attribute ca = _arffData._attr.get(class_index);
-		
-		System.out.println(ca);
+		ArffData.Attribute ca = _arffData._attr.get(class_index);		
 		
 		if (ca.type != ArffData.TYPE_CLASS) {
 			System.out.println("Cannot classify non-class attribute index " + 
@@ -104,12 +102,20 @@ public class NaiveBayes /*extends Classifier*/ {
 			System.exit(1);
 		}
 
+		int nonClass = 0;
 		// For each class, record count with positive and record 
 		// count with negative
 		for (int i = 0; i < _arffData._attr.size(); i++) {
+						
+			if (_arffData._attr.get(i).type != ArffData.TYPE_CLASS){ // dont want to do anything with the real cols
+				System.out.println("Skipping - " + _arffData._attr.get(i));
+				nonClass++;
+				continue;
+			}
 			
 			// TODO: Inefficient to constantly recompute
 			int[] overall_count = new int[ca.class_vals.size()];
+
 			//System.out.println("Processing " + i);
 			ClassCondProb ccp = new ClassCondProb(i);
 			_condProb.add(ccp);
@@ -121,7 +127,7 @@ public class NaiveBayes /*extends Classifier*/ {
 					ccp._logprob[j] = new double[1];
 				}
 				for (int j = 0; j < _arffData._data.size(); j++) {
-					ArffData.DataEntry de = _arffData._data.get(j);
+					ArffData.DataEntry de = _arffData._data.get(j);					
 					int class_value = ((Integer)de.getData(class_index)).intValue();
 					ccp._logprob[class_value][0] = ccp._logprob[class_value][0] + 1d; 
 				}
@@ -137,9 +143,11 @@ public class NaiveBayes /*extends Classifier*/ {
 			// Otherwise compute the conditional probabilities for this attribute
 			ArffData.Attribute a  = _arffData._attr.get(i);
 			if (a.type != ArffData.TYPE_CLASS) {
-				System.out.println("Cannot classify non-class attribute index " + 
-						i + ":\n" + a);
-				System.exit(1);
+				System.out.println("Skipping - " + a);
+				//System.out.println("Cannot classify non-class attribute index " + 
+				//		i + ":\n" + a);
+				//System.exit(1);
+				continue;
 			}
 			
 			ccp._logprob = new double[a.class_vals.size()][];
@@ -148,7 +156,7 @@ public class NaiveBayes /*extends Classifier*/ {
 			}
 
 			// Sort data entries into subnodes
-			for (int j = 0; j < _arffData._data.size(); j++) {
+			for (int j = 0; j < _arffData._data.size(); j++) {				
 				ArffData.DataEntry de = _arffData._data.get(j);
 				int attr_value  = ((Integer)de.getData(i)).intValue();
 				int class_value = ((Integer)de.getData(class_index)).intValue();
@@ -165,7 +173,7 @@ public class NaiveBayes /*extends Classifier*/ {
 				}
 			}
 		}
-		//System.out.println("Constructed " + _condProb.size() + " CPTs.");
+		System.out.println("Constructed " + _condProb.size() + " CPTs.");
 		//System.out.println(this);
 	}
 
@@ -183,10 +191,10 @@ public class NaiveBayes /*extends Classifier*/ {
 		// count with negative
 		int best_class = -1;
 		double best_class_value = Double.NEGATIVE_INFINITY;
-		for (int i = 0; i < ca.class_vals.size(); i++) { 
+		for (int i = 0; i < ca.class_vals.size(); i++) {			
 			
 			double class_value = 0d;
-			for (int j = 0; j < _condProb.size(); j++) {
+			for (int j = 2; j < _condProb.size(); j++) {			
 			
 				ClassCondProb ccp = _condProb.get(j);
 				if (j == _classIndex) {
@@ -223,12 +231,10 @@ public class NaiveBayes /*extends Classifier*/ {
 		
 		System.out.println("Running NaiveBayes:\n");
 				
-		ArffData data = new ArffData("vote.arff");
-		//ArffData data = new ArffData("src/ml/classifier/vote_sparse.arff");		
-		//ArffData data = new ArffData("src/ml/classifier/newsgroups.arff");
+		ArffData data = new ArffData("data.arff");
 
 		// Assume classification attribute always comes last
-		int CLASS_INDEX = 3; 
+		int CLASS_INDEX = 2; 
 		
 		// Split data into train (80%) / test (20%)
 		ArffData.SplitData s = data.splitData(.8d);
@@ -240,8 +246,8 @@ public class NaiveBayes /*extends Classifier*/ {
 		nb.train(CLASS_INDEX);
 
 		// Diagnostic output
-		//System.out.println(data); // View data
-		//System.out.println(nb); // View what has been learned
+		System.out.println(data); // View data
+		System.out.println(nb); // View what has been learned
 
 		// Evaluate accuracy of trained classifier on train and test data
 		System.out.println("Accuracy on train: " + nb.accuracy(s._train._data));
