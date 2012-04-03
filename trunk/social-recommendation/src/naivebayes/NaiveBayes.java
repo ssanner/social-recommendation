@@ -237,7 +237,7 @@ public class NaiveBayes /*extends Classifier*/ {
 		int CLASS_INDEX = 2; 
 		
 		// Split data into train (80%) / test (20%)
-		ArffData.SplitData s = data.splitData(.8d);
+		ArffData.SplitData s = data.splitData(.7d);
 		
 		// Build a NB classifier and train
 		NaiveBayes nb = new NaiveBayes(1.0d /* prior counts */);
