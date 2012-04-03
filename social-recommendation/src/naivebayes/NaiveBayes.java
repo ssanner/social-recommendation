@@ -69,7 +69,7 @@ public class NaiveBayes /*extends Classifier*/ {
 		StringBuffer sb = new StringBuffer("\nNaive Bayes CPTs [" + _condProb.size() + "]:\n\n");
 		for (int i = 0; i < _condProb.size(); i++) {
 			ClassCondProb ccp = _condProb.get(i);
-			sb.append("Attribute: " + _arffData._attr.get(i).name + "\n");
+			sb.append("Attribute: " + _arffData._attr.get(i+2).name + "\n");
 			sb.append(ccp.toString() + "\n");
 		}
 		return sb.toString();
@@ -254,6 +254,8 @@ public class NaiveBayes /*extends Classifier*/ {
 			// Evaluate accuracy of trained classifier on train and test data
 			System.out.println(i + " Accuracy on train: " + nb.accuracy(s._train._data));
 			System.out.println(i + " Accuracy on test:  " + nb.accuracy(s._test._data));
+			
+			System.out.println(nb); // View data
 			
 			totalTrain += nb.accuracy(s._train._data);
 			totalTest += nb.accuracy(s._test._data);
