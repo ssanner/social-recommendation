@@ -253,9 +253,7 @@ public class NaiveBayes /*extends Classifier*/ {
 
 			// Evaluate accuracy of trained classifier on train and test data
 			System.out.println(i + " Accuracy on train: " + nb.accuracy(s._train._data));
-			System.out.println(i + " Accuracy on test:  " + nb.accuracy(s._test._data));
-			
-			System.out.println(nb); // View data
+			System.out.println(i + " Accuracy on test:  " + nb.accuracy(s._test._data));		
 			
 			totalTrain += nb.accuracy(s._train._data);
 			totalTest += nb.accuracy(s._test._data);
