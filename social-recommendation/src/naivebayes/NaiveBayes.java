@@ -1,11 +1,13 @@
+package naivebayes;
+
 /** Simple Naive Bayes algorithm.
  * 
  * @author Scott Sanner
  */
 
-package naivebayes;
 
 import java.util.*;
+import java.io.File;
 import java.text.*;
 
 /* TODO: Fix to inherit form Classifier again; then remove local _arffData and _classIndex */
@@ -21,7 +23,8 @@ public class NaiveBayes /*extends Classifier*/ {
 	
 	public class ClassCondProb {
 		int _attr_index;
-		public double[][] _logprob; // For each class and attribute, a probability that sums to 1
+		public double[][] _logprob; // For each class and attribute,
+		                         // a probability that sums to 1
 		
 		public ClassCondProb(int index) {
 			_attr_index = index;
@@ -91,7 +94,9 @@ public class NaiveBayes /*extends Classifier*/ {
 		//System.out.println("Training for " + _condProb.size() + " attributes.");
 
 		// Build conditional probability tables
-		ArffData.Attribute ca = _arffData._attr.get(class_index);		
+		ArffData.Attribute ca = _arffData._attr.get(class_index);
+		
+		System.out.println(ca);
 		
 		if (ca.type != ArffData.TYPE_CLASS) {
 			System.out.println("Cannot classify non-class attribute index " + 
@@ -131,13 +136,11 @@ public class NaiveBayes /*extends Classifier*/ {
 
 			// Otherwise compute the conditional probabilities for this attribute
 			ArffData.Attribute a  = _arffData._attr.get(i);
-			if (a.type != ArffData.TYPE_DOUBLE) {
+			if (a.type != ArffData.TYPE_CLASS) {
 				System.out.println("Cannot classify non-class attribute index " + 
 						i + ":\n" + a);
 				System.exit(1);
 			}
-			
-			System.out.println(a);
 			
 			ccp._logprob = new double[a.class_vals.size()][];
 			for (int j = 0; j < a.class_vals.size(); j++) {
@@ -220,10 +223,12 @@ public class NaiveBayes /*extends Classifier*/ {
 		
 		System.out.println("Running NaiveBayes:\n");
 				
-		ArffData data = new ArffData("data.arff");
+		ArffData data = new ArffData("vote.arff");
+		//ArffData data = new ArffData("src/ml/classifier/vote_sparse.arff");		
+		//ArffData data = new ArffData("src/ml/classifier/newsgroups.arff");
 
 		// Assume classification attribute always comes last
-		int CLASS_INDEX = 2; 
+		int CLASS_INDEX = 3; 
 		
 		// Split data into train (80%) / test (20%)
 		ArffData.SplitData s = data.splitData(.8d);
@@ -235,8 +240,8 @@ public class NaiveBayes /*extends Classifier*/ {
 		nb.train(CLASS_INDEX);
 
 		// Diagnostic output
-		System.out.println(data); // View data
-		System.out.println(nb); // View what has been learned
+		//System.out.println(data); // View data
+		//System.out.println(nb); // View what has been learned
 
 		// Evaluate accuracy of trained classifier on train and test data
 		System.out.println("Accuracy on train: " + nb.accuracy(s._train._data));
