@@ -36,6 +36,7 @@ public class DataGenerator {
 		System.out.println("Extracting likes data for " + allLikes.size() + " app users");
 		for (Long uid : allLikes.keySet()){
 			for (Long likes : allLikes.get(uid)){
+				System.out.println("User " + uid + " made " + likes + " likes");
 				writer.print(uid + "," + likes + ",'y'");
 				buildFCols(uid, likes);
 			}
