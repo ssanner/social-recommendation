@@ -150,19 +150,19 @@ public class DataGeneratorv2 {
 	
 	public static void topLiked(){
 		HashMap<Long,Integer> topLiked = new HashMap<Long,Integer>();
-		System.out.println(allLikes);
 		for (Long uid : allLikes.keySet()){
 			for (Long likes : allLikes.get(uid)){
 				Integer totalLiked = topLiked.get(likes);
 				if (totalLiked == null){
 					topLiked.put(likes, 1);
 				} else {
+					System.out.println("a");
 					topLiked.put(likes, totalLiked+1);
 				}
 			}
 		}
 		for (Long uid : topLiked.keySet()){
-			System.out.println(uid + " " + topLiked.get(uid));
+			//System.out.println(uid + " " + topLiked.get(uid));
 		}
 	}
 
