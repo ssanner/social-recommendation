@@ -147,6 +147,7 @@ public class DataGenerator {
 	}
 
 	public static void main(String[] args) throws FileNotFoundException, SQLException {
+		System.out.println("Generating data..");
 		APP_USERS = UserUtil.getAppUserIds();
 		writer = new PrintWriter("data.arff");		
 		writer.println("@relation app-data");
