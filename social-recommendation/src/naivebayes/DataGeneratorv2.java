@@ -45,23 +45,6 @@ public class DataGeneratorv2 {
 			generateData(uid, allLikes.get(uid));
 		}*/
 	}
-	
-	public static void topLiked(){
-		HashMap<Long,Integer> topLiked = new HashMap<Long,Integer>();
-		for (Long uid : allLikes.keySet()){
-			for (Long likes : allLikes.get(uid)){
-				Integer totalLiked = topLiked.get(likes);
-				if (totalLiked == null){
-					topLiked.put(likes, 1);
-				} else {
-					topLiked.put(likes, totalLiked+1);
-				}
-			}
-		}
-		for (Long uid : topLiked.keySet()){
-			System.out.println(uid + " " + topLiked.get(uid));
-		}
-	}
 
 	/*
 	 * Generate false like data, 9x as much as true data
@@ -163,7 +146,24 @@ public class DataGeneratorv2 {
 		for (Long uid : allLikes.keySet()){
 			unionLikes.addAll(allLikes.get(uid)); // union all likes data into one big set
 		}
-
+	}
+	
+	public static void topLiked(){
+		HashMap<Long,Integer> topLiked = new HashMap<Long,Integer>();
+		System.out.println(allLikes);
+		for (Long uid : allLikes.keySet()){
+			for (Long likes : allLikes.get(uid)){
+				Integer totalLiked = topLiked.get(likes);
+				if (totalLiked == null){
+					topLiked.put(likes, 1);
+				} else {
+					topLiked.put(likes, totalLiked+1);
+				}
+			}
+		}
+		for (Long uid : topLiked.keySet()){
+			System.out.println(uid + " " + topLiked.get(uid));
+		}
 	}
 
 	public static void main(String[] args) throws FileNotFoundException, SQLException {
