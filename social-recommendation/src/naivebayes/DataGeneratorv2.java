@@ -17,14 +17,10 @@ import org.nicta.lr.util.SQLUtil;
 import messagefrequency.UserUtil;
 
 /*
- * v1
+ * v2
  * Generate data for naive bayes model
- *  * build f(i) columns for each (user, like) item pair
-	 * i = {ingoing,outgoing} X {post,photo,video,link} X {comment,tag,like}
-	 * alters(i) = all users who have interacted with (user) via (i)
-	 * column is set to 1 if any of the alters have also liked the item associated with the user otherwise 0
  */
-public class DataGenerator {
+public class DataGeneratorv2 {
 
 	static PrintWriter writer;
 	static Map<Long,Set<Long>> allLikes;
@@ -38,7 +34,8 @@ public class DataGenerator {
 	 * Extract all likes for all app users
 	 */
 	public static void extractData() throws SQLException{
-		System.out.println("Extracting likes data for " + allLikes.size() + " app users");
+		
+		/*System.out.println("Extracting likes data for " + allLikes.size() + " app users");
 		for (Long uid : allLikes.keySet()){
 			System.out.println("User " + uid + " made " + allLikes.get(uid).size() + " likes");
 			for (Long likes : allLikes.get(uid)){
@@ -46,6 +43,23 @@ public class DataGenerator {
 				buildFCols(uid, likes);
 			}
 			generateData(uid, allLikes.get(uid));
+		}*/
+	}
+	
+	public static void topLiked(){
+		HashMap<Long,Integer> topLiked = new HashMap<Long,Integer>();
+		for (Long uid : allLikes.keySet()){
+			for (Long likes : allLikes.get(uid)){
+				Integer totalLiked = topLiked.get(likes);
+				if (totalLiked == null){
+					topLiked.put(likes, 1);
+				} else {
+					topLiked.put(likes, totalLiked+1);
+				}
+			}
+		}
+		for (Long uid : topLiked.keySet()){
+			System.out.println(uid + " " + topLiked.get(uid));
 		}
 	}
 
@@ -155,6 +169,10 @@ public class DataGenerator {
 	public static void main(String[] args) throws FileNotFoundException, SQLException {
 		System.out.println("Generating data..");
 		APP_USERS = UserUtil.getAppUserIds();
+		
+		topLiked();
+		
+		
 		writer = new PrintWriter("data.arff");		
 		writer.println("@relation app-data");
 		writer.println("@attribute 'Uid' numeric");
