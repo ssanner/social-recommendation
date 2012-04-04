@@ -214,45 +214,27 @@ public class NaiveBayes /*extends Classifier*/ {
 		return best_class;	
 	}
 
-	public double accuracy(ArrayList<ArffData.DataEntry> data) {
+	public double[] measures(ArrayList<ArffData.DataEntry> data) {
+		double[] measures = new double[4];
+		int truePositive = 0;
+		int falsePositive = 0;
+		int falseNegative = 0;
 		int correct = 0;
 		for (ArffData.DataEntry de : data) {
 			int pred = evaluate(de); // Evaluate returns sorted results
 			int actual     = ((Integer)de.getData(_classIndex)).intValue();
 			if (pred == actual) correct++;
-			//System.out.println(/*de + " :: " +*/ pred + " == " + actual);
-		}
-		return (double)correct/data.size();
-	}
-
-	public double precision(ArrayList<ArffData.DataEntry> data) {
-		int truePositive = 0;
-		int falsePositive = 0;
-		for (ArffData.DataEntry de : data) {
-			int pred = evaluate(de); // Evaluate returns sorted results
-			int actual     = ((Integer)de.getData(_classIndex)).intValue();
 			if (pred == actual && actual == 1) truePositive++;
 			if (pred == 1 && actual == 0) falsePositive++;
-			//System.out.println(/*de + " :: " +*/ pred + " == " + actual);
-		}
-		return (double)truePositive/(truePositive + falsePositive);
-	}
-
-	public double recall(ArrayList<ArffData.DataEntry> data) {
-		int truePositive = 0;
-		int falseNegative = 0;
-		for (ArffData.DataEntry de : data) {
-			int pred = evaluate(de); // Evaluate returns sorted results
-			int actual     = ((Integer)de.getData(_classIndex)).intValue();
-			if (pred == actual && actual == 1) truePositive++;
 			if (pred == 0 && actual == 1) falseNegative++;
-			//System.out.println(/*de + " :: " +*/ pred + " == " + actual);
 		}
-		return (double)truePositive/(truePositive + falseNegative);
-	}
-	
-	public double fMeasure(ArrayList<ArffData.DataEntry> data){
-		return 2 * ((precision(data) * recall(data))/(precision(data) + recall(data)));
+		double precision = (double)truePositive/(truePositive + falsePositive);   
+		double recall = (double)truePositive/(truePositive + falseNegative); 
+		measures[0] = (double)correct/data.size(); 						// accuracy
+		measures[1] = precision;										// precision
+		measures[2] = recall;											// recall
+		measures[3] = 2 * ((precision * recall)/(precision + recall)); 	// f measure
+		return measures;
 	}
 
 	public static void main(String args[]) {
@@ -287,25 +269,33 @@ public class NaiveBayes /*extends Classifier*/ {
 			nb.setTrainData(s._train);
 			nb.train(CLASS_INDEX);
 
-			// Evaluate accuracy of trained classifier on train and test data
-			System.out.println(i + " Accuracy on train: " + nb.accuracy(s._train._data));
-			System.out.println(i + " Accuracy on test:  " + nb.accuracy(s._test._data));
-			System.out.println(i + " Precision on train: " + nb.precision(s._train._data));
-			System.out.println(i + " Precision on test:  " + nb.precision(s._test._data));
-			System.out.println(i + " Recall on train: " + nb.recall(s._train._data));
-			System.out.println(i + " Recall on test:  " + nb.recall(s._test._data));
-			System.out.println(i + " F measure on train: " + nb.fMeasure(s._train._data));
-			System.out.println(i + " F measure on test:  " + nb.fMeasure(s._test._data));
+			/*
+			 * 0 = accuracy
+			 * 1 = precision
+			 * 2 = recall
+			 * 3 = f-measure
+			 */
+			double trainMeasures[] = nb.measures(s._train._data);
+			double testMeasures[] = nb.measures(s._test._data);
 			
+			// Evaluate accuracy of trained classifier on train and test data
+			System.out.println(i + " Accuracy on train: " + trainMeasures[0]);
+			System.out.println(i + " Accuracy on test:  " + testMeasures[0]);
+			System.out.println(i + " Precision on train: " + trainMeasures[1]);
+			System.out.println(i + " Precision on test:  " + testMeasures[1]);
+			System.out.println(i + " Recall on train: " + trainMeasures[2]);
+			System.out.println(i + " Recall on test:  " + testMeasures[2]);
+			System.out.println(i + " F measure on train: " + trainMeasures[3]);
+			System.out.println(i + " F measure on test:  " + testMeasures[3]);			
 
-			totalTrainAccuracy += nb.accuracy(s._train._data);
-			totalTestAccuracy += nb.accuracy(s._test._data);
-			totalTrainPrecision += nb.precision(s._train._data);
-			totalTestPrecision += nb.precision(s._test._data);
-			totalTrainRecall += nb.recall(s._train._data);
-			totalTestRecall += nb.recall(s._test._data);
-			totalTrainF += nb.fMeasure(s._train._data);
-			totalTestF += nb.fMeasure(s._test._data);
+			totalTrainAccuracy += trainMeasures[0];
+			totalTestAccuracy += testMeasures[0];
+			totalTrainPrecision += trainMeasures[1];
+			totalTestPrecision += testMeasures[1];
+			totalTrainRecall += trainMeasures[2];
+			totalTestRecall += testMeasures[2];
+			totalTrainF += trainMeasures[3];
+			totalTestF += testMeasures[3];
 		}
 		System.out.println("Train accuracy after " + iterations + " iterations:" + (totalTrainAccuracy/iterations));
 		System.out.println("Test accuracy after " + iterations + " iterations:" + (totalTestAccuracy/iterations));
