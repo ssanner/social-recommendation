@@ -156,13 +156,13 @@ public class DataGeneratorv2 {
 				if (totalLiked == null){
 					topLiked.put(likes, 1);
 				} else {
-					System.out.println("a");
-					topLiked.put(likes, totalLiked+1);
+					int update = totalLiked + 1;
+					topLiked.put(likes, update);
 				}
 			}
 		}
 		for (Long uid : topLiked.keySet()){
-			//System.out.println(uid + " " + topLiked.get(uid));
+			if (topLiked.get(uid) > 1) System.out.println(uid + " " + topLiked.get(uid));
 		}
 	}
 
