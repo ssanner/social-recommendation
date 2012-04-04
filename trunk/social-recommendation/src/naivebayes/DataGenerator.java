@@ -35,8 +35,8 @@ public class DataGenerator {
 	public static void extractData() throws SQLException{
 		System.out.println("Extracting likes data for " + allLikes.size() + " app users");
 		for (Long uid : allLikes.keySet()){
+			System.out.println("User " + uid + " made " + allLikes.get(uid).size() + " likes");
 			for (Long likes : allLikes.get(uid)){
-				System.out.println("User " + uid + " made " + likes + " likes");
 				writer.print(uid + "," + likes + ",'y'");
 				buildFCols(uid, likes);
 			}
