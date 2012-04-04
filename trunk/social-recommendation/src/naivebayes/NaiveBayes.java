@@ -20,16 +20,16 @@ public class NaiveBayes /*extends Classifier*/ {
 
 	public double DIRICHLET_PRIOR = 1d;
 	public ArrayList<ClassCondProb> _condProb = null; 
-	
+
 	public class ClassCondProb {
 		int _attr_index;
 		public double[][] _logprob; // For each class and attribute,
-		                         // a probability that sums to 1
-		
+		// a probability that sums to 1
+
 		public ClassCondProb(int index) {
 			_attr_index = index;
 		}
-		
+
 		public String toString() {
 			StringBuffer sb = new StringBuffer();
 			ArffData.Attribute  a = _arffData._attr.get(_attr_index);
@@ -50,16 +50,16 @@ public class NaiveBayes /*extends Classifier*/ {
 			return sb.toString();
 		}
 	}
-	
+
 	public NaiveBayes(double dirichlet_prior) {
 		DIRICHLET_PRIOR = dirichlet_prior;
-		
+
 		// Bad to have zero counts... makes cases not seen in data
 		// impossible and can lead to divide by zero.
 		if (DIRICHLET_PRIOR == 0d) 
 			DIRICHLET_PRIOR = 1e-6d;
 	}
-		
+
 	public void setTrainData(ArffData arff_data) {
 		//System.out.println("Setting data: " + arff_data.toString());
 		_arffData = arff_data;		
@@ -74,7 +74,7 @@ public class NaiveBayes /*extends Classifier*/ {
 		}
 		return sb.toString();
 	}
-	
+
 	public String getName() {
 		return "NaiveBayes";
 	}
@@ -82,42 +82,42 @@ public class NaiveBayes /*extends Classifier*/ {
 	public void clear() {
 		_condProb = null;
 	}
-	
+
 	// TODO: Should redo training to be incremental!
 	public void train(int class_index) {
-		
+
 		_classIndex = class_index;
 		if (_arffData == null) { System.out.println("No data!"); }
-		
+
 		_condProb = new ArrayList<ClassCondProb>(_arffData._attr.size());
-		
+
 		//System.out.println("Training for " + _condProb.size() + " attributes.");
 
 		// Build conditional probability tables
 		ArffData.Attribute ca = _arffData._attr.get(class_index);		
-		
+
 		if (ca.type != ArffData.TYPE_CLASS) {
 			System.out.println("Cannot classify non-class attribute index " + 
 					class_index + ":\n" + ca);
 			System.exit(1);
 		}
-		
+
 		// For each class, record count with positive and record 
 		// count with negative
 		for (int i = 0; i < _arffData._attr.size(); i++) {
-						
+
 			if (_arffData._attr.get(i).type != ArffData.TYPE_CLASS){ // dont want to do anything with the real cols
 				//System.out.println("Skipping - " + _arffData._attr.get(i));
 				continue;
 			}
-			
+
 			// TODO: Inefficient to constantly recompute
 			int[] overall_count = new int[ca.class_vals.size()];
 
 			//System.out.println("Processing " + i);
 			ClassCondProb ccp = new ClassCondProb(i);
 			_condProb.add(ccp);
-			
+
 			// Put the prior in this class
 			if (i == class_index) {
 				ccp._logprob = new double[ca.class_vals.size()][];
@@ -147,7 +147,7 @@ public class NaiveBayes /*extends Classifier*/ {
 				//System.exit(1);
 				continue;
 			}
-			
+
 			ccp._logprob = new double[a.class_vals.size()][];
 			for (int j = 0; j < a.class_vals.size(); j++) {
 				ccp._logprob[j] = new double[ca.class_vals.size()];
@@ -176,7 +176,7 @@ public class NaiveBayes /*extends Classifier*/ {
 	}
 
 	public int evaluate(ArffData.DataEntry de) {
-		
+
 		// Get class attribute
 		ArffData.Attribute ca = _arffData._attr.get(_classIndex);
 		if (ca.type != ArffData.TYPE_CLASS) {
@@ -190,10 +190,10 @@ public class NaiveBayes /*extends Classifier*/ {
 		int best_class = -1;
 		double best_class_value = Double.NEGATIVE_INFINITY;
 		for (int i = 0; i < ca.class_vals.size(); i++) {			
-			
+
 			double class_value = 0d;
 			for (int j = 2; j < _condProb.size(); j++) {			
-			
+
 				ClassCondProb ccp = _condProb.get(j);
 				if (j == _classIndex) {
 					class_value += ccp._logprob[i][0];
@@ -202,18 +202,18 @@ public class NaiveBayes /*extends Classifier*/ {
 					class_value += ccp._logprob[((Integer)de.getData(j)).intValue()][i];
 				}
 			}
-			
+
 			//System.out.println("[" + i + "] " + class_value);
 			if (class_value > best_class_value) {
 				best_class = i;
 				best_class_value = class_value;
 			}
 		}
-		
+
 		//System.out.println("Best [" + best_class + "] " + best_class_value + " :: " + de);
 		return best_class;	
 	}
-	
+
 	public double accuracy(ArrayList<ArffData.DataEntry> data) {
 		int correct = 0;
 		for (ArffData.DataEntry de : data) {
@@ -225,26 +225,62 @@ public class NaiveBayes /*extends Classifier*/ {
 		return (double)correct/data.size();
 	}
 
+	public double precision(ArrayList<ArffData.DataEntry> data) {
+		int truePositive = 0;
+		int falsePositive = 0;
+		for (ArffData.DataEntry de : data) {
+			int pred = evaluate(de); // Evaluate returns sorted results
+			int actual     = ((Integer)de.getData(_classIndex)).intValue();
+			if (pred == actual && actual == 1) truePositive++;
+			if (pred == 1 && actual == 0) falsePositive++;
+			//System.out.println(/*de + " :: " +*/ pred + " == " + actual);
+		}
+		return (double)truePositive/(truePositive + falsePositive);
+	}
+
+	public double recall(ArrayList<ArffData.DataEntry> data) {
+		int truePositive = 0;
+		int falseNegative = 0;
+		for (ArffData.DataEntry de : data) {
+			int pred = evaluate(de); // Evaluate returns sorted results
+			int actual     = ((Integer)de.getData(_classIndex)).intValue();
+			if (pred == actual && actual == 1) truePositive++;
+			if (pred == 0 && actual == 1) falseNegative++;
+			//System.out.println(/*de + " :: " +*/ pred + " == " + actual);
+		}
+		return (double)truePositive/(truePositive + falseNegative);
+	}
+	
+	public double fMeasure(ArrayList<ArffData.DataEntry> data){
+		return 2 * ((precision(data) * recall(data))/(precision(data) + recall(data)));
+	}
+
 	public static void main(String args[]) {
-		
+
 		System.out.println("Running NaiveBayes:\n");
-				
+
 		ArffData data = new ArffData("data.arff");
 
 		// Assume classification attribute always comes last
 		int CLASS_INDEX = 2; 
-		
+
 		// Diagnostic output
 		//System.out.println(data); // View data
 		//System.out.println(nb); // View what has been learned
 
-		double totalTrain = 0.0;
-		double totalTest = 0.0;
+		double totalTrainAccuracy = 0.0;
+		double totalTestAccuracy = 0.0;
+		double totalTrainPrecision = 0.0;
+		double totalTestPrecision = 0.0;
+		double totalTrainRecall = 0.0;
+		double totalTestRecall = 0.0;
+		double totalTrainF = 0.0;
+		double totalTestF = 0.0;
 		int iterations = 10;
 		for (int i = 0; i < iterations; i++){
 			// Split data into train (80%) / test (20%)
 			ArffData.SplitData s = data.splitData(.8d);
-			
+
 			// Build a NB classifier and train
 			NaiveBayes nb = new NaiveBayes(1.0d /* prior counts */);
 			nb.clear();
@@ -253,14 +289,34 @@ public class NaiveBayes /*extends Classifier*/ {
 
 			// Evaluate accuracy of trained classifier on train and test data
 			System.out.println(i + " Accuracy on train: " + nb.accuracy(s._train._data));
-			System.out.println(i + " Accuracy on test:  " + nb.accuracy(s._test._data));		
+			System.out.println(i + " Accuracy on test:  " + nb.accuracy(s._test._data));
+			System.out.println(i + " Precision on train: " + nb.precision(s._train._data));
+			System.out.println(i + " Precision on test:  " + nb.precision(s._test._data));
+			System.out.println(i + " Recall on train: " + nb.recall(s._train._data));
+			System.out.println(i + " Recall on test:  " + nb.recall(s._test._data));
+			System.out.println(i + " F measure on train: " + nb.fMeasure(s._train._data));
+			System.out.println(i + " F measure on test:  " + nb.fMeasure(s._test._data));
 			
-			totalTrain += nb.accuracy(s._train._data);
-			totalTest += nb.accuracy(s._test._data);
+
+			totalTrainAccuracy += nb.accuracy(s._train._data);
+			totalTestAccuracy += nb.accuracy(s._test._data);
+			totalTrainPrecision += nb.precision(s._train._data);
+			totalTestPrecision += nb.precision(s._test._data);
+			totalTrainRecall += nb.recall(s._train._data);
+			totalTestRecall += nb.recall(s._test._data);
+			totalTrainF += nb.fMeasure(s._train._data);
+			totalTestF += nb.fMeasure(s._test._data);
 		}
-		System.out.println("Train accuracy after " + iterations + " iterations:" + (totalTrain/iterations));
-		System.out.println("Test accuracy after " + iterations + " iterations:" + (totalTest/iterations));
-				
+		System.out.println("Train accuracy after " + iterations + " iterations:" + (totalTrainAccuracy/iterations));
+		System.out.println("Test accuracy after " + iterations + " iterations:" + (totalTestAccuracy/iterations));
+		System.out.println("Train precision after " + iterations + " iterations:" + (totalTrainPrecision/iterations));
+		System.out.println("Test precision after " + iterations + " iterations:" + (totalTestPrecision/iterations));
+		System.out.println("Train recall after " + iterations + " iterations:" + (totalTrainRecall/iterations));
+		System.out.println("Test recall after " + iterations + " iterations:" + (totalTestRecall/iterations));
+		System.out.println("Train f-measure after " + iterations + " iterations:" + (totalTrainF/iterations));
+		System.out.println("Test f-measure after " + iterations + " iterations:" + (totalTestF/iterations));
+		
+
 	}
 
 }
