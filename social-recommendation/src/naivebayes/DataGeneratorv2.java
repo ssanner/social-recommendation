@@ -191,9 +191,9 @@ public class DataGeneratorv2 {
 
 	public static void writeData(int k, Map<Long,Set<Long>> allLikes, TreeMap<Long,Integer> topLikes){
 		for (Long key : topLikes.keySet()){
-			if (k < 0) break;
 			System.out.println(key + " " + topLikes.get(key));
 			k--;
+			if (k < 0) break;
 		}
 	}
 
