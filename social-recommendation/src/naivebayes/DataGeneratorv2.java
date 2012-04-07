@@ -54,7 +54,7 @@ public class DataGeneratorv2 {
 	 * alters(i) = all users who have interacted with (user) via (i)
 	 * column is set to 1 if any of the alters have also liked the item associated with the user otherwise 0
 	 */
-	public static void buildFCols(Long uid, Long lid) throws SQLException{
+/*	public static void buildFCols(Long uid, Long lid) throws SQLException{
 		Statement statement = SQLUtil.getStatement();
 
 		
@@ -101,7 +101,7 @@ public class DataGeneratorv2 {
 		}
 		statement.close();
 		writer.println();
-	}
+	}*/
 
 	/*
 	 * Write arff header data
