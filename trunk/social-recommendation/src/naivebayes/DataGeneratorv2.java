@@ -183,9 +183,9 @@ public class DataGeneratorv2 {
 		TreeMap<Long, Integer> sortedLikes = new TreeMap(vc);
 		sortedLikes.putAll(topLiked);
 
-		for (Long key : sortedLikes.keySet()){
+		/*for (Long key : sortedLikes.keySet()){
 			System.out.println(key + ":" + topLiked.get(key));
-		}		
+		}		*/
 		return sortedLikes;	
 	}
 
@@ -193,7 +193,7 @@ public class DataGeneratorv2 {
 		for (Long key : topLikes.keySet()){
 			System.out.println(key + " " + topLikes.get(key));
 			k--;
-			if (k < 0) break;
+			if (k <= 0) break;
 		}
 	}
 
