@@ -203,7 +203,7 @@ public class NaiveBayes /*extends Classifier*/ {
 				}
 			}
 
-			//System.out.println("[" + i + "] " + class_value);
+			System.out.println("[" + i + "] " + class_value);
 			if (class_value > best_class_value) {
 				best_class = i;
 				best_class_value = class_value;
@@ -279,14 +279,14 @@ public class NaiveBayes /*extends Classifier*/ {
 			double testMeasures[] = nb.measures(s._test._data);
 			
 			// Evaluate accuracy of trained classifier on train and test data
-			System.out.println(i + " Accuracy on train: " + trainMeasures[0]);
+			/*System.out.println(i + " Accuracy on train: " + trainMeasures[0]);
 			System.out.println(i + " Accuracy on test:  " + testMeasures[0]);
 			System.out.println(i + " Precision on train: " + trainMeasures[1]);
 			System.out.println(i + " Precision on test:  " + testMeasures[1]);
 			System.out.println(i + " Recall on train: " + trainMeasures[2]);
 			System.out.println(i + " Recall on test:  " + testMeasures[2]);
 			System.out.println(i + " F measure on train: " + trainMeasures[3]);
-			System.out.println(i + " F measure on test:  " + testMeasures[3]);			
+			System.out.println(i + " F measure on test:  " + testMeasures[3]);		*/	
 
 			totalTrainAccuracy += trainMeasures[0];
 			totalTestAccuracy += testMeasures[0];
