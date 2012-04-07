@@ -147,10 +147,10 @@ public class DataGeneratorv2 {
 			}
 		}
 		
-		Comparator<Integer> vc = new Comparator<Integer>(){
+		Comparator<Long> vc = new Comparator<Long>(){
 			@Override
-			public int compare(Integer a, Integer b) {
-				int compare = (int) (topLiked.get(b) - topLiked.get(a));
+			public int compare(Long a, Long b) {
+				int compare = topLiked.get(b) - topLiked.get(a);
 				if (compare == 0) return a.compareTo(b);
 				else return compare;
 			}						
