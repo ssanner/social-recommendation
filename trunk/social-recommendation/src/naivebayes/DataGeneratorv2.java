@@ -35,8 +35,8 @@ public class DataGeneratorv2 {
 	/*
 	 * Write arff header data
 	 */
-	public static void writeHeader() throws FileNotFoundException{
-		writer = new PrintWriter("data.arff");		
+	public static void writeHeader(String fileName) throws FileNotFoundException{
+		writer = new PrintWriter(fileName);		
 		writer.println("@relation app-data");
 		writer.println("@attribute 'Uid' numeric");
 		writer.println("@attribute 'Item' numeric");
@@ -195,7 +195,7 @@ public class DataGeneratorv2 {
 		int k = 10;
 
 		APP_USERS = UserUtil.getAppUserIds();		
-		writeHeader();
+		writeHeader("data2.arff");
 
 		System.out.println("Extracting likes data for " + APP_USERS.size() + " app users");
 
