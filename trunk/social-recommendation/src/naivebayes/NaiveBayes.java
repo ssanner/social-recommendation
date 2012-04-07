@@ -241,7 +241,7 @@ public class NaiveBayes /*extends Classifier*/ {
 
 		System.out.println("Running NaiveBayes:\n");
 
-		ArffData data = new ArffData("data.arff");
+		ArffData data = new ArffData("data2.arff");
 
 		// Assume classification attribute always comes last
 		int CLASS_INDEX = 2; 
