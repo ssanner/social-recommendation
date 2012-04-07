@@ -194,15 +194,15 @@ public class DataGeneratorv2 {
 		APP_USERS = UserUtil.getAppUserIds();		
 		writeHeader("data2.arff");
 
-		System.out.println("Extracting likes data for " + APP_USERS.size() + " app users");
-
 		Map<Long,Set<Long>> allLikes = getAppUserLikes();
+		System.out.println("Extracting likes data for " + allLikes.size() + " app users");
+		
 		TreeMap<Long,Integer> topLikes = topLiked(allLikes);
-
 		System.out.println(topLikes.size() + " unique likes found for app users");
+		
 		System.out.println("Writing data for top " + k + " likes");
-
 		writeData(k, allLikes, topLikes);
+		
 		writer.close();
 	}
 
