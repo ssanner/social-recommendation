@@ -134,9 +134,13 @@ public class DataGeneratorv2 {
 	}
 	
 	public static void topLiked(){
+		
+		int size = 0;
+		
 		topLiked = new HashMap<Long,Integer>();
 		for (Long uid : allLikes.keySet()){
 			for (Long likes : allLikes.get(uid)){
+				size++;
 				Integer totalLiked = topLiked.get(likes);
 				if (totalLiked == null){
 					topLiked.put(likes, 1);
@@ -162,6 +166,8 @@ public class DataGeneratorv2 {
 		for (Long key : sortedLikes.keySet()){
 			System.out.println(key + ":" + topLiked.get(key));
 		}		
+		
+		System.out.println(size + " " + sortedLikes.size());
 		
 	}
 
