@@ -6,11 +6,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
+import java.util.TreeMap;
 
 import org.nicta.lr.util.SQLUtil;
 
@@ -19,12 +22,13 @@ import messagefrequency.UserUtil;
 /*
  * v2
  * Generate data for naive bayes model
+ * find top k most liked items
  */
 public class DataGeneratorv2 {
 
 	static PrintWriter writer;
 	static Map<Long,Set<Long>> allLikes;
-	static Set<Long> unionLikes;
+	static Map<Long,Integer> topLiked;
 	static Set<Long> APP_USERS;
 	static String[] directions = new String[]{"Incoming", "Outgoing"};					
 	static String[] interactionMedium = new String[]{"Post", "Photo", "Video", "Link"};
@@ -44,20 +48,6 @@ public class DataGeneratorv2 {
 			}
 			generateData(uid, allLikes.get(uid));
 		}*/
-	}
-
-	/*
-	 * Generate false like data, 9x as much as true data
-	 */
-	public static void generateData(Long uid, Set<Long> remove) throws SQLException{
-		Random r = new Random();
-		Set<Long> localUnion = new HashSet<Long>(unionLikes); 	// duplicate total likes union
-		localUnion.removeAll(remove); 							// remove all liked items for user
-		Long[] likesArray = (Long[]) localUnion.toArray(new Long[localUnion.size()]);		
-		for (int i = 0; i < (remove.size() * 9); i++){ 			// 9 times as much false data
-			writer.print(uid + "," + (Long) likesArray[r.nextInt(localUnion.size())] + ",'n'");
-			buildFCols(uid, (Long) likesArray[r.nextInt(localUnion.size())]);
-		}
 	}
 
 	/*
@@ -140,16 +130,11 @@ public class DataGeneratorv2 {
 				}			
 			}
 		}
-		statement.close();
-
-		unionLikes = new HashSet<Long>();
-		for (Long uid : allLikes.keySet()){
-			unionLikes.addAll(allLikes.get(uid)); // union all likes data into one big set
-		}
+		statement.close();		
 	}
 	
 	public static void topLiked(){
-		HashMap<Long,Integer> topLiked = new HashMap<Long,Integer>();
+		topLiked = new HashMap<Long,Integer>();
 		for (Long uid : allLikes.keySet()){
 			for (Long likes : allLikes.get(uid)){
 				Integer totalLiked = topLiked.get(likes);
@@ -161,9 +146,23 @@ public class DataGeneratorv2 {
 				}
 			}
 		}
-		for (Long uid : topLiked.keySet()){
-			if (topLiked.get(uid) > 1) System.out.println(uid + " " + topLiked.get(uid));
-		}
+		
+		Comparator<Integer> vc = new Comparator<Integer>(){
+			@Override
+			public int compare(Integer a, Integer b) {
+				int compare = topLiked.get(b) - topLiked.get(a);
+				if (compare == 0) return a.compareTo(b);
+				else return compare;
+			}						
+		};
+
+		TreeMap<Long, Integer> sortedLikes = new TreeMap(vc);
+		sortedLikes.putAll(topLiked);
+
+		for (Long key : sortedLikes.keySet()){
+			System.out.println(key + ":" + topLiked.get(key));
+		}		
+		
 	}
 
 	public static void main(String[] args) throws FileNotFoundException, SQLException {
