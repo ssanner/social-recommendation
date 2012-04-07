@@ -5,13 +5,10 @@ import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Random;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -192,7 +189,7 @@ public class DataGeneratorv2 {
 	}
 
 	public static void main(String[] args) throws FileNotFoundException, SQLException {
-		int k = 10;
+		int k = 1000;
 
 		APP_USERS = UserUtil.getAppUserIds();		
 		writeHeader("data2.arff");
