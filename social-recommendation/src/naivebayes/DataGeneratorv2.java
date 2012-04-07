@@ -27,8 +27,6 @@ import messagefrequency.UserUtil;
 public class DataGeneratorv2 {
 
 	static PrintWriter writer;
-	static Map<Long,Set<Long>> allLikes;
-	static Map<Long,Integer> topLiked;
 	static Set<Long> APP_USERS;
 	static String[] directions = new String[]{"Incoming", "Outgoing"};					
 	static String[] interactionMedium = new String[]{"Post", "Photo", "Video", "Link"};
@@ -106,10 +104,32 @@ public class DataGeneratorv2 {
 	}
 
 	/*
+	 * Write arff header data
+	 */
+	public static void writeHeader() throws FileNotFoundException{
+		writer = new PrintWriter("data.arff");		
+		writer.println("@relation app-data");
+		writer.println("@attribute 'Uid' numeric");
+		writer.println("@attribute 'Item' numeric");
+		writer.println("@attribute 'Class' { 'n' , 'y' }");
+		for (String direction : directions){
+			for (String interaction : interactionMedium){
+				for (int i = 0; i < interactionType.length; i++){
+					if (interaction.equals("Link") && interactionType[i].equals("Tags")){
+						continue; // no link tags data
+					}
+					writer.println("@attribute '" + direction + "-" + interaction + "-" + interactionType[i] + "' { 'n', 'y' }");
+				}
+			}
+		}
+		writer.println("@data");
+	}
+	
+	/*
 	 * Extract likes for all app users
 	 */
-	public static void getAppUserLikes() throws SQLException{
-		allLikes = new HashMap<Long,Set<Long>>();
+	public static Map<Long,Set<Long>> getAppUserLikes() throws SQLException{
+		Map<Long,Set<Long>> allLikes = new HashMap<Long,Set<Long>>();
 		Statement statement = SQLUtil.getStatement();
 
 		String[] row = new String[]{"link_id", "post_id", "photo_id", "video_id"};
@@ -131,16 +151,16 @@ public class DataGeneratorv2 {
 			}
 		}
 		statement.close();		
+		return allLikes;
 	}
 	
-	public static void topLiked(){
-		
-		int size = 0;
-		
-		topLiked = new HashMap<Long,Integer>();
+	/*
+	 * Each liked items count of likes from app user base
+	 */
+	public static HashMap<Long,Integer> topLiked(Map<Long,Set<Long>> allLikes){		
+		final HashMap<Long, Integer> topLiked = new HashMap<Long,Integer>();
 		for (Long uid : allLikes.keySet()){
 			for (Long likes : allLikes.get(uid)){
-				size++;
 				Integer totalLiked = topLiked.get(likes);
 				if (totalLiked == null){
 					topLiked.put(likes, 1);
@@ -163,36 +183,30 @@ public class DataGeneratorv2 {
 		TreeMap<Long, Integer> sortedLikes = new TreeMap(vc);
 		sortedLikes.putAll(topLiked);
 
-		for (Long key : sortedLikes.keySet()){
+		/*for (Long key : sortedLikes.keySet()){
 			System.out.println(key + ":" + topLiked.get(key));
-		}		
-		
-		System.out.println(size + " " + sortedLikes.size());
-		
+		}		*/
+		return topLiked;	
+	}
+	
+	public static void writeData(int k, Map<Long,Set<Long>> allLikes, HashMap<Long,Integer> topLikes){
+		for (int i = 0; i < k; i++){
+			for (Long key : topLikes.keySet()){
+				System.out.println(key + " " + topLikes.get(key));
+			}
+		}
 	}
 
 	public static void main(String[] args) throws FileNotFoundException, SQLException {
-		System.out.println("Generating data..");
+		int k = 100;
 		APP_USERS = UserUtil.getAppUserIds();		
-		writer = new PrintWriter("data.arff");		
-		writer.println("@relation app-data");
-		writer.println("@attribute 'Uid' numeric");
-		writer.println("@attribute 'Item' numeric");
-		writer.println("@attribute 'Class' { 'n' , 'y' }");
-		for (String direction : directions){
-			for (String interaction : interactionMedium){
-				for (int i = 0; i < interactionType.length; i++){
-					if (interaction.equals("Link") && interactionType[i].equals("Tags")){
-						continue; // no link tags data
-					}
-					writer.println("@attribute '" + direction + "-" + interaction + "-" + interactionType[i] + "' { 'n', 'y' }");
-				}
-			}
-		}
-		writer.println("@data");
-		getAppUserLikes();
-		topLiked();
-		//extractData();		
+		System.out.println("Extracting likes data for " + APP_USERS.size() + " app users");
+		writeHeader();
+		Map<Long,Set<Long>> allLikes = getAppUserLikes();
+		HashMap<Long,Integer> topLikes = topLiked(allLikes);
+		System.out.println(topLikes.size() + " unique likes found for app users");
+		writeData(k, allLikes, topLikes);
+		System.out.println("Writing data for top " + k + " items");
 		writer.close();
 	}
 
