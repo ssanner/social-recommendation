@@ -157,7 +157,7 @@ public class DataGeneratorv2 {
 	/*
 	 * Each liked items count of likes from app user base
 	 */
-	public static HashMap<Long,Integer> topLiked(Map<Long,Set<Long>> allLikes){		
+	public static TreeMap<Long, Integer> topLiked(Map<Long,Set<Long>> allLikes){		
 		final HashMap<Long, Integer> topLiked = new HashMap<Long,Integer>();
 		for (Long uid : allLikes.keySet()){
 			for (Long likes : allLikes.get(uid)){
@@ -183,32 +183,34 @@ public class DataGeneratorv2 {
 		TreeMap<Long, Integer> sortedLikes = new TreeMap(vc);
 		sortedLikes.putAll(topLiked);
 
-		/*for (Long key : sortedLikes.keySet()){
+		for (Long key : sortedLikes.keySet()){
 			System.out.println(key + ":" + topLiked.get(key));
-		}		*/
-		return topLiked;	
+		}		
+		return sortedLikes;	
 	}
 
-	public static void writeData(int k, Map<Long,Set<Long>> allLikes, HashMap<Long,Integer> topLikes){
+	public static void writeData(int k, Map<Long,Set<Long>> allLikes, TreeMap<Long,Integer> topLikes){
 		for (Long key : topLikes.keySet()){
 			if (k < 0) break;
-			System.out.println(key + " " + allLikes.get(key));
+			System.out.println(key + " " + topLikes.get(key));
 			k--;
 		}
 	}
 
 	public static void main(String[] args) throws FileNotFoundException, SQLException {
-		int k = 100;
+		int k = 10;
 
 		APP_USERS = UserUtil.getAppUserIds();		
 		writeHeader();
 
 		System.out.println("Extracting likes data for " + APP_USERS.size() + " app users");
+		
 		Map<Long,Set<Long>> allLikes = getAppUserLikes();
-		HashMap<Long,Integer> topLikes = topLiked(allLikes);
+		TreeMap<Long,Integer> topLikes = topLiked(allLikes);
 
 		System.out.println(topLikes.size() + " unique likes found for app users");
 		System.out.println("Writing data for top " + k + " items");
+		
 		writeData(k, allLikes, topLikes);
 		writer.close();
 	}
