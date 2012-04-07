@@ -33,77 +33,6 @@ public class DataGeneratorv2 {
 	static String[] interactionType = new String[]{"Comments", "Tags", "Likes"};
 
 	/*
-	 * Extract all likes for all app users
-	 */
-	public static void extractData() throws SQLException{
-
-		/*System.out.println("Extracting likes data for " + allLikes.size() + " app users");
-		for (Long uid : allLikes.keySet()){
-			System.out.println("User " + uid + " made " + allLikes.get(uid).size() + " likes");
-			for (Long likes : allLikes.get(uid)){
-				writer.print(uid + "," + likes + ",'y'");
-				buildFCols(uid, likes);
-			}
-			generateData(uid, allLikes.get(uid));
-		}*/
-	}
-
-	/*
-	 * build f(i) columns for each (user, like) item pair
-	 * i = {ingoing,outgoing} X {post,photo,video,link} X {comment,tag,like}
-	 * alters(i) = all users who have interacted with (user) via (i)
-	 * column is set to 1 if any of the alters have also liked the item associated with the user otherwise 0
-	 */
-	/*	public static void buildFCols(Long uid, Long lid) throws SQLException{
-		Statement statement = SQLUtil.getStatement();
-
-
-		String[] row = new String[]{"from_id", "uid1", "id"};			// tables have different names for in/out cols
-		String[] where = new String[]{"uid", "uid2", "uid"};
-		String getRow;
-		String getWhere;
-
-		for (String direction : directions){
-			for (String interaction : interactionMedium){
-				for (int i = 0; i < interactionType.length; i++){
-					if (interaction.equals("Link") && interactionType[i].equals("Tags")){
-						continue; // no link tags data
-					} 
-
-					if (direction.equals("Outgoing")){		// outgoing order
-						getRow = row[i];
-						getWhere = where[i];
-					} else {								// incoming order
-						getRow = where[i];
-						getWhere = row[i];
-					}								
-
-					// select incoming/outgoing data for different interaction types
-					String userQuery = "SELECT " + getRow + " FROM linkr" + interaction + interactionType[i] + " WHERE " + getWhere + " = " + uid;
-					boolean found = false;
-
-					ResultSet result = statement.executeQuery(userQuery);
-					while (result.next()) {
-						if (allLikes.containsKey(result.getLong(getRow))){
-							if (allLikes.get(result.getLong(getRow)).contains(lid)){	// if a user in alter set has liked the original item
-								writer.print(",'y'");
-								found = true;
-								break;
-							}
-						}					
-					}
-					if (!found){														// if no user has liked the original item
-						writer.print(",'n'");
-					}
-
-				}
-			}
-		}
-		statement.close();
-		writer.println();
-	}*/
-
-	/*
 	 * Write arff header data
 	 */
 	public static void writeHeader() throws FileNotFoundException{
@@ -189,12 +118,77 @@ public class DataGeneratorv2 {
 		return sortedLikes;	
 	}
 
-	public static void writeData(int k, Map<Long,Set<Long>> allLikes, TreeMap<Long,Integer> topLikes){
-		for (Long key : topLikes.keySet()){
-			System.out.println(key + " " + topLikes.get(key));
+	/*
+	 * Write data to file, yes if user liked top item, no otherwise
+	 */
+	public static void writeData(int k, Map<Long,Set<Long>> allLikes, TreeMap<Long,Integer> topLikes) throws SQLException{
+		for (Long like : topLikes.keySet()){
+			//System.out.println(key + " " + topLikes.get(key));
+			for (Long uid : allLikes.keySet()){
+				char data = 'n';
+				if (allLikes.get(uid).contains(like)){
+					data = 'y';
+				}
+				writer.print(uid + "," + like + ",'" + data + "'");				
+				buildFCols(uid, like, allLikes);
+			}
 			k--;
 			if (k <= 0) break;
 		}
+	}
+
+	/*
+	 * build f(i) columns for each (user, like) item pair
+	 * i = {ingoing,outgoing} X {post,photo,video,link} X {comment,tag,like}
+	 * alters(i) = all users who have interacted with (user) via (i)
+	 * column is set to 1 if any of the alters have also liked the item associated with the user otherwise 0
+	 */
+	public static void buildFCols(Long uid, Long lid, Map<Long,Set<Long>> allLikes) throws SQLException{
+		Statement statement = SQLUtil.getStatement();
+
+		String[] row = new String[]{"from_id", "uid1", "id"};			// tables have different names for in/out cols
+		String[] where = new String[]{"uid", "uid2", "uid"};
+		String getRow;
+		String getWhere;
+
+		for (String direction : directions){
+			for (String interaction : interactionMedium){
+				for (int i = 0; i < interactionType.length; i++){
+					if (interaction.equals("Link") && interactionType[i].equals("Tags")){
+						continue; // no link tags data
+					} 
+
+					if (direction.equals("Outgoing")){		// outgoing order
+						getRow = row[i];
+						getWhere = where[i];
+					} else {								// incoming order
+						getRow = where[i];
+						getWhere = row[i];
+					}								
+
+					// select incoming/outgoing data for different interaction types
+					String userQuery = "SELECT " + getRow + " FROM linkr" + interaction + interactionType[i] + " WHERE " + getWhere + " = " + uid;
+					boolean found = false;
+
+					ResultSet result = statement.executeQuery(userQuery);
+					while (result.next()) {
+						if (allLikes.containsKey(result.getLong(getRow))){
+							if (allLikes.get(result.getLong(getRow)).contains(lid)){	// if a user in alter set has liked the original item
+								writer.print(",'y'");
+								found = true;
+								break;
+							}
+						}					
+					}
+					if (!found){														// if no user has liked the original item
+						writer.print(",'n'");
+					}
+
+				}
+			}
+		}
+		statement.close();
+		writer.println();
 	}
 
 	public static void main(String[] args) throws FileNotFoundException, SQLException {
@@ -204,13 +198,13 @@ public class DataGeneratorv2 {
 		writeHeader();
 
 		System.out.println("Extracting likes data for " + APP_USERS.size() + " app users");
-		
+
 		Map<Long,Set<Long>> allLikes = getAppUserLikes();
 		TreeMap<Long,Integer> topLikes = topLiked(allLikes);
 
 		System.out.println(topLikes.size() + " unique likes found for app users");
-		System.out.println("Writing data for top " + k + " items");
-		
+		System.out.println("Writing data for top " + k + " likes");
+
 		writeData(k, allLikes, topLikes);
 		writer.close();
 	}
