@@ -192,7 +192,7 @@ public class DataGeneratorv2 {
 	public static void writeData(int k, Map<Long,Set<Long>> allLikes, HashMap<Long,Integer> topLikes){
 		for (Long key : topLikes.keySet()){
 			if (k < 0) break;
-			System.out.println(key + " " + topLikes.get(key));
+			System.out.println(key + " " + allLikes.get(key));
 			k--;
 		}
 	}
