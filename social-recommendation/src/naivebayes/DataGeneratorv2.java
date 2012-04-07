@@ -36,7 +36,7 @@ public class DataGeneratorv2 {
 	 * Extract all likes for all app users
 	 */
 	public static void extractData() throws SQLException{
-		
+
 		/*System.out.println("Extracting likes data for " + allLikes.size() + " app users");
 		for (Long uid : allLikes.keySet()){
 			System.out.println("User " + uid + " made " + allLikes.get(uid).size() + " likes");
@@ -54,10 +54,10 @@ public class DataGeneratorv2 {
 	 * alters(i) = all users who have interacted with (user) via (i)
 	 * column is set to 1 if any of the alters have also liked the item associated with the user otherwise 0
 	 */
-/*	public static void buildFCols(Long uid, Long lid) throws SQLException{
+	/*	public static void buildFCols(Long uid, Long lid) throws SQLException{
 		Statement statement = SQLUtil.getStatement();
 
-		
+
 		String[] row = new String[]{"from_id", "uid1", "id"};			// tables have different names for in/out cols
 		String[] where = new String[]{"uid", "uid2", "uid"};
 		String getRow;
@@ -69,7 +69,7 @@ public class DataGeneratorv2 {
 					if (interaction.equals("Link") && interactionType[i].equals("Tags")){
 						continue; // no link tags data
 					} 
-					
+
 					if (direction.equals("Outgoing")){		// outgoing order
 						getRow = row[i];
 						getWhere = where[i];
@@ -124,7 +124,7 @@ public class DataGeneratorv2 {
 		}
 		writer.println("@data");
 	}
-	
+
 	/*
 	 * Extract likes for all app users
 	 */
@@ -153,7 +153,7 @@ public class DataGeneratorv2 {
 		statement.close();		
 		return allLikes;
 	}
-	
+
 	/*
 	 * Each liked items count of likes from app user base
 	 */
@@ -170,7 +170,7 @@ public class DataGeneratorv2 {
 				}
 			}
 		}
-		
+
 		Comparator<Long> vc = new Comparator<Long>(){
 			@Override
 			public int compare(Long a, Long b) {
@@ -188,25 +188,28 @@ public class DataGeneratorv2 {
 		}		*/
 		return topLiked;	
 	}
-	
+
 	public static void writeData(int k, Map<Long,Set<Long>> allLikes, HashMap<Long,Integer> topLikes){
-		for (int i = 0; i < k; i++){
-			for (Long key : topLikes.keySet()){
-				System.out.println(key + " " + topLikes.get(key));
-			}
+		for (Long key : topLikes.keySet()){
+			if (k < 0) break;
+			System.out.println(key + " " + topLikes.get(key));
+			k--;
 		}
 	}
 
 	public static void main(String[] args) throws FileNotFoundException, SQLException {
 		int k = 100;
+
 		APP_USERS = UserUtil.getAppUserIds();		
-		System.out.println("Extracting likes data for " + APP_USERS.size() + " app users");
 		writeHeader();
+
+		System.out.println("Extracting likes data for " + APP_USERS.size() + " app users");
 		Map<Long,Set<Long>> allLikes = getAppUserLikes();
 		HashMap<Long,Integer> topLikes = topLiked(allLikes);
+
 		System.out.println(topLikes.size() + " unique likes found for app users");
-		writeData(k, allLikes, topLikes);
 		System.out.println("Writing data for top " + k + " items");
+		writeData(k, allLikes, topLikes);
 		writer.close();
 	}
 
