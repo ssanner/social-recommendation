@@ -189,7 +189,7 @@ public class DataGeneratorv2 {
 	}
 
 	public static void main(String[] args) throws FileNotFoundException, SQLException {
-		int k = 1000;
+		int k = 10;
 
 		APP_USERS = UserUtil.getAppUserIds();		
 		writeHeader("data2.arff");
