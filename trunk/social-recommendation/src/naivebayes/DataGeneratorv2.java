@@ -150,7 +150,7 @@ public class DataGeneratorv2 {
 		Comparator<Integer> vc = new Comparator<Integer>(){
 			@Override
 			public int compare(Integer a, Integer b) {
-				int compare = topLiked.get(b) - topLiked.get(a);
+				int compare = (int) (topLiked.get(b) - topLiked.get(a));
 				if (compare == 0) return a.compareTo(b);
 				else return compare;
 			}						
