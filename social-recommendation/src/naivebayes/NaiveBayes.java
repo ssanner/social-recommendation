@@ -217,8 +217,11 @@ public class NaiveBayes /*extends Classifier*/ {
 		}*/
 		
 		//System.out.println("Best [" + best_class + "] " + best_class_value + " :: " + de);
-		if (cv[best_class]/Z > threshold == false) System.out.println(cv[best_class]/Z > threshold);
-		return best_class;	
+		if (cv[best_class]/Z > threshold){
+			return best_class;
+		} else {
+			return Math.abs(best_class-1);
+		}	
 	}
 
 	public double[] measures(ArrayList<ArffData.DataEntry> data) {
@@ -228,7 +231,7 @@ public class NaiveBayes /*extends Classifier*/ {
 		int falseNegative = 0;
 		int correct = 0;
 		for (ArffData.DataEntry de : data) {
-			int pred = evaluate(de, 0.5); // Evaluate returns sorted results
+			int pred = evaluate(de, 0.2); // Evaluate returns sorted results
 			int actual     = ((Integer)de.getData(_classIndex)).intValue();
 			if (pred == actual) correct++;
 			if (pred == actual && actual == 1) truePositive++;
@@ -248,7 +251,7 @@ public class NaiveBayes /*extends Classifier*/ {
 
 		System.out.println("Running NaiveBayes:\n");
 
-		ArffData data = new ArffData("datak100.arff");
+		ArffData data = new ArffData("datak1000.arff");
 
 		// Assume classification attribute always comes last
 		int CLASS_INDEX = 2; 
@@ -265,7 +268,7 @@ public class NaiveBayes /*extends Classifier*/ {
 		double totalTestRecall = 0.0;
 		double totalTrainF = 0.0;
 		double totalTestF = 0.0;
-		int iterations = 1;
+		int iterations = 10;
 		for (int i = 0; i < iterations; i++){
 			// Split data into train (80%) / test (20%)
 			ArffData.SplitData s = data.splitData(.8d);
