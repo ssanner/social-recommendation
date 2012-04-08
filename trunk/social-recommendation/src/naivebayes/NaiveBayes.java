@@ -7,7 +7,6 @@ package naivebayes;
 
 
 import java.util.*;
-import java.io.File;
 import java.text.*;
 
 /* TODO: Fix to inherit form Classifier again; then remove local _arffData and _classIndex */
@@ -203,7 +202,7 @@ public class NaiveBayes /*extends Classifier*/ {
 				}
 			}
 
-			System.out.println("[" + i + "] " + class_value + " " + Math.exp(class_value));
+			System.out.println("[" + i + "] " + class_value + " " + _df.format(Math.exp(class_value)));
 			if (class_value > best_class_value) {
 				best_class = i;
 				best_class_value = class_value;
