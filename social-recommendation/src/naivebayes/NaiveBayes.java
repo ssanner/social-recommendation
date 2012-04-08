@@ -213,7 +213,7 @@ public class NaiveBayes /*extends Classifier*/ {
 		}
 
 		for (int i = 0; i < cv.length; i++){
-			System.out.println(i + " " + cv[i] + "/" + Z + "=" + cv[i]/Z);
+			System.out.println(i + " " + _df.format(cv[i]) + "/" + _df.format(Z) + "=" + _df.format(cv[i]/Z));
 		}
 		
 		//System.out.println("Best [" + best_class + "] " + best_class_value + " :: " + de);
