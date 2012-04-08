@@ -206,17 +206,17 @@ public class NaiveBayes /*extends Classifier*/ {
 			cv[i] = Math.exp(class_value);
 			Z += cv[i];
 			//System.out.println("[" + i + "] " + class_value + " " + _df.format(Math.exp(class_value)));
-			/*if (class_value > best_class_value) {
+			if (class_value > best_class_value) {
 				best_class = i;
 				best_class_value = class_value;
-			}					*/										
+			}															
 		}
 
 		for (int i = 0; i < cv.length; i++){
 			System.out.println(i + " " + _df.format(cv[i]) + "/" + _df.format(Z) + "=" + _df.format(cv[i]/Z));
 		}
 		
-		//System.out.println("Best [" + best_class + "] " + best_class_value + " :: " + de);
+		System.out.println("Best [" + best_class + "] " + best_class_value + " :: " + de);
 		return best_class;	
 	}
 
