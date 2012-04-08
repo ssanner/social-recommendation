@@ -216,8 +216,8 @@ public class NaiveBayes /*extends Classifier*/ {
 			System.out.println(i + " " + _df.format(cv[i]) + "/" + _df.format(Z) + "=" + _df.format(cv[i]/Z));
 		}*/
 		
-		if (best_class ==1) System.out.println("Best [" + best_class + "] " + best_class_value + " :: " + de);
-		if (best_class == 1)System.out.println(cv[0]/Z > threshold);
+		//System.out.println("Best [" + best_class + "] " + best_class_value + " :: " + de);
+		System.out.println(cv[best_class]/Z > threshold);
 		return best_class;	
 	}
 
