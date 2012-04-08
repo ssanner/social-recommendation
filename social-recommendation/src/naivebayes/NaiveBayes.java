@@ -189,7 +189,7 @@ public class NaiveBayes /*extends Classifier*/ {
 		int best_class = -1;
 		double best_class_value = Double.NEGATIVE_INFINITY;
 		double Z = 0d;
-		double[] cv = new double[1];		
+		double[] cv = new double[2];		
 		for (int i = 0; i < ca.class_vals.size(); i++) {			
 
 			double class_value = 0d;
@@ -303,7 +303,7 @@ public class NaiveBayes /*extends Classifier*/ {
 			totalTrainF += trainMeasures[3];
 			totalTestF += testMeasures[3];
 			
-			System.out.println(nb);
+			//System.out.println(nb);
 			
 		}
 		System.out.println("Train accuracy after " + iterations + " iterations:" + (totalTrainAccuracy/iterations));
