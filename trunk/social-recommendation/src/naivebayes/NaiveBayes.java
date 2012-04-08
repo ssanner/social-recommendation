@@ -258,7 +258,7 @@ public class NaiveBayes /*extends Classifier*/ {
 		double totalTestRecall = 0.0;
 		double totalTrainF = 0.0;
 		double totalTestF = 0.0;
-		int iterations = 10;
+		int iterations = 1;
 		for (int i = 0; i < iterations; i++){
 			// Split data into train (80%) / test (20%)
 			ArffData.SplitData s = data.splitData(.8d);
@@ -296,6 +296,9 @@ public class NaiveBayes /*extends Classifier*/ {
 			totalTestRecall += testMeasures[2];
 			totalTrainF += trainMeasures[3];
 			totalTestF += testMeasures[3];
+			
+			System.out.println(nb);
+			
 		}
 		System.out.println("Train accuracy after " + iterations + " iterations:" + (totalTrainAccuracy/iterations));
 		System.out.println("Test accuracy after " + iterations + " iterations:" + (totalTestAccuracy/iterations));
@@ -305,6 +308,7 @@ public class NaiveBayes /*extends Classifier*/ {
 		System.out.println("Test recall after " + iterations + " iterations:" + (totalTestRecall/iterations));
 		System.out.println("Train f-measure after " + iterations + " iterations:" + (totalTrainF/iterations));
 		System.out.println("Test f-measure after " + iterations + " iterations:" + (totalTestF/iterations));
+		
 		
 
 	}
