@@ -198,12 +198,12 @@ public class NaiveBayes /*extends Classifier*/ {
 				if (j == _classIndex) {
 					class_value += ccp._logprob[i][0];
 				} else {
-					System.out.print(((Integer)de.getData(j)).intValue() + " ");
+					//System.out.print(((Integer)de.getData(j)).intValue() + " ");
 					class_value += ccp._logprob[((Integer)de.getData(j)).intValue()][i];
 				}
 			}
 
-			System.out.println("[" + i + "] " + class_value);
+			System.out.println("[" + i + "] " + class_value + " " + Math.exp(class_value));
 			if (class_value > best_class_value) {
 				best_class = i;
 				best_class_value = class_value;
