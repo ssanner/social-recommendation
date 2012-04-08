@@ -203,7 +203,7 @@ public class NaiveBayes /*extends Classifier*/ {
 				}
 			}
 
-			//System.out.println("[" + i + "] " + class_value);
+			System.out.println("[" + i + "] " + class_value);
 			if (class_value > best_class_value) {
 				best_class = i;
 				best_class_value = class_value;
