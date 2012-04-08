@@ -192,7 +192,7 @@ public class DataGeneratorv2 {
 		int k = 10;
 
 		APP_USERS = UserUtil.getAppUserIds();		
-		writeHeader("data2.arff");
+		writeHeader("datak10.arff");
 
 		Map<Long,Set<Long>> allLikes = getAppUserLikes();
 		System.out.println("Extracting likes data for " + allLikes.size() + " app users");
