@@ -198,7 +198,7 @@ public class NaiveBayes /*extends Classifier*/ {
 				if (j == _classIndex) {
 					class_value += ccp._logprob[i][0];
 				} else {
-					//System.out.print(((Integer)de.getData(j)).intValue() + " ");
+					System.out.print(((Integer)de.getData(j)).intValue() + " ");
 					class_value += ccp._logprob[((Integer)de.getData(j)).intValue()][i];
 				}
 			}
