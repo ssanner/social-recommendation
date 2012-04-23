@@ -14,7 +14,7 @@ public class SVM {
 	 */
 	public void convertArff(String file) throws IOException{
 		BufferedReader in = new BufferedReader(new FileReader(file));
-		BufferedWriter out = new BufferedWriter(new FileWriter(file.split(".")[0] + ".libsvm"));
+		BufferedWriter out = new BufferedWriter(new FileWriter(file.split("\\.")[0] + ".libsvm"));
 		String line;
 		while((line = in.readLine()) != null){
 			if (!line.startsWith("@") && line.length() > 0){
