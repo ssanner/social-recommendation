@@ -189,10 +189,10 @@ public class DataGeneratorv2 {
 	}
 
 	public static void main(String[] args) throws FileNotFoundException, SQLException {
-		int k = 100;
+		int k = 1000;
 
 		APP_USERS = UserUtil.getAppUserIds();		
-		writeHeader("datak100.arff");
+		writeHeader("datak1000.arff");
 
 		Map<Long,Set<Long>> allLikes = getAppUserLikes();
 		System.out.println("Extracting likes data for " + allLikes.size() + " app users");
