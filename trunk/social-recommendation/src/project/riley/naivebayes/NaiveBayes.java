@@ -221,12 +221,13 @@ public class NaiveBayes /*extends Classifier*/ {
 		if (geometricMean(cv[best_class]/Z,_condProb.size()) > threshold){
 			return best_class;
 		} else {
+			System.out.println("changed");
 			return Math.abs(best_class-1);
 		}	
 	}
 	
 	public double geometricMean(double class_value, int n){
-		System.out.println(class_value + ":" + Math.pow(class_value, (double)1/(n+1)));
+		//System.out.println(class_value + ":" + Math.pow(class_value, (double)1/(n+1)));
 		return Math.pow(class_value, (double)1/(n+1));
 	}
 
