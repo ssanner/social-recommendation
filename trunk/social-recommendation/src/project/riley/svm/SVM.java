@@ -32,11 +32,14 @@ public class SVM {
 
 		// third item is class
 		out.write(yTo1nTo0(parts[2]));
+		System.out.print(yTo1nTo0(parts[2]));
 		
 		// first two parts of line are item id and user id
 		for (int i = 3; i < parts.length; i++){
 			out.write(" " + (i-2) + ":" + yTo1nTo0(parts[i]));
+			System.out.print(" " + (i-2) + ":" + yTo1nTo0(parts[i]));
 		}
+System.out.println();
 		out.write("\n");
 	}
 	
