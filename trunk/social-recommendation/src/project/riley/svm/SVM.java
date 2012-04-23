@@ -31,11 +31,11 @@ public class SVM {
 		String[] parts = line.split(",");
 
 		// third item is class
-		out.write(yTo1nTo0(parts[3]));
+		out.write(yTo1nTo0(parts[2]));
 		
 		// first two parts of line are item id and user id
-		for (int i = 3; i < parts.length; i++){
-			out.write(" " + (i-2) + ":" + yTo1nTo0(parts[3]));
+		for (int i = 2; i < parts.length; i++){
+			out.write(" " + (i-1) + ":" + yTo1nTo0(parts[i]));
 		}
 		out.write("\n");
 	}
