@@ -226,17 +226,18 @@ public class NaiveBayes /*extends Classifier*/ {
 	}
 	
 	public double geometricMean(double class_value, int n){
+		System.out.println(class_value + ":" + n + ":" + Math.pow(class_value, 1/(n+1)));
 		return Math.pow(class_value, 1/(n+1));
 	}
 
-	public double[] measures(ArrayList<ArffData.DataEntry> data) {
+	public double[] measures(ArrayList<ArffData.DataEntry> data, double threshold) {
 		double[] measures = new double[4];
 		int truePositive = 0;
 		int falsePositive = 0;
 		int falseNegative = 0;
 		int correct = 0;
 		for (ArffData.DataEntry de : data) {
-			int pred = evaluate(de, 0.8); // Evaluate returns sorted results
+			int pred = evaluate(de, threshold); // Evaluate returns sorted results
 			int actual     = ((Integer)de.getData(_classIndex)).intValue();
 			if (pred == actual) correct++;
 			if (pred == actual && actual == 1) truePositive++;
@@ -261,6 +262,8 @@ public class NaiveBayes /*extends Classifier*/ {
 		// Assume classification attribute always comes last
 		int CLASS_INDEX = 2; 
 
+		double threshold = 0.8;
+		
 		// Diagnostic output
 		//System.out.println(data); // View data
 		//System.out.println(nb); // View what has been learned
@@ -290,8 +293,8 @@ public class NaiveBayes /*extends Classifier*/ {
 			 * 2 = recall
 			 * 3 = f-measure
 			 */
-			double trainMeasures[] = nb.measures(s._train._data);
-			double testMeasures[] = nb.measures(s._test._data);
+			double trainMeasures[] = nb.measures(s._train._data,threshold);
+			double testMeasures[] = nb.measures(s._test._data,threshold);
 			
 			// Evaluate accuracy of trained classifier on train and test data
 			/*System.out.println(i + " Accuracy on train: " + trainMeasures[0]);
