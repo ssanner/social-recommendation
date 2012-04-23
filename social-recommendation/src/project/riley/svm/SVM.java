@@ -31,7 +31,7 @@ public class SVM {
 		String[] parts = line.split(",");
 		
 		// third item is class		
-		StringBuffer writeLine = new StringBuffer(yTo1nTo0(parts[2]));
+		StringBuffer writeLine = new StringBuffer("" + yTo1nTo0(parts[2]));
 		
 		// first two parts of line are item id and user id
 		for (int i = 3; i < parts.length; i++){
