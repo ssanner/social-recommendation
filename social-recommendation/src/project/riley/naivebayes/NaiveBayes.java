@@ -172,8 +172,8 @@ public class NaiveBayes /*extends Classifier*/ {
 		}
 		//System.out.println("Constructed " + _condProb.size() + " CPTs.");
 		//System.out.println(this);
-	}
-
+	}	
+	
 	public int evaluate(ArffData.DataEntry de, double threshold) {
 
 		// Get class attribute
@@ -188,7 +188,7 @@ public class NaiveBayes /*extends Classifier*/ {
 		// count with negative
 		int best_class = -1;
 		double best_class_value = Double.NEGATIVE_INFINITY;
-		double Z = 0d;
+		//double Z = 0d;
 		double[] cv = new double[2];		
 		for (int i = 0; i < ca.class_vals.size(); i++) {			
 
@@ -203,8 +203,9 @@ public class NaiveBayes /*extends Classifier*/ {
 					class_value += ccp._logprob[((Integer)de.getData(j)).intValue()][i];
 				}
 			}
-			cv[i] = Math.exp(class_value);
-			Z += cv[i];
+			cv[i] = geometricMean(class_value,_condProb.size());
+			//cv[i] = Math.exp(class_value);
+			//Z += cv[i];
 			//System.out.println("[" + i + "] " + class_value + " " + _df.format(Math.exp(class_value)));
 			if (class_value > best_class_value) {
 				best_class = i;
@@ -217,11 +218,15 @@ public class NaiveBayes /*extends Classifier*/ {
 		}*/
 		
 		//System.out.println("Best [" + best_class + "] " + best_class_value + " :: " + de);
-		if (cv[best_class]/Z > threshold){
+		if (cv[best_class] > threshold){
 			return best_class;
 		} else {
 			return Math.abs(best_class-1);
 		}	
+	}
+	
+	public double geometricMean(double class_value, int n){
+		return Math.pow(class_value, 1/(n+1));
 	}
 
 	public double[] measures(ArrayList<ArffData.DataEntry> data) {
