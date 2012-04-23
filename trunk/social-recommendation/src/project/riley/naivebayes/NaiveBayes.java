@@ -226,7 +226,7 @@ public class NaiveBayes /*extends Classifier*/ {
 	}
 	
 	public double geometricMean(double class_value, int n){
-		System.out.println(class_value + ":" + n + ":" + Math.pow(class_value, 1/(n+1)));
+		System.out.println(class_value + ":" + 1/(n+1) + ":" + Math.pow(class_value, 1/(n+1)));
 		return Math.pow(class_value, 1/(n+1));
 	}
 
