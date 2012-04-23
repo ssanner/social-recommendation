@@ -173,7 +173,7 @@ public class NaiveBayes /*extends Classifier*/ {
 		//System.out.println("Constructed " + _condProb.size() + " CPTs.");
 		//System.out.println(this);
 	}	
-	
+
 	public int evaluate(ArffData.DataEntry de, double threshold) {
 
 		// Get class attribute
@@ -217,7 +217,7 @@ public class NaiveBayes /*extends Classifier*/ {
 		/*for (int i = 0; i < cv.length; i++){
 			System.out.println(i + " " + _df.format(cv[i]) + "/" + _df.format(Z) + "=" + _df.format(cv[i]/Z));
 		}*/
-		
+
 		//System.out.println("Best [" + best_class + "] " + best_class_value + " :: " + de);
 		if (cv[best_class]/Z > threshold){
 			return best_class;
@@ -225,7 +225,7 @@ public class NaiveBayes /*extends Classifier*/ {
 			return Math.abs(best_class-1);
 		}	
 	}
-	
+
 
 	public double[] measures(ArrayList<ArffData.DataEntry> data, double threshold) {
 		double[] measures = new double[4];
@@ -259,8 +259,8 @@ public class NaiveBayes /*extends Classifier*/ {
 		// Assume classification attribute always comes last
 		int CLASS_INDEX = 2; 
 
-		double threshold = 0.8;
-		
+		double[] thresholds = {0.2, 0.4, 0.6, 0.8};
+
 		// Diagnostic output
 		//System.out.println(data); // View data
 		//System.out.println(nb); // View what has been learned
@@ -274,27 +274,28 @@ public class NaiveBayes /*extends Classifier*/ {
 		double totalTrainF = 0.0;
 		double totalTestF = 0.0;
 		int iterations = 10;
-		for (int i = 0; i < iterations; i++){
-			// Split data into train (80%) / test (20%)
-			ArffData.SplitData s = data.splitData(.8d);
+		for (double threshold : thresholds){
+			for (int i = 0; i < iterations; i++){
+				// Split data into train (80%) / test (20%)
+				ArffData.SplitData s = data.splitData(.8d);
 
-			// Build a NB classifier and train
-			NaiveBayes nb = new NaiveBayes(1.0d /* prior counts */);
-			nb.clear();
-			nb.setTrainData(s._train);
-			nb.train(CLASS_INDEX);
+				// Build a NB classifier and train
+				NaiveBayes nb = new NaiveBayes(1.0d /* prior counts */);
+				nb.clear();
+				nb.setTrainData(s._train);
+				nb.train(CLASS_INDEX);
 
-			/*
-			 * 0 = accuracy
-			 * 1 = precision
-			 * 2 = recall
-			 * 3 = f-measure
-			 */
-			double trainMeasures[] = nb.measures(s._train._data,threshold);
-			double testMeasures[] = nb.measures(s._test._data,threshold);
-			
-			// Evaluate accuracy of trained classifier on train and test data
-			/*System.out.println(i + " Accuracy on train: " + trainMeasures[0]);
+				/*
+				 * 0 = accuracy
+				 * 1 = precision
+				 * 2 = recall
+				 * 3 = f-measure
+				 */
+				double trainMeasures[] = nb.measures(s._train._data,threshold);
+				double testMeasures[] = nb.measures(s._test._data,threshold);
+
+				// Evaluate accuracy of trained classifier on train and test data
+				/*System.out.println(i + " Accuracy on train: " + trainMeasures[0]);
 			System.out.println(i + " Accuracy on test:  " + testMeasures[0]);
 			System.out.println(i + " Precision on train: " + trainMeasures[1]);
 			System.out.println(i + " Precision on test:  " + testMeasures[1]);
@@ -303,27 +304,29 @@ public class NaiveBayes /*extends Classifier*/ {
 			System.out.println(i + " F measure on train: " + trainMeasures[3]);
 			System.out.println(i + " F measure on test:  " + testMeasures[3]);		*/	
 
-			totalTrainAccuracy += trainMeasures[0];
-			totalTestAccuracy += testMeasures[0];
-			totalTrainPrecision += trainMeasures[1];
-			totalTestPrecision += testMeasures[1];
-			totalTrainRecall += trainMeasures[2];
-			totalTestRecall += testMeasures[2];
-			totalTrainF += trainMeasures[3];
-			totalTestF += testMeasures[3];
-			
-			//System.out.println(nb);
-			
-		}
-		System.out.println("Train accuracy after " + iterations + " iterations:" + (totalTrainAccuracy/iterations));
-		System.out.println("Test accuracy after " + iterations + " iterations:" + (totalTestAccuracy/iterations));
-		System.out.println("Train precision after " + iterations + " iterations:" + (totalTrainPrecision/iterations));
-		System.out.println("Test precision after " + iterations + " iterations:" + (totalTestPrecision/iterations));
-		System.out.println("Train recall after " + iterations + " iterations:" + (totalTrainRecall/iterations));
-		System.out.println("Test recall after " + iterations + " iterations:" + (totalTestRecall/iterations));
-		System.out.println("Train f-measure after " + iterations + " iterations:" + (totalTrainF/iterations));
-		System.out.println("Test f-measure after " + iterations + " iterations:" + (totalTestF/iterations));
+				totalTrainAccuracy += trainMeasures[0];
+				totalTestAccuracy += testMeasures[0];
+				totalTrainPrecision += trainMeasures[1];
+				totalTestPrecision += testMeasures[1];
+				totalTrainRecall += trainMeasures[2];
+				totalTestRecall += testMeasures[2];
+				totalTrainF += trainMeasures[3];
+				totalTestF += testMeasures[3];
 
+				//System.out.println(nb);
+
+			}
+			System.out.println("Threshold:" + threshold);			
+			System.out.println("Train accuracy after " + iterations + " iterations:" + (totalTrainAccuracy/iterations));
+			System.out.println("Test accuracy after " + iterations + " iterations:" + (totalTestAccuracy/iterations));
+			System.out.println("Train precision after " + iterations + " iterations:" + (totalTrainPrecision/iterations));
+			System.out.println("Test precision after " + iterations + " iterations:" + (totalTestPrecision/iterations));
+			System.out.println("Train recall after " + iterations + " iterations:" + (totalTrainRecall/iterations));
+			System.out.println("Test recall after " + iterations + " iterations:" + (totalTestRecall/iterations));
+			System.out.println("Train f-measure after " + iterations + " iterations:" + (totalTrainF/iterations));
+			System.out.println("Test f-measure after " + iterations + " iterations:" + (totalTestF/iterations));
+
+		}
 	}
 
 }
