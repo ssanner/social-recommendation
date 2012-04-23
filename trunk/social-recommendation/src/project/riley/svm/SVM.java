@@ -30,15 +30,16 @@ public class SVM {
 	public void writeArffLine(String line, BufferedWriter out) throws IOException{
 		String[] parts = line.split(",");
 		
-		// third item is class
+		// third item is class		
 		StringBuffer writeLine = new StringBuffer(yTo1nTo0(parts[2]));
 		
 		// first two parts of line are item id and user id
 		for (int i = 3; i < parts.length; i++){
 			writeLine.append(" " + (i-2) + ":" + yTo1nTo0(parts[i]));
-		}
-		writeLine.append("\n");
+		}		
+		System.out.println(writeLine.toString());
 		out.write(writeLine.toString());
+		out.newLine();
 	}
 	
 	/*
