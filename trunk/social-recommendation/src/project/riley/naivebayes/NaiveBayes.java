@@ -265,16 +265,16 @@ public class NaiveBayes /*extends Classifier*/ {
 		//System.out.println(data); // View data
 		//System.out.println(nb); // View what has been learned
 
-		double totalTrainAccuracy = 0.0;
-		double totalTestAccuracy = 0.0;
-		double totalTrainPrecision = 0.0;
-		double totalTestPrecision = 0.0;
-		double totalTrainRecall = 0.0;
-		double totalTestRecall = 0.0;
-		double totalTrainF = 0.0;
-		double totalTestF = 0.0;
 		int iterations = 10;
 		for (double threshold : thresholds){
+			double totalTrainAccuracy = 0.0;
+			double totalTestAccuracy = 0.0;
+			double totalTrainPrecision = 0.0;
+			double totalTestPrecision = 0.0;
+			double totalTrainRecall = 0.0;
+			double totalTestRecall = 0.0;
+			double totalTrainF = 0.0;
+			double totalTestF = 0.0;
 			for (int i = 0; i < iterations; i++){
 				// Split data into train (80%) / test (20%)
 				ArffData.SplitData s = data.splitData(.8d);
