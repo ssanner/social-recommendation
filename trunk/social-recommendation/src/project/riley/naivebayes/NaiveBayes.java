@@ -204,7 +204,8 @@ public class NaiveBayes /*extends Classifier*/ {
 				}
 			}
 
-			cv[i] = Math.exp(class_value);
+			//cv[i] = Math.exp(class_value);
+			cv[i] = Math.exp(class_value/(_condProb.size()+1d)); // gemoetric mean
 			Z += cv[i];
 			//System.out.println("[" + i + "] " + class_value + " " + _df.format(Math.exp(class_value)));
 			if (class_value > best_class_value) {
@@ -218,18 +219,13 @@ public class NaiveBayes /*extends Classifier*/ {
 		}*/
 		
 		//System.out.println("Best [" + best_class + "] " + best_class_value + " :: " + de);
-		if (geometricMean(cv[best_class]/Z,_condProb.size()) > threshold){
+		if (cv[best_class]/Z > threshold){
 			return best_class;
 		} else {
-			System.out.println("changed");
 			return Math.abs(best_class-1);
 		}	
 	}
 	
-	public double geometricMean(double class_value, int n){
-		//System.out.println(class_value + ":" + Math.pow(class_value, (double)1/(n+1)));
-		return Math.pow(class_value, (double)1/(n+1));
-	}
 
 	public double[] measures(ArrayList<ArffData.DataEntry> data, double threshold) {
 		double[] measures = new double[4];
