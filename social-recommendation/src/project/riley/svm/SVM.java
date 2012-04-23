@@ -29,18 +29,16 @@ public class SVM {
 	 */
 	public void writeArffLine(String line, BufferedWriter out) throws IOException{
 		String[] parts = line.split(",");
-
+		
 		// third item is class
-		out.write(yTo1nTo0(parts[2]));
-		System.out.print(yTo1nTo0(parts[2]));
+		StringBuffer writeLine = new StringBuffer(yTo1nTo0(parts[2]));
 		
 		// first two parts of line are item id and user id
 		for (int i = 3; i < parts.length; i++){
-			out.write(" " + (i-2) + ":" + yTo1nTo0(parts[i]));
-			System.out.print(" " + (i-2) + ":" + yTo1nTo0(parts[i]));
+			writeLine.append(" " + (i-2) + ":" + yTo1nTo0(parts[i]));
 		}
-System.out.println();
-		out.write("\n");
+		writeLine.append("\n");
+		out.write(writeLine.toString());
 	}
 	
 	/*
