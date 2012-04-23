@@ -34,8 +34,8 @@ public class SVM {
 		out.write(yTo1nTo0(parts[2]));
 		
 		// first two parts of line are item id and user id
-		for (int i = 2; i < parts.length; i++){
-			out.write(" " + (i-1) + ":" + yTo1nTo0(parts[i]));
+		for (int i = 3; i < parts.length; i++){
+			out.write(" " + (i-2) + ":" + yTo1nTo0(parts[i]));
 		}
 		out.write("\n");
 	}
