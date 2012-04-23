@@ -1,4 +1,4 @@
-package project.riley.naivebayes;
+package project.riley.datageneration;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
