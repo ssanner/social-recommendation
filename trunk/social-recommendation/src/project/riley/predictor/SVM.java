@@ -40,7 +40,7 @@ public class SVM extends Predictor {
 		prob.x = new svm_node[dataCount][];		
 		
 		for (int i = 0; i < dataCount; i++){			
-			double[] features = getFeatures(_trainData._data.get(i), _trainData._attr.size());
+			double[] features = getFeatures(_trainData._data.get(i), _trainData._attr.size()-2);
 			prob.x[i] = new svm_node[features.length-1];
 			// first 'feature' is class value
 			for (int j = 1; j < features.length; j++){
@@ -67,7 +67,7 @@ public class SVM extends Predictor {
 	@Override
 	public <T> int evaluate(T de, double threshold) {
 		
-		double[] features = getFeatures((DataEntry)de,_trainData._attr.size());
+		double[] features = getFeatures((DataEntry)de,_trainData._attr.size()-2);
 		svm_node node = new svm_node();
 		for (int i = 1; i < features.length; i++){
 			node.index = i;
