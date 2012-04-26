@@ -13,7 +13,7 @@ public abstract class Predictor {
 	ArffData data = new ArffData(dataFile);
 	private double[] _thresholds = {0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9};
 	private int _iterations = 10;
-	private int _classIndex = 2;
+	public int _classIndex = 2;
 	
 	public abstract void setData(ArffData.SplitData data);
 	public abstract void train();
@@ -86,7 +86,8 @@ public abstract class Predictor {
 	 * Run tests on data
 	 */
 	public void runTests() throws IOException{
-		BufferedWriter out = new BufferedWriter(new FileWriter(dataFile + "_" + getName() + "_ROC.data"));
+		String rocFile = dataFile + "_" + getName() + "_ROC.data";
+		BufferedWriter out = new BufferedWriter(new FileWriter(rocFile));
 		System.out.println("Running " + getName());	
 
 		for (double threshold : _thresholds){
@@ -147,6 +148,7 @@ public abstract class Predictor {
 			out.write(totalTestAccuracy + "," + ((double)totalTestFalsePositive/_iterations));
 			out.newLine();
 		}
+		System.out.println(rocFile + " written with ROC data");
 		out.close();
 	}
 
