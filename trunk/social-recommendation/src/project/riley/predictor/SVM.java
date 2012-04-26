@@ -76,26 +76,22 @@ public class SVM extends Predictor {
 		svm_node[] nodes = new svm_node[1];
 		nodes[0] = node;
 		
-		// threshold?
 		int totalClasses = 2;
-		//int[] labels = new int[totalClasses];
-		//svm.svm_get_labels(_model, labels);
 		double[] prob_estimates = new double[totalClasses];
 		double v = svm.svm_predict_probability(_model, nodes, prob_estimates);
-		
-		
-		for (int i = 0; i < totalClasses; i++){
+				
+		/*for (int i = 0; i < totalClasses; i++){
 			System.out.print(" (" + i + ":" + prob_estimates[i] + ")" + ((Integer)((ArffData.DataEntry)de).getData(_classIndex)).intValue());
 		}
-		System.out.println();		
+		System.out.println();	*/	
 		
+		int index = -1;
+		for (int i = 0; i < totalClasses; i++){
+			if (prob_estimates[i] > index) index = i;
+		}
 		
-		double[] dbl = new double[1];
-		svm.svm_predict_values(_model, nodes, dbl);
-		double prediction = dbl[0];
-		
-		System.out.println("Prediction: " + prediction);
-		return 0;
+		double prediction = prob_estimates[index] >= threshold ? index : Math.abs(1-index);
+		return (int) prediction;
 	}
 
 	@Override
