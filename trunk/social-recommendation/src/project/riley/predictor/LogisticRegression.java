@@ -78,7 +78,7 @@ public class LogisticRegression extends Predictor {
 		double prob_0 = Math.exp(weight_prediction_0) / (1d + Math.exp(weight_prediction_0));
 		
 		// Make prediction with probability
-		double prediction = /*conditionalProbs[0]*/ prob_0 >= 0.5d ? 0 : 1;
+		double prediction = /*conditionalProbs[0]*/ prob_0 >= threshold ? 0 : 1;
 		
 		return (int) prediction;
 	}
@@ -106,12 +106,7 @@ public class LogisticRegression extends Predictor {
 
 	public static void main(String[] args) throws IOException{
 		LogisticRegression lr = new LogisticRegression();
-	//	lr.runTests();
-		System.out.println(lr.data._data.get(0));
-		double[] a =lr.getFeatures(lr.data._data.get(0), lr.data._attr.size()-2);
-		for (double b : a){
-			System.out.print(b + ",");
-		}
+		lr.runTests();
 	}
 	
 }
