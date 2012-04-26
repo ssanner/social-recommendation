@@ -13,5 +13,6 @@ plt.xlabel("False positive rate")
 plt.ylabel("Correct class identification rate")
 plt.legend()
 plt.grid(True)
-plt.show();
+plt.savefig('plot.png')
+#plt.show();
 
