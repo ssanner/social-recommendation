@@ -15,7 +15,7 @@
  *
  *************************************************************************/
 
-package project.riley.naivebayes;
+package project.riley.predictor;
 
 import java.util.Random;
 
