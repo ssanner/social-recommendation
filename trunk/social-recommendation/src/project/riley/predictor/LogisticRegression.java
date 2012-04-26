@@ -1,5 +1,6 @@
 package project.riley.predictor;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -103,4 +104,9 @@ public class LogisticRegression extends Predictor {
 		return (ArrayList<T>) _testData._data;
 	}
 
+	public static void main(String[] args) throws IOException{
+		LogisticRegression lr = new LogisticRegression();
+		lr.runTests();
+	}
+	
 }
