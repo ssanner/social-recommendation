@@ -46,7 +46,7 @@ public abstract class Predictor {
 		}
 		System.out.println(tmp[0]);
 		return tmp;
-	}
+	}	
 	
 	/*
 	 * input is either 'n' or 'y'
