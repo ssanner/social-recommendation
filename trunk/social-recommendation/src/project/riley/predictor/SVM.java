@@ -87,14 +87,14 @@ public class SVM extends Predictor {
 		for (int i = 0; i < totalClasses; i++){
 			System.out.print(" (" + i + ":" + prob_estimates[i] + ")" + ((Integer)((ArffData.DataEntry)de).getData(_classIndex)).intValue());
 		}
-		System.out.println();
+		System.out.println();		
 		
 		
-		//double[] dbl = new double[1];
-		//svm.svm_predict_values(_model, nodes, dbl);
-		//double prediction = dbl[0];
+		double[] dbl = new double[1];
+		svm.svm_predict_values(_model, nodes, dbl);
+		double prediction = dbl[0];
 		
-		//System.out.println("Prediction: " + prediction);
+		System.out.println("Prediction: " + prediction);
 		return 0;
 	}
 
