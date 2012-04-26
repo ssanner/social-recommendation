@@ -47,7 +47,7 @@ public class SVM extends Predictor {
 				svm_node node = new svm_node();
 				node.index = j;
 				node.value = features[j];
-				prob.x[i][j] = node;
+				prob.x[i][j-1] = node;
 			}			
 			prob.y[i] = features[0];
 		}				
