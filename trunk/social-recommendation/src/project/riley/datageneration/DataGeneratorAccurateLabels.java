@@ -49,9 +49,9 @@ public class DataGeneratorAccurateLabels {
 
 		ResultSet result = statement.executeQuery(userQuery);
 		while (result.next()) {
-			long uid = result.getLong(0);
-			long from_id = result.getLong(1);
-			int rating = result.getInt(2);
+			long uid = result.getLong(1);
+			long from_id = result.getLong(2);
+			int rating = result.getInt(3);
 			System.out.println(uid + " " + from_id + " " + rating);
 		}							
 	}
