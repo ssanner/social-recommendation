@@ -53,14 +53,14 @@ public class LogisticRegression extends Predictor {
                                       1, // min epochs
                                       5000); //5000); // max epochs
 
-	   _betas = _model.weightVectors();
-	    for (int outcome = 0; outcome < _betas.length; outcome++) {
+	   //_betas = _model.weightVectors();
+	    //for (int outcome = 0; outcome < _betas.length; outcome++) {
 		    //System.out.println("Classifier weights for outcome = " + outcome + " [" + _betas[outcome].numDimensions() + " features]");
-			for (int i = 0; i < _betas[outcome].numDimensions(); i++) {
+			//for (int i = 0; i < _betas[outcome].numDimensions(); i++) {
 				//System.out.print(_betas[outcome].value(i));				
-			}
+			//}
 			//System.out.println();
-		}	    
+		//}	    
 	    
 	}	
 
