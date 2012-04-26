@@ -14,7 +14,6 @@ public class NaiveBayes2 extends Predictor {
 	public ArffData _arffData = null;
 	public ArrayList<DataEntry> _testData = null;
 	public ArrayList<DataEntry> _trainData = null;
-	public int _classIndex    = -1;
 
 	public double DIRICHLET_PRIOR = 1d;
 	public ArrayList<ClassCondProb> _condProb = null; 
