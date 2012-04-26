@@ -12,7 +12,7 @@ public abstract class Predictor {
 	String dataFile = "datak1000.arff";
 	ArffData data = new ArffData(dataFile);
 	private double[] _thresholds = {0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9};
-	private int _iterations = 10;
+	private int _iterations = 1;
 	public int _classIndex = 2;
 	
 	public abstract void setData(ArffData.SplitData data);
@@ -44,7 +44,7 @@ public abstract class Predictor {
 				tmp[(i-2)] = (double) yTo1nTo0(parts[i]);
 			}		
 		}
-		
+		System.out.println(tmp[0]);
 		return tmp;
 	}
 	
