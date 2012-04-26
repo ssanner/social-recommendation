@@ -1,4 +1,4 @@
-package project.riley.naivebayes;
+package project.riley.predictor;
 
 /** Simple Naive Bayes algorithm.
  * 

@@ -1,4 +1,4 @@
-package project.riley.naivebayes;
+package project.riley.predictor;
 
 /** Loads an ARFF file, either sparse or dense format.
  *   
