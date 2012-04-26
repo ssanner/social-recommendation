@@ -107,7 +107,7 @@ public class LogisticRegression extends Predictor {
 	public static void main(String[] args) throws IOException{
 		LogisticRegression lr = new LogisticRegression();
 	//	lr.runTests();
-		System.out.println(lr._trainData._data.get(0));
+		System.out.println(lr.data._data.get(0));
 	}
 	
 }
