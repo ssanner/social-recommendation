@@ -34,7 +34,7 @@ public class SVM extends Predictor {
 	 */
 	private svm_model svmTrain() {
 		svm_problem prob = new svm_problem();
-		int dataCount = _testData._data.size();
+		int dataCount = _trainData._data.size();
 		prob.y = new double[dataCount];
 		prob.l = dataCount;
 		prob.x = new svm_node[dataCount][];		
@@ -59,10 +59,8 @@ public class SVM extends Predictor {
 		param.kernel_type = svm_parameter.LINEAR;		
 		//param.cache_size = 20000;
 		param.eps = 0.001;
-		
-		System.out.println("Training...");
+				
 		svm_model model = svm.svm_train(prob, param);
-		System.out.println("Done");
 		return model;
 	}
 
