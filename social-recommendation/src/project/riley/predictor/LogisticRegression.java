@@ -35,7 +35,7 @@ public class LogisticRegression extends Predictor {
 		 * regression data format
 		 */
 		for (int i = 0; i < _trainData._data.size(); i++) {
-			features = getFeatures(_trainData._data.get(i), _trainData._attr.size());
+			features = getFeatures(_trainData._data.get(i), _trainData._attr.size()-2);
 			INPUTS[i] = new DenseVector(Arrays.copyOfRange(features, 1, features.length));
 			OUTPUTS[i] = (int) features[0]; 
 		}
@@ -55,18 +55,18 @@ public class LogisticRegression extends Predictor {
 
 	   _betas = _model.weightVectors();
 	    for (int outcome = 0; outcome < _betas.length; outcome++) {
-		    System.out.println("Classifier weights for outcome = " + outcome + " [" + _betas[outcome].numDimensions() + " features]");
+		    //System.out.println("Classifier weights for outcome = " + outcome + " [" + _betas[outcome].numDimensions() + " features]");
 			for (int i = 0; i < _betas[outcome].numDimensions(); i++) {
-				System.out.print(_betas[outcome].value(i));				
+				//System.out.print(_betas[outcome].value(i));				
 			}
-			System.out.println();
+			//System.out.println();
 		}	    
 	    
 	}	
 
 	@Override
 	public <T> int evaluate(T de, double threshold) {
-		double[] features = getFeatures((DataEntry)de,_trainData._attr.size());
+		double[] features = getFeatures((DataEntry)de,_trainData._attr.size()-2);
 		features = Arrays.copyOfRange(features, 1, features.length);
 		
 		//double[] conditionalProbs = regression.classify(INPUTS[i]);
