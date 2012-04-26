@@ -199,11 +199,9 @@ public class NaiveBayes extends Predictor {
 		}*/
 
 		//System.out.println("Best [" + best_class + "] " + best_class_value + " :: " + de);
-		if (cv[best_class]/Z > threshold){
-			return best_class;
-		} else {
-			return Math.abs(best_class-1);
-		}	
+		
+		double prediction = cv[best_class]/Z >= threshold ? best_class : Math.abs(best_class-1);
+		return (int) prediction;
 	}
 
 	@Override
