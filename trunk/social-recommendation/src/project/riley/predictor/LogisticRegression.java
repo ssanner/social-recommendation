@@ -108,7 +108,10 @@ public class LogisticRegression extends Predictor {
 		LogisticRegression lr = new LogisticRegression();
 	//	lr.runTests();
 		System.out.println(lr.data._data.get(0));
-		System.out.println(lr.getFeatures(lr.data._data.get(0), lr.data._attr.size()-2));
+		double[] a =lr.getFeatures(lr.data._data.get(0), lr.data._attr.size()-2);
+		for (double b : a){
+			System.out.print(b + " ");
+		}
 	}
 	
 }
