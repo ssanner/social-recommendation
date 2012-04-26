@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import project.riley.predictor.ArffData.DataEntry;
 import project.riley.predictor.ArffData.SplitData;
 
-public class NaiveBayes2 extends Predictor {
+public class NaiveBayes extends Predictor {
 
 	public static DecimalFormat _df = new DecimalFormat("0.######");
 
@@ -48,7 +48,7 @@ public class NaiveBayes2 extends Predictor {
 		}
 	}
 
-	public NaiveBayes2(double dirichlet_prior) {
+	public NaiveBayes(double dirichlet_prior) {
 		DIRICHLET_PRIOR = dirichlet_prior;
 
 		// Bad to have zero counts... makes cases not seen in data
@@ -239,7 +239,7 @@ public class NaiveBayes2 extends Predictor {
 	}
 
 	public static void main(String[] args) throws IOException {
-		NaiveBayes2 nb = new NaiveBayes2(1.0d);
+		NaiveBayes nb = new NaiveBayes(1.0d);
 		nb.runTests();
 	}
 
