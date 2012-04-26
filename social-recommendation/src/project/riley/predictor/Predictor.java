@@ -44,7 +44,6 @@ public abstract class Predictor {
 				tmp[(i-2)] = (double) yTo1nTo0(parts[i]);
 			}		
 		}
-		System.out.println(tmp[0]);
 		return tmp;
 	}	
 	
