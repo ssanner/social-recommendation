@@ -87,7 +87,7 @@ public abstract class Predictor {
 	public void runTests() throws IOException{
 		String rocFile = dataFile + "_" + getName() + "_ROC.data";
 		BufferedWriter out = new BufferedWriter(new FileWriter(rocFile));
-		System.out.println("Running " + getName());	
+		System.out.println("Running " + getName() + " using " + dataFile);	
 
 		for (double threshold : _thresholds){
 			out.write(threshold + ",");

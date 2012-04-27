@@ -2,7 +2,7 @@
 
 import pylab as plt 
 
-plots = [("datak1000.arff_NaiveBayes_ROC.data","Naive Bayes", "b-"),("rocplot.data","SVM", "r-"),("datak1000.arff_Logistic Regression_ROC.data","Regression", "g-")]
+plots = [("datak1000.arff_NaiveBayes_ROC.data","Naive Bayes", "b-"),("datak1000.arff_SVM_ROC.data","SVM", "r-"),("datak1000.arff_Logistic Regression_ROC.data","Regression", "g-")]
 
 for file, name, type in plots:
   data = [line.strip().split(" ") for line in open(file).readlines()]
