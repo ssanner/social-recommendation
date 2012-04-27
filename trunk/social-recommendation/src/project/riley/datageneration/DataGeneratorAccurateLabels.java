@@ -21,6 +21,8 @@ public class DataGeneratorAccurateLabels {
 	static String[] directions = new String[]{"Incoming", "Outgoing"};					
 	static String[] interactionMedium = new String[]{"Post", "Photo", "Video", "Link"};
 	static String[] interactionType = new String[]{"Comments", "Tags", "Likes"};
+	static String[] likesRow = new String[]{"post_id", "photo_id", "video_id", "link_id"};
+	static String[] likesTable = new String[]{"linkrPostLikes", "linkrPhotoLikes", "linkrVideoLikes", "linkrLinkLikes"};
 	static HashMap<Long, HashMap<Long, String>> userLinks;
 
 	/*
@@ -121,7 +123,7 @@ public class DataGeneratorAccurateLabels {
 
 					ResultSet result = statement.executeQuery(userQuery);
 					while (result.next()) {
-						if (userLikes(result.getLong(1),lid)){	// if a user in alter set has liked the original item
+						if (userLikes(result.getLong(1),lid,likesRow[i],likesTable[i])){	// if a user in alter set has liked the original item
 							writer.print(",'y'");
 							found = true;
 							break;
@@ -141,21 +143,12 @@ public class DataGeneratorAccurateLabels {
 	/*
 	 * Return whether a specific user likes an item
 	 */
-	public static boolean userLikes(Long uid, Long lid) throws SQLException{
+	public static boolean userLikes(Long uid, Long lid, String row, String table) throws SQLException{
 		Statement statement = SQLUtil.getStatement();
-
-		String[] row = new String[]{"link_id", "post_id", "photo_id", "video_id"};
-		String[] table = new String[]{"linkrLinkLikes", "linkrPostLikes", "linkrPhotoLikes", "linkrVideoLikes"};
-
-		for (int i = 0; i < row.length; i++){
-			String userQuery = "SELECT count(*) FROM " + table[i] + " WHERE uid = " + uid + " AND " + row[i] + " = " + lid;
-			ResultSet result = statement.executeQuery(userQuery);
-			result.next();			
-			if (result.getInt(1) != 0){
-				return true;
-			}
-		}			
-		return false;
+		String userQuery = "SELECT count(*) FROM " + table + " WHERE uid = " + uid + " AND " + row + " = " + lid;
+		ResultSet result = statement.executeQuery(userQuery);
+		result.next();			
+		return (result.getInt(1) == 0 ? false : true);
 	}
 
 
