@@ -53,7 +53,7 @@ public class SVM extends Predictor {
 		}				
 		
 		svm_parameter param = new svm_parameter();
-		param.probability = 1;
+		//param.probability = 1;
 		param.C = 2.0d;
 		param.svm_type = svm_parameter.C_SVC;
 		param.kernel_type = svm_parameter.LINEAR;		
