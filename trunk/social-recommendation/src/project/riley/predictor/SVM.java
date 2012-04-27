@@ -54,20 +54,13 @@ public class SVM extends Predictor {
 		
 		svm_parameter param = new svm_parameter();
 		param.probability = 1;
-		param.C = 2.0d;
+		param.C = 1;
 		param.svm_type = svm_parameter.C_SVC;
 		param.kernel_type = svm_parameter.LINEAR;		
 		param.cache_size = 20000;
 		param.eps = 0.001;
-				
-		String error_msg = svm.svm_check_parameter(prob,param);
-
-		if(error_msg != null)
-		{
-		System.err.print("ERROR: "+error_msg+"\n");
-		System.exit(1);
-		}
-		
+		param.gamma = 1.0d/22; // 1/num_features
+								
 		svm_model model = svm.svm_train(prob, param);
 		
 		return model;
