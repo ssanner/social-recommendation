@@ -169,13 +169,11 @@ public class DataGeneratorv2 {
 
 					ResultSet result = statement.executeQuery(userQuery);
 					while (result.next()) {
-						if (allLikes.containsKey(result.getLong(getRow))){
-							if (allLikes.get(result.getLong(getRow)).contains(lid)){	// if a user in alter set has liked the original item
-								writer.print(",'y'");
-								found = true;
-								break;
-							}
-						}					
+						if (userLikes(result.getLong(1),lid)){	// if a user in alter set has liked the original item
+							writer.print(",'y'");
+							found = true;
+							break;
+						}
 					}
 					if (!found){														// if no user has liked the original item
 						writer.print(",'n'");
@@ -188,6 +186,26 @@ public class DataGeneratorv2 {
 		writer.println();
 	}
 
+	/*
+	 * Return whether a specific user likes an item
+	 */
+	public static boolean userLikes(Long uid, Long lid) throws SQLException{
+		Statement statement = SQLUtil.getStatement();
+
+		String[] row = new String[]{"link_id", "post_id", "photo_id", "video_id"};
+		String[] table = new String[]{"linkrLinkLikes", "linkrPostLikes", "linkrPhotoLikes", "linkrVideoLikes"};
+
+		for (int i = 0; i < row.length; i++){
+			String userQuery = "SELECT count(*) FROM " + table[i] + " WHERE uid = " + uid + " AND " + row[i] + " = " + lid;
+			ResultSet result = statement.executeQuery(userQuery);
+			result.next();			
+			if (result.getInt(1) != 0){
+				return true;
+			}
+		}			
+		return false;
+	}
+	
 	public static void main(String[] args) throws FileNotFoundException, SQLException {
 		int k = 1000;
 
