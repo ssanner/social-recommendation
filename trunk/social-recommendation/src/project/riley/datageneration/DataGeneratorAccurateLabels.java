@@ -151,6 +151,7 @@ public class DataGeneratorAccurateLabels {
 			String userQuery = "SELECT count(*) FROM " + table[i] + " WHERE uid = " + uid + " AND " + row[i] + " = " + lid;
 			System.out.println(userQuery);
 			ResultSet result = statement.executeQuery(userQuery);
+			result.next();
 			System.out.println(result.getInt(1));
 			if (result.getInt(1) != 0){				
 				return true;
