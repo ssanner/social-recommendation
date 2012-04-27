@@ -152,7 +152,6 @@ public class DataGeneratorAccurateLabels {
 			ResultSet result = statement.executeQuery(userQuery);
 			result.next();			
 			if (result.getInt(1) != 0){
-				System.out.println(userQuery);
 				return true;
 			}
 		}			
