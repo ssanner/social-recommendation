@@ -12,13 +12,13 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
+import org.nicta.lr.util.ELikeType;
 import org.nicta.lr.util.SQLUtil;
 
 import project.riley.messagefrequency.UserUtil;
 
 /*
  * v2
- * Generate data for naive bayes model
  * find top k most liked items
  */
 public class DataGeneratorv2 {
@@ -28,8 +28,9 @@ public class DataGeneratorv2 {
 	static String[] directions = new String[]{"Incoming", "Outgoing"};					
 	static String[] interactionMedium = new String[]{"Post", "Photo", "Video", "Link"};
 	static String[] interactionType = new String[]{"Comments", "Tags", "Likes"};
-	static String[] likesRow = new String[]{"post_id", "photo_id", "video_id", "link_id"};
-	static String[] likesTable = new String[]{"linkrPostLikes", "linkrPhotoLikes", "linkrVideoLikes", "linkrLinkLikes"};
+	//static String[] likesRow = new String[]{"post_id", "photo_id", "video_id", "link_id"};
+	//static String[] likesTable = new String[]{"linkrPostLikes", "linkrPhotoLikes", "linkrVideoLikes", "linkrLinkLikes"};
+	static Map<Long,Set<Long>> getLikes;
 
 	/*
 	 * Write arff header data
@@ -151,27 +152,27 @@ public class DataGeneratorv2 {
 		String getWhere;
 
 		for (String direction : directions){
-			for (String interaction : interactionMedium){
-				for (int i = 0; i < interactionType.length; i++){
-					if (interaction.equals("Link") && interactionType[i].equals("Tags")){
+			for (int i = 0; i < interactionMedium.length; i++){
+				for (int j = 0; j < interactionType.length; j++){
+					if (interactionMedium[i].equals("Link") && interactionType[j].equals("Tags")){
 						continue; // no link tags data
 					} 
 
 					if (direction.equals("Outgoing")){		// outgoing order
-						getRow = row[i];
-						getWhere = where[i];
+						getRow = row[j];
+						getWhere = where[j];
 					} else {								// incoming order
-						getRow = where[i];
-						getWhere = row[i];
+						getRow = where[j];
+						getWhere = row[j];
 					}								
 
 					// select incoming/outgoing data for different interaction types
-					String userQuery = "SELECT " + getRow + " FROM linkr" + interaction + interactionType[i] + " WHERE " + getWhere + " = " + uid;
+					String userQuery = "SELECT " + getRow + " FROM linkr" + interactionMedium[i] + interactionType[j] + " WHERE " + getWhere + " = " + uid;
 					boolean found = false;
 
 					ResultSet result = statement.executeQuery(userQuery);
 					while (result.next()) {
-						if (userLikes(result.getLong(1),lid,likesRow[i],likesTable[i])){	// if a user in alter set has liked the original item
+						if (getLikes.get(result.getLong(1)).contains(lid)){	// if a user in alter set has liked the original item
 							writer.print(",'y'");
 							found = true;
 							break;
@@ -210,6 +211,8 @@ public class DataGeneratorv2 {
 		
 		TreeMap<Long,Integer> topLikes = topLiked(allLikes);
 		System.out.println(topLikes.size() + " unique likes found for app users");
+		
+		getLikes = UserUtil.getLikes(ELikeType.ALL);
 		
 		System.out.println("Writing data for top " + k + " likes");
 		writeData(k, allLikes, topLikes);
