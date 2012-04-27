@@ -18,8 +18,6 @@ import project.riley.messagefrequency.UserUtil;
 public class DataGeneratorAccurateLabels {
 
 	static PrintWriter writer;
-	static Set<Long> APP_USERS;
-	static Map<Long,Set<Long>> allLikes;
 	static String[] directions = new String[]{"Incoming", "Outgoing"};					
 	static String[] interactionMedium = new String[]{"Post", "Photo", "Video", "Link"};
 	static String[] interactionType = new String[]{"Comments", "Tags", "Likes"};
@@ -123,13 +121,11 @@ public class DataGeneratorAccurateLabels {
 
 					ResultSet result = statement.executeQuery(userQuery);
 					while (result.next()) {
-						if (allLikes.containsKey(result.getLong(getRow))){
-							if (allLikes.get(result.getLong(getRow)).contains(lid)){	// if a user in alter set has liked the original item
-								writer.print(",'y'");
-								found = true;
-								break;
-							}
-						}				
+						if (userLikes(result.getLong(1),lid)){	// if a user in alter set has liked the original item
+							writer.print(",'y'");
+							found = true;
+							break;
+						}
 					}
 					if (!found){														// if no user has liked the original item
 						writer.print(",'n'");
@@ -141,42 +137,31 @@ public class DataGeneratorAccurateLabels {
 		statement.close();
 		writer.println();
 	}
-	
+
 	/*
-	 * Extract likes for all users
+	 * Return whether a specific user likes an item
 	 */
-	public static void getUserLikes() throws SQLException{
-		allLikes = new HashMap<Long,Set<Long>>();
+	public static boolean userLikes(Long uid, Long lid) throws SQLException{
 		Statement statement = SQLUtil.getStatement();
 
 		String[] row = new String[]{"link_id", "post_id", "photo_id", "video_id"};
 		String[] table = new String[]{"linkrLinkLikes", "linkrPostLikes", "linkrPhotoLikes", "linkrVideoLikes"};
 
-		String userQuery = "select uid from trackRecommendedLinks where rating != 0;";
-		ResultSet result = statement.executeQuery(userQuery);
-		while (result.next()) {
-			long uid = result.getLong(1);
-			for (int i = 0; i < row.length; i++){
-				String userQuery2 = "SELECT " + row[i] + " FROM " + table[i] + " WHERE id = " + uid;
-				ResultSet result2 = statement.executeQuery(userQuery2);
-				while (result2.next()) {
-					long LIKED_ID = result2.getLong(1);
-					Set<Long> likedIDs = allLikes.get(uid);
-					if (likedIDs == null) {
-						likedIDs = new HashSet<Long>();
-						allLikes.put(uid, likedIDs);
-					}
-					likedIDs.add(LIKED_ID);
-				}			
+		for (int i = 0; i < row.length; i++){
+			String userQuery = "SELECT count(*) FROM " + table[i] + " WHERE uid = " + uid + " AND " + row[i] + " = " + lid;
+			System.out.println(userQuery);
+			ResultSet result = statement.executeQuery(userQuery);
+			System.out.println(result.getInt(1));
+			if (result.getInt(1) != 0){				
+				return true;
 			}
-		}
+		}			
+		return false;
 	}
 
 
 	public static void main(String[] args) throws FileNotFoundException, SQLException {
-		APP_USERS = UserUtil.getAppUserIds();		
 		writeHeader("accurateLabelsData.arff");
-		getUserLikes();
 		extractSpecificLikes();	
 		writeData();
 		writer.close();
