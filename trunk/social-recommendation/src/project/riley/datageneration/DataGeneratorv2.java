@@ -212,7 +212,8 @@ public class DataGeneratorv2 {
 		TreeMap<Long,Integer> topLikes = topLiked(allLikes);
 		System.out.println(topLikes.size() + " unique likes found for app users");
 		
-		getLikes = UserUtil.getLikes(ELikeType.ALL);
+		System.out.println("Extracting all user likes");
+		getLikes = UserUtil.getLikes(ELikeType.ALL);		
 		
 		System.out.println("Writing data for top " + k + " likes");
 		writeData(k, allLikes, topLikes);
