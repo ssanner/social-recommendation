@@ -44,7 +44,6 @@ public class LogisticRegression extends Predictor {
 		 * train classifier
 		 */
 		RegressionPrior prior = RegressionPrior.laplace(2d, true);
-		System.out.println("Training model");
 	    _model = com.aliasi.stats.LogisticRegression.estimate(INPUTS,
                                       OUTPUTS,
                                       prior,
@@ -53,7 +52,6 @@ public class LogisticRegression extends Predictor {
                                       0.000000001, // min improve
                                       1, // min epochs
                                       5000);// max epochs
-	    System.out.println("Done");
 	   _betas = _model.weightVectors();
 	    //for (int outcome = 0; outcome < _betas.length; outcome++) {
 		    //System.out.println("Classifier weights for outcome = " + outcome + " [" + _betas[outcome].numDimensions() + " features]");

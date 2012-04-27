@@ -60,9 +60,7 @@ public class SVM extends Predictor {
 		//param.cache_size = 20000;
 		param.eps = 0.001;
 				
-		System.out.println("Training model");
 		svm_model model = svm.svm_train(prob, param);
-		System.out.println("Done");
 		
 		return model;
 	}
