@@ -39,16 +39,10 @@ public class SVM extends Predictor {
 		prob.l = dataCount;
 		prob.x = new svm_node[dataCount][];		
 		
-		double[] test = getFeatures(_trainData._data.get(0), _trainData._attr.size()-2);
-		for (double d : test){
-			System.out.print(d + " ");
-		}
-		
 		for (int i = 0; i < dataCount; i++){			
-			System.out.println("asd");
-			double[] features = getFeatures(_trainData._data.get(i), _trainData._attr.size()-2);			
+			double[] features = getFeatures(_trainData._data.get(i), _trainData._attr.size()-2);
 			prob.x[i] = new svm_node[features.length-1];
-			// first 'feature' is class value			
+			// first 'feature' is class value
 			for (int j = 1; j < features.length; j++){
 				svm_node node = new svm_node();
 				node.index = j;
@@ -60,13 +54,12 @@ public class SVM extends Predictor {
 		
 		svm_parameter param = new svm_parameter();
 		param.probability = 1;
-		param.C = 1;
+		param.C = 2.0d;
 		param.svm_type = svm_parameter.C_SVC;
 		param.kernel_type = svm_parameter.LINEAR;		
 		param.cache_size = 20000;
 		param.eps = 0.001;
-		param.gamma = 1.0d/22; // 1/num_features
-								
+				
 		svm_model model = svm.svm_train(prob, param);
 		
 		return model;
