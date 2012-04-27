@@ -49,6 +49,7 @@ public class SVM extends Predictor {
 				node.value = features[j];
 				prob.x[i][j-1] = node;
 			}			
+			System.out.println(prob.x[i]);
 			prob.y[i] = features[0];
 		}				
 		
