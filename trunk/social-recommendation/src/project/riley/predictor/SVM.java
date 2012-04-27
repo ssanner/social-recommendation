@@ -39,19 +39,17 @@ public class SVM extends Predictor {
 		prob.l = dataCount;
 		prob.x = new svm_node[dataCount][];		
 		
-		System.out.println("asd");
-		
 		for (int i = 0; i < dataCount; i++){			
 			double[] features = getFeatures(_trainData._data.get(i), _trainData._attr.size()-2);
 			prob.x[i] = new svm_node[features.length-1];
 			// first 'feature' is class value
+			System.out.println("asd");
 			for (int j = 1; j < features.length; j++){
 				svm_node node = new svm_node();
 				node.index = j;
 				node.value = features[j];
 				prob.x[i][j-1] = node;
 			}			
-			System.out.println(prob.x[i]);
 			prob.y[i] = features[0];
 		}				
 		
