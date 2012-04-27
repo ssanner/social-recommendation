@@ -57,7 +57,7 @@ public class SVM extends Predictor {
 		param.C = 2.0d;
 		param.svm_type = svm_parameter.C_SVC;
 		param.kernel_type = svm_parameter.LINEAR;		
-		//param.cache_size = 20000;
+		param.cache_size = 20000;
 		param.eps = 0.001;
 				
 		String error_msg = svm.svm_check_parameter(prob,param);
