@@ -172,10 +172,12 @@ public class DataGeneratorv2 {
 
 					ResultSet result = statement.executeQuery(userQuery);
 					while (result.next()) {
-						if (getLikes.get(result.getLong(1)).contains(lid)){	// if a user in alter set has liked the original item
-							writer.print(",'y'");
-							found = true;
-							break;
+						if (getLikes.get(result.getLong(1)) != null){
+							if (getLikes.get(result.getLong(1)).contains(lid)){	// if a user in alter set has liked the original item
+								writer.print(",'y'");
+								found = true;
+								break;
+							}
 						}
 					}
 					if (!found){														// if no user has liked the original item
