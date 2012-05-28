@@ -13,7 +13,8 @@ public abstract class Predictor {
 	String dataFile = "datak1000.arff";
 	ArffData data = new ArffData(dataFile);
 	DecimalFormat df3 = new DecimalFormat("#.###");
-	private double[] _thresholds = {0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9};
+	//private double[] _thresholds = {0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9};
+	private double[] _thresholds = {0.5};
 	private int _iterations = 10;
 	public int _classIndex = 2;
 	
