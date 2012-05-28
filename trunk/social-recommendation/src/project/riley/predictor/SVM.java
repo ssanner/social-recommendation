@@ -58,7 +58,7 @@ public class SVM extends Predictor {
 		param.svm_type = svm_parameter.C_SVC;
 		param.kernel_type = svm_parameter.LINEAR;		
 		param.cache_size = 20000;
-		param.eps = 0.001;
+		param.eps = 0.001;		
 				
 		svm_model model = svm.svm_train(prob, param);
 		
@@ -81,10 +81,10 @@ public class SVM extends Predictor {
 		double[] prob_estimates = new double[totalClasses];
 		double v = svm.svm_predict_probability(_model, nodes, prob_estimates);
 				
-		/*for (int i = 0; i < totalClasses; i++){
+		for (int i = 0; i < totalClasses; i++){
 			System.out.print(" (" + i + ":" + prob_estimates[i] + ")" + ((Integer)((ArffData.DataEntry)de).getData(_classIndex)).intValue());
 		}
-		System.out.println();	*/	
+		System.out.println();	
 		
 		int index = -1;
 		for (int i = 0; i < totalClasses; i++){
