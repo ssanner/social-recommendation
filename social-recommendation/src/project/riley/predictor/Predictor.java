@@ -79,7 +79,7 @@ public abstract class Predictor {
 		measures[1] = precision;										// precision
 		measures[2] = recall;											// recall
 		measures[3] = 2 * ((precision * recall)/(precision + recall)); 	// f measure
-		measures[4] = (double)falsePositive;				// false positive rate
+		measures[4] = (double)falsePositive/data.size();				// false positive rate
 		return measures;
 	}
 
