@@ -54,7 +54,8 @@ public class SVM extends Predictor {
 		
 		svm_parameter param = new svm_parameter();
 		param.probability = 1;
-		param.C = 2.0d;
+		param.gamma = 0.45;	// 1/num_features
+		param.C = 1;
 		param.svm_type = svm_parameter.C_SVC;
 		param.kernel_type = svm_parameter.LINEAR;		
 		param.cache_size = 20000;
@@ -68,7 +69,7 @@ public class SVM extends Predictor {
 	@Override
 	public <T> int evaluate(T de, double threshold) {
 		
-		double[] features = getFeatures((DataEntry)de,_trainData._attr.size()-2);
+		/*double[] features = getFeatures((DataEntry)de,_trainData._attr.size()-2);
 		svm_node node = new svm_node();
 		for (int i = 1; i < features.length; i++){
 			node.index = i;
@@ -93,15 +94,38 @@ public class SVM extends Predictor {
 		
 		double prediction = prob_estimates[index] >= threshold ? index : Math.abs(1-index);
 		//return (int) prediction;
+	
+		
+		return (int) prediction;*/
+		
+		int nr_class = 2;
+		int[] labels=new int[nr_class];
+		svm.svm_get_labels(_model,labels);
+		double[] prob_estimates = new double[nr_class];
+		System.out.print("labels");
+		for(int j=0;j<nr_class;j++)
+			System.out.print(" "+labels[j]);
+		System.out.println();
 		
 		
+		double[] features = getFeatures((DataEntry)de,_trainData._attr.size()-2);
+		svm_node node = new svm_node();
+		for (int i = 1; i < features.length; i++){
+			node.index = i;
+			node.value = features[i];
+		}
+		svm_node[] nodes = new svm_node[1];
+		nodes[0] = node;
 		
-		double[] dbl = new double[1]; 
-		svm.svm_predict_values(_model, nodes, dbl);
 		
-		prediction = dbl[0];
+		double v = svm.svm_predict_probability(_model,nodes,prob_estimates);
+		System.out.print(v+" ");
+		for(int j=0;j<nr_class;j++)
+			System.out.print(prob_estimates[j]+" ");
+		System.out.println();
 		
-		return (int) prediction;
+		return (int)v;
+		
 	}
 
 	@Override
