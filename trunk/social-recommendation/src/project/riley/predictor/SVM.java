@@ -91,9 +91,17 @@ public class SVM extends Predictor {
 			if (prob_estimates[i] > index) index = i;
 		}
 		
-		//double prediction = prob_estimates[index] >= threshold ? index : Math.abs(1-index);
+		double prediction = prob_estimates[index] >= threshold ? index : Math.abs(1-index);
 		//return (int) prediction;
-		return (int) index;
+		
+		
+		
+		double[] dbl = new double[1]; 
+		svm.svm_predict_values(_model, nodes, dbl);
+		
+		prediction = dbl[0];
+		
+		return (int) prediction;
 	}
 
 	@Override
