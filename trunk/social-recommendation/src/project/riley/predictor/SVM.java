@@ -118,8 +118,8 @@ public class SVM extends Predictor {
 		for (int i = 0; i < nr_class; i++){
 			if (prob_estimates[i] > index) index = i;
 		}
-		if (v>0)
-			System.out.println(v + " " + ((Integer)((ArffData.DataEntry)de).getData(_classIndex)).intValue());
+		
+		System.out.println((int)v + " " + ((Integer)((ArffData.DataEntry)de).getData(_classIndex)).intValue());
 		
 		return (int)v;
 	}
