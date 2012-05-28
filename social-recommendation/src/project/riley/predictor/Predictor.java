@@ -3,6 +3,7 @@ package project.riley.predictor;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import project.riley.predictor.ArffData.DataEntry;
@@ -11,6 +12,7 @@ public abstract class Predictor {
 
 	String dataFile = "datak1000.arff";
 	ArffData data = new ArffData(dataFile);
+	DecimalFormat df3 = new DecimalFormat("#.###");
 	private double[] _thresholds = {0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9};
 	private int _iterations = 10;
 	public int _classIndex = 2;
@@ -77,7 +79,7 @@ public abstract class Predictor {
 		measures[1] = precision;										// precision
 		measures[2] = recall;											// recall
 		measures[3] = 2 * ((precision * recall)/(precision + recall)); 	// f measure
-		measures[4] = (double)falsePositive / data.size();				// false positive rate
+		measures[4] = (double)falsePositive;							// false positive rate
 		return measures;
 	}
 
@@ -144,7 +146,8 @@ public abstract class Predictor {
 			System.out.println("Test recall after " + _iterations + " iterations:" + (totalTestRecall/_iterations));
 			System.out.println("Train f-measure after " + _iterations + " iterations:" + (totalTrainF/_iterations));
 			System.out.println("Test f-measure after " + _iterations + " iterations:" + (totalTestF/_iterations));
-			out.write(totalTestAccuracy + "," + ((double)totalTestFalsePositive/_iterations));
+			System.out.println("ROC data: " + threshold + "," + df3.format((double)totalTestAccuracy/_iterations) + "," + df3.format((double)totalTestFalsePositive/_iterations));
+			out.write((df3.format((double)totalTestAccuracy/_iterations)) + "," + df3.format(((double)totalTestFalsePositive/_iterations)));
 			out.newLine();
 		}
 		System.out.println(rocFile + " written with ROC data");
