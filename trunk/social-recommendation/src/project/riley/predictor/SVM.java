@@ -102,11 +102,6 @@ public class SVM extends Predictor {
 		int[] labels=new int[nr_class];
 		svm.svm_get_labels(_model,labels);
 		double[] prob_estimates = new double[nr_class];
-		System.out.print("labels");
-		for(int j=0;j<nr_class;j++)
-			System.out.print(" "+labels[j]);
-		System.out.println();
-		
 		
 		double[] features = getFeatures((DataEntry)de,_trainData._attr.size()-2);
 		svm_node node = new svm_node();
@@ -117,15 +112,16 @@ public class SVM extends Predictor {
 		svm_node[] nodes = new svm_node[1];
 		nodes[0] = node;
 		
-		
 		double v = svm.svm_predict_probability(_model,nodes,prob_estimates);
-		System.out.print(v+" ");
-		for(int j=0;j<nr_class;j++)
-			System.out.print(prob_estimates[j]+" ");
-		System.out.println();
+		
+		int index = -1;
+		for (int i = 0; i < nr_class; i++){
+			if (prob_estimates[i] > index) index = i;
+		}
+		
+		System.out.println(v + " " + ((Integer)((ArffData.DataEntry)de).getData(_classIndex)).intValue());
 		
 		return (int)v;
-		
 	}
 
 	@Override
