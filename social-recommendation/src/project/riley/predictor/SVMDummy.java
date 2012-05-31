@@ -37,14 +37,16 @@ public class SVMDummy {
 
 	private svm_model svmTrain() {
 		svm_parameter param = new svm_parameter();
-		param.probability = 1;
-		param.degree = 3;
-		param.gamma = 0.25;
-		param.nu = 0.5;
-		param.C = 1.0;
+		//param.probability = 1;
+		//param.degree = 3;
+		//param.gamma = 0.25;
+		//param.nu = 0.5;
+		//param.C = 1;
+		param.C = .00000000000000000000001;
+		
 		param.svm_type = svm_parameter.C_SVC;
 		param.kernel_type = svm_parameter.LINEAR;		
-		param.cache_size = 20000;
+		//param.cache_size = 20000;
 		param.eps = 0.001;
 		
 		svm_problem prob = new svm_problem();
@@ -83,7 +85,8 @@ public class SVMDummy {
 		svm.svm_get_labels(_model,labels);
 		
 		double[] prob_estimates = new double[totalClasses];
-		double v = svm.svm_predict_probability(_model, nodes, prob_estimates);
+		//double v = svm.svm_predict_probability(_model, nodes, prob_estimates);
+		double v = svm.svm_predict(_model, nodes);
 		
 		for (int i = 0; i < totalClasses; i++){
 			System.out.print("(" + labels[i] + ":" + prob_estimates[i] + ")");
