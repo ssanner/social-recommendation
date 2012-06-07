@@ -14,5 +14,6 @@
 	<classpathentry kind="lib" path="lib/jsonic-1.2.6.jar"/>
 	<classpathentry kind="lib" path="lib/langdetect.jar"/>
 	<classpathentry kind="lib" path="lib/lingpipe-3.9.1.jar"/>
+	<classpathentry kind="lib" path="lib/liblinear-1.8.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
