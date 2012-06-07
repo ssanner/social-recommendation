@@ -17,6 +17,7 @@ public class SVM extends Predictor {
 	public ArffData _testData = null;
 	public ArffData _trainData = null;
 	private svm_model _model = null;
+	private double C = 0;
 	
 	@Override
 	public void setData(SplitData data) {
@@ -27,6 +28,10 @@ public class SVM extends Predictor {
 	@Override
 	public void train() {
 		_model = svmTrain();		
+	}
+	
+	public void setC(double c){
+		this.C = c;
 	}
 
 	/*
@@ -55,7 +60,7 @@ public class SVM extends Predictor {
 		svm_parameter param = new svm_parameter();
 		param.probability = 1;
 		param.gamma = 0.45;	// 1/num_features
-		param.C = 1;
+		param.C = C;
 		param.svm_type = svm_parameter.C_SVC;
 		param.kernel_type = svm_parameter.LINEAR;		
 		param.cache_size = 20000;
