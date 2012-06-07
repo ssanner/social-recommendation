@@ -68,7 +68,7 @@ public class SVMParameter {
 		}				
 
 		Parameter param = new Parameter(type, c, 0.01);
-		//Linear.disableDebugOutput();
+		Linear.disableDebugOutput();
 		Model model = Linear.train(prob, param);					// train the model
 		return model;
 	}
@@ -97,8 +97,8 @@ public class SVMParameter {
 		
 		for (SolverType type : svm.modelTypes){											// testing solver types 
 			for (double c : svm.C){														// testing C values
+				System.out.println();
 				svm._model = svm.svmTrain(type,c);										// train model
-
 				int correct = 0;
 				int truePositive = 0;
 				int falsePositive = 0;
