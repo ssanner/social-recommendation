@@ -5,15 +5,18 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import project.riley.predictor.ArffData.DataEntry;
-import project.riley.predictor.ArffData.SplitData;
+
+/*
+ * Naive Bayes implementation
+ */
 
 public class NaiveBayes extends Predictor {
 
 	public static DecimalFormat _df = new DecimalFormat("0.######");
 
-	public ArffData _arffData = null;
-	public ArrayList<DataEntry> _testData = null;
-	public ArrayList<DataEntry> _trainData = null;
+	//public ArffData _arffData = null;
+	//public ArrayList<DataEntry> _testData = null;
+	//public ArrayList<DataEntry> _trainData = null;
 
 	public double DIRICHLET_PRIOR = 1d;
 	public ArrayList<ClassCondProb> _condProb = null; 
@@ -55,13 +58,6 @@ public class NaiveBayes extends Predictor {
 		// impossible and can lead to divide by zero.
 		if (DIRICHLET_PRIOR == 0d) 
 			DIRICHLET_PRIOR = 1e-6d;
-	}
-
-	@Override
-	public void setData(SplitData data) {
-		_arffData = data._train;
-		_trainData = data._train._data;
-		_testData = data._test._data;
 	}
 
 	@Override
@@ -155,7 +151,7 @@ public class NaiveBayes extends Predictor {
 	}
 
 	@Override
-	public <T> int evaluate(T de, double threshold) {
+	public int evaluate(DataEntry de, double threshold) {
 		// Get class attribute
 		ArffData.Attribute ca = _arffData._attr.get(_classIndex);
 		if (ca.type != ArffData.TYPE_CLASS) {
@@ -185,7 +181,7 @@ public class NaiveBayes extends Predictor {
 			}
 
 			//cv[i] = Math.exp(class_value);
-			cv[i] = Math.exp(class_value/(_condProb.size()+1d)); // gemoetric mean
+			cv[i] = Math.exp(class_value/(_condProb.size()+1d)); // geometric mean
 			Z += cv[i];
 			//System.out.println("[" + i + "] " + class_value + " " + _df.format(Math.exp(class_value)));
 			if (class_value > best_class_value) {
@@ -223,17 +219,6 @@ public class NaiveBayes extends Predictor {
 			sb.append(ccp.toString() + "\n");
 		}
 		return sb.toString();
-	}
-
-	@Override
-	public <T> ArrayList<T> getTrainData() {
-		return (ArrayList<T>) _trainData;
-	}
-
-	@Override
-	public <T> ArrayList<T> getTestData() {
-		// TODO Auto-generated method stub
-		return (ArrayList<T>) _testData;
 	}
 
 	public static void main(String[] args) throws IOException {

@@ -6,17 +6,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import org.nicta.lr.util.SQLUtil;
 
-import project.riley.messagefrequency.UserUtil;
-
 public class DataGeneratorAccurateLabels {
 
+	/*
+	 * Generate data for accurately labeled data from NICTA app
+	 */
+	
 	static PrintWriter writer;
 	static String[] directions = new String[]{"Incoming", "Outgoing"};					
 	static String[] interactionMedium = new String[]{"Post", "Photo", "Video", "Link"};
@@ -52,7 +51,7 @@ public class DataGeneratorAccurateLabels {
 	 */
 	public static void extractSpecificLikes() throws SQLException{
 		userLinks = new HashMap<Long, HashMap<Long, String>>();
-		String userQuery = "select uid, link_id, rating from trackRecommendedLinks where rating != 0;";
+		String userQuery = "select uid, link_id, rating from trackRecommendedLinks where rating != 0;"; // 0 = not rated
 		Statement statement = SQLUtil.getStatement();
 
 		ResultSet result = statement.executeQuery(userQuery);
