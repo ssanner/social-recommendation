@@ -1,7 +1,6 @@
 package project.riley.predictor;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 
 import com.aliasi.matrix.DenseVector;
@@ -10,20 +9,15 @@ import com.aliasi.stats.AnnealingSchedule;
 import com.aliasi.stats.RegressionPrior;
 
 import project.riley.predictor.ArffData.DataEntry;
-import project.riley.predictor.ArffData.SplitData;
+
+/*
+ * Logistic regression implementation
+ */
 
 public class LogisticRegression extends Predictor {
 
 	private com.aliasi.stats.LogisticRegression _model = null;
 	private  Vector[] _betas = null;
-	private ArffData _testData = null;
-	private ArffData _trainData = null;	
-	
-	@Override
-	public void setData(SplitData data) {
-		_trainData = data._train;
-		_testData = data._test;
-	}
 
 	@Override
 	public void train() {
@@ -64,7 +58,7 @@ public class LogisticRegression extends Predictor {
 	}	
 
 	@Override
-	public <T> int evaluate(T de, double threshold) {
+	public int evaluate(DataEntry de, double threshold) {
 		double[] features = getFeatures((DataEntry)de,_trainData._attr.size()-2);
 		features = Arrays.copyOfRange(features, 1, features.length);
 		
@@ -91,16 +85,6 @@ public class LogisticRegression extends Predictor {
 	@Override
 	public String getName() {
 		return "Logistic Regression";
-	}
-
-	@Override
-	public <T> ArrayList<T> getTrainData() {
-		return (ArrayList<T>) _trainData._data;
-	}
-
-	@Override
-	public <T> ArrayList<T> getTestData() {
-		return (ArrayList<T>) _testData._data;
 	}
 
 	public static void main(String[] args) throws IOException{

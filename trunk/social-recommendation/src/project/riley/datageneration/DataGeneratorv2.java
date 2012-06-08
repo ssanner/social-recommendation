@@ -28,8 +28,6 @@ public class DataGeneratorv2 {
 	static String[] directions = new String[]{"Incoming", "Outgoing"};					
 	static String[] interactionMedium = new String[]{"Post", "Photo", "Video", "Link"};
 	static String[] interactionType = new String[]{"Comments", "Tags", "Likes"};
-	//static String[] likesRow = new String[]{"post_id", "photo_id", "video_id", "link_id"};
-	//static String[] likesTable = new String[]{"linkrPostLikes", "linkrPhotoLikes", "linkrVideoLikes", "linkrLinkLikes"};
 	static Map<Long,Set<Long>> getLikes;
 
 	/*

@@ -18,11 +18,10 @@ import project.riley.messagefrequency.UserUtil;
 
 /*
  * v1
- * Generate data for naive bayes model
- *  * build f(i) columns for each (user, like) item pair
-	 * i = {ingoing,outgoing} X {post,photo,video,link} X {comment,tag,like}
-	 * alters(i) = all users who have interacted with (user) via (i)
-	 * column is set to 1 if any of the alters have also liked the item associated with the user otherwise 0
+ * build f(i) columns for each (user, like) item pair
+ * i = {ingoing,outgoing} X {post,photo,video,link} X {comment,tag,like}
+ * alters(i) = all users who have interacted with (user) via (i)
+ * column is set to 1 if any of the alters have also liked the item associated with the user otherwise 0
  */
 public class DataGenerator {
 
@@ -71,7 +70,6 @@ public class DataGenerator {
 	 */
 	public static void buildFCols(Long uid, Long lid) throws SQLException{
 		Statement statement = SQLUtil.getStatement();
-
 		
 		String[] row = new String[]{"from_id", "uid1", "id"};			// tables have different names for in/out cols
 		String[] where = new String[]{"uid", "uid2", "uid"};
@@ -107,7 +105,7 @@ public class DataGenerator {
 							}
 						}			
 					}
-					if (!found){														// if no user has liked the original item
+					if (!found){									// if no user has liked the original item
 						writer.print(",'n'");
 					}
 
