@@ -9,10 +9,9 @@ import project.riley.predictor.ArffData.DataEntry;
 /*
  * generate n-fold data for cross validation
  * 
- 
  */
 public class FoldsGenerator {
-	int folds = 10;
+	int totalFolds = 10;
 	String fileName = "a.arff";
 	PrintWriter writer;
 	
@@ -51,10 +50,21 @@ public class FoldsGenerator {
 	
 	/*
 	 * write validation sets
+	 * 
 	 */
 	public void writeFolds(ArffData data){
-		for (DataEntry de : data._data){
-			System.out.println(de);
+		int size = data._data.size();				// size of the data set
+		int testFold = 0;							// fold to test
+		int stepSize = size/totalFolds;				// step size
+		int extraSteps = size % totalFolds;			// left over parts
+		for (int i = 0; i < size; i += stepSize){
+			System.out.println(i);
+			testFold++;
+			/*for (DataEntry de : data._data){
+				for (int i = 0; i < data._attr.size(); i++){
+					System.out.print(de.getData(i) + " ");
+				}
+			}*/
 		}
 	}
 	
