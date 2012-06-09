@@ -2,7 +2,6 @@ package project.riley.datageneration;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
-import java.util.Iterator;
 import java.util.List;
 
 import project.riley.predictor.ArffData;
