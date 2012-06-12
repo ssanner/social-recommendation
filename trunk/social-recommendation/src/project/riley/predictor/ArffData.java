@@ -7,6 +7,7 @@ package project.riley.predictor;
 
 
 import java.io.*;
+import java.text.NumberFormat;
 import java.util.*;
 
 import javax.xml.stream.events.Attribute;
@@ -30,6 +31,12 @@ public class ArffData {
 	
 	public HashMap<String,Attribute> _attrMap = new HashMap<String,Attribute>();
 	
+	protected static NumberFormat _nf = NumberFormat.getInstance();
+	static {
+		_nf.setMaximumIntegerDigits(100);
+		_nf.setGroupingUsed(false);
+	}
+
 	public ArffData() {	}
 
 	public ArffData(ArffData d) {
@@ -261,17 +268,18 @@ public class ArffData {
 		
 		public String toFileString() {
 			StringBuffer sb = new StringBuffer();
-			sb.append("@attribute\t" + name + "\t");
+			sb.append("@attribute '" + name + "' ");
 			switch (type) {
-			case TYPE_CLASS:  sb.append(" { "); break;
+			case TYPE_CLASS:  sb.append("{ "); break;
 			case TYPE_INT:    sb.append("integer"); break;
 			case TYPE_DOUBLE: sb.append("numeric"); break;
 			default: sb.append("unknown"); break;
 			}
 			
 			if (type == TYPE_CLASS) {
-				for (int i = 0; i < class_vals.size() - 1; i++)
-					sb.append("'" + class_vals.get(i) + "'\t");
+				for (int i = 0; i < class_vals.size(); i++) {
+					sb.append((i > 0 ? ", " : "") + "'" + class_vals.get(i) + "'");
+				}
 				sb.append(" }");
 			}
 			
@@ -384,6 +392,25 @@ public class ArffData {
 			sb.append("]");
 			return sb.toString();
 		}
+		
+		public String toFileString() {
+			StringBuffer sb = new StringBuffer();
+						
+			for (int index = 0; index < _entries.size(); index++) {
+				Object o = _entries.get(index);				
+				if (index > 0)
+					sb.append(",");
+				if (_attr.get(index).type == TYPE_CLASS) {
+					
+					int id = Integer.parseInt(o.toString());
+					sb.append("'" + _attr.get(index).getClassName(id) + "'");
+				} else if (o instanceof Double)
+					sb.append(_nf.format((Double)o));
+				else
+					sb.append(o.toString());
+			}
+			return sb.toString();
+		}
 	}
 	
 	public static String StripBraces(String in) {
@@ -418,6 +445,28 @@ public class ArffData {
 		return sb.toString();
 	}
 	
+	public String toFileString() {
+		StringBuffer sb = new StringBuffer();
+		sb.append("@relation " + _relation + "\n");
+		for (int i = 0; i < _attr.size(); i++)
+			sb.append(_attr.get(i).toFileString() + "\n");
+		sb.append("@data\n");
+		for (int i = 0; i < _data.size(); i++)
+			sb.append(_data.get(i).toFileString() + "\n");
+		return sb.toString();
+	}
+
+	public boolean writeFile(String filename) {
+		try {
+			FileWriter f = new FileWriter(filename);
+			f.write(toFileString());
+			f.close();
+		} catch (Exception e) {
+			return false;
+		}
+		return true;
+	}
+	
 	public static class SplitData {
 		public ArffData _train;
 		public ArffData _test;
@@ -447,8 +496,12 @@ public class ArffData {
 	public static void main(String args[]) {
 		System.out.println("Running ArffData.main:\n");
 		
-		ArffData f1 = new ArffData("data.arff");
-		System.out.println(f1);
-		
+		String filename = "datak1000";
+		ArffData f1 = new ArffData(filename + ".arff");
+		//System.out.println(f1);
+		SplitData s = f1.splitData(.8);
+		System.out.println("Writing training file: " + s._train.writeFile(filename + "_train.arff"));
+		System.out.println("Writing testing  file: " + s._test.writeFile (filename + "_test.arff"));
+		//System.out.println("\n===\n" + f1.toFileString());		
 	}
 }
