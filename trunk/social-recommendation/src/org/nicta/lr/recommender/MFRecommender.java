@@ -36,10 +36,12 @@ public abstract class MFRecommender extends Recommender
 	Map<Long, Double[]>linkIdColumns;
 	
 	Map<Long, Map<Long, Double>> friendConnections;
+	Random random = new Random();
 	
 	public MFRecommender(Map<Long, Set<Long>> linkLikes, Map<Long, Double[]> userFeatures, Map<Long, Double[]> linkFeatures, Map<Long, Map<Long, Double>> friendships)
 	{
 		super(linkLikes, userFeatures, linkFeatures, friendships);
+		random.setSeed(1);
 	}
 	
 	public void initializePriors(Set<Long> users, Set<Long> links)
@@ -70,8 +72,6 @@ public abstract class MFRecommender extends Recommender
 	 */
 	public Double[][] getPrior(int featureCount)
 	{
-		Random random = new Random();
-		
 		Double[][] prior = new Double[K][featureCount];
 		
 		for (int x = 0; x < K; x++) {
@@ -358,8 +358,7 @@ public abstract class MFRecommender extends Recommender
 	 */
 	public Map<Long, Double[]> getMatrixIdColumns(Set<Long> ids)
 	{
-		Random random = new Random();
-		
+
 		HashMap<Long, Double[]> idColumns = new HashMap<Long, Double[]>();
 		
 		for (long id : ids) {
