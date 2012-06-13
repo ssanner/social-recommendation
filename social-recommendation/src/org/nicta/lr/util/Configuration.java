@@ -13,7 +13,7 @@ public class Configuration
 	public static String DEPLOYMENT_TYPE = Constants.TEST;
 	public static boolean INITIALIZE = true;
 	
-	public static String DB_STRING = Constants.SCOTT_DB_STRING;
+	public static String DB_STRING = Constants.LOCAL_DB_STRING;
 	public static String LANG_PROFILE_FOLDER = Constants.SERVER_LANG_PROFILE_FOLDER;
 	
 	public static String TRAINING_DATA = Constants.ACTIVE;
