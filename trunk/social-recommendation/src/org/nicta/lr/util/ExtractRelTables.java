@@ -121,7 +121,7 @@ public class ExtractRelTables {
 		System.out.println("All users: " + ALL_USERS.size());	
 		
 		//ShowLikes("Scott");
-		ShowInteractions("Scott");
+		//ShowInteractions("Scott");
 		//ShowGroupInterests();
 		
 		//ShowCondProbs();

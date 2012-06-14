@@ -324,7 +324,7 @@ public class LinkRecommender
 			}
 		}
 		else if (Configuration.TEST_DATA.equals(Constants.APP_USER_PASSIVE)) {
-			Set<Long> appUsers = UserUtil.getAppUserIds();
+			Set<Long> appUsers = UserUtil.getCurrentAppUserIds();
 			
 			if (Configuration.TRAINING_DATA.equals(Constants.PASSIVE) || Configuration.TRAINING_DATA.equals(Constants.UNION)) {
 				System.out.println("Getting passive data");

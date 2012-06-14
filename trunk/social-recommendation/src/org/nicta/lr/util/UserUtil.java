@@ -36,7 +36,7 @@ public class UserUtil
 		return userIds;
 	}
 	
-	public static Set<Long> getAppUserIds()
+	public static Set<Long> getCurrentAppUserIds()
 		throws SQLException
 	{
 		HashSet<Long> userIds = new HashSet<Long>();
@@ -44,6 +44,24 @@ public class UserUtil
 		Statement statement = SQLUtil.getStatement();
 		
 		String userQuery = "SELECT uid FROM trackUserUpdates WHERE is_app_user=1";
+		
+		ResultSet result = statement.executeQuery(userQuery);
+		while (result.next()) {
+			userIds.add(result.getLong("uid"));
+		}
+		statement.close();
+		
+		return userIds;
+	}
+	
+	public static Set<Long> getAppUserIds()
+	throws SQLException
+	{
+		HashSet<Long> userIds = new HashSet<Long>();
+		
+		Statement statement = SQLUtil.getStatement();
+		
+		String userQuery = "SELECT distinct uid FROM trackRecommendedLinks";
 		
 		ResultSet result = statement.executeQuery(userQuery);
 		while (result.next()) {
