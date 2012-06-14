@@ -12,7 +12,7 @@ import org.nicta.lr.util.Constants;
 import org.nicta.lr.util.LinkUtil;
 import org.nicta.lr.util.UserUtil;
 
-public class LinkRecommenderRiley extends LinkRecommender
+public class LinkRecommenderArff extends LinkRecommender
 {
 	//Use as much of the old code as possible.
 	//But make a new class and method as I don't trust myself yet to edit the old code and not break anything
@@ -86,12 +86,14 @@ public class LinkRecommenderRiley extends LinkRecommender
 		Map<Long, Double[]> links = LinkUtil.getLinkFeatures(linkIds);
 		
 		//Remove ids that aren't actually links after all
+		int num_invalid_link_ids = 0;
 		for (Long userId : trainData.keySet()) {
 			Set<Long> remove = new HashSet<Long>();
 			
 			for (Long linkId : trainData.get(userId)) {
 				if (!links.containsKey(linkId)) {
 					remove.add(linkId);
+					num_invalid_link_ids++;
 				}
 			}
 			
@@ -103,11 +105,13 @@ public class LinkRecommenderRiley extends LinkRecommender
 			for (Long linkId : testData.get(userId)) {
 				if (!links.containsKey(linkId)) {
 					remove.add(linkId);
+					num_invalid_link_ids++;
 				}
 			}
 			
 			testData.get(userId).removeAll(remove);
 		}
+		System.out.println("Discarded " + num_invalid_link_ids + " invalid link IDs.");
 		
 		//Code below is basically doing the same as LinkRecommender
 		Map<Long, Map<Long, Double>> friendships = UserUtil.getFriendships();
@@ -133,6 +137,6 @@ public class LinkRecommenderRiley extends LinkRecommender
 		//String type = Constants.FEATURE;
 		String type = Constants.SOCIAL;
 		
-		new LinkRecommenderRiley().run(trainFile, testFile, type);
+		new LinkRecommenderArff().run(trainFile, testFile, type);
 	}
 }
