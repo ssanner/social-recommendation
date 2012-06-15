@@ -82,6 +82,7 @@ public class DataGeneratorAccurateLabelsv2 {
 			_uid2linkids_likes = _uid2all_passive_linkids_likes;
 			// passive Facebook data
 			// rank top k, filter and infer dislikes
+			
 		}
 		
 		////////////////////////////////////////////////////////////////////////
@@ -214,8 +215,10 @@ public class DataGeneratorAccurateLabelsv2 {
 
 
 	public static void main(String[] args) throws Exception {
-		populateCachedData(true /* active */);
-		writeData("accurateLabelsData.arff");
+		//populateCachedData(true /* active */);
+		//writeData("active_data.arff");
+		populateCachedData(false /* active */);
+		writeData("passive_data.arff");
 	}
 
 }
