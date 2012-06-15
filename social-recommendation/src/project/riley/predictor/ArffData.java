@@ -493,15 +493,66 @@ public class ArffData {
 		return s;
 	}
 	
+	public static class FoldData {
+		public FoldData(int folds) {
+			_train = new ArffData[folds];
+			_test  = new ArffData[folds];
+		}
+		public void writeData() {
+			for (int f = 0; f < _train.length; f++) {
+				_train[f].writeFile(_train[f]._filename);
+				_test[f]. writeFile( _test[f]._filename);
+			}
+		}
+		public ArffData[] _train;
+		public ArffData[] _test;
+	}
+	
+	public FoldData foldData(int folds) {
+		
+		FoldData s = new FoldData(folds);
+		for (int f = 0; f < folds; f++) {
+			s._train[f] = new ArffData(this);
+			s._train[f]._filename += ".train." + (f+1);
+			s._train[f]._data = new ArrayList<DataEntry>();
+			s._test[f] = new ArffData(this);
+			s._test[f]._filename += ".test." + (f+1);
+			s._test[f]._data = new ArrayList<DataEntry>();
+		}
+		
+		int[] perm = Permutation.permute(_data.size());
+		
+		double fold_percent = 1d/(double)folds;
+		for (int f = 0; f < folds; f++) {
+			
+			int test_min = (f == 0 ? 0 : 
+				(int)Math.round((double)f * fold_percent * _data.size()));
+			int test_max = (f == folds - 1 ? _data.size() : 
+				(int)Math.round((double)(f+1) * fold_percent * _data.size()));
+			
+			for (int i = 0; i < _data.size(); i++) {
+				if (i < test_min || i > test_max)
+					s._train[f]._data.add(_data.get(perm[i]));
+				else
+					s._test[f]._data.add(_data.get(perm[i]));
+			}
+		}
+		
+		return s;
+	}
+
 	public static void main(String args[]) {
 		System.out.println("Running ArffData.main:\n");
 		
-		String filename = "datak1000";
-		ArffData f1 = new ArffData(filename + ".arff");
+		ArffData f1 = new ArffData("active.arff");
 		//System.out.println(f1);
-		SplitData s = f1.splitData(.8);
-		System.out.println("Writing training file: " + s._train.writeFile(filename + "_train.arff"));
-		System.out.println("Writing testing  file: " + s._test.writeFile (filename + "_test.arff"));
-		//System.out.println("\n===\n" + f1.toFileString());		
+		
+		//SplitData s = f1.splitData(.8);
+		//System.out.println("Writing training file: " + s._train.writeFile(filename + "_train.arff"));
+		//System.out.println("Writing testing  file: " + s._test.writeFile (filename + "_test.arff"));
+		
+		FoldData f = f1.foldData(10);
+		f.writeData();
+		System.out.println("Finished ArffData.main.");
 	}
 }
