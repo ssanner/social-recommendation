@@ -1,6 +1,7 @@
 package project.riley.predictor;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import com.aliasi.matrix.DenseVector;
@@ -16,6 +17,8 @@ import project.riley.predictor.ArffData.DataEntry;
 
 public class LogisticRegression extends Predictor {
 
+	public boolean _maxEnt = false;
+	
 	public enum PRIOR_TYPE { L2, L1 };
 	public PRIOR_TYPE _priorType  = null; 
 	public double     _priorValue = -1d;
@@ -28,22 +31,38 @@ public class LogisticRegression extends Predictor {
 		_threshold  = 0.5d;
 		_priorType  = prior;
 		_priorValue = prior_value;
+		_maxEnt = false;
+	}
+
+	public LogisticRegression(PRIOR_TYPE prior, double prior_value, boolean max_ent) {
+		_threshold  = 0.5d;
+		_priorType  = prior;
+		_priorValue = prior_value;
+		_maxEnt = max_ent;
 	}
 	
 	@Override
 	public void train() {
-		Vector[] INPUTS = new Vector[_trainData._data.size()];
-		int[] OUTPUTS = new int[_trainData._data.size()];
+
 		double[] features;
 		
 		/*
 		 * regression data format
-		 * 
 		 */
+		ArrayList<DenseVector> al_inputs  = new ArrayList<DenseVector>();
+		ArrayList<Integer>     al_outputs = new ArrayList<Integer>();
 		for (int i = 0; i < _trainData._data.size(); i++) {
 			features = getFeatures(_trainData._data.get(i));
-			INPUTS[i] = new DenseVector(Arrays.copyOfRange(features, 1, features.length));
-			OUTPUTS[i] = (int) features[0]; 
+			if ( !_maxEnt || (int)features[0] > 0 ) { // only true data if maxEnt
+				al_inputs.add(new DenseVector(Arrays.copyOfRange(features, 1, features.length)));
+				al_outputs.add((int)features[0]);
+			}
+		}
+		Vector[] INPUTS  = new Vector[al_inputs.size()];
+		int[]    OUTPUTS = new int[al_outputs.size()];
+		for (int i = 0; i < al_inputs.size(); i++) {
+			INPUTS[i]  = al_inputs.get(i);
+			OUTPUTS[i] = al_outputs.get(i);
 		}
 		
 		/*
@@ -75,8 +94,6 @@ public class LogisticRegression extends Predictor {
 	}	
 
 	@Override
-	// SPS -- TODO: Threshold should be determined on train data and automatically set
-	//              to value that maximizes accuracy (?). 
 	public int evaluate(DataEntry de) {
 		double[] features = getFeatures((DataEntry)de);
 		features = Arrays.copyOfRange(features, 1, features.length);
@@ -103,7 +120,7 @@ public class LogisticRegression extends Predictor {
 
 	@Override
 	public String getName() {
-		return "Logistic Regression(" + _priorType + "," + _priorValue + ")";
+		return "Logistic Regression(" + _priorType + "," + _priorValue + (_maxEnt ? ",MAX_ENT" : "") + ")";
 	}
 
 	public static void main(String[] args) throws IOException{

@@ -203,8 +203,8 @@ public class NaiveBayes extends Predictor {
 		//System.out.println("Best [" + best_class + "] " + best_class_value + " :: " + de);
 		
 		// Note: SPS -- the following is very poor style... can you write this in a cleaner way?
-		//              Math.abs(best_class-1) ... what the heck is this?  Negation of a boolean
-		//              by use of a double???
+		//              Math.abs(best_class-1).  Negation of a {0,1}? 1-best_class would be a little
+		//              cleaner, but still this would be unclear.
 		double prediction = cv[best_class]/Z >= _threshold ? best_class : Math.abs(best_class-1);
 		return (int) prediction;
 	}
