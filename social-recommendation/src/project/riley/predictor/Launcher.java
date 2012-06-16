@@ -12,21 +12,29 @@ import de.bwaldvogel.liblinear.SolverType;
 
 public class Launcher {
 
-	public final static String DATA_FILE = "active.arff";
-	//public final static String DATA_FILE = "passive.arff";
+	//public final static String DATA_FILE = "active.arff";
+	public final static String DATA_FILE = "passive.arff";
 	public final static int    NUM_FOLDS = 10;
 	
 	public static void main(String[] args) throws IOException {
 		
 		// SPS -- free parameters should always be apparent for tuning purposes
+		Predictor constPredTrue  = new ConstantPredictor(true);
+		Predictor constPredFalse = new ConstantPredictor(false);
+
 		Predictor naiveBayes = new NaiveBayes(1.0d);
 		Predictor logisticRegression_l1 = new LogisticRegression(LogisticRegression.PRIOR_TYPE.L1, 2d);
 		Predictor logisticRegression_l2 = new LogisticRegression(LogisticRegression.PRIOR_TYPE.L2, 2d);
-		Predictor libsvm = new SVMLibSVM(/*C*/0.5d, /*eps*/0.1d);
-		Predictor liblinear1 = new SVMLibLinear(SolverType.L2R_LR,         /*C*/0.5d, /*eps*/0.001d);
-		Predictor liblinear2 = new SVMLibLinear(SolverType.L2R_L2LOSS_SVC, /*C*/0.5d, /*eps*/0.001d);
-		Predictor liblinear3 = new SVMLibLinear(SolverType.L1R_L2LOSS_SVC, /*C*/0.5d, /*eps*/0.001d);
-		Predictor liblinear4 = new SVMLibLinear(SolverType.L1R_LR,         /*C*/0.5d, /*eps*/0.001d);
+		Predictor logisticRegression_l1_maxent = new LogisticRegression(LogisticRegression.PRIOR_TYPE.L1, 2d, /*maxent*/ true);
+		Predictor libsvm = new SVMLibSVM(/*C*/0.125d, /*eps*/0.1d);
+		Predictor liblinear1 = new SVMLibLinear(SolverType.L2R_L2LOSS_SVC, /*C*/0.125d, /*eps*/0.001d);
+		Predictor liblinear2 = new SVMLibLinear(SolverType.L1R_L2LOSS_SVC, /*C*/0.125d, /*eps*/0.001d);
+		Predictor liblinear3 = new SVMLibLinear(SolverType.L2R_LR,         /*C*/0.125d, /*eps*/0.001d);
+		Predictor liblinear4 = new SVMLibLinear(SolverType.L1R_LR,         /*C*/0.125d, /*eps*/0.001d);
+		Predictor liblinear1_maxent = new SVMLibLinear(SolverType.L2R_L2LOSS_SVC, /*C*/0.125d, /*eps*/0.001d, /*maxent*/ true);
+		Predictor liblinear2_maxent = new SVMLibLinear(SolverType.L1R_L2LOSS_SVC, /*C*/0.125d, /*eps*/0.001d, /*maxent*/ true);
+		Predictor liblinear3_maxent = new SVMLibLinear(SolverType.L2R_LR,         /*C*/0.125d, /*eps*/0.001d, /*maxent*/ true);
+		Predictor liblinear4_maxent = new SVMLibLinear(SolverType.L1R_LR,         /*C*/0.125d, /*eps*/0.001d, /*maxent*/ true);
 
 		// Note -- SPS, Riley TODO for experimental comparison:
 		//
@@ -46,10 +54,20 @@ public class Launcher {
 		
 		Predictor[] predictors = new Predictor[] { 
 				naiveBayes, 
-				liblinear1/*,
-				svm, 
-				logisticRegression_l1, 
-				logisticRegression_l2*/ };
+				constPredTrue,
+				constPredFalse,
+				liblinear1,
+				liblinear2,
+				liblinear3,
+				liblinear4,
+				liblinear1_maxent,
+				liblinear2_maxent,
+				liblinear3_maxent,
+				liblinear4_maxent, logisticRegression_l1_maxent /*,
+				logisticRegression_l1,
+				logisticRegression_l1_maxent, 
+				logisticRegression_l2, 
+				libsvm */ };
 		
 		for (Predictor p : predictors)
 			p.runTests(DATA_FILE, NUM_FOLDS);

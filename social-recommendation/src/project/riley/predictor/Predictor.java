@@ -113,7 +113,7 @@ public abstract class Predictor {
 			recalls.add( recall );
 			fscores.add(  2d * ((precision * recall)/(double)(precision + recall)) );
 			
-			System.out.println("- Finished fold " + (i+1) + ", accuracy: " + df3.format( correct / (double)_testData._data.size() ));
+			//System.out.println("- Finished fold " + (i+1) + ", accuracy: " + df3.format( correct / (double)_testData._data.size() ));
 		}
 
 		System.out.println("Accuracy:  " + df3.format(Statistics.Avg(accuracies)) + "  +/-  " + df3.format(Statistics.StdError95(accuracies)));
