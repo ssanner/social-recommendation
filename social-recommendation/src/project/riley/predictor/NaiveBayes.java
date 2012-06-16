@@ -14,11 +14,12 @@ public class NaiveBayes extends Predictor {
 
 	public static DecimalFormat _df = new DecimalFormat("0.######");
 
-	//public ArffData _arffData = null;
+	//public ArffData _trainData = null;
 	//public ArrayList<DataEntry> _testData = null;
 	//public ArrayList<DataEntry> _trainData = null;
 
 	public double DIRICHLET_PRIOR = 1d;
+	public double _threshold;
 	public ArrayList<ClassCondProb> _condProb = null; 
 
 	public class ClassCondProb {
@@ -32,9 +33,9 @@ public class NaiveBayes extends Predictor {
 
 		public String toString() {
 			StringBuffer sb = new StringBuffer();
-			ArffData.Attribute  a = _arffData._attr.get(_attr_index);
-			ArffData.Attribute ca = _arffData._attr.get(_classIndex);
-			if (_attr_index == _classIndex) {
+			ArffData.Attribute  a = _trainData._attr.get(_attr_index);
+			ArffData.Attribute ca = _trainData._attr.get(CLASS_INDEX);
+			if (_attr_index == CLASS_INDEX) {
 				for (int cv = 0; cv < ca.class_vals.size(); cv++) {
 					sb.append("P( " + ca.name + " = " + ca.getClassName(cv) + " ) = " + 
 							_df.format(Math.exp(_logprob[cv][0])) + "\n");
@@ -52,6 +53,9 @@ public class NaiveBayes extends Predictor {
 	}
 
 	public NaiveBayes(double dirichlet_prior) {
+		
+		_threshold = 0.5d;
+		
 		DIRICHLET_PRIOR = dirichlet_prior;
 
 		// Bad to have zero counts... makes cases not seen in data
@@ -62,27 +66,27 @@ public class NaiveBayes extends Predictor {
 
 	@Override
 	public void train() {
-		if (_arffData == null) { System.out.println("No data!"); }
+		if (_trainData == null) { System.out.println("No data!"); }
 
-		_condProb = new ArrayList<ClassCondProb>(_arffData._attr.size());
+		_condProb = new ArrayList<ClassCondProb>(_trainData._attr.size());
 
 		//System.out.println("Training for " + _condProb.size() + " attributes.");
 
 		// Build conditional probability tables
-		ArffData.Attribute ca = _arffData._attr.get(_classIndex);		
+		ArffData.Attribute ca = _trainData._attr.get(CLASS_INDEX);		
 
 		if (ca.type != ArffData.TYPE_CLASS) {
 			System.out.println("Cannot classify non-class attribute index " + 
-					_classIndex + ":\n" + ca);
+					CLASS_INDEX + ":\n" + ca);
 			System.exit(1);
 		}
 
 		// For each class, record count with positive and record 
 		// count with negative
-		for (int i = 0; i < _arffData._attr.size(); i++) {
+		for (int i = 0; i < _trainData._attr.size(); i++) {
 
-			if (_arffData._attr.get(i).type != ArffData.TYPE_CLASS){ // dont want to do anything with the real cols
-				//System.out.println("Skipping - " + _arffData._attr.get(i));
+			if (_trainData._attr.get(i).type != ArffData.TYPE_CLASS){ // dont want to do anything with the real cols
+				//System.out.println("Skipping - " + _trainData._attr.get(i));
 				continue;
 			}
 
@@ -94,27 +98,27 @@ public class NaiveBayes extends Predictor {
 			_condProb.add(ccp);
 
 			// Put the prior in this class
-			if (i == _classIndex) {
+			if (i == CLASS_INDEX) {
 				ccp._logprob = new double[ca.class_vals.size()][];
 				for (int j = 0; j < ca.class_vals.size(); j++) {
 					ccp._logprob[j] = new double[1];
 				}
-				for (int j = 0; j < _arffData._data.size(); j++) {
-					ArffData.DataEntry de = _arffData._data.get(j);					
-					int class_value = ((Integer)de.getData(_classIndex)).intValue();
+				for (int j = 0; j < _trainData._data.size(); j++) {
+					ArffData.DataEntry de = _trainData._data.get(j);					
+					int class_value = ((Integer)de.getData(CLASS_INDEX)).intValue();
 					ccp._logprob[class_value][0] = ccp._logprob[class_value][0] + 1d; 
 				}
 				// Normalize and take log
 				for (int j = 0; j < ca.class_vals.size(); j++) {
 					if (DIRICHLET_PRIOR + ccp._logprob[j][0] > 0d)
 						ccp._logprob[j][0] = Math.log((DIRICHLET_PRIOR + ccp._logprob[j][0]) / 
-								(_arffData._data.size() + ca.class_vals.size() * DIRICHLET_PRIOR));
+								(_trainData._data.size() + ca.class_vals.size() * DIRICHLET_PRIOR));
 				}
 				continue;
 			}
 
 			// Otherwise compute the conditional probabilities for this attribute
-			ArffData.Attribute a  = _arffData._attr.get(i);
+			ArffData.Attribute a  = _trainData._attr.get(i);
 			if (a.type != ArffData.TYPE_CLASS) {
 				//System.out.println("Skipping - " + a);
 				//System.out.println("Cannot classify non-class attribute index " + 
@@ -129,10 +133,10 @@ public class NaiveBayes extends Predictor {
 			}
 
 			// Sort data entries into subnodes
-			for (int j = 0; j < _arffData._data.size(); j++) {				
-				ArffData.DataEntry de = _arffData._data.get(j);
+			for (int j = 0; j < _trainData._data.size(); j++) {				
+				ArffData.DataEntry de = _trainData._data.get(j);
 				int attr_value  = ((Integer)de.getData(i)).intValue();
-				int class_value = ((Integer)de.getData(_classIndex)).intValue();
+				int class_value = ((Integer)de.getData(CLASS_INDEX)).intValue();
 				ccp._logprob[attr_value][class_value] = ccp._logprob[attr_value][class_value] + 1d;
 				overall_count[class_value]++;
 			}
@@ -151,12 +155,14 @@ public class NaiveBayes extends Predictor {
 	}
 
 	@Override
-	public int evaluate(DataEntry de, double threshold) {
+	// SPS -- TODO: Threshold should be determined on train data and automatically set
+	//              to value that maximizes accuracy (?). 
+	public int evaluate(DataEntry de) {
 		// Get class attribute
-		ArffData.Attribute ca = _arffData._attr.get(_classIndex);
+		ArffData.Attribute ca = _testData._attr.get(CLASS_INDEX);
 		if (ca.type != ArffData.TYPE_CLASS) {
 			System.out.println("Cannot classify non-class attribute index " + 
-					_classIndex + ":\n" + ca);
+					CLASS_INDEX + ":\n" + ca);
 			System.exit(1);
 		}
 
@@ -172,7 +178,7 @@ public class NaiveBayes extends Predictor {
 			for (int j = 2; j < _condProb.size(); j++) {			
 
 				ClassCondProb ccp = _condProb.get(j);
-				if (j == _classIndex) {
+				if (j == CLASS_INDEX) {
 					class_value += ccp._logprob[i][0];
 				} else {
 					//System.out.print(((Integer)de.getData(j)).intValue() + " ");
@@ -196,7 +202,10 @@ public class NaiveBayes extends Predictor {
 
 		//System.out.println("Best [" + best_class + "] " + best_class_value + " :: " + de);
 		
-		double prediction = cv[best_class]/Z >= threshold ? best_class : Math.abs(best_class-1);
+		// Note: SPS -- the following is very poor style... can you write this in a cleaner way?
+		//              Math.abs(best_class-1) ... what the heck is this?  Negation of a boolean
+		//              by use of a double???
+		double prediction = cv[best_class]/Z >= _threshold ? best_class : Math.abs(best_class-1);
 		return (int) prediction;
 	}
 
@@ -207,7 +216,7 @@ public class NaiveBayes extends Predictor {
 
 	@Override
 	public String getName() {
-		return "NaiveBayes";
+		return "NaiveBayes(" + DIRICHLET_PRIOR + ")";
 	}
 
 	@Override
@@ -215,7 +224,7 @@ public class NaiveBayes extends Predictor {
 		StringBuffer sb = new StringBuffer("\nNaive Bayes CPTs [" + _condProb.size() + "]:\n\n");
 		for (int i = 0; i < _condProb.size(); i++) {
 			ClassCondProb ccp = _condProb.get(i);
-			sb.append("Attribute: " + _arffData._attr.get(i+2).name + "\n");
+			sb.append("Attribute: " + _trainData._attr.get(i+2).name + "\n");
 			sb.append(ccp.toString() + "\n");
 		}
 		return sb.toString();
@@ -223,7 +232,7 @@ public class NaiveBayes extends Predictor {
 
 	public static void main(String[] args) throws IOException {
 		NaiveBayes nb = new NaiveBayes(1.0d);
-		nb.runTests();
+		nb.runTests("active.arff", 10);
 	}
 
 }

@@ -16,9 +16,20 @@ import project.riley.predictor.ArffData.DataEntry;
 
 public class LogisticRegression extends Predictor {
 
+	public enum PRIOR_TYPE { L2, L1 };
+	public PRIOR_TYPE _priorType  = null; 
+	public double     _priorValue = -1d;
+	public double     _threshold;
+	
 	private com.aliasi.stats.LogisticRegression _model = null;
 	private  Vector[] _betas = null;
 
+	public LogisticRegression(PRIOR_TYPE prior, double prior_value) {
+		_threshold  = 0.5d;
+		_priorType  = prior;
+		_priorValue = prior_value;
+	}
+	
 	@Override
 	public void train() {
 		Vector[] INPUTS = new Vector[_trainData._data.size()];
@@ -27,9 +38,10 @@ public class LogisticRegression extends Predictor {
 		
 		/*
 		 * regression data format
+		 * 
 		 */
 		for (int i = 0; i < _trainData._data.size(); i++) {
-			features = getFeatures(_trainData._data.get(i), _trainData._attr.size()-2);
+			features = getFeatures(_trainData._data.get(i));
 			INPUTS[i] = new DenseVector(Arrays.copyOfRange(features, 1, features.length));
 			OUTPUTS[i] = (int) features[0]; 
 		}
@@ -37,7 +49,12 @@ public class LogisticRegression extends Predictor {
 		/*
 		 * train classifier
 		 */
-		RegressionPrior prior = RegressionPrior.laplace(2d, true);
+		RegressionPrior prior = null;
+		if (_priorType == PRIOR_TYPE.L1) 
+			prior = RegressionPrior.laplace(_priorValue, true);
+		else if (_priorType == PRIOR_TYPE.L2) 
+			prior = RegressionPrior.gaussian(_priorValue, true);
+			
 	    _model = com.aliasi.stats.LogisticRegression.estimate(INPUTS,
                                       OUTPUTS,
                                       prior,
@@ -58,8 +75,10 @@ public class LogisticRegression extends Predictor {
 	}	
 
 	@Override
-	public int evaluate(DataEntry de, double threshold) {
-		double[] features = getFeatures((DataEntry)de,_trainData._attr.size()-2);
+	// SPS -- TODO: Threshold should be determined on train data and automatically set
+	//              to value that maximizes accuracy (?). 
+	public int evaluate(DataEntry de) {
+		double[] features = getFeatures((DataEntry)de);
 		features = Arrays.copyOfRange(features, 1, features.length);
 		
 		//double[] conditionalProbs = regression.classify(INPUTS[i]);
@@ -71,7 +90,7 @@ public class LogisticRegression extends Predictor {
 		double prob_0 = Math.exp(weight_prediction_0) / (1d + Math.exp(weight_prediction_0));
 		
 		// Make prediction with probability
-		double prediction = /*conditionalProbs[0]*/ prob_0 >= threshold ? 0 : 1;
+		double prediction = /*conditionalProbs[0]*/ prob_0 >= _threshold ? 0 : 1;
 		
 		return (int) prediction;
 	}
@@ -84,12 +103,12 @@ public class LogisticRegression extends Predictor {
 
 	@Override
 	public String getName() {
-		return "Logistic Regression";
+		return "Logistic Regression(" + _priorType + "," + _priorValue + ")";
 	}
 
 	public static void main(String[] args) throws IOException{
-		LogisticRegression lr = new LogisticRegression();
-		lr.runTests();
+		LogisticRegression lr = new LogisticRegression(LogisticRegression.PRIOR_TYPE.L1, 2d);
+		lr.runTests("active.arff", 10);
 	}
 	
 }

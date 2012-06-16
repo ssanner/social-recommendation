@@ -5,29 +5,33 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import project.riley.predictor.ArffData.DataEntry;
+import util.Statistics;
 
 public abstract class Predictor {
 
-	String[] likesType = {"pl","al"};	// naming convention {pl||al}_train_fold{0..9}.arff
-	int folds = 10;						// number of folds
-
-	ArffData _arffData = null;
-	ArffData _testData = null;
-	ArffData _trainData = null;	
-
 	DecimalFormat df3 = new DecimalFormat("#.###");
-	public int _classIndex = 2;										// index of the class file
+	public final static int CLASS_INDEX = 2;						// index of the class in the arff file
 
+	// Note: SPS -- what was _arffData for?
+	public ArffData _trainData;
+	public ArffData _testData;
+	
 	public abstract void train();									// train the model
-	public abstract int evaluate(DataEntry de, double threshold);	// evaluate a new data entry based on trained model
+	public abstract int evaluate(DataEntry de);	// evaluate a new data entry based on trained model
 	public abstract void clear();									// clear the model
 	public abstract String getName();								// name of the classifier
-
+	
 	/*
 	 * convert from arff to features array format
+	 * 
+	 * Note: SPS -- Following is bad style... the dataEntry has already stored
+	 *              the parsed lines... why convert to a String and reparse it?
+	 *              
+	 *              Should also not pass size... it is determined here based on
+	 *              dataEntry so I've removed this from the parameter list.
 	 */
-	public double[] getFeatures(DataEntry dataEntry, int size){	
-		double[] tmp = new double[size];
+	public double[] getFeatures(DataEntry dataEntry){	
+		double[] tmp = new double[dataEntry._entries.size() - 2];
 		String line = dataEntry.toString();
 		if (!line.startsWith("@") && line.length() > 0){			
 			String[] parts = line.split(",");				// third item is class					
@@ -49,15 +53,15 @@ public abstract class Predictor {
 	/*
 	 * Calculate measures for accuracy, precision, recall and f measure
 	 */
-	public double[] measures(ArrayList<DataEntry> data, double threshold){
-		double[] measures = new double[4];
+	public int[] measures(ArrayList<DataEntry> data) {
+		int[] measures = new int[4];
 		int truePositive = 0;
 		int falsePositive = 0;
 		int falseNegative = 0;
 		int correct = 0;
 		for (DataEntry de : data) {
-			int pred = evaluate(de, threshold); 												// predicted class
-			int actual = ((Integer)((ArffData.DataEntry)de).getData(_classIndex)).intValue();	// actual class
+			int pred = evaluate(de); 												// predicted class
+			int actual = ((Integer)((ArffData.DataEntry)de).getData(CLASS_INDEX)).intValue();	// actual class
 			if (pred == actual) correct++;
 			if (pred == actual && actual == 1) truePositive++;
 			if (pred == 1 && actual == 0) falsePositive++;
@@ -73,39 +77,50 @@ public abstract class Predictor {
 	/*
 	 * Run tests on data
 	 */
-	public void runTests() throws IOException{
-		for (String like : likesType){
-			int correct = 0;									// correct classification
-			int truePositive = 0;								// true positives
-			int falsePositive = 0;								// false positives
-			int falseNegative = 0;								// false negatives
+	public void runTests(String source_file, int num_folds) throws IOException {
 
-			for (int i = 0; i < folds; i++){
-				String trainName = like + "_train_fold" + i + ".arff";		// naming convention {pl||al}_train_fold{0..9}.arff
-				String testName = like + "_test_fold" + i + ".arff";		// naming convention {pl||al}_test_fold{0..9}.arff
-				System.out.println("Running " + getName() + " using " + trainName);	
+		int correct = 0;									// correct classification
+		int truePositive = 0;								// true positives
+		int falsePositive = 0;								// false positives
+		int falseNegative = 0;								// false negatives
 
-				_testData = new ArffData(testName);						// testing data set
-				_trainData = new ArffData(trainName);					// training data set	
-				_arffData = _trainData;									// used by naive bayes
-				
-				clear();
-				train();												// build a classifier and train
-				double testMeasures[] = measures(_testData._data,0.5);	// test data
-				correct += testMeasures[0];
-				truePositive += testMeasures[1];
-				falsePositive += testMeasures[2];
-				falseNegative += testMeasures[3];
-			}
-			int totalDataSize = _testData._data.size() + _trainData._data.size();					// total data size
-			double precision = (double)truePositive/(double)(truePositive + falsePositive);			// precision over folds
-			double recall = (double)truePositive/(double)(truePositive + falseNegative);			// recall over folds														// recall over folds
-			double fscore = 2 * ((precision * recall)/(precision + recall));						// fscore over folds														// fscore over folds
-			System.out.println("Accuracy: " + df3.format(correct/totalDataSize));
-			System.out.println("Precision: " + df3.format(precision));
-			System.out.println("Recall: " + df3.format(recall));
-			System.out.println("F-Score: " + df3.format(fscore));
+		ArrayList<Double> accuracies = new ArrayList<Double>();
+		ArrayList<Double> precisions = new ArrayList<Double>();
+		ArrayList<Double> recalls    = new ArrayList<Double>();
+		ArrayList<Double> fscores    = new ArrayList<Double>();
+
+		System.out.println("Running " + getName() + " using " + source_file);	
+
+		for (int i = 0; i < num_folds; i++){
+			
+			String trainName = source_file + ".train." + (i+1);
+			String testName  = source_file + ".test."  + (i+1);
+			_trainData = new ArffData(trainName);
+			_testData  = new ArffData(testName);
+			
+			clear();
+			train();												// build a classifier and train
+			int[] testMeasures = measures(_testData._data);	// test data
+			correct = testMeasures[0];
+			truePositive = testMeasures[1];
+			falsePositive = testMeasures[2];
+			falseNegative = testMeasures[3];
+			double precision = truePositive/(double)(truePositive + falsePositive);			// precision over folds
+			double recall    = truePositive/(double)(truePositive + falseNegative);			// recall over folds														// recall over folds
+		
+			accuracies.add( correct / (double)_testData._data.size() );
+			precisions.add( precision );
+			recalls.add( recall );
+			fscores.add(  2d * ((precision * recall)/(double)(precision + recall)) );
+			
+			System.out.println("- Finished fold " + (i+1) + ", accuracy: " + df3.format( correct / (double)_testData._data.size() ));
 		}
+
+		System.out.println("Accuracy:  " + df3.format(Statistics.Avg(accuracies)) + "  +/-  " + df3.format(Statistics.StdError95(accuracies)));
+		System.out.println("Precision: " + df3.format(Statistics.Avg(precisions)) + "  +/-  " + df3.format(Statistics.StdError95(precisions)));
+		System.out.println("Recall:    " + df3.format(Statistics.Avg(recalls))    + "  +/-  " + df3.format(Statistics.StdError95(recalls)));
+		System.out.println("F-Score:   " + df3.format(Statistics.Avg(fscores))    + "  +/-  " + df3.format(Statistics.StdError95(fscores)));
+		System.out.println();
 	}
 
 }
