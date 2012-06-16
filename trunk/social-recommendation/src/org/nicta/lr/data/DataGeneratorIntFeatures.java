@@ -2,9 +2,12 @@
  * 
  * @author Riley Kidd
  * @author Scott Sanner
+ * 
+ * Note: Currently ignoring posting a link as evidence of liking, but probably accounts
+ *       for a negligible fraction of the data.
  */
 
-package project.riley.datageneration;
+package org.nicta.lr.data;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
@@ -15,16 +18,22 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 import java.util.Map.Entry;
 
 import org.nicta.lr.util.*;
 
-public class DataGeneratorAccurateLabelsv2 {
+public class DataGeneratorIntFeatures {
 
 	public static final String YES = "'y'".intern();
 	public static final String NO  = "'n'".intern();
 	public static final String[] RATINGS = new String[]{ YES, NO };
+	
+	public static final int LINK_FREQ_THRESHOLD = 1;
+	
+	public static boolean SKIP_NEGATIVES = false;
+	public static double  NEGATIVE_SKIP_PERCENT = 0.98d;
 	
 	/*
 	 * For caching data
@@ -42,12 +51,18 @@ public class DataGeneratorAccurateLabelsv2 {
 	public static PrintWriter _writer;
 	
 	public static void populateCachedData(boolean active_likes) throws SQLException {
-		
-		////////////////////////////////////////////////////////////////////////
-		// Get dataset of likes / dislikes for active or passive
-		////////////////////////////////////////////////////////////////////////
+
+		// For all uids in the DB, get their set of LINK likes 
 		_uid2all_passive_linkids_likes = UserUtil.getLikes(ELikeType.LINK);
+		
 		if (active_likes) {
+			
+			SKIP_NEGATIVES = false;
+			
+			////////////////////////////////////////////////////////////////////////
+			// Get dataset of likes / dislikes for active data
+			////////////////////////////////////////////////////////////////////////
+
 			_uid2linkids_likes = new HashMap<Long,Set<Long>>();
 			_uid2linkids_dislikes = new HashMap<Long,Set<Long>>();
 			
@@ -76,21 +91,67 @@ public class DataGeneratorAccurateLabelsv2 {
 				userLikes.add(link_id);
 			}
 			
-		} else {
-			System.out.println("Cannot handle passive likes yet");
-			System.exit(1);
-			_uid2linkids_likes = _uid2all_passive_linkids_likes;
-			// passive Facebook data
-			// rank top k, filter and infer dislikes
+		} else { // !active
 			
+			////////////////////////////////////////////////////////////////////////
+			// Get dataset of likes / dislikes for passive data
+			////////////////////////////////////////////////////////////////////////
+
+			SKIP_NEGATIVES = true; // too many negatives, take one out of every NEGATIVE_SKIP_RATE
+			
+			//_uid2linkids_likes = _uid2all_passive_linkids_likes;
+			_uid2linkids_likes = new HashMap<Long,Set<Long>>();
+			_uid2linkids_dislikes = new HashMap<Long,Set<Long>>();
+			Set<Long> app_user_uids = UserUtil.getAppUserIds();
+		
+			// Get some popular and app user links
+			//HashSet<Long> popular_links = new HashSet<Long>(getLinksSortedByPopularity(LINK_FREQ_THRESHOLD));
+			//HashSet<Long> app_user_links = getUnionOfLikedLinks(app_user_uids);
+			//System.out.println("Popular link set size (> " + LINK_FREQ_THRESHOLD + " likes): " + popular_links.size());
+			//System.out.println("App user link likes size: " + app_user_links.size());
+			
+			HashSet<Long> popular_app_user_links = new HashSet<Long>(getAppUserLinksSortedByPopularity(LINK_FREQ_THRESHOLD)); //new HashSet<Long>();
+			//popular_app_user_links.addAll(popular_links);
+			//popular_app_user_links.retainAll(app_user_links);			
+			System.out.println("Popular App user link likes size: " + popular_app_user_links.size());
+			
+			for (Long uid : app_user_uids) {
+				Set<Long> links_liked = _uid2all_passive_linkids_likes.get(uid);
+				System.out.println(ExtractRelTables.UID_2_NAME.get(uid) + " has liked #links = " + (links_liked == null ? 0 : links_liked.size()));
+				
+				Set<Long> links_liked_to_set = _uid2linkids_likes.get(uid);
+				Set<Long> links_disliked_to_set = _uid2linkids_dislikes.get(uid);
+				if (links_liked_to_set == null) {
+					links_liked_to_set = new HashSet<Long>();
+					links_disliked_to_set = new HashSet<Long>();
+					_uid2linkids_likes.put(uid, links_liked_to_set);
+					_uid2linkids_dislikes.put(uid, links_disliked_to_set);					
+				}
+				
+				// If a user has not liked a link in popular_app_user_links, consider it a dislike,
+				// otherwise a like.
+				for (Long link_id : popular_app_user_links) {
+					if (links_liked == null || !links_liked.contains(link_id))
+						links_disliked_to_set.add(link_id);
+					else
+						links_liked_to_set.add(link_id);
+				}
+			}
 		}
 		
 		////////////////////////////////////////////////////////////////////////
 		// For every user and interaction type/dir, get set of items liked by 
-		//   that set of alters (threshold for now at 1)
+		// that set of alters (threshold for now at 1)
+		//
+		// Later, this will make it fast to generate features with one link set 
+		// containment check
 		////////////////////////////////////////////////////////////////////////
+		
+		// A parallel list of all Interaction X Direction generated 
 		_featuresInt = new ArrayList<EInteractionType>();
 		_featuresDir = new ArrayList<EDirectionType>();
+		
+		// Interaction -> Direction -> UID -> Set<Link_IDs>
 		_int_dir2uid_linkid = new HashMap<EInteractionType,Map<EDirectionType,Map<Long,Set<Long>>>>();
 		for (EInteractionType itype : EInteractionType.values()) {
 			
@@ -146,6 +207,56 @@ public class DataGeneratorAccurateLabelsv2 {
 		}
 	}
 	
+	public static HashSet<Long> getUnionOfLikedLinks(Set<Long> app_user_uids) {
+		HashSet<Long> liked_links = new HashSet<Long>();
+		for (Long uid : app_user_uids) {
+			Set<Long> uid_liked_links = _uid2all_passive_linkids_likes.get(uid);
+			if (uid_liked_links != null)
+				liked_links.addAll(uid_liked_links);
+		}
+		return liked_links;
+	}
+
+	public static ArrayList<Long> getLinksSortedByPopularity(int freq_threshold) throws SQLException {
+		
+		String userQuery = "select link_id, count(*) from linkrlinklikes group by link_id order by count(*) desc;";
+		Statement statement = SQLUtil.getStatement();
+		ArrayList<Long> link_list = new ArrayList<Long>();
+		
+		ResultSet result = statement.executeQuery(userQuery);
+		while (result.next()) {
+			long link_id = result.getLong(1);
+			long count   = result.getLong(2);
+			if (count >= freq_threshold)
+				link_list.add(link_id);
+			else 
+				break;
+			//System.out.println(link_id + ":\t" + count);
+		}
+
+		return link_list;
+	}
+	
+	public static ArrayList<Long> getAppUserLinksSortedByPopularity(int freq_threshold) throws SQLException {
+		
+		String userQuery = "select link_id, count(*) from linkrlinklikes where uid in (select distinct uid from trackrecommendedlinks) group by link_id order by count(*) desc;";
+		Statement statement = SQLUtil.getStatement();
+		ArrayList<Long> link_list = new ArrayList<Long>();
+		
+		ResultSet result = statement.executeQuery(userQuery);
+		while (result.next()) {
+			long link_id = result.getLong(1);
+			long count   = result.getLong(2);
+			if (count >= freq_threshold)
+				link_list.add(link_id);
+			else 
+				break;
+			//System.out.println(link_id + ":\t" + count);
+		}
+
+		return link_list;
+	}
+
 	/*
 	 * Write arff header data
 	 */
@@ -164,6 +275,10 @@ public class DataGeneratorAccurateLabelsv2 {
 		_writer.println("@data");
 	}
 
+	/* SPS - why rewriting interactions code?  Already written
+	 * SPS - don't make DB calls in inner loops... cache this data in a HashMap 
+	 */
+	
 	/*
 	 * Write known rating data
 	 */
@@ -172,6 +287,10 @@ public class DataGeneratorAccurateLabelsv2 {
 		writeHeader(filename);
 		
 		System.out.println("Extracting ratings data for " + _uid2linkids_likes.size() + " users");
+		
+		long yes_ratings = 0;
+		long no_ratings  = 0;
+		long all_ratings = 0;
 
 		for (String rating : RATINGS) {
 
@@ -183,6 +302,16 @@ public class DataGeneratorAccurateLabelsv2 {
 				Set<Long> link_ids = entry.getValue();
 				System.out.println("User " + ExtractRelTables.UID_2_NAME.get(uid) + " made " + link_ids.size() + " " + rating + " ratings");
 				for (Long link_id : link_ids){
+					
+					all_ratings++;
+					if (rating == YES)
+						yes_ratings++;
+					else {
+						if (SKIP_NEGATIVES && Math.random() < NEGATIVE_SKIP_PERCENT)
+							continue; 
+						no_ratings++;
+					}
+					
 					_writer.print(uid + "," + link_id + "," + rating);
 					
 					// Now write columns
@@ -198,6 +327,11 @@ public class DataGeneratorAccurateLabelsv2 {
 				}
 			}
 		}
+		
+		double total_ratings = yes_ratings + no_ratings;
+		System.out.println("Number of possible ratings: " + all_ratings);
+		System.out.println("Number of yes ratings: " + yes_ratings + " -- " + (100d*yes_ratings/total_ratings) + "%");
+		System.out.println("Number of no ratings:  " + no_ratings  + " -- " + (100d*no_ratings/total_ratings) + "%");
 		
 		_writer.close();
 	}

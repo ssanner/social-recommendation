@@ -3,6 +3,8 @@ package project.riley.predictor;
 /** Loads an ARFF file, either sparse or dense format.
  *   
  * @author Scott Sanner (ssanner@gmail.com)
+ * 
+ * Note: this has been modified to do arff file export and data folds generation, see main().
  */
 
 

@@ -6,7 +6,7 @@ import libsvm.svm_node;
 import libsvm.svm_parameter;
 import libsvm.svm_problem;
 
-public class SVMDummy {
+public class SVMTest {
 
 	double[][] train = new double[1000][]; 
 	double[][] test = new double[10][];
@@ -16,20 +16,22 @@ public class SVMDummy {
 	private void setData(){
 		for (int i = 0; i < train.length; i++){
 			if (i+1 > (train.length/2)){		// 50% positive
-				double[] vals = {1,0,i+i};
+				double[] vals = {0,0,i+i};
 				train[i] = vals;
 			} else {
-				double[] vals = {0,0,i-i-i-2}; // 50% negative
+				// SPS i-i, really?  
+				double[] vals = {1,0,i-i-i-2}; // 50% negative
 				train[i] = vals;
 			}			
 		}
 
 		for (int i = 0; i < test.length; i++){			
 			if (i+1 > (test.length/2)){
-				double[] vals = {1,0,i+i};
+				double[] vals = {0,0,i+i};
 				test[i] = vals;
 			} else {
-				double[] vals = {0,0,i-i-i-2};
+				// SPS i-i, really?
+				double[] vals = {1,0,i-i-i-2};
 				test[i] = vals;
 			}			
 		}
@@ -41,7 +43,6 @@ public class SVMDummy {
 		//param.degree = 3;
 		//param.gamma = 0.25;
 		//param.nu = 0.5;
-		//param.C = 1;
 		param.C = .00000000000000000000001;
 		
 		param.svm_type = svm_parameter.C_SVC;
@@ -80,24 +81,17 @@ public class SVMDummy {
 			nodes[i-1].value = features[i];
 		}
 		
-		int totalClasses = 2;		
-		int[] labels = new int[totalClasses];
-		svm.svm_get_labels(_model,labels);
+		double[] dbl = new double[1]; 
+		svm.svm_predict_values(_model, nodes, dbl);
+		int y = dbl[0] > 0d ? 1 : 0;
+
+		System.out.println("(Actual:" + features[0] + " Prediction:" + y + ")");			
 		
-		double[] prob_estimates = new double[totalClasses];
-		double v = svm.svm_predict_probability(_model, nodes, prob_estimates);
-		//double v = svm.svm_predict(_model, nodes);
-		
-		for (int i = 0; i < totalClasses; i++){
-			System.out.print("(" + labels[i] + ":" + prob_estimates[i] + ")");
-		}
-		System.out.println("(Actual:" + features[0] + " Prediction:" + v + ")");			
-		
-		return (int)v;
+		return y;
 	}
 
 	public static void main(String[] args) {		
-		SVMDummy svm = new SVMDummy();
+		SVMTest svm = new SVMTest();
 		svm.setData();
 		svm._model = svm.svmTrain();
 
