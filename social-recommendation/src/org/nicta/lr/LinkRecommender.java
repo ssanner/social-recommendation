@@ -383,14 +383,8 @@ public class LinkRecommender
 			}
 		}
 		
-		System.out.println("Cleaning up test data: " + testData.size());
+
 		Set<Long> removeUsers = new HashSet<Long>();
-		
-		Set<Long> trainLinkCount = new HashSet<Long>();
-		for (long userId : trainData.keySet()) {
-			trainLinkCount.addAll(trainData.get(userId));
-		}
-		System.out.println("Training links before: " + trainLinkCount.size());
 		
 		//Remove users that aren't in the training data
 		//Otherwise, remove user-link pairs in the training data that are in the test data
@@ -412,9 +406,7 @@ public class LinkRecommender
 			allTrainLinks.addAll(trainData.get(userId));
 		}
 		
-		System.out.println("Training links after: " + allTrainLinks.size());
-		
-		System.out.println("Test data: " + testData.size());
+		System.out.println("Training data: " + trainData.size() + " users, " + allTrainLinks.size() + " links");
 		
 		//Remove links that aren't in the training data
 		//If a user has either 0 liked links or 0 non-liked links in the testing data,
@@ -470,7 +462,7 @@ public class LinkRecommender
 			}
 		}
 		
-		System.out.println("Test data done: " + testData.size() + " " + testCount);
+		System.out.println("Test data: " + testData.size() + " users, " + testCount + " links");
 		
 		Map<Long, Set<Long>>[] test = new Map[2];
 		test[0] = testData;
@@ -553,7 +545,6 @@ public class LinkRecommender
 		Map<Long, Set<Long>> linkLikes = new HashMap<Long, Set<Long>>();
 		
 		ResultSet result = statement.executeQuery("SELECT link_id, uid, rating FROM trackRecommendedLinks WHERE rating=2 OR rating=1");
-		
 		HashSet<Long> allLinks = new HashSet<Long>();
 		
 		while (result.next()) {
