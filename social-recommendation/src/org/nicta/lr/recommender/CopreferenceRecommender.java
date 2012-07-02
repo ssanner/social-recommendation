@@ -200,12 +200,14 @@ public class CopreferenceRecommender extends SocialRecommender
 		double errorDerivative = idColumn[x] * lambda;
 		
 		if (socialCopreferenceRegularizer != null) {
-			if (!copreferences.containsKey(linkId)) {
-				return 0;
-			}
+			//if (!copreferences.containsKey(linkId)) {
+			//	return 0;
+			//}
 			
-			double socDerivative = socialCopreferenceRegularizer.getDerivativeValueOverLinkId(userTraits, copreferences, predictedCopreferences, linkId, x);
-			errorDerivative += beta * socDerivative;
+			if (copreferences.containsKey(linkId)) {
+				double socDerivative = socialCopreferenceRegularizer.getDerivativeValueOverLinkId(userTraits, copreferences, predictedCopreferences, linkId, x);
+				errorDerivative += beta * socDerivative;
+			}
 		}
 		
 		errorDerivative += objective.getErrorDerivativeOverLinkId(userTraits, linkLikes, predictions, x, linkId);
@@ -215,6 +217,8 @@ public class CopreferenceRecommender extends SocialRecommender
 	public void minimizeByThreadedLBFGS(Map<Long, Set<Long>> userLinkSamples)
 	{
 		System.out.println("Training copreference");
+		
+		checkDerivative(userLinkSamples);
 		
 		boolean go = true;	
 		int iterations = 0;
@@ -478,7 +482,7 @@ public class CopreferenceRecommender extends SocialRecommender
 		}
 		
 		for (int q = 0; q < K; q++) {
-			
+			/*
 			for (int l = 0; l < Configuration.LINK_FEATURE_COUNT; l++) {
 				Map<Long, Double[]> userTraits = getUserTraitVectors(userFeatureMatrix, userIdColumns, userFeatures);
 				Map<Long, Double[]> linkTraits = getLinkTraitVectors(linkFeatureMatrix, linkIdColumns, linkFeatures);
@@ -507,7 +511,7 @@ public class CopreferenceRecommender extends SocialRecommender
 				System.out.println("Diff: " + (calculatedDerivative - diff));
 				System.out.println("");
 			}
-			
+			*/
 			
 			for (long linkId : linkIdColumns.keySet()) {
 				Map<Long, Double[]> userTraits = getUserTraitVectors(userFeatureMatrix, userIdColumns, userFeatures);
