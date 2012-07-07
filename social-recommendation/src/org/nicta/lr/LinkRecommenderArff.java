@@ -1,7 +1,8 @@
 package org.nicta.lr;
 
-import project.riley.predictor.ArffData;
-import project.riley.predictor.ArffData.DataEntry;
+import project.ifilter.predictor.ArffData;
+import project.ifilter.predictor.ArffData.DataEntry;
+
 import java.util.Set;
 import java.util.HashSet;
 import java.util.Map;
