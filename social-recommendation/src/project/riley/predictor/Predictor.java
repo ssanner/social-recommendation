@@ -99,7 +99,7 @@ public abstract class Predictor {
 			_testData  = new ArffData(testName);
 			
 			clear();
-			train();												// build a classifier and train
+			train();										// build a classifier and train
 			int[] testMeasures = measures(_testData._data);	// test data
 			correct = testMeasures[0];
 			truePositive = testMeasures[1];
