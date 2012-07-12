@@ -70,8 +70,9 @@ public class Launcher {
 				logisticRegression_l2, 
 				libsvm */ };
 		
-		for (Predictor p : predictors)
-			p.runTests(DATA_FILE, NUM_FOLDS);
+		for (Predictor p : predictors){
+			//p.runTests(DATA_FILE, NUM_FOLDS);
+		}
 	}
 	
 }
