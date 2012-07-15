@@ -146,7 +146,7 @@ public class DataGeneratorAccurateLabelsv2 {
 					dir2rest.put(dir, uid2rest);
 				}
 
-				Interaction i = UserUtil.getUserInteractions(itype, dir);
+				Interaction i = UserUtil.getUserInteractions(itype.toString(), dir);
 
 				System.out.println("**********************\n" + _featuresInt + "\n" + _featuresDir);
 				System.out.println("**********************\n" + itype + "_" + dir + " #alters = " + i.getAllInteractions().size());
