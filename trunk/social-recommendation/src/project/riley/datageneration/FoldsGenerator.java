@@ -10,7 +10,7 @@ import project.riley.predictor.ArffData.DataEntry;
 import project.riley.predictor.ArffData.FoldData;
 
 /*
- * generate n-fold data for cross validationf
+ * generate n-fold data for cross validation
  * 
  */
 public class FoldsGenerator {
