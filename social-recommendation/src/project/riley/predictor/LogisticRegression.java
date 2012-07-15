@@ -123,7 +123,7 @@ public class LogisticRegression extends Predictor {
 		return "Logistic Regression(" + _priorType + "," + _priorValue + (_maxEnt ? ",MAX_ENT" : "") + ")";
 	}
 
-	public static void main(String[] args) throws IOException{
+	public static void main(String[] args) throws Exception{
 		LogisticRegression lr = new LogisticRegression(LogisticRegression.PRIOR_TYPE.L1, 2d);
 		lr.runTests("active.arff", 10);
 	}
