@@ -133,29 +133,32 @@ public class LinkRecommenderArff extends org.nicta.lr.LinkRecommender
 	public static void main(String[] args)
 		throws Exception
 	{
-		Double[] accuracies = new Double[10];
-		Double[] precisions = new Double[10];
-		Double[] recalls = new Double[10];
-		Double[] f1s = new Double[10];
+		String source_file = "passive.arff";
+		int num_folds = 10;
+		
+		Double[] accuracies = new Double[num_folds];
+		Double[] precisions = new Double[num_folds];
+		Double[] recalls = new Double[num_folds];
+		Double[] f1s = new Double[num_folds];
 		
 		double meanAccuracy = 0;
 		double meanPrecision = 0;
 		double meanRecall = 0;
 		double meanF1 = 0;
 		
-		for (int x = 1; x <= 10; x++) {
-			String trainFile = "passive.arff.train." + x;
-			String testFile = "passive.arff.test." + x;
+		for (int i = 0; i < num_folds; i++) {
+			String trainName = source_file + ".train." + (i+1);
+			String testName  = source_file + ".test."  + (i+1);
 		
 			//String type = Constants.FEATURE;
 			String type = Constants.SOCIAL;
 		
-			Double[] results = new LinkRecommenderArff().run(trainFile, testFile, type);
+			Double[] results = new LinkRecommenderArff().run(trainName, testName, type);
 			
-			accuracies[x-1] = results[0];
-			precisions[x-1] = results[1];
-			recalls[x-1] = results[2];
-			f1s[x-1] = results[3];
+			accuracies[i] = results[0];
+			precisions[i] = results[1];
+			recalls[i] = results[2];
+			f1s[i] = results[3];
 			
 			meanAccuracy += results[0];
 			meanPrecision += results[1];
@@ -163,32 +166,32 @@ public class LinkRecommenderArff extends org.nicta.lr.LinkRecommender
 			meanF1 += results[3];
 		}
 		
-		meanAccuracy /= 10;
-		meanPrecision /= 10;
-		meanRecall /= 10;
-		meanF1 /= 10;
+		meanAccuracy /= num_folds;
+		meanPrecision /= num_folds;
+		meanRecall /= num_folds;
+		meanF1 /= num_folds;
 		
 		double stdAccuracy = 0;
 		double stdPrecision = 0;
 		double stdRecall = 0;
 		double stdF1 = 0;
 		
-		for (int x = 0; x < 10; x++) {
+		for (int x = 0; x < num_folds; x++) {
 			stdAccuracy += Math.pow(meanAccuracy - accuracies[x], 2);
 			stdPrecision += Math.pow(meanPrecision - precisions[x], 2);
 			stdRecall += Math.pow(meanRecall - recalls[x], 2);
 			stdF1 += Math.pow(meanF1 - f1s[x], 2);
 		}
 		
-		stdAccuracy = Math.sqrt(stdAccuracy / 10);
-		stdPrecision = Math.sqrt(stdPrecision / 10);
-		stdRecall = Math.sqrt(stdRecall / 10);
-		stdF1 = Math.sqrt(stdF1 / 10);
+		stdAccuracy = Math.sqrt(stdAccuracy / num_folds);
+		stdPrecision = Math.sqrt(stdPrecision / num_folds);
+		stdRecall = Math.sqrt(stdRecall / num_folds);
+		stdF1 = Math.sqrt(stdF1 / num_folds);
 		
-		double seAccuracy = stdAccuracy / Math.sqrt(10);
-		double sePrecision = stdPrecision / Math.sqrt(10);
-		double seRecall = stdRecall / Math.sqrt(10);
-		double seF1 = stdF1 / Math.sqrt(10);
+		double seAccuracy = stdAccuracy / Math.sqrt(num_folds);
+		double sePrecision = stdPrecision / Math.sqrt(num_folds);
+		double seRecall = stdRecall / Math.sqrt(num_folds);
+		double seF1 = stdF1 / Math.sqrt(num_folds);
 		
 		System.out.println("FINAL RESULTS:");
 		System.out.println("Accuracy: " + meanAccuracy + "(" + seAccuracy + ")");
