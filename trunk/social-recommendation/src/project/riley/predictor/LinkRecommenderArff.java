@@ -203,7 +203,7 @@ public class LinkRecommenderArff extends org.nicta.lr.LinkRecommender
 	public static void main(String[] args)throws Exception{
 		String source_file = "passive.arff";
 		int num_folds = 10;
-		setType(Constants.FEATURE);
+		//setType(Constants.FEATURE);
 		runTests(source_file,num_folds);
 	}
 
