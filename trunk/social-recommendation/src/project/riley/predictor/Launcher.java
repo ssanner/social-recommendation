@@ -52,9 +52,8 @@ public class Launcher {
 		//Predictor knn          = new SocialRecommender(Constants.NN);
 		//Predictor cbf          = new SocialRecommender(Constants.CBF);
 		
-		soc_matchbox.runTests(DATA_FILE, NUM_FOLDS);
-		
-		Predictor[] predictors = new Predictor[] { 
+		Predictor[] predictors = new Predictor[] {
+				soc_matchbox,
 				naiveBayes, 
 				constPredTrue,
 				constPredFalse,
@@ -71,8 +70,8 @@ public class Launcher {
 				logisticRegression_l2, 
 				libsvm */ };
 		
-		//for (Predictor p : predictors)
-			//p.runTests(DATA_FILE, NUM_FOLDS);
+		for (Predictor p : predictors)
+			p.runTests(DATA_FILE, NUM_FOLDS);
 		
 	}
 	
