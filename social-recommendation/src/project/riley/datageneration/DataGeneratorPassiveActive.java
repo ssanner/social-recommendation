@@ -325,7 +325,6 @@ public class DataGeneratorPassiveActive {
 						//_writer.print("," + feat_value);
 						columns.append("," + feat_value);
 						if (feat_value == YES){
-							System.out.println("-------------GOT A YES++++++++");
 							count++;
 						}
 					}
