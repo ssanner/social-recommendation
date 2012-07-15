@@ -21,7 +21,7 @@ public class FoldsGenerator {
 	public static void main(String args[]) throws Exception {
 		//DataGeneratorPassiveActive.populateCachedData(true /* active */);							// generate data
 		DataGeneratorPassiveActive.populateCachedData(false /* passive */);							// generate data
-		DataGeneratorPassiveActive.writeData(FILENAME, 5 /* interaction threshold */);				// write data
+		DataGeneratorPassiveActive.writeData(FILENAME, 3 /* interaction threshold */);				// write data
 		
 		ArffData arff = new ArffData(FILENAME);														// load data
 		FoldData folds = arff.foldData(NUM_FOLDS);
