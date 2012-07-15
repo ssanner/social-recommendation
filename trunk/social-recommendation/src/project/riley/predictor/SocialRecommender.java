@@ -2,6 +2,8 @@ package project.riley.predictor;
 
 import java.io.IOException;
 
+import org.nicta.lr.util.Constants;
+
 import project.riley.predictor.ArffData.DataEntry;
 
 /*
@@ -30,10 +32,9 @@ public class SocialRecommender extends Predictor {
 		return "Social Recommender - ( " + type + " )";
 	}
 	
-	public void runTests(String source_file, int num_folds) throws IOException {
-		LinkRecommenderArff linkRecommender = new LinkRecommenderArff();
-		//linkRecommender.setType(type);
-		//linkRecommender.runTests(source_file,num_folds);
+	public void runTests(String source_file, int num_folds) throws Exception {
+		LinkRecommenderArff.setType(type);		
+		LinkRecommenderArff.runTests(source_file,num_folds);
 	}
 
 }

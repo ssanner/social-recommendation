@@ -16,7 +16,7 @@ public class Launcher {
 	public final static String DATA_FILE = "passive.arff";
 	public final static int    NUM_FOLDS = 10;
 	
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws Exception {
 		
 		// SPS -- free parameters should always be apparent for tuning purposes
 		Predictor constPredTrue  = new ConstantPredictor(true);
