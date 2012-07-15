@@ -1,6 +1,8 @@
 package project.riley.predictor;
 
-import java.io.IOException;
+import project.ifilter.predictor.ArffData;
+import project.ifilter.predictor.ArffData.DataEntry;
+
 import java.util.Set;
 import java.util.HashSet;
 import java.util.Map;
@@ -8,11 +10,10 @@ import java.util.HashMap;
 
 import org.nicta.lr.recommender.Recommender;
 import org.nicta.lr.recommender.FeatureRecommender;
+import org.nicta.lr.recommender.SocialRecommender;
 import org.nicta.lr.util.Constants;
 import org.nicta.lr.util.LinkUtil;
 import org.nicta.lr.util.UserUtil;
-
-import project.riley.predictor.ArffData.DataEntry;
 
 public class LinkRecommenderArff extends org.nicta.lr.LinkRecommender
 {
@@ -21,7 +22,7 @@ public class LinkRecommenderArff extends org.nicta.lr.LinkRecommender
 	public Double[] run(String trainFile, String testFile, String type)
 		throws Exception
 	{
-		//this.type = type;
+		this.type = type;
 		
 		Set<Long> linkIds = new HashSet<Long>();
 		Set<Long> userIds = new HashSet<Long>();
@@ -119,8 +120,8 @@ public class LinkRecommenderArff extends org.nicta.lr.LinkRecommender
 		Map<Long, Map<Long, Double>> friendships = UserUtil.getFriendships();
 		
 		Recommender recommender = getRecommender(type, linkLikes, users, links, friendships);
-		((org.nicta.lr.recommender.SocialRecommender)recommender).setLambda(0.1);
-		((org.nicta.lr.recommender.SocialRecommender)recommender).setBeta(1);
+		((SocialRecommender)recommender).setLambda(0.1);
+		((SocialRecommender)recommender).setBeta(1);
 		recommender.train(trainData);
 		
 		Map<Long, Map<Long, Double>> predictions = recommender.getPredictions(testData);
@@ -128,87 +129,72 @@ public class LinkRecommenderArff extends org.nicta.lr.LinkRecommender
 		double threshold = getOptimalThreshold(trainPredictions, linkLikes);
 		return getArffMetrics(predictions, testLikes, threshold);
 	}
-
-	public void setType(String type){
-		this.type = type;
-	}
 	
-	public void runTests(String source_file, int num_folds) throws IOException {
-		Double[] accuracies = new Double[num_folds];
-		Double[] precisions = new Double[num_folds];
-		Double[] recalls = new Double[num_folds];
-		Double[] f1s = new Double[num_folds];
+	public static void main(String[] args)
+		throws Exception
+	{
+		Double[] accuracies = new Double[10];
+		Double[] precisions = new Double[10];
+		Double[] recalls = new Double[10];
+		Double[] f1s = new Double[10];
 		
 		double meanAccuracy = 0;
 		double meanPrecision = 0;
 		double meanRecall = 0;
 		double meanF1 = 0;
 		
-		for (int i = 0; i < num_folds; i++) {
-			String trainName = source_file + ".train." + (i+1);
-			String testName  = source_file + ".test."  + (i+1);
-			//String trainFile = "/Users/jnoel/Desktop/passive/passive.arff.train." + x;
-			//String testFile = "/Users/jnoel/Desktop/passive/passive.arff.test." + x;
+		for (int x = 1; x <= 10; x++) {
+			String trainFile = "/Users/jnoel/Desktop/passive/passive.arff.train." + x;
+			String testFile = "/Users/jnoel/Desktop/passive/passive.arff.test." + x;
 		
 			//String type = Constants.FEATURE;
-			//String type = Constants.SOCIAL;
+			String type = Constants.SOCIAL;
 		
-			Double[] results;
-			try {
-				results = new LinkRecommenderArff().run(trainName, testName, type);
-				accuracies[i] = results[0];
-				precisions[i] = results[1];
-				recalls[i] = results[2];
-				f1s[i] = results[3];
-				
-				meanAccuracy += results[0];
-				meanPrecision += results[1];
-				meanRecall += results[2];
-				meanF1 += results[3];
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-						
+			Double[] results = new LinkRecommenderArff().run(trainFile, testFile, type);
+			
+			accuracies[x-1] = results[0];
+			precisions[x-1] = results[1];
+			recalls[x-1] = results[2];
+			f1s[x-1] = results[3];
+			
+			meanAccuracy += results[0];
+			meanPrecision += results[1];
+			meanRecall += results[2];
+			meanF1 += results[3];
 		}
 		
-		meanAccuracy /= num_folds;
-		meanPrecision /= num_folds;
-		meanRecall /= num_folds;
-		meanF1 /= num_folds;
+		meanAccuracy /= 10;
+		meanPrecision /= 10;
+		meanRecall /= 10;
+		meanF1 /= 10;
 		
 		double stdAccuracy = 0;
 		double stdPrecision = 0;
 		double stdRecall = 0;
 		double stdF1 = 0;
 		
-		for (int x = 0; x < num_folds; x++) {
+		for (int x = 0; x < 10; x++) {
 			stdAccuracy += Math.pow(meanAccuracy - accuracies[x], 2);
 			stdPrecision += Math.pow(meanPrecision - precisions[x], 2);
 			stdRecall += Math.pow(meanRecall - recalls[x], 2);
 			stdF1 += Math.pow(meanF1 - f1s[x], 2);
 		}
 		
-		stdAccuracy = Math.sqrt(stdAccuracy / num_folds);
-		stdPrecision = Math.sqrt(stdPrecision / num_folds);
-		stdRecall = Math.sqrt(stdRecall / num_folds);
-		stdF1 = Math.sqrt(stdF1 / num_folds);
+		stdAccuracy = Math.sqrt(stdAccuracy / 10);
+		stdPrecision = Math.sqrt(stdPrecision / 10);
+		stdRecall = Math.sqrt(stdRecall / 10);
+		stdF1 = Math.sqrt(stdF1 / 10);
 		
-		double seAccuracy = stdAccuracy / Math.sqrt(num_folds);
-		double sePrecision = stdPrecision / Math.sqrt(num_folds);
-		double seRecall = stdRecall / Math.sqrt(num_folds);
-		double seF1 = stdF1 / Math.sqrt(num_folds);
+		double seAccuracy = stdAccuracy / Math.sqrt(10);
+		double sePrecision = stdPrecision / Math.sqrt(10);
+		double seRecall = stdRecall / Math.sqrt(10);
+		double seF1 = stdF1 / Math.sqrt(10);
 		
 		System.out.println("FINAL RESULTS:");
 		System.out.println("Accuracy: " + meanAccuracy + "(" + seAccuracy + ")");
 		System.out.println("Precision: " + meanPrecision + "(" + sePrecision + ")");
 		System.out.println("Recall: " + meanRecall + "(" + seRecall + ")");
 		System.out.println("F1: " + meanF1 + "(" + seF1 + ")");
-	}
-	
-	public static void main(String[] args) throws IOException {
-		LinkRecommenderArff linkRecommender = new LinkRecommenderArff();
-		linkRecommender.setType(type);
-		linkRecommender.runTests("passive.arff",10);
 	}
 	
 	public Double[] getArffMetrics(Map<Long, Map<Long, Double>> predictions, Map<Long, Set<Long>> linkLikes, double threshold)
