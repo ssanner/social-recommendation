@@ -47,8 +47,8 @@ public class Launcher {
 		// a method for determining the best threshold for those ratings in order
 		// to do classification.
 		// 
-		Predictor matchbox     = new SocialRecommender(Constants.FEATURE);
-		matchbox.runTests(DATA_FILE, NUM_FOLDS);
+		//Predictor matchbox     = new SocialRecommender(Constants.FEATURE);
+		//matchbox.runTests(DATA_FILE, NUM_FOLDS);
 		//Predictor soc_matchbox = new SocialMatchBox(Constants.SOCIAL);
 		//Predictor knn          = new SocialMatchBox(Constants.NN);
 		//Predictor cbf          = new SocialMatchBox(Constants.CBF);
