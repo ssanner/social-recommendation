@@ -146,7 +146,7 @@ public class LinkRecommenderArff extends org.nicta.lr.LinkRecommender
 			String trainName = source_file + ".train." + (i+1);
 			String testName  = source_file + ".test."  + (i+1);
 
-			//String type = Constants.FEATURE;
+			String type = Constants.FEATURE;
 			//String type = Constants.SOCIAL;
 
 			Double[] results = new LinkRecommenderArff().run(trainName, testName, type);
