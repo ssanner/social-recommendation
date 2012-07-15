@@ -230,7 +230,7 @@ public class NaiveBayes extends Predictor {
 		return sb.toString();
 	}
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws Exception {
 		NaiveBayes nb = new NaiveBayes(1.0d);
 		nb.runTests("active.arff", 10);
 	}

@@ -106,7 +106,7 @@ public class SVMLibSVM extends Predictor {
 		return "SVMLibSVM(" + _C + "," + _EPS + ")";
 	}
 
-	public static void main(String[] args) throws IOException{
+	public static void main(String[] args) throws Exception{
 		SVMLibSVM svm = new SVMLibSVM(2d, 0.1d);
 		svm.runTests("active.arff", 10);
 	}
