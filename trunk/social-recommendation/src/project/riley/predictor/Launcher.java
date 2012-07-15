@@ -71,7 +71,7 @@ public class Launcher {
 				libsvm */ };
 		
 		for (Predictor p : predictors){
-			//p.runTests(DATA_FILE, NUM_FOLDS);
+			p.runTests(DATA_FILE, NUM_FOLDS);
 		}
 	}
 	
