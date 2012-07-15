@@ -47,11 +47,12 @@ public class Launcher {
 		// a method for determining the best threshold for those ratings in order
 		// to do classification.
 		// 
-		//Predictor matchbox     = new SocialRecommender(Constants.FEATURE);
-		//matchbox.runTests(DATA_FILE, NUM_FOLDS);
-		//Predictor soc_matchbox = new SocialMatchBox(Constants.SOCIAL);
-		//Predictor knn          = new SocialMatchBox(Constants.NN);
-		//Predictor cbf          = new SocialMatchBox(Constants.CBF);
+		Predictor matchbox     = new SocialRecommender(Constants.FEATURE);
+		Predictor soc_matchbox = new SocialRecommender(Constants.SOCIAL);
+		Predictor knn          = new SocialRecommender(Constants.NN);
+		Predictor cbf          = new SocialRecommender(Constants.CBF);
+		
+		matchbox.runTests(DATA_FILE, NUM_FOLDS);
 		
 		Predictor[] predictors = new Predictor[] { 
 				naiveBayes, 
@@ -70,9 +71,9 @@ public class Launcher {
 				logisticRegression_l2, 
 				libsvm */ };
 		
-		for (Predictor p : predictors){
-			p.runTests(DATA_FILE, NUM_FOLDS);
-		}
+		//for (Predictor p : predictors)
+			//p.runTests(DATA_FILE, NUM_FOLDS);
+		
 	}
 	
 }
