@@ -120,8 +120,8 @@ public class LinkRecommenderArff extends org.nicta.lr.LinkRecommender
 		Map<Long, Map<Long, Double>> friendships = UserUtil.getFriendships();
 		
 		Recommender recommender = getRecommender(type, linkLikes, users, links, friendships);
-		((SocialRecommender)recommender).setLambda(0.1);
-		((SocialRecommender)recommender).setBeta(1);
+		((org.nicta.lr.recommender.SocialRecommender)recommender).setLambda(0.1);
+		((org.nicta.lr.recommender.SocialRecommender)recommender).setBeta(1);
 		recommender.train(trainData);
 		
 		Map<Long, Map<Long, Double>> predictions = recommender.getPredictions(testData);
@@ -144,8 +144,8 @@ public class LinkRecommenderArff extends org.nicta.lr.LinkRecommender
 		double meanF1 = 0;
 		
 		for (int x = 1; x <= 10; x++) {
-			String trainFile = "/Users/jnoel/Desktop/passive/passive.arff.train." + x;
-			String testFile = "/Users/jnoel/Desktop/passive/passive.arff.test." + x;
+			String trainFile = "passive.arff.train." + x;
+			String testFile = "passive.arff.test." + x;
 		
 			//String type = Constants.FEATURE;
 			String type = Constants.SOCIAL;
