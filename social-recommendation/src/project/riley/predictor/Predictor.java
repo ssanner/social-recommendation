@@ -77,7 +77,7 @@ public abstract class Predictor {
 	/*
 	 * Run tests on data
 	 */
-	public void runTests(String source_file, int num_folds) throws IOException {
+	public void runTests(String source_file, int num_folds) throws Exception {
 
 		int correct = 0;									// correct classification
 		int truePositive = 0;								// true positives
