@@ -94,7 +94,7 @@ public class DataGeneratorAccurateLabelsv2 {
 					//System.out.println(key + " " + topLikes.get(key));
 					boolean is_liked = false;
 					
-					System.out.println(knownLikes.get(uid));
+					System.out.println(uid + " " + ExtractRelTables.UID_2_NAME.get(uid));
 					
 					if (knownLikes.get(uid).contains(like_item)){
 						is_liked = true;
