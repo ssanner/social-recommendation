@@ -47,12 +47,12 @@ public class Launcher {
 		// a method for determining the best threshold for those ratings in order
 		// to do classification.
 		// 
-		Predictor matchbox     = new SocialRecommender(Constants.FEATURE);
+		//Predictor matchbox     = new SocialRecommender(Constants.FEATURE);
 		Predictor soc_matchbox = new SocialRecommender(Constants.SOCIAL);
-		Predictor knn          = new SocialRecommender(Constants.NN);
-		Predictor cbf          = new SocialRecommender(Constants.CBF);
+		//Predictor knn          = new SocialRecommender(Constants.NN);
+		//Predictor cbf          = new SocialRecommender(Constants.CBF);
 		
-		matchbox.runTests(DATA_FILE, NUM_FOLDS);
+		soc_matchbox.runTests(DATA_FILE, NUM_FOLDS);
 		
 		Predictor[] predictors = new Predictor[] { 
 				naiveBayes, 
