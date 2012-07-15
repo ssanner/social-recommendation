@@ -19,8 +19,8 @@ public class FoldsGenerator {
 	public static final int NUM_FOLDS = 10;
 	
 	public static void main(String args[]) throws Exception {
-		DataGeneratorAccurateLabelsv2.populateCachedData(true /* active */,/* top k */10);				// generate data
-		DataGeneratorAccurateLabelsv2.writeData(FILENAME,/* interaction threshold */ 0);		// write data
+		DataGeneratorAccurateLabelsv2.populateCachedData(false /* active */,/* top k */10);				// generate data
+		DataGeneratorAccurateLabelsv2.writeData(FILENAME,/* interaction threshold */ 1);				// write data
 		
 		ArffData arff = new ArffData(FILENAME);															// load data
 		FoldData folds = arff.foldData(NUM_FOLDS);
