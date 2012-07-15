@@ -23,7 +23,7 @@ public class LinkRecommenderArff extends org.nicta.lr.LinkRecommender
 	public Double[] run(String trainFile, String testFile, String type)
 			throws Exception
 			{
-		//this.type = type;
+		this.type = type;
 
 		Set<Long> linkIds = new HashSet<Long>();
 		Set<Long> userIds = new HashSet<Long>();
