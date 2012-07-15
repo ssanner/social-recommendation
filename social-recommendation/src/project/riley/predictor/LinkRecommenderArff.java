@@ -147,7 +147,7 @@ public class LinkRecommenderArff extends org.nicta.lr.LinkRecommender
 			String testName  = source_file + ".test."  + (i+1);
 
 			//String type = Constants.FEATURE;
-			String type = Constants.SOCIAL;
+			//String type = Constants.SOCIAL;
 
 			Double[] results = new LinkRecommenderArff().run(trainName, testName, type);
 
@@ -196,10 +196,14 @@ public class LinkRecommenderArff extends org.nicta.lr.LinkRecommender
 		System.out.println("F1: " + meanF1 + "(" + seF1 + ")");
 	}
 	
+	public static void setType(String t){
+		type = t;
+	}
 
 	public static void main(String[] args)throws Exception{
 		String source_file = "passive.arff";
 		int num_folds = 10;
+		setType(Constants.SOCIAL);
 		runTests(source_file,num_folds);
 	}
 
