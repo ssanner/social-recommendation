@@ -51,9 +51,10 @@ public class DataGeneratorAccurateLabelsv2 {
 		// Get dataset of likes / dislikes for active or passive
 		////////////////////////////////////////////////////////////////////////
 		_uid2all_passive_linkids_likes = UserUtil.getLikes(ELikeType.LINK);
+		_uid2linkids_likes = new HashMap<Long,Set<Long>>();
+		_uid2linkids_dislikes = new HashMap<Long,Set<Long>>();
+		
 		if (active_likes) {
-			_uid2linkids_likes = new HashMap<Long,Set<Long>>();
-			_uid2linkids_dislikes = new HashMap<Long,Set<Long>>();
 
 			String userQuery = "select uid, link_id, rating from trackRecommendedLinks where rating != 0;"; // 0 = not rated
 			Statement statement = SQLUtil.getStatement();
