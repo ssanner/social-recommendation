@@ -142,8 +142,8 @@ public class SocialRecommender extends Predictor {
 		}
 
 		Recommender recommender = getRecommender(type, linkLikes, users, links, friendships);
-		//((org.nicta.lr.recommender.SocialRecommender)recommender).setLambda(0.1);
-		//((org.nicta.lr.recommender.SocialRecommender)recommender).setBeta(1);
+		((org.nicta.lr.recommender.SocialRecommender)recommender).setLambda(0.1);
+		((org.nicta.lr.recommender.SocialRecommender)recommender).setBeta(1);
 		recommender.train(trainData);
 
 		predictions = recommender.getPredictions(testData);
