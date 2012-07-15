@@ -89,10 +89,13 @@ public class DataGeneratorAccurateLabelsv2 {
 
 			Map<Long,Set<Long>> knownLikes = UserUtil.getLikes(ELikeType.ALL);		// all user likes
 			TreeMap<Long,Integer> topLikes = topLiked(knownLikes);					// sorted user likes
-			for (Long like_item : topLikes.keySet()){								// each app user
-				for (Long uid : UserUtil.getAppUserIds()){							// top liked 'things'
+			for (Long like_item : topLikes.keySet()){								// top liked 'things'
+				for (Long uid : UserUtil.getAppUserIds()){							// each app user
 					//System.out.println(key + " " + topLikes.get(key));
 					boolean is_liked = false;
+					
+					System.out.println(knownLikes.get(uid));
+					
 					if (knownLikes.get(uid).contains(like_item)){
 						is_liked = true;
 					}					
