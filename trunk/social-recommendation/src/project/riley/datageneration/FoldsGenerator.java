@@ -19,12 +19,13 @@ public class FoldsGenerator {
 	public static final int NUM_FOLDS = 10;
 	
 	public static void main(String args[]) throws Exception {
-		DataGeneratorAccurateLabelsv2.populateCachedData(false /* active */,/* top k */10);				// generate data
-		DataGeneratorAccurateLabelsv2.writeData(FILENAME,/* interaction threshold */ 0);				// write data
+		//DataGeneratorPassiveActive.populateCachedData(true /* active */);							// generate data
+		DataGeneratorPassiveActive.populateCachedData(false /* passive */);							// generate data
+		DataGeneratorPassiveActive.writeData(FILENAME, 0 /* interaction threshold */);				// write data
 		
-		ArffData arff = new ArffData(FILENAME);															// load data
+		ArffData arff = new ArffData(FILENAME);														// load data
 		FoldData folds = arff.foldData(NUM_FOLDS);
-		folds.writeData();																				// split into folds
+		folds.writeData();																			// split into folds
 		System.out.println("Generated " + NUM_FOLDS + " folds and exported files.");
 	}
 }
