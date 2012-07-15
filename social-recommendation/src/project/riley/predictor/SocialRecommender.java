@@ -32,8 +32,8 @@ public class SocialRecommender extends Predictor {
 	
 	public void runTests(String source_file, int num_folds) throws IOException {
 		LinkRecommenderArff linkRecommender = new LinkRecommenderArff();
-		linkRecommender.setType(type);
-		linkRecommender.runTests(source_file,num_folds);
+		//linkRecommender.setType(type);
+		//linkRecommender.runTests(source_file,num_folds);
 	}
 
 }
