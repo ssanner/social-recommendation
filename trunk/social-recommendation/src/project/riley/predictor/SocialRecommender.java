@@ -11,17 +11,13 @@ import project.riley.predictor.ArffData.DataEntry;
 public class SocialRecommender extends Predictor {
 
 	String type = null;
-	LinkRecommenderArff linkRecommender = null;
 	
 	public SocialRecommender(String type){
 		this.type = type;
 	}
 	
 	@Override
-	public void train() {
-		linkRecommender = new LinkRecommenderArff();
-		linkRecommender.setType(type);
-	}
+	public void train() {}
 
 	@Override
 	public int evaluate(DataEntry de) {	return 0; }
@@ -35,6 +31,8 @@ public class SocialRecommender extends Predictor {
 	}
 	
 	public void runTests(String source_file, int num_folds) throws IOException {
+		LinkRecommenderArff linkRecommender = new LinkRecommenderArff();
+		linkRecommender.setType(type);
 		linkRecommender.runTests(source_file,num_folds);
 	}
 
