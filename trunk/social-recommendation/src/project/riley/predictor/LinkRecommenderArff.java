@@ -205,6 +205,12 @@ public class LinkRecommenderArff extends org.nicta.lr.LinkRecommender
 		System.out.println("F1: " + meanF1 + "(" + seF1 + ")");
 	}
 	
+	public static void main(String[] args) throws IOException {
+		LinkRecommenderArff linkRecommender = new LinkRecommenderArff();
+		linkRecommender.setType(type);
+		linkRecommender.runTests("passive.arff",10);
+	}
+	
 	public Double[] getArffMetrics(Map<Long, Map<Long, Double>> predictions, Map<Long, Set<Long>> linkLikes, double threshold)
 	{
 		double truePos = 0;
