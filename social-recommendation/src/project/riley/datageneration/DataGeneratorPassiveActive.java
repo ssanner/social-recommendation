@@ -220,7 +220,7 @@ public class DataGeneratorPassiveActive {
 
 	public static ArrayList<Long> getLinksSortedByPopularity(int freq_threshold) throws SQLException {
 		
-		String userQuery = "select link_id, count(*) from linkrlinklikes group by link_id order by count(*) desc;";
+		String userQuery = "select link_id, count(*) from linkrLinkLikes group by link_id order by count(*) desc;";
 		Statement statement = SQLUtil.getStatement();
 		ArrayList<Long> link_list = new ArrayList<Long>();
 		
@@ -240,7 +240,7 @@ public class DataGeneratorPassiveActive {
 	
 	public static ArrayList<Long> getAppUserLinksSortedByPopularity(int freq_threshold) throws SQLException {
 		
-		String userQuery = "select link_id, count(*) from linkrlinklikes where uid in (select distinct uid from trackrecommendedlinks) group by link_id order by count(*) desc;";
+		String userQuery = "select link_id, count(*) from linkrLinkLikes where uid in (select distinct uid from trackRecommendedLinks) group by link_id order by count(*) desc;";
 		Statement statement = SQLUtil.getStatement();
 		ArrayList<Long> link_list = new ArrayList<Long>();
 		
