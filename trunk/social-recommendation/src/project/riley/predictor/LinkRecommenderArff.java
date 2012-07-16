@@ -121,8 +121,9 @@ public class LinkRecommenderArff extends org.nicta.lr.LinkRecommender
 		Map<Long, Map<Long, Double>> friendships = UserUtil.getFriendships();
 
 		Recommender recommender = getRecommender(type, linkLikes, users, links, friendships);
-		((org.nicta.lr.recommender.SocialRecommender)recommender).setLambda(0.1);
-		((org.nicta.lr.recommender.SocialRecommender)recommender).setBeta(1);
+		((org.nicta.lr.recommender.MFRecommender)recommender).setLambda(0.1);
+		if (recommender instanceof org.nicta.lr.recommender.SocialRecommender)
+			((org.nicta.lr.recommender.SocialRecommender)recommender).setBeta(1);
 		recommender.train(trainData);
 
 		Map<Long, Map<Long, Double>> predictions = recommender.getPredictions(testData);
