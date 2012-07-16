@@ -55,8 +55,8 @@ public class Launcher {
 		Predictor[] predictors = new Predictor[] {
 			//	matchbox,
 			//	soc_matchbox,
-				knn,
-			//	cbf,
+			//	knn,
+				cbf,
 				/*naiveBayes, 
 				constPredTrue,
 				constPredFalse,
