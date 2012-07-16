@@ -49,12 +49,14 @@ public class Launcher {
 		// 
 		Predictor matchbox     = new SocialRecommender(Constants.FEATURE);
 		Predictor soc_matchbox = new SocialRecommender(Constants.SOCIAL);
-		//Predictor knn          = new SocialRecommender(Constants.NN);
-		//Predictor cbf          = new SocialRecommender(Constants.CBF);
+		Predictor knn          = new SocialRecommender(Constants.NN);
+		Predictor cbf          = new SocialRecommender(Constants.CBF);
 		
 		Predictor[] predictors = new Predictor[] {
-				matchbox /*,
+				matchbox,
 				soc_matchbox,
+				knn,
+				cbf,
 				naiveBayes, 
 				constPredTrue,
 				constPredFalse,
