@@ -53,11 +53,11 @@ public class Launcher {
 		Predictor cbf          = new SocialRecommender(Constants.CBF);
 		
 		Predictor[] predictors = new Predictor[] {
-				matchbox,
-				soc_matchbox,
+			//	matchbox,
+			//	soc_matchbox,
 				knn,
-				cbf/*,
-				naiveBayes, 
+			//	cbf,
+				/*naiveBayes, 
 				constPredTrue,
 				constPredFalse,
 				liblinear1,
