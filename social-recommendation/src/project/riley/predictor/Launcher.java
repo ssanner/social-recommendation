@@ -56,7 +56,7 @@ public class Launcher {
 				matchbox,
 				soc_matchbox,
 				knn,
-				cbf,
+				cbf/*,
 				naiveBayes, 
 				constPredTrue,
 				constPredFalse,
