@@ -5,6 +5,7 @@ import project.ifilter.predictor.ArffData.DataEntry;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.DecimalFormat;
 import java.util.Set;
 import java.util.HashSet;
 import java.util.Map;
@@ -19,6 +20,7 @@ import org.nicta.lr.util.UserUtil;
 
 public class LinkRecommenderArff extends org.nicta.lr.LinkRecommender
 {
+	static DecimalFormat df3 = new DecimalFormat("#.###");
 	//Use as much of the old code as possible.
 	//But make a new class and method as I don't trust myself yet to edit the old code and not break anything
 	public Double[] run(String trainFile, String testFile, String type)
@@ -191,14 +193,14 @@ public class LinkRecommenderArff extends org.nicta.lr.LinkRecommender
 		double seRecall = stdRecall / Math.sqrt(num_folds);
 		double seF1 = stdF1 / Math.sqrt(num_folds);
 
-		System.out.println("Accuracy: " + meanAccuracy + " +/- " + seAccuracy);
-		writer.println("Accuracy: " + meanAccuracy + " +/- " + seAccuracy);
-		System.out.println("Precision: " + meanPrecision + " +/- " + sePrecision);
-		writer.println("Precision: " + meanPrecision + " +/- " + sePrecision);
-		System.out.println("Recall: " + meanRecall + " +/- " + seRecall);
-		writer.println("Recall: " + meanRecall + " +/- " + seRecall);
-		System.out.println("F-Score: " + meanF1 + " +/- " + seF1);
-		writer.println("F-Score: " + meanF1 + " +/- " + seF1);
+		System.out.println("Accuracy:  " + df3.format(meanAccuracy) + " +/- " + df3.format(seAccuracy));
+		writer.println("Accuracy:  " + df3.format(meanAccuracy) + " +/- " + df3.format(seAccuracy));
+		System.out.println("Precision: " + df3.format(meanPrecision) + " +/- " + df3.format(sePrecision));
+		writer.println("Precision: " + df3.format(meanPrecision) + " +/- " + df3.format(sePrecision));
+		System.out.println("Recall:    " + df3.format(meanRecall) + " +/- " + df3.format(seRecall));
+		writer.println("Recall:    " + df3.format(meanRecall) + " +/- " + df3.format(seRecall));
+		System.out.println("F-Score:   " + df3.format(meanF1) + " +/- " + df3.format(seF1));
+		writer.println("F-Score:   " + df3.format(meanF1) + " +/- " + df3.format(seF1));
 		System.out.println();
 		writer.println();
 	}

@@ -17,8 +17,7 @@ for line in results:
 fig1 = plt.figure(figsize = (10,15))
 plt.subplots_adjust(hspace=1.0)
 
-for a in resultsDictionary:
-	print a
+print resultsDictionary.items()
 
 plotCount = 1
 for key in resultsDictionary:
