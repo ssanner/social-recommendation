@@ -1,6 +1,9 @@
 package project.riley.predictor;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.nicta.lr.util.Constants;
 
@@ -15,9 +18,13 @@ public class Launcher {
 	//public final static String DATA_FILE = "active.arff";
 	public final static String DATA_FILE = "passive.arff";
 	public final static int    NUM_FOLDS = 10;
+	public static PrintWriter  writer;
+	public static Predictor[]  predictors;
 	
-	public static void main(String[] args) throws Exception {
-		
+	/*
+	 * set up predictors
+	 */
+	public Predictor[] setUp(){
 		// SPS -- free parameters should always be apparent for tuning purposes
 		Predictor constPredTrue  = new ConstantPredictor(true);
 		Predictor constPredFalse = new ConstantPredictor(false);
@@ -49,15 +56,13 @@ public class Launcher {
 		// 
 		Predictor matchbox     = new SocialRecommender(Constants.FEATURE);
 		Predictor soc_matchbox = new SocialRecommender(Constants.SOCIAL);
-		Predictor knn          = new SocialRecommender(Constants.NN);
-		Predictor cbf          = new SocialRecommender(Constants.CBF);
-		
+		//Predictor knn          = new SocialRecommender(Constants.NN);
+		//Predictor cbf          = new SocialRecommender(Constants.CBF);
+
 		Predictor[] predictors = new Predictor[] {
-			//	matchbox,
-			//	soc_matchbox,
-			//	knn,
-				cbf,
-				/*naiveBayes, 
+				matchbox,
+				soc_matchbox,
+				naiveBayes, 
 				constPredTrue,
 				constPredFalse,
 				liblinear1,
@@ -71,11 +76,37 @@ public class Launcher {
 				logisticRegression_l1,
 				logisticRegression_l1_maxent, 
 				logisticRegression_l2, 
-				libsvm */ };
+				libsvm */ 
+		};
 		
-		for (Predictor p : predictors)
-			p.runTests(DATA_FILE, NUM_FOLDS);
-		
+		return predictors;
 	}
-	
+
+	/*
+	 * launch interaction threshold tests
+	 */
+	public void interactionThresholdLauncher(int size) throws Exception{
+		for (int i = 0; i < size; i++){
+			String name = "threshold_" + (i+1) + "_" + DATA_FILE;
+			System.out.println("Running predictors on " + name);
+			for (Predictor p : predictors){
+				p.runTests(name, NUM_FOLDS, writer);
+			}
+		}
+	}
+
+	public static void main(String[] args) throws Exception {
+		Launcher launcher = new Launcher();
+		predictors = launcher.setUp();
+		
+		Date dNow = new Date();
+	    SimpleDateFormat ft = new SimpleDateFormat ("dd_MM_yyyy");
+	    String outName = "results_" + ft.format(dNow) + ".txt"; 
+	    
+		writer = new PrintWriter(outName);		
+		launcher.interactionThresholdLauncher(10 /* thresholds size */);
+		System.out.println("Finished writing to file " + outName);
+		writer.close();
+	}
+
 }

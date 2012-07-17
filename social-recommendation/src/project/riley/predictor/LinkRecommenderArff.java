@@ -4,6 +4,7 @@ import project.ifilter.predictor.ArffData;
 import project.ifilter.predictor.ArffData.DataEntry;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Set;
 import java.util.HashSet;
 import java.util.Map;
@@ -115,7 +116,7 @@ public class LinkRecommenderArff extends org.nicta.lr.LinkRecommender
 
 			testData.get(userId).removeAll(remove);
 		}
-		System.out.println("Discarded " + num_invalid_link_ids + " invalid link IDs.");
+		//System.out.println("Discarded " + num_invalid_link_ids + " invalid link IDs.");
 
 		//Code below is basically doing the same as LinkRecommender
 		Map<Long, Map<Long, Double>> friendships = UserUtil.getFriendships();
@@ -132,7 +133,7 @@ public class LinkRecommenderArff extends org.nicta.lr.LinkRecommender
 		return getArffMetrics(predictions, testLikes, threshold);
 			}
 
-	public static void runTests(String source_file, int num_folds) throws Exception {
+	public static void runTests(String source_file, int num_folds,PrintWriter writer) throws Exception {
 		Double[] accuracies = new Double[num_folds];
 		Double[] precisions = new Double[num_folds];
 		Double[] recalls = new Double[num_folds];
@@ -190,11 +191,16 @@ public class LinkRecommenderArff extends org.nicta.lr.LinkRecommender
 		double seRecall = stdRecall / Math.sqrt(num_folds);
 		double seF1 = stdF1 / Math.sqrt(num_folds);
 
-		System.out.println("FINAL RESULTS:");
-		System.out.println("Accuracy: " + meanAccuracy + "(" + seAccuracy + ")");
-		System.out.println("Precision: " + meanPrecision + "(" + sePrecision + ")");
-		System.out.println("Recall: " + meanRecall + "(" + seRecall + ")");
-		System.out.println("F1: " + meanF1 + "(" + seF1 + ")");
+		System.out.println("Accuracy: " + meanAccuracy + " +/- " + seAccuracy);
+		writer.println("Accuracy: " + meanAccuracy + " +/- " + seAccuracy);
+		System.out.println("Precision: " + meanPrecision + " +/- " + sePrecision);
+		writer.println("Precision: " + meanPrecision + " +/- " + sePrecision);
+		System.out.println("Recall: " + meanRecall + " +/- " + seRecall);
+		writer.println("Recall: " + meanRecall + " +/- " + seRecall);
+		System.out.println("F-Score: " + meanF1 + " +/- " + seF1);
+		writer.println("F-Score: " + meanF1 + " +/- " + seF1);
+		System.out.println();
+		writer.println();
 	}
 	
 	public static void setType(String t){
@@ -205,7 +211,7 @@ public class LinkRecommenderArff extends org.nicta.lr.LinkRecommender
 		String source_file = "passive.arff";
 		int num_folds = 10;
 		setType(Constants.SOCIAL);
-		runTests(source_file,num_folds);
+		//runTests(source_file,num_folds);
 	}
 
 	public Double[] getArffMetrics(Map<Long, Map<Long, Double>> predictions, Map<Long, Set<Long>> linkLikes, double threshold)
@@ -264,12 +270,12 @@ public class LinkRecommenderArff extends org.nicta.lr.LinkRecommender
 
 		double confidence = 2 * Math.sqrt((accuracy * (1 - accuracy)) / totalCount);
 
-		System.out.println("TP: " + truePos + " FP: " + falsePos + " TN: " + trueNeg + " FN: " + falseNeg);
-		System.out.println("Accuracy: " + accuracy);
-		System.out.println("Confidence Interval: " + confidence);
-		System.out.println("Precision: " + precision);
-		System.out.println("Recall: " + recall);
-		System.out.println("F1: " + f1);
+		//System.out.println("TP: " + truePos + " FP: " + falsePos + " TN: " + trueNeg + " FN: " + falseNeg);
+		//System.out.println("Accuracy: " + accuracy);
+		//System.out.println("Confidence Interval: " + confidence);
+		//System.out.println("Precision: " + precision);
+		//System.out.println("Recall: " + recall);
+		//System.out.println("F1: " + f1);
 
 		return new Double[]{accuracy, precision, recall, f1};
 	}

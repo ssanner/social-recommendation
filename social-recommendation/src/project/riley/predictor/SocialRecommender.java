@@ -1,6 +1,7 @@
 package project.riley.predictor;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import org.nicta.lr.util.Constants;
 
@@ -32,9 +33,11 @@ public class SocialRecommender extends Predictor {
 		return "Social Recommender - ( " + type + " )";
 	}
 	
-	public void runTests(String source_file, int num_folds) throws Exception {
+	public void runTests(String source_file, int num_folds, PrintWriter writer) throws Exception {
+		System.out.println("Running " + getName() + " using " + source_file);
+		writer.println("Running " + getName() + " using " + source_file);
 		LinkRecommenderArff.setType(type);		
-		LinkRecommenderArff.runTests(source_file,num_folds);
+		LinkRecommenderArff.runTests(source_file,num_folds,writer);
 	}
 
 }
