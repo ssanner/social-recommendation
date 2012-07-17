@@ -17,7 +17,7 @@ public class FoldsGenerator {
 	 */
 	public static void interactionThresholdGeneration(int interaction_threshold) throws Exception{		
 		for (int i = 0; i < interaction_threshold; i++){
-			String name = "threshold_" + (i+1) + "_" + FILENAME;
+			String name = "threshold_" + i + "_" + FILENAME;
 			DataGeneratorPassiveActive.writeData(name, i /* interaction threshold */);				// write data
 			
 			ArffData arff = new ArffData(name);														// load data

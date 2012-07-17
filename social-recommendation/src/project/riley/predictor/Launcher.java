@@ -87,7 +87,7 @@ public class Launcher {
 	 */
 	public void interactionThresholdLauncher(int size) throws Exception{
 		for (int i = 0; i < size; i++){
-			String name = "threshold_" + (i+1) + "_" + DATA_FILE;
+			String name = "threshold_" + i + "_" + DATA_FILE;
 			System.out.println("Running predictors on " + name);
 			for (Predictor p : predictors){
 				p.runTests(name, NUM_FOLDS, writer);

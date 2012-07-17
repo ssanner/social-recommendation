@@ -4,26 +4,6 @@ import pylab as plt
 from pylab import *
 from collections import defaultdict
 
-'''
-x = range(1,4)
-y1 = [0.2, 0.3, 0.5]
-y2 = [0.4, 0.1, 0.2]
-
-figure()
-ax1 = subplot(211)
-plot(x, y1, 'b')
-
-ylim((0,10))
-xlim((0.0,1.0))
-print ax1.get_ylim()
-
-subplot(212)
-plot(x, y2, 'g')
-#ylim( ax1.get_ylim() )        # set y-limit to match first axis
-
-show()
-'''
-
 results = [line.strip().split(",") for line in open("results.txt").readlines()]		# read results file
 resultsDictionary = defaultdict(list)
 
@@ -37,13 +17,16 @@ for line in results:
 fig1 = plt.figure(figsize = (10,15))
 plt.subplots_adjust(hspace=1.0)
 
+for a in resultsDictionary:
+	print a
+
 plotCount = 1
 for key in resultsDictionary:
   count = 1
-  p1 = plt.subplot(5,1,plotCount)
+  p1 = plt.subplot(10,1,plotCount)
   plotCount+=1										# feature count
   for item in resultsDictionary[key]:
-    print count , item , key
+    #print count , item , key
     plt.plot(item, count, marker='o')
     plt.ylim((0,10))
     plt.xlim((0.0,1.0))
