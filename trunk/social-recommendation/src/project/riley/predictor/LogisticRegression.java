@@ -125,7 +125,7 @@ public class LogisticRegression extends Predictor {
 
 	public static void main(String[] args) throws Exception{
 		LogisticRegression lr = new LogisticRegression(LogisticRegression.PRIOR_TYPE.L1, 2d);
-		lr.runTests("active.arff", 10);
+		//lr.runTests("active.arff", 10);
 	}
 	
 }

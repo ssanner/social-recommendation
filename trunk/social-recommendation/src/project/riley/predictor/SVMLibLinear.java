@@ -145,7 +145,7 @@ public class SVMLibLinear extends Predictor {
 		for (SolverType type : SOLVER_TYPES) { // testing solver types 
 			for (double C : C_VALUES){ // testing C values
 				SVMLibLinear svm = new SVMLibLinear(type, C, 0.001d);
-				svm.runTests("active.arff", 10);
+				//svm.runTests("active.arff", 10);
 			}
 		}
 	}
