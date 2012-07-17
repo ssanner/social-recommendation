@@ -30,7 +30,7 @@ public class SocialRecommender extends Predictor {
 
 	@Override
 	public String getName() {
-		return "Social Recommender - ( " + type + " )";
+		return "SocialRecommender(" + type + ")";
 	}
 	
 	public void runTests(String source_file, int num_folds, PrintWriter writer) throws Exception {
