@@ -1,6 +1,7 @@
 package project.riley.predictor;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
@@ -77,7 +78,7 @@ public abstract class Predictor {
 	/*
 	 * Run tests on data
 	 */
-	public void runTests(String source_file, int num_folds) throws Exception {
+	public void runTests(String source_file, int num_folds, PrintWriter writer) throws Exception {
 
 		int correct = 0;									// correct classification
 		int truePositive = 0;								// true positives
@@ -89,7 +90,8 @@ public abstract class Predictor {
 		ArrayList<Double> recalls    = new ArrayList<Double>();
 		ArrayList<Double> fscores    = new ArrayList<Double>();
 
-		System.out.println("Running " + getName() + " using " + source_file);	
+		System.out.println("Running " + getName() + " using " + source_file);
+		writer.println("Running " + getName() + " using " + source_file);
 
 		for (int i = 0; i < num_folds; i++){
 			
@@ -117,10 +119,15 @@ public abstract class Predictor {
 		}
 
 		System.out.println("Accuracy:  " + df3.format(Statistics.Avg(accuracies)) + "  +/-  " + df3.format(Statistics.StdError95(accuracies)));
+		writer.println("Accuracy:  " + df3.format(Statistics.Avg(accuracies)) + "  +/-  " + df3.format(Statistics.StdError95(accuracies)));
 		System.out.println("Precision: " + df3.format(Statistics.Avg(precisions)) + "  +/-  " + df3.format(Statistics.StdError95(precisions)));
+		writer.println("Precision: " + df3.format(Statistics.Avg(precisions)) + "  +/-  " + df3.format(Statistics.StdError95(precisions)));
 		System.out.println("Recall:    " + df3.format(Statistics.Avg(recalls))    + "  +/-  " + df3.format(Statistics.StdError95(recalls)));
+		writer.println("Recall:    " + df3.format(Statistics.Avg(recalls))    + "  +/-  " + df3.format(Statistics.StdError95(recalls)));
 		System.out.println("F-Score:   " + df3.format(Statistics.Avg(fscores))    + "  +/-  " + df3.format(Statistics.StdError95(fscores)));
+		writer.println("F-Score:   " + df3.format(Statistics.Avg(fscores))    + "  +/-  " + df3.format(Statistics.StdError95(fscores)));
 		System.out.println();
+		writer.println();
 	}
 
 }
