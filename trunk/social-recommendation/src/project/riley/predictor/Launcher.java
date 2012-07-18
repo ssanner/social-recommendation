@@ -72,7 +72,8 @@ public class Launcher {
 				liblinear1_maxent,
 				liblinear2_maxent,
 				liblinear3_maxent,
-				liblinear4_maxent, logisticRegression_l1_maxent /*,
+				liblinear4_maxent, 
+				logisticRegression_l1_maxent /*,
 				logisticRegression_l1,
 				logisticRegression_l1_maxent, 
 				logisticRegression_l2, 
@@ -104,7 +105,7 @@ public class Launcher {
 	    String outName = "results_" + ft.format(dNow) + ".txt"; 
 	    
 		writer = new PrintWriter(outName);		
-		launcher.interactionThresholdLauncher(10 /* thresholds size */);
+		launcher.interactionThresholdLauncher(11 /* thresholds size */);
 		System.out.println("Finished writing to file " + outName);
 		writer.close();
 	}
