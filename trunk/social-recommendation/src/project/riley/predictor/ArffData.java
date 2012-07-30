@@ -213,11 +213,15 @@ public class ArffData {
 			System.out.println(split.length);
 			if (!demographics && i > demographics_index_start && i <= demographics_index_end){
 				// nothing
+				System.out.println("ignoring--");
 			} else if (!groups && i > groups_index_start && i <= groups_index_end){
 				// nothing
+				System.out.println("ignoring--");
 			} else if (!conversations && i > conversations_index_start && i <= conversations_index_end){
 				// nothing
+				System.out.println("ignoring--");
 			} else {
+				System.out.println(StripQuotes(split[i]));
 				d.addData(StripQuotes(split[i]));
 			}
 		}
