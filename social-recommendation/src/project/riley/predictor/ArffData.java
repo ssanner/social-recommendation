@@ -210,7 +210,6 @@ public class ArffData {
 		String split[] = line.split("[,]");
 		DataEntry d = new DataEntry(_attr.size());
 		for (int i = 0; i < split.length; i++){
-			System.out.println(split.length);
 			if (!demographics && i > demographics_index_start && i <= demographics_index_end){
 				// nothing
 				System.out.println("ignoring--");
@@ -221,7 +220,7 @@ public class ArffData {
 				// nothing
 				System.out.println("ignoring--");
 			} else {
-				System.out.println(StripQuotes(split[i]));
+				System.out.println(i + ":" + StripQuotes(split[i]));
 				d.addData(StripQuotes(split[i]));
 			}
 		}
