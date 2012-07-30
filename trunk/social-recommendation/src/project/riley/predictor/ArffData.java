@@ -14,6 +14,8 @@ import java.util.*;
 
 import javax.xml.stream.events.Attribute;
 
+import project.riley.datageneration.DataGeneratorPassiveActive;
+
 
 
 public class ArffData {
@@ -33,6 +35,18 @@ public class ArffData {
 	
 	public HashMap<String,Attribute> _attrMap = new HashMap<String,Attribute>();
 	
+	boolean demographics = false;
+	int demographics_index_start = 26;
+	int demographics_index_end = demographics_index_start + DataGeneratorPassiveActive.demographics_types.length;
+	
+	boolean groups = false;
+	int groups_index_start = demographics_index_end + 1;
+	int groups_index_end = groups_index_start + DataGeneratorPassiveActive.group_types.length;
+	
+	boolean conversations = false;
+	int conversations_index_start = groups_index_end + 1;
+	int conversations_index_end = (conversations_index_start + DataGeneratorPassiveActive.conversation_types.length) * 2 /* incoming/outgoing */;
+	
 	protected static NumberFormat _nf = NumberFormat.getInstance();
 	static {
 		_nf.setMaximumIntegerDigits(100);
@@ -50,6 +64,14 @@ public class ArffData {
 	
 	public ArffData(String filename) {
 		_filename = filename;
+		readArffFile();
+	}
+	
+	public ArffData(String filename, boolean demographics, boolean groups, boolean conversations) {
+		_filename = filename;
+		this.demographics = demographics;
+		this.groups = groups;
+		this.conversations = conversations;
 		readArffFile();
 	}
 
@@ -105,14 +127,25 @@ public class ArffData {
 				// DEBUG
 				//for (String s : line.split(WHITESPACE))
 				//	System.out.println("\"" + s + "\"");
+				int count = 0;
 				if (line.startsWith("@RELATION") || 
 						 line.startsWith("@Relation") ||
 						 line.startsWith("@relation"))
 					_relation = StripQuotes(line.split(WHITESPACE)[1]);
 				else if (line.startsWith("@ATTRIBUTE") ||
 						 line.startsWith("@Attribute") ||
-						 line.startsWith("@attribute"))
-					addAttribute(line);
+						 line.startsWith("@attribute")) {
+						if (!demographics && count > demographics_index_start && count < demographics_index_end){
+							// nothing
+						} else if (!groups && count > groups_index_start && count < groups_index_end){
+							// nothing
+						} else if (!conversations && count > conversations_index_start && count < conversations_index_end){
+							// nothing
+						} else {
+							addAttribute(line);
+						}
+						count++;
+				}
 				else if (line.startsWith("@DATA") ||
 						 line.startsWith("@Data") ||
 						 line.startsWith("@data"))
@@ -177,8 +210,17 @@ public class ArffData {
 	public DataEntry addDataEntry(String line) {
 		String split[] = line.split("[,]");
 		DataEntry d = new DataEntry(_attr.size());
-		for (String s : split) 
-			d.addData(StripQuotes(s));
+		for (int i = 0; i < split.length; i++){
+			if (!demographics && i > demographics_index_start && i < demographics_index_end){
+				// nothing
+			} else if (!groups && i > groups_index_start && i < groups_index_end){
+				// nothing
+			} else if (!conversations && i > conversations_index_start && i < conversations_index_end){
+				// nothing
+			} else {
+				d.addData(StripQuotes(split[i]));
+			}
+		}
 		if (d._entries.size() == _attr.size())
 			_data.add(d);
 		else {
