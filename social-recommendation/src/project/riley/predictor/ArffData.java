@@ -127,7 +127,6 @@ public class ArffData {
 				// DEBUG
 				//for (String s : line.split(WHITESPACE))
 				//	System.out.println("\"" + s + "\"");
-				int count = 0;
 				if (line.startsWith("@RELATION") || 
 						 line.startsWith("@Relation") ||
 						 line.startsWith("@relation"))
@@ -135,17 +134,15 @@ public class ArffData {
 				else if (line.startsWith("@ATTRIBUTE") ||
 						 line.startsWith("@Attribute") ||
 						 line.startsWith("@attribute")) {
-						if (!demographics && count > demographics_index_start && count < demographics_index_end){
+						if (!demographics && line_index > demographics_index_start && line_index < demographics_index_end){
 							// nothing
-						} else if (!groups && count > groups_index_start && count < groups_index_end){
+						} else if (!groups && line_index > groups_index_start && line_index < groups_index_end){
 							// nothing
-						} else if (!conversations && count > conversations_index_start && count < conversations_index_end){
+						} else if (!conversations && line_index > conversations_index_start && line_index < conversations_index_end){
 							// nothing
 						} else {
 							addAttribute(line);
 						}
-						System.out.println("------------------" + count);
-						count++;
 				}
 				else if (line.startsWith("@DATA") ||
 						 line.startsWith("@Data") ||
