@@ -144,6 +144,7 @@ public class ArffData {
 						} else {
 							addAttribute(line);
 						}
+						System.out.println("------------------" + count);
 						count++;
 				}
 				else if (line.startsWith("@DATA") ||
