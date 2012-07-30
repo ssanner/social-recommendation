@@ -134,13 +134,13 @@ public class ArffData {
 				else if (line.startsWith("@ATTRIBUTE") ||
 						 line.startsWith("@Attribute") ||
 						 line.startsWith("@attribute")) {
-						if (!demographics && line_index > demographics_index_start && line_index < demographics_index_end){
+						if (!demographics && line_index > demographics_index_start && line_index <= demographics_index_end){
 							// nothing
 							System.out.print("irnoring-");
-						} else if (!groups && line_index > groups_index_start && line_index < groups_index_end){
+						} else if (!groups && line_index > groups_index_start && line_index <= groups_index_end){
 							// nothing
 							System.out.print("irnoring-");
-						} else if (!conversations && line_index > conversations_index_start && line_index < conversations_index_end){
+						} else if (!conversations && line_index > conversations_index_start && line_index <= conversations_index_end){
 							// nothing
 							System.out.print("irnoring-");
 						} else {
