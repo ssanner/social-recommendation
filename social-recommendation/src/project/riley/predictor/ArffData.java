@@ -136,17 +136,14 @@ public class ArffData {
 						 line.startsWith("@attribute")) {
 						if (!demographics && line_index > demographics_index_start && line_index <= demographics_index_end){
 							// nothing
-							System.out.print("irnoring-");
 						} else if (!groups && line_index > groups_index_start && line_index <= groups_index_end){
 							// nothing
-							System.out.print("irnoring-");
 						} else if (!conversations && line_index > conversations_index_start && line_index <= conversations_index_end){
 							// nothing
-							System.out.print("irnoring-");
 						} else {
 							addAttribute(line);
 						}
-						System.out.println(line_index + ":" + line);
+						//System.out.println(line_index + ":" + line);
 				}
 				else if (line.startsWith("@DATA") ||
 						 line.startsWith("@Data") ||
@@ -213,11 +210,12 @@ public class ArffData {
 		String split[] = line.split("[,]");
 		DataEntry d = new DataEntry(_attr.size());
 		for (int i = 0; i < split.length; i++){
-			if (!demographics && i > demographics_index_start && i < demographics_index_end){
+			System.out.println(split.length);
+			if (!demographics && i > demographics_index_start && i <= demographics_index_end){
 				// nothing
-			} else if (!groups && i > groups_index_start && i < groups_index_end){
+			} else if (!groups && i > groups_index_start && i <= groups_index_end){
 				// nothing
-			} else if (!conversations && i > conversations_index_start && i < conversations_index_end){
+			} else if (!conversations && i > conversations_index_start && i <= conversations_index_end){
 				// nothing
 			} else {
 				d.addData(StripQuotes(split[i]));
