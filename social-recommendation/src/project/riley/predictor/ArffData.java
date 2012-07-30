@@ -36,7 +36,7 @@ public class ArffData {
 	public HashMap<String,Attribute> _attrMap = new HashMap<String,Attribute>();
 	
 	boolean demographics = false;
-	int demographics_index_start = 26;
+	int demographics_index_start = 25;
 	int demographics_index_end = demographics_index_start + DataGeneratorPassiveActive.demographics_types.length;
 	
 	boolean groups = false;
@@ -143,6 +143,7 @@ public class ArffData {
 						} else {
 							addAttribute(line);
 						}
+						System.out.println(line_index + ":" + line);
 				}
 				else if (line.startsWith("@DATA") ||
 						 line.startsWith("@Data") ||
