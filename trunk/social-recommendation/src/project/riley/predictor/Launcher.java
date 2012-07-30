@@ -24,7 +24,6 @@ public class Launcher {
 	public static boolean GROUPS = true;
 	public static boolean CONVERSATION = true;
 	
-	
 	/*
 	 * set up predictors
 	 */
