@@ -31,7 +31,7 @@ public class PredictiveWords {
 	public static void processUserMessages() throws SQLException, FileNotFoundException {
 
 		if (new File(MESSAGES_FILE).exists()){
-			System.out.println("Messages file already exists");
+			//System.out.println("Messages file already exists");
 			return;
 		}
 		
@@ -60,7 +60,7 @@ public class PredictiveWords {
 	public static void buildMessagesDictionary() throws Exception{
 		
 		if (new File(MessageStringUtil.dictionaryFile).exists()){
-			System.out.println("Dictionary file already exists");
+			//System.out.println("Dictionary file already exists");
 			return;
 		}
 		
