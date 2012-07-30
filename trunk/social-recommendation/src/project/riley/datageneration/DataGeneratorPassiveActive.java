@@ -443,6 +443,10 @@ public class DataGeneratorPassiveActive {
 
 		StringBuffer results = new StringBuffer();
 
+		for (String w : PredictiveWords.getTopN(3)){
+			System.out.println("-----------" + w);
+		}
+		
 		ArrayList<String> topNWords = PredictiveWords.getTopN(3);
 		for (String table : conversation_types){
 			StringBuffer query = new StringBuffer("select count(*) from " + table + " where message like '%" + topNWords.get(0) /* assume at least one */ + "%' ");
