@@ -36,15 +36,15 @@ public class ArffData {
 	public HashMap<String,Attribute> _attrMap = new HashMap<String,Attribute>();
 	
 	boolean demographics = false;
-	int demographics_index_start = 28;
+	int demographics_index_start = 27;
 	int demographics_index_end = demographics_index_start + DataGeneratorPassiveActive.demographics_types.length;
 	
 	boolean groups = false;
-	int groups_index_start = demographics_index_end + 1;
+	int groups_index_start = demographics_index_end;
 	int groups_index_end = groups_index_start + DataGeneratorPassiveActive.group_types.length;
 	
 	boolean conversations = false;
-	int conversations_index_start = groups_index_end + 1;
+	int conversations_index_start = groups_index_end;
 	int conversations_index_end = (conversations_index_start + DataGeneratorPassiveActive.conversation_types.length) * 2 /* incoming/outgoing */;
 	
 	protected static NumberFormat _nf = NumberFormat.getInstance();
