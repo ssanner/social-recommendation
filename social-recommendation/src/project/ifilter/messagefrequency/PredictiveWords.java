@@ -1,6 +1,7 @@
 package project.ifilter.messagefrequency;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -8,6 +9,7 @@ import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import org.nicta.lr.util.SQLUtil;
 
@@ -19,17 +21,20 @@ public class PredictiveWords {
 	public static String MESSAGES_FILE = "messages.txt";
 
 	public static void main(String[] args) throws Exception {				
-		PredictiveWords p = new PredictiveWords();				
-		p.processUserMessages();
-		p.buildMessagesDictionary(MESSAGES_FILE);
-		ExtractRelTables.ShowCondProbs();
+		buildMessagesDictionary();
+		//ExtractRelTables.ShowCondProbs();
 	}
 
 	/*
 	 * Write all user messages to file and save user interactions
 	 */
-	public void processUserMessages() throws SQLException, FileNotFoundException {
+	public static void processUserMessages() throws SQLException, FileNotFoundException {
 
+		if (new File(MESSAGES_FILE).exists()){
+			System.out.println("Messages file already exists");
+			return;
+		}
+		
 		PrintWriter writer = new PrintWriter(MESSAGES_FILE);
 
 		String[] tables = {"linkrLinkComments", "linkrPostComments", "linkrPhotoComments", "linkrVideoComments"};
@@ -47,15 +52,21 @@ public class PredictiveWords {
 
 		writer.close();
 		System.out.println("Messages written to " + MESSAGES_FILE);
-
 	}	
 
 	/*
 	 * Build message frequency dictionary
 	 */
-	public void buildMessagesDictionary(String fileName) throws IOException, LangDetectException{
+	public static void buildMessagesDictionary() throws Exception{
+		
+		if (new File(MessageStringUtil.dictionaryFile).exists()){
+			System.out.println("Dictionary file already exists");
+			return;
+		}
+		
+		processUserMessages();
 		MessageStringUtil.readStopList();
-		BufferedReader br = new BufferedReader(new FileReader(fileName));
+		BufferedReader br = new BufferedReader(new FileReader(MESSAGES_FILE));
 		String message;
 		int totalComments = 0;
 		while ((message = br.readLine()) != null){
@@ -67,6 +78,20 @@ public class PredictiveWords {
 		}
 		MessageStringUtil.writeDictionary();
 		System.out.println("Dictionary written to " + MessageStringUtil.dictionaryFile);
-	}	
+	}
+	
+	/*
+	 * return top n words
+	 */
+	public static ArrayList<String> getTopN(int n) throws Exception{
+		ArrayList<String> topN = new ArrayList<String>();
+		BufferedReader br = new BufferedReader(new FileReader(MessageStringUtil.dictionaryFile));
+		String message;
+		while ((message = br.readLine()) != null && n > 0){
+			topN.add(message);
+			n--;
+		}
+		return topN;
+	}
 
 }

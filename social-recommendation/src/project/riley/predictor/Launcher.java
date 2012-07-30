@@ -20,6 +20,10 @@ public class Launcher {
 	public final static int    NUM_FOLDS = 10;
 	public static PrintWriter  writer;
 	public static Predictor[]  predictors;
+	public static boolean DEMOGRAPHICS = true;
+	public static boolean GROUPS = true;
+	public static boolean CONVERSATION = true;
+	
 	
 	/*
 	 * set up predictors
@@ -91,8 +95,18 @@ public class Launcher {
 			String name = "threshold_" + i + "_" + DATA_FILE;
 			System.out.println("Running predictors on " + name);
 			for (Predictor p : predictors){
-				p.runTests(name, NUM_FOLDS, writer);
+				p.runTests(name /* file to use */, NUM_FOLDS /* folds to use */, writer /* file to write */, DEMOGRAPHICS, GROUPS, CONVERSATION);
 			}
+		}
+	}
+	
+	/*
+	 * launch tests on demographics, group types and conversation conditions
+	 */
+	public void launch() throws Exception{
+		System.out.println("Running predictors on " + DATA_FILE);
+		for (Predictor p : predictors){
+			p.runTests(DATA_FILE /* file to use */, NUM_FOLDS /* folds to use */, writer /* file to write */, DEMOGRAPHICS, GROUPS, CONVERSATION);
 		}
 	}
 
@@ -105,7 +119,10 @@ public class Launcher {
 	    String outName = "results_" + ft.format(dNow) + ".txt"; 
 	    
 		writer = new PrintWriter(outName);		
-		launcher.interactionThresholdLauncher(11 /* thresholds size */);
+		
+		//launcher.interactionThresholdLauncher(11 /* thresholds size */);
+		launcher.launch();
+		
 		System.out.println("Finished writing to file " + outName);
 		writer.close();
 	}

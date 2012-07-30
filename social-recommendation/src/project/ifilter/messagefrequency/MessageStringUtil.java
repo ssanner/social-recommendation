@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -104,12 +105,12 @@ public class MessageStringUtil {
 	}
 
 	/*
-	 * Write frequency dictionary terms tp file
+	 * Write frequency dictionary terms to file
 	 * Sorted on frequency then alphabetically
 	 */
 	public static void writeDictionary() throws FileNotFoundException{		
 
-		PrintWriter writer = writer = new PrintWriter(dictionaryFile);
+		PrintWriter writer = new PrintWriter(dictionaryFile);
 
 		Comparator<String> vc = new Comparator<String>(){
 			@Override
