@@ -210,13 +210,14 @@ public class ArffData {
 		String split[] = line.split("[,]");
 		DataEntry d = new DataEntry(_attr.size());
 		for (int i = 0; i < split.length; i++){
-			if (!demographics && i > (demographics_index_start-2) && i <= (demographics_index_end-2)){
+			int offset = 2; // offset is different then file offset by 2 lines
+			if (!demographics && i > (demographics_index_start-offset) && i <= (demographics_index_end-offset)){
 				// nothing
 				System.out.println("ignoring--");
-			} else if (!groups && i > groups_index_start && i <= groups_index_end){
+			} else if (!groups && i > (groups_index_start-offset) && i <= (groups_index_end-offset)){
 				// nothing
 				System.out.println("ignoring--");
-			} else if (!conversations && i > conversations_index_start && i <= conversations_index_end){
+			} else if (!conversations && i > (conversations_index_start-offset) && i <= (conversations_index_end-offset)){
 				// nothing
 				System.out.println("ignoring--");
 			} else {
