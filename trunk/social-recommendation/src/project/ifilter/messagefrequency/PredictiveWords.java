@@ -88,7 +88,7 @@ public class PredictiveWords {
 		BufferedReader br = new BufferedReader(new FileReader(MessageStringUtil.dictionaryFile));
 		String message;
 		while ((message = br.readLine()) != null && n > 0){
-			topN.add(message);
+			topN.add(message.split("<>")[0]); // dictionary format: word<>count
 			n--;
 		}
 		return topN;
