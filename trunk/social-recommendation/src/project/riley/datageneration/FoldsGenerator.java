@@ -19,7 +19,7 @@ public class FoldsGenerator {
 		for (int i = 0; i < interaction_threshold; i++){
 			String name = "threshold_" + i + "_" + FILENAME;
 			DataGeneratorPassiveActive.writeData(name, i /* interaction threshold */);				// write data			
-			ArffData arff = new ArffData(name);														// load data
+			ArffData arff = new ArffData(name,true,false,false);														// load data
 			FoldData folds = arff.foldData(NUM_FOLDS);
 			folds.writeData();																		// split into folds
 		}		
