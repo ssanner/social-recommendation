@@ -280,17 +280,16 @@ public class DataGeneratorPassiveActive {
 		}
 
 		for (String demographic : demographics_types){
-			_writer.println("@attribute '" + demographic +  "' { '" + NO + "', '" + YES + "' }");
+			_writer.println("@attribute '" + demographic +  "' { " + NO + ", " + YES + " }");
 		}
 
 		for (String group : group_types){
-			_writer.println("@attribute '" + group +  "' { '" + NO + "', '" + YES + "' }");
+			_writer.println("@attribute '" + group +  "' { " + NO + ", " + YES + " }");
 		}
 
 		for (String conversation : conversation_types){
-			for (EDirectionType dir : _featuresDir){
-				_writer.println("@attribute 'conversation_" + dir + "_" + conversation +  "' { '" + NO + "', '" + YES + "' }");
-			}
+			_writer.println("@attribute 'conversation_" + EDirectionType.INCOMING + "_" + conversation +  "' { " + NO + ", " + YES + " }");
+			_writer.println("@attribute 'conversation_" + EDirectionType.OUTGOING + "_" + conversation +  "' { " + NO + ", " + YES + " }");
 		}
 
 		_writer.println("@data");
