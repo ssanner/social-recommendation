@@ -220,7 +220,7 @@ public class ArffData {
 				// nothing
 				System.out.println("ignoring--");
 			} else {
-				System.out.println(i + ":" + StripQuotes(split[i]));
+				System.out.println(i + ":" + _attr.get(i) + ":" + StripQuotes(split[i]));
 				d.addData(StripQuotes(split[i]));
 			}
 		}
