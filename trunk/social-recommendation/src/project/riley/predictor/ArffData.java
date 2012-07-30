@@ -210,7 +210,7 @@ public class ArffData {
 		String split[] = line.split("[,]");
 		DataEntry d = new DataEntry(_attr.size());
 		for (int i = 0; i < split.length; i++){
-			if (!demographics && i > demographics_index_start && i <= demographics_index_end){
+			if (!demographics && i > (demographics_index_start-1) && i <= (demographics_index_end-1)){
 				// nothing
 				System.out.println("ignoring--");
 			} else if (!groups && i > groups_index_start && i <= groups_index_end){
