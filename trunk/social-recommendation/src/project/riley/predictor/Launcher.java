@@ -23,7 +23,7 @@ public class Launcher {
 	public static boolean DEMOGRAPHICS = true;
 	public static boolean GROUPS = true;
 	public static boolean CONVERSATION = true;
-	
+
 	/*
 	 * set up predictors
 	 */
@@ -82,7 +82,7 @@ public class Launcher {
 				logisticRegression_l2, 
 				libsvm */ 
 		};
-		
+
 		return predictors;
 	}
 
@@ -98,30 +98,37 @@ public class Launcher {
 			}
 		}
 	}
-	
+
 	/*
 	 * launch tests on demographics, group types and conversation conditions
 	 */
-	public void launch() throws Exception{
-		System.out.println("Running predictors on " + DATA_FILE);
-		for (Predictor p : predictors){
-			p.runTests(DATA_FILE /* file to use */, NUM_FOLDS /* folds to use */, writer /* file to write */, DEMOGRAPHICS, GROUPS, CONVERSATION);
+	public void launchConditions() throws Exception{
+		boolean[] conditions = {true, false};
+		for (boolean condition_a : conditions){
+			for (boolean condition_b : conditions){
+				for (boolean condition_c : conditions){
+					System.out.println("Running predictors on " + DATA_FILE + " with demographics flag " + condition_a + " groups flag " + condition_b + " and conversation flag " + condition_c);
+					for (Predictor p : predictors){
+						p.runTests(DATA_FILE /* file to use */, NUM_FOLDS /* folds to use */, writer /* file to write */, condition_a, condition_b, condition_c);
+					}
+				}	
+			}	
 		}
 	}
 
 	public static void main(String[] args) throws Exception {
 		Launcher launcher = new Launcher();
 		predictors = launcher.setUp();
-		
+
 		Date dNow = new Date();
 	    SimpleDateFormat ft = new SimpleDateFormat ("dd_MM_yyyy");
 	    String outName = "results_" + ft.format(dNow) + ".txt"; 
-	    
+
 		writer = new PrintWriter(outName);		
-		
+
 		//launcher.interactionThresholdLauncher(11 /* thresholds size */);
-		launcher.launch();
-		
+		launcher.launchConditions();
+
 		System.out.println("Finished writing to file " + outName);
 		writer.close();
 	}

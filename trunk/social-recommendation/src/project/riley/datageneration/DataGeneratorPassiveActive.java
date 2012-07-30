@@ -442,10 +442,6 @@ public class DataGeneratorPassiveActive {
 		PredictiveWords.buildMessagesDictionary();
 
 		StringBuffer results = new StringBuffer();
-
-		for (String w : PredictiveWords.getTopN(3)){
-			System.out.println("-----------" + w);
-		}
 		
 		ArrayList<String> topNWords = PredictiveWords.getTopN(3);
 		for (String table : conversation_types){
