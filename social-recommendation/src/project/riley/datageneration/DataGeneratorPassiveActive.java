@@ -280,11 +280,11 @@ public class DataGeneratorPassiveActive {
 		}
 
 		for (String demographic : demographics_types){
-			_writer.println("@attribute '" + demographic +  "' { " + NO + ", " + YES + " }");
+			_writer.println("@attribute 'demographic_" + demographic +  "' { " + NO + ", " + YES + " }");
 		}
 
 		for (String group : group_types){
-			_writer.println("@attribute '" + group +  "' { " + NO + ", " + YES + " }");
+			_writer.println("@attribute 'group_" + group +  "' { " + NO + ", " + YES + " }");
 		}
 
 		for (String conversation : conversation_types){

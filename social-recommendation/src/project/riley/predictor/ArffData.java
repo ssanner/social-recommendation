@@ -224,6 +224,7 @@ public class ArffData {
 		if (d._entries.size() == _attr.size())
 			_data.add(d);
 		else {
+			System.out.println(d._entries.size() + ":" + _attr.size());
 			System.out.println("ERROR -- Data Entry did not have full attribute set:\n" + line);
 			System.exit(1);
 		}
