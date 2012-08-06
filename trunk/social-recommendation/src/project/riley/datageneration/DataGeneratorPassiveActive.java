@@ -305,6 +305,7 @@ public class DataGeneratorPassiveActive {
 	public static void writeData(String filename, int interaction_threshold) throws Exception {
 
 		writeHeader(filename);
+		int size = 0;
 
 		System.out.println("Extracting ratings data for " + _uid2linkids_likes.size() + " users");
 
@@ -353,6 +354,7 @@ public class DataGeneratorPassiveActive {
 					//_writer.println();
 					if (count >= interaction_threshold)
 						_writer.println(columns.toString());
+						size++;
 				}
 			}
 		}
@@ -362,6 +364,7 @@ public class DataGeneratorPassiveActive {
 		System.out.println("Number of yes ratings: " + yes_ratings + " -- " + (100d*yes_ratings/total_ratings) + "%");
 		System.out.println("Number of no ratings:  " + no_ratings  + " -- " + (100d*no_ratings/total_ratings) + "%");
 
+		System.out.println("For interaction theshold of size " + interaction_threshold + " data set size " + size);
 		_writer.close();
 	}
 

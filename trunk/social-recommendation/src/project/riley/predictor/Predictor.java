@@ -67,11 +67,14 @@ public abstract class Predictor {
 			if (pred == actual && actual == 1) truePositive++;
 			if (pred == 1 && actual == 0) falsePositive++;
 			if (pred == 0 && actual == 1) falseNegative++;
+			
+			BayesianModelAveraging.addResult(getName(), 0 /* data index */, pred);
 		}
 		measures[0] = correct;					 						// accuracy
 		measures[1] = truePositive;										// true positive
 		measures[2] = falsePositive;									// false positive
 		measures[3] = falseNegative;									// false negative
+		
 		return measures;
 	}
 
@@ -98,7 +101,7 @@ public abstract class Predictor {
 			String trainName = source_file + ".train." + (i+1);
 			String testName  = source_file + ".test."  + (i+1);
 			_trainData = new ArffData(trainName, demographics, groups, conversations);
-			_testData  = new ArffData(testName, demographics, groups, conversations);
+			_testData  = new ArffData(testName, demographics, groups, conversations);			
 			
 			clear();
 			train();										// build a classifier and train

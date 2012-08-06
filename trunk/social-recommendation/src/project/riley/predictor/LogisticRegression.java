@@ -120,7 +120,7 @@ public class LogisticRegression extends Predictor {
 
 	@Override
 	public String getName() {
-		return "Logistic Regression(" + _priorType + "," + _priorValue + (_maxEnt ? ",MAX_ENT" : "") + ")";
+		return "LogisticRegression(" + _priorType + "," + _priorValue + (_maxEnt ? ",MAX_ENT" : "") + ")";
 	}
 
 	public static void main(String[] args) throws Exception{
