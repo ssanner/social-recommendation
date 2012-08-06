@@ -41,10 +41,10 @@ public class Launcher {
 		Predictor liblinear2 = new SVMLibLinear(SolverType.L1R_L2LOSS_SVC, /*C*/0.125d, /*eps*/0.001d);
 		Predictor liblinear3 = new SVMLibLinear(SolverType.L2R_LR,         /*C*/0.125d, /*eps*/0.001d);
 		Predictor liblinear4 = new SVMLibLinear(SolverType.L1R_LR,         /*C*/0.125d, /*eps*/0.001d);
-		Predictor liblinear1_maxent = new SVMLibLinear(SolverType.L2R_L2LOSS_SVC, /*C*/0.125d, /*eps*/0.001d, /*maxent*/ true);
-		Predictor liblinear2_maxent = new SVMLibLinear(SolverType.L1R_L2LOSS_SVC, /*C*/0.125d, /*eps*/0.001d, /*maxent*/ true);
-		Predictor liblinear3_maxent = new SVMLibLinear(SolverType.L2R_LR,         /*C*/0.125d, /*eps*/0.001d, /*maxent*/ true);
-		Predictor liblinear4_maxent = new SVMLibLinear(SolverType.L1R_LR,         /*C*/0.125d, /*eps*/0.001d, /*maxent*/ true);
+		//Predictor liblinear1_maxent = new SVMLibLinear(SolverType.L2R_L2LOSS_SVC, /*C*/0.125d, /*eps*/0.001d, /*maxent*/ true);
+		//Predictor liblinear2_maxent = new SVMLibLinear(SolverType.L1R_L2LOSS_SVC, /*C*/0.125d, /*eps*/0.001d, /*maxent*/ true);
+		//Predictor liblinear3_maxent = new SVMLibLinear(SolverType.L2R_LR,         /*C*/0.125d, /*eps*/0.001d, /*maxent*/ true);
+		//Predictor liblinear4_maxent = new SVMLibLinear(SolverType.L1R_LR,         /*C*/0.125d, /*eps*/0.001d, /*maxent*/ true);
 
 		// Note -- SPS, Riley TODO for experimental comparison:
 		//
@@ -72,15 +72,16 @@ public class Launcher {
 				liblinear2,
 				liblinear3,
 				liblinear4,
-				liblinear1_maxent,
-				liblinear2_maxent,
-				liblinear3_maxent,
-				liblinear4_maxent, 
-				logisticRegression_l1_maxent /*,
+				logisticRegression_l1_maxent,
 				logisticRegression_l1,
 				logisticRegression_l1_maxent, 
 				logisticRegression_l2, 
-				libsvm */ 
+				libsvm
+				/*liblinear1_maxent,
+				liblinear2_maxent,
+				liblinear3_maxent,
+				liblinear4_maxent, 
+				 */ 
 		};
 
 		return predictors;
@@ -119,6 +120,8 @@ public class Launcher {
 	public static void main(String[] args) throws Exception {
 		Launcher launcher = new Launcher();
 		predictors = launcher.setUp();
+		
+		//BayesianModelAveraging.setArff(new ArffData(DATA_FILE));
 
 		Date dNow = new Date();
 	    SimpleDateFormat ft = new SimpleDateFormat ("dd_MM_yyyy");
@@ -126,8 +129,8 @@ public class Launcher {
 
 		writer = new PrintWriter(outName);		
 
-		//launcher.interactionThresholdLauncher(11 /* thresholds size */);
-		launcher.launchConditions();
+		launcher.interactionThresholdLauncher(11 /* thresholds size */);
+		//launcher.launchConditions();
 
 		System.out.println("Finished writing to file " + outName);
 		writer.close();
