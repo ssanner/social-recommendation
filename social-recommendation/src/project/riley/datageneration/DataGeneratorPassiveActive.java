@@ -48,7 +48,7 @@ public class DataGeneratorPassiveActive {
 	public static Map<Long,Set<Long>> _uid2linkids_likes = null;
 	public static Map<Long,Set<Long>> _uid2linkids_dislikes = null;
 	public static Map<EInteractionType,Map<EDirectionType,Map<Long,Set<Long>>>> _int_dir2uid_linkid = null;
-	public static String[] demographics_types = {"gender","locale","birthday","location"};
+	public static String[] demographics_types = {"gender","birthday","location"};
 	public static String[] group_types = {"linkrActivities", "linkrBooks", "linkrFavoriteAthletes", "linkrFavoriteTeams", "linkrInspirationalPeople", "linkrInterests", "linkrMovies", "linkrMusic", "linkrSports", "linkrTelevision", "linkrSchoolWith", "linkrWorkWith"};
 	public static String[] conversation_types = {"linkrLinkComments","linkrPhotoComments","linkrPostComments","linkrVideoComments"};
 

@@ -72,7 +72,6 @@ public class Launcher {
 				liblinear2,
 				liblinear3,
 				liblinear4,
-				logisticRegression_l1_maxent,
 				logisticRegression_l1,
 				logisticRegression_l1_maxent, 
 				logisticRegression_l2, 
