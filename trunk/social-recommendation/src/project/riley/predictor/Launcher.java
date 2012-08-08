@@ -129,7 +129,7 @@ public class Launcher {
 
 		writer = new PrintWriter(outName);		
 
-		launcher.interactionThresholdLauncher(3 /* thresholds size */);
+		launcher.interactionThresholdLauncher(10 /* thresholds size */);
 		//launcher.launchConditions();
 
 		System.out.println("Finished writing to file " + outName);
