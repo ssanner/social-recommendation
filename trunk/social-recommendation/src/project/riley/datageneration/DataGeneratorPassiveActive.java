@@ -280,6 +280,7 @@ public class DataGeneratorPassiveActive {
 					_featuresInt.get(feat_index) + "' { 'n', 'y' }");
 		}
 
+		/*
 		for (String demographic : demographics_types){
 			_writer.println("@attribute 'demographic_" + demographic +  "' { " + NO + ", " + YES + " }");
 		}
@@ -292,7 +293,7 @@ public class DataGeneratorPassiveActive {
 			_writer.println("@attribute 'conversation_" + EDirectionType.INCOMING + "_" + conversation +  "' { " + NO + ", " + YES + " }");
 			_writer.println("@attribute 'conversation_" + EDirectionType.OUTGOING + "_" + conversation +  "' { " + NO + ", " + YES + " }");
 		}
-
+		 */
 		_writer.println("@data");
 	}
 
@@ -352,9 +353,9 @@ public class DataGeneratorPassiveActive {
 							count++;
 						}
 					}
-					columns.append(getAppUserDemographics(link_id,uid));
-					columns.append(getAppUserGroups(link_id,uid));
-					columns.append(getAppConversationContent(link_id,uid));
+					//columns.append(getAppUserDemographics(link_id,uid));
+					//columns.append(getAppUserGroups(link_id,uid));
+					//columns.append(getAppConversationContent(link_id,uid));
 					//_writer.println();
 					if (count >= interaction_threshold){
 						//System.out.println(size + ":" + count + ":" + columns.toString());
@@ -458,6 +459,8 @@ public class DataGeneratorPassiveActive {
 			for (int i = 1; i < topNWords.size(); i++){
 				query.append("or message like '%" + topNWords.get(i) + "%' ");
 			}
+			System.out.println(query.toString() + "and uid = " + uid + ";");
+			System.out.println(query.toString() + "and from_id = " + uid + ";");
 			results.append(featureValue(query.toString() + "and uid = " + uid + ";"));		/* incoming */
 			results.append(featureValue(query.toString() + "and from_id = " + uid + ";"));  /* outgoing */			
 		}
