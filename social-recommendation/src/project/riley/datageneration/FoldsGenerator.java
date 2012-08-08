@@ -29,7 +29,7 @@ public class FoldsGenerator {
 		//DataGeneratorPassiveActive.populateCachedData(true /* active */);							// generate data
 		DataGeneratorPassiveActive.populateCachedData(false /* passive */);							// generate data
 		
-		interactionThresholdGeneration(3);															// choose type of data generation here
+		interactionThresholdGeneration(10);															// choose type of data generation here
 		
 		System.out.println("Generated " + NUM_FOLDS + " folds and exported files.");
 	}
