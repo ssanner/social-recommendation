@@ -91,7 +91,7 @@ public class Launcher {
 	 * launch interaction threshold tests
 	 */
 	public void interactionThresholdLauncher(int size) throws Exception{
-		for (int i = 0; i < size; i++){
+		for (int i = 0; i <= size; i++){
 			String name = "threshold_" + i + "_" + DATA_FILE;
 			System.out.println("Running predictors on " + name);
 			for (Predictor p : predictors){
@@ -129,7 +129,7 @@ public class Launcher {
 
 		writer = new PrintWriter(outName);		
 
-		launcher.interactionThresholdLauncher(11 /* thresholds size */);
+		launcher.interactionThresholdLauncher(3 /* thresholds size */);
 		//launcher.launchConditions();
 
 		System.out.println("Finished writing to file " + outName);

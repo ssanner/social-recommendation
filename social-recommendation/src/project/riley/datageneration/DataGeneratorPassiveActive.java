@@ -191,14 +191,14 @@ public class DataGeneratorPassiveActive {
 
 				Interaction i = UserUtil.getUserInteractions(itype, dir);
 
-				System.out.println("**********************\n" + _featuresInt + "\n" + _featuresDir);
-				System.out.println("**********************\n" + itype + "_" + dir + " #alters = " + i.getAllInteractions().size());
+				//System.out.println("**********************\n" + _featuresInt + "\n" + _featuresDir);
+				//System.out.println("**********************\n" + itype + "_" + dir + " #alters = " + i.getAllInteractions().size());
 
 				for (Long uid : _uid2linkids_likes.keySet()) {
 
 					// ** Note: these are passive likes on Facebook!
 					Set<Long> alters = i.getInteractions(uid);
-					System.out.println(ExtractRelTables.UID_2_NAME.get(uid) + " " + itype + "_" + dir + " #alters = " + (alters == null ? 0 : alters.size()));
+					//System.out.println(ExtractRelTables.UID_2_NAME.get(uid) + " " + itype + "_" + dir + " #alters = " + (alters == null ? 0 : alters.size()));
 
 					HashMap<Long,Integer> other_likes_id2count = ExtractRelTables.GetLikesInteractions(uid, i, _uid2all_passive_linkids_likes);
 					//P(like | friend likes) = P(like and friend likes) / P(friend likes)
@@ -208,7 +208,7 @@ public class DataGeneratorPassiveActive {
 						other_likes_ids = new HashSet<Long>();
 					uid2rest.put(uid, other_likes_ids);
 
-					System.out.println("-- count of set of links liked by alters under uid,itype,dir: " + other_likes_ids.size());
+					//System.out.println("-- count of set of links liked by alters under uid,itype,dir: " + other_likes_ids.size());
 				}
 			}
 		}
@@ -268,6 +268,7 @@ public class DataGeneratorPassiveActive {
 	 * Write arff header data
 	 */
 	public static void writeHeader(String fileName) throws Exception {
+		System.out.println("Writing to " + fileName);
 		_writer = new PrintWriter(fileName);		
 		_writer.println("@relation app-data");
 		_writer.println("@attribute 'Uid' numeric");
@@ -302,12 +303,16 @@ public class DataGeneratorPassiveActive {
 	/*
 	 * Write known rating data
 	 */
+	static boolean once = true;
 	public static void writeData(String filename, int interaction_threshold) throws Exception {
 
 		writeHeader(filename);
 		int size = 0;
 
-		System.out.println("Extracting ratings data for " + _uid2linkids_likes.size() + " users");
+		if (once){
+			System.out.println("Extracting ratings data for " + _uid2linkids_likes.size() + " users");
+			once = false;
+		}
 
 		long yes_ratings = 0;
 		long no_ratings  = 0;
@@ -315,13 +320,12 @@ public class DataGeneratorPassiveActive {
 
 		for (String rating : RATINGS) {
 
-			Map<Long,Set<Long>> uid2links = 
-					(rating == YES ? _uid2linkids_likes : _uid2linkids_dislikes); 
+			Map<Long,Set<Long>> uid2links =	(rating == YES ? _uid2linkids_likes : _uid2linkids_dislikes); 
 
 			for (Entry<Long, Set<Long>> entry : uid2links.entrySet()){
 				Long uid = entry.getKey();
 				Set<Long> link_ids = entry.getValue();
-				System.out.println("User " + ExtractRelTables.UID_2_NAME.get(uid) + " made " + link_ids.size() + " " + rating + " ratings");
+				//System.out.println("User " + ExtractRelTables.UID_2_NAME.get(uid) + " made " + link_ids.size() + " " + rating + " ratings");
 				for (Long link_id : link_ids){
 
 					int count = 0;
@@ -352,19 +356,21 @@ public class DataGeneratorPassiveActive {
 					columns.append(getAppUserGroups(link_id,uid));
 					columns.append(getAppConversationContent(link_id,uid));
 					//_writer.println();
-					if (count >= interaction_threshold)
+					if (count >= interaction_threshold){
+						//System.out.println(size + ":" + count + ":" + columns.toString());
 						_writer.println(columns.toString());
 						size++;
+					}
 				}
 			}
 		}
 
 		double total_ratings = yes_ratings + no_ratings;
-		System.out.println("Number of possible ratings: " + all_ratings);
-		System.out.println("Number of yes ratings: " + yes_ratings + " -- " + (100d*yes_ratings/total_ratings) + "%");
-		System.out.println("Number of no ratings:  " + no_ratings  + " -- " + (100d*no_ratings/total_ratings) + "%");
+		//System.out.println("Number of possible ratings: " + all_ratings);
+		//System.out.println("Number of yes ratings: " + yes_ratings + " -- " + (100d*yes_ratings/total_ratings) + "%");
+		//System.out.println("Number of no ratings:  " + no_ratings  + " -- " + (100d*no_ratings/total_ratings) + "%");
 
-		System.out.println("For interaction theshold of size " + interaction_threshold + " data set size " + size);
+		System.out.println("For interaction threshold of size " + interaction_threshold + " data set size " + size);
 		_writer.close();
 	}
 
