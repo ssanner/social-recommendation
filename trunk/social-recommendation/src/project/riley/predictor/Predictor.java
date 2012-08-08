@@ -68,7 +68,7 @@ public abstract class Predictor {
 			if (pred == 1 && actual == 0) falsePositive++;
 			if (pred == 0 && actual == 1) falseNegative++;
 			
-			BayesianModelAveraging.addResult(getName(), 0 /* data index */, pred);
+			//BayesianModelAveraging.addResult(getName(), 0 /* data index */, pred);
 		}
 		measures[0] = correct;					 						// accuracy
 		measures[1] = truePositive;										// true positive
