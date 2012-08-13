@@ -615,10 +615,13 @@ public class ArffData {
 	public static void main(String args[]) {
 		System.out.println("Running ArffData.main:\n");
 		
-		for (int i = 0; i <= 5; i++){
+		ArffData f1 = new ArffData("active.arff.test.5",0,false,false,false);
+		System.out.println(f1._data.size());
+		
+		/*for (int i = 0; i <= 5; i++){
 			ArffData f1 = new ArffData("active.arff",i,false,false,false);
 			System.out.println("Threshold " + i + " data size " + f1._data.size());
-		}
+		}*/
 		
 		//System.out.println(f1);
 		
