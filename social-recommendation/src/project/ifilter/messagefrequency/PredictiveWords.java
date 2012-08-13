@@ -18,33 +18,37 @@ import com.cybozu.labs.langdetect.LangDetectException;
 
 public class PredictiveWords {
 
-	public static String MESSAGES_FILE = "messages.txt";
+	public static String MESSAGES_FILE = "messages2.txt";
 
-	public static void main(String[] args) throws Exception {				
-		buildMessagesDictionary();
+	public static void main(String[] args) throws Exception {
+		
+		buildMessagesDictionary(true/* trackedUsers*/);
+		//buildMessagesDictionary(false/* trackedUsers*/);
 		//ExtractRelTables.ShowCondProbs();
 	}
 
 	/*
 	 * Write all user messages to file and save user interactions
 	 */
-	public static void processUserMessages() throws SQLException, FileNotFoundException {
+	public static void processUserMessages(boolean trackedUsers) throws SQLException, FileNotFoundException {
 
-		if (new File(MESSAGES_FILE).exists()){
-			//System.out.println("Messages file already exists");
+		/*if (new File(MESSAGES_FILE).exists()){
+			System.out.println("Messages file already exists");
 			return;
-		}
+		}*/
 		
 		PrintWriter writer = new PrintWriter(MESSAGES_FILE);
 
 		String[] tables = {"linkrLinkComments", "linkrPostComments", "linkrPhotoComments", "linkrVideoComments"};
 		for (String table : tables){
-			String sql_query = "SELECT uid, from_id, message FROM " + table;
+
+			String sql_query = "SELECT message FROM " + table + (trackedUsers ? " where uid in (select distinct uid from trackRecommendedLinks)" : "");
+			System.out.println(sql_query);
 
 			Statement statement = SQLUtil.getStatement();
 			ResultSet result = statement.executeQuery(sql_query);
 			while (result.next()) {
-				String message = result.getString(3);
+				String message = result.getString(1);
 				writer.println(message);				
 			}
 			statement.close();			
@@ -57,14 +61,14 @@ public class PredictiveWords {
 	/*
 	 * Build message frequency dictionary
 	 */
-	public static void buildMessagesDictionary() throws Exception{
+	public static void buildMessagesDictionary(boolean trackedUsers) throws Exception{
 		
-		if (new File(MessageStringUtil.dictionaryFile).exists()){
-			//System.out.println("Dictionary file already exists");
+		/*if (new File(MessageStringUtil.dictionaryFile).exists()){
+			System.out.println("Dictionary file already exists");
 			return;
-		}
+		}*/
 		
-		processUserMessages();
+		processUserMessages(trackedUsers);
 		MessageStringUtil.readStopList();
 		BufferedReader br = new BufferedReader(new FileReader(MESSAGES_FILE));
 		String message;

@@ -34,7 +34,7 @@ public class MessageStringUtil {
 	static HashMap<String, Integer> dictionary = new HashMap<String, Integer>();
 	static Set<String> stopWords = new HashSet<String>();
 	static String stopList = "messagesStopWords.txt";
-	static String dictionaryFile = "dictionary.txt";
+	static String dictionaryFile = "dictionary2.txt";
 	static boolean setProfile = false;
 
 	/*

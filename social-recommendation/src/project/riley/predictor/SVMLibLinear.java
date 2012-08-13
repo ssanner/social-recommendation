@@ -60,6 +60,7 @@ public class SVMLibLinear extends Predictor {
 	private Model svmTrain() {
 		Problem prob = new Problem();
 		int dataCount = _trainData._data.size(); // size of the training set
+		
 		if (_maxEnt) {
 			int trueDataCount = 0;
 			for (int i = 0; i < dataCount; i++)
