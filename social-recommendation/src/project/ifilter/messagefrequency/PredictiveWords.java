@@ -18,12 +18,12 @@ import com.cybozu.labs.langdetect.LangDetectException;
 
 public class PredictiveWords {
 
-	public static String MESSAGES_FILE = "messages2.txt";
+	public static String MESSAGES_FILE = "messages.txt";
 
 	public static void main(String[] args) throws Exception {
 		
-		buildMessagesDictionary(true/* trackedUsers*/);
-		//buildMessagesDictionary(false/* trackedUsers*/);
+		//buildMessagesDictionary(true/* trackedUsers*/);
+		buildMessagesDictionary(false/* trackedUsers*/);
 		//ExtractRelTables.ShowCondProbs();
 	}
 
@@ -32,10 +32,10 @@ public class PredictiveWords {
 	 */
 	public static void processUserMessages(boolean trackedUsers) throws SQLException, FileNotFoundException {
 
-		/*if (new File(MESSAGES_FILE).exists()){
-			System.out.println("Messages file already exists");
+		if (new File(MESSAGES_FILE).exists()){
+		//	System.out.println("Messages file already exists");
 			return;
-		}*/
+		}
 		
 		PrintWriter writer = new PrintWriter(MESSAGES_FILE);
 
@@ -63,10 +63,10 @@ public class PredictiveWords {
 	 */
 	public static void buildMessagesDictionary(boolean trackedUsers) throws Exception{
 		
-		/*if (new File(MessageStringUtil.dictionaryFile).exists()){
-			System.out.println("Dictionary file already exists");
+		if (new File(MessageStringUtil.dictionaryFile).exists()){
+			//System.out.println("Dictionary file already exists");
 			return;
-		}*/
+		}
 		
 		processUserMessages(trackedUsers);
 		MessageStringUtil.readStopList();
