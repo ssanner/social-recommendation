@@ -229,7 +229,7 @@ public class ArffData {
 		}
 		
 		//System.out.println(count + "-" + threshold + "-" + (threshold <= count));
-		if (threshold <= count){
+		if (!(threshold <= count)){
 			return null;
 		}
 		
@@ -615,9 +615,9 @@ public class ArffData {
 	public static void main(String args[]) {
 		System.out.println("Running ArffData.main:\n");
 		
-		for (int i = 0; i <= 16; i++){
+		for (int i = 0; i <= 5; i++){
 			ArffData f1 = new ArffData("active.arff",i,false,false,false);
-			System.out.println("Fold " + i + " size " + f1._data.size());
+			System.out.println("Threshold " + i + " data size " + f1._data.size());
 		}
 		
 		//System.out.println(f1);
