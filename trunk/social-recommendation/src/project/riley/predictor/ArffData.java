@@ -35,17 +35,19 @@ public class ArffData {
 	
 	public HashMap<String,Attribute> _attrMap = new HashMap<String,Attribute>();
 	
-	boolean demographics = false;
-	int demographics_index_start = 27;
-	int demographics_index_end = demographics_index_start + DataGeneratorPassiveActive.demographics_types.length;
+	static boolean demographics = false;
+	static int demographics_index_start = 27;
+	static int demographics_index_end = demographics_index_start + DataGeneratorPassiveActive.demographics_types.length;
 	
-	boolean groups = false;
-	int groups_index_start = demographics_index_end;
-	int groups_index_end = groups_index_start + DataGeneratorPassiveActive.group_types.length;
+	static boolean groups = false;
+	static int groups_index_start = demographics_index_end;
+	static int groups_index_end = groups_index_start + DataGeneratorPassiveActive.group_types.length;
 	
-	boolean conversations = false;
-	int conversations_index_start = groups_index_end;
-	int conversations_index_end = (conversations_index_start + DataGeneratorPassiveActive.conversation_types.length) * 2 /* incoming/outgoing */;
+	static boolean conversations = false;
+	static int conversations_index_start = groups_index_end;
+	static int conversations_index_end = (conversations_index_start + DataGeneratorPassiveActive.conversation_types.length) * 2 /* incoming/outgoing */;
+	
+	static int threshold = 0;
 	
 	protected static NumberFormat _nf = NumberFormat.getInstance();
 	static {
@@ -67,11 +69,20 @@ public class ArffData {
 		readArffFile();
 	}
 	
-	public ArffData(String filename, boolean demographics, boolean groups, boolean conversations) {
+	public ArffData(String filename, boolean _demographics, boolean _groups, boolean _conversations) {
 		_filename = filename;
-		this.demographics = demographics;
-		this.groups = groups;
-		this.conversations = conversations;
+		demographics = _demographics;
+		groups = _groups;
+		conversations = _conversations;
+		readArffFile();
+	}
+	
+	public ArffData(String filename, int _threshold, boolean _demographics, boolean _groups, boolean _conversations) {
+		_filename = filename;
+		demographics = _demographics;
+		groups = _groups;
+		conversations = _conversations;
+		threshold = _threshold;
 		readArffFile();
 	}
 
@@ -206,8 +217,22 @@ public class ArffData {
 			return -1;
 	}
 	
+	public static final String YES = "'y'".intern();
 	public DataEntry addDataEntry(String line) {
 		String split[] = line.split("[,]");
+		
+		int count = 0;
+		for (int i = 3 /* offset*/; i < split.length; i++){
+			if (split[i].equals(YES)){
+				count++;
+			}
+		}
+		
+		//System.out.println(count + "-" + threshold + "-" + (threshold <= count));
+		if (threshold <= count){
+			return null;
+		}
+		
 		DataEntry d = new DataEntry(_attr.size());
 		for (int i = 0; i < split.length; i++){
 			int offset = 2; // inline offset is different then file offset by 2 lines
@@ -585,20 +610,24 @@ public class ArffData {
 		}
 		
 		return s;
-	}
+	}	
 
 	public static void main(String args[]) {
 		System.out.println("Running ArffData.main:\n");
 		
-		ArffData f1 = new ArffData("active.arff");
+		for (int i = 0; i <= 16; i++){
+			ArffData f1 = new ArffData("active.arff",i,false,false,false);
+			System.out.println("Fold " + i + " size " + f1._data.size());
+		}
+		
 		//System.out.println(f1);
 		
 		//SplitData s = f1.splitData(.8);
 		//System.out.println("Writing training file: " + s._train.writeFile(filename + "_train.arff"));
 		//System.out.println("Writing testing  file: " + s._test.writeFile (filename + "_test.arff"));
 		
-		FoldData f = f1.foldData(10);
-		f.writeData();
+		//FoldData f = f1.foldData(10);
+		//f.writeData();		
 		System.out.println("Finished ArffData.main.");
 	}
 }

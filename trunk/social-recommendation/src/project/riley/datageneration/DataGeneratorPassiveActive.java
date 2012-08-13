@@ -304,16 +304,9 @@ public class DataGeneratorPassiveActive {
 	/*
 	 * Write known rating data
 	 */
-	static boolean once = true;
-	public static void writeData(String filename, int interaction_threshold) throws Exception {
+	public static void writeData(String filename) throws Exception {
 
 		writeHeader(filename);
-		int size = 0;
-
-		if (once){
-			System.out.println("Extracting ratings data for " + _uid2linkids_likes.size() + " users");
-			once = false;
-		}
 
 		long yes_ratings = 0;
 		long no_ratings  = 0;
@@ -329,7 +322,6 @@ public class DataGeneratorPassiveActive {
 				//System.out.println("User " + ExtractRelTables.UID_2_NAME.get(uid) + " made " + link_ids.size() + " " + rating + " ratings");
 				for (Long link_id : link_ids){
 
-					int count = 0;
 					all_ratings++;
 					if (rating == YES)
 						yes_ratings++;
@@ -349,19 +341,13 @@ public class DataGeneratorPassiveActive {
 						String feat_value = alter_likes == null ? NO : (alter_likes.contains(link_id) ? YES : NO);
 						//_writer.print("," + feat_value);
 						columns.append("," + feat_value);
-						if (feat_value == YES){
-							count++;
-						}
 					}
 					//columns.append(getAppUserDemographics(link_id,uid));
 					//columns.append(getAppUserGroups(link_id,uid));
 					//columns.append(getAppConversationContent(link_id,uid));
 					//_writer.println();
-					if (count >= interaction_threshold){
-						//System.out.println(size + ":" + count + ":" + columns.toString());
-						_writer.println(columns.toString());
-						size++;
-					}
+
+					_writer.println(columns.toString());
 				}
 			}
 		}
@@ -371,7 +357,6 @@ public class DataGeneratorPassiveActive {
 		//System.out.println("Number of yes ratings: " + yes_ratings + " -- " + (100d*yes_ratings/total_ratings) + "%");
 		//System.out.println("Number of no ratings:  " + no_ratings  + " -- " + (100d*no_ratings/total_ratings) + "%");
 
-		System.out.println("For interaction threshold of size " + interaction_threshold + " data set size " + size);
 		_writer.close();
 	}
 
@@ -449,7 +434,7 @@ public class DataGeneratorPassiveActive {
 	 * return conversation content 
 	 */
 	public static String getAppConversationContent(long link_id, long uid) throws Exception{
-		PredictiveWords.buildMessagesDictionary();
+		PredictiveWords.buildMessagesDictionary(/* tracked only*/ true);
 
 		StringBuffer results = new StringBuffer();
 		
@@ -466,6 +451,40 @@ public class DataGeneratorPassiveActive {
 		}
 
 		return results.toString();
+	}
+	
+	/*
+	 * Extract demographics batch data
+	 */
+	public static void getDemographicsInfo() throws Exception{
+		String query = "select count(*), right(lu.birthday,4) from linkrUser lu where lu.uid in (SELECT distinct uid FROM trackRecommendedLinks) group by right(lu.birthday,4);";
+		HashMap<Integer,Integer> bdayRanges = new HashMap<Integer,Integer>();
+		
+		Statement statement = SQLUtil.getStatement();		
+		ResultSet result = statement.executeQuery(query);
+			
+		while (result.next()) {
+			int count = result.getInt(1);
+			int year = result.getInt(2);
+		
+			int rounded = (year + 4) / 5 * 5;
+			//System.out.println(year + "," + rounded + ":" + count);
+			
+			if (bdayRanges.get(rounded) != null){
+				bdayRanges.put(rounded, bdayRanges.get(rounded) + count);
+			} else {
+				bdayRanges.put(rounded, count);
+			}	
+
+		}
+		
+		for (Entry<Integer, Integer> bday : bdayRanges.entrySet()){
+			int range = bday.getKey();
+			int count = bday.getValue();
+			
+			System.out.println((range-5) + "-" + range + ":" + count);
+		}
+		
 	}
 
 	/*
@@ -486,7 +505,8 @@ public class DataGeneratorPassiveActive {
 		//writeData("active_data.arff");
 		//populateCachedData(false /* active */);
 		//writeData("passive_data.arff");
-		System.out.println(getAppConversationContent(162631113776237L,670845000));
+		//System.out.println(getAppConversationContent(162631113776237L,670845000));
+		getDemographicsInfo();
 
 	}
 

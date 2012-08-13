@@ -1,7 +1,7 @@
 package project.riley.predictor;
 
-import project.ifilter.predictor.ArffData;
-import project.ifilter.predictor.ArffData.DataEntry;
+import project.riley.predictor.ArffData;
+import project.riley.predictor.ArffData.DataEntry;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -135,7 +135,9 @@ public class LinkRecommenderArff extends org.nicta.lr.LinkRecommender
 		return getArffMetrics(predictions, testLikes, threshold);
 			}
 
-	public static void runTests(String source_file, int num_folds,PrintWriter writer) throws Exception {
+	public static void runTests(String source_file, int num_folds, int threshold, PrintWriter writer, boolean demographics, boolean groups, boolean conversations) throws Exception {
+		int normal = num_folds;
+		
 		Double[] accuracies = new Double[num_folds];
 		Double[] precisions = new Double[num_folds];
 		Double[] recalls = new Double[num_folds];
@@ -149,6 +151,13 @@ public class LinkRecommenderArff extends org.nicta.lr.LinkRecommender
 		for (int i = 0; i < num_folds; i++) {
 			String trainName = source_file + ".train." + (i+1);
 			String testName  = source_file + ".test."  + (i+1);
+
+			ArffData _testData  = new ArffData(testName, threshold, demographics, groups, conversations);
+			
+			if (_testData._data.size() == 0){
+				normal--;
+				return;
+			}
 
 			//String type = Constants.FEATURE;
 			//String type = Constants.SOCIAL;
@@ -166,10 +175,10 @@ public class LinkRecommenderArff extends org.nicta.lr.LinkRecommender
 			meanF1 += results[3];
 		}
 
-		meanAccuracy /= num_folds;
-		meanPrecision /= num_folds;
-		meanRecall /= num_folds;
-		meanF1 /= num_folds;
+		meanAccuracy /= normal;
+		meanPrecision /= normal;
+		meanRecall /= normal;
+		meanF1 /= normal;
 
 		double stdAccuracy = 0;
 		double stdPrecision = 0;
@@ -183,15 +192,15 @@ public class LinkRecommenderArff extends org.nicta.lr.LinkRecommender
 			stdF1 += Math.pow(meanF1 - f1s[x], 2);
 		}
 
-		stdAccuracy = Math.sqrt(stdAccuracy / num_folds);
-		stdPrecision = Math.sqrt(stdPrecision / num_folds);
-		stdRecall = Math.sqrt(stdRecall / num_folds);
-		stdF1 = Math.sqrt(stdF1 / num_folds);
+		stdAccuracy = Math.sqrt(stdAccuracy / normal);
+		stdPrecision = Math.sqrt(stdPrecision / normal);
+		stdRecall = Math.sqrt(stdRecall / normal);
+		stdF1 = Math.sqrt(stdF1 / normal);
 
-		double seAccuracy = stdAccuracy / Math.sqrt(num_folds);
-		double sePrecision = stdPrecision / Math.sqrt(num_folds);
-		double seRecall = stdRecall / Math.sqrt(num_folds);
-		double seF1 = stdF1 / Math.sqrt(num_folds);
+		double seAccuracy = stdAccuracy / Math.sqrt(normal);
+		double sePrecision = stdPrecision / Math.sqrt(normal);
+		double seRecall = stdRecall / Math.sqrt(normal);
+		double seF1 = stdF1 / Math.sqrt(normal);
 
 		System.out.println("Accuracy:  " + df3.format(meanAccuracy) + " +/- " + df3.format(seAccuracy));
 		writer.println("Accuracy:  " + df3.format(meanAccuracy) + " +/- " + df3.format(seAccuracy));
