@@ -10,7 +10,7 @@ import project.riley.predictor.ArffData.FoldData;
 public class FoldsGenerator {
 	
 	//public static final String FILENAME = "passive.arff";
-	public static final String FILENAME = "active.arff";
+	public static final String FILENAME = "active_test.arff";
 	public static final int NUM_FOLDS = 10;
 	
 	public static void main(String args[]) throws Exception {
