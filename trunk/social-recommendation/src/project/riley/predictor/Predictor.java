@@ -93,17 +93,22 @@ public abstract class Predictor {
 		ArrayList<Double> recalls    = new ArrayList<Double>();
 		ArrayList<Double> fscores    = new ArrayList<Double>();
 
-		System.out.println("Running " + getName() + " using thershold_" + threshold + "_" + source_file);
-		writer.println("Running " + getName() + " using thershold_" + threshold + "_" + source_file);
+		System.out.println("Running " + getName() + " using " + source_file);
+		writer.println("Running " + getName() + " using " + source_file);
 
 		for (int i = 0; i < num_folds; i++){
 			
 			String trainName = source_file + ".train." + (i+1);
 			String testName  = source_file + ".test."  + (i+1);
-			_trainData = new ArffData(trainName, demographics, groups, conversations);
-			_testData  = new ArffData(testName, /*threshold,*/ demographics, groups, conversations);
+			_trainData = null;
+			_testData = null;
+			_trainData = new ArffData(trainName, 0, demographics, groups, conversations);
+			_testData  = new ArffData(testName, threshold, demographics, groups, conversations);					
 			
 			if (_testData._data.size() == 0 || _trainData._data.size() == 0){
+				//System.out.println(threshold);
+				//System.out.println(trainName + ":" + _trainData._data.size());
+				//System.out.println(testName + ":" + _testData._data.size());
 				continue;
 			}
 

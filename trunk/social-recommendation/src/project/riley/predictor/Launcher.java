@@ -17,13 +17,13 @@ public class Launcher {
 
 	public final static String DATA_FILE = "active.arff";
 	//public final static String DATA_FILE = "passive.arff";
-	public static int threshold = 5;
+	public static int threshold = 1;
 	public final static int    NUM_FOLDS = 10;
 	public static PrintWriter  writer;
 	public static Predictor[]  predictors;
-	public static boolean DEMOGRAPHICS = false;
-	public static boolean GROUPS = false;
-	public static boolean CONVERSATION = false;
+	public static boolean DEMOGRAPHICS = true;
+	public static boolean GROUPS = true;
+	public static boolean CONVERSATION = true;
 
 	/*
 	 * set up predictors
@@ -102,6 +102,17 @@ public class Launcher {
 			}	
 		}
 	}
+	
+	/*
+	 * launch tests on thresholding value
+	 */
+	public void launchThresholds() throws Exception{
+		for (int i = 0; i <= threshold; i++){
+			for (Predictor p : predictors){
+				p.runTests(DATA_FILE /* file to use */, NUM_FOLDS /* folds to use */, i /* test threshold */, writer /* file to write */, DEMOGRAPHICS, GROUPS, CONVERSATION);
+			}
+		}
+	}
 
 	public static void main(String[] args) throws Exception {
 		Launcher launcher = new Launcher();
@@ -116,11 +127,7 @@ public class Launcher {
 
 		writer = new PrintWriter(outName);		
 
-		for (int i = 0; i <= threshold; i++){
-			for (Predictor p : predictors){
-				p.runTests(DATA_FILE /* file to use */, NUM_FOLDS /* folds to use */, i /* test threshold */, writer /* file to write */, DEMOGRAPHICS, GROUPS, CONVERSATION);
-			}
-		}
+		launcher.launchThresholds();
 		//launcher.launchConditions();
 
 		System.out.println("Finished writing to file " + outName);
