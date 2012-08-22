@@ -292,18 +292,18 @@ public class DataGeneratorPassiveActive {
 					_featuresDir.get(feat_index) + "_" + 
 					_featuresInt.get(feat_index) + "' { 'n', 'y' }");
 		}		
-		
-        for (String demographic : demographics_types){
-                _writer.println("@attribute 'demographic_" + demographic +  "' { " + NO + ", " + YES + " }");
-        }
 
-        for (String group : group_types){
-                _writer.println("@attribute 'group_" + group +  "' { " + NO + ", " + YES + " }");
-        }
+		for (String demographic : demographics_types){
+			_writer.println("@attribute 'demographic_" + demographic +  "' { " + NO + ", " + YES + " }");
+		}
 
-        for (String conversation : conversation_types_header){
-                _writer.println("@attribute 'conversation_" + conversation +  "' { " + NO + ", " + YES + " }");
-        }        
+		for (String group : group_types){
+			_writer.println("@attribute 'group_" + group +  "' { " + NO + ", " + YES + " }");
+		}
+
+		for (String conversation : conversation_types_header){
+			_writer.println("@attribute 'conversation_" + conversation +  "' { " + NO + ", " + YES + " }");
+		}        
 
 		_writer.println("@data");
 	}
@@ -462,41 +462,6 @@ public class DataGeneratorPassiveActive {
 			feat_val = "," + (result.getInt(1) > 0 ? YES : NO);
 		}
 		return feat_val;
-	}
-
-	 */
-	/*
-	 * Extract birthdays in 10 year sets
-	 */
-	public static void getDemographicsInfo() throws Exception{
-		String query = "select count(*), right(lu.birthday,4) from linkrUser lu where lu.uid in (SELECT distinct uid FROM trackRecommendedLinks) group by right(lu.birthday,4);";
-		HashMap<Integer,Integer> bdayRanges = new HashMap<Integer,Integer>();
-
-		Statement statement = SQLUtil.getStatement();		
-		ResultSet result = statement.executeQuery(query);
-
-		while (result.next()) {			
-			int count = result.getInt(1);
-			int year = result.getInt(2);
-			int rounded = (year + 4) / 5 * 5;			
-
-			//System.out.println(year + "," + rounded + ":" + count);
-
-			if (bdayRanges.get(rounded) != null){
-				bdayRanges.put(rounded, bdayRanges.get(rounded) + count);
-			} else {
-				bdayRanges.put(rounded, count);
-			}	
-
-		}
-
-		for (Entry<Integer, Integer> bday : bdayRanges.entrySet()){
-			int range = bday.getKey();
-			int count = bday.getValue();
-
-			System.out.println((range-4) + "-" + range + ":" + count);
-		}		
-
 	}	
 
 	/*
@@ -508,6 +473,8 @@ public class DataGeneratorPassiveActive {
 		if (additionalLinkFeatures.containsKey(link_id))
 			return;
 
+		System.out.println("Extracting link data for " + link_id);
+		
 		String query = "select lu.uid from linkrLinkLikes ll join linkrUser lu where ll.link_id = " + link_id + " and ll.id=lu.uid;";
 		//System.out.println(query);
 		Statement statement = SQLUtil.getStatement();
@@ -532,6 +499,9 @@ public class DataGeneratorPassiveActive {
 		if (additionalUserFeatures.containsKey(uid))
 			return;
 
+		System.out.println("ID: " + uid);
+		System.out.println("\t -> Extracting user data");
+		
 		String q = "select uid, gender, right(birthday,4), locale from linkrUser where uid = " + uid;		
 		Statement statement = SQLUtil.getStatement();		
 		ResultSet result = statement.executeQuery(q);
@@ -541,7 +511,7 @@ public class DataGeneratorPassiveActive {
 			int birthday = result.getInt(3);
 			String locale = result.getString(4);
 			UserStruct us = ap.new UserStruct(gender,birthday,locale);
-			additionalUserFeatures.put(result.getLong(1), us);
+			additionalUserFeatures.put(result.getLong(1), us);			
 			extractGroups(result.getLong(1));
 			extractMessages(result.getLong(1));
 		}
@@ -552,6 +522,9 @@ public class DataGeneratorPassiveActive {
 	 * Extract user gruops info
 	 */
 	public static void extractGroups(long uid) throws Exception {
+		
+		System.out.println("\t -> Extracting groups data");
+		
 		//mysql> select count(*), id, name from linkrGroups group by id having count(*) > 10 and count(*) < 15 order by count(*) desc;
 		String q = "select name from linkrGroups where uid = " + uid;		
 		Statement statement = SQLUtil.getStatement();		
@@ -569,6 +542,8 @@ public class DataGeneratorPassiveActive {
 	 */
 	public static void extractMessages(long uid) throws Exception{
 
+		System.out.println("\t -> Extracting messages data");
+		
 		PredictiveWords.buildMessagesDictionary(false);
 		ArrayList<String> sent = new ArrayList<String>();
 		ArrayList<String> received = new ArrayList<String>();
@@ -621,7 +596,7 @@ public class DataGeneratorPassiveActive {
 	/*
 	 * build additional columns
 	 */
-	
+
 	public static String additionalUserColumns(long link_id, long uid){
 		StringBuilder results = new StringBuilder();
 		UserStruct userInfo = additionalUserFeatures.get(uid);
@@ -657,22 +632,22 @@ public class DataGeneratorPassiveActive {
 			if (likeeID == uid){
 				continue;
 			}
-			
+
 			UserStruct likee = additionalUserFeatures.get(likeeID);
-			
+
 			likeeGender = likee.gender;
 			likeeBirthday = likee.birthday;
 			likeeLocale = likee.locale;
 
 			likeeGroups = likee.groupMemberships;
-			
+
 			likeeSentMention = likee.sentMention;
 			likeeReceivedMention = likee.receivedMention;
-			
+
 			// test whether user and likee's have similarities
 			if (!sameGender)
 				sameGender = (userGender.equals(likeeGender)) ? true : false;
-			
+
 			if (!sameBirthday){
 				int rounded = (userBirthday + 4) / 5 * 5;
 				if (likeeBirthday >= (rounded-4) && likeeBirthday <= rounded){
@@ -680,20 +655,20 @@ public class DataGeneratorPassiveActive {
 				}
 				//System.out.println("\t" + birthday + ":" + (birthday >= (rounded-4) && birthday <= rounded));				
 			}				
-			
+
 			if (!sameLocale)
 				sameLocale = (userLocale.equals(likeeLocale)) ? true : false;
-			
+
 			if (!sameGroup){
 				for (String group : userGroups){
 					if (likeeGroups.contains(group))
 						sameGroup = true;
 				}
 			}
-			
+
 			if (!sentMention)
 				sentMention = likeeSentMention;
-			
+
 			if (!receivedMention)
 				receivedMention = likeeReceivedMention;
 		}
@@ -706,7 +681,7 @@ public class DataGeneratorPassiveActive {
 		results.append(PRE + (sameGroup ? YES : NO));								// same group membership
 		results.append(PRE + ((sentMention ? YES : NO)));							// mentioned top n words in a sent message
 		results.append(PRE + ((receivedMention ? YES : NO)));						// mentioned top n words in a received message
-		
+
 		return results.toString();
 	}
 
@@ -750,6 +725,64 @@ public class DataGeneratorPassiveActive {
 		}
 	}
 
+	/*
+	 * Extract birthdays in 5 year sets
+	 */
+	public static void getDemographicsInfo() throws Exception{
+		String query = "select count(*), right(lu.birthday,4) from linkrUser lu where lu.uid in (SELECT distinct uid FROM trackRecommendedLinks) group by right(lu.birthday,4);";
+		HashMap<Integer,Integer> bdayRanges = new HashMap<Integer,Integer>();
+
+		Statement statement = SQLUtil.getStatement();		
+		ResultSet result = statement.executeQuery(query);
+
+		while (result.next()) {			
+			int count = result.getInt(1);
+			int year = result.getInt(2);
+			int rounded = (year + 4) / 5 * 5;			
+
+			//System.out.println(year + "," + rounded + ":" + count);
+
+			if (bdayRanges.get(rounded) != null){
+				bdayRanges.put(rounded, bdayRanges.get(rounded) + count);
+			} else {
+				bdayRanges.put(rounded, count);
+			}	
+
+		}
+
+		for (Entry<Integer, Integer> bday : bdayRanges.entrySet()){
+			int range = bday.getKey();
+			int count = bday.getValue();
+
+			System.out.println((range-4) + "-" + range + ":" + count);
+		}		
+	}	
+	
+	/*
+	 * Extract gruops info
+	 */
+	public static void getGroupsInfo() throws Exception{			
+		
+		int minSize = 1;
+		int maxSize = 10;
+		
+		//String query = "select count(*), id, name from linkrGroups group by id having count(*) > 10 and count(*) < 15 order by count(*) desc;";
+		String query = "select count(*),id,name from linkrGroups where uid in (select distinct uid from trackRecommendedLinks) group by id having count(*) > " + minSize + " and count(*) < " + maxSize + " order by count(*) desc;";
+
+		Statement statement = SQLUtil.getStatement();		
+		ResultSet result = statement.executeQuery(query);
+
+		System.out.println("Group ranges " + minSize + " to " + maxSize);
+		while (result.next()) {			
+			int count = result.getInt(1);
+			String name = result.getString(3);			
+
+			System.out.println(count + " - " + name);		
+
+		}
+		
+	}
+
 	public static void main(String[] args) throws Exception {
 		//populateCachedData(true /* active */);
 		//writeData("active_data.arff");
@@ -757,22 +790,24 @@ public class DataGeneratorPassiveActive {
 		//writeData("passive_data.arff");
 		//System.out.println(getAppConversationContent(162631113776237L,670845000));
 
-		populateCachedData(true);
+		//populateCachedData(true);
 
 		//getAppUserFeaturesInfo();
 		//extractLinkFeatures(308324665867510L);
 		//extractLinkFeatures(204685499600824L);			
 
-		for (Entry<Long, UserStruct> entry : additionalUserFeatures.entrySet()){
+		/*for (Entry<Long, UserStruct> entry : additionalUserFeatures.entrySet()){
 			long id = entry.getKey();
 			UserStruct results = entry.getValue();
 			System.out.println(id + "->" + results);
-		}
+		}*/
 
 		//extractMessages(1461424861L);
-		writeData("asd.arff");		
+		//writeData("asd.arff");		
 
 		//getDemographicsInfo();
+		//System.out.println();
+		getGroupsInfo();
 
 	}
 
