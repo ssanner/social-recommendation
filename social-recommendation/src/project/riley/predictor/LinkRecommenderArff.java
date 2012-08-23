@@ -135,7 +135,7 @@ public class LinkRecommenderArff extends org.nicta.lr.LinkRecommender
 		return getArffMetrics(predictions, testLikes, threshold);
 			}
 
-	public static void runTests(String source_file, int num_folds, int threshold, PrintWriter writer, boolean demographics, boolean groups, boolean conversations) throws Exception {
+	public static void runTests(String source_file, int num_folds, int threshold, PrintWriter writer, boolean demographics, boolean groups, boolean traits, boolean conversations) throws Exception {
 		int normal = num_folds;
 		
 		Double[] accuracies = new Double[num_folds];
@@ -152,16 +152,20 @@ public class LinkRecommenderArff extends org.nicta.lr.LinkRecommender
 			String trainName = source_file + ".train." + (i+1);
 			String testName  = source_file + ".test."  + (i+1);
 
-			ArffData _testData  = new ArffData(testName, threshold, demographics, groups, conversations);
+			ArffData _testData  = new ArffData(testName, threshold, demographics, groups, traits, conversations);
 			
 			if (_testData._data.size() == 0){
+				//System.out.println(threshold);
+				//System.out.println(trainName + ":" + _trainData._data.size());
+				//System.out.println(testName + ":" + _testData._data.size());
 				normal--;
-				return;
-			}
+				continue;
+			}						
 
 			//String type = Constants.FEATURE;
 			//String type = Constants.SOCIAL;
-
+			
+			ArffData.threshold = 0;
 			Double[] results = new LinkRecommenderArff().run(trainName, testName, type);
 
 			accuracies[i] = results[0];
@@ -185,7 +189,7 @@ public class LinkRecommenderArff extends org.nicta.lr.LinkRecommender
 		double stdRecall = 0;
 		double stdF1 = 0;
 
-		for (int x = 0; x < num_folds; x++) {
+		for (int x = 0; x < normal; x++) {
 			stdAccuracy += Math.pow(meanAccuracy - accuracies[x], 2);
 			stdPrecision += Math.pow(meanPrecision - precisions[x], 2);
 			stdRecall += Math.pow(meanRecall - recalls[x], 2);

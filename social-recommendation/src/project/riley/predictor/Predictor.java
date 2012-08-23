@@ -81,7 +81,7 @@ public abstract class Predictor {
 	/*
 	 * Run tests on data
 	 */
-	public void runTests(String source_file, int num_folds, int threshold, PrintWriter writer, boolean demographics, boolean groups, boolean conversations) throws Exception {
+	public void runTests(String source_file, int num_folds, int threshold, PrintWriter writer, boolean demographics, boolean groups, boolean traits, boolean conversations) throws Exception {
 		
 		int correct = 0;									// correct classification
 		int truePositive = 0;								// true positives
@@ -102,8 +102,8 @@ public abstract class Predictor {
 			String testName  = source_file + ".test."  + (i+1);
 			_trainData = null;
 			_testData = null;
-			_trainData = new ArffData(trainName, 0, demographics, groups, conversations);
-			_testData  = new ArffData(testName, threshold, demographics, groups, conversations);					
+			_trainData = new ArffData(trainName, 0, demographics, groups, traits, conversations);
+			_testData  = new ArffData(testName, threshold, demographics, groups, traits, conversations);					
 			
 			if (_testData._data.size() == 0 || _trainData._data.size() == 0){
 				//System.out.println(threshold);
@@ -116,7 +116,7 @@ public abstract class Predictor {
 			//System.out.println(trainName + " " + _trainData._data.size());
 			
 			clear();
-			train();										// build a classifier and train
+			train();										// build a classifier and train (dont need to train each time..)
 			int[] testMeasures = measures(_testData._data);	// test data
 			correct = testMeasures[0];
 			truePositive = testMeasures[1];
