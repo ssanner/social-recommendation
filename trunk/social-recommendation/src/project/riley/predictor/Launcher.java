@@ -15,15 +15,16 @@ import de.bwaldvogel.liblinear.SolverType;
 
 public class Launcher {
 
-	public final static String DATA_FILE = "active.arff";
+	public final static String DATA_FILE = "active_test.arff";
 	//public final static String DATA_FILE = "passive.arff";
-	public static int threshold = 1;
+	public static int threshold = 5;
 	public final static int    NUM_FOLDS = 10;
 	public static PrintWriter  writer;
 	public static Predictor[]  predictors;
-	public static boolean DEMOGRAPHICS = true;
-	public static boolean GROUPS = true;
-	public static boolean CONVERSATION = true;
+	public static boolean DEMOGRAPHICS = false;
+	public static boolean GROUPS = false;
+	public static boolean TRAITS = false;
+	public static boolean CONVERSATION = false;
 
 	/*
 	 * set up predictors
@@ -94,22 +95,25 @@ public class Launcher {
 		for (boolean condition_a : conditions){
 			for (boolean condition_b : conditions){
 				for (boolean condition_c : conditions){
-					System.out.println("Running predictors on " + DATA_FILE + " with demographics flag " + condition_a + " groups flag " + condition_b + " and conversation flag " + condition_c);
-					for (Predictor p : predictors){
-						p.runTests(DATA_FILE /* file to use */, NUM_FOLDS /* folds to use */, 0, /* test threshold */ writer /* file to write */, condition_a, condition_b, condition_c);
-					}
-				}	
+					for (boolean condition_d : conditions){
+						System.out.println("Running predictors on " + DATA_FILE + " with demographics flag " + condition_a + " groups flag " + condition_b + " traits flag " + condition_c + " and conversation flag " + condition_d);
+						writer.println("Running predictors on " + DATA_FILE + " with demographics flag " + condition_a + " groups flag " + condition_b + " traits flag " + condition_c + " and conversation flag " + condition_d);
+						for (Predictor p : predictors){
+							p.runTests(DATA_FILE /* file to use */, NUM_FOLDS /* folds to use */, 0, /* test threshold */ writer /* file to write */, condition_a, condition_b, condition_c, condition_d);
+						}
+					}	
+				}
 			}	
 		}
 	}
-	
+
 	/*
 	 * launch tests on thresholding value
 	 */
 	public void launchThresholds() throws Exception{
 		for (int i = 0; i <= threshold; i++){
 			for (Predictor p : predictors){
-				p.runTests(DATA_FILE /* file to use */, NUM_FOLDS /* folds to use */, i /* test threshold */, writer /* file to write */, DEMOGRAPHICS, GROUPS, CONVERSATION);
+				p.runTests(DATA_FILE /* file to use */, NUM_FOLDS /* folds to use */, i /* test threshold */, writer /* file to write */, DEMOGRAPHICS, GROUPS, TRAITS, CONVERSATION);
 			}
 		}
 	}
@@ -118,17 +122,17 @@ public class Launcher {
 		Launcher launcher = new Launcher();
 		predictors = launcher.setUp();
 		System.out.println("Running predictors on " + DATA_FILE);
-		
+
 		//BayesianModelAveraging.setArff(new ArffData(DATA_FILE));
 
 		Date dNow = new Date();
-	    SimpleDateFormat ft = new SimpleDateFormat ("dd_MM_yyyy");
-	    String outName = "results_" + ft.format(dNow) + ".txt"; 
+		SimpleDateFormat ft = new SimpleDateFormat ("dd_MM_yyyy");
+		String outName = "results_" + ft.format(dNow) + ".txt"; 
 
 		writer = new PrintWriter(outName);		
 
-		launcher.launchThresholds();
-		//launcher.launchConditions();
+		//launcher.launchThresholds();
+		launcher.launchConditions();
 
 		System.out.println("Finished writing to file " + outName);
 		writer.close();

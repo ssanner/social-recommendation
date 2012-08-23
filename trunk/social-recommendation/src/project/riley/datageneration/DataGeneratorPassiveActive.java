@@ -51,9 +51,6 @@ public class DataGeneratorPassiveActive {
 	public static Map<EInteractionType,Map<EDirectionType,Map<Long,Set<Long>>>> _int_dir2uid_linkid = null;
 	public static ArrayList<String> topNWords;
 
-	//public static String[] group_types = {"linkrActivities", "linkrBooks", "linkrFavoriteAthletes", "linkrFavoriteTeams", "linkrInspirationalPeople", "linkrInterests", "linkrMovies", "linkrMusic", "linkrSports", "linkrTelevision", "linkrSchoolWith", "linkrWorkWith"};
-	public static String[] conversation_types = {"linkrLinkComments","linkrPhotoComments","linkrPostComments","linkrVideoComments"};
-
 	/*
 	 * Generate data for accurately labeled data from NICTA app
 	 */
@@ -279,7 +276,9 @@ public class DataGeneratorPassiveActive {
 	 */
 	public static String[] demographics_types = new String[]{"isMale","isFemale","sameGender","sameBirthRange","sameLocale"};
 	public static String[] group_types = new String[]{"sameGroupMembership"};
-	public static String[] conversation_types_header = new String[]{"topNWordsSent","topNWordsReceived"};
+	public static String[] user_traits = {"linkrActivities", "linkrBooks", "linkrFavoriteAthletes", "linkrFavoriteTeams", "linkrInspirationalPeople", "linkrInterests", "linkrMovies", "linkrMusic", "linkrSports", "linkrTelevision", "linkrSchoolWith", "linkrWorkWith"};
+	public static String[] conversation_types_header = new String[]{"topNWordsSent","topNWordsReceived"};	
+
 	public static void writeHeader(String fileName) throws Exception {
 		System.out.println("Writing to " + fileName);
 		_writer = new PrintWriter(fileName);		
@@ -301,16 +300,16 @@ public class DataGeneratorPassiveActive {
 			_writer.println("@attribute 'group_" + group +  "' { " + NO + ", " + YES + " }");
 		}
 
+		for (String trait : user_traits){
+			_writer.println("@attribute 'trait_" + trait +  "' { " + NO + ", " + YES + " }");
+		}
+
 		for (String conversation : conversation_types_header){
 			_writer.println("@attribute 'conversation_" + conversation +  "' { " + NO + ", " + YES + " }");
 		}        
 
 		_writer.println("@data");
 	}
-
-	/* SPS - why rewriting interactions code?  Already written
-	 * SPS - don't make DB calls in inner loops... cache this data in a HashMap 
-	 */
 
 	/*
 	 * Write known rating data
@@ -368,102 +367,7 @@ public class DataGeneratorPassiveActive {
 
 		_writer.close();
 	}
-
-	/*
-	 * Return demographics data for a specific user and link like id
-
-	public static String getAppUserDemographics(long link_id, long uid) throws Exception {
-
-		StringBuffer results = new StringBuffer();
-
-		for (String demographic : demographics_types){
-			String userQuery;
-			if (demographic.equals("birthday")){
-				// for birthday need to check for different birthday table entries, 02/1989 12/03/2001 04/11
-				userQuery = "select count(*) from linkrUser lu inner join linkrLinkLikes ll on ll.link_id=" + link_id + " and ll.id != " + uid + " and ll.id=lu.uid and lu." + demographic + " != '' and (right(" + demographic + ",4) = right((select "  + demographic + " from linkrUser where uid = " + uid + "),4) and instr(right(" + demographic + ",4),'/')=0);";
-			} else if (demographic.equals("location")){
-				// for location join is on a slightly different condition(0) so just a new case
-				userQuery = "select count(*) from linkrUser lu inner join linkrLinkLikes ll on ll.link_id=" + link_id + " and ll.id = lu.uid and lu.location_id != 0 and lu.uid != " + uid + " and lu.location_id=(select location_id from linkrUser where uid = " + uid + ");";
-			} else {
-				// otherwise join tables on 'same' conditions
-				userQuery = "select count(*) from linkrUser lu inner join linkrLinkLikes ll on ll.link_id=" + link_id + " and ll.id != " + uid + " and ll.id=lu.uid and lu." + demographic + " != '' and lu." + demographic + "=(select " + demographic + " from linkrUser where uid = " + uid + ");";
-			}
-
-			results.append(featureValue(userQuery));
-		}		
-
-		return results.toString();
-	}
-
-
-	 * Return groups data for a specific user and link like id
-
-	public static String getAppUserGroups(long link_id, long uid) throws Exception {
-
-		//> this persons activities conditioned on activities size
-		//select la.id from linkrActivities la inner join linkrActivities sz on la.uid=1605476473 and la.id = sz.id group by la.id having count(*) > 1 and count(*) < 10000;
-
-		//> activities of people who like the link and aren't ^ person
-		//select ll.id from linkrLinkLikes ll inner join linkrActivities la where ll.link_id = 162631113776237 and ll.id != 1605476473 and ll.id=la.uid;
-
-		//> number of people who like the link and share the same activity in a size range
-		//select count(*) from linkrLinkLikes ll inner join linkrActivities la where ll.link_id = 162631113776237 and ll.id != 1605476473 and ll.id=la.uid and la.uid = any(select la.id from linkrActivities la inner join linkrActivities sz on la.uid=1605476473 and la.id = sz.id group by la.id having count(*) > 1 and count(*) < 10000);
-
-		int min_limit = 1;					// minimum group size
-		int max_limit = Integer.MAX_VALUE;	// maximum group size
-
-		StringBuffer results = new StringBuffer();				
-
-		for (String group : group_types){
-			String query;
-			if (group.equals("linkrSchoolWith") || group.equals("linkrWorkWith")){
-				//  select count(distinct(uid1)),count(distinct(uid2)) from linkrSchoolWith; << not bidirectional..?
-				query = "select count(*) from " + group + " ls inner join linkrLinkLikes ll on ll.id != " + uid + " and ll.link_id=" + link_id + " and ls.uid2=ll.id;";
-			} else {
-				query = "select count(*) from linkrLinkLikes ll inner join " + group  + " la where ll.link_id = " + link_id + " and ll.id != " + uid + " and ll.id=la.uid and la.uid = any(select la.id from " + group  + " la inner join " + group  + " sz on la.uid=" + uid + " and la.id = sz.id group by la.id having count(*) > " + min_limit + " and count(*) < " + max_limit + ")";
-			}
-			results.append(featureValue(query));
-		}	
-
-		return results.toString();
-	}
-
-
-	 * return conversation content 
-
-	public static String getAppConversationContent(long link_id, long uid) throws Exception{
-		PredictiveWords.buildMessagesDictionary( tracked only true);
-
-		StringBuffer results = new StringBuffer();
-
-		ArrayList<String> topNWords = PredictiveWords.getTopN(3);
-		for (String table : conversation_types){
-			StringBuffer query = new StringBuffer("select count(*) from " + table + " where message like '%" + topNWords.get(0)  assume at least one  + "%' ");
-			for (int i = 1; i < topNWords.size(); i++){
-				query.append("or message like '%" + topNWords.get(i) + "%' ");
-			}
-			System.out.println(query.toString() + "and uid = " + uid + ";");
-			System.out.println(query.toString() + "and from_id = " + uid + ";");
-			results.append(featureValue(query.toString() + "and uid = " + uid + ";"));		 incoming 
-			results.append(featureValue(query.toString() + "and from_id = " + uid + ";"));   outgoing 			
-		}
-
-		return results.toString();
-	}
-
-
-	 * return the result of a query, expecting a count(*) result, YES if count is more than 1, NO otherwise
-
-	public static String featureValue(String query) throws Exception{
-		Statement statement = SQLUtil.getStatement();		
-		ResultSet result = statement.executeQuery(query);
-		String feat_val = null;
-		while (result.next()) {
-			feat_val = "," + (result.getInt(1) > 0 ? YES : NO);
-		}
-		return feat_val;
-	}	
-
+	
 	/*
 	 * Extract user data for users who liked a given link
 	 */
@@ -474,7 +378,7 @@ public class DataGeneratorPassiveActive {
 			return;
 
 		System.out.println("Extracting link data for " + link_id);
-		
+
 		String query = "select lu.uid from linkrLinkLikes ll join linkrUser lu where ll.link_id = " + link_id + " and ll.id=lu.uid;";
 		//System.out.println(query);
 		Statement statement = SQLUtil.getStatement();
@@ -501,7 +405,7 @@ public class DataGeneratorPassiveActive {
 
 		System.out.println("ID: " + uid);
 		System.out.println("\t -> Extracting user data");
-		
+
 		String q = "select uid, gender, right(birthday,4), locale from linkrUser where uid = " + uid;		
 		Statement statement = SQLUtil.getStatement();		
 		ResultSet result = statement.executeQuery(q);
@@ -511,8 +415,10 @@ public class DataGeneratorPassiveActive {
 			int birthday = result.getInt(3);
 			String locale = result.getString(4);
 			UserStruct us = ap.new UserStruct(gender,birthday,locale);
-			additionalUserFeatures.put(result.getLong(1), us);			
+			additionalUserFeatures.put(result.getLong(1), us);
+
 			extractGroups(result.getLong(1));
+			extractTraits(result.getLong(1));
 			extractMessages(result.getLong(1));
 		}
 
@@ -522,28 +428,59 @@ public class DataGeneratorPassiveActive {
 	 * Extract user gruops info
 	 */
 	public static void extractGroups(long uid) throws Exception {
-		
+
 		System.out.println("\t -> Extracting groups data");
-		
+
 		//mysql> select count(*), id, name from linkrGroups group by id having count(*) > 10 and count(*) < 15 order by count(*) desc;
-		String q = "select name from linkrGroups where uid = " + uid;		
+		String q = "select id from linkrGroups where uid = " + uid;		
 		Statement statement = SQLUtil.getStatement();		
 		ResultSet result = statement.executeQuery(q);
 		UserStruct us = additionalUserFeatures.get(uid);
 
 		while (result.next()){
-			us.groupMemberships.add(result.getString(1));
+			us.groupMemberships.add(result.getLong(1));
 		}
 
 	}
 
 	/*
+	 * extract user traits
+	 */
+	public static void extractTraits(long uid) throws Exception{
+
+		System.out.println("\t -> Extracting user traits data");
+
+		UserStruct us = additionalUserFeatures.get(uid);
+		Statement statement = SQLUtil.getStatement();
+		ResultSet result;
+
+		for (String trait : user_traits){
+			String q;
+			if (trait.equals("linkrSchoolWith")){
+				q = "select school_id from " + trait + " where uid1 = " + uid + " or uid2 = " + uid + ";";
+			} else if (trait.equals("linkrWorkWith")){
+				q = "select employer_id from " + trait + " where uid1 = " + uid + " or uid2 = " + uid + ";";
+			} else {
+				q = "select id from " + trait + " where uid = " + uid + ";";
+			}
+
+			result = statement.executeQuery(q);
+
+			while (result.next()){
+				us.userTraits.get(trait).add(result.getLong(1));
+			}
+		}
+	}
+
+	/*
 	 * Extract user messages
 	 */
+
+	public static String[] conversation_types = {"linkrLinkComments","linkrPhotoComments","linkrPostComments","linkrVideoComments"};
 	public static void extractMessages(long uid) throws Exception{
 
 		System.out.println("\t -> Extracting messages data");
-		
+
 		PredictiveWords.buildMessagesDictionary(false);
 		ArrayList<String> sent = new ArrayList<String>();
 		ArrayList<String> received = new ArrayList<String>();
@@ -602,14 +539,32 @@ public class DataGeneratorPassiveActive {
 		UserStruct userInfo = additionalUserFeatures.get(uid);
 
 		// flags 
-		boolean sameGender = false, sameBirthday = false, sameLocale = false, sameGroup = false, sentMention = false, receivedMention = false;
+		boolean sameGender = false, sameBirthday = false, sameLocale = false, sameGroup = false, 
+				sentMention = false, receivedMention = false, sameActivities = false, sameBooks = false, sameFavoriteAthletes = false, 
+				sameFavoriteTeams = false, sameInspirationalPeople = false, sameInterests = false, sameMovies = false, 
+				sameMusic = false, sameSports = false, sameTelevision = false, sameSchool = false, sameWork = false;
 
 		// user info
 		String userGender = userInfo.gender;
 		int userBirthday = userInfo.birthday;
 		String userLocale = userInfo.locale;
 
-		ArrayList<String> userGroups = userInfo.groupMemberships;
+		// user groups
+		ArrayList<Long> userGroups = userInfo.groupMemberships;
+
+		// user traits
+		HashSet<Long> userActivities = userInfo.userTraits.get("linkrActivities");
+		HashSet<Long> userBooks = userInfo.userTraits.get("linkrBooks");
+		HashSet<Long> userFavoriteAthletes = userInfo.userTraits.get("linkrFavoriteAthletes");
+		HashSet<Long> userFavoriteTeams = userInfo.userTraits.get("linkrFavoriteTeams");
+		HashSet<Long> userInspirationalPeople = userInfo.userTraits.get("linkrInspirationalPeople");
+		HashSet<Long> userInterests = userInfo.userTraits.get("linkrInterests");
+		HashSet<Long> userMovies = userInfo.userTraits.get("linkrMovies");
+		HashSet<Long> userMusic = userInfo.userTraits.get("linkrMusic");
+		HashSet<Long> userSports = userInfo.userTraits.get("linkrSports");
+		HashSet<Long> userTelevision = userInfo.userTraits.get("linkrTelevision");
+		HashSet<Long> userSchoolWith = userInfo.userTraits.get("linkrSchoolWith");
+		HashSet<Long> userWorksWith = userInfo.userTraits.get("linkrWorkWith");
 
 		// likee info
 		Set<Long> usersLiked = additionalLinkFeatures.get(link_id);
@@ -617,7 +572,10 @@ public class DataGeneratorPassiveActive {
 		int likeeBirthday;
 		String likeeLocale;
 
-		ArrayList<String> likeeGroups;
+		ArrayList<Long> likeeGroups;
+
+		HashSet<Long> likeeActivities, likeeBooks, likeeFavoriteAthletes, likeeFavoriteTeams, likeeInspirationalPeople,
+		likeeInterests, likeeMovies, likeeMusic, likeeSports, likeeTelevision, likeeSchoolWith, likeeWorksWith;
 
 		boolean likeeSentMention;
 		boolean likeeReceivedMention;
@@ -625,7 +583,10 @@ public class DataGeneratorPassiveActive {
 		// likee info
 		for (long likeeID : usersLiked){
 			// flags already all set
-			if (sameGender && sameBirthday && sameLocale && sameGroup && sentMention && receivedMention){
+			if (sameGender && sameBirthday && sameLocale && sameGroup && sentMention && receivedMention && 
+					sameActivities && sameBooks && sameFavoriteAthletes && 
+					sameFavoriteTeams && sameInspirationalPeople && sameInterests && sameMovies && 
+					sameMusic && sameSports && sameTelevision && sameSchool && sameWork){
 				break;
 			}
 			// skip self
@@ -641,8 +602,22 @@ public class DataGeneratorPassiveActive {
 
 			likeeGroups = likee.groupMemberships;
 
+			likeeActivities = likee.userTraits.get("linkrActivities");
+			likeeBooks = likee.userTraits.get("linkrBooks");
+			likeeFavoriteAthletes = likee.userTraits.get("linkrFavoriteAthletes");
+			likeeFavoriteTeams = likee.userTraits.get("linkrFavoriteTeams");
+			likeeInspirationalPeople = likee.userTraits.get("linkrInspirationalPeople");
+			likeeInterests = likee.userTraits.get("linkrInterests");
+			likeeMovies = likee.userTraits.get("linkrMovies");
+			likeeMusic = likee.userTraits.get("linkrMusic");
+			likeeSports = likee.userTraits.get("linkrSports");
+			likeeTelevision = likee.userTraits.get("linkrTelevision");
+			likeeSchoolWith = likee.userTraits.get("linkrSchoolWith");
+			likeeWorksWith = likee.userTraits.get("linkrWorkWith");
+
 			likeeSentMention = likee.sentMention;
 			likeeReceivedMention = likee.receivedMention;
+
 
 			// test whether user and likee's have similarities
 			if (!sameGender)
@@ -660,25 +635,82 @@ public class DataGeneratorPassiveActive {
 				sameLocale = (userLocale.equals(likeeLocale)) ? true : false;
 
 			if (!sameGroup){
-				for (String group : userGroups){
+				for (Long group : userGroups){
 					if (likeeGroups.contains(group))
 						sameGroup = true;
 				}
 			}
+
+			//traits
+			if (!sameActivities)
+				sameActivities = sameTraits(userActivities,likeeActivities);
+
+			if (!sameBooks)
+				sameBooks = sameTraits(userBooks,likeeBooks);
+
+			if (!sameFavoriteAthletes)
+				sameFavoriteAthletes = sameTraits(userFavoriteAthletes,likeeFavoriteAthletes);
+
+			if (!sameFavoriteTeams)
+				sameFavoriteTeams = sameTraits(userFavoriteTeams,likeeFavoriteTeams);
+
+			if (!sameInspirationalPeople)
+				sameInspirationalPeople = sameTraits(userInspirationalPeople, likeeInspirationalPeople);
+
+			if (!sameInterests)
+				sameInterests = sameTraits(userInterests,likeeInterests);
+
+			if (!sameMovies)
+				sameMovies = sameTraits(userMovies,likeeMovies);
+
+			if (!sameMusic)
+				sameMusic = sameTraits(userMusic,likeeMusic);
+
+			if (!sameSports)
+				sameSports = sameTraits(userSports,likeeSports);
+
+			if (!sameTelevision)
+				sameTelevision = sameTraits(userTelevision,likeeTelevision);
+
+			if (!sameSchool)
+				sameSchool = sameTraits(userSchoolWith,likeeSchoolWith);
+
+			if (!sameWork)
+				sameWork = sameTraits(userWorksWith,likeeWorksWith);
 
 			if (!sentMention)
 				sentMention = likeeSentMention;
 
 			if (!receivedMention)
 				receivedMention = likeeReceivedMention;
+
 		}
 
+		//demographics
 		results.append(PRE + ((userGender.equals("male")) ? YES : "," + NO));		// user is male
 		results.append(PRE + ((userGender.equals("female")) ? YES : NO));			// user is female
 		results.append(PRE + (sameGender ? YES : NO)); 								// same gendered user has(nt) liked link		
 		results.append(PRE + (sameBirthday ? YES : NO));							// same birthday range user has(nt) liked link
-		results.append(PRE + (sameLocale ? YES : NO));								// same localed user has(nt) liked link		
-		results.append(PRE + (sameGroup ? YES : NO));								// same group membership
+		results.append(PRE + (sameLocale ? YES : NO));								// same localed user has(nt) liked link
+
+		// groups
+		results.append(PRE + (sameGroup ? YES : NO));								// same group membership		
+
+		//traits
+		results.append(PRE + (sameActivities ? YES : NO));
+		results.append(PRE + (sameBooks ? YES : NO));
+		results.append(PRE + (sameFavoriteAthletes ? YES : NO));
+		results.append(PRE + (sameFavoriteTeams ? YES : NO));
+		results.append(PRE + (sameInspirationalPeople ? YES : NO));
+		results.append(PRE + (sameInterests ? YES : NO));
+		results.append(PRE + (sameMovies ? YES : NO));
+		results.append(PRE + (sameMusic ? YES : NO));
+		results.append(PRE + (sameSports ? YES : NO));
+		results.append(PRE + (sameTelevision ? YES : NO));
+		results.append(PRE + (sameSchool ? YES : NO));
+		results.append(PRE + (sameWork ? YES : NO));
+
+		//conversation
 		results.append(PRE + ((sentMention ? YES : NO)));							// mentioned top n words in a sent message
 		results.append(PRE + ((receivedMention ? YES : NO)));						// mentioned top n words in a received message
 
@@ -686,8 +718,19 @@ public class DataGeneratorPassiveActive {
 	}
 
 	/*
-	 * Store user info
+	 * return whether two hashsets share the same value
 	 */
+	public static boolean sameTraits(HashSet<Long> user, HashSet<Long> likee){
+		for (long userTrait : user){
+			if (likee.contains(userTrait))
+				return true;
+		}
+		return false;
+	}
+
+	/*
+	 * Store user info
+	 */				
 	public class UserStruct{
 		// demographics store
 		String gender;
@@ -695,7 +738,10 @@ public class DataGeneratorPassiveActive {
 		String locale;
 
 		// groups store
-		ArrayList<String> groupMemberships = new ArrayList<String>();
+		ArrayList<Long> groupMemberships = new ArrayList<Long>();
+
+		// user traits
+		HashMap<String, HashSet<Long>> userTraits = new HashMap<String,HashSet<Long>>();
 
 		// conversation content store (whether they have used a top N word)
 		boolean sentMention = false;
@@ -705,21 +751,32 @@ public class DataGeneratorPassiveActive {
 			this.gender = gender;
 			this.birthday = birthday;
 			this.locale = locale;
+
+			for (String trait : user_traits){
+				userTraits.put(trait,new HashSet<Long>());
+			}
 		}		
-
-		public UserStruct() { }
-
+		
 		public String toString(){
 
 			StringBuffer gp = new StringBuffer();
-			for (String group : groupMemberships){
-				gp.append("\n\t\t" + group);
+			for (Long group : groupMemberships){
+				gp.append(group + ",");
+			}
+
+			StringBuffer traits = new StringBuffer();
+			for (Entry<String, HashSet<Long>> trait : userTraits.entrySet()){
+				traits.append("\n\t\t" + trait.getKey() + ":");
+				for (Long id : trait.getValue()){
+					traits.append(id + ",");
+				}
 			}
 
 			return "  \n\tGender:" + gender + 
 					" \n\tBirthday:" + birthday + 
 					" \n\tLocale:" + locale +
 					" \n\tGroups:" + gp.toString() +
+					" \n\tTraits:" + traits.toString() +
 					" \n\tSent Mention:" + sentMention + 
 					" \n\tReceived Mention:" + receivedMention;
 		}
@@ -757,15 +814,15 @@ public class DataGeneratorPassiveActive {
 			System.out.println((range-4) + "-" + range + ":" + count);
 		}		
 	}	
-	
+
 	/*
 	 * Extract gruops info
 	 */
 	public static void getGroupsInfo() throws Exception{			
-		
+
 		int minSize = 1;
 		int maxSize = 10;
-		
+
 		//String query = "select count(*), id, name from linkrGroups group by id having count(*) > 10 and count(*) < 15 order by count(*) desc;";
 		String query = "select count(*),id,name from linkrGroups where uid in (select distinct uid from trackRecommendedLinks) group by id having count(*) > " + minSize + " and count(*) < " + maxSize + " order by count(*) desc;";
 
@@ -780,11 +837,11 @@ public class DataGeneratorPassiveActive {
 			System.out.println(count + " - " + name);		
 
 		}
-		
+
 	}
 
 	public static void main(String[] args) throws Exception {
-		//populateCachedData(true /* active */);
+		populateCachedData(true /* active */);
 		//writeData("active_data.arff");
 		//populateCachedData(false /* active */);
 		//writeData("passive_data.arff");
@@ -794,20 +851,20 @@ public class DataGeneratorPassiveActive {
 
 		//getAppUserFeaturesInfo();
 		//extractLinkFeatures(308324665867510L);
-		//extractLinkFeatures(204685499600824L);			
+		//extractLinkFeatures(204685499600824L);									
 
-		/*for (Entry<Long, UserStruct> entry : additionalUserFeatures.entrySet()){
+		for (Entry<Long, UserStruct> entry : additionalUserFeatures.entrySet()){
 			long id = entry.getKey();
 			UserStruct results = entry.getValue();
 			System.out.println(id + "->" + results);
-		}*/
+		}
 
 		//extractMessages(1461424861L);
 		//writeData("asd.arff");		
 
 		//getDemographicsInfo();
 		//System.out.println();
-		getGroupsInfo();
+		//getGroupsInfo();
 
 	}
 

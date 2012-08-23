@@ -42,9 +42,13 @@ public class ArffData {
 	static boolean groups = false;
 	static int groups_index_start = demographics_index_end;
 	static int groups_index_end = groups_index_start + DataGeneratorPassiveActive.group_types.length;
+	
+	static boolean traits = false;
+	static int traits_index_start = groups_index_end;
+	static int traits_index_end = traits_index_start + DataGeneratorPassiveActive.user_traits.length;
 
 	static boolean conversations = false;
-	static int conversations_index_start = groups_index_end;
+	static int conversations_index_start = traits_index_end;
 	static int conversations_index_end = (conversations_index_start + DataGeneratorPassiveActive.conversation_types_header.length);
 
 	static int threshold = 0;
@@ -69,18 +73,11 @@ public class ArffData {
 		readArffFile();
 	}
 
-	public ArffData(String filename, boolean _demographics, boolean _groups, boolean _conversations) {
+	public ArffData(String filename, int _threshold, boolean _demographics, boolean _groups, boolean _traits, boolean _conversations) {
 		_filename = filename;
 		demographics = _demographics;
 		groups = _groups;
-		conversations = _conversations;
-		readArffFile();
-	}
-
-	public ArffData(String filename, int _threshold, boolean _demographics, boolean _groups, boolean _conversations) {
-		_filename = filename;
-		demographics = _demographics;
-		groups = _groups;
+		traits = _traits;
 		conversations = _conversations;
 		threshold = _threshold;
 		readArffFile();
@@ -148,6 +145,8 @@ public class ArffData {
 					if (!demographics && line_index > demographics_index_start && line_index <= demographics_index_end){
 						// nothing
 					} else if (!groups && line_index > groups_index_start && line_index <= groups_index_end){
+						// nothing
+					} else if (!traits && line_index > traits_index_start && line_index <= traits_index_end){
 						// nothing
 					} else if (!conversations && line_index > conversations_index_start && line_index <= conversations_index_end){
 						// nothing
@@ -239,6 +238,8 @@ public class ArffData {
 			if (!demographics && i > (demographics_index_start-offset) && i <= (demographics_index_end-offset)){
 				// nothing
 			} else if (!groups && i > (groups_index_start-offset) && i <= (groups_index_end-offset)){
+				// nothing
+			} else if (!traits && i > (traits_index_start-offset) && i <= (traits_index_end-offset)){
 				// nothing
 			} else if (!conversations && i > (conversations_index_start-offset) && i <= (conversations_index_end-offset)){
 				// nothing
@@ -615,20 +616,31 @@ public class ArffData {
 	public static void main(String args[]) {
 		System.out.println("Running ArffData.main:\n");
 
-		for (int i = 0; i < 10; i++){
+/*		for (int i = 0; i < 10; i++){
 
 			String trainName = "active.arff" + ".train." + (i+1);
 			String testName  = "active.arff" + ".test."  + (i+1);
 
 			System.out.println("---");
-			ArffData _trainData = new ArffData(trainName, 0, demographics, groups, conversations);
+			ArffData _trainData = new ArffData(trainName, 0, demographics, traits, groups, conversations);
 			System.out.println(trainName + ":" + _trainData._data.size());
 			System.out.println("---");
-			ArffData _testData  = new ArffData(testName, 1, demographics, groups, conversations);
+			ArffData _testData  = new ArffData(testName, 1, demographics, traits, groups, conversations);
 			System.out.println(testName + ":" + _testData._data.size());
 
-		}
+		}*/
 
+		ArffData f1 = new ArffData("active_test.arff",0,false,false,false,false);
+		for (Attribute s : f1._attr){
+			System.out.println(s);
+		}
+		
+		f1 = new ArffData("active_test.arff",0,true,false,true,true);
+		for (Attribute s : f1._attr){
+			System.out.println(s);
+		}
+//		System.out.println(f1._attr);
+		
 		//ArffData f1 = new ArffData("active.arff.train.2",false,false,false);
 		//System.out.println(f1._data.size());
 
