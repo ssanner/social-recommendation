@@ -304,9 +304,9 @@ public class DataGeneratorPassiveActive {
 			_writer.println("@attribute 'trait_" + trait +  "' { " + NO + ", " + YES + " }");
 		}
 
-		for (String conversation : conversation_types_header){
-			_writer.println("@attribute 'conversation_" + conversation +  "' { " + NO + ", " + YES + " }");
-		}        
+		//for (String conversation : conversation_types_header){
+		//	_writer.println("@attribute 'conversation_" + conversation +  "' { " + NO + ", " + YES + " }");
+		//}        
 
 		_writer.println("@data");
 	}
@@ -419,7 +419,7 @@ public class DataGeneratorPassiveActive {
 
 			extractGroups(result.getLong(1));
 			extractTraits(result.getLong(1));
-			extractMessages(result.getLong(1));
+			//extractMessages(result.getLong(1));
 		}
 
 	}
@@ -711,8 +711,8 @@ public class DataGeneratorPassiveActive {
 		results.append(PRE + (sameWork ? YES : NO));
 
 		//conversation
-		results.append(PRE + ((sentMention ? YES : NO)));							// mentioned top n words in a sent message
-		results.append(PRE + ((receivedMention ? YES : NO)));						// mentioned top n words in a received message
+		//results.append(PRE + ((sentMention ? YES : NO)));							// mentioned top n words in a sent message
+		//results.append(PRE + ((receivedMention ? YES : NO)));						// mentioned top n words in a received message
 
 		return results.toString();
 	}
