@@ -106,14 +106,8 @@ public abstract class Predictor {
 			_testData  = new ArffData(testName, threshold, demographics, groups, traits, conversations);					
 			
 			if (_testData._data.size() == 0 || _trainData._data.size() == 0){
-				//System.out.println(threshold);
-				//System.out.println(trainName + ":" + _trainData._data.size());
-				//System.out.println(testName + ":" + _testData._data.size());
 				continue;
 			}
-
-			//System.out.println(testName + " " + _testData._data.size());
-			//System.out.println(trainName + " " + _trainData._data.size());
 			
 			clear();
 			train();										// build a classifier and train (dont need to train each time..)
