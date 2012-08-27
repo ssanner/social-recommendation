@@ -51,6 +51,9 @@ public class DataGeneratorPassiveActive {
 	public static Map<EInteractionType,Map<EDirectionType,Map<Long,Set<Long>>>> _int_dir2uid_linkid = null;
 	public static ArrayList<String> topNWords;
 
+	public static Set<Long> usersSeen = new HashSet<Long>();
+	public static Set<Long> linksSeen = new HashSet<Long>();
+
 	/*
 	 * Generate data for accurately labeled data from NICTA app
 	 */
@@ -58,13 +61,9 @@ public class DataGeneratorPassiveActive {
 
 	public static void populateCachedData(boolean active_likes) throws Exception {
 
+		topNWords = PredictiveWords.getTopN(5);
 		// For all uids in the DB, get their set of LINK likes 
 		_uid2all_passive_linkids_likes = UserUtil.getLikes(ELikeType.LINK);
-		topNWords = PredictiveWords.getTopN(5);
-
-		for (long uid : UserUtil.getAppUserIds()){
-			extractUserFeatures(uid);
-		}
 
 		if (active_likes) {
 
@@ -100,8 +99,10 @@ public class DataGeneratorPassiveActive {
 					(is_liked ? _uid2linkids_likes : _uid2linkids_dislikes).put(uid, userLikes);
 				}
 				userLikes.add(link_id);
-				extractLinkFeatures(link_id);
+				linksSeen.add(link_id);
 			}
+			result.close();
+			statement.close();
 
 		} else { // !active
 
@@ -143,7 +144,7 @@ public class DataGeneratorPassiveActive {
 				// If a user has not liked a link in popular_app_user_links, consider it a dislike,
 				// otherwise a like.
 				for (Long link_id : popular_app_user_links) {
-					extractLinkFeatures(link_id);
+					linksSeen.add(link_id);
 					if (links_liked == null || !links_liked.contains(link_id))
 						links_disliked_to_set.add(link_id);
 					else
@@ -219,6 +220,12 @@ public class DataGeneratorPassiveActive {
 				}
 			}
 		}
+
+		for (long uid : UserUtil.getAppUserIds()){
+			usersSeen.add(uid);
+		}
+
+		extractLinkFeatures();
 	}
 
 	public static HashSet<Long> getUnionOfLikedLinks(Set<Long> app_user_uids) {
@@ -248,6 +255,9 @@ public class DataGeneratorPassiveActive {
 			//System.out.println(link_id + ":\t" + count);
 		}
 
+		result.close();
+		statement.close();
+
 		return link_list;
 	}
 
@@ -267,6 +277,9 @@ public class DataGeneratorPassiveActive {
 				break;
 			//System.out.println(link_id + ":\t" + count);
 		}
+
+		result.close();
+		statement.close();
 
 		return link_list;
 	}
@@ -367,29 +380,45 @@ public class DataGeneratorPassiveActive {
 
 		_writer.close();
 	}
-	
+
 	/*
 	 * Extract user data for users who liked a given link
 	 */
 	static HashMap<Long, Set<Long>> additionalLinkFeatures = new HashMap<Long, Set<Long>>();
-	public static void extractLinkFeatures(long link_id) throws Exception{
+	public static void extractLinkFeatures() throws Exception{
 
-		if (additionalLinkFeatures.containsKey(link_id))
-			return;
-
-		System.out.println("Extracting link data for " + link_id);
-
-		String query = "select lu.uid from linkrLinkLikes ll join linkrUser lu where ll.link_id = " + link_id + " and ll.id=lu.uid;";
-		//System.out.println(query);
-		Statement statement = SQLUtil.getStatement();
-		ResultSet result = statement.executeQuery(query);				
-
-		Set<Long> ls = new HashSet<Long>();
-		while (result.next()){
-			ls.add(result.getLong(1));
-			extractUserFeatures(result.getLong(1));
+		StringBuilder links = new StringBuilder();
+		for (Long link : linksSeen){
+			links.append(link + ",");
 		}
-		additionalLinkFeatures.put(link_id, ls);
+
+		String linksToGet = links.toString().substring(0, links.length()-1);
+		System.out.println("Extracting links info for: (" + linksToGet + ")");
+
+		Statement statement = SQLUtil.getStatement();	
+		String query = "select ll.link_id, lu.uid from linkrLinkLikes ll join linkrUser lu where ll.link_id in (" + linksToGet + ") and ll.id=lu.uid;";
+		ResultSet result = statement.executeQuery(query);
+
+		Set<Long> ls;
+		while (result.next()){
+			Long link_id = result.getLong(1);
+			Long uid = result.getLong(2);
+			usersSeen.add(uid);
+
+			ls = additionalLinkFeatures.get(link_id);
+			if (ls == null){
+				System.out.println("\t New link with likes: " + link_id);
+				ls = new HashSet<Long>();
+			}
+			ls.add(uid);
+			additionalLinkFeatures.put(link_id, ls);			
+		}		
+
+		result.close();
+		statement.close();
+
+		extractUserFeatures();
+
 	}
 
 	/*
@@ -397,79 +426,95 @@ public class DataGeneratorPassiveActive {
 	 */
 	static DataGeneratorPassiveActive ap = new DataGeneratorPassiveActive();
 	static HashMap<Long,UserStruct> additionalUserFeatures = new HashMap<Long,UserStruct>();
-	public static void extractUserFeatures(long uid) throws Exception{						
+	static String usersToGet;
+	public static void extractUserFeatures() throws Exception{						
 
-		// dont check twice
-		if (additionalUserFeatures.containsKey(uid))
-			return;
+		StringBuilder users = new StringBuilder();
+		for (Long user : usersSeen){
+			users.append(user + ",");
+		}
 
-		System.out.println("ID: " + uid);
-		System.out.println("\t -> Extracting user data");
+		usersToGet = users.toString().substring(0, users.length()-1);
+		System.out.println("Extracting users info for: (" + usersToGet + ")");
 
-		String q = "select uid, gender, right(birthday,4), locale from linkrUser where uid = " + uid;		
-		Statement statement = SQLUtil.getStatement();		
-		ResultSet result = statement.executeQuery(q);
+		Statement statement = SQLUtil.getStatement();	
+		String query = "select uid, gender, right(birthday,4), locale from linkrUser where uid in ( " + usersToGet + ");";
+		ResultSet result = statement.executeQuery(query);
 
-		while (result.next()){
+		while (result.next()){			
 			String gender = result.getString(2);
 			int birthday = result.getInt(3);
 			String locale = result.getString(4);
 			UserStruct us = ap.new UserStruct(gender,birthday,locale);
 			additionalUserFeatures.put(result.getLong(1), us);
 
-			extractGroups(result.getLong(1));
-			extractTraits(result.getLong(1));
+			System.out.println("\t New user data added:" + result.getLong(1));
+			
+			//extractGroups(result.getLong(1));
+			//extractTraits(result.getLong(1));
 			//extractMessages(result.getLong(1));
 		}
 
+		result.close();
+		statement.close();
+
+		extractGroups();
+		extractTraits();
+		//extractMessages();
 	}
 
 	/* 
 	 * Extract user gruops info
 	 */
-	public static void extractGroups(long uid) throws Exception {
+	public static void extractGroups() throws Exception {
 
 		System.out.println("\t -> Extracting groups data");
 
 		//mysql> select count(*), id, name from linkrGroups group by id having count(*) > 10 and count(*) < 15 order by count(*) desc;
-		String q = "select id from linkrGroups where uid = " + uid;		
+		String q = "select uid, id from linkrGroups where uid in (" + usersToGet + ");";		
 		Statement statement = SQLUtil.getStatement();		
 		ResultSet result = statement.executeQuery(q);
-		UserStruct us = additionalUserFeatures.get(uid);
+		UserStruct us;
 
 		while (result.next()){
-			us.groupMemberships.add(result.getLong(1));
+			us = additionalUserFeatures.get(result.getLong(1));
+			us.groupMemberships.add(result.getLong(2));
 		}
-
+		result.close();
+		statement.close();
 	}
 
 	/*
 	 * extract user traits
 	 */
-	public static void extractTraits(long uid) throws Exception{
+	public static void extractTraits() throws Exception{
 
 		System.out.println("\t -> Extracting user traits data");
 
-		UserStruct us = additionalUserFeatures.get(uid);
+		UserStruct us;
 		Statement statement = SQLUtil.getStatement();
-		ResultSet result;
-
+		ResultSet result = null;
+		//656856635
+		// {"linkrActivities", "linkrBooks", "linkrFavoriteAthletes", "linkrFavoriteTeams", "linkrInspirationalPeople", "linkrInterests", "linkrMovies", "linkrMusic", "linkrSports", "linkrTelevision", "linkrSchoolWith", "linkrWorkWith"};
 		for (String trait : user_traits){
 			String q;
 			if (trait.equals("linkrSchoolWith")){
-				q = "select school_id from " + trait + " where uid1 = " + uid + " or uid2 = " + uid + ";";
+				q = "select uid1, school_id from " + trait + " where uid1 in (" + usersToGet + ");";
 			} else if (trait.equals("linkrWorkWith")){
-				q = "select employer_id from " + trait + " where uid1 = " + uid + " or uid2 = " + uid + ";";
+				q = "select uid1, employer_id from " + trait + " where uid1 in (" + usersToGet + ");";
 			} else {
-				q = "select id from " + trait + " where uid = " + uid + ";";
+				q = "select uid, id from " + trait + " where uid in (" + usersToGet + ");";
 			}
 
 			result = statement.executeQuery(q);
 
 			while (result.next()){
-				us.userTraits.get(trait).add(result.getLong(1));
+				us = additionalUserFeatures.get(result.getLong(1));
+				us.userTraits.get(trait).add(result.getLong(2));
 			}
 		}
+		result.close();
+		statement.close();
 	}
 
 	/*
@@ -486,7 +531,7 @@ public class DataGeneratorPassiveActive {
 		ArrayList<String> received = new ArrayList<String>();
 		StringBuffer base = new StringBuffer("select message from ");
 		Statement statement = SQLUtil.getStatement();
-		ResultSet result;
+		ResultSet result = null;
 
 		UserStruct us = additionalUserFeatures.get(uid);
 
@@ -502,7 +547,8 @@ public class DataGeneratorPassiveActive {
 				sent.add(result.getString(1));
 			}
 		}
-
+		result.close();
+		statement.close();
 		// check whether user has mentioned a top word in a sent message
 		outer:
 			for (String needle : topNWords){
@@ -536,7 +582,6 @@ public class DataGeneratorPassiveActive {
 
 	public static String additionalUserColumns(long link_id, long uid){
 		StringBuilder results = new StringBuilder();
-		UserStruct userInfo = additionalUserFeatures.get(uid);
 
 		// flags 
 		boolean sameGender = false, sameBirthday = false, sameLocale = false, sameGroup = false, 
@@ -545,6 +590,8 @@ public class DataGeneratorPassiveActive {
 				sameMusic = false, sameSports = false, sameTelevision = false, sameSchool = false, sameWork = false;
 
 		// user info
+		UserStruct userInfo = additionalUserFeatures.get(uid);
+
 		String userGender = userInfo.gender;
 		int userBirthday = userInfo.birthday;
 		String userLocale = userInfo.locale;
@@ -568,6 +615,7 @@ public class DataGeneratorPassiveActive {
 
 		// likee info
 		Set<Long> usersLiked = additionalLinkFeatures.get(link_id);
+
 		String likeeGender;
 		int likeeBirthday;
 		String likeeLocale;
@@ -581,109 +629,111 @@ public class DataGeneratorPassiveActive {
 		boolean likeeReceivedMention;
 
 		// likee info
-		for (long likeeID : usersLiked){
-			// flags already all set
-			if (sameGender && sameBirthday && sameLocale && sameGroup && sentMention && receivedMention && 
-					sameActivities && sameBooks && sameFavoriteAthletes && 
-					sameFavoriteTeams && sameInspirationalPeople && sameInterests && sameMovies && 
-					sameMusic && sameSports && sameTelevision && sameSchool && sameWork){
-				break;
-			}
-			// skip self
-			if (likeeID == uid){
-				continue;
-			}
-
-			UserStruct likee = additionalUserFeatures.get(likeeID);
-
-			likeeGender = likee.gender;
-			likeeBirthday = likee.birthday;
-			likeeLocale = likee.locale;
-
-			likeeGroups = likee.groupMemberships;
-
-			likeeActivities = likee.userTraits.get("linkrActivities");
-			likeeBooks = likee.userTraits.get("linkrBooks");
-			likeeFavoriteAthletes = likee.userTraits.get("linkrFavoriteAthletes");
-			likeeFavoriteTeams = likee.userTraits.get("linkrFavoriteTeams");
-			likeeInspirationalPeople = likee.userTraits.get("linkrInspirationalPeople");
-			likeeInterests = likee.userTraits.get("linkrInterests");
-			likeeMovies = likee.userTraits.get("linkrMovies");
-			likeeMusic = likee.userTraits.get("linkrMusic");
-			likeeSports = likee.userTraits.get("linkrSports");
-			likeeTelevision = likee.userTraits.get("linkrTelevision");
-			likeeSchoolWith = likee.userTraits.get("linkrSchoolWith");
-			likeeWorksWith = likee.userTraits.get("linkrWorkWith");
-
-			likeeSentMention = likee.sentMention;
-			likeeReceivedMention = likee.receivedMention;
-
-
-			// test whether user and likee's have similarities
-			if (!sameGender)
-				sameGender = (userGender.equals(likeeGender)) ? true : false;
-
-			if (!sameBirthday){
-				int rounded = (userBirthday + 4) / 5 * 5;
-				if (likeeBirthday >= (rounded-4) && likeeBirthday <= rounded){
-					sameBirthday = true;				
+		if (usersLiked != null){ // want at least one person to have liked this
+			for (long likeeID : usersLiked){
+				// flags already all set
+				if (sameGender && sameBirthday && sameLocale && sameGroup && sentMention && receivedMention && 
+						sameActivities && sameBooks && sameFavoriteAthletes && 
+						sameFavoriteTeams && sameInspirationalPeople && sameInterests && sameMovies && 
+						sameMusic && sameSports && sameTelevision && sameSchool && sameWork){
+					break;
 				}
-				//System.out.println("\t" + birthday + ":" + (birthday >= (rounded-4) && birthday <= rounded));				
-			}				
-
-			if (!sameLocale)
-				sameLocale = (userLocale.equals(likeeLocale)) ? true : false;
-
-			if (!sameGroup){
-				for (Long group : userGroups){
-					if (likeeGroups.contains(group))
-						sameGroup = true;
+				// skip self
+				if (likeeID == uid){
+					continue;
 				}
+
+				UserStruct likee = additionalUserFeatures.get(likeeID);
+
+				likeeGender = likee.gender;
+				likeeBirthday = likee.birthday;
+				likeeLocale = likee.locale;
+
+				likeeGroups = likee.groupMemberships;
+
+				likeeActivities = likee.userTraits.get("linkrActivities");
+				likeeBooks = likee.userTraits.get("linkrBooks");
+				likeeFavoriteAthletes = likee.userTraits.get("linkrFavoriteAthletes");
+				likeeFavoriteTeams = likee.userTraits.get("linkrFavoriteTeams");
+				likeeInspirationalPeople = likee.userTraits.get("linkrInspirationalPeople");
+				likeeInterests = likee.userTraits.get("linkrInterests");
+				likeeMovies = likee.userTraits.get("linkrMovies");
+				likeeMusic = likee.userTraits.get("linkrMusic");
+				likeeSports = likee.userTraits.get("linkrSports");
+				likeeTelevision = likee.userTraits.get("linkrTelevision");
+				likeeSchoolWith = likee.userTraits.get("linkrSchoolWith");
+				likeeWorksWith = likee.userTraits.get("linkrWorkWith");
+
+				likeeSentMention = likee.sentMention;
+				likeeReceivedMention = likee.receivedMention;
+
+
+				// test whether user and likee's have similarities
+				if (!sameGender)
+					sameGender = (userGender.equals(likeeGender)) ? true : false;
+
+				if (!sameBirthday){
+					int rounded = (userBirthday + 4) / 5 * 5;
+					if (likeeBirthday >= (rounded-4) && likeeBirthday <= rounded){
+						sameBirthday = true;				
+					}
+					//System.out.println("\t" + birthday + ":" + (birthday >= (rounded-4) && birthday <= rounded));				
+				}				
+
+				if (!sameLocale)
+					sameLocale = (userLocale.equals(likeeLocale)) ? true : false;
+
+				if (!sameGroup){
+					for (Long group : userGroups){
+						if (likeeGroups.contains(group))
+							sameGroup = true;
+					}
+				}
+
+				//traits
+				if (!sameActivities)
+					sameActivities = sameTraits(userActivities,likeeActivities);
+
+				if (!sameBooks)
+					sameBooks = sameTraits(userBooks,likeeBooks);
+
+				if (!sameFavoriteAthletes)
+					sameFavoriteAthletes = sameTraits(userFavoriteAthletes,likeeFavoriteAthletes);
+
+				if (!sameFavoriteTeams)
+					sameFavoriteTeams = sameTraits(userFavoriteTeams,likeeFavoriteTeams);
+
+				if (!sameInspirationalPeople)
+					sameInspirationalPeople = sameTraits(userInspirationalPeople, likeeInspirationalPeople);
+
+				if (!sameInterests)
+					sameInterests = sameTraits(userInterests,likeeInterests);
+
+				if (!sameMovies)
+					sameMovies = sameTraits(userMovies,likeeMovies);
+
+				if (!sameMusic)
+					sameMusic = sameTraits(userMusic,likeeMusic);
+
+				if (!sameSports)
+					sameSports = sameTraits(userSports,likeeSports);
+
+				if (!sameTelevision)
+					sameTelevision = sameTraits(userTelevision,likeeTelevision);
+
+				if (!sameSchool)
+					sameSchool = sameTraits(userSchoolWith,likeeSchoolWith);
+
+				if (!sameWork)
+					sameWork = sameTraits(userWorksWith,likeeWorksWith);
+
+				if (!sentMention)
+					sentMention = likeeSentMention;
+
+				if (!receivedMention)
+					receivedMention = likeeReceivedMention;
+
 			}
-
-			//traits
-			if (!sameActivities)
-				sameActivities = sameTraits(userActivities,likeeActivities);
-
-			if (!sameBooks)
-				sameBooks = sameTraits(userBooks,likeeBooks);
-
-			if (!sameFavoriteAthletes)
-				sameFavoriteAthletes = sameTraits(userFavoriteAthletes,likeeFavoriteAthletes);
-
-			if (!sameFavoriteTeams)
-				sameFavoriteTeams = sameTraits(userFavoriteTeams,likeeFavoriteTeams);
-
-			if (!sameInspirationalPeople)
-				sameInspirationalPeople = sameTraits(userInspirationalPeople, likeeInspirationalPeople);
-
-			if (!sameInterests)
-				sameInterests = sameTraits(userInterests,likeeInterests);
-
-			if (!sameMovies)
-				sameMovies = sameTraits(userMovies,likeeMovies);
-
-			if (!sameMusic)
-				sameMusic = sameTraits(userMusic,likeeMusic);
-
-			if (!sameSports)
-				sameSports = sameTraits(userSports,likeeSports);
-
-			if (!sameTelevision)
-				sameTelevision = sameTraits(userTelevision,likeeTelevision);
-
-			if (!sameSchool)
-				sameSchool = sameTraits(userSchoolWith,likeeSchoolWith);
-
-			if (!sameWork)
-				sameWork = sameTraits(userWorksWith,likeeWorksWith);
-
-			if (!sentMention)
-				sentMention = likeeSentMention;
-
-			if (!receivedMention)
-				receivedMention = likeeReceivedMention;
-
 		}
 
 		//demographics
@@ -756,7 +806,7 @@ public class DataGeneratorPassiveActive {
 				userTraits.put(trait,new HashSet<Long>());
 			}
 		}		
-		
+
 		public String toString(){
 
 			StringBuffer gp = new StringBuffer();
@@ -837,13 +887,48 @@ public class DataGeneratorPassiveActive {
 			System.out.println(count + " - " + name);		
 
 		}
+	}
+
+	/*
+	 * extract traits info
+	 */
+
+	public static void getTraitsInfo() throws Exception{
+		//select count(id),name from linkrActivities where uid in (select distinct uid from trackRecommendedLinks) group by id order by count(*) desc limit 10;
+		int limit = 15;
+
+		Statement statement = SQLUtil.getStatement();				
+
+		String q = null;
+		for (String trait : user_traits){
+			if (trait.equals("linkrSchoolWith")){
+				continue;
+				//q = "select count(school_id),name from " + trait + " where uid1 in (select distinct uid from trackRecommendedLinks) or uid2 in (select distinct uid from trackRecommendedLinks) group by id order by count(*) desc limit " + limit + ";";
+			} else if (trait.equals("linkrWorkWith")){				
+				continue;
+				//q = "select count(employer_id),name from " + trait + " where uid1 in (select distinct uid from trackRecommendedLinks) or uid2 in (select distinct uid from trackRecommendedLinks) group by id order by count(*) desc limit " + limit + ";";
+			} else {
+				q = "select count(id),name from " + trait + " where uid in (select distinct uid from trackRecommendedLinks) group by id order by count(*) desc limit " + limit + ";";
+			}
+			System.out.println(trait);
+			ResultSet result = statement.executeQuery(q);
+			while (result.next()) {			
+				int count = result.getInt(1);
+				String name = result.getString(2);			
+				System.out.println(count + " - " + name);		
+			}
+			System.out.println();
+		}
+
+
 
 	}
 
 	public static void main(String[] args) throws Exception {
-		populateCachedData(true /* active */);
+
+		//populateCachedData(true /* active */);
 		//writeData("active_data.arff");
-		//populateCachedData(false /* active */);
+		//populateCachedData(false /* passive */);
 		//writeData("passive_data.arff");
 		//System.out.println(getAppConversationContent(162631113776237L,670845000));
 
@@ -865,6 +950,7 @@ public class DataGeneratorPassiveActive {
 		//getDemographicsInfo();
 		//System.out.println();
 		//getGroupsInfo();
+		getTraitsInfo();
 
 	}
 
