@@ -317,9 +317,9 @@ public class DataGeneratorPassiveActive {
 			_writer.println("@attribute 'trait_" + trait +  "' { " + NO + ", " + YES + " }");
 		}
 
-		//for (String conversation : conversation_types_header){
-		//	_writer.println("@attribute 'conversation_" + conversation +  "' { " + NO + ", " + YES + " }");
-		//}        
+		for (String conversation : conversation_types_header){
+			_writer.println("@attribute 'conversation_" + conversation +  "' { " + NO + ", " + YES + " }");
+		}        
 
 		_writer.println("@data");
 	}
@@ -449,7 +449,7 @@ public class DataGeneratorPassiveActive {
 			additionalUserFeatures.put(result.getLong(1), us);
 
 			System.out.println("\t New user data added:" + result.getLong(1));
-			
+
 			//extractGroups(result.getLong(1));
 			//extractTraits(result.getLong(1));
 			//extractMessages(result.getLong(1));
@@ -460,7 +460,7 @@ public class DataGeneratorPassiveActive {
 
 		extractGroups();
 		extractTraits();
-		//extractMessages();
+		extractMessages();
 	}
 
 	/* 
@@ -522,41 +522,54 @@ public class DataGeneratorPassiveActive {
 	 */
 
 	public static String[] conversation_types = {"linkrLinkComments","linkrPhotoComments","linkrPostComments","linkrVideoComments"};
-	public static void extractMessages(long uid) throws Exception{
+	public static void extractMessages() throws Exception{
 
 		System.out.println("\t -> Extracting messages data");
 
 		PredictiveWords.buildMessagesDictionary(false);
-		ArrayList<String> sent = new ArrayList<String>();
-		ArrayList<String> received = new ArrayList<String>();
-		StringBuffer base = new StringBuffer("select message from ");
+		Map<Long,ArrayList<String>> sent = new HashMap<Long,ArrayList<String>>();
+		Map<Long,ArrayList<String>> received = new HashMap<Long,ArrayList<String>>();
+		StringBuffer base = new StringBuffer("select uid, message from ");
 		Statement statement = SQLUtil.getStatement();
-		ResultSet result = null;
-
-		UserStruct us = additionalUserFeatures.get(uid);
+		ResultSet result = null;		
 
 		// extract messages info for user
 		for (String table : conversation_types){			
-			result = statement.executeQuery(base.toString() + table + " where uid = " + uid + ";"); 	// incoming			
-			while (result.next()){			
-				received.add(result.getString(1));
+			result = statement.executeQuery(base.toString() + table + " where uid in (" + usersToGet + ");"); 	// incoming			
+			while (result.next()){
+				ArrayList<String> rec = received.get(result.getLong(1));
+				if (rec == null)
+					rec = new ArrayList<String>();
+				rec.add(result.getString(2));
+				received.put(result.getLong(1),rec);
 			}
+			result.close();
 
-			result = statement.executeQuery(base.toString() + table + " where from_id = " + uid + ";"); // outcoming			
+			result = statement.executeQuery(base.toString() + table + " where from_id in (" + usersToGet + ");"); // outcoming			
 			while (result.next()){			
-				sent.add(result.getString(1));
+				ArrayList<String> se = sent.get(result.getLong(1));
+				if (se == null)
+					se = new ArrayList<String>();
+				se.add(result.getString(2));
+				sent.put(result.getLong(1),se);
 			}
+			result.close();
+
 		}
-		result.close();
+
 		statement.close();
 		// check whether user has mentioned a top word in a sent message
 		outer:
-			for (String needle : topNWords){
-				for (String message : sent){
-					for (String word : message.split("\\s+")){
-						if (word.equals(needle)){
-							us.sentMention = true;
-							break outer;
+			for (Entry<Long, ArrayList<String>> user : sent.entrySet()){
+				Long uid = user.getKey();
+				UserStruct us = additionalUserFeatures.get(uid);
+				for (String needle : topNWords){
+					for (String message : user.getValue()){
+						for (String word : message.split("\\s+")){
+							if (word.equals(needle)){
+								us.sentMention = true;
+								break outer;
+							}
 						}
 					}
 				}
@@ -564,16 +577,20 @@ public class DataGeneratorPassiveActive {
 
 		// check whether user has mentioned a top word in a received message
 		outer:
-			for (String needle : topNWords){
-				for (String message : received){
-					for (String word : message.split("\\s+")){
-						if (word.equals(needle)){
-							us.receivedMention = true;
-							break outer;
+			for (Entry<Long, ArrayList<String>> user : received.entrySet()){
+				Long uid = user.getKey();
+				UserStruct us = additionalUserFeatures.get(uid);
+				for (String needle : topNWords){
+					for (String message : user.getValue()){
+						for (String word : message.split("\\s+")){
+							if (word.equals(needle)){
+								us.receivedMention = true;
+								break outer;
+							}
 						}
 					}
 				}
-			}	
+			}
 	}
 
 	/*
@@ -761,8 +778,8 @@ public class DataGeneratorPassiveActive {
 		results.append(PRE + (sameWork ? YES : NO));
 
 		//conversation
-		//results.append(PRE + ((sentMention ? YES : NO)));							// mentioned top n words in a sent message
-		//results.append(PRE + ((receivedMention ? YES : NO)));						// mentioned top n words in a received message
+		results.append(PRE + ((sentMention ? YES : NO)));							// mentioned top n words in a sent message
+		results.append(PRE + ((receivedMention ? YES : NO)));						// mentioned top n words in a received message
 
 		return results.toString();
 	}
@@ -926,7 +943,7 @@ public class DataGeneratorPassiveActive {
 
 	public static void main(String[] args) throws Exception {
 
-		//populateCachedData(true /* active */);
+		populateCachedData(true /* active */);
 		//writeData("active_data.arff");
 		//populateCachedData(false /* passive */);
 		//writeData("passive_data.arff");
@@ -950,7 +967,7 @@ public class DataGeneratorPassiveActive {
 		//getDemographicsInfo();
 		//System.out.println();
 		//getGroupsInfo();
-		getTraitsInfo();
+		//getTraitsInfo();
 
 	}
 
