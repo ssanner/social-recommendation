@@ -14,12 +14,15 @@ public class FoldsGenerator {
 	public static final int NUM_FOLDS = 10;
 	
 	public static void main(String args[]) throws Exception {
+		
+		System.out.println("Beginning data extraction");
+		
 		DataGeneratorPassiveActive.populateCachedData(true /* active */);							// generate data
 		//DataGeneratorPassiveActive.populateCachedData(false /* passive */);						// generate data
 		
 		DataGeneratorPassiveActive.writeData(FILENAME);												// write data			
 		ArffData arff = new ArffData(FILENAME);														// load data
-		FoldData folds = arff.foldData(NUM_FOLDS);
+		FoldData folds = arff.foldData(NUM_FOLDS);		
 		folds.writeData();																			// split into folds
 		
 		System.out.println("Generated " + NUM_FOLDS + " folds and exported files.");

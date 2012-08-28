@@ -53,6 +53,7 @@ public class DataGeneratorPassiveActive {
 
 	public static Set<Long> usersSeen = new HashSet<Long>();
 	public static Set<Long> linksSeen = new HashSet<Long>();
+	public static int stepSize = 500;
 
 	/*
 	 * Generate data for accurately labeled data from NICTA app
@@ -382,10 +383,28 @@ public class DataGeneratorPassiveActive {
 	}
 
 	/*
+	 * count of cols
+	 */
+	public static int getCount(String q) throws Exception{
+		Statement statement = SQLUtil.getStatement();			
+		ResultSet result = statement.executeQuery(q);
+		int count = -1;
+		while (result.next()){
+			count = result.getInt(1);
+		}
+		result.close();
+
+		return count;
+	}
+
+	/*
 	 * Extract user data for users who liked a given link
 	 */
 	static HashMap<Long, Set<Long>> additionalLinkFeatures = new HashMap<Long, Set<Long>>();
 	public static void extractLinkFeatures() throws Exception{
+		String query;
+		Statement statement = SQLUtil.getStatement();
+		ResultSet result;
 
 		StringBuilder links = new StringBuilder();
 		for (Long link : linksSeen){
@@ -393,28 +412,34 @@ public class DataGeneratorPassiveActive {
 		}
 
 		String linksToGet = links.toString().substring(0, links.length()-1);
-		System.out.println("Extracting links info for: (" + linksToGet + ")");
+		System.out.println("Extracting links info for: (" + linksToGet + ")");				
 
-		Statement statement = SQLUtil.getStatement();	
-		String query = "select ll.link_id, lu.uid from linkrLinkLikes ll join linkrUser lu where ll.link_id in (" + linksToGet + ") and ll.id=lu.uid;";
-		ResultSet result = statement.executeQuery(query);
+		int limit = 0;		
+		int count = getCount("select count(*) from linkrLinkLikes ll join linkrUser lu where ll.link_id in (" + linksToGet + ") and ll.id=lu.uid;");
 
-		Set<Long> ls;
-		while (result.next()){
-			Long link_id = result.getLong(1);
-			Long uid = result.getLong(2);
-			usersSeen.add(uid);
+		while (limit <= (count-1)){
+			query = "select ll.link_id, lu.uid from linkrLinkLikes ll join linkrUser lu where ll.link_id in (" + linksToGet + ") and ll.id=lu.uid limit " + limit + "," + (limit+stepSize) + ";";
+			result = statement.executeQuery(query);
 
-			ls = additionalLinkFeatures.get(link_id);
-			if (ls == null){
-				System.out.println("\t New link with likes: " + link_id);
-				ls = new HashSet<Long>();
-			}
-			ls.add(uid);
-			additionalLinkFeatures.put(link_id, ls);			
-		}		
+			Set<Long> ls;
+			while (result.next()){
+				Long link_id = result.getLong(1);
+				Long uid = result.getLong(2);
+				usersSeen.add(uid);
 
-		result.close();
+				ls = additionalLinkFeatures.get(link_id);
+				if (ls == null){
+					System.out.println("\t New link with likes: " + link_id);
+					ls = new HashSet<Long>();
+				}
+				ls.add(uid);
+				additionalLinkFeatures.put(link_id, ls);			
+			}		
+
+			result.close();
+			limit += stepSize;
+		}
+
 		statement.close();
 
 		extractUserFeatures();
@@ -428,6 +453,9 @@ public class DataGeneratorPassiveActive {
 	static HashMap<Long,UserStruct> additionalUserFeatures = new HashMap<Long,UserStruct>();
 	static String usersToGet;
 	public static void extractUserFeatures() throws Exception{						
+		String query;
+		Statement statement = SQLUtil.getStatement();
+		ResultSet result;
 
 		StringBuilder users = new StringBuilder();
 		for (Long user : usersSeen){
@@ -437,25 +465,26 @@ public class DataGeneratorPassiveActive {
 		usersToGet = users.toString().substring(0, users.length()-1);
 		System.out.println("Extracting users info for: (" + usersToGet + ")");
 
-		Statement statement = SQLUtil.getStatement();	
-		String query = "select uid, gender, right(birthday,4), locale from linkrUser where uid in ( " + usersToGet + ");";
-		ResultSet result = statement.executeQuery(query);
+		int limit = 0;		
+		int count = getCount("select count(*) from linkrUser where uid in ( " + usersToGet + ");");
 
-		while (result.next()){			
-			String gender = result.getString(2);
-			int birthday = result.getInt(3);
-			String locale = result.getString(4);
-			UserStruct us = ap.new UserStruct(gender,birthday,locale);
-			additionalUserFeatures.put(result.getLong(1), us);
+		while (limit <= (count-1)){
+			query = "select uid, gender, right(birthday,4), locale from linkrUser where uid in ( " + usersToGet + ") limit " + limit + "," + (limit+stepSize) + ";";
+			result = statement.executeQuery(query);
 
-			System.out.println("\t New user data added:" + result.getLong(1));
+			while (result.next()){			
+				String gender = result.getString(2);
+				int birthday = result.getInt(3);
+				String locale = result.getString(4);
+				UserStruct us = ap.new UserStruct(gender,birthday,locale);
+				additionalUserFeatures.put(result.getLong(1), us);
 
-			//extractGroups(result.getLong(1));
-			//extractTraits(result.getLong(1));
-			//extractMessages(result.getLong(1));
+				System.out.println("\t New user data added:" + result.getLong(1));
+			}
+
+			result.close();
+			limit += stepSize;
 		}
-
-		result.close();
 		statement.close();
 
 		extractGroups();
@@ -467,20 +496,29 @@ public class DataGeneratorPassiveActive {
 	 * Extract user gruops info
 	 */
 	public static void extractGroups() throws Exception {
+		String query;
+		Statement statement = SQLUtil.getStatement();
+		ResultSet result;
+		UserStruct us;
 
 		System.out.println("\t -> Extracting groups data");
 
-		//mysql> select count(*), id, name from linkrGroups group by id having count(*) > 10 and count(*) < 15 order by count(*) desc;
-		String q = "select uid, id from linkrGroups where uid in (" + usersToGet + ");";		
-		Statement statement = SQLUtil.getStatement();		
-		ResultSet result = statement.executeQuery(q);
-		UserStruct us;
+		//mysql> select count(*), id, name from linkrGroups group by id having count(*) > 10 and count(*) < 15 order by count(*) desc;		
+		int limit = 0;		
+		int count = getCount("select count(*) from linkrGroups where uid in (" + usersToGet + ");");
 
-		while (result.next()){
-			us = additionalUserFeatures.get(result.getLong(1));
-			us.groupMemberships.add(result.getLong(2));
+		while (limit <= (count-1)){		
+			query = "select uid, id from linkrGroups where uid in (" + usersToGet + ") limit " + limit + "," + (limit+stepSize) + ";";
+			result = statement.executeQuery(query);
+
+			while (result.next()){
+				us = additionalUserFeatures.get(result.getLong(1));
+				us.groupMemberships.add(result.getLong(2));
+			}
+			result.close();
+			limit += stepSize;
 		}
-		result.close();
+
 		statement.close();
 	}
 
@@ -488,32 +526,43 @@ public class DataGeneratorPassiveActive {
 	 * extract user traits
 	 */
 	public static void extractTraits() throws Exception{
-
-		System.out.println("\t -> Extracting user traits data");
-
-		UserStruct us;
 		Statement statement = SQLUtil.getStatement();
 		ResultSet result = null;
-		//656856635
+		UserStruct us;
+
+		System.out.println("\t -> Extracting user traits data");		
+
 		// {"linkrActivities", "linkrBooks", "linkrFavoriteAthletes", "linkrFavoriteTeams", "linkrInspirationalPeople", "linkrInterests", "linkrMovies", "linkrMusic", "linkrSports", "linkrTelevision", "linkrSchoolWith", "linkrWorkWith"};
 		for (String trait : user_traits){
+			int limit = 0;		
+			int count;
 			String q;
+
 			if (trait.equals("linkrSchoolWith")){
-				q = "select uid1, school_id from " + trait + " where uid1 in (" + usersToGet + ");";
+				q = "select uid1, school_id from " + trait + " where uid1 in (" + usersToGet + ")";
+				count = getCount("select count(*) from " + trait + " where uid1 in (" + usersToGet + ");");
 			} else if (trait.equals("linkrWorkWith")){
-				q = "select uid1, employer_id from " + trait + " where uid1 in (" + usersToGet + ");";
+				q = "select uid1, employer_id from " + trait + " where uid1 in (" + usersToGet + ")";
+				count = getCount("select count(*) from " + trait + " where uid1 in (" + usersToGet + ");");
 			} else {
-				q = "select uid, id from " + trait + " where uid in (" + usersToGet + ");";
+				q = "select uid, id from " + trait + " where uid in (" + usersToGet + ")";
+				count = getCount("select count(*) from " + trait + " where uid in (" + usersToGet + ");");
 			}
 
-			result = statement.executeQuery(q);
+			while (limit <= (count-1)){
+				result = statement.executeQuery(q + " limit " + limit + "," + (limit+stepSize) + ";");
+				System.out.println(q + " limit " + limit + "," + (limit+stepSize) + ";");
 
-			while (result.next()){
-				us = additionalUserFeatures.get(result.getLong(1));
-				us.userTraits.get(trait).add(result.getLong(2));
+				while (result.next()){
+					us = additionalUserFeatures.get(result.getLong(1));
+					us.userTraits.get(trait).add(result.getLong(2));
+				}
+
+				result.close();
+				limit += stepSize;				
 			}
-		}
-		result.close();
+		}		
+
 		statement.close();
 	}
 
@@ -523,6 +572,8 @@ public class DataGeneratorPassiveActive {
 
 	public static String[] conversation_types = {"linkrLinkComments","linkrPhotoComments","linkrPostComments","linkrVideoComments"};
 	public static void extractMessages() throws Exception{
+		Statement statement = SQLUtil.getStatement();
+		ResultSet result = null;
 
 		System.out.println("\t -> Extracting messages data");
 
@@ -530,34 +581,47 @@ public class DataGeneratorPassiveActive {
 		Map<Long,ArrayList<String>> sent = new HashMap<Long,ArrayList<String>>();
 		Map<Long,ArrayList<String>> received = new HashMap<Long,ArrayList<String>>();
 		StringBuffer base = new StringBuffer("select uid, message from ");
-		Statement statement = SQLUtil.getStatement();
-		ResultSet result = null;		
+
 
 		// extract messages info for user
 		for (String table : conversation_types){			
-			result = statement.executeQuery(base.toString() + table + " where uid in (" + usersToGet + ");"); 	// incoming			
-			while (result.next()){
-				ArrayList<String> rec = received.get(result.getLong(1));
-				if (rec == null)
-					rec = new ArrayList<String>();
-				rec.add(result.getString(2));
-				received.put(result.getLong(1),rec);
-			}
-			result.close();
 
-			result = statement.executeQuery(base.toString() + table + " where from_id in (" + usersToGet + ");"); // outcoming			
-			while (result.next()){			
-				ArrayList<String> se = sent.get(result.getLong(1));
-				if (se == null)
-					se = new ArrayList<String>();
-				se.add(result.getString(2));
-				sent.put(result.getLong(1),se);
-			}
-			result.close();
+			int limit = 0;		
+			int count = getCount("select count(*) from " + table + " where uid in (" + usersToGet + ");");
 
-		}
+			while (limit <= (count-1)){		
+				result = statement.executeQuery(base.toString() + table + " where uid in (" + usersToGet + ")  limit " + limit + "," + (limit+stepSize) + ";"); 	// incoming
+				while (result.next()){
+					ArrayList<String> rec = received.get(result.getLong(1));
+					if (rec == null)
+						rec = new ArrayList<String>();
+					rec.add(result.getString(2));
+					received.put(result.getLong(1),rec);
+				}
+				result.close();
+				limit += stepSize;
+			}
+
+			limit = 0;		
+			count = getCount("select count(*) from " + table + " where from_id in (" + usersToGet + ");");
+
+			while (limit <= (count-1)){		
+				result = statement.executeQuery(base.toString() + table + " where from_id in (" + usersToGet + ")  limit " + limit + "," + (limit+stepSize) + ";"); 	// outgoing
+				while (result.next()){			
+					ArrayList<String> se = sent.get(result.getLong(1));
+					if (se == null)
+						se = new ArrayList<String>();
+					se.add(result.getString(2));
+					sent.put(result.getLong(1),se);
+				}
+				result.close();
+
+				limit += stepSize;		
+			}
+		}											
 
 		statement.close();
+
 		// check whether user has mentioned a top word in a sent message
 		outer:
 			for (Entry<Long, ArrayList<String>> user : sent.entrySet()){
@@ -849,100 +913,7 @@ public class DataGeneratorPassiveActive {
 		}
 	}
 
-	/*
-	 * Extract birthdays in 5 year sets
-	 */
-	public static void getDemographicsInfo() throws Exception{
-		String query = "select count(*), right(lu.birthday,4) from linkrUser lu where lu.uid in (SELECT distinct uid FROM trackRecommendedLinks) group by right(lu.birthday,4);";
-		HashMap<Integer,Integer> bdayRanges = new HashMap<Integer,Integer>();
-
-		Statement statement = SQLUtil.getStatement();		
-		ResultSet result = statement.executeQuery(query);
-
-		while (result.next()) {			
-			int count = result.getInt(1);
-			int year = result.getInt(2);
-			int rounded = (year + 4) / 5 * 5;			
-
-			//System.out.println(year + "," + rounded + ":" + count);
-
-			if (bdayRanges.get(rounded) != null){
-				bdayRanges.put(rounded, bdayRanges.get(rounded) + count);
-			} else {
-				bdayRanges.put(rounded, count);
-			}	
-
-		}
-
-		for (Entry<Integer, Integer> bday : bdayRanges.entrySet()){
-			int range = bday.getKey();
-			int count = bday.getValue();
-
-			System.out.println((range-4) + "-" + range + ":" + count);
-		}		
-	}	
-
-	/*
-	 * Extract gruops info
-	 */
-	public static void getGroupsInfo() throws Exception{			
-
-		int minSize = 1;
-		int maxSize = 10;
-
-		//String query = "select count(*), id, name from linkrGroups group by id having count(*) > 10 and count(*) < 15 order by count(*) desc;";
-		String query = "select count(*),id,name from linkrGroups where uid in (select distinct uid from trackRecommendedLinks) group by id having count(*) > " + minSize + " and count(*) < " + maxSize + " order by count(*) desc;";
-
-		Statement statement = SQLUtil.getStatement();		
-		ResultSet result = statement.executeQuery(query);
-
-		System.out.println("Group ranges " + minSize + " to " + maxSize);
-		while (result.next()) {			
-			int count = result.getInt(1);
-			String name = result.getString(3);			
-
-			System.out.println(count + " - " + name);		
-
-		}
-	}
-
-	/*
-	 * extract traits info
-	 */
-
-	public static void getTraitsInfo() throws Exception{
-		//select count(id),name from linkrActivities where uid in (select distinct uid from trackRecommendedLinks) group by id order by count(*) desc limit 10;
-		int limit = 15;
-
-		Statement statement = SQLUtil.getStatement();				
-
-		String q = null;
-		for (String trait : user_traits){
-			if (trait.equals("linkrSchoolWith")){
-				continue;
-				//q = "select count(school_id),name from " + trait + " where uid1 in (select distinct uid from trackRecommendedLinks) or uid2 in (select distinct uid from trackRecommendedLinks) group by id order by count(*) desc limit " + limit + ";";
-			} else if (trait.equals("linkrWorkWith")){				
-				continue;
-				//q = "select count(employer_id),name from " + trait + " where uid1 in (select distinct uid from trackRecommendedLinks) or uid2 in (select distinct uid from trackRecommendedLinks) group by id order by count(*) desc limit " + limit + ";";
-			} else {
-				q = "select count(id),name from " + trait + " where uid in (select distinct uid from trackRecommendedLinks) group by id order by count(*) desc limit " + limit + ";";
-			}
-			System.out.println(trait);
-			ResultSet result = statement.executeQuery(q);
-			while (result.next()) {			
-				int count = result.getInt(1);
-				String name = result.getString(2);			
-				System.out.println(count + " - " + name);		
-			}
-			System.out.println();
-		}
-
-
-
-	}
-
 	public static void main(String[] args) throws Exception {
-
 		populateCachedData(true /* active */);
 		//writeData("active_data.arff");
 		//populateCachedData(false /* passive */);
@@ -963,11 +934,7 @@ public class DataGeneratorPassiveActive {
 
 		//extractMessages(1461424861L);
 		//writeData("asd.arff");		
-
-		//getDemographicsInfo();
-		//System.out.println();
-		//getGroupsInfo();
-		//getTraitsInfo();
+		
 
 	}
 
