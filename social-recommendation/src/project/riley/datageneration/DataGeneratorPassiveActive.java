@@ -551,7 +551,6 @@ public class DataGeneratorPassiveActive {
 
 			while (limit <= (count-1)){
 				result = statement.executeQuery(q + " limit " + limit + "," + (limit+stepSize) + ";");
-				System.out.println(q + " limit " + limit + "," + (limit+stepSize) + ";");
 
 				while (result.next()){
 					us = additionalUserFeatures.get(result.getLong(1));
