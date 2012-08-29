@@ -53,7 +53,7 @@ public class DataGeneratorPassiveActive {
 
 	public static Set<Long> usersSeen = new HashSet<Long>();
 	public static Set<Long> linksSeen = new HashSet<Long>();
-	public static int stepSize = 500;
+	public static int stepSize = 1000;
 
 	/*
 	 * Generate data for accurately labeled data from NICTA app
@@ -573,14 +573,15 @@ public class DataGeneratorPassiveActive {
 	public static void extractMessages() throws Exception{
 		Statement statement = SQLUtil.getStatement();
 		ResultSet result = null;
+		HashSet<Long> incomingSeen = new HashSet<Long>();
+		HashSet<Long> receivedSeen = new HashSet<Long>();
+		UserStruct us;
+		String message;
+		long uid;
 
 		System.out.println("\t -> Extracting messages data");
 
-		PredictiveWords.buildMessagesDictionary(false);
-		Map<Long,ArrayList<String>> sent = new HashMap<Long,ArrayList<String>>();
-		Map<Long,ArrayList<String>> received = new HashMap<Long,ArrayList<String>>();
-		StringBuffer base = new StringBuffer("select uid, message from ");
-
+		PredictiveWords.buildMessagesDictionary(false);		
 
 		// extract messages info for user
 		for (String table : conversation_types){			
@@ -589,13 +590,23 @@ public class DataGeneratorPassiveActive {
 			int count = getCount("select count(*) from " + table + " where uid in (" + usersToGet + ");");
 
 			while (limit <= (count-1)){		
-				result = statement.executeQuery(base.toString() + table + " where uid in (" + usersToGet + ")  limit " + limit + "," + (limit+stepSize) + ";"); 	// incoming
+				result = statement.executeQuery("select uid, message from " + table + " where uid in (" + usersToGet + ")  limit " + limit + "," + (limit+stepSize) + ";"); 	// incoming
 				while (result.next()){
-					ArrayList<String> rec = received.get(result.getLong(1));
-					if (rec == null)
-						rec = new ArrayList<String>();
-					rec.add(result.getString(2));
-					received.put(result.getLong(1),rec);
+					uid = result.getLong(1);
+					if (!incomingSeen.contains(uid)){
+						message = result.getString(2);
+						us = additionalUserFeatures.get(uid);
+						outer:
+							for (String needle : topNWords){
+								for (String word : message.split("\\s+")){
+									if (word.equals(needle)){
+										us.sentMention = true;
+										incomingSeen.add(uid);
+										break outer;
+									}
+								}
+							}
+					}
 				}
 				result.close();
 				limit += stepSize;
@@ -605,13 +616,23 @@ public class DataGeneratorPassiveActive {
 			count = getCount("select count(*) from " + table + " where from_id in (" + usersToGet + ");");
 
 			while (limit <= (count-1)){		
-				result = statement.executeQuery(base.toString() + table + " where from_id in (" + usersToGet + ")  limit " + limit + "," + (limit+stepSize) + ";"); 	// outgoing
-				while (result.next()){			
-					ArrayList<String> se = sent.get(result.getLong(1));
-					if (se == null)
-						se = new ArrayList<String>();
-					se.add(result.getString(2));
-					sent.put(result.getLong(1),se);
+				result = statement.executeQuery("select from_id, message from " + table + " where from_id in (" + usersToGet + ")  limit " + limit + "," + (limit+stepSize) + ";"); 	// outgoing
+				while (result.next()){
+					uid = result.getLong(1);
+					if (!receivedSeen.contains(uid)){
+						message = result.getString(2);
+						us = additionalUserFeatures.get(uid);
+						outer:
+							for (String needle : topNWords){
+								for (String word : message.split("\\s+")){
+									if (word.equals(needle)){
+										us.receivedMention = true;
+										receivedSeen.add(uid);
+										break outer;
+									}
+								}
+							}
+					}
 				}
 				result.close();
 
@@ -620,40 +641,6 @@ public class DataGeneratorPassiveActive {
 		}											
 
 		statement.close();
-
-		// check whether user has mentioned a top word in a sent message
-		outer:
-			for (Entry<Long, ArrayList<String>> user : sent.entrySet()){
-				Long uid = user.getKey();
-				UserStruct us = additionalUserFeatures.get(uid);
-				for (String needle : topNWords){
-					for (String message : user.getValue()){
-						for (String word : message.split("\\s+")){
-							if (word.equals(needle)){
-								us.sentMention = true;
-								break outer;
-							}
-						}
-					}
-				}
-			}
-
-		// check whether user has mentioned a top word in a received message
-		outer:
-			for (Entry<Long, ArrayList<String>> user : received.entrySet()){
-				Long uid = user.getKey();
-				UserStruct us = additionalUserFeatures.get(uid);
-				for (String needle : topNWords){
-					for (String message : user.getValue()){
-						for (String word : message.split("\\s+")){
-							if (word.equals(needle)){
-								us.receivedMention = true;
-								break outer;
-							}
-						}
-					}
-				}
-			}
 	}
 
 	/*
@@ -933,7 +920,7 @@ public class DataGeneratorPassiveActive {
 
 		//extractMessages(1461424861L);
 		//writeData("asd.arff");		
-		
+
 
 	}
 
