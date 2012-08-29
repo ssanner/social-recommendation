@@ -113,8 +113,8 @@ public class Launcher {
 	public void launchThresholds() throws Exception{
 		for (int i = 0; i <= threshold; i++){
 			for (Predictor p : predictors){
-				System.out.println("Running predictors on " + DATA_FILE + " using threshold " + threshold);
-				writer.println("Running predictors on " + DATA_FILE + " using threshold " + threshold);
+				System.out.println("Running predictors on " + DATA_FILE + " using threshold " + i);
+				writer.println("Running predictors on " + DATA_FILE + " using threshold " + i);
 				p.runTests(DATA_FILE /* file to use */, NUM_FOLDS /* folds to use */, i /* test threshold */, writer /* file to write */, DEMOGRAPHICS, GROUPS, TRAITS, CONVERSATION);
 			}
 		}
