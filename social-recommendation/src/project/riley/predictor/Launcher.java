@@ -133,8 +133,8 @@ public class Launcher {
 
 		writer = new PrintWriter(outName);		
 
-		launcher.launchThresholds();
-		//launcher.launchConditions();
+		//launcher.launchThresholds();
+		launcher.launchConditions();
 
 		System.out.println("Finished writing to file " + outName);
 		writer.close();
