@@ -573,10 +573,13 @@ public class DataGeneratorPassiveActive {
 	public static void extractMessages() throws Exception{
 		Statement statement = SQLUtil.getStatement();
 		ResultSet result = null;
+
 		HashSet<Long> incomingSeen = new HashSet<Long>();
-		HashSet<Long> receivedSeen = new HashSet<Long>();
+		HashSet<Long> outgoingSeen = new HashSet<Long>();
+
+		HashMap<Long,ArrayList<String>> incomingMessages = new HashMap<Long,ArrayList<String>>();	// messages incoming
+		HashMap<Long,ArrayList<String>> outgoingMessages = new HashMap<Long,ArrayList<String>>();	// messages outgoing
 		UserStruct us;
-		String message;
 		long uid;
 
 		System.out.println("\t -> Extracting messages data");
@@ -591,337 +594,376 @@ public class DataGeneratorPassiveActive {
 
 			while (limit <= (count-1)){		
 				result = statement.executeQuery("select uid, message from " + table + " where uid in (" + usersToGet + ")  limit " + limit + "," + (limit+stepSize) + ";"); 	// incoming
-				while (result.next()){
+				while (result.next()){														
 					uid = result.getLong(1);
-					if (!incomingSeen.contains(uid)){
-						message = result.getString(2);
-						us = additionalUserFeatures.get(uid);
-						outer:
-							for (String needle : topNWords){
-								for (String word : message.split("\\s+")){
-									if (word.equals(needle)){
-										us.sentMention = true;
-										incomingSeen.add(uid);
-										break outer;
-									}
-								}
-							}
-					}
+					
+					if (incomingSeen.contains(uid))
+						continue;
+					
+					ArrayList<String> messages = incomingMessages.get(uid);
+					if (messages == null)
+						messages = new ArrayList<String>();
+
+					messages.add(result.getString(2));
+					incomingMessages.put(uid, messages);
 				}
 				result.close();
 				limit += stepSize;
 			}
 
+			outer:
+				for (Entry<Long, ArrayList<String>> userMessages : incomingMessages.entrySet()){
+					Long user = userMessages.getKey();
+
+					if (incomingSeen.contains(user)){
+						incomingMessages.put(user, null); // else heap overflow
+						continue;
+					}
+					 
+					for (String mess : userMessages.getValue()){
+						for (String needle : topNWords){
+							for (String word : mess.split("\\s+")){
+								if (word.equals(needle)){
+									us = additionalUserFeatures.get(user);
+									us.sentMention = true;									
+									incomingSeen.add(user);
+									incomingMessages.put(user, null); // else heap overflow
+									break outer;
+								}
+							}
+						}
+					}
+				}
+
 			limit = 0;		
 			count = getCount("select count(*) from " + table + " where from_id in (" + usersToGet + ");");
 
 			while (limit <= (count-1)){		
-				result = statement.executeQuery("select from_id, message from " + table + " where from_id in (" + usersToGet + ")  limit " + limit + "," + (limit+stepSize) + ";"); 	// outgoing
+				result = statement.executeQuery("select from_id, message from " + table + " where from_id in (" + usersToGet + ")  limit " + limit + "," + (limit+stepSize) + ";"); 	// putgoing
 				while (result.next()){
 					uid = result.getLong(1);
-					if (!receivedSeen.contains(uid)){
-						message = result.getString(2);
-						us = additionalUserFeatures.get(uid);
-						outer:
-							for (String needle : topNWords){
-								for (String word : message.split("\\s+")){
-									if (word.equals(needle)){
-										us.receivedMention = true;
-										receivedSeen.add(uid);
-										break outer;
-									}
-								}
-							}
-					}
+					
+					if (outgoingSeen.contains(uid))
+						continue;
+					
+					ArrayList<String> messages = outgoingMessages.get(uid);
+					if (messages == null)
+						messages = new ArrayList<String>();
+
+					messages.add(result.getString(2));
+					outgoingMessages.put(uid, messages);
 				}
 				result.close();
-
-				limit += stepSize;		
+				limit += stepSize;
 			}
-		}											
 
+			outer:
+				for (Entry<Long, ArrayList<String>> userMessages : outgoingMessages.entrySet()){
+					Long user = userMessages.getKey();
+
+					if (outgoingSeen.contains(user)){
+						outgoingMessages.put(user, null); // else heap overflow
+						continue;
+					}
+ 
+					for (String mess : userMessages.getValue()){
+						for (String needle : topNWords){
+							for (String word : mess.split("\\s+")){
+								if (word.equals(needle)){
+									us = additionalUserFeatures.get(user);
+									us.receivedMention = true;									
+									outgoingSeen.add(user);
+									outgoingMessages.put(user, null); // else heap overflow
+									break outer;
+								}
+							}
+						}
+					}
+				}			
+		}
 		statement.close();
 	}
 
-	/*
-	 * build additional columns
-	 */
 
-	public static String additionalUserColumns(long link_id, long uid){
-		StringBuilder results = new StringBuilder();
+		/*
+		 * build additional columns
+		 */
 
-		// flags 
-		boolean sameGender = false, sameBirthday = false, sameLocale = false, sameGroup = false, 
-				sentMention = false, receivedMention = false, sameActivities = false, sameBooks = false, sameFavoriteAthletes = false, 
-				sameFavoriteTeams = false, sameInspirationalPeople = false, sameInterests = false, sameMovies = false, 
-				sameMusic = false, sameSports = false, sameTelevision = false, sameSchool = false, sameWork = false;
+		public static String additionalUserColumns(long link_id, long uid){
+			StringBuilder results = new StringBuilder();
 
-		// user info
-		UserStruct userInfo = additionalUserFeatures.get(uid);
+			// flags 
+			boolean sameGender = false, sameBirthday = false, sameLocale = false, sameGroup = false, 
+					sentMention = false, receivedMention = false, sameActivities = false, sameBooks = false, sameFavoriteAthletes = false, 
+					sameFavoriteTeams = false, sameInspirationalPeople = false, sameInterests = false, sameMovies = false, 
+					sameMusic = false, sameSports = false, sameTelevision = false, sameSchool = false, sameWork = false;
 
-		String userGender = userInfo.gender;
-		int userBirthday = userInfo.birthday;
-		String userLocale = userInfo.locale;
+			// user info
+			UserStruct userInfo = additionalUserFeatures.get(uid);
 
-		// user groups
-		ArrayList<Long> userGroups = userInfo.groupMemberships;
+			String userGender = userInfo.gender;
+			int userBirthday = userInfo.birthday;
+			String userLocale = userInfo.locale;
 
-		// user traits
-		HashSet<Long> userActivities = userInfo.userTraits.get("linkrActivities");
-		HashSet<Long> userBooks = userInfo.userTraits.get("linkrBooks");
-		HashSet<Long> userFavoriteAthletes = userInfo.userTraits.get("linkrFavoriteAthletes");
-		HashSet<Long> userFavoriteTeams = userInfo.userTraits.get("linkrFavoriteTeams");
-		HashSet<Long> userInspirationalPeople = userInfo.userTraits.get("linkrInspirationalPeople");
-		HashSet<Long> userInterests = userInfo.userTraits.get("linkrInterests");
-		HashSet<Long> userMovies = userInfo.userTraits.get("linkrMovies");
-		HashSet<Long> userMusic = userInfo.userTraits.get("linkrMusic");
-		HashSet<Long> userSports = userInfo.userTraits.get("linkrSports");
-		HashSet<Long> userTelevision = userInfo.userTraits.get("linkrTelevision");
-		HashSet<Long> userSchoolWith = userInfo.userTraits.get("linkrSchoolWith");
-		HashSet<Long> userWorksWith = userInfo.userTraits.get("linkrWorkWith");
+			// user groups
+			ArrayList<Long> userGroups = userInfo.groupMemberships;
 
-		// likee info
-		Set<Long> usersLiked = additionalLinkFeatures.get(link_id);
+			// user traits
+			HashSet<Long> userActivities = userInfo.userTraits.get("linkrActivities");
+			HashSet<Long> userBooks = userInfo.userTraits.get("linkrBooks");
+			HashSet<Long> userFavoriteAthletes = userInfo.userTraits.get("linkrFavoriteAthletes");
+			HashSet<Long> userFavoriteTeams = userInfo.userTraits.get("linkrFavoriteTeams");
+			HashSet<Long> userInspirationalPeople = userInfo.userTraits.get("linkrInspirationalPeople");
+			HashSet<Long> userInterests = userInfo.userTraits.get("linkrInterests");
+			HashSet<Long> userMovies = userInfo.userTraits.get("linkrMovies");
+			HashSet<Long> userMusic = userInfo.userTraits.get("linkrMusic");
+			HashSet<Long> userSports = userInfo.userTraits.get("linkrSports");
+			HashSet<Long> userTelevision = userInfo.userTraits.get("linkrTelevision");
+			HashSet<Long> userSchoolWith = userInfo.userTraits.get("linkrSchoolWith");
+			HashSet<Long> userWorksWith = userInfo.userTraits.get("linkrWorkWith");
 
-		String likeeGender;
-		int likeeBirthday;
-		String likeeLocale;
+			// likee info
+			Set<Long> usersLiked = additionalLinkFeatures.get(link_id);
 
-		ArrayList<Long> likeeGroups;
+			String likeeGender;
+			int likeeBirthday;
+			String likeeLocale;
 
-		HashSet<Long> likeeActivities, likeeBooks, likeeFavoriteAthletes, likeeFavoriteTeams, likeeInspirationalPeople,
-		likeeInterests, likeeMovies, likeeMusic, likeeSports, likeeTelevision, likeeSchoolWith, likeeWorksWith;
+			ArrayList<Long> likeeGroups;
 
-		boolean likeeSentMention;
-		boolean likeeReceivedMention;
+			HashSet<Long> likeeActivities, likeeBooks, likeeFavoriteAthletes, likeeFavoriteTeams, likeeInspirationalPeople,
+			likeeInterests, likeeMovies, likeeMusic, likeeSports, likeeTelevision, likeeSchoolWith, likeeWorksWith;
 
-		// likee info
-		if (usersLiked != null){ // want at least one person to have liked this
-			for (long likeeID : usersLiked){
-				// flags already all set
-				if (sameGender && sameBirthday && sameLocale && sameGroup && sentMention && receivedMention && 
-						sameActivities && sameBooks && sameFavoriteAthletes && 
-						sameFavoriteTeams && sameInspirationalPeople && sameInterests && sameMovies && 
-						sameMusic && sameSports && sameTelevision && sameSchool && sameWork){
-					break;
-				}
-				// skip self
-				if (likeeID == uid){
-					continue;
-				}
+			boolean likeeSentMention;
+			boolean likeeReceivedMention;
 
-				UserStruct likee = additionalUserFeatures.get(likeeID);
-
-				likeeGender = likee.gender;
-				likeeBirthday = likee.birthday;
-				likeeLocale = likee.locale;
-
-				likeeGroups = likee.groupMemberships;
-
-				likeeActivities = likee.userTraits.get("linkrActivities");
-				likeeBooks = likee.userTraits.get("linkrBooks");
-				likeeFavoriteAthletes = likee.userTraits.get("linkrFavoriteAthletes");
-				likeeFavoriteTeams = likee.userTraits.get("linkrFavoriteTeams");
-				likeeInspirationalPeople = likee.userTraits.get("linkrInspirationalPeople");
-				likeeInterests = likee.userTraits.get("linkrInterests");
-				likeeMovies = likee.userTraits.get("linkrMovies");
-				likeeMusic = likee.userTraits.get("linkrMusic");
-				likeeSports = likee.userTraits.get("linkrSports");
-				likeeTelevision = likee.userTraits.get("linkrTelevision");
-				likeeSchoolWith = likee.userTraits.get("linkrSchoolWith");
-				likeeWorksWith = likee.userTraits.get("linkrWorkWith");
-
-				likeeSentMention = likee.sentMention;
-				likeeReceivedMention = likee.receivedMention;
-
-
-				// test whether user and likee's have similarities
-				if (!sameGender)
-					sameGender = (userGender.equals(likeeGender)) ? true : false;
-
-				if (!sameBirthday){
-					int rounded = (userBirthday + 4) / 5 * 5;
-					if (likeeBirthday >= (rounded-4) && likeeBirthday <= rounded){
-						sameBirthday = true;				
+			// likee info
+			if (usersLiked != null){ // want at least one person to have liked this
+				for (long likeeID : usersLiked){
+					// flags already all set
+					if (sameGender && sameBirthday && sameLocale && sameGroup && sentMention && receivedMention && 
+							sameActivities && sameBooks && sameFavoriteAthletes && 
+							sameFavoriteTeams && sameInspirationalPeople && sameInterests && sameMovies && 
+							sameMusic && sameSports && sameTelevision && sameSchool && sameWork){
+						break;
 					}
-					//System.out.println("\t" + birthday + ":" + (birthday >= (rounded-4) && birthday <= rounded));				
-				}				
+					// skip self
+					if (likeeID == uid){
+						continue;
+					}
 
-				if (!sameLocale)
-					sameLocale = (userLocale.equals(likeeLocale)) ? true : false;
+					UserStruct likee = additionalUserFeatures.get(likeeID);
 
-				if (!sameGroup){
-					for (Long group : userGroups){
-						if (likeeGroups.contains(group))
-							sameGroup = true;
+					likeeGender = likee.gender;
+					likeeBirthday = likee.birthday;
+					likeeLocale = likee.locale;
+
+					likeeGroups = likee.groupMemberships;
+
+					likeeActivities = likee.userTraits.get("linkrActivities");
+					likeeBooks = likee.userTraits.get("linkrBooks");
+					likeeFavoriteAthletes = likee.userTraits.get("linkrFavoriteAthletes");
+					likeeFavoriteTeams = likee.userTraits.get("linkrFavoriteTeams");
+					likeeInspirationalPeople = likee.userTraits.get("linkrInspirationalPeople");
+					likeeInterests = likee.userTraits.get("linkrInterests");
+					likeeMovies = likee.userTraits.get("linkrMovies");
+					likeeMusic = likee.userTraits.get("linkrMusic");
+					likeeSports = likee.userTraits.get("linkrSports");
+					likeeTelevision = likee.userTraits.get("linkrTelevision");
+					likeeSchoolWith = likee.userTraits.get("linkrSchoolWith");
+					likeeWorksWith = likee.userTraits.get("linkrWorkWith");
+
+					likeeSentMention = likee.sentMention;
+					likeeReceivedMention = likee.receivedMention;
+
+
+					// test whether user and likee's have similarities
+					if (!sameGender)
+						sameGender = (userGender.equals(likeeGender)) ? true : false;
+
+					if (!sameBirthday){
+						int rounded = (userBirthday + 4) / 5 * 5;
+						if (likeeBirthday >= (rounded-4) && likeeBirthday <= rounded){
+							sameBirthday = true;				
+						}
+						//System.out.println("\t" + birthday + ":" + (birthday >= (rounded-4) && birthday <= rounded));				
+					}				
+
+					if (!sameLocale)
+						sameLocale = (userLocale.equals(likeeLocale)) ? true : false;
+
+					if (!sameGroup){
+						for (Long group : userGroups){
+							if (likeeGroups.contains(group))
+								sameGroup = true;
+						}
+					}
+
+					//traits
+					if (!sameActivities)
+						sameActivities = sameTraits(userActivities,likeeActivities);
+
+					if (!sameBooks)
+						sameBooks = sameTraits(userBooks,likeeBooks);
+
+					if (!sameFavoriteAthletes)
+						sameFavoriteAthletes = sameTraits(userFavoriteAthletes,likeeFavoriteAthletes);
+
+					if (!sameFavoriteTeams)
+						sameFavoriteTeams = sameTraits(userFavoriteTeams,likeeFavoriteTeams);
+
+					if (!sameInspirationalPeople)
+						sameInspirationalPeople = sameTraits(userInspirationalPeople, likeeInspirationalPeople);
+
+					if (!sameInterests)
+						sameInterests = sameTraits(userInterests,likeeInterests);
+
+					if (!sameMovies)
+						sameMovies = sameTraits(userMovies,likeeMovies);
+
+					if (!sameMusic)
+						sameMusic = sameTraits(userMusic,likeeMusic);
+
+					if (!sameSports)
+						sameSports = sameTraits(userSports,likeeSports);
+
+					if (!sameTelevision)
+						sameTelevision = sameTraits(userTelevision,likeeTelevision);
+
+					if (!sameSchool)
+						sameSchool = sameTraits(userSchoolWith,likeeSchoolWith);
+
+					if (!sameWork)
+						sameWork = sameTraits(userWorksWith,likeeWorksWith);
+
+					if (!sentMention)
+						sentMention = likeeSentMention;
+
+					if (!receivedMention)
+						receivedMention = likeeReceivedMention;
+
+				}
+			}
+
+			//demographics
+			results.append(PRE + ((userGender.equals("male")) ? YES : "," + NO));		// user is male
+			results.append(PRE + ((userGender.equals("female")) ? YES : NO));			// user is female
+			results.append(PRE + (sameGender ? YES : NO)); 								// same gendered user has(nt) liked link		
+			results.append(PRE + (sameBirthday ? YES : NO));							// same birthday range user has(nt) liked link
+			results.append(PRE + (sameLocale ? YES : NO));								// same localed user has(nt) liked link
+
+			// groups
+			results.append(PRE + (sameGroup ? YES : NO));								// same group membership		
+
+			//traits
+			results.append(PRE + (sameActivities ? YES : NO));
+			results.append(PRE + (sameBooks ? YES : NO));
+			results.append(PRE + (sameFavoriteAthletes ? YES : NO));
+			results.append(PRE + (sameFavoriteTeams ? YES : NO));
+			results.append(PRE + (sameInspirationalPeople ? YES : NO));
+			results.append(PRE + (sameInterests ? YES : NO));
+			results.append(PRE + (sameMovies ? YES : NO));
+			results.append(PRE + (sameMusic ? YES : NO));
+			results.append(PRE + (sameSports ? YES : NO));
+			results.append(PRE + (sameTelevision ? YES : NO));
+			results.append(PRE + (sameSchool ? YES : NO));
+			results.append(PRE + (sameWork ? YES : NO));
+
+			//conversation
+			results.append(PRE + ((sentMention ? YES : NO)));							// mentioned top n words in a sent message
+			results.append(PRE + ((receivedMention ? YES : NO)));						// mentioned top n words in a received message
+
+			return results.toString();
+		}
+
+		/*
+		 * return whether two hashsets share the same value
+		 */
+		public static boolean sameTraits(HashSet<Long> user, HashSet<Long> likee){
+			for (long userTrait : user){
+				if (likee.contains(userTrait))
+					return true;
+			}
+			return false;
+		}
+
+		/*
+		 * Store user info
+		 */				
+		public class UserStruct{
+			// demographics store
+			String gender;
+			int birthday;
+			String locale;
+
+			// groups store
+			ArrayList<Long> groupMemberships = new ArrayList<Long>();
+
+			// user traits
+			HashMap<String, HashSet<Long>> userTraits = new HashMap<String,HashSet<Long>>();
+
+			// conversation content store (whether they have used a top N word)
+			boolean sentMention = false;
+			boolean receivedMention = false;
+
+			public UserStruct(String gender, int birthday, String locale){
+				this.gender = gender;
+				this.birthday = birthday;
+				this.locale = locale;
+
+				for (String trait : user_traits){
+					userTraits.put(trait,new HashSet<Long>());
+				}
+			}		
+
+			public String toString(){
+
+				StringBuffer gp = new StringBuffer();
+				for (Long group : groupMemberships){
+					gp.append(group + ",");
+				}
+
+				StringBuffer traits = new StringBuffer();
+				for (Entry<String, HashSet<Long>> trait : userTraits.entrySet()){
+					traits.append("\n\t\t" + trait.getKey() + ":");
+					for (Long id : trait.getValue()){
+						traits.append(id + ",");
 					}
 				}
 
-				//traits
-				if (!sameActivities)
-					sameActivities = sameTraits(userActivities,likeeActivities);
-
-				if (!sameBooks)
-					sameBooks = sameTraits(userBooks,likeeBooks);
-
-				if (!sameFavoriteAthletes)
-					sameFavoriteAthletes = sameTraits(userFavoriteAthletes,likeeFavoriteAthletes);
-
-				if (!sameFavoriteTeams)
-					sameFavoriteTeams = sameTraits(userFavoriteTeams,likeeFavoriteTeams);
-
-				if (!sameInspirationalPeople)
-					sameInspirationalPeople = sameTraits(userInspirationalPeople, likeeInspirationalPeople);
-
-				if (!sameInterests)
-					sameInterests = sameTraits(userInterests,likeeInterests);
-
-				if (!sameMovies)
-					sameMovies = sameTraits(userMovies,likeeMovies);
-
-				if (!sameMusic)
-					sameMusic = sameTraits(userMusic,likeeMusic);
-
-				if (!sameSports)
-					sameSports = sameTraits(userSports,likeeSports);
-
-				if (!sameTelevision)
-					sameTelevision = sameTraits(userTelevision,likeeTelevision);
-
-				if (!sameSchool)
-					sameSchool = sameTraits(userSchoolWith,likeeSchoolWith);
-
-				if (!sameWork)
-					sameWork = sameTraits(userWorksWith,likeeWorksWith);
-
-				if (!sentMention)
-					sentMention = likeeSentMention;
-
-				if (!receivedMention)
-					receivedMention = likeeReceivedMention;
-
+				return "  \n\tGender:" + gender + 
+						" \n\tBirthday:" + birthday + 
+						" \n\tLocale:" + locale +
+						" \n\tGroups:" + gp.toString() +
+						" \n\tTraits:" + traits.toString() +
+						" \n\tSent Mention:" + sentMention + 
+						" \n\tReceived Mention:" + receivedMention;
 			}
 		}
 
-		//demographics
-		results.append(PRE + ((userGender.equals("male")) ? YES : "," + NO));		// user is male
-		results.append(PRE + ((userGender.equals("female")) ? YES : NO));			// user is female
-		results.append(PRE + (sameGender ? YES : NO)); 								// same gendered user has(nt) liked link		
-		results.append(PRE + (sameBirthday ? YES : NO));							// same birthday range user has(nt) liked link
-		results.append(PRE + (sameLocale ? YES : NO));								// same localed user has(nt) liked link
+		public static void main(String[] args) throws Exception {
+			populateCachedData(true /* active */);
+			//writeData("active_data.arff");
+			//populateCachedData(false /* passive */);
+			//writeData("passive_data.arff");
+			//System.out.println(getAppConversationContent(162631113776237L,670845000));
 
-		// groups
-		results.append(PRE + (sameGroup ? YES : NO));								// same group membership		
+			//populateCachedData(true);
 
-		//traits
-		results.append(PRE + (sameActivities ? YES : NO));
-		results.append(PRE + (sameBooks ? YES : NO));
-		results.append(PRE + (sameFavoriteAthletes ? YES : NO));
-		results.append(PRE + (sameFavoriteTeams ? YES : NO));
-		results.append(PRE + (sameInspirationalPeople ? YES : NO));
-		results.append(PRE + (sameInterests ? YES : NO));
-		results.append(PRE + (sameMovies ? YES : NO));
-		results.append(PRE + (sameMusic ? YES : NO));
-		results.append(PRE + (sameSports ? YES : NO));
-		results.append(PRE + (sameTelevision ? YES : NO));
-		results.append(PRE + (sameSchool ? YES : NO));
-		results.append(PRE + (sameWork ? YES : NO));
+			//getAppUserFeaturesInfo();
+			//extractLinkFeatures(308324665867510L);
+			//extractLinkFeatures(204685499600824L);									
 
-		//conversation
-		results.append(PRE + ((sentMention ? YES : NO)));							// mentioned top n words in a sent message
-		results.append(PRE + ((receivedMention ? YES : NO)));						// mentioned top n words in a received message
-
-		return results.toString();
-	}
-
-	/*
-	 * return whether two hashsets share the same value
-	 */
-	public static boolean sameTraits(HashSet<Long> user, HashSet<Long> likee){
-		for (long userTrait : user){
-			if (likee.contains(userTrait))
-				return true;
-		}
-		return false;
-	}
-
-	/*
-	 * Store user info
-	 */				
-	public class UserStruct{
-		// demographics store
-		String gender;
-		int birthday;
-		String locale;
-
-		// groups store
-		ArrayList<Long> groupMemberships = new ArrayList<Long>();
-
-		// user traits
-		HashMap<String, HashSet<Long>> userTraits = new HashMap<String,HashSet<Long>>();
-
-		// conversation content store (whether they have used a top N word)
-		boolean sentMention = false;
-		boolean receivedMention = false;
-
-		public UserStruct(String gender, int birthday, String locale){
-			this.gender = gender;
-			this.birthday = birthday;
-			this.locale = locale;
-
-			for (String trait : user_traits){
-				userTraits.put(trait,new HashSet<Long>());
-			}
-		}		
-
-		public String toString(){
-
-			StringBuffer gp = new StringBuffer();
-			for (Long group : groupMemberships){
-				gp.append(group + ",");
+			for (Entry<Long, UserStruct> entry : additionalUserFeatures.entrySet()){
+				long id = entry.getKey();
+				UserStruct results = entry.getValue();
+				System.out.println(id + "->" + results);
 			}
 
-			StringBuffer traits = new StringBuffer();
-			for (Entry<String, HashSet<Long>> trait : userTraits.entrySet()){
-				traits.append("\n\t\t" + trait.getKey() + ":");
-				for (Long id : trait.getValue()){
-					traits.append(id + ",");
-				}
-			}
+			//extractMessages(1461424861L);
+			//writeData("asd.arff");		
 
-			return "  \n\tGender:" + gender + 
-					" \n\tBirthday:" + birthday + 
-					" \n\tLocale:" + locale +
-					" \n\tGroups:" + gp.toString() +
-					" \n\tTraits:" + traits.toString() +
-					" \n\tSent Mention:" + sentMention + 
-					" \n\tReceived Mention:" + receivedMention;
-		}
-	}
 
-	public static void main(String[] args) throws Exception {
-		populateCachedData(true /* active */);
-		//writeData("active_data.arff");
-		//populateCachedData(false /* passive */);
-		//writeData("passive_data.arff");
-		//System.out.println(getAppConversationContent(162631113776237L,670845000));
-
-		//populateCachedData(true);
-
-		//getAppUserFeaturesInfo();
-		//extractLinkFeatures(308324665867510L);
-		//extractLinkFeatures(204685499600824L);									
-
-		for (Entry<Long, UserStruct> entry : additionalUserFeatures.entrySet()){
-			long id = entry.getKey();
-			UserStruct results = entry.getValue();
-			System.out.println(id + "->" + results);
 		}
 
-		//extractMessages(1461424861L);
-		//writeData("asd.arff");		
-
-
 	}
-
-}
