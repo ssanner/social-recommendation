@@ -10,8 +10,10 @@ package project.riley.datageneration;
  */
 
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -226,7 +228,7 @@ public class DataGeneratorPassiveActive {
 			usersSeen.add(uid);
 		}
 
-		extractLinkFeatures();
+		//extractLinkFeatures();
 	}
 
 	public static HashSet<Long> getUnionOfLikedLinks(Set<Long> app_user_uids) {
@@ -489,7 +491,8 @@ public class DataGeneratorPassiveActive {
 
 		extractGroups();
 		extractTraits();
-		extractMessages();
+		extractMessagesHack();
+		//extractMessages();
 	}
 
 	/* 
@@ -569,6 +572,21 @@ public class DataGeneratorPassiveActive {
 	 * Extract user messages
 	 */
 
+	public static void extractMessagesHack() throws Exception{
+		BufferedReader br = new BufferedReader(new FileReader(UserInfoHack.INCOMING));
+		String uid;
+		while ((uid = br.readLine()) != null){
+			System.out.println(uid);
+			additionalUserFeatures.get(Long.parseLong(uid)).receivedMention = true;
+		}
+		
+		br = new BufferedReader(new FileReader(UserInfoHack.OUTGOING));
+		while ((uid = br.readLine()) != null){
+			System.out.println(uid);
+			additionalUserFeatures.get(Long.parseLong(uid)).sentMention = true;
+		}
+	}
+	
 	public static String[] conversation_types = {"linkrLinkComments","linkrPhotoComments","linkrPostComments","linkrVideoComments"};
 	public static void extractMessages() throws Exception{
 		Statement statement = SQLUtil.getStatement();
