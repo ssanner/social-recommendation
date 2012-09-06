@@ -491,8 +491,8 @@ public class DataGeneratorPassiveActive {
 
 		extractGroups();
 		extractTraits();
-		extractMessagesHack();
-		//extractMessages();
+		//extractMessagesHack();
+		extractMessages();
 	}
 
 	/* 
