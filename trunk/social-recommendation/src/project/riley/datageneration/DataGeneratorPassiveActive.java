@@ -209,7 +209,7 @@ public class DataGeneratorPassiveActive {
 
 					// ** Note: these are passive likes on Facebook!
 					Set<Long> alters = i.getInteractions(uid);
-					//System.out.println(ExtractRelTables.UID_2_NAME.get(uid) + " " + itype + "_" + dir + " #alters = " + (alters == null ? 0 : alters.size()));
+					System.out.println(ExtractRelTables.UID_2_NAME.get(uid) + " " + itype + "_" + dir + " #alters = " + (alters == null ? 0 : alters.size()));
 
 					HashMap<Long,Integer> other_likes_id2count = ExtractRelTables.GetLikesInteractions(uid, i, _uid2all_passive_linkids_likes);
 					//P(like | friend likes) = P(like and friend likes) / P(friend likes)
@@ -228,7 +228,7 @@ public class DataGeneratorPassiveActive {
 			usersSeen.add(uid);
 		}
 
-		//extractLinkFeatures();
+		extractLinkFeatures();
 	}
 
 	public static HashSet<Long> getUnionOfLikedLinks(Set<Long> app_user_uids) {
@@ -573,18 +573,13 @@ public class DataGeneratorPassiveActive {
 	 */
 
 	public static void extractMessagesHack() throws Exception{
-		BufferedReader br = new BufferedReader(new FileReader(UserInfoHack.INCOMING));
-		String uid;
-		while ((uid = br.readLine()) != null){
-			System.out.println(uid);
-			additionalUserFeatures.get(Long.parseLong(uid)).receivedMention = true;
+		for (Long uid : UserInfoHack.getSeenIncoming()){
+			additionalUserFeatures.get(uid).receivedMention = true;
 		}
 		
-		br = new BufferedReader(new FileReader(UserInfoHack.OUTGOING));
-		while ((uid = br.readLine()) != null){
-			System.out.println(uid);
-			additionalUserFeatures.get(Long.parseLong(uid)).sentMention = true;
-		}
+		for (Long uid : UserInfoHack.getSeenOutgoing()){
+			additionalUserFeatures.get(uid).sentMention = true;
+		}		
 	}
 	
 	public static String[] conversation_types = {"linkrLinkComments","linkrPhotoComments","linkrPostComments","linkrVideoComments"};
