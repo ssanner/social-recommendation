@@ -444,7 +444,7 @@ public class DataGeneratorPassiveActive {
 
 		statement.close();
 
-		extractUserFeatures();
+		//extractUserFeatures();
 
 	}
 
@@ -491,8 +491,8 @@ public class DataGeneratorPassiveActive {
 
 		extractGroups();
 		extractTraits();
-		//extractMessagesHack();
-		extractMessages();
+		extractMessagesHack();
+		//extractMessages();
 	}
 
 	/* 
@@ -574,11 +574,13 @@ public class DataGeneratorPassiveActive {
 
 	public static void extractMessagesHack() throws Exception{
 		for (Long uid : UserInfoHack.getSeenIncoming()){
-			additionalUserFeatures.get(uid).receivedMention = true;
+			if (additionalUserFeatures.get(uid) != null)
+				additionalUserFeatures.get(uid).receivedMention = true;
 		}
 		
 		for (Long uid : UserInfoHack.getSeenOutgoing()){
-			additionalUserFeatures.get(uid).sentMention = true;
+			if (additionalUserFeatures.get(uid) != null)
+				additionalUserFeatures.get(uid).sentMention = true;
 		}		
 	}
 	
