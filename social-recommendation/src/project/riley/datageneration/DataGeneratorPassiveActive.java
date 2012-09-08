@@ -573,6 +573,9 @@ public class DataGeneratorPassiveActive {
 	 */
 
 	public static void extractMessagesHack() throws Exception{
+		
+		System.out.println("\t -> Extracting messages data");
+		
 		for (Long uid : UserInfoHack.getSeenIncoming()){
 			if (additionalUserFeatures.get(uid) != null)
 				additionalUserFeatures.get(uid).receivedMention = true;
