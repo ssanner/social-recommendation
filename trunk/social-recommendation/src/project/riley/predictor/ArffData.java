@@ -35,19 +35,19 @@ public class ArffData {
 
 	public HashMap<String,Attribute> _attrMap = new HashMap<String,Attribute>();
 
-	static boolean demographics = false;
+	static boolean demographics = true;
 	static int demographics_index_start = 27;
 	static int demographics_index_end = demographics_index_start + DataGeneratorPassiveActive.demographics_types.length;
 
-	static boolean groups = false;
+	static boolean groups = true;
 	static int groups_index_start = demographics_index_end;
 	static int groups_index_end = groups_index_start + DataGeneratorPassiveActive.group_types.length;
 	
-	static boolean traits = false;
+	static boolean traits = true;
 	static int traits_index_start = groups_index_end;
 	static int traits_index_end = traits_index_start + DataGeneratorPassiveActive.user_traits.length;
 
-	static boolean conversations = false;
+	static boolean conversations = true;
 	static int conversations_index_start = traits_index_end;
 	static int conversations_index_end = (conversations_index_start + DataGeneratorPassiveActive.conversation_types_header.length);
 
@@ -244,7 +244,7 @@ public class ArffData {
 			} else if (!conversations && i > (conversations_index_start-offset) && i <= (conversations_index_end-offset)){
 				// nothing
 			} else {
-				System.out.println(i + ":" + _attr.get(i) + ":" + StripQuotes(split[i]) + ":" + split.length + ":" + _attr.size());
+				//System.out.println(i + ":" + _attr.get(i) + ":" + StripQuotes(split[i]) + ":" + split.length + ":" + _attr.size());
 				d.addData(StripQuotes(split[i]));
 			}
 		}
