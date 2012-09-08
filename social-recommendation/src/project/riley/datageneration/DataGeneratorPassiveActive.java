@@ -864,7 +864,7 @@ public class DataGeneratorPassiveActive {
 			}
 
 			//demographics
-			results.append(PRE + ((userGender.equals("male")) ? YES : "," + NO));		// user is male
+			results.append(PRE + ((userGender.equals("male")) ? YES : NO));				// user is male
 			results.append(PRE + ((userGender.equals("female")) ? YES : NO));			// user is female
 			results.append(PRE + (sameGender ? YES : NO)); 								// same gendered user has(nt) liked link		
 			results.append(PRE + (sameBirthday ? YES : NO));							// same birthday range user has(nt) liked link
