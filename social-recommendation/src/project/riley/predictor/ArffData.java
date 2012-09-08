@@ -244,7 +244,7 @@ public class ArffData {
 			} else if (!conversations && i > (conversations_index_start-offset) && i <= (conversations_index_end-offset)){
 				// nothing
 			} else {
-				//System.out.println(i + ":" + _attr.get(i) + ":" + StripQuotes(split[i]) + ":" + split.length + ":" + _attr.size());
+				System.out.println(i + ":" + _attr.get(i) + ":" + StripQuotes(split[i]) + ":" + split.length + ":" + _attr.size());
 				d.addData(StripQuotes(split[i]));
 			}
 		}
