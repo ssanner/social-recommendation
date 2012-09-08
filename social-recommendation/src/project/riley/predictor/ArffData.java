@@ -41,7 +41,7 @@ public class ArffData {
 
 	static boolean groups = true;
 	static int groups_index_start = demographics_index_end;
-	static int groups_index_end = groups_index_start + DataGeneratorPassiveActive.group_types.length;
+	static int groups_index_end = groups_index_start + DataGeneratorPassiveActive.group_types.length + DataGeneratorPassiveActive.topGroupsN;
 	
 	static boolean traits = true;
 	static int traits_index_start = groups_index_end;
