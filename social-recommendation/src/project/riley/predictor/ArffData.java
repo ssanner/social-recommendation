@@ -652,7 +652,7 @@ public class ArffData {
 
 		}*/
 
-		ArffData f1 = new ArffData("active_all_1000.arff",0,0,true,true,true,false);
+		ArffData f1 = new ArffData("active_all_1000.arff",0,250,false,true,false,false);
 		for (Attribute s : f1._attr){
 			System.out.println(s);
 		}
