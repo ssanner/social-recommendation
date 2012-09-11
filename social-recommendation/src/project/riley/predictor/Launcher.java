@@ -15,10 +15,12 @@ import de.bwaldvogel.liblinear.SolverType;
 
 public class Launcher {
 
-	public final static String DATA_FILE = "active_all.arff";
+	public final static String DATA_FILE = "active_all_1000.arff";
 	//public final static String DATA_FILE = "passive.arff";
 	public static int threshold = 5;
 	public final static int    NUM_FOLDS = 10;
+	public static int maxGroup = 1000;
+	public static int groupStep = 100;
 	public static PrintWriter  writer;
 	public static Predictor[]  predictors;
 	public static boolean DEMOGRAPHICS = false;
@@ -120,6 +122,20 @@ public class Launcher {
 		}
 	}
 
+	/*
+	 * launch group size comparisons
+	 */
+	public void launchGroupSizeComparisons() throws Exception{
+		for (int i = 0; i <= maxGroup; i+=groupStep)
+			for (Predictor p : predictors){
+				if (p.getName().contains("NaiveBayes") || p.getName().contains("LogisticRegression") || p.getName().contains("SVMLibSVM") || p.getName().contains("SVMLibLinear")){				
+					System.out.println("Running predictors on " + DATA_FILE + " using group size " + i);
+					writer.println("Running predictors on " + DATA_FILE + " using group size " + i);
+					p.runTests(DATA_FILE /* file to use */, NUM_FOLDS /* folds to use */, 0 /* test threshold */, writer /* file to write */, DEMOGRAPHICS, GROUPS, TRAITS, CONVERSATION);
+				}
+			}
+	}
+
 	public static void main(String[] args) throws Exception {
 		Launcher launcher = new Launcher();
 		predictors = launcher.setUp();
@@ -134,7 +150,8 @@ public class Launcher {
 		writer = new PrintWriter(outName);		
 
 		//launcher.launchThresholds();
-		launcher.launchConditions();
+		//launcher.launchConditions();
+		launcher.launchGroupSizeComparisons();
 
 		System.out.println("Finished writing to file " + outName);
 		writer.close();
