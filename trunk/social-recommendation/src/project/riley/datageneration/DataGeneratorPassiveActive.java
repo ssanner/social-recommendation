@@ -56,7 +56,7 @@ public class DataGeneratorPassiveActive {
 	public static Set<Long> usersSeen = new HashSet<Long>();
 	public static Set<Long> linksSeen = new HashSet<Long>();
 	public static int stepSize = 1000;
-	public static int topGroupsN = 100;
+	public static int topGroupsN = 1000;
 
 	/*
 	 * Generate data for accurately labeled data from NICTA app
