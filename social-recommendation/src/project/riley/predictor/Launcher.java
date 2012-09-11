@@ -101,7 +101,7 @@ public class Launcher {
 						System.out.println("Running predictors on " + DATA_FILE + " with demographics flag " + condition_a + " groups flag " + condition_b + " traits flag " + condition_c + " and conversation flag " + condition_d);
 						writer.println("Running predictors on " + DATA_FILE + " with demographics flag " + condition_a + " groups flag " + condition_b + " traits flag " + condition_c + " and conversation flag " + condition_d);
 						for (Predictor p : predictors){
-							p.runTests(DATA_FILE /* file to use */, NUM_FOLDS /* folds to use */, 0, /* test threshold */ writer /* file to write */, condition_a, condition_b, condition_c, condition_d);
+							p.runTests(DATA_FILE /* file to use */, NUM_FOLDS /* folds to use */, 0, /* test threshold */ 100/*groups size*/, writer /* file to write */, condition_a, condition_b, condition_c, condition_d);
 						}
 					}	
 				}
@@ -117,7 +117,7 @@ public class Launcher {
 			for (Predictor p : predictors){
 				System.out.println("Running predictors on " + DATA_FILE + " using threshold " + i);
 				writer.println("Running predictors on " + DATA_FILE + " using threshold " + i);
-				p.runTests(DATA_FILE /* file to use */, NUM_FOLDS /* folds to use */, i /* test threshold */, writer /* file to write */, DEMOGRAPHICS, GROUPS, TRAITS, CONVERSATION);
+				p.runTests(DATA_FILE /* file to use */, NUM_FOLDS /* folds to use */, i /* test threshold */, 100 /*groups size*/, writer /* file to write */, DEMOGRAPHICS, GROUPS, TRAITS, CONVERSATION);
 			}
 		}
 	}
@@ -128,10 +128,10 @@ public class Launcher {
 	public void launchGroupSizeComparisons() throws Exception{
 		for (int i = 0; i <= maxGroup; i+=groupStep)
 			for (Predictor p : predictors){
-				if (p.getName().contains("NaiveBayes") || p.getName().contains("LogisticRegression") || p.getName().contains("SVMLibSVM") || p.getName().contains("SVMLibLinear")){				
+				if (p.getName().contains("NaiveBayes") || p.getName().contains("LogisticRegression") || p.getName().contains("SVMLibSVM") || p.getName().contains("SVMLibLinear")){
 					System.out.println("Running predictors on " + DATA_FILE + " using group size " + i);
 					writer.println("Running predictors on " + DATA_FILE + " using group size " + i);
-					p.runTests(DATA_FILE /* file to use */, NUM_FOLDS /* folds to use */, 0 /* test threshold */, writer /* file to write */, DEMOGRAPHICS, GROUPS, TRAITS, CONVERSATION);
+					p.runTests(DATA_FILE /* file to use */, NUM_FOLDS /* folds to use */, 0 /* test threshold */, i /*groups size*/, writer /* file to write */, DEMOGRAPHICS, GROUPS, TRAITS, CONVERSATION);
 				}
 			}
 	}
@@ -140,8 +140,6 @@ public class Launcher {
 		Launcher launcher = new Launcher();
 		predictors = launcher.setUp();
 		System.out.println("Running predictors on " + DATA_FILE);
-
-		//BayesianModelAveraging.setArff(new ArffData(DATA_FILE));
 
 		Date dNow = new Date();
 		SimpleDateFormat ft = new SimpleDateFormat ("dd_MM_yyyy");

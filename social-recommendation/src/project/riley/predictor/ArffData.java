@@ -52,6 +52,7 @@ public class ArffData {
 	static int conversations_index_end = (conversations_index_start + DataGeneratorPassiveActive.conversation_types_header.length);
 
 	static int threshold = 0;
+	static int groupsSize = 100;
 
 	protected static NumberFormat _nf = NumberFormat.getInstance();
 	static {
@@ -73,13 +74,15 @@ public class ArffData {
 		readArffFile();
 	}
 
-	public ArffData(String filename, int _threshold, boolean _demographics, boolean _groups, boolean _traits, boolean _conversations) {
+	public ArffData(String filename, int _threshold, int _groupsSize, boolean _demographics, boolean _groups, boolean _traits, boolean _conversations) {
 		_filename = filename;
 		demographics = _demographics;
 		groups = _groups;
 		traits = _traits;
 		conversations = _conversations;
 		threshold = _threshold;
+		groupsSize = _groupsSize;
+		groupsAdded = -1;
 		readArffFile();
 	}
 
@@ -110,6 +113,7 @@ public class ArffData {
 		return a_ret;
 	}
 
+	static int groupsAdded = -1; //offset of 1
 	public void readArffFile() {
 		String line = null;
 		int line_index = 0;
@@ -134,7 +138,7 @@ public class ArffData {
 
 				// DEBUG
 				//for (String s : line.split(WHITESPACE))
-				//	System.out.println("\"" + s + "\"");
+				//	System.out.println("\"" + s + "\"");				
 				if (line.startsWith("@RELATION") || 
 						line.startsWith("@Relation") ||
 						line.startsWith("@relation"))
@@ -151,7 +155,15 @@ public class ArffData {
 					} else if (!conversations && line_index > conversations_index_start && line_index <= conversations_index_end){
 						// nothing
 					} else {
-						addAttribute(line);
+						if (line_index > groups_index_start && line_index <= groups_index_end){
+							if (groupsAdded <= groupsSize){
+								//System.out.println(groupsAdded + ":" + line);
+								addAttribute(line);
+								groupsAdded++;
+							}							
+						} else {
+							addAttribute(line);
+						}
 					}
 					//System.out.println(line_index + ":" + line);
 				}
@@ -233,6 +245,7 @@ public class ArffData {
 		}
 
 		DataEntry d = new DataEntry(_attr.size());
+		int groupSeen = -1; // off by one
 		for (int i = 0; i < split.length; i++){
 			int offset = 2; // inline offset is different then file offset by 2 lines
 			if (!demographics && i > (demographics_index_start-offset) && i <= (demographics_index_end-offset)){
@@ -245,7 +258,16 @@ public class ArffData {
 				// nothing
 			} else {
 				//System.out.println(i + ":" + _attr.get(i) + ":" + StripQuotes(split[i]) + ":" + split.length + ":" + _attr.size());
-				d.addData(StripQuotes(split[i]));
+				if (i > (groups_index_start-offset) && i <= (groups_index_end-offset)){					
+					if (groupSeen <= groupsSize){
+						//System.out.println(groupSeen);
+						//System.out.println(i + ":" + _attr.get(i) + ":" + StripQuotes(split[i]) + ":" + split.length + ":" + _attr.size());
+						d.addData(StripQuotes(split[i]));
+					}
+					groupSeen++;	
+				} else {
+					d.addData(StripQuotes(split[i]));
+				}
 			}
 		}
 		if (d._entries.size() == _attr.size())
@@ -630,15 +652,13 @@ public class ArffData {
 
 		}*/
 
-		ArffData f1 = new ArffData("active_test.arff",0,false,false,false,false);
+		ArffData f1 = new ArffData("active_all_1000.arff",0,0,true,true,true,false);
 		for (Attribute s : f1._attr){
 			System.out.println(s);
 		}
+		System.out.println(f1._attr.size());
 		
-		f1 = new ArffData("active_test.arff",0,true,false,true,true);
-		for (Attribute s : f1._attr){
-			System.out.println(s);
-		}
+		
 //		System.out.println(f1._attr);
 		
 		//ArffData f1 = new ArffData("active.arff.train.2",false,false,false);
