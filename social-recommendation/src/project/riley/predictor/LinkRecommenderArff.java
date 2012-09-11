@@ -135,7 +135,7 @@ public class LinkRecommenderArff extends org.nicta.lr.LinkRecommender
 		return getArffMetrics(predictions, testLikes, threshold);
 			}
 
-	public static void runTests(String source_file, int num_folds, int threshold, PrintWriter writer, boolean demographics, boolean groups, boolean traits, boolean conversations) throws Exception {
+	public static void runTests(String source_file, int num_folds, int threshold, int groupSize, PrintWriter writer, boolean demographics, boolean groups, boolean traits, boolean conversations) throws Exception {
 		int normal = num_folds;
 		
 		Double[] accuracies = new Double[num_folds];
@@ -152,7 +152,7 @@ public class LinkRecommenderArff extends org.nicta.lr.LinkRecommender
 			String trainName = source_file + ".train." + (i+1);
 			String testName  = source_file + ".test."  + (i+1);
 
-			ArffData _testData  = new ArffData(testName, threshold, demographics, groups, traits, conversations);
+			ArffData _testData  = new ArffData(testName, threshold, groupSize, demographics, groups, traits, conversations);
 			
 			if (_testData._data.size() == 0){
 				//System.out.println(threshold);
