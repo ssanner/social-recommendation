@@ -131,7 +131,7 @@ public class Launcher {
 				if (p.getName().contains("NaiveBayes") || p.getName().contains("LogisticRegression") || p.getName().contains("SVMLibSVM") || p.getName().contains("SVMLibLinear")){
 					System.out.println("Running predictors on " + DATA_FILE + " using group size " + i);
 					writer.println("Running predictors on " + DATA_FILE + " using group size " + i);
-					p.runTests(DATA_FILE /* file to use */, NUM_FOLDS /* folds to use */, 0 /* test threshold */, i /*groups size*/, writer /* file to write */, DEMOGRAPHICS, GROUPS, TRAITS, CONVERSATION);
+					p.runTests(DATA_FILE /* file to use */, NUM_FOLDS /* folds to use */, 0 /* test threshold */, i /*groups size*/, writer /* file to write */, DEMOGRAPHICS, true, TRAITS, CONVERSATION);
 				}
 			}
 	}
