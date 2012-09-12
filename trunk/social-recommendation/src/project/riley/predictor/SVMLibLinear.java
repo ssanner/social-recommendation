@@ -143,6 +143,8 @@ public class SVMLibLinear extends Predictor {
 	 * Run tests on data
 	 */
 	public static void main(String[] args) throws Exception {
+		
+		
 		for (SolverType type : SOLVER_TYPES) { // testing solver types 
 			for (double C : C_VALUES){ // testing C values
 				SVMLibLinear svm = new SVMLibLinear(type, C, 0.001d);

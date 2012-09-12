@@ -1,6 +1,7 @@
 package project.riley.predictor;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import libsvm.svm;
@@ -108,7 +109,18 @@ public class SVMLibSVM extends Predictor {
 
 	public static void main(String[] args) throws Exception{
 		SVMLibSVM svm = new SVMLibSVM(2d, 0.1d);
-	//	svm.runTests("active.arff", 10);
+		svm.runTests("passive.arff", /* file to use */ 10 /* folds to use */, 0 /* test threshold */, 0 /*groups size*/, new PrintWriter("a.txt") /* file to write */, false, false, false, false);
+		
+		int index = 0;
+		for (int i : svm._model.nSV){
+			for (double[] j : svm._model.sv_coef){
+				for (double k : j){
+					System.out.println(index + ":" + i * k);
+					index++;
+				}
+			}
+		}
+	
 	}
 	
 }
