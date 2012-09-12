@@ -126,6 +126,11 @@ public class LogisticRegression extends Predictor {
 	}
 
 	static String getGroup(String attribute) throws Exception{
+		
+		if (attribute.contains("sameGroupMembership")){
+			return "";
+		}
+		
 		String ret = "";	
 		String group = attribute.split("_")[1];
 		
