@@ -135,6 +135,10 @@ public class Launcher {
 				}
 			}
 	}
+	
+	public void launchWeightsExtraction() throws Exception{
+			
+	}
 
 	public static void main(String[] args) throws Exception {
 		Launcher launcher = new Launcher();
