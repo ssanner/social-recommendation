@@ -1,0 +1,1243 @@
+%%
+%% Template conclusion.tex
+%%
+
+\chapter{Evaluation of User Traits}
+\label{cha:ivg}
+
+\section{Introduction}
+\label{sec:AFintro}
+
+Facebook allows users to provide a vast array of personal traits and interests on their Facebook page. 
+
+Including:
+\begin{itemize}
+\item Demograhics - age, gender, location, etc
+\item Group Memberships
+\item Personal Preferences - favourite books, favourite athletes, favourite sports, inspirational people, personal interests, etc
+\item Conversation Data - words sent, words received
+\end{itemize}
+
+In this section we will try to uncover which User Traits are indicitive of item likes.
+
+\section{Interactions}
+\label{sec:inter}
+
+Explained above. Reorder.
+
+\section{Demographics}
+\label{sec:demo}
+
+Gender breakdown in the data set:
+
+% select count(*), lu.gender from linkrUser lu where lu.uid in (SELECT distinct uid FROM trackRecommendedLinks) group by gender;
+
+\begin{table}[!htbp]
+\centering
+	\begin{tabular}{|c|c|c|} % cols: (left, center, right)
+		\hline
+		\textbf{Male} & \textbf{Female} & \textbf{Undisclosed}  \\ \hline
+		85 & 33 & 1 \\ \hline
+	\end{tabular}
+	\caption{Gender breakdown}
+	\label{tab:revpol}
+\end{table}
+
+There is a clear male bias in the data set.
+
+\clearpage
+
+Birthday breakdown in the data set:
+
+% select count(*), right(lu.birthday,4) from linkrUser lu where lu.uid in (SELECT distinct uid FROM trackRecommendedLinks) group by right(lu.birthday,4);
+\begin{table}[!htbp]
+\centering
+	\begin{tabular}{|l|c|} % cols: (left, center, right)
+		\hline
+		\textbf{Year} & \textbf{Frequency}  \\ \hline
+		Undisclosed & 1 \\ \hline
+		1901-1905 & 1 \\ \hline
+		1906-1910 & 0 \\ \hline
+		1911-1915 & 1 \\ \hline
+		1916-1920 & 0 \\ \hline
+		1921-1925 & 0 \\ \hline
+		1926-1930 & 0 \\ \hline
+		1931-1935 & 0 \\ \hline
+		1936-1940 & 1 \\ \hline
+		1941-1945 & 0 \\ \hline
+		1946-1950 & 0 \\ \hline
+		1951-1955 & 0 \\ \hline
+		1956-1960 & 2 \\ \hline
+		1961-1965 & 1 \\ \hline
+		1966-1970 & 4 \\ \hline
+		1971-1975 & 10 \\ \hline
+		1976-1980 & 12 \\ \hline
+		1981-1985 & 25 \\ \hline
+		1986-1990 & 34 \\ \hline
+		1991-1995 & 25 \\ \hline
+		1996-2000 & 2 \\ \hline
+	\end{tabular}
+	\caption{Birthday breakdown}
+	\label{tab:revpol}
+\end{table}
+
+Birthdays are grouped in a distinct range, most users in this data set are in the age range of ~\(18 - 30\).
+
+%select ll.name, count(*) from linkrUser lu join linkrLocation ll on lu.uid in (SELECT distinct uid FROM trackRecommendedLinks) and lu.location_id = ll.id group by lu.location_id;
+\clearpage
+
+Location breakdown in the data set:
+
+\begin{table}[!htbp]
+\centering
+	\begin{tabular}{|l|c|} % cols: (left, center, right)
+		\hline
+		\textbf{Location} & \textbf{Frequency}  \\ \hline
+		Undisclosed & 33 \\ \hline
+		Ahmedabad, India & 1 \\ \hline
+		Bangi, Malaysia & 1 \\ \hline
+		Bathurst, New South Wales & 1 \\ \hline
+		Bellevue, Washington & 1 \\ \hline
+		Braddon, Australian Capital Territory, Australia & 1 \\ \hline
+		Brisbane, Queensland, Australia & 2 \\ \hline
+		Canberra, Australian Capital Territory & 56 \\ \hline
+		Culver City, California & 1 \\ \hline
+		Frederick, Maryland & 3 \\ \hline
+		Geelong, Victoria & 1 \\ \hline
+	\end{tabular}
+	\caption{Location breakdown}
+	\label{tab:revpol}
+\end{table}
+
+Given the fact that most users are either situated in the ACT (location of the app development and deployment) or are undisclosed, location information 
+in this data set will not be useful.
+
+\clearpage
+
+\section{Groups}
+\label{sec:groups}
+
+The most popular groups for app users are shown below.
+
+% select count(*),id,name from linkrGroups where uid in (select distinct uid from trackRecommendedLinks) group by id having count(*) > " + minSize + " and count(*) < " + maxSize + " order by count(*) desc;
+\begin{table}[!htbp]
+\centering
+	\begin{tabular}{|l|l|} % cols: (left, center, right)
+		\hline
+		\textbf{Group Name} & \textbf{Frequency}  \\ \hline
+		27 & ANU StalkerSpace \\ \hline
+		20 & Facebook Developers \\ \hline
+		15 & ANU CSSA \\ \hline
+		14 & CSSA \\ \hline
+		13 & Australian National University \\ \hline
+		11 & ANU - ML and AI Stanford Course \\ \hline
+		10 & iDiscount ANU \\ \hline
+		10 & Our Hero: Clem Baker-Finch \\ \hline
+		9 & Students In Canberra \\ \hline
+		7 & I grew up in Australia in the 90s \\ \hline
+		7 & Grow up Australia - R18+ Rating for Computer Games \\ \hline
+		7 & ANU Engineering Students' Association (ANUESA) 2010 \\ \hline
+		7 & ANU Postgraduate and Research Student Association (PARSA) \\ \hline
+		6 & No, I Don't Care If I Die At 12AM, I Refuse To Pass On Your Chain Letter. \\ \hline
+		6 & No Australian Internet Censorship \\ \hline
+		6 & The Chaser Appreciation Society \\ \hline
+		6 & Feed a Child with a Click \\ \hline
+		6 & ANU Mathematics Society \\ \hline
+		6 & ANU International Student Services, CRICOS Provider Number 00120C \\ \hline
+		6 & 2011 New \& Returning Burton \& Garran Hall \\ \hline
+		5 & If You Can't Differentiate Between "Your" and "You're" You Deserve To Die \\ \hline
+		5 & Keep the ANU Supermarket!!! \\ \hline
+		5 & If 1m people join, girlfriend will let me turn our house into a pirate ship \\ \hline
+		5 & The Great Australian Internet Blackout \\ \hline
+		5 & When I was your age, Pluto was a planet. \\ \hline
+		5 & Australian National University \\ \hline
+		5 & ANU International Students' Department \\ \hline
+		5 & We Won't Accept It - No To Mandatory Internet Censorship In Australia \\ \hline
+		5 & HvZ VS Sprinklers \\ \hline
+		5 & SC2 in Canberra \\ \hline
+		5 & An Arbitrary Number of People Demanding That Some Sort Of Action Be Taken \\ \hline
+		5 & PETITION FOR FACEBOOK TO INSTALL A DISLIKE BUTTON - the original \\ \hline
+	\end{tabular}
+	\caption{App users groups breakdown for range 5+}
+	\label{tab:revpol}
+\end{table}
+\clearpage
+
+The most popular groups for all users are shown below.
+
+% select concat(count(*),' & ',name) from linkrGroups group by id order by count(*) desc limit 25;
+\begin{table}[!htbp]
+\centering
+	\begin{tabular}{|l|l|} % cols: (left, center, right)
+		\hline
+		\textbf{Group Name} & \textbf{Frequency}  \\ \hline
+		1499 & Feed a Child with a Click  \\ \hline
+		1469 & 1,000,000  Hamish and Andy Fans by 01/01/10  \\ \hline
+		1292 & ANU StalkerSpace  \\ \hline
+		875 & When I was your age, Pluto was a planet.  \\ \hline
+		830 & Online chating  \\ \hline
+		804 & Join this group and get YOUR NAME in the Guinness Book of Records!  \\ \hline
+		799 & 1,000,000 PROUD AUSSIES BEFORE AUSTRALIA DAY 2010  \\ \hline
+		731 & I grew up in Australia in the 90s  \\ \hline
+		729 & Yσυηgιѕтαη ツ  \\ \hline
+		720 & Can we find 1 MILLION people that DON'T want smoking back in pubs?  \\ \hline
+		696 & Snow Ball Effect - Official Experiment  \\ \hline
+		696 & No, I Don't Care If I Die At 12AM, I Refuse To Pass On Your Chain Letter.  \\ \hline
+		683 & PETITION FOR FACEBOOK TO INSTALL A DISLIKE BUTTON - the original  \\ \hline
+		679 & I LOVE FACEBOOK  \\ \hline
+		670 & I Dont care How Comfortable Crocs Are, You Look Like A Dumbass. ->fan FHS  \\ \hline
+		651 & Earth Hour  \\ \hline
+		619 & Australian National University  \\ \hline
+		602 & TURN FACEBOOK PINK FOR A DAY TO RAISE BREAST CANCER AWARNESS  \\ \hline
+		568 & Lift ACT ban on fireworks  \\ \hline
+		566 & MILLIONS AGAINST FACEBOOK's PRIVACY POLICIES AND LAYOUT REDESIGN  \\ \hline
+		554 & OnLiNe lOve (2)  \\ \hline
+		539 & I was doing homework, then I ended up on Facebook  \\ \hline
+		524 & Goal - \$1,077,816: "For each person that joins this group, we'll donate \$1 to fight global poverty."  \\ \hline
+		487 & Facebook Developers  \\ \hline
+		476 & Ultimate Social Experiment™  \\ \hline
+	\end{tabular}
+	\caption{Top 25 most popular apps}
+	\label{tab:revpol}
+\end{table}
+
+\clearpage
+
+
+
+
+
+\begin{table}[h]
+\begin{minipage}[b]{.50\textwidth}
+\centering
+  \begin{tabular}{|l|c|} % cols: (left, center, right)
+  \hline
+  		\textbf{Count} & \textbf{Activity} \\ \hline
+  		10 & Sleeping \\ \hline
+		5 & Eating \\ \hline
+		5 & Reading \\ \hline
+		4 & Running \\ \hline
+		4 & Cycling \\ \hline
+		4 & Minecraft \\ \hline
+		4 & Programming \\ \hline
+		3 & Android \\ \hline
+		3 & Cooking \\ \hline
+		3 & Video Games \\ \hline
+		3 & Xbox 360 \\ \hline
+		3 & Piano \\ \hline
+		3 & Guitar \\ \hline
+		3 & Badminton \\ \hline
+		3 & Chocolate \\ \hline
+  \end{tabular}
+  \caption{Top activities for app users}
+\end{minipage}
+\begin{minipage}[b]{.50\textwidth}
+\centering
+  \begin{tabular}{|l|c|} % cols: (left, center, right)
+  \hline
+  		\textbf{Count} & \textbf{Activity} \\ \hline
+  		1031 & Sleeping \\ \hline
+		688 & Traveling \\ \hline
+		626 & Eating \\ \hline
+		581 & Reading \\ \hline
+		517 & Truth is, everybody is going to hurt you; you just gotta find the ones worth suffering for." -Bob Marley \\ \hline
+		512 & Cooking \\ \hline
+		504 & Singing \\ \hline
+		437 & Basketball \\ \hline
+		418 & Sleep \\ \hline
+		380 & Swimming \\ \hline
+		364 & "I'm selfish, impatient and a little insecure. I make mistakes, I am out of control and at times hard to handle. But if you can't handle me at my worst, then you sure as hell don't deserve me at my best."  - Marilyn Monroe \\ \hline
+		340 & Dancing \\ \hline
+		319 & Hiking \\ \hline
+		319 & Cricket \\ \hline
+		297 & Soccer \\ \hline
+  \end{tabular}
+  \caption{Top activities for all users}
+\end{minipage}
+
+\begin{minipage}[b]{.50\textwidth}
+\centering
+  \begin{tabular}{|l|c|} % cols: (left, center, right)
+  \hline
+  	\textbf{Count} & \textbf{Book} \\ \hline
+		7 & Harry Potter \\ \hline
+		4 & The Bible \\ \hline
+		3 & Harry Potter series \\ \hline
+		3 & Discworld \\ \hline
+		3 & That's 3 minutes of solid study, think I've earned 2hrs of Faceboook time \\ \hline
+		3 & Freakonomics \\ \hline
+		3 & Tomorrow when the War Began \\ \hline
+		2 & Magician \\ \hline
+		2 & Hitchhiker's Guide To The Galaxy \\ \hline
+		2 & The Discworld Series \\ \hline
+		2 & Terry Pratchett \\ \hline
+		2 & Terry Pratchett \\ \hline
+		2 & George Orwell \\ \hline
+		2 & Lord Of The Rings \\ \hline
+		2 & Goosebumps \\ \hline
+  \end{tabular}
+  \caption{Top books for app users}
+\end{minipage}
+\begin{minipage}[b]{.50\textwidth}
+\centering
+  \begin{tabular}{|l|c|} % cols: (left, center, right)
+  \hline
+  		\textbf{Count} & \textbf{Book} \\ \hline
+		1498 & Harry Potter \\ \hline
+		402 & Lord Of The Rings \\ \hline
+		396 & Twilight \\ \hline
+		361 & Love Story \\ \hline
+		327 & Bible \\ \hline
+		293 & The Bible \\ \hline
+		260 & Harry Potter series \\ \hline
+		238 & The Da Vinci Code \\ \hline
+		234 & Pride and Prejudice \\ \hline
+		227 & The Alchemist \\ \hline
+		184 & To Kill a Mockingbird \\ \hline
+		175 & The Hobbit \\ \hline
+		172 & Angels and demons \\ \hline
+		172 & The Secret \\ \hline
+		164 & 3 mistakes of my life \\ \hline
+  \end{tabular}
+  \caption{Top books for all users}
+\end{minipage}
+\end{table}
+
+
+
+\begin{table}[h]
+\begin{minipage}[b]{.50\textwidth}
+\centering
+  \begin{tabular}{|l|c|} % cols: (left, center, right)
+  \hline
+  		\textbf{Count} & \textbf{Athlete} \\ \hline
+  		4 & Roger Federer \\ \hline
+		4 & Rafael Nadal \\ \hline
+		3 & Maria Sharapova \\ \hline
+		2 & Leo Messi \\ \hline
+		1 & Andy Schleck \\ \hline
+		1 & Chrissie Wellington \\ \hline
+		1 & Emma Snowsill \\ \hline
+		1 & Emma Moffatt \\ \hline
+		1 & BÃ¡rbara Riveros \\ \hline
+		1 & The Brownlee Brothers \\ \hline
+		1 & Marie Slamtoinette \#1792 \\ \hline
+		1 & Wayne Rooney \\ \hline
+		1 & "you are what you eat" " I dont remember eating a Tank." \\ \hline
+		1 & Nemanja Vidic \\ \hline
+		1 & Ryan Giggs \\ \hline
+  \end{tabular}
+  \caption{Top athletes for app users}
+\end{minipage}
+\begin{minipage}[b]{.50\textwidth}
+\centering
+  \begin{tabular}{|l|c|} % cols: (left, center, right)
+  \hline
+  		\textbf{Count} & \textbf{Athlete} \\ \hline
+  		507 & Sachin Tendulkar \\ \hline
+		422 & Leo Messi \\ \hline
+		419 & Cristiano Ronaldo \\ \hline
+		381 & Roger Federer \\ \hline
+		305 & Michael Jordan \\ \hline
+		295 & David Beckham \\ \hline
+		292 & Rafael Nadal \\ \hline
+		210 & Maria Sharapova \\ \hline
+		178 & Ricardo KakÃ  \\ \hline
+		173 & Usain Bolt \\ \hline
+		167 & Kobe Bryant \\ \hline
+		149 & Sachin Tendulkar \\ \hline
+		149 & John Cena - WWE Universe \\ \hline
+		134 & Steven Gerrard \\ \hline
+		133 & LeBron James \\ \hline
+  \end{tabular}
+  \caption{Top athletes for all users}
+\end{minipage}
+
+\begin{minipage}[b]{.50\textwidth}
+\centering
+  \begin{tabular}{|l|c|} % cols: (left, center, right)
+  \hline
+  	\textbf{Count} & \textbf{Team} \\ \hline
+		5 & Manchester United \\ \hline
+		2 & Bear Grylls cameraman appreciation society \\ \hline
+		2 & Real Madrid C.F. \\ \hline
+		2 & Liverpool FC \\ \hline
+		1 & Leopard Trek \\ \hline
+		1 & British Triathlon \\ \hline
+		1 & TeamCWUK \\ \hline
+		1 & Surly Griffins \\ \hline
+		1 & Canberra Raiders \\ \hline
+		1 & Kolkata Knight Riders \\ \hline
+		1 & Brisbane Roar FC \\ \hline
+		1 & Brisbane Broncos \\ \hline
+		1 & Cricket Australia \\ \hline
+		1 & | Manchester United Fans | \\ \hline
+		1 & Juventus \\ \hline
+  \end{tabular}
+  \caption{Top teams for app users}
+\end{minipage}
+\begin{minipage}[b]{.50\textwidth}
+\centering
+  \begin{tabular}{|l|c|} % cols: (left, center, right)
+  \hline
+  		\textbf{Count} & \textbf{Team} \\ \hline
+		593 & Manchester United \\ \hline
+		556 & Indian Cricket Team \\ \hline
+		286 & FC Barcelona \\ \hline
+		280 & Real Madrid C.F. \\ \hline
+		235 & Arsenal \\ \hline
+		205 & LA Lakers \\ \hline
+		193 & Mumbai Indians \\ \hline
+		150 & Liverpool FC \\ \hline
+		130 & Chicago Bulls \\ \hline
+		125 & Boston Celtics \\ \hline
+		124 & Chelsea Football Club \\ \hline
+		117 & Australian Cricket Team \\ \hline
+		105 & The Miami HEAT \\ \hline
+		100 & Getting drunker than necessary at casual events \\ \hline
+		88 & Starting a conga line and leading everyone to your sex dungeon \\ \hline
+  \end{tabular}
+  \caption{Top teams for all users}
+\end{minipage}
+\end{table}
+
+
+
+\begin{table}[h]
+\begin{minipage}[b]{.50\textwidth}
+\centering
+  \begin{tabular}{|l|c|} % cols: (left, center, right)
+  \hline
+  		\textbf{Count} & \textbf{Inspirational Person} \\ \hline
+  		2 & Alan Turing \\ \hline
+		1 & Bender \\ \hline
+		1 & Maurice Moss \\ \hline
+		1 & Steve Jobs \\ \hline
+		1 & Sean Parker \\ \hline
+		1 & Pope Benedict XVI \\ \hline
+		1 & Martin Luther \\ \hline
+		1 & Alistair McGrath \\ \hline
+		1 & St Augustine \\ \hline
+		1 & Dennis Ritchie \\ \hline
+		1 & Linus Torvalds \\ \hline
+		1 & Richard Stallman \\ \hline
+		1 & C. S. Lewis \\ \hline
+		1 & Mike Oldfield \\ \hline
+		1 & Ryan Giggs \\ \hline
+  \end{tabular}
+  \caption{Top inspirational people for app users}
+\end{minipage}
+\begin{minipage}[b]{.50\textwidth}
+\centering
+  \begin{tabular}{|l|c|} % cols: (left, center, right)
+  \hline
+  		\textbf{Count} & \textbf{Inspirational Person} \\ \hline
+  		68 & Barack Obama \\ \hline
+		66 & Jesus \\ \hline
+		59 & Mahatma Ghandi \\ \hline
+		51 & My Parents \\ \hline
+		49 & Sachin Tendulkar \\ \hline
+		48 & Swami Vivekananda \\ \hline
+		45 & Steve Jobs \\ \hline
+		44 & Mother Teresa \\ \hline
+		41 & Nelson Mandela \\ \hline
+		38 & Oprah Winfrey \\ \hline
+		37 & Lady Gaga \\ \hline
+		33 & Albert Einstein \\ \hline
+		33 & Michael Jackson \\ \hline
+		33 & Gandhi \\ \hline
+		32 & A. P. J. Abdul Kalam \\ \hline
+  \end{tabular}
+  \caption{Top inspirational people for aaall users}
+\end{minipage}
+
+\begin{minipage}[b]{.50\textwidth}
+\centering
+  \begin{tabular}{|l|c|} % cols: (left, center, right)
+  \hline
+  	\textbf{Count} & \textbf{Interest} \\ \hline
+		5 & Movies \\ \hline
+		5 & Music \\ \hline
+		3 & Cooking \\ \hline
+		3 & Sports \\ \hline
+		2 & Psychology \\ \hline
+		2 & Internet \\ \hline
+		2 & Video Games \\ \hline
+		2 & Martial arts \\ \hline
+		2 & Literature \\ \hline
+		2 & Economics \\ \hline
+		2 & Tennis \\ \hline
+		2 & Badminton \\ \hline
+		2 & Artificial intelligence \\ \hline
+		2 & Computers \\ \hline
+		2 & Travel \\ \hline
+  \end{tabular}
+  \caption{Top interests for app users}
+\end{minipage}
+\begin{minipage}[b]{.50\textwidth}
+\centering
+  \begin{tabular}{|l|c|} % cols: (left, center, right)
+  \hline
+  		\textbf{Count} & \textbf{Interest} \\ \hline
+		1263 & Music \\ \hline
+		572 & Movies \\ \hline
+		456 & Photography \\ \hline
+		390 & Traveling \\ \hline
+		377 & Reading \\ \hline
+		312 & Cricket \\ \hline
+		306 & Dancing \\ \hline
+		272 & Cooking \\ \hline
+		262 & Sports \\ \hline
+		246 & Sleeping \\ \hline
+		232 & Travelling \\ \hline
+		228 & Travel \\ \hline
+		227 & Singing \\ \hline
+		211 & Friendship \\ \hline
+		199 & Food \\ \hline
+  \end{tabular}
+  \caption{Top interests for all users}
+\end{minipage}
+\end{table}
+
+
+
+\begin{table}[h]
+\begin{minipage}[b]{.50\textwidth}
+\centering
+  \begin{tabular}{|l|c|} % cols: (left, center, right)
+  \hline
+  		\textbf{Count} & \textbf{Movie} \\ \hline
+  		9 & Inception \\ \hline
+		8 & Avatar \\ \hline
+		8 & Fight Club \\ \hline
+		7 & The Lord of the Rings Trilogy (Official Page) \\ \hline
+		6 & Star Wars \\ \hline
+		6 & I wouldnt steal a car, But i'd download one if i could \\ \hline
+		6 & WALL-E \\ \hline
+		6 & Scott Pilgrim vs. the World \\ \hline
+		6 & Toy Story \\ \hline
+		6 & Shrek \\ \hline
+		5 & Batman: The Dark Knight \\ \hline
+		5 & Harry Potter \\ \hline
+		4 & The Matrix \\ \hline
+		4 & The Social Network Movie \\ \hline
+		4 & Monsters, Inc. \\ \hline
+  \end{tabular}
+  \caption{Top movies for app users}
+\end{minipage}
+\begin{minipage}[b]{.50\textwidth}
+\centering
+  \begin{tabular}{|l|c|} % cols: (left, center, right)
+  \hline
+  		\textbf{Count} & \textbf{Movie} \\ \hline
+  		1460 & Harry Potter \\ \hline
+		1197 & The Hangover \\ \hline
+		1149 & Inception \\ \hline
+		1004 & Transformers \\ \hline
+		986 & Batman: The Dark Knight \\ \hline
+		942 & 3 Idiots \\ \hline
+		921 & Avatar \\ \hline
+		907 & Toy Story \\ \hline
+		852 & The Lord of the Rings Trilogy (Official Page) \\ \hline
+		840 & Fight Club \\ \hline
+		840 & Disney \\ \hline
+		709 & Star Wars \\ \hline
+		673 & 300 \\ \hline
+		583 & Fast \& Furious \\ \hline
+		567 & Titanic \\ \hline
+  \end{tabular}
+  \caption{Top movies for all users}
+\end{minipage}
+
+\begin{minipage}[b]{.50\textwidth}
+\centering
+  \begin{tabular}{|l|c|} % cols: (left, center, right)
+  \hline
+  	\textbf{Count} & \textbf{Music} \\ \hline
+		9 & Daft Punk \\ \hline
+		9 & Muse \\ \hline
+		8 & Michael Jackson \\ \hline
+		8 & Pink Floyd \\ \hline
+		8 & Lady Gaga \\ \hline
+		7 & Linkin Park \\ \hline
+		7 & Avril Lavigne \\ \hline
+		6 & Radiohead \\ \hline
+		6 & Rihanna \\ \hline
+		6 & Coldplay \\ \hline
+		6 & Green Day \\ \hline
+		6 & Katy Perry \\ \hline
+		6 & Taylor Swift \\ \hline
+		5 & Gorillaz \\ \hline
+		5 & Queen \\ \hline
+  \end{tabular}
+  \caption{Top music for app users}
+\end{minipage}
+\begin{minipage}[b]{.50\textwidth}
+\centering
+  \begin{tabular}{|l|c|} % cols: (left, center, right)
+  \hline
+  		\textbf{Count} & \textbf{Music} \\ \hline
+		2240 & Michael Jackson \\ \hline
+		1830 & Lady Gaga \\ \hline
+		1743 & Linkin Park \\ \hline
+		1728 & AKON \\ \hline
+		1653 & Eminem \\ \hline
+		1556 & Katy Perry \\ \hline
+		1513 & Shakira \\ \hline
+		1498 & Rihanna \\ \hline
+		1435 & Taylor Swift \\ \hline
+		1395 & Coldplay \\ \hline
+		1365 & The Beatles \\ \hline
+		1253 & Justin Bieber \\ \hline
+		1102 & Bob Marley \\ \hline
+		1102 & Enrique Iglesias \\ \hline
+		1098 & Muse \\ \hline
+  \end{tabular}
+  \caption{Top music for all users}
+\end{minipage}
+\end{table}
+
+
+
+\begin{table}[h]
+\begin{minipage}[b]{.50\textwidth}
+\centering
+  \begin{tabular}{|l|c|} % cols: (left, center, right)
+  \hline
+  		\textbf{Count} & \textbf{Sport} \\ \hline
+		8 & Badminton \\ \hline
+		5 & Basketball \\ \hline
+		3 & Cycling \\ \hline
+		3 & Volleyball \\ \hline
+		2 & Starcraft II \\ \hline
+		2 & Football en salle \\ \hline
+		2 & Swimming \\ \hline
+		2 & Towel Baseball \\ \hline
+		2 & Tennis \\ \hline
+		1 & Soccer \\ \hline
+		1 & Taekwondo \\ \hline
+		1 & Rock climbing \\ \hline
+		1 & In The Groove \\ \hline
+		1 & Darts \\ \hline
+		1 & Table tennis \\ \hline
+  \end{tabular}
+  \caption{Top sports for app users}
+\end{minipage}
+\begin{minipage}[b]{.50\textwidth}
+\centering
+  \begin{tabular}{|l|c|} % cols: (left, center, right)
+  \hline
+  		\textbf{Count} & \textbf{Sport} \\ \hline
+  		949 & Cricket \\ \hline
+		624 & Football \\ \hline
+		530 & Basketball \\ \hline
+		445 & Badminton \\ \hline
+		352 & Soccer \\ \hline
+		347 & Tennis \\ \hline
+		303 & Swimming \\ \hline
+		193 & Volleyball \\ \hline
+		187 & Chess \\ \hline
+		173 & Table tennis \\ \hline
+		172 & Futsal \\ \hline
+		106 & Golf \\ \hline
+		98 & Running \\ \hline
+		69 & Bowling \\ \hline
+		65 & Cycling \\ \hline
+  \end{tabular}
+  \caption{Top sports for all users}
+\end{minipage}
+
+\begin{minipage}[b]{.50\textwidth}
+\centering
+  \begin{tabular}{|l|c|} % cols: (left, center, right)
+  \hline
+  	\textbf{Count} & \textbf{Television Show} \\ \hline
+		20 & The Big Bang Theory \\ \hline
+		19 & How I Met Your Mother \\ \hline
+		14 & The Simpsons \\ \hline
+		13 & Top Gear \\ \hline
+		12 & Futurama \\ \hline
+		12 & Scrubs \\ \hline
+		11 & Black Books \\ \hline
+		10 & Black Books \\ \hline
+		10 & South Park \\ \hline
+		10 & Family Guy \\ \hline
+		9 & The Daily Show \\ \hline
+		8 & The IT Crowd \\ \hline
+		8 & FRIENDS (TV Show) \\ \hline
+		7 & True Blood \\ \hline
+		7 & MythBusters \\ \hline
+  \end{tabular}
+  \caption{Top television shows for app users}
+\end{minipage}
+\begin{minipage}[b]{.50\textwidth}
+\centering
+  \begin{tabular}{|l|c|} % cols: (left, center, right)
+  \hline
+  		\textbf{Count} & \textbf{Television Show} \\ \hline
+  		2912 & How I Met Your Mother \\ \hline
+		2339 & The Big Bang Theory \\ \hline
+		2036 & Family Guy \\ \hline
+		1639 & House \\ \hline
+		1532 & Scrubs \\ \hline
+		1517 & Glee \\ \hline
+		1444 & South Park \\ \hline
+		1439 & The Simpsons \\ \hline
+		1417 & FRIENDS (TV Show) \\ \hline
+		1394 & Top Gear \\ \hline
+		1256 & Gossip Girl \\ \hline
+		1164 & Two and a Half Men \\ \hline
+		1131 & Futurama \\ \hline
+		976 & NCIS \\ \hline
+		974 & Grey's Anatomy \\ \hline
+  \end{tabular}
+  \caption{Top television shows for all users}
+\end{minipage}
+\end{table}
+
+
+\section{Conversation}
+\label{sec:groups}
+
+\clearpage
+\begin{table}[!htbp]
+\begin{minipage}[b]{.5\textwidth}
+	\centering
+	\begin{tabular}{|c|c|c|} % cols: (left, center, right)
+		\hline
+		\textbf{Rank} & \textbf{Word} & \textbf{Frequency}  \\ \hline
+		1 & :) & 292,733 \\ \hline
+		2 & like & 198,289 \\ \hline
+		3 & good & 164,387 \\ \hline
+		4 & thanks & 159,238 \\ \hline
+		5 & one & 156,696 \\ \hline
+		6 & love & 139,939 \\ \hline
+		7 & :p & 121,904 \\ \hline
+		8 & time & 106,995 \\ \hline
+		9 & think & 106,459 \\ \hline
+		10 & see & 103,690 \\ \hline
+		11 & nice & 99,672 \\ \hline
+		12 & now & 94,947 \\ \hline
+		13 & well & 92,735 \\ \hline
+		14 & happy & 84,381 \\ \hline
+		15 & :d & 83,698 \\ \hline
+		16 & much & 78,719 \\ \hline
+		17 & oh & 77,321 \\ \hline
+		18 & yeah & 76,564 \\ \hline
+		19 & back & 76,032 \\ \hline
+		20 & great & 70,514 \\ \hline
+		21 & going & 70,447 \\ \hline
+		22 & still & 68,245 \\ \hline
+		23 & new & 67,430 \\ \hline
+		24 & day & 65,579 \\ \hline
+		25 & come & 63,837 \\ \hline
+		26 & ;) & 62,936 \\ \hline
+		27 & year & 61,771 \\ \hline
+		28 & look & 60,608 \\ \hline
+		29 & yes & 59,774 \\ \hline
+		30 & want & 59,514 \\ \hline
+		31 & tag & 58,633 \\ \hline
+		32 & hahaha & 57,448 \\ \hline
+		33 & also & 56,414 \\ \hline
+		34 & need & 55,921 \\ \hline
+		35 & make & 54,949 \\ \hline
+		36 & sure & 54,395 \\ \hline
+		37 & thank & 54,112 \\ \hline
+		38 & people & 53,211 \\ \hline
+		39 & miss & 53,182 \\ \hline
+		40 & guys & 52,855 \\ \hline
+		\end{tabular}
+\end{minipage}
+\begin{minipage}[b]{.5\textwidth}
+\centering
+\begin{tabular}{|c|c|c|} % cols: (left, center, right)
+		\hline
+		41 & right & 52,112 \\ \hline
+		42 & best & 51,941 \\ \hline
+		43 & awesome & 51,663 \\ \hline
+		44 & hope & 50,980 \\ \hline
+		45 & 2 & 50,720 \\ \hline
+		46 & next & 50,375 \\ \hline
+		47 & work & 49,459 \\ \hline
+		48 & way & 49,358 \\ \hline
+		49 & man & 49,101 \\ \hline
+		50 & :( & 48,184 \\ \hline
+		51 & <3 & 47,985 \\ \hline
+		52 & even & 47,480 \\ \hline
+		53 & 4 & 46,068 \\ \hline
+		54 & us & 45,919 \\ \hline
+		55 & pretty & 44,804 \\ \hline
+		56 & hey & 44,614 \\ \hline
+		57 & say & 44,315 \\ \hline
+		58 & better & 43,357 \\ \hline
+		59 & thanx & 42,639 \\ \hline
+		60 & bro & 41,187 \\ \hline
+		61 & take & 41,081 \\ \hline
+		62 & always & 40,457 \\ \hline
+		63 & wow & 40,452 \\ \hline
+		64 & pic & 40,185 \\ \hline
+		65 & though & 40,032 \\ \hline
+		66 & actually & 39,565 \\ \hline
+		67 & last & 39,175 \\ \hline
+		68 & thats & 38,833 \\ \hline
+		69 & cool & 37,844 \\ \hline
+		70 & dear & 37,328 \\ \hline
+		71 & ok & 36,441 \\ \hline
+		72 & sorry & 36,345 \\ \hline
+		73 & never & 36,000 \\ \hline
+		74 & thing & 35,941 \\ \hline
+		75 & first & 35,785 \\ \hline
+		76 & looks & 35,496 \\ \hline
+		77 & night & 35,475 \\ \hline
+		78 & thought & 34,458 \\ \hline
+		79 & photo & 33,989 \\ \hline
+		80 & \& & 33,902 \\ \hline
+	\end{tabular}
+\end{minipage}
+	\caption{Top conversation content data for all users}
+	\label{tab:revpol}
+\end{table}
+
+
+\clearpage
+\begin{table}[!htbp]
+\begin{minipage}[b]{.5\textwidth}
+	\centering
+	\begin{tabular}{|l|l|l|} % cols: (left, center, right)
+		\hline
+		\textbf{Rank} & \textbf{Word} & \textbf{Frequency}  \\ \hline
+		1 & like & 1,720 \\ \hline
+		2 & :) & 1,647 \\ \hline
+		3 & one & 1,452 \\ \hline
+		4 & :p & 1,261 \\ \hline
+		5 & good & 1,220 \\ \hline
+		6 & think & 1,192 \\ \hline
+		7 & now & 948 \\ \hline
+		8 & well & 876 \\ \hline
+		9 & see & 854 \\ \hline
+		10 & time & 848 \\ \hline
+		11 & people & 822 \\ \hline
+		12 & also & 755 \\ \hline
+		13 & thanks & 704 \\ \hline
+		14 & much & 698 \\ \hline
+		15 & :d & 696 \\ \hline
+		16 & love & 690 \\ \hline 
+		17 & still & 675 \\ \hline
+		18 & yeah & 608 \\ \hline
+		19 & oh & 604 \\ \hline
+		20 & back & 594 \\ \hline
+		21 & going & 588 \\ \hline
+		22 & want & 584 \\ \hline
+		23 & actually & 564 \\ \hline
+		24 & need & 554 \\ \hline
+		25 & sure & 551 \\ \hline
+		26 & though & 551 \\ \hline
+		27 & make & 541 \\ \hline
+		28 & way & 512 \\ \hline
+		29 & even & 505 \\ \hline
+		30 & yes & 478 \\ \hline
+		31 & pretty & 473 \\ \hline
+		32 & look & 463 \\ \hline
+		33 & work & 459 \\ \hline
+		34 & nice & 455 \\ \hline
+		35 & right & 448 \\ \hline
+		36 & awesome & 445 \\ \hline
+		37 & better & 439 \\ \hline
+		38 & year & 435 \\ \hline
+		39 & happy & 434 \\ \hline
+		40 & new & 419 \\ \hline
+		\end{tabular}
+\end{minipage}
+\begin{minipage}[b]{.5\textwidth}
+\centering
+\begin{tabular}{|l|l|l|} % cols: (left, center, right)
+		\hline
+		41 & day & 417 \\ \hline
+		42 & great & 407 \\ \hline
+		43 & us & 402 \\ \hline
+		44 & come & 400 \\ \hline
+		45 & say & 395 \\ \hline
+		46 & thing & 378 \\ \hline
+		47 & first & 366 \\ \hline
+		48 & next & 352 \\ \hline
+		49 & man & 345 \\ \hline
+		50 & best & 344 \\ \hline
+		51 & take & 344 \\ \hline
+		52 & never & 341 \\ \hline
+		53 & said & 336 \\ \hline
+		54 & thought & 336 \\ \hline
+		55 & last & 333 \\ \hline
+		56 & many & 331 \\ \hline
+		57 & things & 325 \\ \hline
+		58 & use & 321 \\ \hline
+		59 & cool & 315 \\ \hline
+		60 & guys & 313 \\ \hline
+		61 & little & 308 \\ \hline
+		62 & hope & 306 \\ \hline
+		63 & ;) & 304 \\ \hline
+		64 & bit & 304 \\ \hline
+		65 & :( & 300 \\ \hline
+		66 & 2 & 299 \\ \hline
+		67 & may & 294 \\ \hline
+		68 & looks & 293 \\ \hline
+		69 & always & 292 \\ \hline
+		70 & course & 288 \\ \hline
+		71 & probably & 288 \\ \hline
+		72 & read & 288 \\ \hline
+		73 & wow & 287 \\ \hline
+		74 & long & 273 \\ \hline
+		75 & stuff & 273 \\ \hline
+		76 & might & 264 \\ \hline
+		77 & bad & 261 \\ \hline
+		78 & maybe & 261 \\ \hline
+		79 & fun & 258 \\ \hline
+		80 & hey & 256 \\ \hline
+	\end{tabular}
+\end{minipage}
+	\caption{Top conversation content data for application users}
+	\label{tab:revpol}
+\end{table}
+
+
+\section{Results}
+\label{sec:AFconc}
+
+\clearpage
+\begin{table}[h]
+	\centering
+	\begin{tabular}{|l|l|l|l|l|l|l|l|} % cols: (left, center, right)
+	\hline
+	Demographics & Groups & Traits & Conversation & Accuracy & Precision & Recall & F-Score \\ \hline
+	true & true & true & true & 0.617	\( \pm \) 0.008	& 0.623	\( \pm \) 0.014	& 0.318	\( \pm \) 0.009	& 0.420	\( \pm \) 0.010	\\ \hline
+	true & true & true & false & 0.617	\( \pm \) 0.008	& 0.623	\( \pm \) 0.014	& 0.318	\( \pm \) 0.009	& 0.420	\( \pm \) 0.010	\\ \hline
+	true & true & false & true & 0.617	\( \pm \) 0.008	& 0.623	\( \pm \) 0.014	& 0.318	\( \pm \) 0.009	& 0.420	\( \pm \) 0.010	\\ \hline
+	true & true & false & false & 0.617	\( \pm \) 0.008	& 0.623	\( \pm \) 0.014	& 0.318	\( \pm \) 0.009	& 0.420	\( \pm \) 0.010	\\ \hline
+	true & false & true & true & 0.617	\( \pm \) 0.008	& 0.623	\( \pm \) 0.014	& 0.318	\( \pm \) 0.009	& 0.420	\( \pm \) 0.010	\\ \hline
+	true & false & true & false & 0.617	\( \pm \) 0.008	& 0.623	\( \pm \) 0.014	& 0.318	\( \pm \) 0.009	& 0.420	\( \pm \) 0.010	\\ \hline
+	true & false & false & true & 0.617	\( \pm \) 0.008	& 0.623	\( \pm \) 0.014	& 0.318	\( \pm \) 0.009	& 0.420	\( \pm \) 0.010	\\ \hline
+	true & false & false & false & 0.617	\( \pm \) 0.008	& 0.623	\( \pm \) 0.014	& 0.318	\( \pm \) 0.009	& 0.420	\( \pm \) 0.010	\\ \hline
+	false & true & true & true & 0.617	\( \pm \) 0.008	& 0.623	\( \pm \) 0.014	& 0.318	\( \pm \) 0.009	& 0.420	\( \pm \) 0.010	\\ \hline
+	false & true & true & false & 0.617	\( \pm \) 0.008	& 0.623	\( \pm \) 0.014	& 0.318	\( \pm \) 0.009	& 0.420	\( \pm \) 0.010	\\ \hline
+	false & true & false & true & 0.617	\( \pm \) 0.008	& 0.623	\( \pm \) 0.014	& 0.318	\( \pm \) 0.009	& 0.420	\( \pm \) 0.010	\\ \hline
+	false & true & false & false & 0.617	\( \pm \) 0.008	& 0.623	\( \pm \) 0.014	& 0.318	\( \pm \) 0.009	& 0.420	\( \pm \) 0.010	\\ \hline
+	false & false & true & true & 0.617	\( \pm \) 0.008	& 0.623	\( \pm \) 0.014	& 0.318	\( \pm \) 0.009	& 0.420	\( \pm \) 0.010	\\ \hline
+	false & false & true & false & 0.617	\( \pm \) 0.008	& 0.623	\( \pm \) 0.014	& 0.318	\( \pm \) 0.009	& 0.420	\( \pm \) 0.010	\\ \hline
+	false & false & false & true & 0.617	\( \pm \) 0.008	& 0.623	\( \pm \) 0.014	& 0.318	\( \pm \) 0.009	& 0.420	\( \pm \) 0.010	\\ \hline
+	false & false & false & false & 0.617	\( \pm \) 0.008	& 0.623	\( \pm \) 0.014	& 0.318	\( \pm \) 0.009	& 0.420	\( \pm \) 0.010	\\ \hline
+	\end{tabular}
+	\caption{SocialRecommender(feature)}
+	\label{tab:revpol}
+\end{table}
+\begin{table}[h]
+	\centering
+	\begin{tabular}{|l|l|l|l|l|l|l|l|} % cols: (left, center, right)
+	\hline
+	Demographics & Groups & Traits & Conversation & Accuracy & Precision & Recall & F-Score \\ \hline
+	true & true & true & true & 0.610	\( \pm \) 0.009	& 0.677	\( \pm \) 0.045	& 0.210	\( \pm \) 0.010	& 0.320	\( \pm \) 0.015	\\ \hline
+	true & true & true & false & 0.611	\( \pm \) 0.009	& 0.673	\( \pm \) 0.039	& 0.218	\( \pm \) 0.010	& 0.330	\( \pm \) 0.015	\\ \hline
+	true & true & false & true & 0.596	\( \pm \) 0.009	& 0.693	\( \pm \) 0.050	& 0.139	\( \pm \) 0.010	& 0.231	\( \pm \) 0.015	\\ \hline
+	true & true & false & false & 0.597	\( \pm \) 0.009	& 0.694	\( \pm \) 0.050	& 0.143	\( \pm \) 0.010	& 0.237	\( \pm \) 0.015	\\ \hline
+	true & false & true & true & 0.619	\( \pm \) 0.010	& 0.665	\( \pm \) 0.037	& 0.261	\( \pm \) 0.013	& 0.374	\( \pm \) 0.019	\\ \hline
+	true & false & true & false & 0.619	\( \pm \) 0.010	& 0.658	\( \pm \) 0.038	& 0.271	\( \pm \) 0.015	& 0.384	\( \pm \) 0.020	\\ \hline
+	true & false & false & true & 0.596	\( \pm \) 0.008	& 0.695	\( \pm \) 0.048	& 0.140	\( \pm \) 0.011	& 0.232	\( \pm \) 0.016	\\ \hline
+	true & false & false & false & 0.596	\( \pm \) 0.008	& 0.682	\( \pm \) 0.047	& 0.145	\( \pm \) 0.011	& 0.239	\( \pm \) 0.017	\\ \hline
+	false & true & true & true & 0.601	\( \pm \) 0.009	& 0.681	\( \pm \) 0.046	& 0.169	\( \pm \) 0.012	& 0.270	\( \pm \) 0.018	\\ \hline
+	false & true & true & false & 0.603	\( \pm \) 0.010	& 0.681	\( \pm \) 0.049	& 0.176	\( \pm \) 0.014	& 0.280	\( \pm \) 0.021	\\ \hline
+	false & true & false & true & 0.591	\( \pm \) 0.008	& 0.692	\( \pm \) 0.061	& 0.122	\( \pm \) 0.012	& 0.206	\( \pm \) 0.018	\\ \hline
+	false & true & false & false & 0.592	\( \pm \) 0.008	& 0.691	\( \pm \) 0.060	& 0.125	\( \pm \) 0.011	& 0.212	\( \pm \) 0.018	\\ \hline
+	false & false & true & true & 0.608	\( \pm \) 0.008	& 0.698	\( \pm \) 0.048	& 0.182	\( \pm \) 0.013	& 0.289	\( \pm \) 0.019	\\ \hline
+	false & false & true & false & 0.610	\( \pm \) 0.008	& 0.699	\( \pm \) 0.047	& 0.193	\( \pm \) 0.013	& 0.302	\( \pm \) 0.020	\\ \hline
+	false & false & false & true & 0.596	\( \pm \) 0.008	& 0.701	\( \pm \) 0.050	& 0.135	\( \pm \) 0.011	& 0.227	\( \pm \) 0.017	\\ \hline
+	false & false & false & false & 0.596	\( \pm \) 0.008	& 0.695	\( \pm \) 0.048	& 0.136	\( \pm \) 0.012	& 0.227	\( \pm \) 0.018	\\ \hline
+	\end{tabular}
+	\caption{NaiveBayes(1.0)}
+	\label{tab:revpol}
+\end{table}
+\clearpage
+\begin{table}[h]
+	\centering
+	\begin{tabular}{|l|l|l|l|l|l|l|l|} % cols: (left, center, right)
+	\hline
+	Demographics & Groups & Traits & Conversation & Accuracy & Precision & Recall & F-Score \\ \hline
+	true & true & true & true & 0.661	\( \pm \) 0.011	& 0.675	\( \pm \) 0.030	& 0.438	\( \pm \) 0.024	& 0.530	\( \pm \) 0.023	\\ \hline
+	true & true & true & false & 0.661	\( \pm \) 0.012	& 0.677	\( \pm \) 0.031	& 0.432	\( \pm \) 0.026	& 0.527	\( \pm \) 0.024	\\ \hline
+	true & true & false & true & 0.659	\( \pm \) 0.011	& 0.668	\( \pm \) 0.029	& 0.441	\( \pm \) 0.019	& 0.531	\( \pm \) 0.021	\\ \hline
+	true & true & false & false & 0.661	\( \pm \) 0.011	& 0.672	\( \pm \) 0.031	& 0.441	\( \pm \) 0.019	& 0.532	\( \pm \) 0.021	\\ \hline
+	true & false & true & true & 0.620	\( \pm \) 0.012	& 0.655	\( \pm \) 0.038	& 0.275	\( \pm \) 0.022	& 0.387	\( \pm \) 0.028	\\ \hline
+	true & false & true & false & 0.619	\( \pm \) 0.011	& 0.652	\( \pm \) 0.034	& 0.274	\( \pm \) 0.024	& 0.386	\( \pm \) 0.028	\\ \hline
+	true & false & false & true & 0.608	\( \pm \) 0.012	& 0.597	\( \pm \) 0.040	& 0.327	\( \pm \) 0.015	& 0.422	\( \pm \) 0.019	\\ \hline
+	true & false & false & false & 0.609	\( \pm \) 0.011	& 0.600	\( \pm \) 0.039	& 0.325	\( \pm \) 0.016	& 0.421	\( \pm \) 0.021	\\ \hline
+	false & true & true & true & 0.657	\( \pm \) 0.010	& 0.664	\( \pm \) 0.027	& 0.438	\( \pm \) 0.022	& 0.527	\( \pm \) 0.018	\\ \hline
+	false & true & true & false & 0.657	\( \pm \) 0.009	& 0.665	\( \pm \) 0.025	& 0.435	\( \pm \) 0.016	& 0.526	\( \pm \) 0.017	\\ \hline
+	false & true & false & true & 0.655	\( \pm \) 0.009	& 0.643	\( \pm \) 0.021	& 0.476	\( \pm \) 0.016	& 0.547	\( \pm \) 0.014	\\ \hline
+	false & true & false & false & 0.658	\( \pm \) 0.010	& 0.673	\( \pm \) 0.026	& 0.426	\( \pm \) 0.018	& 0.522	\( \pm \) 0.019	\\ \hline
+	false & false & true & true & 0.617	\( \pm \) 0.011	& 0.646	\( \pm \) 0.032	& 0.275	\( \pm \) 0.023	& 0.386	\( \pm \) 0.027	\\ \hline
+	false & false & true & false & 0.618	\( \pm \) 0.010	& 0.637	\( \pm \) 0.030	& 0.292	\( \pm \) 0.023	& 0.400	\( \pm \) 0.026	\\ \hline
+	false & false & false & true & 0.592	\( \pm \) 0.013	& 0.638	\( \pm \) 0.065	& 0.206	\( \pm \) 0.061	& 0.298	\( \pm \) 0.041	\\ \hline
+	false & false & false & false & 0.598	\( \pm \) 0.008	& 0.648	\( \pm \) 0.047	& 0.183	\( \pm \) 0.011	& 0.285	\( \pm \) 0.015	\\ \hline
+	\end{tabular}
+	\caption{LogisticRegression(L1,2.0)}
+	\label{tab:revpol}
+\end{table}
+\begin{table}[h]
+	\centering
+	\begin{tabular}{|l|l|l|l|l|l|l|l|} % cols: (left, center, right)
+	\hline
+	Demographics & Groups & Traits & Conversation & Accuracy & Precision & Recall & F-Score \\ \hline
+	true & true & true & true & 0.657	\( \pm \) 0.010	& 0.674	\( \pm \) 0.031	& 0.417	\( \pm \) 0.018	& 0.515	\( \pm \) 0.021	\\ \hline
+	true & true & true & false & 0.657	\( \pm \) 0.010	& 0.674	\( \pm \) 0.031	& 0.416	\( \pm \) 0.020	& 0.514	\( \pm \) 0.023	\\ \hline
+	true & true & false & true & 0.657	\( \pm \) 0.011	& 0.675	\( \pm \) 0.032	& 0.418	\( \pm \) 0.019	& 0.516	\( \pm \) 0.022	\\ \hline
+	true & true & false & false & 0.659	\( \pm \) 0.010	& 0.681	\( \pm \) 0.030	& 0.416	\( \pm \) 0.018	& 0.516	\( \pm \) 0.021	\\ \hline
+	true & false & true & true & 0.620	\( \pm \) 0.010	& 0.651	\( \pm \) 0.030	& 0.282	\( \pm \) 0.019	& 0.393	\( \pm \) 0.023	\\ \hline
+	true & false & true & false & 0.620	\( \pm \) 0.010	& 0.650	\( \pm \) 0.031	& 0.281	\( \pm \) 0.019	& 0.392	\( \pm \) 0.024	\\ \hline
+	true & false & false & true & 0.603	\( \pm \) 0.012	& 0.581	\( \pm \) 0.039	& 0.341	\( \pm \) 0.013	& 0.429	\( \pm \) 0.019	\\ \hline
+	true & false & false & false & 0.607	\( \pm \) 0.011	& 0.592	\( \pm \) 0.038	& 0.334	\( \pm \) 0.015	& 0.427	\( \pm \) 0.021	\\ \hline
+	false & true & true & true & 0.657	\( \pm \) 0.011	& 0.675	\( \pm \) 0.032	& 0.417	\( \pm \) 0.020	& 0.515	\( \pm \) 0.023	\\ \hline
+	false & true & true & false & 0.657	\( \pm \) 0.009	& 0.677	\( \pm \) 0.031	& 0.411	\( \pm \) 0.018	& 0.512	\( \pm \) 0.022	\\ \hline
+	false & true & false & true & 0.661	\( \pm \) 0.010	& 0.687	\( \pm \) 0.028	& 0.414	\( \pm \) 0.018	& 0.516	\( \pm \) 0.020	\\ \hline
+	false & true & false & false & 0.659	\( \pm \) 0.010	& 0.687	\( \pm \) 0.027	& 0.405	\( \pm \) 0.020	& 0.509	\( \pm \) 0.022	\\ \hline
+	false & false & true & true & 0.620	\( \pm \) 0.011	& 0.650	\( \pm \) 0.033	& 0.283	\( \pm \) 0.020	& 0.394	\( \pm \) 0.025	\\ \hline
+	false & false & true & false & 0.618	\( \pm \) 0.011	& 0.653	\( \pm \) 0.034	& 0.270	\( \pm \) 0.017	& 0.382	\( \pm \) 0.022	\\ \hline
+	false & false & false & true & 0.600	\( \pm \) 0.010	& 0.646	\( \pm \) 0.047	& 0.190	\( \pm \) 0.011	& 0.293	\( \pm \) 0.017	\\ \hline
+	false & false & false & false & 0.598	\( \pm \) 0.010	& 0.648	\( \pm \) 0.051	& 0.183	\( \pm \) 0.011	& 0.284	\( \pm \) 0.015	\\ \hline
+	\end{tabular}
+	\caption{SVMLibLinear(L1R\_LR,0.125,0.001)}
+	\label{tab:revpol}
+\end{table}
+\clearpage
+\begin{table}[h]
+	\centering
+	\begin{tabular}{|l|l|l|l|l|l|l|l|} % cols: (left, center, right)
+	\hline
+	Demographics & Groups & Traits & Conversation & Accuracy & Precision & Recall & F-Score \\ \hline
+	true & true & true & true & 0.438	\( \pm \) 0.010	& 0.438	\( \pm \) 0.010	& 1.000	\( \pm \) 0.000	& 0.609	\( \pm \) 0.010	\\ \hline
+	true & true & true & false & 0.438	\( \pm \) 0.010	& 0.438	\( \pm \) 0.010	& 1.000	\( \pm \) 0.000	& 0.609	\( \pm \) 0.010	\\ \hline
+	true & true & false & true & 0.438	\( \pm \) 0.010	& 0.438	\( \pm \) 0.010	& 1.000	\( \pm \) 0.000	& 0.609	\( \pm \) 0.010	\\ \hline
+	true & true & false & false & 0.438	\( \pm \) 0.010	& 0.438	\( \pm \) 0.010	& 1.000	\( \pm \) 0.000	& 0.609	\( \pm \) 0.010	\\ \hline
+	true & false & true & true & 0.436	\( \pm \) 0.011	& 0.437	\( \pm \) 0.011	& 0.995	\( \pm \) 0.003	& 0.607	\( \pm \) 0.011	\\ \hline
+	true & false & true & false & 0.436	\( \pm \) 0.011	& 0.437	\( \pm \) 0.011	& 0.993	\( \pm \) 0.003	& 0.607	\( \pm \) 0.011	\\ \hline
+	true & false & false & true & 0.436	\( \pm \) 0.011	& 0.437	\( \pm \) 0.011	& 0.995	\( \pm \) 0.003	& 0.607	\( \pm \) 0.011	\\ \hline
+	true & false & false & false & 0.436	\( \pm \) 0.011	& 0.437	\( \pm \) 0.011	& 0.993	\( \pm \) 0.003	& 0.607	\( \pm \) 0.011	\\ \hline
+	false & true & true & true & 0.467	\( \pm \) 0.015	& 0.445	\( \pm \) 0.014	& 0.878	\( \pm \) 0.013	& 0.590	\( \pm \) 0.014	\\ \hline
+	false & true & true & false & 0.470	\( \pm \) 0.018	& 0.444	\( \pm \) 0.016	& 0.835	\( \pm \) 0.017	& 0.580	\( \pm \) 0.017	\\ \hline
+	false & true & false & true & 0.467	\( \pm \) 0.015	& 0.445	\( \pm \) 0.014	& 0.878	\( \pm \) 0.013	& 0.590	\( \pm \) 0.014	\\ \hline
+	false & true & false & false & 0.471	\( \pm \) 0.020	& 0.444	\( \pm \) 0.018	& 0.827	\( \pm \) 0.020	& 0.578	\( \pm \) 0.019	\\ \hline
+	false & false & true & true & 0.593	\( \pm \) 0.015	& 0.536	\( \pm \) 0.028	& 0.508	\( \pm \) 0.023	& 0.521	\( \pm \) 0.025	\\ \hline
+	false & false & true & false & 0.617	\( \pm \) 0.008	& 0.618	\( \pm \) 0.028	& 0.325	\( \pm \) 0.018	& 0.426	\( \pm \) 0.021	\\ \hline
+	false & false & false & true & 0.593	\( \pm \) 0.015	& 0.536	\( \pm \) 0.028	& 0.507	\( \pm \) 0.023	& 0.521	\( \pm \) 0.025	\\ \hline
+	false & false & false & false & 0.599	\( \pm \) 0.010	& 0.640	\( \pm \) 0.045	& 0.194	\( \pm \) 0.010	& 0.298	\( \pm \) 0.016	\\ \hline
+	\end{tabular}
+	\caption{LogisticRegression(L1,2.0,MAX\_ENT)}
+	\label{tab:revpol}
+\end{table}
+\begin{table}[h]
+	\centering
+	\begin{tabular}{|l|l|l|l|l|l|l|l|} % cols: (left, center, right)
+	\hline
+	Demographics & Groups & Traits & Conversation & Accuracy & Precision & Recall & F-Score \\ \hline
+	true & true & true & true & 0.663	\( \pm \) 0.011	& 0.671	\( \pm \) 0.030	& 0.451	\( \pm \) 0.019	& 0.539	\( \pm \) 0.021	\\ \hline
+	true & true & true & false & 0.664	\( \pm \) 0.011	& 0.674	\( \pm \) 0.031	& 0.450	\( \pm \) 0.019	& 0.539	\( \pm \) 0.022	\\ \hline
+	true & true & false & true & 0.661	\( \pm \) 0.011	& 0.668	\( \pm \) 0.030	& 0.446	\( \pm \) 0.021	& 0.534	\( \pm \) 0.023	\\ \hline
+	true & true & false & false & 0.663	\( \pm \) 0.011	& 0.672	\( \pm \) 0.030	& 0.446	\( \pm \) 0.020	& 0.536	\( \pm \) 0.022	\\ \hline
+	true & false & true & true & 0.620	\( \pm \) 0.009	& 0.649	\( \pm \) 0.032	& 0.283	\( \pm \) 0.021	& 0.394	\( \pm \) 0.025	\\ \hline
+	true & false & true & false & 0.620	\( \pm \) 0.009	& 0.650	\( \pm \) 0.032	& 0.283	\( \pm \) 0.021	& 0.394	\( \pm \) 0.025	\\ \hline
+	true & false & false & true & 0.603	\( \pm \) 0.010	& 0.581	\( \pm \) 0.036	& 0.341	\( \pm \) 0.015	& 0.429	\( \pm \) 0.019	\\ \hline
+	true & false & false & false & 0.610	\( \pm \) 0.011	& 0.598	\( \pm \) 0.039	& 0.335	\( \pm \) 0.016	& 0.429	\( \pm \) 0.021	\\ \hline
+	false & true & true & true & 0.660	\( \pm \) 0.012	& 0.675	\( \pm \) 0.032	& 0.430	\( \pm \) 0.021	& 0.525	\( \pm \) 0.023	\\ \hline
+	false & true & true & false & 0.661	\( \pm \) 0.012	& 0.681	\( \pm \) 0.033	& 0.423	\( \pm \) 0.017	& 0.521	\( \pm \) 0.021	\\ \hline
+	false & true & false & true & 0.656	\( \pm \) 0.011	& 0.666	\( \pm \) 0.030	& 0.428	\( \pm \) 0.020	& 0.521	\( \pm \) 0.023	\\ \hline
+	false & true & false & false & 0.657	\( \pm \) 0.010	& 0.674	\( \pm \) 0.029	& 0.419	\( \pm \) 0.017	& 0.516	\( \pm \) 0.020	\\ \hline
+	false & false & true & true & 0.618	\( \pm \) 0.013	& 0.649	\( \pm \) 0.036	& 0.276	\( \pm \) 0.025	& 0.386	\( \pm \) 0.031	\\ \hline
+	false & false & true & false & 0.618	\( \pm \) 0.012	& 0.659	\( \pm \) 0.035	& 0.259	\( \pm \) 0.024	& 0.371	\( \pm \) 0.029	\\ \hline
+	false & false & false & true & 0.600	\( \pm \) 0.009	& 0.655	\( \pm \) 0.045	& 0.184	\( \pm \) 0.011	& 0.287	\( \pm \) 0.016	\\ \hline
+	false & false & false & false & 0.597	\( \pm \) 0.009	& 0.654	\( \pm \) 0.050	& 0.175	\( \pm \) 0.012	& 0.276	\( \pm \) 0.016	\\ \hline
+	\end{tabular}
+	\caption{SVMLibLinear(L2R\_L2LOSS\_SVC,0.125,0.001)}
+	\label{tab:revpol}
+\end{table}
+\clearpage
+\begin{table}[h]
+	\centering
+	\begin{tabular}{|l|l|l|l|l|l|l|l|} % cols: (left, center, right)
+	\hline
+	Demographics & Groups & Traits & Conversation & Accuracy & Precision & Recall & F-Score \\ \hline
+	true & true & true & true & 0.656	\( \pm \) 0.010	& 0.667	\( \pm \) 0.030	& 0.428	\( \pm \) 0.016	& 0.521	\( \pm \) 0.020	\\ \hline
+	true & true & true & false & 0.657	\( \pm \) 0.010	& 0.671	\( \pm \) 0.029	& 0.424	\( \pm \) 0.018	& 0.520	\( \pm \) 0.020	\\ \hline
+	true & true & false & true & 0.657	\( \pm \) 0.011	& 0.668	\( \pm \) 0.029	& 0.429	\( \pm \) 0.018	& 0.522	\( \pm \) 0.021	\\ \hline
+	true & true & false & false & 0.655	\( \pm \) 0.012	& 0.666	\( \pm \) 0.034	& 0.425	\( \pm \) 0.018	& 0.518	\( \pm \) 0.023	\\ \hline
+	true & false & true & true & 0.619	\( \pm \) 0.010	& 0.647	\( \pm \) 0.033	& 0.283	\( \pm \) 0.023	& 0.394	\( \pm \) 0.027	\\ \hline
+	true & false & true & false & 0.619	\( \pm \) 0.010	& 0.646	\( \pm \) 0.031	& 0.284	\( \pm \) 0.023	& 0.394	\( \pm \) 0.026	\\ \hline
+	true & false & false & true & 0.602	\( \pm \) 0.011	& 0.579	\( \pm \) 0.037	& 0.337	\( \pm \) 0.016	& 0.426	\( \pm \) 0.020	\\ \hline
+	true & false & false & false & 0.608	\( \pm \) 0.011	& 0.595	\( \pm \) 0.040	& 0.331	\( \pm \) 0.016	& 0.424	\( \pm \) 0.021	\\ \hline
+	false & true & true & true & 0.657	\( \pm \) 0.011	& 0.672	\( \pm \) 0.032	& 0.422	\( \pm \) 0.017	& 0.518	\( \pm \) 0.021	\\ \hline
+	false & true & true & false & 0.661	\( \pm \) 0.011	& 0.684	\( \pm \) 0.030	& 0.417	\( \pm \) 0.019	& 0.518	\( \pm \) 0.021	\\ \hline
+	false & true & false & true & 0.656	\( \pm \) 0.012	& 0.664	\( \pm \) 0.031	& 0.433	\( \pm \) 0.022	& 0.524	\( \pm \) 0.024	\\ \hline
+	false & true & false & false & 0.658	\( \pm \) 0.011	& 0.680	\( \pm \) 0.031	& 0.414	\( \pm \) 0.018	& 0.514	\( \pm \) 0.021	\\ \hline
+	false & false & true & true & 0.620	\( \pm \) 0.012	& 0.649	\( \pm \) 0.034	& 0.281	\( \pm \) 0.022	& 0.392	\( \pm \) 0.027	\\ \hline
+	false & false & true & false & 0.617	\( \pm \) 0.012	& 0.652	\( \pm \) 0.034	& 0.267	\( \pm \) 0.021	& 0.378	\( \pm \) 0.026	\\ \hline
+	false & false & false & true & 0.600	\( \pm \) 0.010	& 0.652	\( \pm \) 0.047	& 0.188	\( \pm \) 0.011	& 0.291	\( \pm \) 0.016	\\ \hline
+	false & false & false & false & 0.597	\( \pm \) 0.010	& 0.658	\( \pm \) 0.056	& 0.173	\( \pm \) 0.010	& 0.273	\( \pm \) 0.012	\\ \hline
+	\end{tabular}
+	\caption{SVMLibLinear(L2R\_LR,0.125,0.001)}
+	\label{tab:revpol}
+\end{table}
+\begin{table}[h]
+	\centering
+	\begin{tabular}{|l|l|l|l|l|l|l|l|} % cols: (left, center, right)
+	\hline
+	Demographics & Groups & Traits & Conversation & Accuracy & Precision & Recall & F-Score \\ \hline
+	true & true & true & true & 0.562	\( \pm \) 0.010	& 0.000 \( \pm \) 0.000 & 0.000	\( \pm \) 0.000	& 0.000 \( \pm \) 0.000 \\ \hline
+	true & true & true & false & 0.562	\( \pm \) 0.010	& 0.000 \( \pm \) 0.000 & 0.000	\( \pm \) 0.000	& 0.000 \( \pm \) 0.000 \\ \hline
+	true & true & false & true & 0.562	\( \pm \) 0.010	& 0.000 \( \pm \) 0.000 & 0.000	\( \pm \) 0.000	& 0.000 \( \pm \) 0.000 \\ \hline
+	true & true & false & false & 0.562	\( \pm \) 0.010	& 0.000 \( \pm \) 0.000 & 0.000	\( \pm \) 0.000	& 0.000 \( \pm \) 0.000 \\ \hline
+	true & false & true & true & 0.562	\( \pm \) 0.010	& 0.000 \( \pm \) 0.000 & 0.000	\( \pm \) 0.000	& 0.000 \( \pm \) 0.000 \\ \hline
+	true & false & true & false & 0.562	\( \pm \) 0.010	& 0.000 \( \pm \) 0.000 & 0.000	\( \pm \) 0.000	& 0.000 \( \pm \) 0.000 \\ \hline
+	true & false & false & true & 0.562	\( \pm \) 0.010	& 0.000 \( \pm \) 0.000 & 0.000	\( \pm \) 0.000	& 0.000 \( \pm \) 0.000 \\ \hline
+	true & false & false & false & 0.562	\( \pm \) 0.010	& 0.000 \( \pm \) 0.000 & 0.000	\( \pm \) 0.000	& 0.000 \( \pm \) 0.000 \\ \hline
+	false & true & true & true & 0.562	\( \pm \) 0.010	& 0.000 \( \pm \) 0.000 & 0.000	\( \pm \) 0.000	& 0.000 \( \pm \) 0.000 \\ \hline
+	false & true & true & false & 0.562	\( \pm \) 0.010	& 0.000 \( \pm \) 0.000 & 0.000	\( \pm \) 0.000	& 0.000 \( \pm \) 0.000 \\ \hline
+	false & true & false & true & 0.562	\( \pm \) 0.010	& 0.000 \( \pm \) 0.000 & 0.000	\( \pm \) 0.000	& 0.000 \( \pm \) 0.000 \\ \hline
+	false & true & false & false & 0.562	\( \pm \) 0.010	& 0.000 \( \pm \) 0.000 & 0.000	\( \pm \) 0.000	& 0.000 \( \pm \) 0.000 \\ \hline
+	false & false & true & true & 0.562	\( \pm \) 0.010	& 0.000 \( \pm \) 0.000 & 0.000	\( \pm \) 0.000	& 0.000 \( \pm \) 0.000 \\ \hline
+	false & false & true & false & 0.562	\( \pm \) 0.010	& 0.000 \( \pm \) 0.000 & 0.000	\( \pm \) 0.000	& 0.000 \( \pm \) 0.000 \\ \hline
+	false & false & false & true & 0.562	\( \pm \) 0.010	& 0.000 \( \pm \) 0.000 & 0.000	\( \pm \) 0.000	& 0.000 \( \pm \) 0.000 \\ \hline
+	false & false & false & false & 0.562	\( \pm \) 0.010	& 0.000 \( \pm \) 0.000 & 0.000	\( \pm \) 0.000	& 0.000 \( \pm \) 0.000 \\ \hline
+	\end{tabular}
+	\caption{ConstantPredictor(false)}
+	\label{tab:revpol}
+\end{table}
+\clearpage
+\begin{table}[h]
+	\centering
+	\begin{tabular}{|l|l|l|l|l|l|l|l|} % cols: (left, center, right)
+	\hline
+	Demographics & Groups & Traits & Conversation & Accuracy & Precision & Recall & F-Score \\ \hline
+	true & true & true & true & 0.661	\( \pm \) 0.012	& 0.671	\( \pm \) 0.031	& 0.440	\( \pm \) 0.026	& 0.531	\( \pm \) 0.024	\\ \hline
+	true & true & true & false & 0.660	\( \pm \) 0.013	& 0.672	\( \pm \) 0.034	& 0.439	\( \pm \) 0.025	& 0.530	\( \pm \) 0.025	\\ \hline
+	true & true & false & true & 0.661	\( \pm \) 0.012	& 0.668	\( \pm \) 0.033	& 0.446	\( \pm \) 0.019	& 0.535	\( \pm \) 0.022	\\ \hline
+	true & true & false & false & 0.660	\( \pm \) 0.012	& 0.668	\( \pm \) 0.034	& 0.446	\( \pm \) 0.019	& 0.534	\( \pm \) 0.022	\\ \hline
+	true & false & true & true & 0.620	\( \pm \) 0.011	& 0.654	\( \pm \) 0.037	& 0.275	\( \pm \) 0.023	& 0.387	\( \pm \) 0.029	\\ \hline
+	true & false & true & false & 0.620	\( \pm \) 0.011	& 0.654	\( \pm \) 0.037	& 0.274	\( \pm \) 0.023	& 0.386	\( \pm \) 0.029	\\ \hline
+	true & false & false & true & 0.607	\( \pm \) 0.011	& 0.597	\( \pm \) 0.039	& 0.324	\( \pm \) 0.015	& 0.419	\( \pm \) 0.019	\\ \hline
+	true & false & false & false & 0.608	\( \pm \) 0.010	& 0.599	\( \pm \) 0.039	& 0.323	\( \pm \) 0.015	& 0.419	\( \pm \) 0.020	\\ \hline
+	false & true & true & true & 0.656	\( \pm \) 0.010	& 0.663	\( \pm \) 0.026	& 0.438	\( \pm \) 0.022	& 0.526	\( \pm \) 0.018	\\ \hline
+	false & true & true & false & 0.656	\( \pm \) 0.009	& 0.663	\( \pm \) 0.026	& 0.437	\( \pm \) 0.017	& 0.527	\( \pm \) 0.017	\\ \hline
+	false & true & false & true & 0.655	\( \pm \) 0.009	& 0.643	\( \pm \) 0.019	& 0.476	\( \pm \) 0.017	& 0.547	\( \pm \) 0.014	\\ \hline
+	false & true & false & false & 0.658	\( \pm \) 0.009	& 0.672	\( \pm \) 0.025	& 0.426	\( \pm \) 0.018	& 0.521	\( \pm \) 0.018	\\ \hline
+	false & false & true & true & 0.618	\( \pm \) 0.012	& 0.647	\( \pm \) 0.035	& 0.274	\( \pm \) 0.026	& 0.385	\( \pm \) 0.030	\\ \hline
+	false & false & true & false & 0.618	\( \pm \) 0.010	& 0.638	\( \pm \) 0.031	& 0.289	\( \pm \) 0.025	& 0.397	\( \pm \) 0.029	\\ \hline
+	false & false & false & true & 0.592	\( \pm \) 0.012	& 0.638	\( \pm \) 0.063	& 0.204	\( \pm \) 0.062	& 0.296	\( \pm \) 0.041	\\ \hline
+	false & false & false & false & 0.598	\( \pm \) 0.008	& 0.650	\( \pm \) 0.047	& 0.179	\( \pm \) 0.012	& 0.280	\( \pm \) 0.016	\\ \hline
+	\end{tabular}
+	\caption{LogisticRegression(L2,2.0)}
+	\label{tab:revpol}
+\end{table}
+\begin{table}[h]
+	\centering
+	\begin{tabular}{|l|l|l|l|l|l|l|l|} % cols: (left, center, right)
+	\hline
+	Demographics & Groups & Traits & Conversation & Accuracy & Precision & Recall & F-Score \\ \hline
+	true & true & true & true & 0.438	\( \pm \) 0.010	& 0.438	\( \pm \) 0.010	& 1.000	\( \pm \) 0.000	& 0.609	\( \pm \) 0.010	\\ \hline
+	true & true & true & false & 0.438	\( \pm \) 0.010	& 0.438	\( \pm \) 0.010	& 1.000	\( \pm \) 0.000	& 0.609	\( \pm \) 0.010	\\ \hline
+	true & true & false & true & 0.438	\( \pm \) 0.010	& 0.438	\( \pm \) 0.010	& 1.000	\( \pm \) 0.000	& 0.609	\( \pm \) 0.010	\\ \hline
+	true & true & false & false & 0.438	\( \pm \) 0.010	& 0.438	\( \pm \) 0.010	& 1.000	\( \pm \) 0.000	& 0.609	\( \pm \) 0.010	\\ \hline
+	true & false & true & true & 0.438	\( \pm \) 0.010	& 0.438	\( \pm \) 0.010	& 1.000	\( \pm \) 0.000	& 0.609	\( \pm \) 0.010	\\ \hline
+	true & false & true & false & 0.438	\( \pm \) 0.010	& 0.438	\( \pm \) 0.010	& 1.000	\( \pm \) 0.000	& 0.609	\( \pm \) 0.010	\\ \hline
+	true & false & false & true & 0.438	\( \pm \) 0.010	& 0.438	\( \pm \) 0.010	& 1.000	\( \pm \) 0.000	& 0.609	\( \pm \) 0.010	\\ \hline
+	true & false & false & false & 0.438	\( \pm \) 0.010	& 0.438	\( \pm \) 0.010	& 1.000	\( \pm \) 0.000	& 0.609	\( \pm \) 0.010	\\ \hline
+	false & true & true & true & 0.438	\( \pm \) 0.010	& 0.438	\( \pm \) 0.010	& 1.000	\( \pm \) 0.000	& 0.609	\( \pm \) 0.010	\\ \hline
+	false & true & true & false & 0.438	\( \pm \) 0.010	& 0.438	\( \pm \) 0.010	& 1.000	\( \pm \) 0.000	& 0.609	\( \pm \) 0.010	\\ \hline
+	false & true & false & true & 0.438	\( \pm \) 0.010	& 0.438	\( \pm \) 0.010	& 1.000	\( \pm \) 0.000	& 0.609	\( \pm \) 0.010	\\ \hline
+	false & true & false & false & 0.438	\( \pm \) 0.010	& 0.438	\( \pm \) 0.010	& 1.000	\( \pm \) 0.000	& 0.609	\( \pm \) 0.010	\\ \hline
+	false & false & true & true & 0.438	\( \pm \) 0.010	& 0.438	\( \pm \) 0.010	& 1.000	\( \pm \) 0.000	& 0.609	\( \pm \) 0.010	\\ \hline
+	false & false & true & false & 0.438	\( \pm \) 0.010	& 0.438	\( \pm \) 0.010	& 1.000	\( \pm \) 0.000	& 0.609	\( \pm \) 0.010	\\ \hline
+	false & false & false & true & 0.438	\( \pm \) 0.010	& 0.438	\( \pm \) 0.010	& 1.000	\( \pm \) 0.000	& 0.609	\( \pm \) 0.010	\\ \hline
+	false & false & false & false & 0.438	\( \pm \) 0.010	& 0.438	\( \pm \) 0.010	& 1.000	\( \pm \) 0.000	& 0.609	\( \pm \) 0.010	\\ \hline
+	\end{tabular}
+	\caption{ConstantPredictor(true)}
+	\label{tab:revpol}
+\end{table}
+\clearpage
+\begin{table}[h]
+	\centering
+	\begin{tabular}{|l|l|l|l|l|l|l|l|} % cols: (left, center, right)
+	\hline
+	Demographics & Groups & Traits & Conversation & Accuracy & Precision & Recall & F-Score \\ \hline
+	true & true & true & true & 0.662	\( \pm \) 0.010	& 0.677	\( \pm \) 0.029	& 0.436	\( \pm \) 0.018	& 0.530	\( \pm \) 0.021	\\ \hline
+	true & true & true & false & 0.662	\( \pm \) 0.010	& 0.678	\( \pm \) 0.030	& 0.432	\( \pm \) 0.017	& 0.527	\( \pm \) 0.020	\\ \hline
+	true & true & false & true & 0.660	\( \pm \) 0.013	& 0.673	\( \pm \) 0.033	& 0.434	\( \pm \) 0.020	& 0.528	\( \pm \) 0.024	\\ \hline
+	true & true & false & false & 0.661	\( \pm \) 0.011	& 0.676	\( \pm \) 0.032	& 0.433	\( \pm \) 0.016	& 0.528	\( \pm \) 0.021	\\ \hline
+	true & false & true & true & 0.619	\( \pm \) 0.011	& 0.647	\( \pm \) 0.031	& 0.281	\( \pm \) 0.023	& 0.392	\( \pm \) 0.027	\\ \hline
+	true & false & true & false & 0.618	\( \pm \) 0.010	& 0.647	\( \pm \) 0.030	& 0.279	\( \pm \) 0.022	& 0.389	\( \pm \) 0.026	\\ \hline
+	true & false & false & true & 0.603	\( \pm \) 0.012	& 0.582	\( \pm \) 0.040	& 0.337	\( \pm \) 0.014	& 0.426	\( \pm \) 0.020	\\ \hline
+	true & false & false & false & 0.608	\( \pm \) 0.011	& 0.594	\( \pm \) 0.039	& 0.331	\( \pm \) 0.018	& 0.425	\( \pm \) 0.022	\\ \hline
+	false & true & true & true & 0.658	\( \pm \) 0.012	& 0.675	\( \pm \) 0.034	& 0.422	\( \pm \) 0.018	& 0.519	\( \pm \) 0.022	\\ \hline
+	false & true & true & false & 0.660	\( \pm \) 0.010	& 0.683	\( \pm \) 0.028	& 0.414	\( \pm \) 0.018	& 0.515	\( \pm \) 0.021	\\ \hline
+	false & true & false & true & 0.656	\( \pm \) 0.011	& 0.669	\( \pm \) 0.034	& 0.423	\( \pm \) 0.017	& 0.518	\( \pm \) 0.021	\\ \hline
+	false & true & false & false & 0.657	\( \pm \) 0.009	& 0.680	\( \pm \) 0.028	& 0.409	\( \pm \) 0.014	& 0.511	\( \pm \) 0.017	\\ \hline
+	false & false & true & true & 0.619	\( \pm \) 0.012	& 0.651	\( \pm \) 0.032	& 0.277	\( \pm \) 0.021	& 0.389	\( \pm \) 0.025	\\ \hline
+	false & false & true & false & 0.617	\( \pm \) 0.013	& 0.654	\( \pm \) 0.038	& 0.261	\( \pm \) 0.022	& 0.373	\( \pm \) 0.028	\\ \hline
+	false & false & false & true & 0.599	\( \pm \) 0.009	& 0.649	\( \pm \) 0.048	& 0.187	\( \pm \) 0.011	& 0.290	\( \pm \) 0.016	\\ \hline
+	false & false & false & false & 0.598	\( \pm \) 0.009	& 0.653	\( \pm \) 0.050	& 0.179	\( \pm \) 0.012	& 0.280	\( \pm \) 0.016	\\ \hline
+	\end{tabular}
+	\caption{SVMLibLinear(L1R\_L2LOSS\_SVC,0.125,0.001)}
+	\label{tab:revpol}
+\end{table}
+\begin{table}[h]
+	\centering
+	\begin{tabular}{|l|l|l|l|l|l|l|l|} % cols: (left, center, right)
+	\hline
+	Demographics & Groups & Traits & Conversation & Accuracy & Precision & Recall & F-Score \\ \hline
+	true & true & true & true & 0.652	\( \pm \) 0.007	& 0.702	\( \pm \) 0.032	& 0.356	\( \pm \) 0.010	& 0.472	\( \pm \) 0.013	\\ \hline
+	true & true & true & false & 0.652	\( \pm \) 0.007	& 0.703	\( \pm \) 0.032	& 0.355	\( \pm \) 0.011	& 0.471	\( \pm \) 0.014	\\ \hline
+	true & true & false & true & 0.651	\( \pm \) 0.009	& 0.700	\( \pm \) 0.036	& 0.357	\( \pm \) 0.011	& 0.473	\( \pm \) 0.014	\\ \hline
+	true & true & false & false & 0.651	\( \pm \) 0.009	& 0.699	\( \pm \) 0.035	& 0.357	\( \pm \) 0.011	& 0.472	\( \pm \) 0.015	\\ \hline
+	true & false & true & true & 0.616	\( \pm \) 0.009	& 0.686	\( \pm \) 0.032	& 0.224	\( \pm \) 0.020	& 0.337	\( \pm \) 0.026	\\ \hline
+	true & false & true & false & 0.616	\( \pm \) 0.009	& 0.687	\( \pm \) 0.031	& 0.224	\( \pm \) 0.020	& 0.338	\( \pm \) 0.026	\\ \hline
+	true & false & false & true & 0.604	\( \pm \) 0.008	& 0.586	\( \pm \) 0.046	& 0.343	\( \pm \) 0.029	& 0.430	\( \pm \) 0.024	\\ \hline
+	true & false & false & false & 0.604	\( \pm \) 0.008	& 0.587	\( \pm \) 0.048	& 0.342	\( \pm \) 0.029	& 0.429	\( \pm \) 0.024	\\ \hline
+	false & true & true & true & 0.650	\( \pm \) 0.007	& 0.702	\( \pm \) 0.034	& 0.351	\( \pm \) 0.011	& 0.468	\( \pm \) 0.014	\\ \hline
+	false & true & true & false & 0.651	\( \pm \) 0.007	& 0.703	\( \pm \) 0.033	& 0.353	\( \pm \) 0.011	& 0.469	\( \pm \) 0.013	\\ \hline
+	false & true & false & true & 0.651	\( \pm \) 0.008	& 0.702	\( \pm \) 0.035	& 0.354	\( \pm \) 0.011	& 0.470	\( \pm \) 0.014	\\ \hline
+	false & true & false & false & 0.651	\( \pm \) 0.008	& 0.701	\( \pm \) 0.036	& 0.354	\( \pm \) 0.011	& 0.470	\( \pm \) 0.014	\\ \hline
+	false & false & true & true & 0.616	\( \pm \) 0.009	& 0.686	\( \pm \) 0.032	& 0.223	\( \pm \) 0.020	& 0.336	\( \pm \) 0.026	\\ \hline
+	false & false & true & false & 0.616	\( \pm \) 0.009	& 0.686	\( \pm \) 0.032	& 0.223	\( \pm \) 0.020	& 0.336	\( \pm \) 0.026	\\ \hline
+	false & false & false & true & 0.593	\( \pm \) 0.014	& 0.632	\( \pm \) 0.064	& 0.212	\( \pm \) 0.060	& 0.306	\( \pm \) 0.041	\\ \hline
+	false & false & false & false & 0.599	\( \pm \) 0.011	& 0.645	\( \pm \) 0.049	& 0.186	\( \pm \) 0.012	& 0.289	\( \pm \) 0.018	\\ \hline
+	\end{tabular}
+	\caption{SVMLibSVM(0.125,0.1)}
+	\label{tab:revpol}
+\end{table}
+\clearpage
+\begin{table}[h]
+	\centering
+	\begin{tabular}{|l|l|l|l|l|l|l|l|} % cols: (left, center, right)
+	\hline
+	Demographics & Groups & Traits & Conversation & Accuracy & Precision & Recall & F-Score \\ \hline
+	true & true & true & true & 0.591	\( \pm \) 0.019	& 0.594	\( \pm \) 0.021	& 0.345	\( \pm \) 0.052	& 0.410	\( \pm \) 0.019	\\ \hline
+	true & true & true & false & 0.591	\( \pm \) 0.019	& 0.594	\( \pm \) 0.021	& 0.345	\( \pm \) 0.052	& 0.410	\( \pm \) 0.019	\\ \hline
+	true & true & false & true & 0.591	\( \pm \) 0.019	& 0.594	\( \pm \) 0.021	& 0.345	\( \pm \) 0.052	& 0.410	\( \pm \) 0.019	\\ \hline
+	true & true & false & false & 0.591	\( \pm \) 0.019	& 0.594	\( \pm \) 0.021	& 0.345	\( \pm \) 0.052	& 0.410	\( \pm \) 0.019	\\ \hline
+	true & false & true & true & 0.591	\( \pm \) 0.019	& 0.594	\( \pm \) 0.021	& 0.345	\( \pm \) 0.052	& 0.410	\( \pm \) 0.019	\\ \hline
+	true & false & true & false & 0.591	\( \pm \) 0.019	& 0.594	\( \pm \) 0.021	& 0.345	\( \pm \) 0.052	& 0.410	\( \pm \) 0.019	\\ \hline
+	true & false & false & true & 0.591	\( \pm \) 0.019	& 0.594	\( \pm \) 0.021	& 0.345	\( \pm \) 0.052	& 0.410	\( \pm \) 0.019	\\ \hline
+	true & false & false & false & 0.591	\( \pm \) 0.019	& 0.594	\( \pm \) 0.021	& 0.345	\( \pm \) 0.052	& 0.410	\( \pm \) 0.019	\\ \hline
+	false & true & true & true & 0.591	\( \pm \) 0.019	& 0.594	\( \pm \) 0.021	& 0.345	\( \pm \) 0.052	& 0.410	\( \pm \) 0.019	\\ \hline
+	false & true & true & false & 0.591	\( \pm \) 0.019	& 0.594	\( \pm \) 0.021	& 0.345	\( \pm \) 0.052	& 0.410	\( \pm \) 0.019	\\ \hline
+	false & true & false & true & 0.591	\( \pm \) 0.019	& 0.594	\( \pm \) 0.021	& 0.345	\( \pm \) 0.052	& 0.410	\( \pm \) 0.019	\\ \hline
+	false & true & false & false & 0.591	\( \pm \) 0.019	& 0.594	\( \pm \) 0.021	& 0.345	\( \pm \) 0.052	& 0.410	\( \pm \) 0.019	\\ \hline
+	false & false & true & true & 0.591	\( \pm \) 0.019	& 0.594	\( \pm \) 0.021	& 0.345	\( \pm \) 0.052	& 0.410	\( \pm \) 0.019	\\ \hline
+	false & false & true & false & 0.591	\( \pm \) 0.019	& 0.594	\( \pm \) 0.021	& 0.345	\( \pm \) 0.052	& 0.410	\( \pm \) 0.019	\\ \hline
+	false & false & false & true & 0.591	\( \pm \) 0.019	& 0.594	\( \pm \) 0.021	& 0.345	\( \pm \) 0.052	& 0.410	\( \pm \) 0.019	\\ \hline
+	false & false & false & false & 0.591	\( \pm \) 0.019	& 0.594	\( \pm \) 0.021	& 0.345	\( \pm \) 0.052	& 0.410	\( \pm \) 0.019	\\ \hline
+	\end{tabular}
+	\caption{SocialRecommender(social2)}
+	\label{tab:revpol}
+\end{table}
+
+
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "thesis"
+%%% End: 

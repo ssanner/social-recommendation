@@ -1,0 +1,721 @@
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.4.13)  12 SEP 2012 22:19
+entering extended mode
+ %&-line parsing enabled.
+**thesis.tex
+(./thesis.tex
+LaTeX2e <2009/09/24>
+Babel <v3.8l> and hyphenation patterns for english, usenglishmax, dumylang, noh
+yphenation, loaded.
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}{/usr/share/texmf-texlive/fo
+nts/map/dvips/tetex/mathpple.map}
+(/usr/share/texmf-texlive/tex/latex/base/book.cls
+Document Class: book 2007/10/19 v1.4h Standard LaTeX document class
+(/usr/share/texmf-texlive/tex/latex/base/bk11.clo
+File: bk11.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@chapter=\count80
+\c@section=\count81
+\c@subsection=\count82
+\c@subsubsection=\count83
+\c@paragraph=\count84
+\c@subparagraph=\count85
+\c@figure=\count86
+\c@table=\count87
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+) (./anuthesis.sty
+Package: anuthesis 2005/04/04 v0.2 ANU Thesis Style (SB/RW)
+
+(/usr/share/texmf-texlive/tex/latex/base/ifthen.sty
+Package: ifthen 2001/05/26 v1.1c Standard LaTeX ifthen package (DPC)
+)
+(/usr/share/texmf-texlive/tex/latex/psnfss/mathpple.sty
+Package: mathpple 2005/04/12 PSNFSS-v9.2a Palatino w/ Math (WaS) 
+
+
+Package mathpple Warning: This package is to be regarded as obsolete.
+(mathpple)                See the PSNFSS documentation.
+
+) (/usr/share/texmf-texlive/tex/latex/psnfss/palatino.sty
+Package: palatino 2005/04/12 PSNFSS-v9.2a (SPQR) 
+)
+\tqfootlen=\skip43
+
+(/usr/share/texmf-texlive/tex/latex/setspace/setspace.sty
+Package: setspace 2000/12/01 6.7 Contributed and Supported LaTeX2e package
+
+Package: `setspace' 6.7 <2000/12/01>
+)) (/usr/share/texmf-texlive/tex/latex/graphics/graphicx.sty
+Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texmf-texlive/tex/latex/graphics/keyval.sty
+Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
+\KV@toks@=\toks14
+)
+(/usr/share/texmf-texlive/tex/latex/graphics/graphics.sty
+Package: graphics 2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texmf-texlive/tex/latex/graphics/trig.sty
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
+)
+(/etc/texmf/tex/latex/config/graphics.cfg
+File: graphics.cfg 2009/08/28 v1.8 graphics configuration of TeX Live
+)
+Package graphics Info: Driver file: pdftex.def on input line 91.
+
+(/usr/share/texmf-texlive/tex/latex/pdftex-def/pdftex.def
+File: pdftex.def 2009/08/25 v0.04m Graphics/color for pdfTeX
+\Gread@gobject=\count88
+))
+\Gin@req@height=\dimen103
+\Gin@req@width=\dimen104
+) (./thesis.sty
+(/usr/share/texmf-texlive/tex/latex/tools/xspace.sty
+Package: xspace 2006/05/08 v1.12 Space after command names (DPC,MH)
+))
+(/usr/share/texmf-texlive/tex/latex/base/makeidx.sty
+Package: makeidx 2000/03/29 v1.0m Standard LaTeX package
+)
+(/home/neut/texmf/tex/generic/misc/acmnew-xref.sty
+Using author/year ACM bibliography style
+\bibindent=\dimen105
+) (/usr/share/texmf-texlive/tex/latex/amsmath/amsmath.sty
+Package: amsmath 2000/07/18 v2.13 AMS math features
+\@mathmargin=\skip44
+
+For additional information on amsmath, use the `?' option.
+(/usr/share/texmf-texlive/tex/latex/amsmath/amstext.sty
+Package: amstext 2000/06/29 v2.01
+
+(/usr/share/texmf-texlive/tex/latex/amsmath/amsgen.sty
+File: amsgen.sty 1999/11/30 v2.0
+\@emptytoks=\toks15
+\ex@=\dimen106
+))
+(/usr/share/texmf-texlive/tex/latex/amsmath/amsbsy.sty
+Package: amsbsy 1999/11/29 v1.2d
+\pmbraise@=\dimen107
+)
+(/usr/share/texmf-texlive/tex/latex/amsmath/amsopn.sty
+Package: amsopn 1999/12/14 v2.01 operator names
+)
+\inf@bad=\count89
+LaTeX Info: Redefining \frac on input line 211.
+\uproot@=\count90
+\leftroot@=\count91
+LaTeX Info: Redefining \overline on input line 307.
+\classnum@=\count92
+\DOTSCASE@=\count93
+LaTeX Info: Redefining \ldots on input line 379.
+LaTeX Info: Redefining \dots on input line 382.
+LaTeX Info: Redefining \cdots on input line 467.
+\Mathstrutbox@=\box26
+\strutbox@=\box27
+\big@size=\dimen108
+LaTeX Font Info:    Redeclaring font encoding OML on input line 567.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 568.
+\macc@depth=\count94
+\c@MaxMatrixCols=\count95
+\dotsspace@=\muskip10
+\c@parentequation=\count96
+\dspbrk@lvl=\count97
+\tag@help=\toks16
+\row@=\count98
+\column@=\count99
+\maxfields@=\count100
+\andhelp@=\toks17
+\eqnshift@=\dimen109
+\alignsep@=\dimen110
+\tagshift@=\dimen111
+\tagwidth@=\dimen112
+\totwidth@=\dimen113
+\lineht@=\dimen114
+\@envbody=\toks18
+\multlinegap=\skip45
+\multlinetaggap=\skip46
+\mathdisplay@stack=\toks19
+LaTeX Info: Redefining \[ on input line 2666.
+LaTeX Info: Redefining \] on input line 2667.
+)
+\@indexfile=\write3
+\openout3 = `thesis.idx'.
+
+
+Writing index file thesis.idx
+(./thesis.aux
+
+LaTeX Warning: Label `sec:notation' multiply defined.
+
+
+LaTeX Warning: Label `tab:revpol' multiply defined.
+
+
+LaTeX Warning: Label `tab:revpol' multiply defined.
+
+
+LaTeX Warning: Label `tab:revpol' multiply defined.
+
+
+LaTeX Warning: Label `tab:revpol' multiply defined.
+
+
+LaTeX Warning: Label `tab:revpol' multiply defined.
+
+
+LaTeX Warning: Label `sec:groups' multiply defined.
+
+
+LaTeX Warning: Label `tab:revpol' multiply defined.
+
+
+LaTeX Warning: Label `tab:revpol' multiply defined.
+
+
+LaTeX Warning: Label `tab:revpol' multiply defined.
+
+
+LaTeX Warning: Label `tab:revpol' multiply defined.
+
+
+LaTeX Warning: Label `tab:revpol' multiply defined.
+
+
+LaTeX Warning: Label `tab:revpol' multiply defined.
+
+
+LaTeX Warning: Label `tab:revpol' multiply defined.
+
+
+LaTeX Warning: Label `tab:revpol' multiply defined.
+
+
+LaTeX Warning: Label `tab:revpol' multiply defined.
+
+
+LaTeX Warning: Label `tab:revpol' multiply defined.
+
+
+LaTeX Warning: Label `tab:revpol' multiply defined.
+
+
+LaTeX Warning: Label `tab:revpol' multiply defined.
+
+
+LaTeX Warning: Label `tab:revpol' multiply defined.
+
+
+LaTeX Warning: Label `tab:revpol' multiply defined.
+
+
+LaTeX Warning: Label `tab:revpol' multiply defined.
+
+
+LaTeX Warning: Label `tab:revpol' multiply defined.
+
+
+LaTeX Warning: Label `tab:revpol' multiply defined.
+
+
+LaTeX Warning: Label `tab:revpol' multiply defined.
+
+
+LaTeX Warning: Label `tab:revpol' multiply defined.
+
+
+LaTeX Warning: Label `tab:revpol' multiply defined.
+
+
+LaTeX Warning: Label `tab:revpol' multiply defined.
+
+
+LaTeX Warning: Label `tab:revpol' multiply defined.
+
+
+LaTeX Warning: Label `tab:revpol' multiply defined.
+
+
+LaTeX Warning: Label `tab:revpol' multiply defined.
+
+
+LaTeX Warning: Label `tab:revpol' multiply defined.
+
+
+LaTeX Warning: Label `tab:revpol' multiply defined.
+
+
+LaTeX Warning: Label `tab:revpol' multiply defined.
+
+
+LaTeX Warning: Label `tab:revpol' multiply defined.
+
+
+LaTeX Warning: Label `tab:revpol' multiply defined.
+
+
+LaTeX Warning: Label `tab:revpol' multiply defined.
+
+)
+\openout1 = `thesis.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
+LaTeX Font Info:    Try loading font information for OT1+ppl on input line 22.
+ (/usr/share/texmf-texlive/tex/latex/psnfss/ot1ppl.fd
+File: ot1ppl.fd 2001/06/04 font definitions for OT1/ppl.
+)
+(/usr/share/texmf-texlive/tex/context/base/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count101
+\scratchdimen=\dimen115
+\scratchbox=\box28
+\nofMPsegments=\count102
+\nofMParguments=\count103
+\everyMPshowfont=\toks20
+\MPscratchCnt=\count104
+\MPscratchDim=\dimen116
+\MPnumerator=\count105
+\everyMPtoPDFconversion=\toks21
+) (./titlepage.tex
+LaTeX Font Info:    Font shape `OT1/ppl/bx/n' in size <24.88> not available
+(Font)              Font shape `OT1/ppl/b/n' tried instead on input line 12.
+LaTeX Font Info:    Font shape `OT1/ppl/bx/n' in size <20.74> not available
+(Font)              Font shape `OT1/ppl/b/n' tried instead on input line 14.
+ [1
+
+
+]) (./frontmatter.tex
+LaTeX Font Info:    Try loading font information for OMS+ppl on input line 8.
+
+(/usr/share/texmf-texlive/tex/latex/psnfss/omsppl.fd
+File: omsppl.fd 
+)
+LaTeX Font Info:    Font shape `OMS/ppl/m/n' in size <10.95> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 8.
+LaTeX Font Info:    Try loading font information for OT1+zpple on input line 13
+.
+
+(/usr/share/texmf-texlive/tex/latex/psnfss/ot1zpple.fd
+File: ot1zpple.fd 1999/12/20 Fontinst v1.801 font definitions for OT1/zpple.
+)
+LaTeX Font Info:    Try loading font information for OML+zpple on input line 13
+.
+
+(/usr/share/texmf-texlive/tex/latex/psnfss/omlzpple.fd
+File: omlzpple.fd 1999/12/20 Fontinst v1.801 font definitions for OML/zpple.
+)
+LaTeX Font Info:    Try loading font information for OMS+zpple on input line 13
+.
+
+(/usr/share/texmf-texlive/tex/latex/psnfss/omszpple.fd
+File: omszpple.fd 1999/12/20 Fontinst v1.801 font definitions for OMS/zpple.
+)
+LaTeX Font Info:    Try loading font information for OMX+zpple on input line 13
+.
+
+(/usr/share/texmf-texlive/tex/latex/psnfss/omxzpple.fd
+File: omxzpple.fd 1999/12/20 Fontinst v1.801 font definitions for OMX/zpple.
+) [2]) [3] [4
+
+]
+(./abstract.tex)
+LaTeX Font Info:    Font shape `OT1/ppl/bx/n' in size <10.95> not available
+(Font)              Font shape `OT1/ppl/b/n' tried instead on input line 54.
+LaTeX Font Info:    Font shape `OT1/ppl/bx/n' in size <10> not available
+(Font)              Font shape `OT1/ppl/b/n' tried instead on input line 54.
+ [5
+
+] [6
+
+] (./thesis.toc [7
+
+])
+\tf@toc=\write4
+\openout4 = `thesis.toc'.
+
+ [8] (./intro.tex
+Chapter 1.
+LaTeX Font Info:    Font shape `OT1/ppl/bx/n' in size <12> not available
+(Font)              Font shape `OT1/ppl/b/n' tried instead on input line 5.
+LaTeX Font Info:    Font shape `OT1/ppl/bx/n' in size <14.4> not available
+(Font)              Font shape `OT1/ppl/b/n' tried instead on input line 8.
+
+Overfull \hbox (5.0021pt too wide) in paragraph at lines 28--31
+[]\OT1/ppl/m/n/10.95 The four main in-ter-ac-tions be-tween users are posts (po
+st-ing an el-e-ment on a friends'
+ []
+
+[1
+
+
+] [2]) (./background.tex [3
+
+] [4
+
+]
+Chapter 2.
+<imgs/alters.pdf, id=45, 457.71pt x 270.00874pt>
+File: imgs/alters.pdf Graphic file (type pdf)
+ <use imgs/alters.pdf> [5 <./imgs/alters.pdf>]
+Underfull \vbox (badness 5787) has occurred while \output is active []
+
+ [6]
+[7]) (./interactionsVGroups.tex [8]
+Chapter 3.
+[9
+
+] [10
+
+] [11
+
+]
+Overfull \hbox (66.5769pt too wide) in paragraph at lines 125--161
+ [][] 
+ []
+
+[12
+
+]
+Missing character: There is no Ï in font pplr7t!
+Missing character: There is no ƒ in font pplr7t!
+Missing character: There is no Ï in font pplr7t!
+Missing character: There is no … in font pplr7t!
+Missing character: There is no Î in font pplr7t!
+Missing character: There is no · in font pplr7t!
+Missing character: There is no Î in font pplr7t!
+Missing character: There is no ¹ in font pplr7t!
+Missing character: There is no Ñ in font pplr7t!
+Missing character: There is no • in font pplr7t!
+Missing character: There is no Ñ in font pplr7t!
+Missing character: There is no ‚ in font pplr7t!
+Missing character: There is no Î in font pplr7t!
+Missing character: There is no ± in font pplr7t!
+Missing character: There is no Î in font pplr7t!
+Missing character: There is no · in font pplr7t!
+Missing character: There is no ã in font pplr7t!
+Missing character: There is no ƒ in font pplr7t!
+Missing character: There is no „ in font pplr7t!
+Missing character: There is no â in font pplr7t!
+Missing character: There is no „ in font pplr7t!
+Missing character: There is no ¢ in font pplr7t!
+
+Overfull \hbox (144.87946pt too wide) in paragraph at lines 171--200
+ [][] 
+ []
+
+[13
+
+]
+Overfull \hbox (905.25847pt too wide) in paragraph at lines 236--255
+ [][] 
+ []
+
+
+Overfull \hbox (2.08049pt too wide) in paragraph at lines 211--257
+[][] [] 
+ []
+
+
+Overfull \hbox (200.13031pt too wide) in paragraph at lines 260--279
+ [][] 
+ []
+
+
+Overfull \hbox (2.08049pt too wide) in paragraph at lines 258--304
+[][] [] 
+ []
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+Missing character: There is no Ã in font pplr7t!
+Missing character: There is no ƒ in font pplr7t!
+Missing character: There is no Â in font pplr7t!
+Missing character: There is no ¡ in font pplr7t!
+
+Overfull \hbox (130.01907pt too wide) in paragraph at lines 311--330
+ [][] 
+ []
+
+Missing character: There is no Ã in font pplr7t!
+Missing character: There is no ƒ in font pplr7t!
+Missing character: There is no Â in font pplr7t!
+Missing character: There is no   in font pplr7t!
+
+Overfull \hbox (2.08049pt too wide) in paragraph at lines 309--355
+[][] [] 
+ []
+
+
+Overfull \hbox (62.55627pt too wide) in paragraph at lines 358--377
+ [][] 
+ []
+
+
+Overfull \hbox (158.15955pt too wide) in paragraph at lines 381--400
+ [][] 
+ []
+
+
+Overfull \hbox (2.08049pt too wide) in paragraph at lines 356--402
+[][] [] 
+ []
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+Overfull \hbox (2.08049pt too wide) in paragraph at lines 407--453
+[][] [] 
+ []
+
+
+Overfull \hbox (2.08049pt too wide) in paragraph at lines 454--500
+[][] [] 
+ []
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+Overfull \hbox (103.04906pt too wide) in paragraph at lines 507--526
+ [][] 
+ []
+
+
+Overfull \hbox (63.38866pt too wide) in paragraph at lines 530--549
+ [][] 
+ []
+
+
+Overfull \hbox (2.08049pt too wide) in paragraph at lines 505--551
+[][] [] 
+ []
+
+
+Overfull \hbox (2.08049pt too wide) in paragraph at lines 552--598
+[][] [] 
+ []
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+Overfull \hbox (2.08049pt too wide) in paragraph at lines 603--649
+[][] [] 
+ []
+
+
+Overfull \hbox (2.08049pt too wide) in paragraph at lines 650--696
+[][] [] 
+ []
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[14
+
+] [15] [16] [17] [18] [19]
+Overfull \hbox (2.08049pt too wide) in paragraph at lines 704--797
+[][] [] 
+ []
+
+[20
+
+]
+Overfull \hbox (2.08049pt too wide) in paragraph at lines 804--897
+[][] [] 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [21
+
+]
+[22]
+Overfull \hbox (139.26886pt too wide) in paragraph at lines 908--928
+ [][] 
+ []
+
+
+Overfull \hbox (139.26886pt too wide) in paragraph at lines 933--953
+ [][] 
+ []
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[23
+
+] [24]
+Overfull \hbox (139.26886pt too wide) in paragraph at lines 959--979
+ [][] 
+ []
+
+
+Overfull \hbox (139.26886pt too wide) in paragraph at lines 984--1004
+ [][] 
+ []
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[25
+
+] [26]
+Overfull \hbox (139.26886pt too wide) in paragraph at lines 1010--1030
+ [][] 
+ []
+
+
+Overfull \hbox (139.26886pt too wide) in paragraph at lines 1035--1055
+ [][] 
+ []
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[27
+
+] [28]
+Overfull \hbox (139.26886pt too wide) in paragraph at lines 1061--1081
+ [][] 
+ []
+
+
+Overfull \hbox (139.26886pt too wide) in paragraph at lines 1086--1106
+ [][] 
+ []
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[29
+
+] [30]
+Overfull \hbox (139.26886pt too wide) in paragraph at lines 1112--1132
+ [][] 
+ []
+
+
+Overfull \hbox (139.26886pt too wide) in paragraph at lines 1137--1157
+ [][] 
+ []
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[31
+
+] [32]
+Overfull \hbox (139.26886pt too wide) in paragraph at lines 1163--1183
+ [][] 
+ []
+
+
+Overfull \hbox (139.26886pt too wide) in paragraph at lines 1188--1208
+ [][] 
+ []
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[33
+
+] [34]
+Overfull \hbox (139.26886pt too wide) in paragraph at lines 1214--1234
+ [][] 
+ []
+
+) (./interactionThresholding.tex [35
+
+] [36
+
+]
+Chapter 4.
+[37] [38
+
+] [39
+
+] [40
+
+] [41
+
+]
+<imgs/ConstantPredictor(true).pdf, id=187, 578.16pt x 433.62pt>
+File: imgs/ConstantPredictor(true).pdf Graphic file (type pdf)
+
+<use imgs/ConstantPredictor(true).pdf>
+Overfull \hbox (80.01146pt too wide) in paragraph at lines 257--258
+ [] 
+ []
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[42
+
+] [43 <./imgs/ConstantPredictor(true).pdf>]
+<imgs/TopPerforming.pdf, id=229, 578.16pt x 433.62pt>
+File: imgs/TopPerforming.pdf Graphic file (type pdf)
+
+<use imgs/TopPerforming.pdf>
+Overfull \hbox (80.01146pt too wide) in paragraph at lines 265--266
+ [] 
+ []
+
+[44
+
+ <./imgs/TopPerforming.pdf>]) (./bayesianAvg.tex [45
+
+] [46
+
+]
+Chapter 5.
+) (./conclusion.tex [47] [48
+
+]
+Chapter 6.
+) [49] [50
+
+]
+No file thesis.bbl.
+No file thesis.ind.
+(./thesis.aux)
+
+LaTeX Warning: There were multiply-defined labels.
+
+ ) 
+Here is how much of TeX's memory you used:
+ 2107 strings out of 495061
+ 25563 string characters out of 1182621
+ 137284 words of memory out of 3000000
+ 5201 multiletter control sequences out of 15000+50000
+ 37042 words of font info for 93 fonts, out of 3000000 for 9000
+ 28 hyphenation exceptions out of 8191
+ 27i,9n,21p,280b,254s stack positions out of 5000i,500n,10000p,200000b,50000s
+{/usr/share/texmf-texlive/fonts/enc/dvips/base/8r.enc}</usr/share/texmf-texli
+ve/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-texlive/fonts/typ
+e1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-texlive/fonts/type1/public/a
+msfonts/euler/eurm10.pfb></usr/share/texmf-texlive/fonts/type1/urw/palatino/upl
+b8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/palatino/uplr8a.pfb></usr/sha
+re/texmf-texlive/fonts/type1/urw/palatino/uplr8a.pfb></usr/share/texmf-texlive/
+fonts/type1/urw/palatino/uplri8a.pfb>
+Output written on thesis.pdf (58 pages, 440680 bytes).
+PDF statistics:
+ 330 PDF objects out of 1000 (max. 8388607)
+ 0 named destinations out of 1000 (max. 500000)
+ 16 words of extra memory for PDF output out of 10000 (max. 10000000)
+
