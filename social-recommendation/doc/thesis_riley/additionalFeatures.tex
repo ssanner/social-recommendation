@@ -1,0 +1,336 @@
+%%
+%% Template chap2.tex
+%%
+
+\chapter{Additional Feature Selection}
+\label{cha:addfeatuers}
+
+\section{Introduction}
+\label{sec:AFintro}
+
+\section{Demographics Data}
+\label{sec:demo}
+
+Gender breakdown in the data set:
+
+% select count(*), lu.gender from linkrUser lu where lu.uid in (SELECT distinct uid FROM trackRecommendedLinks) group by gender;
+
+\begin{table}[!htbp]
+\centering
+	\begin{tabular}{|c|c|c|} % cols: (left, center, right)
+		\hline
+		\textbf{Male} & \textbf{Female} & \textbf{Undisclosed}  \\ \hline
+		85 & 33 & 1 \\ \hline
+	\end{tabular}
+	\caption{Gender breakdown}
+	\label{tab:revpol}
+\end{table}
+\clearpage
+
+Birthday breakdown in the data set:
+
+% select count(*), right(lu.birthday,4) from linkrUser lu where lu.uid in (SELECT distinct uid FROM trackRecommendedLinks) group by right(lu.birthday,4);
+\begin{table}[!htbp]
+\centering
+	\begin{tabular}{|l|c|} % cols: (left, center, right)
+		\hline
+		\textbf{Year} & \textbf{Frequency}  \\ \hline
+		Undisclosed & 1 \\ \hline
+		1901-1905 & 1 \\ \hline
+		1906-1910 & 0 \\ \hline
+		1911-1915 & 1 \\ \hline
+		1916-1920 & 0 \\ \hline
+		1921-1925 & 0 \\ \hline
+		1926-1930 & 0 \\ \hline
+		1931-1935 & 0 \\ \hline
+		1936-1940 & 1 \\ \hline
+		1941-1945 & 0 \\ \hline
+		1946-1950 & 0 \\ \hline
+		1951-1955 & 0 \\ \hline
+		1956-1960 & 2 \\ \hline
+		1961-1965 & 1 \\ \hline
+		1966-1970 & 4 \\ \hline
+		1971-1975 & 10 \\ \hline
+		1976-1980 & 12 \\ \hline
+		1981-1985 & 25 \\ \hline
+		1986-1990 & 34 \\ \hline
+		1991-1995 & 25 \\ \hline
+		1996-2000 & 2 \\ \hline
+	\end{tabular}
+	\caption{Birthday breakdown}
+	\label{tab:revpol}
+\end{table}
+
+%select ll.name, count(*) from linkrUser lu join linkrLocation ll on lu.uid in (SELECT distinct uid FROM trackRecommendedLinks) and lu.location_id = ll.id group by lu.location_id;
+\clearpage
+
+Location breakdown in the data set:
+
+Not useful.
+
+\begin{table}[!htbp]
+\centering
+	\begin{tabular}{|l|c|} % cols: (left, center, right)
+		\hline
+		\textbf{Location} & \textbf{Frequency}  \\ \hline
+		Undisclosed & 33 \\ \hline
+		Ahmedabad, India & 1 \\ \hline
+		Bangi, Malaysia & 1 \\ \hline
+		Bathurst, New South Wales & 1 \\ \hline
+		Bellevue, Washington & 1 \\ \hline
+		Braddon, Australian Capital Territory, Australia & 1 \\ \hline
+		Brisbane, Queensland, Australia & 2 \\ \hline
+		Canberra, Australian Capital Territory & 56 \\ \hline
+		Culver City, California & 1 \\ \hline
+		Frederick, Maryland & 3 \\ \hline
+		Geelong, Victoria & 1 \\ \hline
+	\end{tabular}
+	\caption{Location breakdown}
+	\label{tab:revpol}
+\end{table}
+
+\clearpage
+
+\section{Groups Data}
+\label{sec:groups}
+
+Additional groups data
+
+\begin{table}[!htbp]
+\centering
+	\begin{tabular}{|l|c|} % cols: (left, center, right)
+		\hline
+		\textbf{Group Name} & \textbf{Frequency}  \\ \hline
+		Undisclosed & 33 \\ \hline
+		Ahmedabad, India & 1 \\ \hline
+		Bangi, Malaysia & 1 \\ \hline
+		Bathurst, New South Wales & 1 \\ \hline
+		Bellevue, Washington & 1 \\ \hline
+		Braddon, Australian Capital Territory, Australia & 1 \\ \hline
+		Brisbane, Queensland, Australia & 2 \\ \hline
+		Canberra, Australian Capital Territory & 56 \\ \hline
+		Culver City, California & 1 \\ \hline
+		Frederick, Maryland & 3 \\ \hline
+		Geelong, Victoria & 1 \\ \hline
+	\end{tabular}
+	\caption{App users groups breakdown}
+	\label{tab:revpol}
+\end{table}
+
+\clearpage
+\section{Conversation Data}
+\label{sec:groups}
+
+\clearpage
+\begin{table}[!htbp]
+\begin{minipage}[b]{.5\textwidth}
+	\centering
+	\begin{tabular}{|c|c|c|} % cols: (left, center, right)
+		\hline
+		\textbf{Rank} & \textbf{Word} & \textbf{Frequency}  \\ \hline
+		1 & :) & 292,733 \\ \hline
+		2 & like & 198,289 \\ \hline
+		3 & good & 164,387 \\ \hline
+		4 & thanks & 159,238 \\ \hline
+		5 & one & 156,696 \\ \hline
+		6 & love & 139,939 \\ \hline
+		7 & :p & 121,904 \\ \hline
+		8 & time & 106,995 \\ \hline
+		9 & think & 106,459 \\ \hline
+		10 & see & 103,690 \\ \hline
+		11 & nice & 99,672 \\ \hline
+		12 & now & 94,947 \\ \hline
+		13 & well & 92,735 \\ \hline
+		14 & happy & 84,381 \\ \hline
+		15 & :d & 83,698 \\ \hline
+		16 & much & 78,719 \\ \hline
+		17 & oh & 77,321 \\ \hline
+		18 & yeah & 76,564 \\ \hline
+		19 & back & 76,032 \\ \hline
+		20 & great & 70,514 \\ \hline
+		21 & going & 70,447 \\ \hline
+		22 & still & 68,245 \\ \hline
+		23 & new & 67,430 \\ \hline
+		24 & day & 65,579 \\ \hline
+		25 & come & 63,837 \\ \hline
+		26 & ;) & 62,936 \\ \hline
+		27 & year & 61,771 \\ \hline
+		28 & look & 60,608 \\ \hline
+		29 & yes & 59,774 \\ \hline
+		30 & want & 59,514 \\ \hline
+		31 & tag & 58,633 \\ \hline
+		32 & hahaha & 57,448 \\ \hline
+		33 & also & 56,414 \\ \hline
+		34 & need & 55,921 \\ \hline
+		35 & make & 54,949 \\ \hline
+		36 & sure & 54,395 \\ \hline
+		37 & thank & 54,112 \\ \hline
+		38 & people & 53,211 \\ \hline
+		39 & miss & 53,182 \\ \hline
+		40 & guys & 52,855 \\ \hline
+		\end{tabular}
+\end{minipage}
+\begin{minipage}[b]{.5\textwidth}
+\centering
+\begin{tabular}{|c|c|c|} % cols: (left, center, right)
+		\hline
+		41 & right & 52,112 \\ \hline
+		42 & best & 51,941 \\ \hline
+		43 & awesome & 51,663 \\ \hline
+		44 & hope & 50,980 \\ \hline
+		45 & 2 & 50,720 \\ \hline
+		46 & next & 50,375 \\ \hline
+		47 & work & 49,459 \\ \hline
+		48 & way & 49,358 \\ \hline
+		49 & man & 49,101 \\ \hline
+		50 & :( & 48,184 \\ \hline
+		51 & <3 & 47,985 \\ \hline
+		52 & even & 47,480 \\ \hline
+		53 & 4 & 46,068 \\ \hline
+		54 & us & 45,919 \\ \hline
+		55 & pretty & 44,804 \\ \hline
+		56 & hey & 44,614 \\ \hline
+		57 & say & 44,315 \\ \hline
+		58 & better & 43,357 \\ \hline
+		59 & thanx & 42,639 \\ \hline
+		60 & bro & 41,187 \\ \hline
+		61 & take & 41,081 \\ \hline
+		62 & always & 40,457 \\ \hline
+		63 & wow & 40,452 \\ \hline
+		64 & pic & 40,185 \\ \hline
+		65 & though & 40,032 \\ \hline
+		66 & actually & 39,565 \\ \hline
+		67 & last & 39,175 \\ \hline
+		68 & thats & 38,833 \\ \hline
+		69 & cool & 37,844 \\ \hline
+		70 & dear & 37,328 \\ \hline
+		71 & ok & 36,441 \\ \hline
+		72 & sorry & 36,345 \\ \hline
+		73 & never & 36,000 \\ \hline
+		74 & thing & 35,941 \\ \hline
+		75 & first & 35,785 \\ \hline
+		76 & looks & 35,496 \\ \hline
+		77 & night & 35,475 \\ \hline
+		78 & thought & 34,458 \\ \hline
+		79 & photo & 33,989 \\ \hline
+		80 & \& & 33,902 \\ \hline
+	\end{tabular}
+\end{minipage}
+	\caption{Top conversation content data for all users}
+	\label{tab:revpol}
+\end{table}
+
+
+\clearpage
+\begin{table}[!htbp]
+\begin{minipage}[b]{.5\textwidth}
+	\centering
+	\begin{tabular}{|c|c|c|} % cols: (left, center, right)
+		\hline
+		\textbf{Rank} & \textbf{Word} & \textbf{Frequency}  \\ \hline
+		1 & like & 1,720 \\ \hline
+		2 & :) & 1,647 \\ \hline
+		3 & one & 1,452 \\ \hline
+		4 & :p & 1,261 \\ \hline
+		5 & good & 1,220 \\ \hline
+		6 & think & 1,192 \\ \hline
+		7 & now & 948 \\ \hline
+		8 & well & 876 \\ \hline
+		9 & see & 854 \\ \hline
+		10 & time & 848 \\ \hline
+		11 & people & 822 \\ \hline
+		12 & also & 755 \\ \hline
+		13 & thanks & 704 \\ \hline
+		14 & much & 698 \\ \hline
+		15 & :d & 696 \\ \hline
+		16 & love & 690 \\ \hline 
+		17 & still & 675 \\ \hline
+		18 & yeah & 608 \\ \hline
+		19 & oh & 604 \\ \hline
+		20 & back & 594 \\ \hline
+		21 & going & 588 \\ \hline
+		22 & want & 584 \\ \hline
+		23 & actually & 564 \\ \hline
+		24 & need & 554 \\ \hline
+		25 & sure & 551 \\ \hline
+		26 & though & 551 \\ \hline
+		27 & make & 541 \\ \hline
+		28 & way & 512 \\ \hline
+		29 & even & 505 \\ \hline
+		30 & yes & 478 \\ \hline
+		31 & pretty & 473 \\ \hline
+		32 & look & 463 \\ \hline
+		33 & work & 459 \\ \hline
+		34 & nice & 455 \\ \hline
+		35 & right & 448 \\ \hline
+		36 & awesome & 445 \\ \hline
+		37 & better & 439 \\ \hline
+		38 & year & 435 \\ \hline
+		39 & happy & 434 \\ \hline
+		40 & new & 419 \\ \hline
+		\end{tabular}
+\end{minipage}
+\begin{minipage}[b]{.5\textwidth}
+\centering
+\begin{tabular}{|c|c|c|} % cols: (left, center, right)
+		\hline
+		41 & day & 417 \\ \hline
+		42 & great & 407 \\ \hline
+		43 & us & 402 \\ \hline
+		44 & come & 400 \\ \hline
+		45 & say & 395 \\ \hline
+		46 & thing & 378 \\ \hline
+		47 & first & 366 \\ \hline
+		48 & next & 352 \\ \hline
+		49 & man & 345 \\ \hline
+		50 & best & 344 \\ \hline
+		51 & take & 344 \\ \hline
+		52 & never & 341 \\ \hline
+		53 & said & 336 \\ \hline
+		54 & thought & 336 \\ \hline
+		55 & last & 333 \\ \hline
+		56 & many & 331 \\ \hline
+		57 & things & 325 \\ \hline
+		58 & use & 321 \\ \hline
+		59 & cool & 315 \\ \hline
+		60 & guys & 313 \\ \hline
+		61 & little & 308 \\ \hline
+		62 & hope & 306 \\ \hline
+		63 & ;) & 304 \\ \hline
+		64 & bit & 304 \\ \hline
+		65 & :( & 300 \\ \hline
+		66 & 2 & 299 \\ \hline
+		67 & may & 294 \\ \hline
+		68 & looks & 293 \\ \hline
+		69 & always & 292 \\ \hline
+		70 & course & 288 \\ \hline
+		71 & probably & 288 \\ \hline
+		72 & read & 288 \\ \hline
+		73 & wow & 287 \\ \hline
+		74 & long & 273 \\ \hline
+		75 & stuff & 273 \\ \hline
+		76 & might & 264 \\ \hline
+		77 & bad & 261 \\ \hline
+		78 & maybe & 261 \\ \hline
+		79 & fun & 258 \\ \hline
+		80 & hey & 256 \\ \hline
+	\end{tabular}
+\end{minipage}
+	\caption{Top conversation content data for application users}
+	\label{tab:revpol}
+\end{table}
+
+
+
+
+
+
+
+
+\section{Conclusion}
+\label{sec:AFconc}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "thesis"
+%%% End: 

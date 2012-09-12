@@ -1,0 +1,99 @@
+%%
+%% Template thesis.tex
+%%
+\pdfmapfile{=mathpple.map}
+\documentclass[11pt]{book}
+\usepackage[palatino]{anuthesis}
+\usepackage{graphicx}
+\usepackage{thesis}
+\usepackage{makeidx}
+\usepackage{acmnew-xref}
+\usepackage{amsmath}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Preamble
+\title{Interaction filtering - A novel approach to social recommendation}
+\author{Riley Kidd}
+\date{\today}
+
+\renewcommand{\thepage}{\roman{page}}
+
+\makeindex
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Title page
+\pagestyle{empty}
+\thispagestyle{empty}
+\input titlepage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Here begin the preliminaries
+\input frontmatter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Dedication (optional)
+%\cleardoublepage
+%\pagestyle{empty}
+%\input dedication
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Acknowledgements (optional!)
+%\cleardoublepage
+%\pagestyle{empty}
+%\input ack
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Abstract
+\cleardoublepage
+\pagestyle{headings}
+\input abstract
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Table of contents
+\cleardoublepage
+\pagestyle{headings}
+\markboth{Contents}{Contents}
+\tableofcontents
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Here begins the main text
+\mainmatter
+
+%% Introduction
+\input intro
+\input background
+
+%% Chapters
+%\input chap1
+%\input chap2
+
+%\input featureSelection
+%\input additionalFeatures
+
+\input interactionsVGroups
+\input interactionThresholding
+
+\input bayesianAvg
+
+%% Conclusion
+\input conclusion
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Here begins the end matter
+
+%\input appendix
+
+\backmatter
+
+\bibliographystyle{acmnew-xref}
+\bibliography{thesis}
+
+\printindex
+
+\end{document}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "thesis"
+%%% End: 
