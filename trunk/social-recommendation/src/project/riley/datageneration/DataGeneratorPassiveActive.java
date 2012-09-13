@@ -56,7 +56,10 @@ public class DataGeneratorPassiveActive {
 	public static Set<Long> usersSeen = new HashSet<Long>();
 	public static Set<Long> linksSeen = new HashSet<Long>();
 	public static int stepSize = 1000;
+	
 	public static int topGroupsN = 1000;
+	public static int topWordsN = 1000;
+	public static int wordsMention = 10;
 
 	/*
 	 * Generate data for accurately labeled data from NICTA app
@@ -65,7 +68,7 @@ public class DataGeneratorPassiveActive {
 
 	public static void populateCachedData(boolean active_likes) throws Exception {
 
-		topNWords = PredictiveWords.getTopN(5);
+		topNWords = PredictiveWords.getTopN(wordsMention);
 		// For all uids in the DB, get their set of LINK likes 
 		_uid2all_passive_linkids_likes = UserUtil.getLikes(ELikeType.LINK);
 
@@ -294,7 +297,6 @@ public class DataGeneratorPassiveActive {
 	public static String[] demographics_types = new String[]{"isMale","isFemale","sameGender","sameBirthRange","sameLocale"};
 	public static String[] group_types = new String[]{"sameGroupMembership"};
 	public static String[] user_traits = {"linkrActivities", "linkrBooks", "linkrFavoriteAthletes", "linkrFavoriteTeams", "linkrInspirationalPeople", "linkrInterests", "linkrMovies", "linkrMusic", "linkrSports", "linkrTelevision", "linkrSchoolWith", "linkrWorkWith"};
-	public static String[] conversation_types_header = new String[]{"topNWordsSent","topNWordsReceived"};	
 
 	public static void writeHeader(String fileName) throws Exception {
 		System.out.println("Writing to " + fileName);
@@ -323,11 +325,15 @@ public class DataGeneratorPassiveActive {
 
 		for (String trait : user_traits){
 			_writer.println("@attribute 'trait_" + trait +  "' { " + NO + ", " + YES + " }");
+		}   
+		
+		for (int i = 0; i < topWordsN; i++){
+			_writer.println("@attribute 'conversation_incoming_" + topNWords.get(i) +  "' { " + NO + ", " + YES + " }");
 		}
-
-		for (String conversation : conversation_types_header){
-			_writer.println("@attribute 'conversation_" + conversation +  "' { " + NO + ", " + YES + " }");
-		}        
+		
+		for (int i = 0; i < topWordsN; i++){
+			_writer.println("@attribute 'conversation_outgoing_" + topNWords.get(i) +  "' { " + NO + ", " + YES + " }");
+		}
 
 		_writer.println("@data");
 	}
@@ -600,146 +606,20 @@ public class DataGeneratorPassiveActive {
 	 */
 
 	public static void extractMessagesHack() throws Exception{
-
 		System.out.println("\t -> Extracting messages data");
-
-		for (Long uid : UserInfoHack.getSeenIncoming()){
-			if (additionalUserFeatures.get(uid) != null)
-				additionalUserFeatures.get(uid).receivedMention = true;
-		}
-
-		for (Long uid : UserInfoHack.getSeenOutgoing()){
-			if (additionalUserFeatures.get(uid) != null)
-				additionalUserFeatures.get(uid).sentMention = true;
-		}		
+		UserInfoHack.getMessageInfo();
 	}
-
-	public static String[] conversation_types = {"linkrLinkComments","linkrPhotoComments","linkrPostComments","linkrVideoComments"};
-	public static void extractMessages() throws Exception{
-		Statement statement = SQLUtil.getStatement();
-		ResultSet result = null;
-
-		HashSet<Long> incomingSeen = new HashSet<Long>();
-		HashSet<Long> outgoingSeen = new HashSet<Long>();
-
-		HashMap<Long,ArrayList<String>> incomingMessages = new HashMap<Long,ArrayList<String>>();	// messages incoming
-		HashMap<Long,ArrayList<String>> outgoingMessages = new HashMap<Long,ArrayList<String>>();	// messages outgoing
-		UserStruct us;
-		long uid;
-
-		System.out.println("\t -> Extracting messages data");
-
-		PredictiveWords.buildMessagesDictionary(false);		
-
-		// extract messages info for user
-		for (String table : conversation_types){			
-
-			int limit = 0;		
-			int count = getCount("select count(*) from " + table + " where uid in (" + usersToGet + ");");
-
-			while (limit <= (count-1)){		
-				result = statement.executeQuery("select uid, message from " + table + " where uid in (" + usersToGet + ")  limit " + limit + "," + (limit+stepSize) + ";"); 	// incoming
-				while (result.next()){														
-					uid = result.getLong(1);
-
-					if (incomingSeen.contains(uid))
-						continue;
-
-					ArrayList<String> messages = incomingMessages.get(uid);
-					if (messages == null)
-						messages = new ArrayList<String>();
-
-					messages.add(result.getString(2));
-					incomingMessages.put(uid, messages);
-				}
-				result.close();
-				limit += stepSize;
-			}
-
-			outer:
-				for (Entry<Long, ArrayList<String>> userMessages : incomingMessages.entrySet()){
-					Long user = userMessages.getKey();
-
-					if (incomingSeen.contains(user)){
-						incomingMessages.put(user, null); // else heap overflow
-						continue;
-					}
-
-					for (String mess : userMessages.getValue()){
-						for (String needle : topNWords){
-							for (String word : mess.split("\\s+")){
-								if (word.equals(needle)){
-									us = additionalUserFeatures.get(user);
-									us.sentMention = true;									
-									incomingSeen.add(user);
-									incomingMessages.put(user, null); // else heap overflow
-									break outer;
-								}
-							}
-						}
-					}
-				}
-
-			limit = 0;		
-			count = getCount("select count(*) from " + table + " where from_id in (" + usersToGet + ");");
-
-			while (limit <= (count-1)){		
-				result = statement.executeQuery("select from_id, message from " + table + " where from_id in (" + usersToGet + ")  limit " + limit + "," + (limit+stepSize) + ";"); 	// putgoing
-				while (result.next()){
-					uid = result.getLong(1);
-
-					if (outgoingSeen.contains(uid))
-						continue;
-
-					ArrayList<String> messages = outgoingMessages.get(uid);
-					if (messages == null)
-						messages = new ArrayList<String>();
-
-					messages.add(result.getString(2));
-					outgoingMessages.put(uid, messages);
-				}
-				result.close();
-				limit += stepSize;
-			}
-
-			outer:
-				for (Entry<Long, ArrayList<String>> userMessages : outgoingMessages.entrySet()){
-					Long user = userMessages.getKey();
-
-					if (outgoingSeen.contains(user)){
-						outgoingMessages.put(user, null); // else heap overflow
-						continue;
-					}
-
-					for (String mess : userMessages.getValue()){
-						for (String needle : topNWords){
-							for (String word : mess.split("\\s+")){
-								if (word.equals(needle)){
-									us = additionalUserFeatures.get(user);
-									us.receivedMention = true;									
-									outgoingSeen.add(user);
-									outgoingMessages.put(user, null); // else heap overflow
-									break outer;
-								}
-							}
-						}
-					}
-				}			
-		}
-		statement.close();
-	}
-
 
 	/*
 	 * build additional columns
 	 */
 
-	public static String additionalUserColumns(long link_id, long uid){
+	public static String additionalUserColumns(long link_id, long uid) throws Exception{
 		StringBuilder results = new StringBuilder();
 
 		// flags 
 		boolean sameGender = false, sameBirthday = false, sameLocale = false, sameGroup = false, 
-				sentMention = false, receivedMention = false, sameActivities = false, sameBooks = false, sameFavoriteAthletes = false, 
+				sameActivities = false, sameBooks = false, sameFavoriteAthletes = false, 
 				sameFavoriteTeams = false, sameInspirationalPeople = false, sameInterests = false, sameMovies = false, 
 				sameMusic = false, sameSports = false, sameTelevision = false, sameSchool = false, sameWork = false;
 
@@ -766,7 +646,7 @@ public class DataGeneratorPassiveActive {
 		HashSet<Long> userTelevision = userInfo.userTraits.get("linkrTelevision");
 		HashSet<Long> userSchoolWith = userInfo.userTraits.get("linkrSchoolWith");
 		HashSet<Long> userWorksWith = userInfo.userTraits.get("linkrWorkWith");
-
+		
 		// likee info
 		Set<Long> usersLiked = additionalLinkFeatures.get(link_id);
 
@@ -778,15 +658,15 @@ public class DataGeneratorPassiveActive {
 
 		HashSet<Long> likeeActivities, likeeBooks, likeeFavoriteAthletes, likeeFavoriteTeams, likeeInspirationalPeople,
 		likeeInterests, likeeMovies, likeeMusic, likeeSports, likeeTelevision, likeeSchoolWith, likeeWorksWith;
-
-		boolean likeeSentMention;
-		boolean likeeReceivedMention;
+		
+		boolean[] likeeWordsOutgoing = null;
+		boolean[] likeeWordsIncoming = null;
 
 		// likee info
 		if (usersLiked != null){ // want at least one person to have liked this
 			for (long likeeID : usersLiked){
 				// flags already all set
-				if (sameGender && sameBirthday && sameLocale && sameGroup && sentMention && receivedMention && 
+				if (sameGender && sameBirthday && sameLocale && sameGroup &&  
 						sameActivities && sameBooks && sameFavoriteAthletes && 
 						sameFavoriteTeams && sameInspirationalPeople && sameInterests && sameMovies && 
 						sameMusic && sameSports && sameTelevision && sameSchool && sameWork){
@@ -817,10 +697,9 @@ public class DataGeneratorPassiveActive {
 				likeeTelevision = likee.userTraits.get("linkrTelevision");
 				likeeSchoolWith = likee.userTraits.get("linkrSchoolWith");
 				likeeWorksWith = likee.userTraits.get("linkrWorkWith");
-
-				likeeSentMention = likee.sentMention;
-				likeeReceivedMention = likee.receivedMention;
-
+				
+				likeeWordsOutgoing = UserInfoHack.getSeenOutgoing().get(likeeID);
+				likeeWordsIncoming = UserInfoHack.getSeenIncoming().get(likeeID);
 
 				// test whether user and likee's have similarities
 				if (!sameGender)
@@ -881,12 +760,6 @@ public class DataGeneratorPassiveActive {
 				if (!sameWork)
 					sameWork = sameTraits(userWorksWith,likeeWorksWith);
 
-				if (!sentMention)
-					sentMention = likeeSentMention;
-
-				if (!receivedMention)
-					receivedMention = likeeReceivedMention;
-
 			}
 		}
 
@@ -919,8 +792,13 @@ public class DataGeneratorPassiveActive {
 		results.append(PRE + (sameWork ? YES : NO));
 
 		//conversation
-		results.append(PRE + ((sentMention ? YES : NO)));							// mentioned top n words in a sent message
-		results.append(PRE + ((receivedMention ? YES : NO)));						// mentioned top n words in a received message
+		for (int i = 0; i < topWordsN; i++){
+			results.append(PRE + (likeeWordsIncoming[i] ? YES : NO));
+		}
+		
+		for (int i = 0; i < topWordsN; i++){
+			results.append(PRE + (likeeWordsOutgoing[i] ? YES : NO));
+		}
 
 		return results.toString();
 	}
@@ -951,10 +829,6 @@ public class DataGeneratorPassiveActive {
 		// user traits
 		HashMap<String, HashSet<Long>> userTraits = new HashMap<String,HashSet<Long>>();
 
-		// conversation content store (whether they have used a top N word)
-		boolean sentMention = false;
-		boolean receivedMention = false;
-
 		public UserStruct(String gender, int birthday, String locale){
 			this.gender = gender;
 			this.birthday = birthday;
@@ -984,9 +858,7 @@ public class DataGeneratorPassiveActive {
 					" \n\tBirthday:" + birthday + 
 					" \n\tLocale:" + locale +
 					" \n\tGroups:" + gp.toString() +
-					" \n\tTraits:" + traits.toString() +
-					" \n\tSent Mention:" + sentMention + 
-					" \n\tReceived Mention:" + receivedMention;
+					" \n\tTraits:" + traits.toString();
 		}
 	}
 
