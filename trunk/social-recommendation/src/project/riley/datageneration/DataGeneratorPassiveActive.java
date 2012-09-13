@@ -455,7 +455,7 @@ public class DataGeneratorPassiveActive {
 
 		statement.close();
 
-		//extractUserFeatures();
+		extractUserFeatures();
 
 	}
 
