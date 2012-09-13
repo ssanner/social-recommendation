@@ -49,7 +49,7 @@ public class ArffData {
 
 	static boolean conversations = true;
 	static int conversations_index_start = traits_index_end;
-	static int conversations_index_end = (conversations_index_start + DataGeneratorPassiveActive.conversation_types_header.length);
+	static int conversations_index_end = (conversations_index_start + DataGeneratorPassiveActive.topWordsN);
 
 	static int threshold = 0;
 	static int groupsSize = 100;

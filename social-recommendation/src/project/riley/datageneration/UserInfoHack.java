@@ -1,13 +1,15 @@
 package project.riley.datageneration;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.StringTokenizer;
 
 import org.nicta.lr.util.SQLUtil;
@@ -17,21 +19,27 @@ import project.ifilter.messagefrequency.PredictiveWords;
 public class UserInfoHack {
 
 	// top n words to test against
-	public static int TOPN = 5;
-	
+	public static int TOPN = DataGeneratorPassiveActive.topWordsN;
+
 	// store messages
 	static String INCOMING_MESSAGES_FILE = "user_messages_incoming.txt";
 	static String OUTGOING_MESSAGES_FILE = "user_messages_outgoing.txt";
 
-	// store users who used top words
-	static HashSet<Long> INCOMING_SEEN = new HashSet<Long>();
-	static HashSet<Long> OUTGOING_SEEN = new HashSet<Long>();
-	
+	// user mentions
+	static Map<Long,boolean[]> INCOMING_WORDS = new HashMap<Long,boolean[]>();
+	static Map<Long,boolean[]> OUTGOING_WORDS = new HashMap<Long,boolean[]>();
+
+	// user info based on words
 	static String INCOMING = "incoming_seen.txt";
 	static String OUTGOING = "outgoing_seen.txt";
 
 	// extract incoming/outgoing messages to corresponding files
 	public static void getMessageInfo() throws Exception{		
+
+		if (new File(OUTGOING_MESSAGES_FILE).exists() && new File(INCOMING_MESSAGES_FILE).exists()){
+			//	System.out.println("Messages file already exists");
+			processMessages();
+		}
 
 		StringBuilder users = new StringBuilder();
 		for (Long user : DataGeneratorPassiveActive.usersSeen){
@@ -90,105 +98,92 @@ public class UserInfoHack {
 		String word;
 		Long uid = 0L;
 		boolean first = true;
+		boolean[] flags = null;
 		ArrayList<String> topNWords = PredictiveWords.getTopN(TOPN);
 
-		outer:
-			while ((message = br.readLine()) != null){			
-				first = true;								
-				StringTokenizer tokens = new StringTokenizer(message);
-				while (tokens.hasMoreTokens()){
-					word = tokens.nextToken().toLowerCase();
-					if (first){
-						try {
-							uid = Long.parseLong(word);
-						} catch (Exception e){ }
-						if (OUTGOING_SEEN.contains(uid))
-							continue outer;
-						first = false;
-					}				
+		while ((message = br.readLine()) != null){				
+			first = true;								
+			StringTokenizer tokens = new StringTokenizer(message);
+			while (tokens.hasMoreTokens()){
+				word = tokens.nextToken().toLowerCase();
+				if (first){
+					try {
+						uid = Long.parseLong(word);
+						flags = (OUTGOING_WORDS.get(uid) == null ? new boolean[TOPN] : OUTGOING_WORDS.get(uid));
+					} catch (Exception e){ }
+					first = false;
+				}				
 
-					for (String needle : topNWords){
-						if (word.equals(needle)){
-							//System.out.println(uid + " " + needle + " " + word);
-							OUTGOING_SEEN.add(uid);
-							continue outer;
-						}
+				for (int i = 0; i < topNWords.size(); i++){
+					if (word.equals(topNWords.get(i))){
+						flags[i] = true;
+						continue;
 					}
-
 				}
-
+				OUTGOING_WORDS.put(uid, flags);
 			}
-		
+		}
+
 		br = new BufferedReader(new FileReader(INCOMING_MESSAGES_FILE));
-		outer:
-			while ((message = br.readLine()) != null){			
-				first = true;								
-				StringTokenizer tokens = new StringTokenizer(message);
-				while (tokens.hasMoreTokens()){
-					word = tokens.nextToken().toLowerCase();
-					if (first){
-						try {
-							uid = Long.parseLong(word);
-						} catch (Exception e){ }
-						if (INCOMING_SEEN.contains(uid))
-							continue outer;
-						first = false;
-					}				
+		while ((message = br.readLine()) != null){			
+			first = true;								
+			StringTokenizer tokens = new StringTokenizer(message);
+			while (tokens.hasMoreTokens()){
+				word = tokens.nextToken().toLowerCase();
+				if (first){
+					try {
+						uid = Long.parseLong(word);
+						flags = (INCOMING_WORDS.get(uid) == null ? new boolean[TOPN] : INCOMING_WORDS.get(uid));
+					} catch (Exception e){ }
+					first = false;
+				}				
 
-					for (String needle : topNWords){
-						if (word.equals(needle)){
-							//System.out.println(uid + " " + needle + " " + word);
-							INCOMING_SEEN.add(uid);
-							continue outer;
-						}
+				for (int i = 0; i < topNWords.size(); i++){
+					if (word.equals(topNWords.get(i))){
+						flags[i] = true;
+						continue;
 					}
-
 				}
-
+				INCOMING_WORDS.put(uid, flags);
 			}
-		
-		writeMessages();
+		}
+
+		//writeMessages();
 	}
 
 	// write users to files
 	public static void writeMessages() throws Exception{
 		PrintWriter writer = new PrintWriter(OUTGOING);
-		for (Long uid : OUTGOING_SEEN)
-			writer.println(uid);
+		for (Entry<Long, boolean[]> ui : OUTGOING_WORDS.entrySet()){
+			writer.print(ui.getKey());
+			for (boolean flag : ui.getValue()){
+				writer.print(" " + flag);
+			}
+		}
+		writer.println();
 		writer.close();
-		
+
 		writer = new PrintWriter(INCOMING);
-		for (Long uid : INCOMING_SEEN)
-			writer.println(uid);
+		for (Entry<Long, boolean[]> ui : INCOMING_WORDS.entrySet()){
+			writer.print(ui.getKey());
+			for (boolean flag : ui.getValue()){
+				writer.print(" " + flag);
+			}
+		}
+		writer.println();
 		writer.close();
 	}
-	
+
 	// users who have said a top n word in an outgiong message
-	public static Set<Long> getSeenOutgoing() throws Exception{
-		HashSet<Long> users = new HashSet<Long>();
-		String message;
-		
-		BufferedReader br = new BufferedReader(new FileReader(OUTGOING));
-		while ((message = br.readLine()) != null){
-			users.add(Long.parseLong(message));
-		}
-		
-		return users;
+	public static Map<Long, boolean[]> getSeenOutgoing() throws Exception{
+		return OUTGOING_WORDS;
 	}
-	
+
 	// users who have said a top n word in an incoming message
-	public static Set<Long> getSeenIncoming() throws Exception{
-		HashSet<Long> users = new HashSet<Long>();
-		String message;
-		
-		BufferedReader br = new BufferedReader(new FileReader(INCOMING));
-		while ((message = br.readLine()) != null){
-			users.add(Long.parseLong(message));
-		}
-		
-		return users;
+	public static Map<Long, boolean[]> getSeenIncoming() throws Exception{
+		return INCOMING_WORDS;
 	}	
-	
+
 	public static void main(String[] args) throws Exception{
 		DataGeneratorPassiveActive.populateCachedData(true);
 		getMessageInfo();
