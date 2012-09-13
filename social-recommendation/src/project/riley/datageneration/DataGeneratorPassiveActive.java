@@ -327,12 +327,12 @@ public class DataGeneratorPassiveActive {
 			_writer.println("@attribute 'trait_" + trait +  "' { " + NO + ", " + YES + " }");
 		}   
 		
-		for (int i = 0; i < topWordsN; i++){
-			_writer.println("@attribute 'conversation_incoming_" + topNWords.get(i) +  "' { " + NO + ", " + YES + " }");
+		for (String word : topNWords){
+			_writer.println("@attribute 'conversation_incoming_" + word +  "' { " + NO + ", " + YES + " }");
 		}
 		
-		for (int i = 0; i < topWordsN; i++){
-			_writer.println("@attribute 'conversation_outgoing_" + topNWords.get(i) +  "' { " + NO + ", " + YES + " }");
+		for (String word : topNWords){
+			_writer.println("@attribute 'conversation_outgoing_" + word +  "' { " + NO + ", " + YES + " }");
 		}
 
 		_writer.println("@data");
