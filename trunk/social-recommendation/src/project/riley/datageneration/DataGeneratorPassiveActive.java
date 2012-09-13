@@ -608,6 +608,16 @@ public class DataGeneratorPassiveActive {
 	public static void extractMessagesHack() throws Exception{
 		System.out.println("\t -> Extracting messages data");
 		UserInfoHack.getMessageInfo();
+		
+		for (Entry<Long, boolean[]> info : UserInfoHack.getSeenIncoming().entrySet()){
+			UserStruct us = additionalUserFeatures.get(info.getKey());
+			us.wordsIncoming = info.getValue();
+		}
+		
+		for (Entry<Long, boolean[]> info : UserInfoHack.getSeenOutgoing().entrySet()){
+			UserStruct us = additionalUserFeatures.get(info.getKey());
+			us.wordsOutgoing = info.getValue();
+		}
 	}
 
 	/*
@@ -623,6 +633,9 @@ public class DataGeneratorPassiveActive {
 				sameFavoriteTeams = false, sameInspirationalPeople = false, sameInterests = false, sameMovies = false, 
 				sameMusic = false, sameSports = false, sameTelevision = false, sameSchool = false, sameWork = false;
 
+		boolean[] wordsOutgoing = new boolean[topWordsN];
+		boolean[] wordsIncoming = new boolean[topWordsN];
+		
 		// user info
 		UserStruct userInfo = additionalUserFeatures.get(uid);
 
@@ -659,9 +672,9 @@ public class DataGeneratorPassiveActive {
 		HashSet<Long> likeeActivities, likeeBooks, likeeFavoriteAthletes, likeeFavoriteTeams, likeeInspirationalPeople,
 		likeeInterests, likeeMovies, likeeMusic, likeeSports, likeeTelevision, likeeSchoolWith, likeeWorksWith;
 		
-		boolean[] likeeWordsOutgoing = null;
-		boolean[] likeeWordsIncoming = null;
-
+		boolean[] likeeWordsOutgoing;
+		boolean[] likeeWordsIncoming;
+		
 		// likee info
 		if (usersLiked != null){ // want at least one person to have liked this
 			for (long likeeID : usersLiked){
@@ -697,10 +710,10 @@ public class DataGeneratorPassiveActive {
 				likeeTelevision = likee.userTraits.get("linkrTelevision");
 				likeeSchoolWith = likee.userTraits.get("linkrSchoolWith");
 				likeeWorksWith = likee.userTraits.get("linkrWorkWith");
-				
-				likeeWordsOutgoing = UserInfoHack.getSeenOutgoing().get(likeeID);
-				likeeWordsIncoming = UserInfoHack.getSeenIncoming().get(likeeID);
 
+				likeeWordsOutgoing = likee.wordsOutgoing;
+				likeeWordsIncoming = likee.wordsIncoming;
+				
 				// test whether user and likee's have similarities
 				if (!sameGender)
 					sameGender = (userGender.equals(likeeGender)) ? true : false;
@@ -760,6 +773,15 @@ public class DataGeneratorPassiveActive {
 				if (!sameWork)
 					sameWork = sameTraits(userWorksWith,likeeWorksWith);
 
+				for (int i = 0; i < wordsOutgoing.length; i++){
+					if (wordsOutgoing[i] == false)
+						wordsOutgoing[i] = likeeWordsOutgoing[i];
+				}
+				
+				for (int i = 0; i < wordsIncoming.length; i++){
+					if (wordsIncoming[i] == false)
+						wordsIncoming[i] = likeeWordsIncoming[i];
+				}
 			}
 		}
 
@@ -793,11 +815,11 @@ public class DataGeneratorPassiveActive {
 
 		//conversation
 		for (int i = 0; i < topWordsN; i++){
-			results.append(PRE + (likeeWordsIncoming[i] ? YES : NO));
+			results.append(PRE + (wordsIncoming[i] ? YES : NO));
 		}
 		
 		for (int i = 0; i < topWordsN; i++){
-			results.append(PRE + (likeeWordsOutgoing[i] ? YES : NO));
+			results.append(PRE + (wordsOutgoing[i] ? YES : NO));
 		}
 
 		return results.toString();
@@ -829,6 +851,10 @@ public class DataGeneratorPassiveActive {
 		// user traits
 		HashMap<String, HashSet<Long>> userTraits = new HashMap<String,HashSet<Long>>();
 
+		// words 
+		boolean[] wordsOutgoing;
+		boolean[] wordsIncoming;
+		
 		public UserStruct(String gender, int birthday, String locale){
 			this.gender = gender;
 			this.birthday = birthday;
