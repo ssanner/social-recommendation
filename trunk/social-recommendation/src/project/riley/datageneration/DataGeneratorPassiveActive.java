@@ -917,8 +917,8 @@ public class DataGeneratorPassiveActive {
 		HashMap<String, HashSet<Long>> userTraits = new HashMap<String,HashSet<Long>>();
 
 		// words 
-		boolean[] wordsOutgoing;
-		boolean[] wordsIncoming;
+		boolean[] wordsOutgoing = new boolean[topWordsN];
+		boolean[] wordsIncoming = new boolean[topWordsN];
 
 		public UserStruct(String gender, int birthday, String locale){
 			this.gender = gender;
