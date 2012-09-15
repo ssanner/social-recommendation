@@ -109,7 +109,7 @@ public class SVMLibSVM extends Predictor {
 
 	public static void main(String[] args) throws Exception{
 		SVMLibSVM svm = new SVMLibSVM(2d, 0.1d);
-		svm.runTests("passive.arff", /* file to use */ 10 /* folds to use */, 0 /* test threshold */, 0 /*groups size*/, new PrintWriter("a.txt") /* file to write */, false, false, false, false);
+		//svm.runTests("passive.arff", /* file to use */ 10 /* folds to use */, 0 /* test threshold */, 0 /*groups size*/, new PrintWriter("a.txt") /* file to write */, false, false, false, false);
 		
 		int index = 0;
 		for (int i : svm._model.nSV){
