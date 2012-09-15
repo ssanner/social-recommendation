@@ -127,7 +127,7 @@ public class LogisticRegression extends Predictor {
 	
 	public static void main(String[] args) throws Exception{
 		LogisticRegression lr = new LogisticRegression(LogisticRegression.PRIOR_TYPE.L2, 2d);
-		lr.runTests("active_all_1000.arff", /* file to use */ 10 /* folds to use */, 0 /* test threshold */, 800 /*groups size*/, new PrintWriter("a.txt") /* file to write */, true, true, true, true);	
+		//lr.runTests("active_all_1000.arff", /* file to use */ 10 /* folds to use */, 0 /* test threshold */, 800 /*groups size*/, new PrintWriter("a.txt") /* file to write */, true, true, true, true);	
 	}
 
 }

@@ -33,11 +33,11 @@ public class SocialRecommender extends Predictor {
 		return "SocialRecommender(" + type + ")";
 	}
 	
-	public void runTests(String source_file, int num_folds, int threshold, int groupSize, PrintWriter writer, boolean demographics, boolean groups, boolean traits, boolean conversations) throws Exception {
+	public void runTests(String source_file, int num_folds, int threshold, int groupsSize, int pagesSize, int messagesSize, PrintWriter writer, boolean demographics, boolean groups, boolean pages, boolean traits, boolean conversations) throws Exception {
 		System.out.println("Running " + getName() + " using " + source_file);
 		writer.println("Running " + getName() + " using " + source_file);
 		LinkRecommenderArff.setType(type);		
-		LinkRecommenderArff.runTests(source_file, num_folds, threshold, groupSize, writer, demographics, groups, traits, conversations);
+		LinkRecommenderArff.runTests(source_file, num_folds, threshold, groupsSize, pagesSize, messagesSize, writer, demographics, groups, pages, traits, conversations);
 	}
 
 }

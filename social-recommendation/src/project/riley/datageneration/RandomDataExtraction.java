@@ -114,7 +114,7 @@ public class RandomDataExtraction {
 	 */
 	public static void getColumnWeights(int display) throws Exception{
 		LogisticRegression lr = new LogisticRegression(LogisticRegression.PRIOR_TYPE.L2, 2d);
-		lr.runTests("passive.arff", /* file to use */ 10 /* folds to use */, 0 /* test threshold */, 800 /*groups size*/, new PrintWriter("a.txt") /* file to write */, true, true, true, true);
+		//lr.runTests("passive.arff", /* file to use */ 10 /* folds to use */, 0 /* test threshold */, 800 /*groups size*/, new PrintWriter("a.txt") /* file to write */, true, true, true, true);
 		
 		System.out.println("Using Predictor " + lr.getName());
 		
@@ -179,7 +179,7 @@ public class RandomDataExtraction {
 	 */
 	static void sortMap(Map<Integer,Double> map, int display) throws Exception{
 		SortedMap sortedData = new TreeMap(new ValueComparer(map));
-		ArffData a = new ArffData("passive.arff",0, 800, true, true, true, true);
+		ArffData a = new ArffData("passive.arff",0, 800, 0, 0, true, true, true, true, true);
 
 		//System.out.println(termWeights);
 		int count = 1;
@@ -202,7 +202,7 @@ public class RandomDataExtraction {
 	
 	public static void main(String[] args) throws Exception {
 		NaiveBayes nb = new NaiveBayes(1.0d);
-		nb.runTests("passive.arff", /* file to use */ 10 /* folds to use */, 0 /* test threshold */, 800 /*groups size*/, new PrintWriter("a.txt") /* file to write */, true, true, true, true);
+		//nb.runTests("passive.arff", /* file to use */ 10 /* folds to use */, 0 /* test threshold */, 800 /*groups size*/, new PrintWriter("a.txt") /* file to write */, true, true, true, true);
 		//System.out.println(nb);
 		//getColumnWeights(50);
 	}

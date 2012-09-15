@@ -19,12 +19,13 @@ public class Launcher {
 	//public final static String DATA_FILE = "passive.arff";
 	public static int threshold = 5;
 	public final static int    NUM_FOLDS = 10;
-	public static int maxGroup = 1000;
-	public static int groupStep = 100;
+	public static int maxSize = 1000;
+	public static int step = 100;
 	public static PrintWriter  writer;
 	public static Predictor[]  predictors;
 	public static boolean DEMOGRAPHICS = false;
 	public static boolean GROUPS = false;
+	public static boolean PAGES = false;
 	public static boolean TRAITS = false;
 	public static boolean CONVERSATION = false;
 
@@ -89,25 +90,6 @@ public class Launcher {
 
 		return predictors;
 	}
-	/*
-	 * launch tests on demographics, group types and conversation conditions
-	 */
-	public void launchConditions() throws Exception{
-		boolean[] conditions = {true, false};
-		for (boolean condition_a : conditions){
-			for (boolean condition_b : conditions){
-				for (boolean condition_c : conditions){
-					for (boolean condition_d : conditions){
-						System.out.println("Running predictors on " + DATA_FILE + " with demographics flag " + condition_a + " groups flag " + condition_b + " traits flag " + condition_c + " and conversation flag " + condition_d);
-						writer.println("Running predictors on " + DATA_FILE + " with demographics flag " + condition_a + " groups flag " + condition_b + " traits flag " + condition_c + " and conversation flag " + condition_d);
-						for (Predictor p : predictors){
-							p.runTests(DATA_FILE /* file to use */, NUM_FOLDS /* folds to use */, 0, /* test threshold */ 100/*groups size*/, writer /* file to write */, condition_a, condition_b, condition_c, condition_d);
-						}
-					}	
-				}
-			}	
-		}
-	}
 
 	/*
 	 * launch tests on thresholding value
@@ -117,7 +99,7 @@ public class Launcher {
 			for (Predictor p : predictors){
 				System.out.println("Running predictors on " + DATA_FILE + " using threshold " + i);
 				writer.println("Running predictors on " + DATA_FILE + " using threshold " + i);
-				p.runTests(DATA_FILE /* file to use */, NUM_FOLDS /* folds to use */, i /* test threshold */, 100 /*groups size*/, writer /* file to write */, DEMOGRAPHICS, GROUPS, TRAITS, CONVERSATION);
+				p.runTests(DATA_FILE /* file to use */, NUM_FOLDS /* folds to use */, i /* test threshold */, 0 /*groups size*/, 0 /*pages size*/, 0 /*messages size*/, writer /* file to write */, DEMOGRAPHICS, GROUPS, PAGES, TRAITS, CONVERSATION);
 			}
 		}
 	}
@@ -125,19 +107,15 @@ public class Launcher {
 	/*
 	 * launch group size comparisons
 	 */
-	public void launchGroupSizeComparisons() throws Exception{
-		for (int i = 0; i <= maxGroup; i+=groupStep)
+	public void launchSizeComparisons(String name) throws Exception{
+		for (int i = 0; i <= maxSize; i+=step)
 			for (Predictor p : predictors){
 				if (p.getName().contains("NaiveBayes") || p.getName().contains("LogisticRegression") || p.getName().contains("SVMLibSVM") || p.getName().contains("SVMLibLinear")){
-					System.out.println("Running predictors on " + DATA_FILE + " using group size " + i);
-					writer.println("Running predictors on " + DATA_FILE + " using group size " + i);
-					p.runTests(DATA_FILE /* file to use */, NUM_FOLDS /* folds to use */, 0 /* test threshold */, i /*groups size*/, writer /* file to write */, DEMOGRAPHICS, true, TRAITS, CONVERSATION);
+					System.out.println("Running predictors on " + DATA_FILE + " using " +  name +  " size " + i);
+					writer.println("Running predictors on " + DATA_FILE + " using " +  name +  " size " + i);
+					p.runTests(DATA_FILE /* file to use */, NUM_FOLDS /* folds to use */, 0 /* test threshold */, i /*groups size*/, 0/*pages size*/, 0/*messages size*/, writer /* file to write */, false, true, false, false, false);
 				}
 			}
-	}
-	
-	public void launchWeightsExtraction() throws Exception{
-			
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -152,8 +130,7 @@ public class Launcher {
 		writer = new PrintWriter(outName);		
 
 		//launcher.launchThresholds();
-		//launcher.launchConditions();
-		launcher.launchGroupSizeComparisons();
+		launcher.launchSizeComparisons("group");
 
 		System.out.println("Finished writing to file " + outName);
 		writer.close();
