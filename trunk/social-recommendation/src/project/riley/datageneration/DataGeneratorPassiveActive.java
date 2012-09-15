@@ -56,10 +56,10 @@ public class DataGeneratorPassiveActive {
 	public static Set<Long> usersSeen = new HashSet<Long>();
 	public static Set<Long> linksSeen = new HashSet<Long>();
 	public static int stepSize = 1000;
-	
+
 	public static int topGroupsN = 1000;
 	public static int topWordsN = 1000;
-	public static int wordsMention = 10;
+	public static int topPagesN = 1000;
 
 	/*
 	 * Generate data for accurately labeled data from NICTA app
@@ -68,7 +68,7 @@ public class DataGeneratorPassiveActive {
 
 	public static void populateCachedData(boolean active_likes) throws Exception {
 
-		topNWords = PredictiveWords.getTopN(wordsMention);
+		topNWords = PredictiveWords.getTopN(topWordsN);
 		// For all uids in the DB, get their set of LINK likes 
 		_uid2all_passive_linkids_likes = UserUtil.getLikes(ELikeType.LINK);
 
@@ -295,9 +295,7 @@ public class DataGeneratorPassiveActive {
 	 * Write arff header data
 	 */
 	public static String[] demographics_types = new String[]{"isMale","isFemale","sameGender","sameBirthRange","sameLocale"};
-	public static String[] group_types = new String[]{"sameGroupMembership"};
 	public static String[] user_traits = {"linkrActivities", "linkrBooks", "linkrFavoriteAthletes", "linkrFavoriteTeams", "linkrInspirationalPeople", "linkrInterests", "linkrMovies", "linkrMusic", "linkrSports", "linkrTelevision", "linkrSchoolWith", "linkrWorkWith"};
-
 	public static void writeHeader(String fileName) throws Exception {
 		System.out.println("Writing to " + fileName);
 		_writer = new PrintWriter(fileName);		
@@ -315,25 +313,22 @@ public class DataGeneratorPassiveActive {
 			_writer.println("@attribute 'demographic_" + demographic +  "' { " + NO + ", " + YES + " }");
 		}
 
-		for (String group : group_types){
-			_writer.println("@attribute 'group_" + group +  "' { " + NO + ", " + YES + " }");
-		}
-		
 		for (Long group_id : topNGroupsSet){
 			_writer.println("@attribute 'group_" + group_id +  "' { " + NO + ", " + YES + " }");
+		}
+
+		for (Long page_id : topNPagesSet){
+			_writer.println("@attribute 'page_" + page_id +  "' { " + NO + ", " + YES + " }");
 		}
 
 		for (String trait : user_traits){
 			_writer.println("@attribute 'trait_" + trait +  "' { " + NO + ", " + YES + " }");
 		}   
-		
-		for (String word : topNWords){
-			_writer.println("@attribute 'conversation_incoming_" + word +  "' { " + NO + ", " + YES + " }");
-		}
-		
-		for (String word : topNWords){
-			_writer.println("@attribute 'conversation_outgoing_" + word +  "' { " + NO + ", " + YES + " }");
-		}
+
+		for (int i = 0; i < topNWords.size(); i++){
+			_writer.println("@attribute 'conversation_incoming_" + i + "_" + topNWords.get(i) +  "' { " + NO + ", " + YES + " }");
+			_writer.println("@attribute 'conversation_outgoing_" + i + "_" + topNWords.get(i) +  "' { " + NO + ", " + YES + " }");
+		}		
 
 		_writer.println("@data");
 	}
@@ -503,6 +498,7 @@ public class DataGeneratorPassiveActive {
 		extractGroups();
 		extractTraits();
 		extractMessagesHack();
+		extractPages();
 		//extractMessages();
 	}
 
@@ -511,7 +507,7 @@ public class DataGeneratorPassiveActive {
 	 */
 	public static void extractGroups() throws Exception {
 		topNGroups();
-		
+
 		String query;
 		Statement statement = SQLUtil.getStatement();
 		ResultSet result;
@@ -541,7 +537,7 @@ public class DataGeneratorPassiveActive {
 	/*
 	 * Extract top user groups
 	 */
-	static Set<Long> topNGroupsSet = new HashSet<Long>();
+	static ArrayList<Long> topNGroupsSet = new ArrayList<Long>();
 	public static void topNGroups() throws Exception{
 
 		System.out.println("\t -> Extracting top groups data");
@@ -557,7 +553,59 @@ public class DataGeneratorPassiveActive {
 
 		statement.close();
 	}
-	
+
+	/* 
+	 * Extract user pages info
+	 */
+	public static void extractPages() throws Exception {
+		topNPages();
+
+		String query;
+		Statement statement = SQLUtil.getStatement();
+		ResultSet result;
+		UserStruct us;
+
+		System.out.println("\t -> Extracting pages data");
+
+		//mysql> select count(*), id, name from linkrGroups group by id having count(*) > 10 and count(*) < 15 order by count(*) desc;		
+		int limit = 0;		
+		int count = getCount("select count(*) from linkrLikes where uid in (" + usersToGet + ");");
+
+		while (limit <= (count-1)){		
+			query = "select uid, id from linkrGroups where uid in (" + usersToGet + ") limit " + limit + "," + (limit+stepSize) + ";";
+			result = statement.executeQuery(query);
+
+			while (result.next()){
+				us = additionalUserFeatures.get(result.getLong(1));
+				us.pageMemberships.add(result.getLong(2));
+			}
+			result.close();
+			limit += stepSize;
+		}
+
+		statement.close();
+	}
+
+	/*
+	 * Extract top user groups
+	 */
+	static ArrayList<Long> topNPagesSet = new ArrayList<Long>();
+	public static void topNPages() throws Exception{
+
+		System.out.println("\t -> Extracting top pages data");
+
+		Statement statement = SQLUtil.getStatement();
+		String query = "select id from linkrLikes where uid in (" + usersToGet + ") group by id order by count(*) desc limit " + topPagesN + ";";
+		ResultSet result = statement.executeQuery(query);
+
+		while (result.next()){
+			topNPagesSet.add(result.getLong(1));
+		}
+		result.close();
+
+		statement.close();
+	}
+
 	/*
 	 * extract user traits
 	 */
@@ -591,7 +639,7 @@ public class DataGeneratorPassiveActive {
 				while (result.next()){
 					us = additionalUserFeatures.get(result.getLong(1));
 					us.userTraits.get(trait).add(result.getLong(2));
-				}
+				}// member of any of the top N groups
 
 				result.close();
 				limit += stepSize;				
@@ -607,15 +655,19 @@ public class DataGeneratorPassiveActive {
 
 	public static void extractMessagesHack() throws Exception{
 		System.out.println("\t -> Extracting messages data");
-		UserInfoHack.getMessageInfo();
-		
-		for (Entry<Long, boolean[]> info : UserInfoHack.getSeenIncoming().entrySet()){
+		UserInfoHack.getMessageInfo();				
+
+		for (Entry<Long, boolean[]> info : UserInfoHack.getSeenIncoming().entrySet()){			
 			UserStruct us = additionalUserFeatures.get(info.getKey());
+			if (us == null)
+				continue; 			
 			us.wordsIncoming = info.getValue();
 		}
-		
+
 		for (Entry<Long, boolean[]> info : UserInfoHack.getSeenOutgoing().entrySet()){
 			UserStruct us = additionalUserFeatures.get(info.getKey());
+			if (us == null)
+				continue; 
 			us.wordsOutgoing = info.getValue();
 		}
 	}
@@ -628,7 +680,7 @@ public class DataGeneratorPassiveActive {
 		StringBuilder results = new StringBuilder();
 
 		// flags 
-		boolean sameGender = false, sameBirthday = false, sameLocale = false, sameGroup = false, 
+		boolean sameGender = false, sameBirthday = false, sameLocale = false, 
 				sameActivities = false, sameBooks = false, sameFavoriteAthletes = false, 
 				sameFavoriteTeams = false, sameInspirationalPeople = false, sameInterests = false, sameMovies = false, 
 				sameMusic = false, sameSports = false, sameTelevision = false, sameSchool = false, sameWork = false;
@@ -636,6 +688,9 @@ public class DataGeneratorPassiveActive {
 		boolean[] wordsOutgoing = new boolean[topWordsN];
 		boolean[] wordsIncoming = new boolean[topWordsN];
 		
+		boolean[] groupsSame = new boolean[topGroupsN];
+		boolean[] pagesSame = new boolean[topPagesN];
+
 		// user info
 		UserStruct userInfo = additionalUserFeatures.get(uid);
 
@@ -645,6 +700,7 @@ public class DataGeneratorPassiveActive {
 
 		// user groups
 		ArrayList<Long> userGroups = userInfo.groupMemberships;
+		ArrayList<Long> userPages = userInfo.pageMemberships;
 
 		// user traits
 		HashSet<Long> userActivities = userInfo.userTraits.get("linkrActivities");
@@ -659,7 +715,7 @@ public class DataGeneratorPassiveActive {
 		HashSet<Long> userTelevision = userInfo.userTraits.get("linkrTelevision");
 		HashSet<Long> userSchoolWith = userInfo.userTraits.get("linkrSchoolWith");
 		HashSet<Long> userWorksWith = userInfo.userTraits.get("linkrWorkWith");
-		
+
 		// likee info
 		Set<Long> usersLiked = additionalLinkFeatures.get(link_id);
 
@@ -667,19 +723,19 @@ public class DataGeneratorPassiveActive {
 		int likeeBirthday;
 		String likeeLocale;
 
-		ArrayList<Long> likeeGroups;
+		ArrayList<Long> likeeGroups, likeePages;
 
 		HashSet<Long> likeeActivities, likeeBooks, likeeFavoriteAthletes, likeeFavoriteTeams, likeeInspirationalPeople,
 		likeeInterests, likeeMovies, likeeMusic, likeeSports, likeeTelevision, likeeSchoolWith, likeeWorksWith;
-		
+
 		boolean[] likeeWordsOutgoing;
 		boolean[] likeeWordsIncoming;
-		
+
 		// likee info
 		if (usersLiked != null){ // want at least one person to have liked this
 			for (long likeeID : usersLiked){
 				// flags already all set
-				if (sameGender && sameBirthday && sameLocale && sameGroup &&  
+				if (sameGender && sameBirthday && sameLocale && 
 						sameActivities && sameBooks && sameFavoriteAthletes && 
 						sameFavoriteTeams && sameInspirationalPeople && sameInterests && sameMovies && 
 						sameMusic && sameSports && sameTelevision && sameSchool && sameWork){
@@ -697,6 +753,7 @@ public class DataGeneratorPassiveActive {
 				likeeLocale = likee.locale;
 
 				likeeGroups = likee.groupMemberships;
+				likeePages = likee.pageMemberships;
 
 				likeeActivities = likee.userTraits.get("linkrActivities");
 				likeeBooks = likee.userTraits.get("linkrBooks");
@@ -713,7 +770,7 @@ public class DataGeneratorPassiveActive {
 
 				likeeWordsOutgoing = likee.wordsOutgoing;
 				likeeWordsIncoming = likee.wordsIncoming;
-				
+
 				// test whether user and likee's have similarities
 				if (!sameGender)
 					sameGender = (userGender.equals(likeeGender)) ? true : false;
@@ -728,13 +785,6 @@ public class DataGeneratorPassiveActive {
 
 				if (!sameLocale)
 					sameLocale = (userLocale.equals(likeeLocale)) ? true : false;
-
-				if (!sameGroup){
-					for (Long group : userGroups){
-						if (likeeGroups.contains(group))
-							sameGroup = true;
-					}
-				}
 
 				//traits
 				if (!sameActivities)
@@ -773,13 +823,25 @@ public class DataGeneratorPassiveActive {
 				if (!sameWork)
 					sameWork = sameTraits(userWorksWith,likeeWorksWith);
 
-				for (int i = 0; i < wordsOutgoing.length; i++){
-					if (wordsOutgoing[i] == false)
-						wordsOutgoing[i] = likeeWordsOutgoing[i];
+				for (int i = 0; i < groupsSame.length; i++){
+					if (!groupsSame[i]){
+						groupsSame[i] = userGroups.contains(topNGroupsSet.get(i)) && likeeGroups.contains(topNGroupsSet.get(i));
+					}
 				}
 				
+				for (int i = 0; i < pagesSame.length; i++){
+					if (!pagesSame[i]){
+						pagesSame[i] = userPages.contains(topNPagesSet.get(i)) && likeePages.contains(topNPagesSet.get(i));
+					}
+				}
+				
+				for (int i = 0; i < wordsOutgoing.length; i++){
+					if (!wordsOutgoing[i])
+						wordsOutgoing[i] = likeeWordsOutgoing[i];
+				}
+
 				for (int i = 0; i < wordsIncoming.length; i++){
-					if (wordsIncoming[i] == false)
+					if (!wordsIncoming[i])
 						wordsIncoming[i] = likeeWordsIncoming[i];
 				}
 			}
@@ -793,10 +855,13 @@ public class DataGeneratorPassiveActive {
 		results.append(PRE + (sameLocale ? YES : NO));								// same localed user has(nt) liked link
 
 		// groups
-		results.append(PRE + (sameGroup ? YES : NO));								// same group membership
-		
-		for (Long topGroup : topNGroupsSet){										// member of any of the top N groups
-			results.append(PRE + (userGroups.contains(topGroup) ? YES : NO));
+		for (int i = 0; i < groupsSame.length; i++){										
+			results.append(PRE + (groupsSame[i] ? YES : NO));
+		}
+
+		// pages
+		for (int i = 0; i < pagesSame.length; i++){										
+			results.append(PRE + (pagesSame[i] ? YES : NO));
 		}
 
 		//traits
@@ -816,9 +881,6 @@ public class DataGeneratorPassiveActive {
 		//conversation
 		for (int i = 0; i < topWordsN; i++){
 			results.append(PRE + (wordsIncoming[i] ? YES : NO));
-		}
-		
-		for (int i = 0; i < topWordsN; i++){
 			results.append(PRE + (wordsOutgoing[i] ? YES : NO));
 		}
 
@@ -848,13 +910,16 @@ public class DataGeneratorPassiveActive {
 		// groups store
 		ArrayList<Long> groupMemberships = new ArrayList<Long>();
 
+		// pages store
+		ArrayList<Long> pageMemberships = new ArrayList<Long>();
+
 		// user traits
 		HashMap<String, HashSet<Long>> userTraits = new HashMap<String,HashSet<Long>>();
 
 		// words 
 		boolean[] wordsOutgoing;
 		boolean[] wordsIncoming;
-		
+
 		public UserStruct(String gender, int birthday, String locale){
 			this.gender = gender;
 			this.birthday = birthday;

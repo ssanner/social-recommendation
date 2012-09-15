@@ -9,7 +9,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.StringTokenizer;
 
 import org.nicta.lr.util.SQLUtil;
@@ -29,17 +28,13 @@ public class UserInfoHack {
 	static Map<Long,boolean[]> INCOMING_WORDS = new HashMap<Long,boolean[]>();
 	static Map<Long,boolean[]> OUTGOING_WORDS = new HashMap<Long,boolean[]>();
 
-	// user info based on words
-	static String INCOMING = "incoming_seen.txt";
-	static String OUTGOING = "outgoing_seen.txt";
-
 	// extract incoming/outgoing messages to corresponding files
 	public static void getMessageInfo() throws Exception{		
 
-		if (new File(OUTGOING_MESSAGES_FILE).exists() && new File(INCOMING_MESSAGES_FILE).exists()){
+		//if (new File(OUTGOING_MESSAGES_FILE).exists() && new File(INCOMING_MESSAGES_FILE).exists()){
 			//	System.out.println("Messages file already exists");
-			processMessages();
-		}
+			//processMessages();
+		//}
 
 		StringBuilder users = new StringBuilder();
 		for (Long user : DataGeneratorPassiveActive.usersSeen){
@@ -64,7 +59,7 @@ public class UserInfoHack {
 			while (result.next()) {
 				Long uid = result.getLong(1);
 				String message = result.getString(2);
-				incomingWriter.println(uid + ":" + message);				
+				incomingWriter.println(uid + " " + message);				
 			}
 			result.close();
 
@@ -97,24 +92,31 @@ public class UserInfoHack {
 		String message;
 		String word;
 		Long uid = 0L;
-		boolean first = true;
 		boolean[] flags = null;
+		String[] bits;
+		StringBuilder line;
 		ArrayList<String> topNWords = PredictiveWords.getTopN(TOPN);
 
-		while ((message = br.readLine()) != null){				
-			first = true;								
-			StringTokenizer tokens = new StringTokenizer(message);
+		while ((message = br.readLine()) != null){
+			bits = message.split("\\s+");
+			try{
+				uid = Long.parseLong(bits[0]);
+			} catch (NumberFormatException e) {				
+				// doesnt start with a uid so still part of the message
+				//System.out.println(message);				
+				//System.out.println(bits[0]);
+				//System.out.println("================");
+			}
+			line = new StringBuilder();
+			for (int i = 1; i < bits.length; i++)
+				line.append(bits[i] + " ");
+		//	System.out.println(uid + " " + line.toString());
+
+			StringTokenizer tokens = new StringTokenizer(line.toString());
 			while (tokens.hasMoreTokens()){
 				word = tokens.nextToken().toLowerCase();
-				if (first){
-					try {
-						uid = Long.parseLong(word);
-						flags = (OUTGOING_WORDS.get(uid) == null ? new boolean[TOPN] : OUTGOING_WORDS.get(uid));
-					} catch (Exception e){ }
-					first = false;
-				}				
-
-				for (int i = 0; i < topNWords.size(); i++){
+				flags = (OUTGOING_WORDS.get(uid) == null ? new boolean[TOPN] : OUTGOING_WORDS.get(uid));
+				for (int i = 0; i < topNWords.size(); i++){					
 					if (word.equals(topNWords.get(i))){
 						flags[i] = true;
 						continue;
@@ -123,22 +125,28 @@ public class UserInfoHack {
 				OUTGOING_WORDS.put(uid, flags);
 			}
 		}
-
+		
 		br = new BufferedReader(new FileReader(INCOMING_MESSAGES_FILE));
-		while ((message = br.readLine()) != null){			
-			first = true;								
-			StringTokenizer tokens = new StringTokenizer(message);
+		while ((message = br.readLine()) != null){
+			bits = message.split("\\s+");
+			try{
+				uid = Long.parseLong(bits[0]);
+			} catch (NumberFormatException e) {				
+				// doesnt start with a uid so still part of the message
+				//System.out.println(message);				
+				//System.out.println(bits[0]);
+				//System.out.println("================");
+			}
+			line = new StringBuilder();
+			for (int i = 1; i < bits.length; i++)
+				line.append(bits[i] + " ");
+		//	System.out.println(uid + " " + line.toString());
+
+			StringTokenizer tokens = new StringTokenizer(line.toString());
 			while (tokens.hasMoreTokens()){
 				word = tokens.nextToken().toLowerCase();
-				if (first){
-					try {
-						uid = Long.parseLong(word);
-						flags = (INCOMING_WORDS.get(uid) == null ? new boolean[TOPN] : INCOMING_WORDS.get(uid));
-					} catch (Exception e){ }
-					first = false;
-				}				
-
-				for (int i = 0; i < topNWords.size(); i++){
+				flags = (INCOMING_WORDS.get(uid) == null ? new boolean[TOPN] : INCOMING_WORDS.get(uid));
+				for (int i = 0; i < topNWords.size(); i++){					
 					if (word.equals(topNWords.get(i))){
 						flags[i] = true;
 						continue;
@@ -148,30 +156,6 @@ public class UserInfoHack {
 			}
 		}
 
-		//writeMessages();
-	}
-
-	// write users to files
-	public static void writeMessages() throws Exception{
-		PrintWriter writer = new PrintWriter(OUTGOING);
-		for (Entry<Long, boolean[]> ui : OUTGOING_WORDS.entrySet()){
-			writer.print(ui.getKey());
-			for (boolean flag : ui.getValue()){
-				writer.print(" " + flag);
-			}
-		}
-		writer.println();
-		writer.close();
-
-		writer = new PrintWriter(INCOMING);
-		for (Entry<Long, boolean[]> ui : INCOMING_WORDS.entrySet()){
-			writer.print(ui.getKey());
-			for (boolean flag : ui.getValue()){
-				writer.print(" " + flag);
-			}
-		}
-		writer.println();
-		writer.close();
 	}
 
 	// users who have said a top n word in an outgiong message
@@ -185,8 +169,9 @@ public class UserInfoHack {
 	}	
 
 	public static void main(String[] args) throws Exception{
-		DataGeneratorPassiveActive.populateCachedData(true);
-		getMessageInfo();
+		//DataGeneratorPassiveActive.populateCachedData(true);
+		//getMessageInfo();
+		processMessages();		
 	}
 
 }
