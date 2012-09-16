@@ -23,7 +23,7 @@ public class NaiveBayes extends Predictor {
 	public ArrayList<ClassCondProb> _condProb = null; 
 
 	public class ClassCondProb {
-		int _attr_index;
+		public int _attr_index;
 		public double[][] _logprob; // For each class and attribute,
 		// a probability that sums to 1
 
