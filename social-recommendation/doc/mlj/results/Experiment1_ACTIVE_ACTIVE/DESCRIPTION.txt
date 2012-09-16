@@ -1,0 +1,10 @@
+Trained on ACTIVE data and tested on ACTIVE data.
+
+10-fold cross validation. Random number generator was seeded so all experiments had the exact same fold.
+
+For SVM, used LibSVM.
+For Logistic Regression, used LibLinear. MaxEnt version just dropped the dislike data. The SolverType used for LibLinear was L1R_LR.
+
+For everything else, own code.
+
+Tuned parameters by using 1E-10 to 1E10, showing only the most optimal results. For SVM and Logistic Regression, parameters were tuned from 2E-15 to 2E15.

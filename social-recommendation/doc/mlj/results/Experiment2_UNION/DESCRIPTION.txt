@@ -1,0 +1,11 @@
+TRAIN ON UNION data and tested on ACTIVE data.
+UNION data here is the ACTIVE data used in Experiment 1 plus the all links liked by all the LinkR users in the PASSIVE data.
+
+10-fold cross validation. Folds are the same as in Experiment 1, but for each fold run all the passive likes data are added into the training data.
+
+For SVM, used LibSVM.
+For Logistic Regression, used both LibLinear (LogisticRegressionLibLinear and LogisticRegressionLibLinearMaxEnt) and LingPipe (LogisticRegressionLaplacE). 
+
+The SolverType for LibLinear was L1R_LR and for the LingPipe the prior type was laplace.
+
+Tuned parameters by using 1E-10 to 1E10, showing only the most optimal results. For SVM and Logistic Regression, parameters were tuned from 2E-15 to 2E15.
