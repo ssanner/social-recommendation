@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -16,6 +17,8 @@ import project.riley.predictor.ArffData;
 import project.riley.predictor.NaiveBayes;
 import project.riley.predictor.ArffData.DataEntry;
 import project.riley.predictor.LogisticRegression;
+import project.riley.predictor.Predictor;
+
 import com.aliasi.matrix.Vector;
 
 public class RandomDataExtraction {
@@ -112,17 +115,16 @@ public class RandomDataExtraction {
 	/*
 	 * Extract weights from columns
 	 */
-	public static void getColumnWeights(int display) throws Exception{
-		LogisticRegression lr = new LogisticRegression(LogisticRegression.PRIOR_TYPE.L2, 2d);
-		//lr.runTests("passive.arff", /* file to use */ 10 /* folds to use */, 0 /* test threshold */, 800 /*groups size*/, new PrintWriter("a.txt") /* file to write */, true, true, true, true);
-		
+	public static void getColumnWeightsLR(LogisticRegression lr,int display) throws Exception{		
+		lr.runTests("active_all_1000.arff", /* file to use */ 10 /* folds to use */, 0 /* test threshold */, 800 /*groups size*/, 0, 0, new PrintWriter("a.txt") /* file to write */, true, true, true, true, true);
+
 		System.out.println("Using Predictor " + lr.getName());
-		
+
 		Map<Integer,Double> termWeights = new HashMap<Integer,Double>();
 		Map<Integer,Double> positiveWeights = new HashMap<Integer,Double>();
 		Map<Integer,Double> negativeWeights = new HashMap<Integer,Double>();
 		Map<Integer,Double> neutralWeights = new HashMap<Integer,Double>();				
-		
+
 		for (int outcome = 0; outcome < lr._betas.length; outcome++) {
 			//System.out.println("Classifier weights for outcome = " + outcome + " [" + lr._betas[outcome].numDimensions() + " features]");
 			for (int i = 0; i < lr._betas[outcome].numDimensions(); i++) {
@@ -149,62 +151,87 @@ public class RandomDataExtraction {
 		sortMap(neutralWeights,display);	
 	}
 
+	public static void getColumnWeightsNB(NaiveBayes nb, int display) throws Exception{
+		nb.runTests("active_all_1000.arff", /* file to use */ 10 /* folds to use */, 0 /* test threshold */, 800 /*groups size*/, 0, 0, new PrintWriter("a.txt") /* file to write */, true, true, true, true, true);
+		
+		System.out.println("Using Predictor " + nb.getName());
+
+		Map<Integer,Double> termWeights = new HashMap<Integer,Double>();
+		Map<Integer,Double> positiveWeights = new HashMap<Integer,Double>();
+		Map<Integer,Double> negativeWeights = new HashMap<Integer,Double>();
+		Map<Integer,Double> neutralWeights = new HashMap<Integer,Double>();
+
+		System.out.println(nb);
+		
+		System.out.println("Top " + display + " results for all");
+		sortMap(termWeights,display);
+		System.out.println("\nTop " + display + " results for positive");
+		sortMap(positiveWeights,display);
+		System.out.println("\nTop " + display + " results for negative");
+		sortMap(negativeWeights,display);
+		System.out.println("\nTop " + display + " results for neutral");
+		sortMap(neutralWeights,display);	
+
+	}
+
 	/*
 	 * group info
 	 */
-	static String getGroup(String attribute) throws Exception{
-
-		if (attribute.contains("sameGroupMembership")){
-			return "";
-		}
-
+	static String getData(String name, String attribute) throws Exception{
 		String ret = "";	
 		String group = attribute.split("_")[1];
 
 		Statement statement = SQLUtil.getStatement();
-		String query = "select count(*), name from linkrGroups where id = " + group + ";";
+		String query = "select count(*), name from " + name + " where id = " + group + ";";
 		ResultSet result = statement.executeQuery(query);
 
 		while (result.next()){
-			ret = result.getString(2) + "_" + result.getLong(1);
+			ret = result.getString(2) + " " + result.getLong(1);
 		}
 		result.close();
 		statement.close();
 
 		return ret;
 	}
-	
+
 	/*
 	 * sort and display map
 	 */
 	static void sortMap(Map<Integer,Double> map, int display) throws Exception{
 		SortedMap sortedData = new TreeMap(new ValueComparer(map));
-		ArffData a = new ArffData("passive.arff",0, 800, 0, 0, true, true, true, true, true);
+		ArffData a = new ArffData("active_all_1000.arff",0, 800, 0, 0, true, true, true, true, true);
 
-		//System.out.println(termWeights);
+		//System.out.println(map);
 		int count = 1;
 		sortedData.putAll(map);		
 		for (Object key : sortedData.keySet()){
 			String attribute = a._attr.get(((Integer)key+3)).toString().split(" ", 2)[0];
-			
+
 			int yes = 0;
+			int uniqueYes = 0;
+			HashSet<Double> users = new HashSet<Double>();
 			for (DataEntry entry : a._data){
-				yes += (Integer)(entry.getData((Integer) key+3));
+				yes += (Integer)(entry.getData((Integer) key+3));				
+				if (!users.contains(entry.getData(0))){
+					uniqueYes += (Integer)(entry.getData((Integer) key+3));
+					users.add((Double) entry.getData(0));
+				}
 			}
-			
-			System.out.println(count + "\t" + map.get(key) + "\t" + attribute + "\t" + yes + "" + (attribute.contains("group_") ? "\t" + getGroup(attribute) : ""));
+
+			System.out.println(count + "\t" + map.get(key) + "\t" + attribute + "\t yes(" + yes + ") " + "\t unique(" + uniqueYes + ") " + (attribute.contains("group_") ? "\t" + getData("linkrGroups",attribute) : "") + (attribute.contains("page_") ? "\t" + getData("linkrLikes",attribute) : ""));
 			if (count >= display)
 				break;
 			count++;
 		}
 		//System.out.println(sortedData);
 	}
-	
+
 	public static void main(String[] args) throws Exception {
 		NaiveBayes nb = new NaiveBayes(1.0d);
-		//nb.runTests("passive.arff", /* file to use */ 10 /* folds to use */, 0 /* test threshold */, 800 /*groups size*/, new PrintWriter("a.txt") /* file to write */, true, true, true, true);
-		//System.out.println(nb);
-		//getColumnWeights(50);
+		getColumnWeightsNB(nb, 15);
+		
+		LogisticRegression lr = new LogisticRegression(LogisticRegression.PRIOR_TYPE.L2, 2d);
+		//getColumnWeightsLR(lr,15);
 	}
 
 }

@@ -154,6 +154,8 @@ public class ArffData {
 				else if (line.startsWith("@ATTRIBUTE") ||
 						line.startsWith("@Attribute") ||
 						line.startsWith("@attribute")) {
+					//if (line.contains("group"))
+						//System.out.println(line_index + ":" + groups_index_start + "-" + line);
 					if (!demographics && line_index > demographics_index_start && line_index <= demographics_index_end){
 						// nothing
 					} else if (!groups && line_index > groups_index_start && line_index <= groups_index_end){
@@ -165,7 +167,7 @@ public class ArffData {
 					} else if (!conversations && line_index > conversations_index_start && line_index <= conversations_index_end){
 						// nothing
 					} else {
-						System.out.println(line);
+						//
 						if (line_index > groups_index_start && line_index <= groups_index_end){
 							if (groupsAdded < groupsSize){								
 								//System.out.println(groupsAdded + ":" + line);
@@ -274,7 +276,8 @@ public class ArffData {
 		int pagesSeen = 0;
 		int messageSeen = 0;
 		for (int i = 0; i < split.length; i++){
-			int offset = 2; // inline offset is different then file offset by 2 lines
+			int offset = 7; 
+			//System.out.println(i + ":" + _attr.get(i) + ":" + StripQuotes(split[i]) + ":" + split.length + ":" + _attr.size());
 			if (!demographics && i > (demographics_index_start-offset) && i <= (demographics_index_end-offset)){
 				// nothing
 			} else if (!groups && i > (groups_index_start-offset) && i <= (groups_index_end-offset)){
@@ -289,8 +292,7 @@ public class ArffData {
 				//System.out.println(i + ":" + _attr.get(i) + ":" + StripQuotes(split[i]) + ":" + split.length + ":" + _attr.size());
 				if (i > (groups_index_start-offset) && i <= (groups_index_end-offset)){					
 					if (groupSeen < groupsSize){
-						//System.out.println(groupSeen);
-						//System.out.println(i + ":" + _attr.get(i) + ":" + StripQuotes(split[i]) + ":" + split.length + ":" + _attr.size());
+						//System.out.println(i + ":" + groupSeen + ":" + _attr.size() + ":" + _attr.get(i) + ":" + StripQuotes(split[i]) + ":" + split.length + ":" + _attr.size());
 						d.addData(StripQuotes(split[i]));
 					}
 					groupSeen++;	
@@ -697,7 +699,7 @@ public class ArffData {
 		}*/
 //		public ArffData(String filename, int _threshold, int _groupsSize, int _pagesSize, int _messagesSize, boolean _demographics, boolean _groups, boolean _pages, boolean _traits, boolean _conversations) {
 
-		ArffData f1 = new ArffData("active_all_1000.arff",0,4,2,2,false,true,true,false,true);
+		ArffData f1 = new ArffData("active_all_1000.arff",0,200,10,0,true,true,true,false,false);
 		for (Attribute s : f1._attr){
 			System.out.println(s);
 		}
