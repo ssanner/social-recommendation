@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
+import project.riley.predictor.ArffData.Attribute;
 import project.riley.predictor.ArffData.DataEntry;
 import util.Statistics;
 
