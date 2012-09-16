@@ -7,6 +7,8 @@ import java.util.Date;
 
 import org.nicta.lr.util.Constants;
 
+import project.riley.predictor.ArffData.Attribute;
+
 import de.bwaldvogel.liblinear.SolverType;
 
 /*
@@ -130,7 +132,7 @@ public class Launcher {
 		writer = new PrintWriter(outName);		
 
 		//launcher.launchThresholds();
-		launcher.launchSizeComparisons("group");
+		launcher.launchSizeComparisons("group");		
 
 		System.out.println("Finished writing to file " + outName);
 		writer.close();
