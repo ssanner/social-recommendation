@@ -116,13 +116,13 @@ public class ArffData {
 
 		return a_ret;
 	}
-
-	static int groupsAdded = 0;
-	static int pagesAdded = 0;
-	static int messagesAdded = 0;
+	
 	public void readArffFile() {
 		String line = null;
 		int line_index = 0;
+		int groupsAdded = 0;
+		int pagesAdded = 0;
+		int messagesAdded = 0;
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(_filename));
 
@@ -292,7 +292,7 @@ public class ArffData {
 				//System.out.println(i + ":" + _attr.get(i) + ":" + StripQuotes(split[i]) + ":" + split.length + ":" + _attr.size());
 				if (groups && i > (groups_index_start-offset) && i <= (groups_index_end-offset)){						
 					if (groupSeen < groupsSize){
-						//System.out.println(i + ":" + groupSeen + ":" + _attr.size() + ":" + _attr.get(i) + ":" + StripQuotes(split[i]) + ":" + split.length + ":" + _attr.size());
+						//System.out.println(groups + " " + i + ":" + groupSeen + ":" + _attr.size() + ":" +  ":" + StripQuotes(split[i]) + ":" + split.length + ":" + _attr.size());
 						d.addData(StripQuotes(split[i]));
 					}
 					groupSeen++;	
