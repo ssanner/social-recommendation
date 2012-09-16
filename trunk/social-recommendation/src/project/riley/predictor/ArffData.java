@@ -52,9 +52,9 @@ public class ArffData {
 	static int conversations_index_end = conversations_index_start + (2 /* in and out */ * DataGeneratorPassiveActive.topWordsN);
 
 	static int threshold = 0;
-	static int groupsSize = 5;
-	static int pagesSize = 5;
-	static int messagesSize = 15;
+	static int groupsSize = 1000;
+	static int pagesSize = 1000;
+	static int messagesSize = 1000;
 
 	protected static NumberFormat _nf = NumberFormat.getInstance();
 	static {
