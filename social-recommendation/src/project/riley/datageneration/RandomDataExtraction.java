@@ -7,6 +7,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.Map.Entry;
@@ -16,12 +17,23 @@ import org.nicta.lr.util.SQLUtil;
 import project.riley.predictor.ArffData;
 import project.riley.predictor.NaiveBayes;
 import project.riley.predictor.ArffData.DataEntry;
+import project.riley.predictor.NaiveBayes.ClassCondProb;
 import project.riley.predictor.LogisticRegression;
-import project.riley.predictor.Predictor;
-
-import com.aliasi.matrix.Vector;
 
 public class RandomDataExtraction {
+
+	static String FILE = "active_all_1000.arff";
+
+	static boolean DEMOGRAPHICS = false;
+	static boolean GROUPS = false;
+	static boolean PAGES = false;
+	static boolean TRAITS = false;
+	static boolean MESSAGES = false;
+
+	static int threshold = 0;
+	static int groupsSize = 5;
+	static int pagesSize = 5;
+	static int messagesSize = 5;
 
 	/*
 	 * Extract birthdays in 5 year sets
@@ -116,7 +128,7 @@ public class RandomDataExtraction {
 	 * Extract weights from columns
 	 */
 	public static void getColumnWeightsLR(LogisticRegression lr,int display) throws Exception{		
-		lr.runTests("active_all_1000.arff", /* file to use */ 10 /* folds to use */, 0 /* test threshold */, 800 /*groups size*/, 0, 0, new PrintWriter("a.txt") /* file to write */, true, true, true, true, true);
+		lr.runTests(FILE, /* file to use */ 10 /* folds to use */, threshold /* test threshold */, groupsSize /*groups size*/, pagesSize, messagesSize, new PrintWriter("a.txt") /* file to write */, DEMOGRAPHICS, GROUPS, PAGES, TRAITS, MESSAGES);
 
 		System.out.println("Using Predictor " + lr.getName());
 
@@ -152,26 +164,73 @@ public class RandomDataExtraction {
 	}
 
 	public static void getColumnWeightsNB(NaiveBayes nb, int display) throws Exception{
-		nb.runTests("active_all_1000.arff", /* file to use */ 10 /* folds to use */, 0 /* test threshold */, 800 /*groups size*/, 0, 0, new PrintWriter("a.txt") /* file to write */, true, true, true, true, true);
-		
+		nb.runTests(FILE, /* file to use */ 10 /* folds to use */, threshold /* test threshold */, groupsSize /*groups size*/, pagesSize, messagesSize, new PrintWriter("a.txt") /* file to write */, DEMOGRAPHICS, GROUPS, PAGES, TRAITS, MESSAGES);
+
 		System.out.println("Using Predictor " + nb.getName());
 
-		Map<Integer,Double> termWeights = new HashMap<Integer,Double>();
-		Map<Integer,Double> positiveWeights = new HashMap<Integer,Double>();
-		Map<Integer,Double> negativeWeights = new HashMap<Integer,Double>();
-		Map<Integer,Double> neutralWeights = new HashMap<Integer,Double>();
+		Map<Integer,Double> termWeightsyy = new HashMap<Integer,Double>();
+		Map<Integer,Double> positiveWeightsyy = new HashMap<Integer,Double>();
+		Map<Integer,Double> negativeWeightsyy = new HashMap<Integer,Double>();
+		Map<Integer,Double> neutralWeightsyy = new HashMap<Integer,Double>();
 
-		System.out.println(nb);
-		
+		Map<Integer,Double> termWeightsyn = new HashMap<Integer,Double>();
+		Map<Integer,Double> positiveWeightsyn = new HashMap<Integer,Double>();
+		Map<Integer,Double> negativeWeightsyn = new HashMap<Integer,Double>();
+		Map<Integer,Double> neutralWeightsyn = new HashMap<Integer,Double>();
+
+		for (int i = 0; i < nb._condProb.size(); i++) {
+			ClassCondProb ccp = nb._condProb.get(i);
+
+			ArffData.Attribute  a = nb._trainData._attr.get(ccp._attr_index);
+			ArffData.Attribute ca = nb._trainData._attr.get(nb.CLASS_INDEX);
+
+			if (ccp._attr_index != nb.CLASS_INDEX){
+				/*System.out.println("P( " + a.name + " = " + a.getClassName(1) + " | " + ca.name + " = " + ca.getClassName(1) + 
+						" ) = " + (Math.exp(ccp._logprob[1][1])));
+				System.out.println("P( " + a.name + " = " + a.getClassName(1) + " | " + ca.name + " = " + ca.getClassName(0) + 
+						" ) = " + (Math.exp(ccp._logprob[1][0])));*/
+				double yy = Math.exp(ccp._logprob[1][1]);
+				double yn = Math.exp(ccp._logprob[1][0]);
+
+				if (yy > 0.5)
+					positiveWeightsyy.put(i, yy);
+				else if (yy < 0.5)
+					negativeWeightsyy.put(i, yy);
+				else
+					neutralWeightsyy.put(i, yy);
+
+				if ((yy / yn) > 0.5)
+					positiveWeightsyn.put(i, (yy / yn));
+				else if ((yy / yn) < 0.5)
+					negativeWeightsyn.put(i, (yy / yn));
+				else 
+					neutralWeightsyn.put(i, (yy / yn));
+
+				termWeightsyy.put(i,yy);
+				termWeightsyn.put(i,yn);
+			}
+
+		}
+
+		System.out.println("P(attribute = y | class = y)");
 		System.out.println("Top " + display + " results for all");
-		sortMap(termWeights,display);
+		sortMap(termWeightsyy,display);
 		System.out.println("\nTop " + display + " results for positive");
-		sortMap(positiveWeights,display);
+		sortMap(positiveWeightsyy,display);
 		System.out.println("\nTop " + display + " results for negative");
-		sortMap(negativeWeights,display);
+		sortMap(negativeWeightsyy,display);
 		System.out.println("\nTop " + display + " results for neutral");
-		sortMap(neutralWeights,display);	
+		sortMap(neutralWeightsyy,display);	
 
+		System.out.println("P(attribute = y | class = y) / P(attribute = y | class = n)");
+		System.out.println("Top " + display + " results for all");
+		sortMap(termWeightsyn,display);
+		System.out.println("\nTop " + display + " results for positive");
+		sortMap(positiveWeightsyn,display);
+		System.out.println("\nTop " + display + " results for negative");
+		sortMap(negativeWeightsyn,display);
+		System.out.println("\nTop " + display + " results for neutral");
+		sortMap(neutralWeightsyn,display);	
 	}
 
 	/*
@@ -199,7 +258,7 @@ public class RandomDataExtraction {
 	 */
 	static void sortMap(Map<Integer,Double> map, int display) throws Exception{
 		SortedMap sortedData = new TreeMap(new ValueComparer(map));
-		ArffData a = new ArffData("active_all_1000.arff",0, 800, 0, 0, true, true, true, true, true);
+		ArffData a = new ArffData(FILE,threshold, groupsSize, pagesSize, messagesSize, DEMOGRAPHICS, GROUPS, PAGES, TRAITS, MESSAGES);
 
 		//System.out.println(map);
 		int count = 1;
@@ -209,13 +268,16 @@ public class RandomDataExtraction {
 
 			int yes = 0;
 			int uniqueYes = 0;
-			HashSet<Double> users = new HashSet<Double>();
+			Set<Double> users = new HashSet<Double>();
 			for (DataEntry entry : a._data){
-				yes += (Integer)(entry.getData((Integer) key+3));				
-				if (!users.contains(entry.getData(0))){
-					uniqueYes += (Integer)(entry.getData((Integer) key+3));
-					users.add((Double) entry.getData(0));
-				}
+				if ((Integer)entry.getData((Integer) key+3) > 0){
+					yes += (Integer)(entry.getData((Integer) key+3));
+					//System.out.println((Double)entry.getData(0) + ":" + users.contains((Double)entry.getData(0)) + ":" + users.size());
+					if (!users.contains((Double)entry.getData(0))){
+						uniqueYes += (Integer)(entry.getData((Integer) key+3));
+						users.add((Double)entry.getData(0));
+					}
+				}				
 			}
 
 			System.out.println(count + "\t" + map.get(key) + "\t" + attribute + "\t yes(" + yes + ") " + "\t unique(" + uniqueYes + ") " + (attribute.contains("group_") ? "\t" + getData("linkrGroups",attribute) : "") + (attribute.contains("page_") ? "\t" + getData("linkrLikes",attribute) : ""));
@@ -229,9 +291,9 @@ public class RandomDataExtraction {
 	public static void main(String[] args) throws Exception {
 		NaiveBayes nb = new NaiveBayes(1.0d);
 		getColumnWeightsNB(nb, 15);
-		
+
 		LogisticRegression lr = new LogisticRegression(LogisticRegression.PRIOR_TYPE.L2, 2d);
-		//getColumnWeightsLR(lr,15);
+		getColumnWeightsLR(lr,15);
 	}
 
 }

@@ -1,13 +1,10 @@
 package project.riley.predictor;
 
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.nicta.lr.util.Constants;
-
-import project.riley.predictor.ArffData.Attribute;
 
 import de.bwaldvogel.liblinear.SolverType;
 
@@ -115,7 +112,7 @@ public class Launcher {
 				if (p.getName().contains("NaiveBayes") || p.getName().contains("LogisticRegression") || p.getName().contains("SVMLibSVM") || p.getName().contains("SVMLibLinear")){
 					System.out.println("Running predictors on " + DATA_FILE + " using " +  name +  " size " + i);
 					writer.println("Running predictors on " + DATA_FILE + " using " +  name +  " size " + i);
-					p.runTests(DATA_FILE /* file to use */, NUM_FOLDS /* folds to use */, 0 /* test threshold */, i /*groups size*/, 0/*pages size*/, 0/*messages size*/, writer /* file to write */, false, true, false, false, false);
+					p.runTests(DATA_FILE /* file to use */, NUM_FOLDS /* folds to use */, 0 /* test threshold */, 0 /*groups size*/, i/*pages size*/, 0/*messages size*/, writer /* file to write */, false, false, true, false, false);
 				}
 			}
 	}
@@ -132,7 +129,8 @@ public class Launcher {
 		writer = new PrintWriter(outName);		
 
 		//launcher.launchThresholds();
-		launcher.launchSizeComparisons("group");		
+		//launcher.launchSizeComparisons("group");		
+		launcher.launchSizeComparisons("pages");
 
 		System.out.println("Finished writing to file " + outName);
 		writer.close();
