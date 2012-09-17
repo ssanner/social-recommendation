@@ -1,0 +1,1 @@
+Trained on ACTIVE, tested on ACTIVE. Same folds as Experiment #1. Only difference is the removal of user and link features in the experiments.
