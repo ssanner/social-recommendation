@@ -19,6 +19,7 @@ import project.riley.predictor.NaiveBayes;
 import project.riley.predictor.ArffData.DataEntry;
 import project.riley.predictor.NaiveBayes.ClassCondProb;
 import project.riley.predictor.LogisticRegression;
+import project.riley.predictor.Predictor;
 
 public class RandomDataExtraction {
 
@@ -154,13 +155,13 @@ public class RandomDataExtraction {
 		}
 
 		System.out.println("Top " + display + " results for all");
-		sortMap(termWeights,display);
+		sortMap(termWeights,display,lr);
 		System.out.println("\nTop " + display + " results for positive");
-		sortMap(positiveWeights,display);
+		sortMap(positiveWeights,display,lr);
 		System.out.println("\nTop " + display + " results for negative");
-		sortMap(negativeWeights,display);
+		sortMap(negativeWeights,display,lr);
 		System.out.println("\nTop " + display + " results for neutral");
-		sortMap(neutralWeights,display);	
+		sortMap(neutralWeights,display,lr);	
 	}
 
 	public static void getColumnWeightsNB(NaiveBayes nb, int display) throws Exception{
@@ -214,23 +215,23 @@ public class RandomDataExtraction {
 
 		System.out.println("P(attribute = y | class = y)");
 		System.out.println("Top " + display + " results for all");
-		sortMap(termWeightsyy,display);
+		sortMap(termWeightsyy,display,nb);
 		System.out.println("\nTop " + display + " results for positive");
-		sortMap(positiveWeightsyy,display);
+		sortMap(positiveWeightsyy,display,nb);
 		System.out.println("\nTop " + display + " results for negative");
-		sortMap(negativeWeightsyy,display);
+		sortMap(negativeWeightsyy,display,nb);
 		System.out.println("\nTop " + display + " results for neutral");
-		sortMap(neutralWeightsyy,display);	
+		sortMap(neutralWeightsyy,display,nb);	
 
 		System.out.println("P(attribute = y | class = y) / P(attribute = y | class = n)");
 		System.out.println("Top " + display + " results for all");
-		sortMap(termWeightsyn,display);
+		sortMap(termWeightsyn,display,nb);
 		System.out.println("\nTop " + display + " results for positive");
-		sortMap(positiveWeightsyn,display);
+		sortMap(positiveWeightsyn,display,nb);
 		System.out.println("\nTop " + display + " results for negative");
-		sortMap(negativeWeightsyn,display);
+		sortMap(negativeWeightsyn,display,nb);
 		System.out.println("\nTop " + display + " results for neutral");
-		sortMap(neutralWeightsyn,display);	
+		sortMap(neutralWeightsyn,display,nb);	
 	}
 
 	/*
@@ -256,9 +257,9 @@ public class RandomDataExtraction {
 	/*
 	 * sort and display map
 	 */
-	static void sortMap(Map<Integer,Double> map, int display) throws Exception{
+	static void sortMap(Map<Integer,Double> map, int display, Predictor p) throws Exception{
 		SortedMap sortedData = new TreeMap(new ValueComparer(map));
-		ArffData a = new ArffData(FILE,threshold, groupsSize, pagesSize, messagesSize, DEMOGRAPHICS, GROUPS, PAGES, TRAITS, MESSAGES);
+		ArffData a = p._trainData;
 
 		//System.out.println(map);
 		int count = 1;
