@@ -104,6 +104,37 @@ public class Launcher {
 	}
 
 	/*
+	 * launch tests on different flags
+	 */
+	public void launchFlags() throws Exception{
+		int topGroupSize = 0;
+		int topPageSize = 0;
+		int topMessagesSize = 0;
+		
+		for (Predictor p : predictors){
+			System.out.println("Running predictors on " + DATA_FILE + " using demographics " +  true +  " groups " + false + " pages " + false + " traits " + false + " messages " + false);
+			writer.println("Running predictors on " + DATA_FILE + " using demographics " +  true +  " groups " + false + " pages " + false + " traits " + false + " messages " + false);
+			p.runTests(DATA_FILE /* file to use */, NUM_FOLDS /* folds to use */, 0 /* test threshold */, topGroupSize /*groups size*/, topPageSize/*pages size*/, topMessagesSize/*messages size*/, writer /* file to write */, true, false, false, false, false);
+			
+			System.out.println("Running predictors on " + DATA_FILE + " using demographics " +  false +  " groups " + true + " pages " + false + " traits " + false + " messages " + false);
+			writer.println("Running predictors on " + DATA_FILE + " using demographics " +  false +  " groups " + true + " pages " + false + " traits " + false + " messages " + false);
+			p.runTests(DATA_FILE /* file to use */, NUM_FOLDS /* folds to use */, 0 /* test threshold */, topGroupSize /*groups size*/, topPageSize/*pages size*/, topMessagesSize/*messages size*/, writer /* file to write */, false, true, false, false, false);
+			
+			System.out.println("Running predictors on " + DATA_FILE + " using demographics " +  false +  " groups " + false + " pages " + true + " traits " + false + " messages " + false);
+			writer.println("Running predictors on " + DATA_FILE + " using demographics " +  false +  " groups " + false + " pages " + true + " traits " + false + " messages " + false);
+			p.runTests(DATA_FILE /* file to use */, NUM_FOLDS /* folds to use */, 0 /* test threshold */, topGroupSize /*groups size*/, topPageSize/*pages size*/, topMessagesSize/*messages size*/, writer /* file to write */, false, false, true, false, false);
+			
+			System.out.println("Running predictors on " + DATA_FILE + " using demographics " +  false +  " groups " + false + " pages " + false + " traits " + true + " messages " + false);
+			writer.println("Running predictors on " + DATA_FILE + " using demographics " +  false +  " groups " + false + " pages " + false + " traits " + true + " messages " + false);
+			p.runTests(DATA_FILE /* file to use */, NUM_FOLDS /* folds to use */, 0 /* test threshold */, topGroupSize /*groups size*/, topPageSize/*pages size*/, topMessagesSize/*messages size*/, writer /* file to write */, false, false, false, true, false);
+			
+			System.out.println("Running predictors on " + DATA_FILE + " using demographics " +  false +  " groups " + false + " pages " + false + " traits " + false + " messages " + true);
+			writer.println("Running predictors on " + DATA_FILE + " using demographics " +  false +  " groups " + false + " pages " + false + " traits " + false + " messages " + true);
+			p.runTests(DATA_FILE /* file to use */, NUM_FOLDS /* folds to use */, 0 /* test threshold */, topGroupSize /*groups size*/, topPageSize/*pages size*/, topMessagesSize/*messages size*/, writer /* file to write */, false, false, false, false, true);
+		}
+	}
+
+	/*
 	 * launch group size comparisons
 	 */
 	public void launchSizeComparisons(String name) throws Exception{
@@ -112,7 +143,7 @@ public class Launcher {
 				if (p.getName().contains("NaiveBayes") || p.getName().contains("LogisticRegression") || p.getName().contains("SVMLibSVM") || p.getName().contains("SVMLibLinear")){
 					System.out.println("Running predictors on " + DATA_FILE + " using " +  name +  " size " + i);
 					writer.println("Running predictors on " + DATA_FILE + " using " +  name +  " size " + i);
-					p.runTests(DATA_FILE /* file to use */, NUM_FOLDS /* folds to use */, 0 /* test threshold */, 0 /*groups size*/, i/*pages size*/, 0/*messages size*/, writer /* file to write */, false, false, true, false, false);
+					p.runTests(DATA_FILE /* file to use */, NUM_FOLDS /* folds to use */, 0 /* test threshold */, 0 /*groups size*/, 0/*pages size*/, i/*messages size*/, writer /* file to write */, false, false, false, false, true);
 				}
 			}
 	}
@@ -130,7 +161,9 @@ public class Launcher {
 
 		//launcher.launchThresholds();
 		//launcher.launchSizeComparisons("group");		
-		launcher.launchSizeComparisons("pages");
+		//launcher.launchSizeComparisons("pages");
+		launcher.launchSizeComparisons("messages");
+		//launcher.launchFlags();
 
 		System.out.println("Finished writing to file " + outName);
 		writer.close();
