@@ -1,0 +1,63 @@
+Running predictors on active_all_1000.arff using demographics
+Running NaiveBayes(1.0) using active_all_1000.arff
+Accuracy:  0.597  +/-  0.012
+Precision: 0.686  +/-  0.054
+Recall:    0.146  +/-  0.014
+F-Score:   0.24  +/-  0.022
+
+Running predictors on active_all_1000.arff using demographics
+Running SVMLibLinear(L2R_L2LOSS_SVC,0.125,0.001) using active_all_1000.arff
+Accuracy:  0.608  +/-  0.011
+Precision: 0.594  +/-  0.032
+Recall:    0.328  +/-  0.028
+F-Score:   0.422  +/-  0.029
+
+Running predictors on active_all_1000.arff using demographics
+Running SVMLibLinear(L1R_L2LOSS_SVC,0.125,0.001) using active_all_1000.arff
+Accuracy:  0.607  +/-  0.011
+Precision: 0.591  +/-  0.031
+Recall:    0.328  +/-  0.025
+F-Score:   0.421  +/-  0.027
+
+Running predictors on active_all_1000.arff using demographics
+Running SVMLibLinear(L2R_LR,0.125,0.001) using active_all_1000.arff
+Accuracy:  0.607  +/-  0.011
+Precision: 0.592  +/-  0.032
+Recall:    0.326  +/-  0.025
+F-Score:   0.42  +/-  0.027
+
+Running predictors on active_all_1000.arff using demographics
+Running SVMLibLinear(L1R_LR,0.125,0.001) using active_all_1000.arff
+Accuracy:  0.607  +/-  0.01
+Precision: 0.589  +/-  0.028
+Recall:    0.333  +/-  0.022
+F-Score:   0.425  +/-  0.023
+
+Running predictors on active_all_1000.arff using demographics
+Running LogisticRegression(L1,2.0) using active_all_1000.arff
+Accuracy:  0.605  +/-  0.012
+Precision: 0.588  +/-  0.035
+Recall:    0.325  +/-  0.028
+F-Score:   0.418  +/-  0.029
+
+Running predictors on active_all_1000.arff using demographics
+Running LogisticRegression(L1,2.0,MAX_ENT) using active_all_1000.arff
+Accuracy:  0.436  +/-  0.013
+Precision: 0.437  +/-  0.014
+Recall:    0.994  +/-  0.003
+F-Score:   0.607  +/-  0.013
+
+Running predictors on active_all_1000.arff using demographics
+Running LogisticRegression(L2,2.0) using active_all_1000.arff
+Accuracy:  0.605  +/-  0.013
+Precision: 0.588  +/-  0.034
+Recall:    0.323  +/-  0.029
+F-Score:   0.416  +/-  0.029
+
+Running predictors on active_all_1000.arff using demographics
+Running SVMLibSVM(0.125,0.1) using active_all_1000.arff
+Accuracy:  0.603  +/-  0.007
+Precision: 0.575  +/-  0.016
+Recall:    0.354  +/-  0.025
+F-Score:   0.437  +/-  0.021
+

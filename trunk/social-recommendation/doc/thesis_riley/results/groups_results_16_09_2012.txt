@@ -1,0 +1,693 @@
+Running predictors on active_all_1000.arff using group size 0
+Running NaiveBayes(1.0) using active_all_1000.arff
+Accuracy:  0.596  +/-  0.013
+Precision: 0.695  +/-  0.057
+Recall:    0.136  +/-  0.015
+F-Score:   0.227  +/-  0.023
+
+Running predictors on active_all_1000.arff using group size 0
+Running SVMLibLinear(L2R_L2LOSS_SVC,0.125,0.001) using active_all_1000.arff
+Accuracy:  0.596  +/-  0.012
+Precision: 0.648  +/-  0.056
+Recall:    0.173  +/-  0.019
+F-Score:   0.272  +/-  0.026
+
+Running predictors on active_all_1000.arff using group size 0
+Running SVMLibLinear(L1R_L2LOSS_SVC,0.125,0.001) using active_all_1000.arff
+Accuracy:  0.598  +/-  0.012
+Precision: 0.649  +/-  0.056
+Recall:    0.178  +/-  0.019
+F-Score:   0.279  +/-  0.025
+
+Running predictors on active_all_1000.arff using group size 0
+Running SVMLibLinear(L2R_LR,0.125,0.001) using active_all_1000.arff
+Accuracy:  0.597  +/-  0.013
+Precision: 0.647  +/-  0.057
+Recall:    0.178  +/-  0.018
+F-Score:   0.278  +/-  0.024
+
+Running predictors on active_all_1000.arff using group size 0
+Running SVMLibLinear(L1R_LR,0.125,0.001) using active_all_1000.arff
+Accuracy:  0.598  +/-  0.012
+Precision: 0.646  +/-  0.057
+Recall:    0.18  +/-  0.018
+F-Score:   0.281  +/-  0.025
+
+Running predictors on active_all_1000.arff using group size 0
+Running LogisticRegression(L1,2.0) using active_all_1000.arff
+Accuracy:  0.596  +/-  0.012
+Precision: 0.641  +/-  0.054
+Recall:    0.178  +/-  0.019
+F-Score:   0.277  +/-  0.026
+
+Running predictors on active_all_1000.arff using group size 0
+Running LogisticRegression(L1,2.0,MAX_ENT) using active_all_1000.arff
+Accuracy:  0.599  +/-  0.014
+Precision: 0.64  +/-  0.05
+Recall:    0.194  +/-  0.017
+F-Score:   0.297  +/-  0.024
+
+Running predictors on active_all_1000.arff using group size 0
+Running LogisticRegression(L2,2.0) using active_all_1000.arff
+Accuracy:  0.596  +/-  0.013
+Precision: 0.644  +/-  0.054
+Recall:    0.176  +/-  0.019
+F-Score:   0.275  +/-  0.026
+
+Running predictors on active_all_1000.arff using group size 0
+Running SVMLibSVM(0.125,0.1) using active_all_1000.arff
+Accuracy:  0.599  +/-  0.014
+Precision: 0.645  +/-  0.051
+Recall:    0.186  +/-  0.016
+F-Score:   0.289  +/-  0.023
+
+Running predictors on active_all_1000.arff using group size 100
+Running NaiveBayes(1.0) using active_all_1000.arff
+Accuracy:  0.599  +/-  0.013
+Precision: 0.693  +/-  0.049
+Recall:    0.15  +/-  0.016
+F-Score:   0.246  +/-  0.024
+
+Running predictors on active_all_1000.arff using group size 100
+Running SVMLibLinear(L2R_L2LOSS_SVC,0.125,0.001) using active_all_1000.arff
+Accuracy:  0.614  +/-  0.013
+Precision: 0.695  +/-  0.044
+Recall:    0.211  +/-  0.021
+F-Score:   0.323  +/-  0.028
+
+Running predictors on active_all_1000.arff using group size 100
+Running SVMLibLinear(L1R_L2LOSS_SVC,0.125,0.001) using active_all_1000.arff
+Accuracy:  0.615  +/-  0.013
+Precision: 0.697  +/-  0.048
+Recall:    0.212  +/-  0.023
+F-Score:   0.324  +/-  0.03
+
+Running predictors on active_all_1000.arff using group size 100
+Running SVMLibLinear(L2R_LR,0.125,0.001) using active_all_1000.arff
+Accuracy:  0.614  +/-  0.015
+Precision: 0.689  +/-  0.048
+Recall:    0.215  +/-  0.024
+F-Score:   0.327  +/-  0.032
+
+Running predictors on active_all_1000.arff using group size 100
+Running SVMLibLinear(L1R_LR,0.125,0.001) using active_all_1000.arff
+Accuracy:  0.611  +/-  0.014
+Precision: 0.684  +/-  0.055
+Recall:    0.205  +/-  0.023
+F-Score:   0.315  +/-  0.032
+
+Running predictors on active_all_1000.arff using group size 100
+Running LogisticRegression(L1,2.0) using active_all_1000.arff
+Accuracy:  0.615  +/-  0.012
+Precision: 0.678  +/-  0.048
+Recall:    0.229  +/-  0.019
+F-Score:   0.341  +/-  0.025
+
+Running predictors on active_all_1000.arff using group size 100
+Running LogisticRegression(L1,2.0,MAX_ENT) using active_all_1000.arff
+Accuracy:  0.616  +/-  0.013
+Precision: 0.635  +/-  0.039
+Recall:    0.287  +/-  0.025
+F-Score:   0.395  +/-  0.029
+
+Running predictors on active_all_1000.arff using group size 100
+Running LogisticRegression(L2,2.0) using active_all_1000.arff
+Accuracy:  0.616  +/-  0.012
+Precision: 0.678  +/-  0.045
+Recall:    0.233  +/-  0.025
+F-Score:   0.346  +/-  0.029
+
+Running predictors on active_all_1000.arff using group size 100
+Running SVMLibSVM(0.125,0.1) using active_all_1000.arff
+Accuracy:  0.612  +/-  0.014
+Precision: 0.703  +/-  0.043
+Recall:    0.196  +/-  0.02
+F-Score:   0.306  +/-  0.027
+
+Running predictors on active_all_1000.arff using group size 200
+Running NaiveBayes(1.0) using active_all_1000.arff
+Accuracy:  0.599  +/-  0.013
+Precision: 0.689  +/-  0.053
+Recall:    0.153  +/-  0.016
+F-Score:   0.25  +/-  0.024
+
+Running predictors on active_all_1000.arff using group size 200
+Running SVMLibLinear(L2R_L2LOSS_SVC,0.125,0.001) using active_all_1000.arff
+Accuracy:  0.616  +/-  0.013
+Precision: 0.7  +/-  0.037
+Recall:    0.213  +/-  0.022
+F-Score:   0.325  +/-  0.029
+
+Running predictors on active_all_1000.arff using group size 200
+Running SVMLibLinear(L1R_L2LOSS_SVC,0.125,0.001) using active_all_1000.arff
+Accuracy:  0.617  +/-  0.015
+Precision: 0.704  +/-  0.046
+Recall:    0.214  +/-  0.024
+F-Score:   0.327  +/-  0.031
+
+Running predictors on active_all_1000.arff using group size 200
+Running SVMLibLinear(L2R_LR,0.125,0.001) using active_all_1000.arff
+Accuracy:  0.616  +/-  0.016
+Precision: 0.697  +/-  0.046
+Recall:    0.217  +/-  0.023
+F-Score:   0.33  +/-  0.031
+
+Running predictors on active_all_1000.arff using group size 200
+Running SVMLibLinear(L1R_LR,0.125,0.001) using active_all_1000.arff
+Accuracy:  0.612  +/-  0.015
+Precision: 0.689  +/-  0.056
+Recall:    0.204  +/-  0.024
+F-Score:   0.314  +/-  0.033
+
+Running predictors on active_all_1000.arff using group size 200
+Running LogisticRegression(L1,2.0) using active_all_1000.arff
+Accuracy:  0.618  +/-  0.011
+Precision: 0.677  +/-  0.039
+Recall:    0.243  +/-  0.021
+F-Score:   0.356  +/-  0.024
+
+Running predictors on active_all_1000.arff using group size 200
+Running LogisticRegression(L1,2.0,MAX_ENT) using active_all_1000.arff
+Accuracy:  0.616  +/-  0.013
+Precision: 0.635  +/-  0.038
+Recall:    0.289  +/-  0.025
+F-Score:   0.396  +/-  0.028
+
+Running predictors on active_all_1000.arff using group size 200
+Running LogisticRegression(L2,2.0) using active_all_1000.arff
+Accuracy:  0.617  +/-  0.011
+Precision: 0.681  +/-  0.04
+Recall:    0.236  +/-  0.023
+F-Score:   0.35  +/-  0.028
+
+Running predictors on active_all_1000.arff using group size 200
+Running SVMLibSVM(0.125,0.1) using active_all_1000.arff
+Accuracy:  0.611  +/-  0.014
+Precision: 0.702  +/-  0.047
+Recall:    0.192  +/-  0.021
+F-Score:   0.301  +/-  0.029
+
+Running predictors on active_all_1000.arff using group size 300
+Running NaiveBayes(1.0) using active_all_1000.arff
+Accuracy:  0.599  +/-  0.013
+Precision: 0.686  +/-  0.054
+Recall:    0.154  +/-  0.016
+F-Score:   0.251  +/-  0.023
+
+Running predictors on active_all_1000.arff using group size 300
+Running SVMLibLinear(L2R_L2LOSS_SVC,0.125,0.001) using active_all_1000.arff
+Accuracy:  0.618  +/-  0.012
+Precision: 0.702  +/-  0.038
+Recall:    0.22  +/-  0.022
+F-Score:   0.335  +/-  0.027
+
+Running predictors on active_all_1000.arff using group size 300
+Running SVMLibLinear(L1R_L2LOSS_SVC,0.125,0.001) using active_all_1000.arff
+Accuracy:  0.618  +/-  0.015
+Precision: 0.706  +/-  0.044
+Recall:    0.214  +/-  0.023
+F-Score:   0.328  +/-  0.031
+
+Running predictors on active_all_1000.arff using group size 300
+Running SVMLibLinear(L2R_LR,0.125,0.001) using active_all_1000.arff
+Accuracy:  0.618  +/-  0.014
+Precision: 0.704  +/-  0.042
+Recall:    0.219  +/-  0.023
+F-Score:   0.334  +/-  0.03
+
+Running predictors on active_all_1000.arff using group size 300
+Running SVMLibLinear(L1R_LR,0.125,0.001) using active_all_1000.arff
+Accuracy:  0.612  +/-  0.015
+Precision: 0.687  +/-  0.056
+Recall:    0.206  +/-  0.024
+F-Score:   0.317  +/-  0.033
+
+Running predictors on active_all_1000.arff using group size 300
+Running LogisticRegression(L1,2.0) using active_all_1000.arff
+Accuracy:  0.619  +/-  0.012
+Precision: 0.67  +/-  0.035
+Recall:    0.254  +/-  0.024
+F-Score:   0.368  +/-  0.028
+
+Running predictors on active_all_1000.arff using group size 300
+Running LogisticRegression(L1,2.0,MAX_ENT) using active_all_1000.arff
+Accuracy:  0.617  +/-  0.013
+Precision: 0.635  +/-  0.035
+Recall:    0.294  +/-  0.026
+F-Score:   0.401  +/-  0.028
+
+Running predictors on active_all_1000.arff using group size 300
+Running LogisticRegression(L2,2.0) using active_all_1000.arff
+Accuracy:  0.621  +/-  0.011
+Precision: 0.682  +/-  0.035
+Recall:    0.251  +/-  0.021
+F-Score:   0.366  +/-  0.024
+
+Running predictors on active_all_1000.arff using group size 300
+Running SVMLibSVM(0.125,0.1) using active_all_1000.arff
+Accuracy:  0.611  +/-  0.014
+Precision: 0.703  +/-  0.05
+Recall:    0.192  +/-  0.021
+F-Score:   0.301  +/-  0.029
+
+Running predictors on active_all_1000.arff using group size 400
+Running NaiveBayes(1.0) using active_all_1000.arff
+Accuracy:  0.6  +/-  0.013
+Precision: 0.694  +/-  0.06
+Recall:    0.155  +/-  0.016
+F-Score:   0.253  +/-  0.023
+
+Running predictors on active_all_1000.arff using group size 400
+Running SVMLibLinear(L2R_L2LOSS_SVC,0.125,0.001) using active_all_1000.arff
+Accuracy:  0.618  +/-  0.014
+Precision: 0.703  +/-  0.034
+Recall:    0.217  +/-  0.025
+F-Score:   0.331  +/-  0.031
+
+Running predictors on active_all_1000.arff using group size 400
+Running SVMLibLinear(L1R_L2LOSS_SVC,0.125,0.001) using active_all_1000.arff
+Accuracy:  0.618  +/-  0.014
+Precision: 0.705  +/-  0.039
+Recall:    0.217  +/-  0.022
+F-Score:   0.331  +/-  0.029
+
+Running predictors on active_all_1000.arff using group size 400
+Running SVMLibLinear(L2R_LR,0.125,0.001) using active_all_1000.arff
+Accuracy:  0.619  +/-  0.014
+Precision: 0.702  +/-  0.042
+Recall:    0.222  +/-  0.024
+F-Score:   0.336  +/-  0.031
+
+Running predictors on active_all_1000.arff using group size 400
+Running SVMLibLinear(L1R_LR,0.125,0.001) using active_all_1000.arff
+Accuracy:  0.612  +/-  0.015
+Precision: 0.687  +/-  0.055
+Recall:    0.207  +/-  0.024
+F-Score:   0.317  +/-  0.033
+
+Running predictors on active_all_1000.arff using group size 400
+Running LogisticRegression(L1,2.0) using active_all_1000.arff
+Accuracy:  0.62  +/-  0.012
+Precision: 0.673  +/-  0.034
+Recall:    0.255  +/-  0.025
+F-Score:   0.369  +/-  0.028
+
+Running predictors on active_all_1000.arff using group size 400
+Running LogisticRegression(L1,2.0,MAX_ENT) using active_all_1000.arff
+Accuracy:  0.618  +/-  0.013
+Precision: 0.636  +/-  0.034
+Recall:    0.295  +/-  0.026
+F-Score:   0.402  +/-  0.028
+
+Running predictors on active_all_1000.arff using group size 400
+Running LogisticRegression(L2,2.0) using active_all_1000.arff
+Accuracy:  0.621  +/-  0.011
+Precision: 0.683  +/-  0.035
+Recall:    0.25  +/-  0.022
+F-Score:   0.365  +/-  0.025
+
+Running predictors on active_all_1000.arff using group size 400
+Running SVMLibSVM(0.125,0.1) using active_all_1000.arff
+Accuracy:  0.613  +/-  0.014
+Precision: 0.714  +/-  0.047
+Recall:    0.194  +/-  0.021
+F-Score:   0.305  +/-  0.03
+
+Running predictors on active_all_1000.arff using group size 500
+Running NaiveBayes(1.0) using active_all_1000.arff
+Accuracy:  0.6  +/-  0.013
+Precision: 0.692  +/-  0.06
+Recall:    0.156  +/-  0.015
+F-Score:   0.254  +/-  0.023
+
+Running predictors on active_all_1000.arff using group size 500
+Running SVMLibLinear(L2R_L2LOSS_SVC,0.125,0.001) using active_all_1000.arff
+Accuracy:  0.618  +/-  0.014
+Precision: 0.704  +/-  0.03
+Recall:    0.218  +/-  0.025
+F-Score:   0.331  +/-  0.031
+
+Running predictors on active_all_1000.arff using group size 500
+Running SVMLibLinear(L1R_L2LOSS_SVC,0.125,0.001) using active_all_1000.arff
+Accuracy:  0.617  +/-  0.014
+Precision: 0.702  +/-  0.038
+Recall:    0.216  +/-  0.022
+F-Score:   0.329  +/-  0.029
+
+Running predictors on active_all_1000.arff using group size 500
+Running SVMLibLinear(L2R_LR,0.125,0.001) using active_all_1000.arff
+Accuracy:  0.618  +/-  0.014
+Precision: 0.7  +/-  0.04
+Recall:    0.22  +/-  0.024
+F-Score:   0.334  +/-  0.031
+
+Running predictors on active_all_1000.arff using group size 500
+Running SVMLibLinear(L1R_LR,0.125,0.001) using active_all_1000.arff
+Accuracy:  0.612  +/-  0.015
+Precision: 0.687  +/-  0.056
+Recall:    0.206  +/-  0.024
+F-Score:   0.316  +/-  0.033
+
+Running predictors on active_all_1000.arff using group size 500
+Running LogisticRegression(L1,2.0) using active_all_1000.arff
+Accuracy:  0.62  +/-  0.012
+Precision: 0.672  +/-  0.032
+Recall:    0.255  +/-  0.024
+F-Score:   0.369  +/-  0.027
+
+Running predictors on active_all_1000.arff using group size 500
+Running LogisticRegression(L1,2.0,MAX_ENT) using active_all_1000.arff
+Accuracy:  0.618  +/-  0.013
+Precision: 0.636  +/-  0.034
+Recall:    0.296  +/-  0.026
+F-Score:   0.403  +/-  0.029
+
+Running predictors on active_all_1000.arff using group size 500
+Running LogisticRegression(L2,2.0) using active_all_1000.arff
+Accuracy:  0.621  +/-  0.012
+Precision: 0.685  +/-  0.032
+Recall:    0.249  +/-  0.023
+F-Score:   0.364  +/-  0.026
+
+Running predictors on active_all_1000.arff using group size 500
+Running SVMLibSVM(0.125,0.1) using active_all_1000.arff
+Accuracy:  0.613  +/-  0.015
+Precision: 0.714  +/-  0.043
+Recall:    0.193  +/-  0.023
+F-Score:   0.303  +/-  0.03
+
+Running predictors on active_all_1000.arff using group size 600
+Running NaiveBayes(1.0) using active_all_1000.arff
+Accuracy:  0.6  +/-  0.013
+Precision: 0.694  +/-  0.059
+Recall:    0.157  +/-  0.016
+F-Score:   0.255  +/-  0.023
+
+Running predictors on active_all_1000.arff using group size 600
+Running SVMLibLinear(L2R_L2LOSS_SVC,0.125,0.001) using active_all_1000.arff
+Accuracy:  0.618  +/-  0.014
+Precision: 0.705  +/-  0.032
+Recall:    0.218  +/-  0.026
+F-Score:   0.332  +/-  0.032
+
+Running predictors on active_all_1000.arff using group size 600
+Running SVMLibLinear(L1R_L2LOSS_SVC,0.125,0.001) using active_all_1000.arff
+Accuracy:  0.618  +/-  0.014
+Precision: 0.705  +/-  0.037
+Recall:    0.216  +/-  0.023
+F-Score:   0.33  +/-  0.029
+
+Running predictors on active_all_1000.arff using group size 600
+Running SVMLibLinear(L2R_LR,0.125,0.001) using active_all_1000.arff
+Accuracy:  0.618  +/-  0.015
+Precision: 0.7  +/-  0.04
+Recall:    0.22  +/-  0.025
+F-Score:   0.334  +/-  0.032
+
+Running predictors on active_all_1000.arff using group size 600
+Running SVMLibLinear(L1R_LR,0.125,0.001) using active_all_1000.arff
+Accuracy:  0.612  +/-  0.015
+Precision: 0.688  +/-  0.056
+Recall:    0.206  +/-  0.024
+F-Score:   0.317  +/-  0.033
+
+Running predictors on active_all_1000.arff using group size 600
+Running LogisticRegression(L1,2.0) using active_all_1000.arff
+Accuracy:  0.621  +/-  0.012
+Precision: 0.675  +/-  0.032
+Recall:    0.256  +/-  0.026
+F-Score:   0.37  +/-  0.029
+
+Running predictors on active_all_1000.arff using group size 600
+Running LogisticRegression(L1,2.0,MAX_ENT) using active_all_1000.arff
+Accuracy:  0.618  +/-  0.013
+Precision: 0.637  +/-  0.034
+Recall:    0.296  +/-  0.026
+F-Score:   0.404  +/-  0.028
+
+Running predictors on active_all_1000.arff using group size 600
+Running LogisticRegression(L2,2.0) using active_all_1000.arff
+Accuracy:  0.621  +/-  0.011
+Precision: 0.684  +/-  0.031
+Recall:    0.249  +/-  0.024
+F-Score:   0.364  +/-  0.027
+
+Running predictors on active_all_1000.arff using group size 600
+Running SVMLibSVM(0.125,0.1) using active_all_1000.arff
+Accuracy:  0.614  +/-  0.015
+Precision: 0.717  +/-  0.044
+Recall:    0.194  +/-  0.023
+F-Score:   0.304  +/-  0.031
+
+Running predictors on active_all_1000.arff using group size 700
+Running NaiveBayes(1.0) using active_all_1000.arff
+Accuracy:  0.601  +/-  0.013
+Precision: 0.695  +/-  0.059
+Recall:    0.156  +/-  0.016
+F-Score:   0.254  +/-  0.024
+
+Running predictors on active_all_1000.arff using group size 700
+Running SVMLibLinear(L2R_L2LOSS_SVC,0.125,0.001) using active_all_1000.arff
+Accuracy:  0.618  +/-  0.014
+Precision: 0.707  +/-  0.032
+Recall:    0.215  +/-  0.023
+F-Score:   0.328  +/-  0.03
+
+Running predictors on active_all_1000.arff using group size 700
+Running SVMLibLinear(L1R_L2LOSS_SVC,0.125,0.001) using active_all_1000.arff
+Accuracy:  0.617  +/-  0.014
+Precision: 0.703  +/-  0.038
+Recall:    0.216  +/-  0.023
+F-Score:   0.33  +/-  0.03
+
+Running predictors on active_all_1000.arff using group size 700
+Running SVMLibLinear(L2R_LR,0.125,0.001) using active_all_1000.arff
+Accuracy:  0.617  +/-  0.015
+Precision: 0.699  +/-  0.041
+Recall:    0.218  +/-  0.025
+F-Score:   0.331  +/-  0.033
+
+Running predictors on active_all_1000.arff using group size 700
+Running SVMLibLinear(L1R_LR,0.125,0.001) using active_all_1000.arff
+Accuracy:  0.612  +/-  0.015
+Precision: 0.688  +/-  0.056
+Recall:    0.206  +/-  0.024
+F-Score:   0.317  +/-  0.033
+
+Running predictors on active_all_1000.arff using group size 700
+Running LogisticRegression(L1,2.0) using active_all_1000.arff
+Accuracy:  0.62  +/-  0.012
+Precision: 0.674  +/-  0.033
+Recall:    0.256  +/-  0.026
+F-Score:   0.37  +/-  0.029
+
+Running predictors on active_all_1000.arff using group size 700
+Running LogisticRegression(L1,2.0,MAX_ENT) using active_all_1000.arff
+Accuracy:  0.618  +/-  0.013
+Precision: 0.637  +/-  0.034
+Recall:    0.297  +/-  0.026
+F-Score:   0.404  +/-  0.028
+
+Running predictors on active_all_1000.arff using group size 700
+Running LogisticRegression(L2,2.0) using active_all_1000.arff
+Accuracy:  0.62  +/-  0.011
+Precision: 0.681  +/-  0.031
+Recall:    0.249  +/-  0.024
+F-Score:   0.364  +/-  0.027
+
+Running predictors on active_all_1000.arff using group size 700
+Running SVMLibSVM(0.125,0.1) using active_all_1000.arff
+Accuracy:  0.612  +/-  0.015
+Precision: 0.712  +/-  0.044
+Recall:    0.191  +/-  0.023
+F-Score:   0.3  +/-  0.031
+
+Running predictors on active_all_1000.arff using group size 800
+Running NaiveBayes(1.0) using active_all_1000.arff
+Accuracy:  0.601  +/-  0.013
+Precision: 0.695  +/-  0.059
+Recall:    0.156  +/-  0.016
+F-Score:   0.254  +/-  0.024
+
+Running predictors on active_all_1000.arff using group size 800
+Running SVMLibLinear(L2R_L2LOSS_SVC,0.125,0.001) using active_all_1000.arff
+Accuracy:  0.619  +/-  0.014
+Precision: 0.712  +/-  0.033
+Recall:    0.214  +/-  0.023
+F-Score:   0.329  +/-  0.03
+
+Running predictors on active_all_1000.arff using group size 800
+Running SVMLibLinear(L1R_L2LOSS_SVC,0.125,0.001) using active_all_1000.arff
+Accuracy:  0.618  +/-  0.015
+Precision: 0.705  +/-  0.039
+Recall:    0.217  +/-  0.024
+F-Score:   0.331  +/-  0.031
+
+Running predictors on active_all_1000.arff using group size 800
+Running SVMLibLinear(L2R_LR,0.125,0.001) using active_all_1000.arff
+Accuracy:  0.617  +/-  0.015
+Precision: 0.699  +/-  0.042
+Recall:    0.218  +/-  0.025
+F-Score:   0.331  +/-  0.033
+
+Running predictors on active_all_1000.arff using group size 800
+Running SVMLibLinear(L1R_LR,0.125,0.001) using active_all_1000.arff
+Accuracy:  0.612  +/-  0.015
+Precision: 0.686  +/-  0.055
+Recall:    0.207  +/-  0.024
+F-Score:   0.317  +/-  0.033
+
+Running predictors on active_all_1000.arff using group size 800
+Running LogisticRegression(L1,2.0) using active_all_1000.arff
+Accuracy:  0.621  +/-  0.012
+Precision: 0.675  +/-  0.033
+Recall:    0.256  +/-  0.025
+F-Score:   0.37  +/-  0.029
+
+Running predictors on active_all_1000.arff using group size 800
+Running LogisticRegression(L1,2.0,MAX_ENT) using active_all_1000.arff
+Accuracy:  0.618  +/-  0.013
+Precision: 0.637  +/-  0.034
+Recall:    0.297  +/-  0.026
+F-Score:   0.404  +/-  0.028
+
+Running predictors on active_all_1000.arff using group size 800
+Running LogisticRegression(L2,2.0) using active_all_1000.arff
+Accuracy:  0.62  +/-  0.012
+Precision: 0.68  +/-  0.032
+Recall:    0.248  +/-  0.025
+F-Score:   0.363  +/-  0.028
+
+Running predictors on active_all_1000.arff using group size 800
+Running SVMLibSVM(0.125,0.1) using active_all_1000.arff
+Accuracy:  0.613  +/-  0.015
+Precision: 0.713  +/-  0.045
+Recall:    0.191  +/-  0.023
+F-Score:   0.301  +/-  0.031
+
+Running predictors on active_all_1000.arff using group size 900
+Running NaiveBayes(1.0) using active_all_1000.arff
+Accuracy:  0.601  +/-  0.013
+Precision: 0.695  +/-  0.06
+Recall:    0.156  +/-  0.016
+F-Score:   0.254  +/-  0.024
+
+Running predictors on active_all_1000.arff using group size 900
+Running SVMLibLinear(L2R_L2LOSS_SVC,0.125,0.001) using active_all_1000.arff
+Accuracy:  0.619  +/-  0.014
+Precision: 0.711  +/-  0.031
+Recall:    0.215  +/-  0.023
+F-Score:   0.329  +/-  0.029
+
+Running predictors on active_all_1000.arff using group size 900
+Running SVMLibLinear(L1R_L2LOSS_SVC,0.125,0.001) using active_all_1000.arff
+Accuracy:  0.618  +/-  0.014
+Precision: 0.705  +/-  0.036
+Recall:    0.216  +/-  0.023
+F-Score:   0.329  +/-  0.029
+
+Running predictors on active_all_1000.arff using group size 900
+Running SVMLibLinear(L2R_LR,0.125,0.001) using active_all_1000.arff
+Accuracy:  0.618  +/-  0.014
+Precision: 0.705  +/-  0.036
+Recall:    0.218  +/-  0.025
+F-Score:   0.332  +/-  0.032
+
+Running predictors on active_all_1000.arff using group size 900
+Running SVMLibLinear(L1R_LR,0.125,0.001) using active_all_1000.arff
+Accuracy:  0.612  +/-  0.015
+Precision: 0.686  +/-  0.055
+Recall:    0.207  +/-  0.024
+F-Score:   0.317  +/-  0.033
+
+Running predictors on active_all_1000.arff using group size 900
+Running LogisticRegression(L1,2.0) using active_all_1000.arff
+Accuracy:  0.621  +/-  0.012
+Precision: 0.677  +/-  0.032
+Recall:    0.257  +/-  0.024
+F-Score:   0.371  +/-  0.028
+
+Running predictors on active_all_1000.arff using group size 900
+Running LogisticRegression(L1,2.0,MAX_ENT) using active_all_1000.arff
+Accuracy:  0.618  +/-  0.013
+Precision: 0.637  +/-  0.034
+Recall:    0.297  +/-  0.026
+F-Score:   0.404  +/-  0.028
+
+Running predictors on active_all_1000.arff using group size 900
+Running LogisticRegression(L2,2.0) using active_all_1000.arff
+Accuracy:  0.621  +/-  0.011
+Precision: 0.684  +/-  0.031
+Recall:    0.248  +/-  0.025
+F-Score:   0.363  +/-  0.028
+
+Running predictors on active_all_1000.arff using group size 900
+Running SVMLibSVM(0.125,0.1) using active_all_1000.arff
+Accuracy:  0.614  +/-  0.014
+Precision: 0.722  +/-  0.038
+Recall:    0.192  +/-  0.022
+F-Score:   0.303  +/-  0.03
+
+Running predictors on active_all_1000.arff using group size 1000
+Running NaiveBayes(1.0) using active_all_1000.arff
+Accuracy:  0.6  +/-  0.013
+Precision: 0.694  +/-  0.06
+Recall:    0.155  +/-  0.017
+F-Score:   0.253  +/-  0.025
+
+Running predictors on active_all_1000.arff using group size 1000
+Running SVMLibLinear(L2R_L2LOSS_SVC,0.125,0.001) using active_all_1000.arff
+Accuracy:  0.619  +/-  0.015
+Precision: 0.711  +/-  0.031
+Recall:    0.217  +/-  0.026
+F-Score:   0.332  +/-  0.033
+
+Running predictors on active_all_1000.arff using group size 1000
+Running SVMLibLinear(L1R_L2LOSS_SVC,0.125,0.001) using active_all_1000.arff
+Accuracy:  0.618  +/-  0.014
+Precision: 0.705  +/-  0.036
+Recall:    0.216  +/-  0.023
+F-Score:   0.33  +/-  0.03
+
+Running predictors on active_all_1000.arff using group size 1000
+Running SVMLibLinear(L2R_LR,0.125,0.001) using active_all_1000.arff
+Accuracy:  0.618  +/-  0.015
+Precision: 0.705  +/-  0.038
+Recall:    0.217  +/-  0.025
+F-Score:   0.331  +/-  0.032
+
+Running predictors on active_all_1000.arff using group size 1000
+Running SVMLibLinear(L1R_LR,0.125,0.001) using active_all_1000.arff
+Accuracy:  0.612  +/-  0.015
+Precision: 0.687  +/-  0.056
+Recall:    0.206  +/-  0.024
+F-Score:   0.316  +/-  0.033
+
+Running predictors on active_all_1000.arff using group size 1000
+Running LogisticRegression(L1,2.0) using active_all_1000.arff
+Accuracy:  0.621  +/-  0.012
+Precision: 0.675  +/-  0.032
+Recall:    0.256  +/-  0.025
+F-Score:   0.37  +/-  0.029
+
+Running predictors on active_all_1000.arff using group size 1000
+Running LogisticRegression(L1,2.0,MAX_ENT) using active_all_1000.arff
+Accuracy:  0.618  +/-  0.013
+Precision: 0.637  +/-  0.034
+Recall:    0.297  +/-  0.026
+F-Score:   0.404  +/-  0.028
+
+Running predictors on active_all_1000.arff using group size 1000
+Running LogisticRegression(L2,2.0) using active_all_1000.arff
+Accuracy:  0.621  +/-  0.012
+Precision: 0.686  +/-  0.03
+Recall:    0.248  +/-  0.024
+F-Score:   0.364  +/-  0.028
+
+Running predictors on active_all_1000.arff using group size 1000
+Running SVMLibSVM(0.125,0.1) using active_all_1000.arff
+Accuracy:  0.614  +/-  0.015
+Precision: 0.721  +/-  0.041
+Recall:    0.191  +/-  0.023
+F-Score:   0.302  +/-  0.031
+
