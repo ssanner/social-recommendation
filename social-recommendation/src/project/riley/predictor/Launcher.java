@@ -150,7 +150,7 @@ public class Launcher {
 
 		Date dNow = new Date();
 		SimpleDateFormat ft = new SimpleDateFormat ("dd_MM_yyyy");
-		String outName = "asd_results_" + ft.format(dNow) + ".txt"; 
+		String outName = "demographics_results_" + ft.format(dNow) + ".txt"; 
 
 		writer = new PrintWriter(outName);		
 
@@ -159,9 +159,14 @@ public class Launcher {
 		//launcher.launchSizeComparisons("pages");
 		//launcher.launchSizeComparisons("messages");
 		//launcher.launchFlags();
-
-		Predictor constPredTrue  = new ConstantPredictor(true);
-		constPredTrue.runTests(DATA_FILE /* file to use */, NUM_FOLDS /* folds to use */, 0 /* test threshold */, 0 /*groups size*/, 0/*pages size*/, 0/*messages size*/, writer /* file to write */, false, false, false, false, false);
+		
+		for (Predictor p : predictors){
+			if (p.getName().contains("NaiveBayes") || p.getName().contains("LogisticRegression") || p.getName().contains("SVMLibSVM") || p.getName().contains("SVMLibLinear")){
+				System.out.println("Running predictors on " + DATA_FILE + " using demographics");
+				writer.println("Running predictors on " + DATA_FILE + " using demographics");
+				p.runTests(DATA_FILE /* file to use */, NUM_FOLDS /* folds to use */, 0 /* test threshold */, 0 /*groups size*/, 0/*pages size*/, 0/*messages size*/, writer /* file to write */, true, false, false, false, false);
+			}
+		}
 		
 		System.out.println("Finished writing to file " + outName);
 		writer.close();
