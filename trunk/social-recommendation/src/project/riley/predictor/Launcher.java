@@ -22,11 +22,6 @@ public class Launcher {
 	public static int step = 100;
 	public static PrintWriter  writer;
 	public static Predictor[]  predictors;
-	public static boolean DEMOGRAPHICS = false;
-	public static boolean GROUPS = false;
-	public static boolean PAGES = false;
-	public static boolean TRAITS = false;
-	public static boolean CONVERSATION = false;
 
 	/*
 	 * set up predictors
@@ -98,7 +93,7 @@ public class Launcher {
 			for (Predictor p : predictors){
 				System.out.println("Running predictors on " + DATA_FILE + " using threshold " + i);
 				writer.println("Running predictors on " + DATA_FILE + " using threshold " + i);
-				p.runTests(DATA_FILE /* file to use */, NUM_FOLDS /* folds to use */, i /* test threshold */, 0 /*groups size*/, 0 /*pages size*/, 0 /*messages size*/, writer /* file to write */, DEMOGRAPHICS, GROUPS, PAGES, TRAITS, CONVERSATION);
+				p.runTests(DATA_FILE /* file to use */, NUM_FOLDS /* folds to use */, i /* test threshold */, 0 /*groups size*/, 0 /*pages size*/, 0 /*messages size*/, writer /* file to write */, false, false, false, false, false);
 			}
 		}
 	}
@@ -155,16 +150,19 @@ public class Launcher {
 
 		Date dNow = new Date();
 		SimpleDateFormat ft = new SimpleDateFormat ("dd_MM_yyyy");
-		String outName = "results_" + ft.format(dNow) + ".txt"; 
+		String outName = "asd_results_" + ft.format(dNow) + ".txt"; 
 
 		writer = new PrintWriter(outName);		
 
 		//launcher.launchThresholds();
 		//launcher.launchSizeComparisons("group");		
 		//launcher.launchSizeComparisons("pages");
-		launcher.launchSizeComparisons("messages");
+		//launcher.launchSizeComparisons("messages");
 		//launcher.launchFlags();
 
+		Predictor constPredTrue  = new ConstantPredictor(true);
+		constPredTrue.runTests(DATA_FILE /* file to use */, NUM_FOLDS /* folds to use */, 0 /* test threshold */, 0 /*groups size*/, 0/*pages size*/, 0/*messages size*/, writer /* file to write */, false, false, false, false, false);
+		
 		System.out.println("Finished writing to file " + outName);
 		writer.close();
 	}

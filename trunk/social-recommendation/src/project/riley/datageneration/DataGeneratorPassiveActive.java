@@ -572,7 +572,7 @@ public class DataGeneratorPassiveActive {
 		int count = getCount("select count(*) from linkrLikes where uid in (" + usersToGet + ");");
 
 		while (limit <= (count-1)){		
-			query = "select uid, id from linkrGroups where uid in (" + usersToGet + ") limit " + limit + "," + (limit+stepSize) + ";";
+			query = "select uid, id from linkrLikes where uid in (" + usersToGet + ") limit " + limit + "," + (limit+stepSize) + ";";
 			result = statement.executeQuery(query);
 
 			while (result.next()){
