@@ -699,10 +699,11 @@ public class ArffData {
 		}*/
 //		public ArffData(String filename, int _threshold, int _groupsSize, int _pagesSize, int _messagesSize, boolean _demographics, boolean _groups, boolean _pages, boolean _traits, boolean _conversations) {
 		
-		ArffData f1 = new ArffData("active_all_1000.arff",0,100,0,0,false,true,false,false,false);
+		ArffData f1 = new ArffData("active_all_1000.arff",0,0,250,0,false,false,true,false,false);
 		for (Attribute s : f1._attr){
 			System.out.println(s);
 		}
+		System.out.println(f1.pages);
 		System.out.println(f1._attr.size());
 
 
