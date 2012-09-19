@@ -23,7 +23,7 @@ public class LinkRecommenderArff extends org.nicta.lr.LinkRecommender
 	static DecimalFormat df3 = new DecimalFormat("#.###");
 	//Use as much of the old code as possible.
 	//But make a new class and method as I don't trust myself yet to edit the old code and not break anything
-	public Double[] run(String trainFile, String testFile, String type)
+	public Double[] run(ArffData trainArff, ArffData testArff, String type)
 			throws Exception
 			{
 		this.type = type;
@@ -34,7 +34,7 @@ public class LinkRecommenderArff extends org.nicta.lr.LinkRecommender
 		Map<Long, Set<Long>> trainData = new HashMap<Long, Set<Long>>();
 
 		//Read train data
-		ArffData trainArff = new ArffData(trainFile);
+		//ArffData trainArff = new ArffData(trainFile);
 		for (DataEntry de : trainArff._data) {
 			//System.out.println(de.toString());
 			long userId = ((Double)de.getData(0)).longValue();
@@ -63,7 +63,7 @@ public class LinkRecommenderArff extends org.nicta.lr.LinkRecommender
 		Map<Long, Set<Long>> testData = new HashMap<Long, Set<Long>>();
 
 		//Read test data
-		ArffData testArff = new ArffData(testFile);
+		//ArffData testArff = new ArffData(testFile);
 		for (DataEntry de : testArff._data) {
 			//System.out.println(de.toString());
 			long userId = ((Double)de.getData(0)).longValue();
@@ -135,7 +135,7 @@ public class LinkRecommenderArff extends org.nicta.lr.LinkRecommender
 		return getArffMetrics(predictions, testLikes, threshold);
 			}
 
-	public static void runTests(String source_file, int num_folds, int threshold, int groupsSize, int pagesSize, int messagesSize, PrintWriter writer, boolean demographics, boolean groups, boolean pages, boolean traits, boolean conversations) throws Exception {
+	public static void runTests(String source_file, int num_folds, PrintWriter writer, int threshold) throws Exception {
 		int normal = num_folds;
 		
 		Double[] accuracies = new Double[num_folds];
@@ -152,21 +152,42 @@ public class LinkRecommenderArff extends org.nicta.lr.LinkRecommender
 			String trainName = source_file + ".train." + (i+1);
 			String testName  = source_file + ".test."  + (i+1);
 
-		//	ArffData _testData  = new ArffData(testName, threshold, groupsSize, pagesSize, messagesSize, demographics, groups, pages, traits, conversations);
+			ArffData _testData  = new ArffData();
+			_testData.setThreshold(threshold);
+			_testData.setFriends(Launcher.FRIENDS_FEATURE);
+			_testData.setInteractions(Launcher.INTERACTIONS_FEATURE);
+			_testData.setDemographics(Launcher.DEMOGRAPHICS_FEATURE);
+			_testData.setGroups(Launcher.GROUPS_FEATURE, Launcher.GROUPS_SIZE);
+			_testData.setPages(Launcher.PAGES_FEATURE, Launcher.PAGES_SIZE);
+			_testData.setTraits(Launcher.TRAITS_FEATURE);
+			_testData.setOutgoingMessages(Launcher.OUTGOING_MESSAGES_FEATURE, Launcher.OUTGOING_MESSAGES_SIZE);
+			_testData.setIncomingMessages(Launcher.INCOMING_MESSAGES_FEATURE, Launcher.INCOMING_MESSAGES_SIZE);
+			_testData.setFileName(testName);
 			
-		/*	if (_testData._data.size() == 0){
+			ArffData _trainData  = new ArffData();
+			_trainData.setThreshold(0);
+			_trainData.setFriends(Launcher.FRIENDS_FEATURE);
+			_trainData.setInteractions(Launcher.INTERACTIONS_FEATURE);
+			_trainData.setDemographics(Launcher.DEMOGRAPHICS_FEATURE);
+			_trainData.setGroups(Launcher.GROUPS_FEATURE, Launcher.GROUPS_SIZE);
+			_trainData.setPages(Launcher.PAGES_FEATURE, Launcher.PAGES_SIZE);
+			_trainData.setTraits(Launcher.TRAITS_FEATURE);
+			_trainData.setOutgoingMessages(Launcher.OUTGOING_MESSAGES_FEATURE, Launcher.OUTGOING_MESSAGES_SIZE);
+			_trainData.setIncomingMessages(Launcher.INCOMING_MESSAGES_FEATURE, Launcher.INCOMING_MESSAGES_SIZE);
+			_trainData.setFileName(trainName);
+			
+			if (_testData._data.size() == 0){
 				//System.out.println(threshold);
 				//System.out.println(trainName + ":" + _trainData._data.size());
 				//System.out.println(testName + ":" + _testData._data.size());
 				normal--;
 				continue;
-			}					*/	
+			}						
 
 			//String type = Constants.FEATURE;
 			//String type = Constants.SOCIAL;
 			
-			//ArffData.threshold = 0;
-			Double[] results = new LinkRecommenderArff().run(trainName, testName, type);
+			Double[] results = new LinkRecommenderArff().run(_trainData, _testData, type);
 
 			accuracies[i] = results[0];
 			precisions[i] = results[1];

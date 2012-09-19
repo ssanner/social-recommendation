@@ -9,11 +9,6 @@ package project.riley.datageneration;
  *       for a negligible fraction of the data.
  */
 
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -22,7 +17,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Random;
 import java.util.Set;
 import java.util.Map.Entry;
 
@@ -52,11 +46,23 @@ public class DataGeneratorPassiveActive {
 	public static Map<Long,Set<Long>> _uid2linkids_likes = null;
 	public static Map<Long,Set<Long>> _uid2linkids_dislikes = null;
 	public static Map<EInteractionType,Map<EDirectionType,Map<Long,Set<Long>>>> _int_dir2uid_linkid = null;
-	public static ArrayList<String> topNWords;
 
-	public static Set<Long> usersSeen = new HashSet<Long>();
-	public static Set<Long> linksSeen = new HashSet<Long>();
+	public static HashMap<Long, Set<Long>> additionalLinkFeatures = new HashMap<Long, Set<Long>>();
+
+	public static ArrayList<String> topNWords;
 	public static int stepSize = 1000;
+
+	public static Set<Long> linksSeen = new HashSet<Long>();
+	public static Set<Long> usersSeen = new HashSet<Long>();
+
+	public static Map<Long,String> userGenders = new HashMap<Long,String>();
+	public static Map<Long,Integer> userBirthdays = new HashMap<Long,Integer>();
+	public static Map<Long,String> userLocale = new HashMap<Long,String>();
+
+	public static Map<Long,Set<Long>> userGroupMemberships = new HashMap<Long,Set<Long>>();
+	public static Map<Long,Set<Long>> userPageMemberships = new HashMap<Long,Set<Long>>();
+
+	public static Map<String, HashMap<Long, Set<Long>>> userTraits = new HashMap<String,HashMap<Long,Set<Long>>>();	
 
 	public static int topGroupsN = 1000;
 	public static int topWordsN = 1000;
@@ -109,6 +115,7 @@ public class DataGeneratorPassiveActive {
 				}
 				userLikes.add(link_id);
 				linksSeen.add(link_id);
+				usersSeen.add(uid);
 			}
 			result.close();
 			statement.close();
@@ -153,7 +160,6 @@ public class DataGeneratorPassiveActive {
 				// If a user has not liked a link in popular_app_user_links, consider it a dislike,
 				// otherwise a like.
 				for (Long link_id : popular_app_user_links) {
-					linksSeen.add(link_id);
 					if (links_liked == null || !links_liked.contains(link_id))
 						links_disliked_to_set.add(link_id);
 					else
@@ -230,10 +236,6 @@ public class DataGeneratorPassiveActive {
 			}
 		}
 
-		for (long uid : UserUtil.getAppUserIds()){
-			usersSeen.add(uid);
-		}
-
 		extractLinkFeatures();
 	}
 
@@ -305,9 +307,9 @@ public class DataGeneratorPassiveActive {
 		_writer.println("@attribute 'Uid' numeric");
 		_writer.println("@attribute 'Item' numeric");
 		_writer.println("@attribute 'Class' { 'n' , 'y' }");
-		
+
 		_writer.println("@attribute 'FriendLiked' { 'n' , 'y' }");
-		
+
 		for (int feat_index = 0; feat_index < _featuresInt.size(); feat_index++) {
 			_writer.println("@attribute '" + 
 					_featuresDir.get(feat_index) + "_" + 
@@ -333,7 +335,7 @@ public class DataGeneratorPassiveActive {
 		for (int i = 0; i < topNWords.size(); i++){
 			_writer.println("@attribute 'conversation_outgoing_" + i + "_" + topNWords.get(i) +  "' { " + NO + ", " + YES + " }");
 		}
-		
+
 		for (int i = 0; i < topNWords.size(); i++){
 			_writer.println("@attribute 'conversation_incoming_" + i + "_" + topNWords.get(i) +  "' { " + NO + ", " + YES + " }");
 		}
@@ -384,7 +386,7 @@ public class DataGeneratorPassiveActive {
 						}
 					}	
 					columns.append("," + (friendLikes == true ? YES : NO));
-					
+
 					// Now write columns
 					for (int feat_index = 0; feat_index < _featuresInt.size(); feat_index++) {
 						//System.out.println("Writing feature: " + _featuresDir.get(feat_index) + "_" + _featuresInt.get(feat_index));
@@ -423,30 +425,22 @@ public class DataGeneratorPassiveActive {
 
 		return count;
 	}
-
+	
 	/*
 	 * Extract user data for users who liked a given link
 	 */
-	static HashMap<Long, Set<Long>> additionalLinkFeatures = new HashMap<Long, Set<Long>>();
 	public static void extractLinkFeatures() throws Exception{
-		String query;
 		Statement statement = SQLUtil.getStatement();
-		ResultSet result;
 
-		StringBuilder links = new StringBuilder();
-		for (Long link : linksSeen){
-			links.append(link + ",");
-		}
-
-		String linksToGet = links.toString().substring(0, links.length()-1);
+		String linksToGet = setToString(linksSeen);;
 		System.out.println("Extracting links info for: (" + linksToGet + ")");				
 
 		int limit = 0;		
 		int count = getCount("select count(*) from linkrLinkLikes ll join linkrUser lu where ll.link_id in (" + linksToGet + ") and ll.id=lu.uid;");
 
 		while (limit <= (count-1)){
-			query = "select ll.link_id, lu.uid from linkrLinkLikes ll join linkrUser lu where ll.link_id in (" + linksToGet + ") and ll.id=lu.uid limit " + limit + "," + (limit+stepSize) + ";";
-			result = statement.executeQuery(query);
+			String query = "select ll.link_id, lu.uid from linkrLinkLikes ll join linkrUser lu where ll.link_id in (" + linksToGet + ") and ll.id=lu.uid limit " + limit + "," + (limit+stepSize) + ";";
+			ResultSet result = statement.executeQuery(query);
 
 			Set<Long> ls;
 			while (result.next()){
@@ -476,35 +470,27 @@ public class DataGeneratorPassiveActive {
 	/*
 	 * Extract additional user info for each app user
 	 */
-	static DataGeneratorPassiveActive ap = new DataGeneratorPassiveActive();
-	static HashMap<Long,UserStruct> additionalUserFeatures = new HashMap<Long,UserStruct>();
-	static String usersToGet;
 	public static void extractUserFeatures() throws Exception{						
-		String query;
 		Statement statement = SQLUtil.getStatement();
-		ResultSet result;
 
-		StringBuilder users = new StringBuilder();
-		for (Long user : usersSeen){
-			users.append(user + ",");
-		}
-
-		usersToGet = users.toString().substring(0, users.length()-1);
+		String usersToGet = setToString(usersSeen);
 		System.out.println("Extracting users info for: (" + usersToGet + ")");
 
 		int limit = 0;		
 		int count = getCount("select count(*) from linkrUser where uid in ( " + usersToGet + ");");
 
 		while (limit <= (count-1)){
-			query = "select uid, gender, right(birthday,4), locale from linkrUser where uid in ( " + usersToGet + ") limit " + limit + "," + (limit+stepSize) + ";";
-			result = statement.executeQuery(query);
+			String query = "select uid, gender, right(birthday,4), locale from linkrUser where uid in ( " + usersToGet + ") limit " + limit + "," + (limit+stepSize) + ";";
+			ResultSet result = statement.executeQuery(query);
 
-			while (result.next()){			
+			while (result.next()){		
+				Long uid = result.getLong(1);
 				String gender = result.getString(2);
 				int birthday = result.getInt(3);
 				String locale = result.getString(4);
-				UserStruct us = ap.new UserStruct(gender,birthday,locale);
-				additionalUserFeatures.put(result.getLong(1), us);
+				userGenders.put(uid,gender);
+				userBirthdays.put(uid, birthday);
+				userLocale.put(uid, locale);
 
 				System.out.println("\t New user data added:" + result.getLong(1));
 			}
@@ -515,10 +501,19 @@ public class DataGeneratorPassiveActive {
 		statement.close();
 
 		extractGroups();
+		extractPages();
 		extractTraits();
 		extractMessagesHack();
-		extractPages();
 		//extractMessages();
+	}
+
+	public static String setToString(Set<Long> set){
+		StringBuilder contains = new StringBuilder();
+		for (Long user : set){
+			contains.append(user + ",");
+		}
+
+		return contains.toString().substring(0, contains.length()-1);
 	}
 
 	/* 
@@ -527,10 +522,8 @@ public class DataGeneratorPassiveActive {
 	public static void extractGroups() throws Exception {
 		topNGroups();
 
-		String query;
 		Statement statement = SQLUtil.getStatement();
-		ResultSet result;
-		UserStruct us;
+		String usersToGet = setToString(usersSeen);
 
 		System.out.println("\t -> Extracting groups data");
 
@@ -539,12 +532,15 @@ public class DataGeneratorPassiveActive {
 		int count = getCount("select count(*) from linkrGroups where uid in (" + usersToGet + ");");
 
 		while (limit <= (count-1)){		
-			query = "select uid, id from linkrGroups where uid in (" + usersToGet + ") limit " + limit + "," + (limit+stepSize) + ";";
-			result = statement.executeQuery(query);
+			String query = "select uid, id from linkrGroups where uid in (" + usersToGet + ") limit " + limit + "," + (limit+stepSize) + ";";
+			ResultSet result = statement.executeQuery(query);
 
 			while (result.next()){
-				us = additionalUserFeatures.get(result.getLong(1));
-				us.groupMemberships.add(result.getLong(2));
+				Long uid = result.getLong(1);
+				Long group = result.getLong(2);
+				Set<Long> groups = (userGroupMemberships.get(uid) == null ? new HashSet<Long>() : userGroupMemberships.get(uid));
+				groups.add(group);
+				userGroupMemberships.put(uid, groups);
 			}
 			result.close();
 			limit += stepSize;
@@ -559,6 +555,7 @@ public class DataGeneratorPassiveActive {
 	static ArrayList<Long> topNGroupsSet = new ArrayList<Long>();
 	public static void topNGroups() throws Exception{
 
+		String usersToGet = setToString(usersSeen);
 		System.out.println("\t -> Extracting top groups data");
 
 		Statement statement = SQLUtil.getStatement();
@@ -579,10 +576,8 @@ public class DataGeneratorPassiveActive {
 	public static void extractPages() throws Exception {
 		topNPages();
 
-		String query;
 		Statement statement = SQLUtil.getStatement();
-		ResultSet result;
-		UserStruct us;
+		String usersToGet = setToString(usersSeen);
 
 		System.out.println("\t -> Extracting pages data");
 
@@ -591,12 +586,15 @@ public class DataGeneratorPassiveActive {
 		int count = getCount("select count(*) from linkrLikes where uid in (" + usersToGet + ");");
 
 		while (limit <= (count-1)){		
-			query = "select uid, id from linkrLikes where uid in (" + usersToGet + ") limit " + limit + "," + (limit+stepSize) + ";";
-			result = statement.executeQuery(query);
+			String query = "select uid, id from linkrLikes where uid in (" + usersToGet + ") limit " + limit + "," + (limit+stepSize) + ";";
+			ResultSet result = statement.executeQuery(query);
 
 			while (result.next()){
-				us = additionalUserFeatures.get(result.getLong(1));
-				us.pageMemberships.add(result.getLong(2));
+				Long uid = result.getLong(1);
+				Long page = result.getLong(2);
+				Set<Long> pages = (userPageMemberships.get(uid) == null ? new HashSet<Long>() : userPageMemberships.get(uid));
+				pages.add(page);
+				userPageMemberships.put(uid, pages);
 			}
 			result.close();
 			limit += stepSize;
@@ -610,6 +608,7 @@ public class DataGeneratorPassiveActive {
 	 */
 	static ArrayList<Long> topNPagesSet = new ArrayList<Long>();
 	public static void topNPages() throws Exception{
+		String usersToGet = setToString(usersSeen);
 
 		System.out.println("\t -> Extracting top pages data");
 
@@ -629,9 +628,8 @@ public class DataGeneratorPassiveActive {
 	 * extract user traits
 	 */
 	public static void extractTraits() throws Exception{
+		String usersToGet = setToString(usersSeen);
 		Statement statement = SQLUtil.getStatement();
-		ResultSet result = null;
-		UserStruct us;
 
 		System.out.println("\t -> Extracting user traits data");		
 
@@ -653,12 +651,18 @@ public class DataGeneratorPassiveActive {
 			}
 
 			while (limit <= (count-1)){
-				result = statement.executeQuery(q + " limit " + limit + "," + (limit+stepSize) + ";");
+				ResultSet result = statement.executeQuery(q + " limit " + limit + "," + (limit+stepSize) + ";");
 
 				while (result.next()){
-					us = additionalUserFeatures.get(result.getLong(1));
-					us.userTraits.get(trait).add(result.getLong(2));
-				}// member of any of the top N groups
+					Long uid = result.getLong(1);
+					Long traitId = result.getLong(2);
+
+					HashMap<Long, Set<Long>> AllTraits = (userTraits.get(trait) == null ? new HashMap<Long, Set<Long>>() : userTraits.get(trait));
+					Set<Long> traitsSet =  (AllTraits.get(uid) == null ? new HashSet<Long>() : AllTraits.get(uid));
+					traitsSet.add(traitId);
+					AllTraits.put(uid,traitsSet);
+					userTraits.put(trait,AllTraits);
+				}
 
 				result.close();
 				limit += stepSize;				
@@ -689,181 +693,115 @@ public class DataGeneratorPassiveActive {
 				sameActivities = false, sameBooks = false, sameFavoriteAthletes = false, 
 				sameFavoriteTeams = false, sameInspirationalPeople = false, sameInterests = false, sameMovies = false, 
 				sameMusic = false, sameSports = false, sameTelevision = false, sameSchool = false, sameWork = false;
-		
-		boolean[] groupsSame = new boolean[topGroupsN];
-		boolean[] pagesSame = new boolean[topPagesN];
 
-		// user info
-		UserStruct userInfo = additionalUserFeatures.get(uid);
+		boolean[] sameGroups = new boolean[topGroupsN];
+		boolean[] samePages = new boolean[topPagesN];
 
-		String userGender = userInfo.gender;
-		int userBirthday = userInfo.birthday;
-		String userLocale = userInfo.locale;
-
-		// user groups
-		ArrayList<Long> userGroups = userInfo.groupMemberships;
-		ArrayList<Long> userPages = userInfo.pageMemberships;
-
-		// user traits
-		HashSet<Long> userActivities = userInfo.userTraits.get("linkrActivities");
-		HashSet<Long> userBooks = userInfo.userTraits.get("linkrBooks");
-		HashSet<Long> userFavoriteAthletes = userInfo.userTraits.get("linkrFavoriteAthletes");
-		HashSet<Long> userFavoriteTeams = userInfo.userTraits.get("linkrFavoriteTeams");
-		HashSet<Long> userInspirationalPeople = userInfo.userTraits.get("linkrInspirationalPeople");
-		HashSet<Long> userInterests = userInfo.userTraits.get("linkrInterests");
-		HashSet<Long> userMovies = userInfo.userTraits.get("linkrMovies");
-		HashSet<Long> userMusic = userInfo.userTraits.get("linkrMusic");
-		HashSet<Long> userSports = userInfo.userTraits.get("linkrSports");
-		HashSet<Long> userTelevision = userInfo.userTraits.get("linkrTelevision");
-		HashSet<Long> userSchoolWith = userInfo.userTraits.get("linkrSchoolWith");
-		HashSet<Long> userWorksWith = userInfo.userTraits.get("linkrWorkWith");
+		boolean[] wordsOutgoing = new boolean[topWordsN];
+		boolean[] wordsIncoming = new boolean[topWordsN];
 
 		// likee info
-		Set<Long> usersLiked = additionalLinkFeatures.get(link_id);
-
-		String likeeGender;
-		int likeeBirthday;
-		String likeeLocale;
-
-		ArrayList<Long> likeeGroups, likeePages;
-
-		HashSet<Long> likeeActivities, likeeBooks, likeeFavoriteAthletes, likeeFavoriteTeams, likeeInspirationalPeople,
-		likeeInterests, likeeMovies, likeeMusic, likeeSports, likeeTelevision, likeeSchoolWith, likeeWorksWith;
-
-		boolean[] likeeWordsOutgoing = null;
-		boolean[] likeeWordsIncoming = null;
-
-		// likee info
-		if (usersLiked != null){ // want at least one person to have liked this
-			for (long likeeID : usersLiked){
-				// flags already all set
-				if (sameGender && sameBirthday && sameLocale && 
-						sameActivities && sameBooks && sameFavoriteAthletes && 
-						sameFavoriteTeams && sameInspirationalPeople && sameInterests && sameMovies && 
-						sameMusic && sameSports && sameTelevision && sameSchool && sameWork){
-					break;
-				}
+		if (additionalLinkFeatures.get(link_id) != null){
+			for (long likeeId : additionalLinkFeatures.get(link_id)){
 				// skip self
-				if (likeeID == uid){
+				if (likeeId == uid){
 					continue;
-				}
+				}		
 
-				UserStruct likee = additionalUserFeatures.get(likeeID);
-
-				likeeGender = likee.gender;
-				likeeBirthday = likee.birthday;
-				likeeLocale = likee.locale;
-
-				likeeGroups = likee.groupMemberships;
-				likeePages = likee.pageMemberships;
-
-				likeeActivities = likee.userTraits.get("linkrActivities");
-				likeeBooks = likee.userTraits.get("linkrBooks");
-				likeeFavoriteAthletes = likee.userTraits.get("linkrFavoriteAthletes");
-				likeeFavoriteTeams = likee.userTraits.get("linkrFavoriteTeams");
-				likeeInspirationalPeople = likee.userTraits.get("linkrInspirationalPeople");
-				likeeInterests = likee.userTraits.get("linkrInterests");
-				likeeMovies = likee.userTraits.get("linkrMovies");
-				likeeMusic = likee.userTraits.get("linkrMusic");
-				likeeSports = likee.userTraits.get("linkrSports");
-				likeeTelevision = likee.userTraits.get("linkrTelevision");
-				likeeSchoolWith = likee.userTraits.get("linkrSchoolWith");
-				likeeWorksWith = likee.userTraits.get("linkrWorkWith");
-
-				likeeWordsOutgoing = likee.wordsOutgoing;
-				likeeWordsIncoming = likee.wordsIncoming;
-
-				// test whether user and likee's have similarities
+				// demographics
 				if (!sameGender)
-					sameGender = (userGender.equals(likeeGender)) ? true : false;
+					sameGender = (userGenders.get(uid).equals(userGenders.get(likeeId))) ? true : false;
 
 				if (!sameBirthday){
-					int rounded = (userBirthday + 4) / 5 * 5;
-					if (likeeBirthday >= (rounded-4) && likeeBirthday <= rounded){
+					int rounded = (userBirthdays.get(uid) + 4) / 5 * 5;
+					if (userBirthdays.get(likeeId) >= (rounded-4) && userBirthdays.get(likeeId) <= rounded){
 						sameBirthday = true;				
 					}
 					//System.out.println("\t" + birthday + ":" + (birthday >= (rounded-4) && birthday <= rounded));				
 				}				
 
 				if (!sameLocale)
-					sameLocale = (userLocale.equals(likeeLocale)) ? true : false;
+					sameLocale = (userLocale.get(uid).equals(userLocale.get(likeeId))) ? true : false;
 
 				//traits
 				if (!sameActivities)
-					sameActivities = sameTraits(userActivities,likeeActivities);
+					sameActivities = sameTraits("linkrActivities",uid,likeeId);
 
 				if (!sameBooks)
-					sameBooks = sameTraits(userBooks,likeeBooks);
+					sameBooks = sameTraits("linkrBooks",uid,likeeId);
 
 				if (!sameFavoriteAthletes)
-					sameFavoriteAthletes = sameTraits(userFavoriteAthletes,likeeFavoriteAthletes);
+					sameFavoriteAthletes = sameTraits("linkrFavoriteAthletes",uid,likeeId);
 
 				if (!sameFavoriteTeams)
-					sameFavoriteTeams = sameTraits(userFavoriteTeams,likeeFavoriteTeams);
+					sameFavoriteTeams = sameTraits("linkrFavoriteTeams",uid,likeeId);
 
 				if (!sameInspirationalPeople)
-					sameInspirationalPeople = sameTraits(userInspirationalPeople, likeeInspirationalPeople);
+					sameInspirationalPeople = sameTraits("linkrInspirationalPeople",uid,likeeId);
 
 				if (!sameInterests)
-					sameInterests = sameTraits(userInterests,likeeInterests);
+					sameInterests = sameTraits("linkrInterests",uid,likeeId);
 
 				if (!sameMovies)
-					sameMovies = sameTraits(userMovies,likeeMovies);
+					sameMovies = sameTraits("linkrMovies",uid,likeeId);
 
 				if (!sameMusic)
-					sameMusic = sameTraits(userMusic,likeeMusic);
+					sameMusic = sameTraits("linkrMusic",uid,likeeId);
 
 				if (!sameSports)
-					sameSports = sameTraits(userSports,likeeSports);
+					sameSports = sameTraits("linkrSports",uid,likeeId);
 
 				if (!sameTelevision)
-					sameTelevision = sameTraits(userTelevision,likeeTelevision);
+					sameTelevision = sameTraits("linkrTelevision",uid,likeeId);
 
 				if (!sameSchool)
-					sameSchool = sameTraits(userSchoolWith,likeeSchoolWith);
+					sameSchool = sameTraits("linkrSchoolWith",uid,likeeId);
 
 				if (!sameWork)
-					sameWork = sameTraits(userWorksWith,likeeWorksWith);
+					sameWork = sameTraits("linkrWorkWith",uid,likeeId);
 
-				for (int i = 0; i < groupsSame.length; i++){
-					if (!groupsSame[i]){
-						groupsSame[i] = userGroups.contains(topNGroupsSet.get(i)) && likeeGroups.contains(topNGroupsSet.get(i));
+				//groups
+				for (int i = 0; i < sameGroups.length; i++){
+					if (!sameGroups[i] && userGroupMemberships.get(uid) != null && userGroupMemberships.get(likeeId) != null){
+						sameGroups[i] = userGroupMemberships.get(uid).contains(topNGroupsSet.get(i)) && userGroupMemberships.get(likeeId).contains(topNGroupsSet.get(i));
 					}
 				}
-				
-				for (int i = 0; i < pagesSame.length; i++){
-					if (!pagesSame[i]){
-						pagesSame[i] = userPages.contains(topNPagesSet.get(i)) && likeePages.contains(topNPagesSet.get(i));
+
+				//pages
+				for (int i = 0; i < samePages.length; i++){
+					if (!samePages[i] && userPageMemberships.get(uid) != null && userPageMemberships.get(likeeId) != null){
+						samePages[i] = userPageMemberships.get(uid).contains(topNPagesSet.get(i)) && userPageMemberships.get(likeeId).contains(topNPagesSet.get(i));
 					}
 				}
-				
-				for (int i = 0; i < likeeWordsOutgoing.length; i++){
-					if (!likeeWordsOutgoing[i] && UserInfoHack.getSeenOutgoing(uid, likeeID) != null)
-						likeeWordsOutgoing[i] = UserInfoHack.getSeenOutgoing(uid, likeeID)[i];
+
+				// messages
+				for (int i = 0; i < wordsOutgoing.length; i++){
+					if (!wordsOutgoing[i] && UserInfoHack.getSeenOutgoing(uid, likeeId) != null)
+						wordsOutgoing[i] = UserInfoHack.getSeenOutgoing(uid, likeeId)[i];
 				}
 
-				for (int i = 0; i < likeeWordsIncoming.length; i++){
-					if (!likeeWordsIncoming[i])
-						likeeWordsIncoming[i] = UserInfoHack.getSeenIncoming(uid, likeeID)[i];
+				for (int i = 0; i < wordsIncoming.length; i++){
+					if (!wordsIncoming[i] && UserInfoHack.getSeenIncoming(uid, likeeId) != null)
+						wordsIncoming[i] = UserInfoHack.getSeenIncoming(uid, likeeId)[i];
 				}
 			}
 		}
 
 		//demographics
-		results.append(PRE + ((userGender.equals("male")) ? YES : NO));				// user is male
-		results.append(PRE + ((userGender.equals("female")) ? YES : NO));			// user is female
-		results.append(PRE + (sameGender ? YES : NO)); 								// same gendered user has(nt) liked link		
-		results.append(PRE + (sameBirthday ? YES : NO));							// same birthday range user has(nt) liked link
-		results.append(PRE + (sameLocale ? YES : NO));								// same localed user has(nt) liked link
+		results.append(PRE + ((userGenders.get(uid).equals("male")) ? YES : NO));		// user is male
+		results.append(PRE + ((userGenders.get(uid).equals("female")) ? YES : NO));		// user is female
+		results.append(PRE + (sameGender ? YES : NO)); 									// same gendered user has(nt) liked link		
+		results.append(PRE + (sameBirthday ? YES : NO));								// same birthday range user has(nt) liked link
+		results.append(PRE + (sameLocale ? YES : NO));									// same localed user has(nt) liked link
 
 		// groups
-		for (int i = 0; i < groupsSame.length; i++){										
-			results.append(PRE + (groupsSame[i] ? YES : NO));
+		for (int i = 0; i < sameGroups.length; i++){										
+			results.append(PRE + (sameGroups[i] ? YES : NO));
 		}
 
 		// pages
-		for (int i = 0; i < pagesSame.length; i++){										
-			results.append(PRE + (pagesSame[i] ? YES : NO));
+		for (int i = 0; i < samePages.length; i++){										
+			results.append(PRE + (samePages[i] ? YES : NO));
 		}
 
 		//traits
@@ -882,11 +820,11 @@ public class DataGeneratorPassiveActive {
 
 		//conversation
 		for (int i = 0; i < topWordsN; i++){
-			results.append(PRE + (likeeWordsOutgoing[i] ? YES : NO));
+			results.append(PRE + (wordsOutgoing[i] ? YES : NO));
 		}
-		
+
 		for (int i = 0; i < topWordsN; i++){
-			results.append(PRE + (likeeWordsIncoming[i] ? YES : NO));
+			results.append(PRE + (wordsIncoming[i] ? YES : NO));
 		}
 
 		return results.toString();
@@ -895,64 +833,21 @@ public class DataGeneratorPassiveActive {
 	/*
 	 * return whether two hashsets share the same value
 	 */
-	public static boolean sameTraits(HashSet<Long> user, HashSet<Long> likee){
-		for (long userTrait : user){
+	public static boolean sameTraits(String trait, Long uid, Long likeeId){
+		Map<Long,Set<Long>> traitsSet = userTraits.get(trait);
+		if (traitsSet == null)
+			return false;
+		
+		Set<Long> user = traitsSet.get(uid);
+		Set<Long> likee = traitsSet.get(likeeId);
+		if (user == null || likee == null)
+			return false;
+		
+		for (Long userTrait : user){
 			if (likee.contains(userTrait))
 				return true;
 		}
 		return false;
-	}
-
-	/*
-	 * Store user info
-	 */				
-	public class UserStruct{
-		// demographics store
-		String gender;
-		int birthday;
-		String locale;
-
-		// groups store
-		ArrayList<Long> groupMemberships = new ArrayList<Long>();
-
-		// pages store
-		ArrayList<Long> pageMemberships = new ArrayList<Long>();
-
-		// user traits
-		HashMap<String, HashSet<Long>> userTraits = new HashMap<String,HashSet<Long>>();
-
-		// words 
-		boolean[] wordsOutgoing = new boolean[topWordsN];
-		boolean[] wordsIncoming = new boolean[topWordsN];
-
-		public UserStruct(String gender, int birthday, String locale){
-			this.gender = gender;
-			this.birthday = birthday;
-			this.locale = locale;
-
-			for (String trait : user_traits){
-				userTraits.put(trait,new HashSet<Long>());
-			}
-		}		
-	}
-
-	public static void main(String[] args) throws Exception {
-		//populateCachedData(true /* active */);
-		//writeData("active_data.arff");
-		//populateCachedData(false /* passive */);
-		//writeData("passive_data.arff");
-		//System.out.println(getAppConversationContent(162631113776237L,670845000));
-
-		//populateCachedData(true);
-
-		//getAppUserFeaturesInfo();
-		//extractLinkFeatures(308324665867510L);
-		//extractLinkFeatures(204685499600824L);													
-
-		//extractMessages(1461424861L);
-		//writeData("asd.arff");		
-
-
 	}
 
 }

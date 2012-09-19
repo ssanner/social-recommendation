@@ -31,15 +31,9 @@ public class UserInfoHack {
 		//if (new File(OUTGOING_MESSAGES_FILE).exists() && new File(INCOMING_MESSAGES_FILE).exists()){
 			//	System.out.println("Messages file already exists");
 			//processMessages();
-		//}
+		//}	
 
-		StringBuilder users = new StringBuilder();
-		for (Long user : DataGeneratorPassiveActive.usersSeen){
-			users.append(user + ",");
-		}
-
-		String usersToGet = users.toString().substring(0, users.length()-1);
-		System.out.println("Extracting users info for: (" + usersToGet + ")");
+		String usersToGet = DataGeneratorPassiveActive.setToString(DataGeneratorPassiveActive.usersSeen);
 
 		PrintWriter messagesWriter = new PrintWriter(MESSAGES_FILE);
 
@@ -49,7 +43,7 @@ public class UserInfoHack {
 		String[] tables = {"linkrLinkComments", "linkrPostComments", "linkrPhotoComments", "linkrVideoComments"};
 		for (String table : tables){
 
-			String sql_query = "SELECT uid, from_id, message FROM " + table + " where uid in  (" + usersToGet + ")"; // incoming
+			String sql_query = "SELECT uid, from_id, message FROM " + table + " where uid in  (" + usersToGet + ")"; 
 
 			result = statement.executeQuery(sql_query);
 			while (result.next()) {

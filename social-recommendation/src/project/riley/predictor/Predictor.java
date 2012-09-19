@@ -82,7 +82,7 @@ public abstract class Predictor {
 	/*
 	 * Run tests on data
 	 */
-	public void runTests(String source_file, int num_folds, int threshold, int groupsSize, int pagesSize, int messagesSize, PrintWriter writer, boolean demographics, boolean groups, boolean pages, boolean traits, boolean conversations) throws Exception {
+	public void runTests(String source_file, int num_folds, PrintWriter writer, int threshold) throws Exception {
 		
 		int correct = 0;									// correct classification
 		int truePositive = 0;								// true positives
@@ -101,10 +101,30 @@ public abstract class Predictor {
 			
 			String trainName = source_file + ".train." + (i+1);
 			String testName  = source_file + ".test."  + (i+1);
-			_trainData = null;
-			_testData = null;
-			//_trainData = new ArffData(trainName, 0, groupsSize, pagesSize, messagesSize, demographics, groups, pages, traits, conversations);
-			//_testData  = new ArffData(testName, threshold, groupsSize, pagesSize, messagesSize, demographics, groups, pages, traits, conversations);					
+			
+			_trainData = new ArffData();
+			_trainData.setThreshold(0);
+			_trainData.setFriends(Launcher.FRIENDS_FEATURE);
+			_trainData.setInteractions(Launcher.INTERACTIONS_FEATURE);
+			_trainData.setDemographics(Launcher.DEMOGRAPHICS_FEATURE);
+			_trainData.setGroups(Launcher.GROUPS_FEATURE, Launcher.GROUPS_SIZE);
+			_trainData.setPages(Launcher.PAGES_FEATURE, Launcher.PAGES_SIZE);
+			_trainData.setTraits(Launcher.TRAITS_FEATURE);
+			_trainData.setOutgoingMessages(Launcher.OUTGOING_MESSAGES_FEATURE, Launcher.OUTGOING_MESSAGES_SIZE);
+			_trainData.setIncomingMessages(Launcher.INCOMING_MESSAGES_FEATURE, Launcher.INCOMING_MESSAGES_SIZE);
+			_trainData.setFileName(trainName);
+			
+			_testData  = new ArffData();
+			_testData.setThreshold(threshold);
+			_testData.setFriends(Launcher.FRIENDS_FEATURE);
+			_testData.setInteractions(Launcher.INTERACTIONS_FEATURE);
+			_testData.setDemographics(Launcher.DEMOGRAPHICS_FEATURE);
+			_testData.setGroups(Launcher.GROUPS_FEATURE, Launcher.GROUPS_SIZE);
+			_testData.setPages(Launcher.PAGES_FEATURE, Launcher.PAGES_SIZE);
+			_testData.setTraits(Launcher.TRAITS_FEATURE);
+			_testData.setOutgoingMessages(Launcher.OUTGOING_MESSAGES_FEATURE, Launcher.OUTGOING_MESSAGES_SIZE);
+			_testData.setIncomingMessages(Launcher.INCOMING_MESSAGES_FEATURE, Launcher.INCOMING_MESSAGES_SIZE);
+			_testData.setFileName(testName);
 			
 			if (_testData._data.size() == 0 || _trainData._data.size() == 0){
 				continue;

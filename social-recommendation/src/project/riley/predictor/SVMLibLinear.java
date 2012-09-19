@@ -70,7 +70,7 @@ public class SVMLibLinear extends Predictor {
 		} else
 			prob.l = dataCount;
 		
-		prob.n = _trainData._attr.size() -3 /*item id, user_id, class*/ + 1 /*bias*/;
+		prob.n = _trainData._attr.size() -3 /*item id, user_id, class*/ + (_maxEnt ? 0 : 1) /*bias*/;
 		prob.y = new int[prob.l];
 		prob.x = new FeatureNode[prob.l][prob.n]; // matrix of features + bias term		
 		
@@ -81,9 +81,11 @@ public class SVMLibLinear extends Predictor {
 				continue;
 			for (int j = 1; j < features.length; j++){	            // first 'feature' is class value
 				prob.x[ii][j-1] = new FeatureNode(j, features[j]);   // feature count starts at 1
-			}			
-			prob.x[ii][features.length-1] = new FeatureNode(features.length, 1d); // Constant bias feature 
-			prob.y[ii] = (int)features[0] > 0 ? 1 : -1;
+			}
+			if (!_maxEnt){
+				prob.x[ii][features.length-1] = new FeatureNode(features.length, 1d); // Constant bias feature 
+				prob.y[ii] = (int)features[0] > 0 ? 1 : -1;
+			}
 			if (ii == 0) // Check first training example
 				_firstLabelIsTrue = (prob.y[ii] == 1);
 			ii++;
