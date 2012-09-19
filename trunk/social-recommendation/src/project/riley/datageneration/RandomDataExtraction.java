@@ -129,7 +129,7 @@ public class RandomDataExtraction {
 	 * Extract weights from columns
 	 */
 	public static void getColumnWeightsLR(LogisticRegression lr,int display) throws Exception{		
-		lr.runTests(FILE, /* file to use */ 10 /* folds to use */, threshold /* test threshold */, groupsSize /*groups size*/, pagesSize, messagesSize, new PrintWriter("a.txt") /* file to write */, DEMOGRAPHICS, GROUPS, PAGES, TRAITS, MESSAGES);
+		//lr.runTests(FILE, /* file to use */ 10 /* folds to use */, threshold /* test threshold */, groupsSize /*groups size*/, pagesSize, messagesSize, new PrintWriter("a.txt") /* file to write */, DEMOGRAPHICS, GROUPS, PAGES, TRAITS, MESSAGES);
 
 		System.out.println("Using Predictor " + lr.getName());
 
@@ -165,7 +165,7 @@ public class RandomDataExtraction {
 	}
 
 	public static void getColumnWeightsNB(NaiveBayes nb, int display) throws Exception{
-		nb.runTests(FILE, /* file to use */ 10 /* folds to use */, threshold /* test threshold */, groupsSize /*groups size*/, pagesSize, messagesSize, new PrintWriter("a.txt") /* file to write */, DEMOGRAPHICS, GROUPS, PAGES, TRAITS, MESSAGES);
+		//nb.runTests(FILE, /* file to use */ 10 /* folds to use */, threshold /* test threshold */, groupsSize /*groups size*/, pagesSize, messagesSize, new PrintWriter("a.txt") /* file to write */, DEMOGRAPHICS, GROUPS, PAGES, TRAITS, MESSAGES);
 
 		System.out.println("Using Predictor " + nb.getName());
 

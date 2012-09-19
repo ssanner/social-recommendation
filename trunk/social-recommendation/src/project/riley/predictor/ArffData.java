@@ -89,6 +89,10 @@ public class ArffData {
 		readArffFile();
 	}
 	
+	public void setThreshold(int t){
+		threshold = t;
+	}
+	
 	public void setFriends(boolean f){
 		friends = f;
 	}	
