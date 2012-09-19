@@ -152,20 +152,20 @@ public class LinkRecommenderArff extends org.nicta.lr.LinkRecommender
 			String trainName = source_file + ".train." + (i+1);
 			String testName  = source_file + ".test."  + (i+1);
 
-			ArffData _testData  = new ArffData(testName, threshold, groupsSize, pagesSize, messagesSize, demographics, groups, pages, traits, conversations);
+		//	ArffData _testData  = new ArffData(testName, threshold, groupsSize, pagesSize, messagesSize, demographics, groups, pages, traits, conversations);
 			
-			if (_testData._data.size() == 0){
+		/*	if (_testData._data.size() == 0){
 				//System.out.println(threshold);
 				//System.out.println(trainName + ":" + _trainData._data.size());
 				//System.out.println(testName + ":" + _testData._data.size());
 				normal--;
 				continue;
-			}						
+			}					*/	
 
 			//String type = Constants.FEATURE;
 			//String type = Constants.SOCIAL;
 			
-			ArffData.threshold = 0;
+			//ArffData.threshold = 0;
 			Double[] results = new LinkRecommenderArff().run(trainName, testName, type);
 
 			accuracies[i] = results[0];

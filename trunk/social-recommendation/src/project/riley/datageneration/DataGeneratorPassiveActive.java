@@ -48,6 +48,7 @@ public class DataGeneratorPassiveActive {
 	public static ArrayList<EInteractionType> _featuresInt = null;
 	public static ArrayList<EDirectionType>   _featuresDir = null;
 	public static Map<Long,Set<Long>> _uid2all_passive_linkids_likes = null;
+	public static Map<Long, Map<Long, Double>> friendships = null; 
 	public static Map<Long,Set<Long>> _uid2linkids_likes = null;
 	public static Map<Long,Set<Long>> _uid2linkids_dislikes = null;
 	public static Map<EInteractionType,Map<EDirectionType,Map<Long,Set<Long>>>> _int_dir2uid_linkid = null;
@@ -71,6 +72,7 @@ public class DataGeneratorPassiveActive {
 		topNWords = PredictiveWords.getTopN(topWordsN);
 		// For all uids in the DB, get their set of LINK likes 
 		_uid2all_passive_linkids_likes = UserUtil.getLikes(ELikeType.LINK);
+		friendships = UserUtil.getFriendships();
 
 		if (active_likes) {
 
@@ -303,6 +305,9 @@ public class DataGeneratorPassiveActive {
 		_writer.println("@attribute 'Uid' numeric");
 		_writer.println("@attribute 'Item' numeric");
 		_writer.println("@attribute 'Class' { 'n' , 'y' }");
+		
+		_writer.println("@attribute 'FriendLiked' { 'n' , 'y' }");
+		
 		for (int feat_index = 0; feat_index < _featuresInt.size(); feat_index++) {
 			_writer.println("@attribute '" + 
 					_featuresDir.get(feat_index) + "_" + 
@@ -326,9 +331,12 @@ public class DataGeneratorPassiveActive {
 		}   
 
 		for (int i = 0; i < topNWords.size(); i++){
-			_writer.println("@attribute 'conversation_incoming_" + i + "_" + topNWords.get(i) +  "' { " + NO + ", " + YES + " }");
 			_writer.println("@attribute 'conversation_outgoing_" + i + "_" + topNWords.get(i) +  "' { " + NO + ", " + YES + " }");
-		}		
+		}
+		
+		for (int i = 0; i < topNWords.size(); i++){
+			_writer.println("@attribute 'conversation_incoming_" + i + "_" + topNWords.get(i) +  "' { " + NO + ", " + YES + " }");
+		}
 
 		_writer.println("@data");
 	}
@@ -366,6 +374,17 @@ public class DataGeneratorPassiveActive {
 					//_writer.print(uid + "," + link_id + "," + rating);
 					StringBuffer columns = new StringBuffer(uid + "," + link_id + "," + rating);
 
+					boolean friendLikes = false;
+					if (friendships.get(uid) != null){
+						for (Entry<Long, Double> friend : friendships.get(uid).entrySet()){
+							if (_uid2all_passive_linkids_likes.get(friend.getKey()) != null && _uid2all_passive_linkids_likes.get(friend.getKey()).contains(link_id)){
+								friendLikes = true;
+								break;
+							}
+						}
+					}	
+					columns.append("," + (friendLikes == true ? YES : NO));
+					
 					// Now write columns
 					for (int feat_index = 0; feat_index < _featuresInt.size(); feat_index++) {
 						//System.out.println("Writing feature: " + _featuresDir.get(feat_index) + "_" + _featuresInt.get(feat_index));
@@ -656,20 +675,6 @@ public class DataGeneratorPassiveActive {
 	public static void extractMessagesHack() throws Exception{
 		System.out.println("\t -> Extracting messages data");
 		UserInfoHack.getMessageInfo();				
-
-		for (Entry<Long, boolean[]> info : UserInfoHack.getSeenIncoming().entrySet()){			
-			UserStruct us = additionalUserFeatures.get(info.getKey());
-			if (us == null)
-				continue; 			
-			us.wordsIncoming = info.getValue();
-		}
-
-		for (Entry<Long, boolean[]> info : UserInfoHack.getSeenOutgoing().entrySet()){
-			UserStruct us = additionalUserFeatures.get(info.getKey());
-			if (us == null)
-				continue; 
-			us.wordsOutgoing = info.getValue();
-		}
 	}
 
 	/*
@@ -684,9 +689,6 @@ public class DataGeneratorPassiveActive {
 				sameActivities = false, sameBooks = false, sameFavoriteAthletes = false, 
 				sameFavoriteTeams = false, sameInspirationalPeople = false, sameInterests = false, sameMovies = false, 
 				sameMusic = false, sameSports = false, sameTelevision = false, sameSchool = false, sameWork = false;
-
-		boolean[] wordsOutgoing = new boolean[topWordsN];
-		boolean[] wordsIncoming = new boolean[topWordsN];
 		
 		boolean[] groupsSame = new boolean[topGroupsN];
 		boolean[] pagesSame = new boolean[topPagesN];
@@ -728,8 +730,8 @@ public class DataGeneratorPassiveActive {
 		HashSet<Long> likeeActivities, likeeBooks, likeeFavoriteAthletes, likeeFavoriteTeams, likeeInspirationalPeople,
 		likeeInterests, likeeMovies, likeeMusic, likeeSports, likeeTelevision, likeeSchoolWith, likeeWorksWith;
 
-		boolean[] likeeWordsOutgoing;
-		boolean[] likeeWordsIncoming;
+		boolean[] likeeWordsOutgoing = null;
+		boolean[] likeeWordsIncoming = null;
 
 		// likee info
 		if (usersLiked != null){ // want at least one person to have liked this
@@ -835,14 +837,14 @@ public class DataGeneratorPassiveActive {
 					}
 				}
 				
-				for (int i = 0; i < wordsOutgoing.length; i++){
-					if (!wordsOutgoing[i])
-						wordsOutgoing[i] = likeeWordsOutgoing[i];
+				for (int i = 0; i < likeeWordsOutgoing.length; i++){
+					if (!likeeWordsOutgoing[i] && UserInfoHack.getSeenOutgoing(uid, likeeID) != null)
+						likeeWordsOutgoing[i] = UserInfoHack.getSeenOutgoing(uid, likeeID)[i];
 				}
 
-				for (int i = 0; i < wordsIncoming.length; i++){
-					if (!wordsIncoming[i])
-						wordsIncoming[i] = likeeWordsIncoming[i];
+				for (int i = 0; i < likeeWordsIncoming.length; i++){
+					if (!likeeWordsIncoming[i])
+						likeeWordsIncoming[i] = UserInfoHack.getSeenIncoming(uid, likeeID)[i];
 				}
 			}
 		}
@@ -880,8 +882,11 @@ public class DataGeneratorPassiveActive {
 
 		//conversation
 		for (int i = 0; i < topWordsN; i++){
-			results.append(PRE + (wordsIncoming[i] ? YES : NO));
-			results.append(PRE + (wordsOutgoing[i] ? YES : NO));
+			results.append(PRE + (likeeWordsOutgoing[i] ? YES : NO));
+		}
+		
+		for (int i = 0; i < topWordsN; i++){
+			results.append(PRE + (likeeWordsIncoming[i] ? YES : NO));
 		}
 
 		return results.toString();
@@ -929,32 +934,10 @@ public class DataGeneratorPassiveActive {
 				userTraits.put(trait,new HashSet<Long>());
 			}
 		}		
-
-		public String toString(){
-
-			StringBuffer gp = new StringBuffer();
-			for (Long group : groupMemberships){
-				gp.append(group + ",");
-			}
-
-			StringBuffer traits = new StringBuffer();
-			for (Entry<String, HashSet<Long>> trait : userTraits.entrySet()){
-				traits.append("\n\t\t" + trait.getKey() + ":");
-				for (Long id : trait.getValue()){
-					traits.append(id + ",");
-				}
-			}
-
-			return "  \n\tGender:" + gender + 
-					" \n\tBirthday:" + birthday + 
-					" \n\tLocale:" + locale +
-					" \n\tGroups:" + gp.toString() +
-					" \n\tTraits:" + traits.toString();
-		}
 	}
 
 	public static void main(String[] args) throws Exception {
-		populateCachedData(true /* active */);
+		//populateCachedData(true /* active */);
 		//writeData("active_data.arff");
 		//populateCachedData(false /* passive */);
 		//writeData("passive_data.arff");
@@ -964,13 +947,7 @@ public class DataGeneratorPassiveActive {
 
 		//getAppUserFeaturesInfo();
 		//extractLinkFeatures(308324665867510L);
-		//extractLinkFeatures(204685499600824L);									
-
-		for (Entry<Long, UserStruct> entry : additionalUserFeatures.entrySet()){
-			long id = entry.getKey();
-			UserStruct results = entry.getValue();
-			System.out.println(id + "->" + results);
-		}
+		//extractLinkFeatures(204685499600824L);													
 
 		//extractMessages(1461424861L);
 		//writeData("asd.arff");		
