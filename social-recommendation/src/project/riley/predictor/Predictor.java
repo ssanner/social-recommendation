@@ -103,8 +103,8 @@ public abstract class Predictor {
 			String testName  = source_file + ".test."  + (i+1);
 			_trainData = null;
 			_testData = null;
-			_trainData = new ArffData(trainName, 0, groupsSize, pagesSize, messagesSize, demographics, groups, pages, traits, conversations);
-			_testData  = new ArffData(testName, threshold, groupsSize, pagesSize, messagesSize, demographics, groups, pages, traits, conversations);					
+			//_trainData = new ArffData(trainName, 0, groupsSize, pagesSize, messagesSize, demographics, groups, pages, traits, conversations);
+			//_testData  = new ArffData(testName, threshold, groupsSize, pagesSize, messagesSize, demographics, groups, pages, traits, conversations);					
 			
 			if (_testData._data.size() == 0 || _trainData._data.size() == 0){
 				continue;
