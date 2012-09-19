@@ -56,12 +56,12 @@ public class ArffData {
 	public int traits_index_end = traits_index_start + DataGeneratorPassiveActive.user_traits.length;
 
 	public boolean outgoingMessages = true;
-	public int outgoingMessagesSize = 0;
+	public int outgoingMessagesSize = 1000;
 	public int outgoingMessages_index_start = traits_index_end;
 	public int outgoingMessages_index_end = outgoingMessages_index_start + DataGeneratorPassiveActive.topWordsN;
 
 	public boolean incomingMessages = true;
-	public int incomingMessagesSize = 0;	
+	public int incomingMessagesSize = 1000;	
 	public int incomingMessages_index_start = outgoingMessages_index_end;
 	public int incomingMessages_index_end = incomingMessages_index_start + DataGeneratorPassiveActive.topWordsN;
 	
