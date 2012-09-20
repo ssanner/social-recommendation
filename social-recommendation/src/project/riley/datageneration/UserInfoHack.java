@@ -110,12 +110,12 @@ public class UserInfoHack {
 
 	// users who have said a top n word in an outgiong message
 	public static boolean[] getSeenOutgoing(long uid, long from_id) throws Exception{
-		return OUTGOING_WORDS.get(from_id).get(uid);
+		return (OUTGOING_WORDS.get(from_id) == null ? null : OUTGOING_WORDS.get(from_id).get(uid));
 	}
 
 	// users who have said a top n word in an incoming message
 	public static boolean[] getSeenIncoming(long uid, long from_id) throws Exception{
-		return INCOMING_WORDS.get(uid).get(from_id);
+		return (INCOMING_WORDS.get(uid) == null ? null : INCOMING_WORDS.get(uid).get(from_id));
 	}	
 
 	public static void main(String[] args) throws Exception{
