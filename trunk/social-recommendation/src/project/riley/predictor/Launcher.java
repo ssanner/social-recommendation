@@ -24,7 +24,7 @@ public class Launcher {
 	public static Predictor[]  	predictors;
 
 	public static boolean 	FRIENDS_FEATURE = false;
-	public static boolean 	INTERACTIONS_FEATURE = false;
+	public static boolean 	INTERACTIONS_FEATURE = true;
 	public static boolean 	DEMOGRAPHICS_FEATURE = false; 
 	public static boolean 	GROUPS_FEATURE = false;
 	public static int 		GROUPS_SIZE = 0;
@@ -78,8 +78,8 @@ public class Launcher {
 				matchbox,
 				soc_matchbox,
 				naiveBayes, 
-				constPredTrue,
-				constPredFalse,
+				//constPredTrue,
+				//constPredFalse,
 				liblinear1,
 				liblinear2,
 				liblinear3,
@@ -142,16 +142,13 @@ public class Launcher {
 
 		Date dNow = new Date();
 		SimpleDateFormat ft = new SimpleDateFormat ("dd_MM_yyyy");
-		String outName = "constantTrue_results_" + ft.format(dNow) + ".txt"; 
+		String outName = "interactions_results_" + ft.format(dNow) + ".txt"; 
 
 		writer = new PrintWriter(outName);		
-
-		Predictor constPredTrue  = new ConstantPredictor(true);
-		constPredTrue.runTests(DATA_FILE, NUM_FOLDS, writer, threshold);
 		
 		//launcher.launchThresholds();
 		//launcher.launchFlag("friends");
-		//launcher.launchFlag("interactions");				
+		launcher.launchFlag("interactions");				
 		//launcher.launchFlag("demographics");				
 		//launcher.launchFlag("traits");				
 
