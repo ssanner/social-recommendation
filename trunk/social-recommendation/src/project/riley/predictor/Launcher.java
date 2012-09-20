@@ -142,12 +142,12 @@ public class Launcher {
 
 		Date dNow = new Date();
 		SimpleDateFormat ft = new SimpleDateFormat ("dd_MM_yyyy");
-		String outName = "friendLiked_results_" + ft.format(dNow) + ".txt"; 
+		String outName = "constantTrue_results_" + ft.format(dNow) + ".txt"; 
 
 		writer = new PrintWriter(outName);		
 
-		Predictor logisticRegression_l1 = new LogisticRegression(LogisticRegression.PRIOR_TYPE.L1, 2d);
-		logisticRegression_l1.runTests(DATA_FILE, NUM_FOLDS, writer, threshold);
+		Predictor constPredTrue  = new ConstantPredictor(true);
+		constPredTrue.runTests(DATA_FILE, NUM_FOLDS, writer, threshold);
 		
 		//launcher.launchThresholds();
 		//launcher.launchFlag("friends");
