@@ -24,13 +24,13 @@ public class Launcher {
 	public static Predictor[]  	predictors;
 
 	public static boolean 	FRIENDS_FEATURE = false;
-	public static boolean 	INTERACTIONS_FEATURE = false;
+	public static boolean 	INTERACTIONS_FEATURE = true;
 	public static boolean 	DEMOGRAPHICS_FEATURE = false; 
 	public static boolean 	GROUPS_FEATURE = false;
 	public static int 		GROUPS_SIZE = 0;
 	public static boolean 	PAGES_FEATURE = false;
 	public static int		PAGES_SIZE = 0;
-	public static boolean	TRAITS_FEATURE = true;
+	public static boolean	TRAITS_FEATURE = false;
 	public static boolean 	OUTGOING_MESSAGES_FEATURE = false;
 	public static int		OUTGOING_MESSAGES_SIZE = 0;
 	public static boolean 	INCOMING_MESSAGES_FEATURE = false;
@@ -69,13 +69,13 @@ public class Launcher {
 		// a method for determining the best threshold for those ratings in order
 		// to do classification.
 		// 
-		Predictor matchbox     = new SocialRecommender(Constants.FEATURE);
+		//Predictor matchbox     = new SocialRecommender(Constants.FEATURE);
 		Predictor soc_matchbox = new SocialRecommender(Constants.SOCIAL);
 		//Predictor knn          = new SocialRecommender(Constants.NN);
 		//Predictor cbf          = new SocialRecommender(Constants.CBF);
 
 		Predictor[] predictors = new Predictor[] {
-				matchbox,
+				//matchbox,
 				soc_matchbox,
 				naiveBayes, 
 				//constPredTrue,
@@ -103,8 +103,8 @@ public class Launcher {
 	public void launchThresholds() throws Exception{
 		for (int i = 0; i <= threshold; i++){
 			for (Predictor p : predictors){
-				System.out.println("Running predictors on " + DATA_FILE + " using threshold " + i);
-				writer.println("Running predictors on " + DATA_FILE + " using threshold " + i);
+				System.out.println("Running predictors on " + DATA_FILE + " using threshold size " + i);
+				writer.println("Running predictors on " + DATA_FILE + " using threshold size " + i);
 				p.runTests(DATA_FILE /* file to use */, NUM_FOLDS /* folds to use */, writer /* file to write */, i /* test threshold */);
 			}
 		}
@@ -140,14 +140,15 @@ public class Launcher {
 
 		Date dNow = new Date();
 		SimpleDateFormat ft = new SimpleDateFormat ("dd_MM_yyyy");
-		String outName = "traits_results_" + ft.format(dNow) + ".txt"; 
+		String outName = "thresholding_results_" + ft.format(dNow) + ".txt"; 
 
 		writer = new PrintWriter(outName);		
 
-		//launcher.launchThresholds();
+		launcher.launchThresholds();
+		
 		//launcher.launchFlag("friends");
 		//launcher.launchFlag("interactions");				
-		launcher.launchFlag("traits");				
+		//launcher.launchFlag("demographics");				
 		//launcher.launchFlag("traits");				
 
 		//launcher.launchSizeComparisons("group");		
