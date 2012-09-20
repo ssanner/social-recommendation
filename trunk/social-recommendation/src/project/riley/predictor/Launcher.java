@@ -23,8 +23,8 @@ public class Launcher {
 	public static PrintWriter  	writer;
 	public static Predictor[]  	predictors;
 
-	public static boolean 	FRIENDS_FEATURE = true;
-	public static boolean 	INTERACTIONS_FEATURE = false;
+	public static boolean 	FRIENDS_FEATURE = false;
+	public static boolean 	INTERACTIONS_FEATURE = true;
 	public static boolean 	DEMOGRAPHICS_FEATURE = false; 
 	public static boolean 	GROUPS_FEATURE = false;
 	public static int 		GROUPS_SIZE = 0;
@@ -140,14 +140,11 @@ public class Launcher {
 
 		Date dNow = new Date();
 		SimpleDateFormat ft = new SimpleDateFormat ("dd_MM_yyyy");
-		String outName = "friendLiked_results_" + ft.format(dNow) + ".txt"; 
+		String outName = "threshold_results_" + ft.format(dNow) + ".txt"; 
 
 		writer = new PrintWriter(outName);		
-
-		Predictor logisticRegression_l1 = new LogisticRegression(LogisticRegression.PRIOR_TYPE.L1, 2d);
-		logisticRegression_l1.runTests(DATA_FILE, NUM_FOLDS, writer, 0);
 		
-		//launcher.launchThresholds();
+		launcher.launchThresholds();
 		
 		//launcher.launchFlag("friends");
 		//launcher.launchFlag("interactions");				
