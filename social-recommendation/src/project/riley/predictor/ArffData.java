@@ -774,15 +774,15 @@ public class ArffData {
 //		public ArffData(String filename, int _threshold, int _groupsSize, int _pagesSize, int _messagesSize, boolean _demographics, boolean _groups, boolean _pages, boolean _traits, boolean _conversations) {
 		
 		ArffData f1 = new ArffData();
-		f1.setFriends(false);
+		f1.setFriends(true);
 		f1.setInteractions(false);
 		f1.setDemographics(false);
 		f1.setGroups(false, 10);
 		f1.setPages(false, 10);
 		f1.setTraits(false);
 		f1.setOutgoingMessages(false, 10);
-		f1.setIncomingMessages(true, 10);
-		f1.setFileName("active_all_1000.arff");
+		f1.setIncomingMessages(false, 10);
+		f1.setFileName("active_all_1000_2.arff");
 		for (Attribute s : f1._attr){
 			System.out.println(s);
 		}
