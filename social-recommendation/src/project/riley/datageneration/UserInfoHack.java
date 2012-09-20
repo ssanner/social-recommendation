@@ -117,6 +117,16 @@ public class UserInfoHack {
 	public static boolean[] getSeenIncoming(long uid, long from_id) throws Exception{
 		return (INCOMING_WORDS.get(uid) == null ? null : INCOMING_WORDS.get(uid).get(from_id));
 	}	
+	
+	// get all words user has said
+	public static Map<Long,boolean[]> getAllOutgoing(long from_id){
+		return OUTGOING_WORDS.get(from_id);
+	}
+	
+	// get all words said to user
+	public static Map<Long,boolean[]> getAllIncoming(long uid){
+		return INCOMING_WORDS.get(uid);
+	}
 
 	public static void main(String[] args) throws Exception{
 		DataGeneratorPassiveActive.populateCachedData(true);
