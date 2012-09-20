@@ -24,8 +24,8 @@ public class Launcher {
 	public static Predictor[]  	predictors;
 
 	public static boolean 	FRIENDS_FEATURE = false;
-	public static boolean 	INTERACTIONS_FEATURE = true;
-	public static boolean 	DEMOGRAPHICS_FEATURE = false; 
+	public static boolean 	INTERACTIONS_FEATURE = false;
+	public static boolean 	DEMOGRAPHICS_FEATURE = true; 
 	public static boolean 	GROUPS_FEATURE = false;
 	public static int 		GROUPS_SIZE = 0;
 	public static boolean 	PAGES_FEATURE = false;
@@ -116,11 +116,9 @@ public class Launcher {
 	public void launchSizeComparisons(String name) throws Exception{
 		for (int i = 0; i <= maxSize; i+=step)
 			for (Predictor p : predictors){
-				if (p.getName().contains("NaiveBayes") || p.getName().contains("LogisticRegression") || p.getName().contains("SVMLibSVM") || p.getName().contains("SVMLibLinear")){
-					System.out.println("Running predictors on " + DATA_FILE + " using " +  name +  " size " + i);
-					writer.println("Running predictors on " + DATA_FILE + " using " +  name +  " size " + i);
-					p.runTests(DATA_FILE /* file to use */, NUM_FOLDS /* folds to use */, writer /* file to write */, 0 /* test threshold */);
-				}
+				System.out.println("Running predictors on " + DATA_FILE + " using " +  name +  " size " + i);
+				writer.println("Running predictors on " + DATA_FILE + " using " +  name +  " size " + i);
+				p.runTests(DATA_FILE /* file to use */, NUM_FOLDS /* folds to use */, writer /* file to write */, 0 /* test threshold */);
 			}
 	}
 
@@ -142,14 +140,14 @@ public class Launcher {
 
 		Date dNow = new Date();
 		SimpleDateFormat ft = new SimpleDateFormat ("dd_MM_yyyy");
-		String outName = "interactions_results_" + ft.format(dNow) + ".txt"; 
+		String outName = "demographics_results_" + ft.format(dNow) + ".txt"; 
 
 		writer = new PrintWriter(outName);		
-		
+
 		//launcher.launchThresholds();
 		//launcher.launchFlag("friends");
-		launcher.launchFlag("interactions");				
-		//launcher.launchFlag("demographics");				
+		//launcher.launchFlag("interactions");				
+		launcher.launchFlag("demographics");				
 		//launcher.launchFlag("traits");				
 
 		//launcher.launchSizeComparisons("group");		
