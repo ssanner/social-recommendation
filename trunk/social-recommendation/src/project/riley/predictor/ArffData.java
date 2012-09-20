@@ -129,10 +129,6 @@ public class ArffData {
 		incomingMessagesSize = s;
 	}
 	
-	public void setThresholds(int t){
-		threshold = t;
-	}
-	
 	public void setFileName(String s){
 		_filename = s;
 		readArffFile();
