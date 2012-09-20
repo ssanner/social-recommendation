@@ -23,7 +23,7 @@ public class Launcher {
 	public static PrintWriter  	writer;
 	public static Predictor[]  	predictors;
 
-	public static boolean 	FRIENDS_FEATURE = true;
+	public static boolean 	FRIENDS_FEATURE = false;
 	public static boolean 	INTERACTIONS_FEATURE = false;
 	public static boolean 	DEMOGRAPHICS_FEATURE = false; 
 	public static boolean 	GROUPS_FEATURE = false;
