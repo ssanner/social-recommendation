@@ -16,24 +16,28 @@ public class Launcher {
 
 	public final static String DATA_FILE = "active_all_1000_3.arff";
 	//public final static String DATA_FILE = "passive.arff";
-	public static int 			threshold = 5;
 	public final static int    	NUM_FOLDS = 10;
-	public static int 			maxSize = 1000;
-	public static int 			step = 100;
 	public static PrintWriter  	writer;
 	public static Predictor[]  	predictors;
 
-	public static boolean 	FRIENDS_FEATURE = false;
-	public static boolean 	INTERACTIONS_FEATURE = true;
+	public static int 			threshold = 5;
+	public static int 			maxGroupsSize = 1000;
+	public static int 			groupsStep = 100;
+	public static int 			maxFriendSize = 50;
+	public static int			friendsStep = 10;
+
+	public static boolean 	FRIENDS_FEATURE = true;
+	public static boolean 	INTERACTIONS_FEATURE = false;
 	public static boolean 	DEMOGRAPHICS_FEATURE = false; 
 	public static boolean 	GROUPS_FEATURE = false;
-	public static int 		GROUPS_SIZE = 1000;
 	public static boolean 	PAGES_FEATURE = false;
-	public static int		PAGES_SIZE = 1000;
 	public static boolean	TRAITS_FEATURE = false;
 	public static boolean 	OUTGOING_MESSAGES_FEATURE = false;
-	public static int		OUTGOING_MESSAGES_SIZE = 1000;
 	public static boolean 	INCOMING_MESSAGES_FEATURE = false;
+	
+	public static int 		GROUPS_SIZE = 1000;
+	public static int		PAGES_SIZE = 1000;
+	public static int		OUTGOING_MESSAGES_SIZE = 1000;
 	public static int		INCOMING_MESSAGES_SIZE = 1000;
 
 	/*
@@ -105,7 +109,7 @@ public class Launcher {
 			for (Predictor p : predictors){
 				System.out.println("Running predictors on " + DATA_FILE + " using threshold size " + i);
 				writer.println("Running predictors on " + DATA_FILE + " using threshold size " + i);
-				p.runTests(DATA_FILE /* file to use */, NUM_FOLDS /* folds to use */, writer /* file to write */, i /* test threshold */);
+				p.runTests(DATA_FILE /* file to use */, NUM_FOLDS /* folds to use */, writer /* file to write */, i /* min test threshold */, 0 /* min friend size */);
 			}
 		}
 	}
@@ -114,11 +118,11 @@ public class Launcher {
 	 * launch group size comparisons
 	 */
 	public void launchSizeComparisons(String name) throws Exception{
-		for (int i = 0; i <= maxSize; i+=step){
+		for (int i = 0; i <= maxGroupsSize; i += groupsStep){
 			for (Predictor p : predictors){
 				System.out.println("Running predictors on " + DATA_FILE + " using " +  name +  " size " + i);
 				writer.println("Running predictors on " + DATA_FILE + " using " +  name +  " size " + i);
-				p.runTests(DATA_FILE /* file to use */, NUM_FOLDS /* folds to use */, writer /* file to write */, 0 /* test threshold */);
+				p.runTests(DATA_FILE /* file to use */, NUM_FOLDS /* folds to use */, writer /* file to write */, 0 /* min test threshold */, 0 /* min friend size */);
 			}
 		}
 	}
@@ -127,10 +131,12 @@ public class Launcher {
 	 * launch tests on thresholding value
 	 */
 	public void launchFlag(String flag) throws Exception{
-		for (Predictor p : predictors){
-			System.out.println("Running predictors on " + DATA_FILE + " using flag " + flag);
-			writer.println("Running predictors on " + DATA_FILE + " using flag " + flag);
-			p.runTests(DATA_FILE /* file to use */, NUM_FOLDS /* folds to use */, writer /* file to write */, 0 /* test threshold */);
+		for (int i = 0; i <= maxFriendSize; i += friendsStep){
+			for (Predictor p : predictors){
+				System.out.println("Running predictors on " + DATA_FILE + " using flag " + flag);
+				writer.println("Running predictors on " + DATA_FILE + " using flag " + flag);
+				p.runTests(DATA_FILE /* file to use */, NUM_FOLDS /* folds to use */, writer /* file to write */, 0 /* min test threshold */, i /* min friend size */);
+			}
 		}
 	}
 
@@ -141,13 +147,13 @@ public class Launcher {
 
 		Date dNow = new Date();
 		SimpleDateFormat ft = new SimpleDateFormat ("dd_MM_yyyy");
-		String outName = "interaction_results_" + ft.format(dNow) + ".txt"; 
+		String outName = "friend_results_" + ft.format(dNow) + ".txt"; 
 
 		writer = new PrintWriter(outName);		
 
-		launcher.launchThresholds();
+		//launcher.launchThresholds();
 
-		//launcher.launchFlag("friends");
+		launcher.launchFlag("friends");
 		//launcher.launchFlag("interactions");				
 		//launcher.launchFlag("demographics");				
 		//launcher.launchFlag("traits");				

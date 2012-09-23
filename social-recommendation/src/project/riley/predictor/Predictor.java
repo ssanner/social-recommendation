@@ -82,7 +82,7 @@ public abstract class Predictor {
 	/*
 	 * Run tests on data
 	 */
-	public void runTests(String source_file, int num_folds, PrintWriter writer, int threshold) throws Exception {
+	public void runTests(String source_file, int num_folds, PrintWriter writer, int threshold, int friendK) throws Exception {
 		
 		int correct = 0;									// correct classification
 		int truePositive = 0;								// true positives
@@ -104,6 +104,7 @@ public abstract class Predictor {
 			
 			_trainData = new ArffData();
 			_trainData.setThreshold(0);
+			_trainData.setFriendSize(0);
 			_trainData.setFriends(Launcher.FRIENDS_FEATURE);
 			_trainData.setInteractions(Launcher.INTERACTIONS_FEATURE);
 			_trainData.setDemographics(Launcher.DEMOGRAPHICS_FEATURE);
@@ -116,6 +117,7 @@ public abstract class Predictor {
 			
 			_testData  = new ArffData();
 			_testData.setThreshold(threshold);
+			_testData.setFriendSize(friendK);
 			_testData.setFriends(Launcher.FRIENDS_FEATURE);
 			_testData.setInteractions(Launcher.INTERACTIONS_FEATURE);
 			_testData.setDemographics(Launcher.DEMOGRAPHICS_FEATURE);

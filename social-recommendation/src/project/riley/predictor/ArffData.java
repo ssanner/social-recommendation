@@ -797,9 +797,9 @@ public class ArffData {
 		//		public ArffData(String filename, int _threshold, int _groupsSize, int _pagesSize, int _messagesSize, boolean _demographics, boolean _groups, boolean _pages, boolean _traits, boolean _conversations) {
 
 		ArffData f1 = new ArffData();
-		f1.setFriends(true);
+		f1.setFriends(false);
 		f1.setFriendSize(0);
-		f1.setInteractions(false);
+		f1.setInteractions(true);
 		f1.setThreshold(0);
 		f1.setDemographics(false);
 		f1.setGroups(false, 10);
