@@ -114,12 +114,13 @@ public class Launcher {
 	 * launch group size comparisons
 	 */
 	public void launchSizeComparisons(String name) throws Exception{
-		for (int i = 0; i <= maxSize; i+=step)
+		for (int i = 0; i <= maxSize; i+=step){
 			for (Predictor p : predictors){
 				System.out.println("Running predictors on " + DATA_FILE + " using " +  name +  " size " + i);
 				writer.println("Running predictors on " + DATA_FILE + " using " +  name +  " size " + i);
 				p.runTests(DATA_FILE /* file to use */, NUM_FOLDS /* folds to use */, writer /* file to write */, 0 /* test threshold */);
 			}
+		}
 	}
 
 	/*
@@ -140,18 +141,18 @@ public class Launcher {
 
 		Date dNow = new Date();
 		SimpleDateFormat ft = new SimpleDateFormat ("dd_MM_yyyy");
-		String outName = "groups_results_" + ft.format(dNow) + ".txt"; 
+		String outName = "interaction_results_" + ft.format(dNow) + ".txt"; 
 
 		writer = new PrintWriter(outName);		
-		
-		//launcher.launchThresholds();
-		
+
+		launcher.launchThresholds();
+
 		//launcher.launchFlag("friends");
 		//launcher.launchFlag("interactions");				
 		//launcher.launchFlag("demographics");				
 		//launcher.launchFlag("traits");				
 
-		launcher.launchSizeComparisons("group");		
+		//launcher.launchSizeComparisons("group");		
 		//launcher.launchSizeComparisons("pages");
 		//launcher.launchSizeComparisons("messages outgoing");
 		//launcher.launchSizeComparisons("messages incoming");
