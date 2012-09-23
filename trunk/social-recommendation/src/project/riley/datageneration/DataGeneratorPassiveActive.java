@@ -309,7 +309,7 @@ public class DataGeneratorPassiveActive {
 		_writer.println("@attribute 'Item' numeric");
 		_writer.println("@attribute 'Class' { 'n' , 'y' }");
 
-		_writer.println("@attribute 'FriendLiked' { 'n' , 'y' }");
+		_writer.println("@attribute 'FriendLiked' numeric");
 
 		for (int feat_index = 0; feat_index < _featuresInt.size(); feat_index++) {
 			_writer.println("@attribute '" + 
