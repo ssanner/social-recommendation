@@ -133,8 +133,8 @@ public class Launcher {
 	public void launchFlag(String flag) throws Exception{
 		for (int i = 0; i <= maxFriendSize; i += friendsStep){
 			for (Predictor p : predictors){
-				System.out.println("Running predictors on " + DATA_FILE + " using flag " + flag);
-				writer.println("Running predictors on " + DATA_FILE + " using flag " + flag);
+				System.out.println("Running predictors on " + DATA_FILE + " using flag " + flag + " friend size " + i);
+				writer.println("Running predictors on " + DATA_FILE + " using flag " + flag + " friend size " + i);
 				p.runTests(DATA_FILE /* file to use */, NUM_FOLDS /* folds to use */, writer /* file to write */, 0 /* min test threshold */, i /* min friend size */);
 			}
 		}
