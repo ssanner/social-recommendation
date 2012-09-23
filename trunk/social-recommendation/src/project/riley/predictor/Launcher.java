@@ -14,7 +14,7 @@ import de.bwaldvogel.liblinear.SolverType;
 
 public class Launcher {
 
-	public final static String DATA_FILE = "active_all_1000_2.arff";
+	public final static String DATA_FILE = "active_all_1000_3.arff";
 	//public final static String DATA_FILE = "passive.arff";
 	public static int 			threshold = 5;
 	public final static int    	NUM_FOLDS = 10;

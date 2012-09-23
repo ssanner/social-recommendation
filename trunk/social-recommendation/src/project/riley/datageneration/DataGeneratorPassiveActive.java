@@ -48,8 +48,8 @@ public class DataGeneratorPassiveActive {
 	public static Map<EInteractionType,Map<EDirectionType,Map<Long,Set<Long>>>> _int_dir2uid_linkid = null;
 
 	public static HashMap<Long, Set<Long>> additionalLinkFeatures = new HashMap<Long, Set<Long>>();
-
-	public static ArrayList<String> topNWords;
+	
+	public static ArrayList<String> topNWords = null;
 	public static int stepSize = 1000;
 
 	public static Set<Long> linksSeen = new HashSet<Long>();
@@ -116,6 +116,7 @@ public class DataGeneratorPassiveActive {
 				userLikes.add(link_id);
 				linksSeen.add(link_id);
 				usersSeen.add(uid);
+				
 			}
 			result.close();
 			statement.close();
@@ -317,27 +318,27 @@ public class DataGeneratorPassiveActive {
 		}		
 
 		for (String demographic : demographics_types){
-			_writer.println("@attribute 'demographic_" + demographic +  "' { " + NO + ", " + YES + " }");
+			_writer.println("@attribute 'demographic_" + demographic +  "' { 'n' , 'y' }");
 		}
 
 		for (Long group_id : topNGroupsSet){
-			_writer.println("@attribute 'group_" + group_id +  "' { " + NO + ", " + YES + " }");
+			_writer.println("@attribute 'group_" + group_id +  "' { 'n' , 'y' }");
 		}
 
 		for (Long page_id : topNPagesSet){
-			_writer.println("@attribute 'page_" + page_id +  "' { " + NO + ", " + YES + " }");
+			_writer.println("@attribute 'page_" + page_id +  "' { 'n' , 'y' }");
 		}
 
 		for (String trait : user_traits){
-			_writer.println("@attribute 'trait_" + trait +  "' { " + NO + ", " + YES + " }");
+			_writer.println("@attribute 'trait_" + trait +  "' { 'n' , 'y' }");
 		}   
 
 		for (int i = 0; i < topNWords.size(); i++){
-			_writer.println("@attribute 'conversation_outgoing_" + i + "_" + topNWords.get(i) +  "' { " + NO + ", " + YES + " }");
+			_writer.println("@attribute 'conversation_outgoing_" + i + "_" + topNWords.get(i) +  "' { 'n' , 'y' }");
 		}
 
 		for (int i = 0; i < topNWords.size(); i++){
-			_writer.println("@attribute 'conversation_incoming_" + i + "_" + topNWords.get(i) +  "' { " + NO + ", " + YES + " }");
+			_writer.println("@attribute 'conversation_incoming_" + i + "_" + topNWords.get(i) +  "' { 'n' , 'y' }");
 		}
 
 		_writer.println("@data");
@@ -376,16 +377,15 @@ public class DataGeneratorPassiveActive {
 					//_writer.print(uid + "," + link_id + "," + rating);
 					StringBuffer columns = new StringBuffer(uid + "," + link_id + "," + rating);
 
-					boolean friendLikes = false;
+					int friendLikes = 0;
 					if (friendships.get(uid) != null){
-						for (Entry<Long, Double> friend : friendships.get(uid).entrySet()){
+						for (Entry<Long, Double> friend : friendships.get(uid).entrySet()){	// all friends
 							if (_uid2all_passive_linkids_likes.get(friend.getKey()) != null && _uid2all_passive_linkids_likes.get(friend.getKey()).contains(link_id)){
-								friendLikes = true;
-								break;
+								friendLikes++;
 							}
 						}
 					}	
-					columns.append("," + (friendLikes == true ? YES : NO));
+					columns.append(PRE + "'" + friendLikes + "'");
 
 					// Now write columns
 					for (int feat_index = 0; feat_index < _featuresInt.size(); feat_index++) {
