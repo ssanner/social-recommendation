@@ -24,9 +24,9 @@ public class Launcher {
 	public static Predictor[]  	predictors;
 
 	public static boolean 	FRIENDS_FEATURE = false;
-	public static boolean 	INTERACTIONS_FEATURE = false;
+	public static boolean 	INTERACTIONS_FEATURE = true;
 	public static boolean 	DEMOGRAPHICS_FEATURE = false; 
-	public static boolean 	GROUPS_FEATURE = true;
+	public static boolean 	GROUPS_FEATURE = false;
 	public static int 		GROUPS_SIZE = 1000;
 	public static boolean 	PAGES_FEATURE = false;
 	public static int		PAGES_SIZE = 1000;
