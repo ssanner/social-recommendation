@@ -34,11 +34,11 @@ public class ArffData {
 	public boolean friends = true;
 	public int friends_index_start = 4;
 	public int friends_index_end = friends_index_start + 1;
-	
+
 	public boolean interactions = true;
 	public int interactions_index_start = friends_index_end;
 	public int interactions_index_end = friends_index_end + 23;
-	
+
 	public boolean demographics = true;
 	public int demographics_index_start = interactions_index_end;
 	public int demographics_index_end = demographics_index_start + DataGeneratorPassiveActive.demographics_types.length;
@@ -50,7 +50,7 @@ public class ArffData {
 	public boolean pages = true;
 	public int pages_index_start = groups_index_end;
 	public int pages_index_end = pages_index_start + DataGeneratorPassiveActive.topPagesN;
-	
+
 	public boolean traits = true;
 	public int traits_index_start = pages_index_end;
 	public int traits_index_end = traits_index_start + DataGeneratorPassiveActive.user_traits.length;
@@ -62,7 +62,8 @@ public class ArffData {
 	public boolean incomingMessages = true;	
 	public int incomingMessages_index_start = outgoingMessages_index_end;
 	public int incomingMessages_index_end = incomingMessages_index_start + DataGeneratorPassiveActive.topWordsN;
-	
+
+	public boolean testFriends = false;
 	public int thresholdSize = 0;
 	public int friendsSize = 0;
 	public int groupsSize = 1000;
@@ -89,51 +90,51 @@ public class ArffData {
 		_filename = filename;
 		readArffFile();
 	}
-	
+
 	public void setThreshold(int t){
 		thresholdSize = t;
 	}
-	
+
 	public void setFriendSize(int f){
 		friendsSize = f;
 	}
-	
+
 	public void setFriends(boolean f){
 		friends = f;
 	}	
-	
+
 	public void setInteractions(boolean i){
 		interactions = i;
 	}
-	
+
 	public void setDemographics(boolean d){
 		demographics = d;
 	}
-	
+
 	public void setGroups(boolean g, int s){
 		groups = g;
 		groupsSize = s;
 	}
-	
+
 	public void setPages(boolean p, int s){
 		pages = p;
 		pagesSize = s;
 	}
-	
+
 	public void setTraits(boolean t){
 		traits = t;
 	}
-	
+
 	public void setOutgoingMessages(boolean o, int s){
 		outgoingMessages = o;
 		outgoingMessagesSize = s;
 	}
-	
+
 	public void setIncomingMessages(boolean i, int s){
 		incomingMessages = i;
 		incomingMessagesSize = s;
 	}
-	
+
 	public void setFileName(String s){
 		_filename = s;
 		readArffFile();
@@ -165,7 +166,7 @@ public class ArffData {
 
 		return a_ret;
 	}
-	
+
 	public void readArffFile() {
 		String line = null;
 		int line_index = 0;
@@ -205,7 +206,7 @@ public class ArffData {
 						line.startsWith("@Attribute") ||
 						line.startsWith("@attribute")) {
 					//if (line.contains("group"))
-						//System.out.println(line_index + ":" + groups_index_start + "-" + line);
+					//System.out.println(line_index + ":" + groups_index_start + "-" + line);
 					if (!friends && line_index > friends_index_start && line_index <= friends_index_end){
 						// nothing
 					} else if (!interactions && line_index > interactions_index_start && line_index <= interactions_index_end) {
@@ -330,11 +331,11 @@ public class ArffData {
 			//System.out.println(split[i] + " " + this._attr.get(i));
 		}
 
-//		System.out.println(interactionCount + "-" + thresholdSize + "-" + (interactionCount >= thresholdSize));
+		//		System.out.println(interactionCount + "-" + thresholdSize + "-" + (interactionCount >= thresholdSize));
 		if (!(interactionCount >= thresholdSize)){
 			return null;
 		}
-		
+
 		// handle friends liked size
 		if (!(Integer.parseInt(StripQuotes(split[3])) >= friendsSize)){
 			return null;
@@ -366,10 +367,14 @@ public class ArffData {
 			} else {				
 				//System.out.println(i + ":" + _attr.get(i) + ":" + StripQuotes(split[i]) + ":" + split.length + ":" + _attr.size());
 				if (friends && i > (friends_index_start-offset) && i <= (friends_index_end-offset)){
-					if (Integer.parseInt(StripQuotes(split[i])) > 0) {
-						d.addData("y");
+					if (!testFriends){
+						d.addData(StripQuotes(split[i]));	
 					} else {
-						d.addData("n");
+						if (Integer.parseInt(StripQuotes(split[i])) > 0) {
+							d.addData("1");
+						} else {
+							d.addData("0");
+						}
 					}
 					//System.out.println(StripQuotes(split[i]));
 				}
@@ -670,8 +675,10 @@ public class ArffData {
 		for (int i = 0; i < _attr.size(); i++)
 			sb.append("[" + i + "] " + _attr.get(i) + "\n");
 		sb.append("\nData:\n");
-		for (int i = 0; i < _data.size(); i++)
+		for (int i = 0; i < _data.size(); i++){
+			System.out.println(_data.get(i));
 			sb.append("[" + i + "] " + _data.get(i) + "\n");
+		}
 		return sb.toString();
 	}
 
@@ -787,8 +794,8 @@ public class ArffData {
 			System.out.println(testName + ":" + _testData._data.size());
 
 		}*/
-//		public ArffData(String filename, int _threshold, int _groupsSize, int _pagesSize, int _messagesSize, boolean _demographics, boolean _groups, boolean _pages, boolean _traits, boolean _conversations) {
-		
+		//		public ArffData(String filename, int _threshold, int _groupsSize, int _pagesSize, int _messagesSize, boolean _demographics, boolean _groups, boolean _pages, boolean _traits, boolean _conversations) {
+
 		ArffData f1 = new ArffData();
 		f1.setFriends(true);
 		f1.setFriendSize(0);
