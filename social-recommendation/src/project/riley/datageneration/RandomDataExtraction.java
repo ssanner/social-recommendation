@@ -293,7 +293,7 @@ public class RandomDataExtraction {
 	
 	public static void getFriendsCounts(String name){				
 		
-		for (int i = 0; i <= 50; i += 10){			
+		for (int i = 0; i <= 10; i++){			
 			ArffData d = new ArffData();
 			d.setFriends(true);
 			d.setInteractions(false);
