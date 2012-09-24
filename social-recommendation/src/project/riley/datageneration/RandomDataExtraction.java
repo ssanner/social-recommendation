@@ -15,9 +15,11 @@ import java.util.Map.Entry;
 import org.nicta.lr.util.SQLUtil;
 
 import project.riley.predictor.ArffData;
+import project.riley.predictor.ArffData.Attribute;
 import project.riley.predictor.NaiveBayes;
 import project.riley.predictor.ArffData.DataEntry;
 import project.riley.predictor.NaiveBayes.ClassCondProb;
+import project.riley.predictor.Launcher;
 import project.riley.predictor.LogisticRegression;
 import project.riley.predictor.Predictor;
 
@@ -288,13 +290,35 @@ public class RandomDataExtraction {
 		}
 		//System.out.println(sortedData);
 	}
+	
+	public static void getFriendsCounts(String name){				
+		
+		for (int i = 0; i <= 50; i += 10){			
+			ArffData d = new ArffData();
+			d.setFriends(true);
+			d.setInteractions(false);
+			d.setDemographics(false);
+			d.setGroups(false,0);
+			d.setPages(false,0);
+			d.setTraits(false);
+			d.setOutgoingMessages(false,0);
+			d.setIncomingMessages(false,0);
+			
+			d.setFriendSize(i);
+			d.setFileName(name);
+			System.out.println("Friend threshold: " + i + "\t Size: " + d._data.size());
+		}		
+		
+	}
 
 	public static void main(String[] args) throws Exception {
-		NaiveBayes nb = new NaiveBayes(1.0d);
-		getColumnWeightsNB(nb, 15);
+		//NaiveBayes nb = new NaiveBayes(1.0d);
+		//getColumnWeightsNB(nb, 15);
 
-		LogisticRegression lr = new LogisticRegression(LogisticRegression.PRIOR_TYPE.L2, 2d);
-		getColumnWeightsLR(lr,15);
+		//LogisticRegression lr = new LogisticRegression(LogisticRegression.PRIOR_TYPE.L2, 2d);
+		//getColumnWeightsLR(lr,15);
+		
+		getFriendsCounts("active_all_1000_3.arff");
 	}
 
 }
