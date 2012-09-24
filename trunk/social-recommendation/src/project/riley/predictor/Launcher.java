@@ -23,8 +23,8 @@ public class Launcher {
 	public static int 			threshold = 5;
 	public static int 			maxGroupsSize = 1000;
 	public static int 			groupsStep = 100;
-	public static int 			maxFriendSize = 50;
-	public static int			friendsStep = 10;
+	public static int 			maxFriendSize = 5;
+	public static int			friendsStep = 1;
 
 	public static boolean 	FRIENDS_FEATURE = true;
 	public static boolean 	INTERACTIONS_FEATURE = false;
