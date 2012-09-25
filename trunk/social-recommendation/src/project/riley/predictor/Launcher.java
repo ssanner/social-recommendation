@@ -23,7 +23,7 @@ public class Launcher {
 	public static int 			threshold = 5;
 	public static int 			maxGroupsSize = 1000;
 	public static int 			groupsStep = 100;
-	public static int 			maxFriendSize = 5;
+	public static int 			maxFriendSize = 3;
 	public static int			friendsStep = 1;
 
 	public static boolean 	FRIENDS_FEATURE = false;
@@ -59,10 +59,10 @@ public class Launcher {
 		Predictor liblinear2 = new SVMLibLinear(SolverType.L1R_L2LOSS_SVC, /*C*/0.125d, /*eps*/0.001d);
 		Predictor liblinear3 = new SVMLibLinear(SolverType.L2R_LR,         /*C*/0.125d, /*eps*/0.001d);
 		Predictor liblinear4 = new SVMLibLinear(SolverType.L1R_LR,         /*C*/0.125d, /*eps*/0.001d);
-		Predictor liblinear1_maxent = new SVMLibLinear(SolverType.L2R_L2LOSS_SVC, /*C*/0.125d, /*eps*/0.001d, /*maxent*/ true);
-		Predictor liblinear2_maxent = new SVMLibLinear(SolverType.L1R_L2LOSS_SVC, /*C*/0.125d, /*eps*/0.001d, /*maxent*/ true);
-		Predictor liblinear3_maxent = new SVMLibLinear(SolverType.L2R_LR,         /*C*/0.125d, /*eps*/0.001d, /*maxent*/ true);
-		Predictor liblinear4_maxent = new SVMLibLinear(SolverType.L1R_LR,         /*C*/0.125d, /*eps*/0.001d, /*maxent*/ true);
+		/*Predictor liblinear1_maxent = new SVMLibLinear(SolverType.L2R_L2LOSS_SVC, C0.125d, eps0.001d, maxent true);
+		Predictor liblinear2_maxent = new SVMLibLinear(SolverType.L1R_L2LOSS_SVC, C0.125d, eps0.001d, maxent true);
+		Predictor liblinear3_maxent = new SVMLibLinear(SolverType.L2R_LR,         C0.125d, eps0.001d, maxent true);
+		Predictor liblinear4_maxent = new SVMLibLinear(SolverType.L1R_LR,         C0.125d, eps0.001d, maxent true);*/
 
 		// Note -- SPS, Riley TODO for experimental comparison:
 		//
@@ -94,11 +94,11 @@ public class Launcher {
 				logisticRegression_l1,
 				logisticRegression_l1_maxent, 
 				logisticRegression_l2, 
-				libsvm,
-				liblinear1_maxent,
+				libsvm
+				/*,liblinear1_maxent,
 				liblinear2_maxent,
 				liblinear3_maxent,
-				liblinear4_maxent				 
+				liblinear4_maxent			*/	 
 		};
 
 		return predictors;

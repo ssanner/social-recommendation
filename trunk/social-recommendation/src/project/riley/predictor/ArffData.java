@@ -799,7 +799,7 @@ public class ArffData {
 		}*/
 		//		public ArffData(String filename, int _threshold, int _groupsSize, int _pagesSize, int _messagesSize, boolean _demographics, boolean _groups, boolean _pages, boolean _traits, boolean _conversations) {
 
-		ArffData f1 = new ArffData();
+	/*	ArffData f1 = new ArffData();
 		f1.setFriends(false);
 		f1.setFriendSize(0);
 		f1.setInteractions(true);
@@ -809,12 +809,23 @@ public class ArffData {
 		f1.setPages(false, 10);
 		f1.setTraits(false);
 		f1.setOutgoingMessages(false, 10);
-		f1.setIncomingMessages(false, 10);
-		f1.setFileName("active_all_1000_3.arff");
-		/*for (Attribute s : f1._attr){
-			System.out.println(s);
-		}*/
-		System.out.println(f1);
+		f1.setIncomingMessages(false, 10);*/
+		//f1.setFileName("active_all_1000_3.arff");
+	//	System.out.println(f1);
+		
+		ArffData _testData = new ArffData();
+		_testData.setThreshold(0);
+		_testData.setFriendSize(0);
+		_testData.setFriends(Launcher.FRIENDS_FEATURE);
+		_testData.setInteractions(Launcher.INTERACTIONS_FEATURE);
+		_testData.setDemographics(Launcher.DEMOGRAPHICS_FEATURE);
+		_testData.setGroups(Launcher.GROUPS_FEATURE, Launcher.GROUPS_SIZE);
+		_testData.setPages(Launcher.PAGES_FEATURE, Launcher.PAGES_SIZE);
+		_testData.setTraits(Launcher.TRAITS_FEATURE);
+		_testData.setOutgoingMessages(Launcher.OUTGOING_MESSAGES_FEATURE, Launcher.OUTGOING_MESSAGES_SIZE);
+		_testData.setIncomingMessages(Launcher.INCOMING_MESSAGES_FEATURE, Launcher.INCOMING_MESSAGES_SIZE);
+		_testData.setFileName("active_all_1000_3.arff");
+		System.out.println(_testData);
 
 
 		//		System.out.println(f1._attr);
