@@ -150,13 +150,13 @@ public class Launcher {
 
 		Date dNow = new Date();
 		SimpleDateFormat ft = new SimpleDateFormat ("dd_MM_yyyy");
-		String outName = "thresholds_results_" + ft.format(dNow) + ".txt"; 
+		String outName = "interactions_results_" + ft.format(dNow) + ".txt"; 
 
 		writer = new PrintWriter(outName);		
 		
-		launcher.launchThresholds();
+		//launcher.launchThresholds();
 
-		//launcher.launchFlag("interactions");				
+		launcher.launchFlag("interactions");				
 		//launcher.launchFlag("demographics");				
 		//launcher.launchFlag("traits");				
 
