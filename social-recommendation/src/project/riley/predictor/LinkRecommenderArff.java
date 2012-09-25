@@ -178,7 +178,7 @@ public class LinkRecommenderArff extends org.nicta.lr.LinkRecommender
 			_trainData.setIncomingMessages(Launcher.INCOMING_MESSAGES_FEATURE, Launcher.INCOMING_MESSAGES_SIZE);
 			_trainData.setFileName(trainName);
 			
-			if (_testData._data.size() == 0){
+			if (_testData._data.size() == 0 || _trainData._data.size() == 0){
 				//System.out.println(threshold);
 				//System.out.println(trainName + ":" + _trainData._data.size());
 				//System.out.println(testName + ":" + _testData._data.size());
@@ -214,6 +214,7 @@ public class LinkRecommenderArff extends org.nicta.lr.LinkRecommender
 
 		for (int x = 0; x < normal; x++) {
 			stdAccuracy += Math.pow(meanAccuracy - accuracies[x], 2);
+			System.out.println(meanAccuracy + " " + normal + " " + accuracies[x]);
 			stdPrecision += Math.pow(meanPrecision - precisions[x], 2);
 			stdRecall += Math.pow(meanRecall - recalls[x], 2);
 			stdF1 += Math.pow(meanF1 - f1s[x], 2);
