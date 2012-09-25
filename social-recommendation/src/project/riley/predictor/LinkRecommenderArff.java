@@ -213,7 +213,7 @@ public class LinkRecommenderArff extends org.nicta.lr.LinkRecommender
 		double stdF1 = 0;
 
 		for (int x = 0; x < normal; x++) {
-			System.out.println(meanAccuracy + " " + normal + " " + x + " " + accuracies[x]);
+			System.out.println(meanAccuracy + " " + normal + " " + x + " " + accuracies[x] + " " + friendK);
 			stdAccuracy += Math.pow(meanAccuracy - accuracies[x], 2);
 			stdPrecision += Math.pow(meanPrecision - precisions[x], 2);
 			stdRecall += Math.pow(meanRecall - recalls[x], 2);
