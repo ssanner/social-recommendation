@@ -337,11 +337,13 @@ public class ArffData {
 		}
 
 		// handle friends liked size
-		if (!(Integer.parseInt(StripQuotes(split[3])) >= friendsSize)){
+		Integer friendLiked = Integer.parseInt(StripQuotes(split[3])); 
+		if (!(friendLiked >= friendsSize)){
 			return null;
 		}
 
 		DataEntry d = new DataEntry(_attr.size());
+		d.friendLiked = friendLiked;
 		int groupSeen = 0;
 		int pagesSeen = 0;
 		int outgoingMessageSeen = 0;
@@ -525,6 +527,7 @@ public class ArffData {
 	public class DataEntry {
 		// These are either Integers or Doubles
 		ArrayList _entries = null;
+		Integer friendLiked = null;
 
 		public DataEntry() {
 			this(_attr.size());

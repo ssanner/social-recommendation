@@ -26,9 +26,9 @@ public class Launcher {
 	public static int 			maxFriendSize = 5;
 	public static int			friendsStep = 1;
 
-	public static boolean 	FRIENDS_FEATURE = true;
+	public static boolean 	FRIENDS_FEATURE = false;
 	public static boolean 	INTERACTIONS_FEATURE = false;
-	public static boolean 	DEMOGRAPHICS_FEATURE = false; 
+	public static boolean 	DEMOGRAPHICS_FEATURE = true; 
 	public static boolean 	GROUPS_FEATURE = false;
 	public static boolean 	PAGES_FEATURE = false;
 	public static boolean	TRAITS_FEATURE = false;
@@ -45,6 +45,8 @@ public class Launcher {
 	 */
 	public Predictor[] setUp(){
 		// SPS -- free parameters should always be apparent for tuning purposes
+		Predictor friendLiked = new FriendLiked();
+		
 		Predictor constPredTrue  = new ConstantPredictor(true);
 		Predictor constPredFalse = new ConstantPredictor(false);
 
@@ -80,6 +82,7 @@ public class Launcher {
 
 		Predictor[] predictors = new Predictor[] {
 				//matchbox,
+				friendLiked,
 				soc_matchbox,
 				naiveBayes, 
 				constPredTrue,
@@ -147,15 +150,14 @@ public class Launcher {
 
 		Date dNow = new Date();
 		SimpleDateFormat ft = new SimpleDateFormat ("dd_MM_yyyy");
-		String outName = "friend_results_" + ft.format(dNow) + ".txt"; 
+		String outName = "demographics_results_" + ft.format(dNow) + ".txt"; 
 
 		writer = new PrintWriter(outName);		
-
+		
 		//launcher.launchThresholds();
 
-		launcher.launchFlag("friends");
 		//launcher.launchFlag("interactions");				
-		//launcher.launchFlag("demographics");				
+		launcher.launchFlag("demographics");				
 		//launcher.launchFlag("traits");				
 
 		//launcher.launchSizeComparisons("group");		
