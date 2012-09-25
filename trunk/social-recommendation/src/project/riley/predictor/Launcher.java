@@ -159,6 +159,10 @@ public class Launcher {
 		//launcher.launchFlag("interactions");				
 		//launcher.launchFlag("demographics");				
 		//launcher.launchFlag("traits");				
+		//launcher.launchFlag("groups");
+		//launcher.launchFlag("pages");
+		//launcher.launchFlag("messages outgoing");
+		//launcher.launchFlag("messages incoming");
 
 		launcher.launchSizeComparisons("group");		
 		//launcher.launchSizeComparisons("pages");
