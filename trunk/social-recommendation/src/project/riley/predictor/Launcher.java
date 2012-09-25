@@ -27,11 +27,11 @@ public class Launcher {
 	public static int			friendsStep = 1;
 
 	public static boolean 	FRIENDS_FEATURE = false;
-	public static boolean 	INTERACTIONS_FEATURE = false;
+	public static boolean 	INTERACTIONS_FEATURE = true;
 	public static boolean 	DEMOGRAPHICS_FEATURE = false; 
 	public static boolean 	GROUPS_FEATURE = false;
 	public static boolean 	PAGES_FEATURE = false;
-	public static boolean	TRAITS_FEATURE = true;
+	public static boolean	TRAITS_FEATURE = false;
 	public static boolean 	OUTGOING_MESSAGES_FEATURE = false;
 	public static boolean 	INCOMING_MESSAGES_FEATURE = false;
 	
@@ -150,15 +150,15 @@ public class Launcher {
 
 		Date dNow = new Date();
 		SimpleDateFormat ft = new SimpleDateFormat ("dd_MM_yyyy");
-		String outName = "traits_results_" + ft.format(dNow) + ".txt"; 
+		String outName = "thresholds_results_" + ft.format(dNow) + ".txt"; 
 
 		writer = new PrintWriter(outName);		
 		
-		//launcher.launchThresholds();
+		launcher.launchThresholds();
 
 		//launcher.launchFlag("interactions");				
 		//launcher.launchFlag("demographics");				
-		launcher.launchFlag("traits");				
+		//launcher.launchFlag("traits");				
 
 		//launcher.launchSizeComparisons("group");		
 		//launcher.launchSizeComparisons("pages");
