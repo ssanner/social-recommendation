@@ -39,7 +39,33 @@ public class Launcher {
 	public static int		PAGES_SIZE = 1000;
 	public static int		OUTGOING_MESSAGES_SIZE = 1000;
 	public static int		INCOMING_MESSAGES_SIZE = 1000;
+	
+	// best sizes for these types
+	public static boolean	SIZES_OVERRIDE = false;
+	public static int		NB_GROUPS_SIZE_OVERRIDE = 1000;
+	public static int		LR_GROUPS_SIZE_OVERRIDE = 1000;
+	public static int		SVM_GROUPS_SIZE_OVERRIDE = 1000;
+	public static int		FRIEND_GROUPS_SIZE_OVERRIDE = 1000;
+	public static int		SMB_GROUPS_SIZE_OVERRIDE = 1000;
+	
+	public static int		NB_PAGES_SIZE_OVERRIDE = 1000;
+	public static int		LR_PAGES_SIZE_OVERRIDE = 1000;
+	public static int		SVM_PAGES_SIZE_OVERRIDE = 1000;
+	public static int		FRIEND_PAGES_SIZE_OVERRIDE = 1000;
+	public static int		SMB_PAGES_SIZE_OVERRIDE = 1000;
+	
+	public static int		NB_INCOMING_SIZE_OVERRIDE = 1000;
+	public static int		LR_INCOMING_SIZE_OVERRIDE = 1000;
+	public static int		SVM_INCOMING_SIZE_OVERRIDE = 1000;
+	public static int		FRIEND_INCOMING_SIZE_OVERRIDE = 1000;
+	public static int		SMB_INCOMING_SIZE_OVERRIDE = 1000;
 
+	public static int		NB_OUTGOING_SIZE_OVERRIDE = 1000;
+	public static int		LR_OUTGOING_SIZE_OVERRIDE = 1000;
+	public static int		SVM_OUTGOING_SIZE_OVERRIDE = 1000;
+	public static int		FRIEND_OUTGOING_SIZE_OVERRIDE = 1000;
+	public static int		SMB_OUTGOING_SIZE_OVERRIDE = 1000;
+	
 	/*
 	 * set up predictors
 	 */
@@ -121,10 +147,11 @@ public class Launcher {
 	 * launch group size comparisons
 	 */
 	public void launchSizeComparisons(String name) throws Exception{
-		for (int i = 0; i <= maxGroupsSize; i += groupsStep){
+		for (int i = 100; i <= maxGroupsSize; i += groupsStep){
+			Launcher.PAGES_SIZE = i;
 			for (Predictor p : predictors){
-				System.out.println("Running predictors on " + DATA_FILE + " using " +  name +  " size " + i);
-				writer.println("Running predictors on " + DATA_FILE + " using " +  name +  " size " + i);
+				System.out.println("Running predictors on " + DATA_FILE + " using " +  name +  " size " + Launcher.PAGES_SIZE);
+				writer.println("Running predictors on " + DATA_FILE + " using " +  name +  " size " + Launcher.PAGES_SIZE);
 				p.runTests(DATA_FILE /* file to use */, NUM_FOLDS /* folds to use */, writer /* file to write */, 0 /* min test threshold */, 0 /* min friend size */);
 			}
 		}
