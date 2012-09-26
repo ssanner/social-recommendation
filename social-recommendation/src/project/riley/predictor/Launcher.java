@@ -29,8 +29,8 @@ public class Launcher {
 	public static boolean 	FRIENDS_FEATURE = false;
 	public static boolean 	INTERACTIONS_FEATURE = false;
 	public static boolean 	DEMOGRAPHICS_FEATURE = false; 
-	public static boolean 	GROUPS_FEATURE = false;
-	public static boolean 	PAGES_FEATURE = true;
+	public static boolean 	GROUPS_FEATURE = true;
+	public static boolean 	PAGES_FEATURE = false;
 	public static boolean	TRAITS_FEATURE = false;
 	public static boolean 	OUTGOING_MESSAGES_FEATURE = false;
 	public static boolean 	INCOMING_MESSAGES_FEATURE = false;
@@ -148,10 +148,18 @@ public class Launcher {
 	 */
 	public void launchSizeComparisons(String name) throws Exception{
 		for (int i = 100; i <= maxGroupsSize; i += groupsStep){
-			Launcher.PAGES_SIZE = i;
+			if (name.contains("group")){
+				Launcher.GROUPS_SIZE = i;
+			} else if (name.contains("pages")){
+				Launcher.PAGES_SIZE = i;
+			} else if (name.contains("outgoing")) {
+				Launcher.OUTGOING_MESSAGES_SIZE = i;
+			} else if (name.contains("incoming")){
+				Launcher.INCOMING_MESSAGES_SIZE = i;
+			}			
 			for (Predictor p : predictors){
-				System.out.println("Running predictors on " + DATA_FILE + " using " +  name +  " size " + Launcher.PAGES_SIZE);
-				writer.println("Running predictors on " + DATA_FILE + " using " +  name +  " size " + Launcher.PAGES_SIZE);
+				System.out.println("Running predictors on " + DATA_FILE + " using " +  name +  " size " + i);
+				writer.println("Running predictors on " + DATA_FILE + " using " +  name +  " size " + i);
 				p.runTests(DATA_FILE /* file to use */, NUM_FOLDS /* folds to use */, writer /* file to write */, 0 /* min test threshold */, 0 /* min friend size */);
 			}
 		}
@@ -177,7 +185,7 @@ public class Launcher {
 
 		Date dNow = new Date();
 		SimpleDateFormat ft = new SimpleDateFormat ("dd_MM_yyyy");
-		String outName = "pages_all_results_" + ft.format(dNow) + ".txt"; 
+		String outName = "group_all_results_" + ft.format(dNow) + ".txt"; 
 
 		writer = new PrintWriter(outName);		
 		
@@ -191,11 +199,11 @@ public class Launcher {
 		//launcher.launchFlag("messages outgoing");
 		//launcher.launchFlag("messages incoming");
 
-		//launcher.launchSizeComparisons("group");		
-		launcher.launchSizeComparisons("pages");
+		launcher.launchSizeComparisons("group");		
+		//launcher.launchSizeComparisons("pages");
 		//launcher.launchSizeComparisons("messages outgoing");
 		//launcher.launchSizeComparisons("messages incoming");
-
+		
 		System.out.println("Finished writing to file " + outName);
 		writer.close();
 	}
