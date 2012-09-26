@@ -152,17 +152,28 @@ public class LinkRecommenderArff extends org.nicta.lr.LinkRecommender
 			String trainName = source_file + ".train." + (i+1);
 			String testName  = source_file + ".test."  + (i+1);
 
+			int groupsSize = Launcher.GROUPS_SIZE;
+			int pagesSize = Launcher.PAGES_SIZE;
+			int outgoingSize = Launcher.OUTGOING_MESSAGES_SIZE;
+			int incomingSize = Launcher.INCOMING_MESSAGES_SIZE;
+			if (Launcher.SIZES_OVERRIDE){
+				groupsSize = Launcher.SMB_GROUPS_SIZE_OVERRIDE;
+				pagesSize = Launcher.SMB_PAGES_SIZE_OVERRIDE;
+				outgoingSize = Launcher.SMB_OUTGOING_SIZE_OVERRIDE;
+				incomingSize = Launcher.SMB_INCOMING_SIZE_OVERRIDE;
+			}
+			
 			ArffData _testData  = new ArffData();
 			_testData.setThreshold(threshold);
 			_testData.setFriendSize(friendK);
 			_testData.setFriends(Launcher.FRIENDS_FEATURE);
 			_testData.setInteractions(Launcher.INTERACTIONS_FEATURE);
 			_testData.setDemographics(Launcher.DEMOGRAPHICS_FEATURE);
-			_testData.setGroups(Launcher.GROUPS_FEATURE, Launcher.GROUPS_SIZE);
-			_testData.setPages(Launcher.PAGES_FEATURE, Launcher.PAGES_SIZE);
+			_testData.setGroups(Launcher.GROUPS_FEATURE, groupsSize);
+			_testData.setPages(Launcher.PAGES_FEATURE, pagesSize);
 			_testData.setTraits(Launcher.TRAITS_FEATURE);
-			_testData.setOutgoingMessages(Launcher.OUTGOING_MESSAGES_FEATURE, Launcher.OUTGOING_MESSAGES_SIZE);
-			_testData.setIncomingMessages(Launcher.INCOMING_MESSAGES_FEATURE, Launcher.INCOMING_MESSAGES_SIZE);
+			_testData.setOutgoingMessages(Launcher.OUTGOING_MESSAGES_FEATURE, outgoingSize);
+			_testData.setIncomingMessages(Launcher.INCOMING_MESSAGES_FEATURE, incomingSize);
 			_testData.setFileName(testName);
 			
 			ArffData _trainData  = new ArffData();

@@ -17,12 +17,12 @@ public abstract class Predictor {
 	// Note: SPS -- what was _arffData for?
 	public ArffData _trainData;
 	public ArffData _testData;
-	
+
 	public abstract void train();									// train the model
 	public abstract int evaluate(DataEntry de);	// evaluate a new data entry based on trained model
 	public abstract void clear();									// clear the model
 	public abstract String getName();								// name of the classifier
-	
+
 	/*
 	 * convert from arff to features array format
 	 * 
@@ -68,14 +68,14 @@ public abstract class Predictor {
 			if (pred == actual && actual == 1) truePositive++;
 			if (pred == 1 && actual == 0) falsePositive++;
 			if (pred == 0 && actual == 1) falseNegative++;
-			
+
 			//BayesianModelAveraging.addResult(getName(), 0 /* data index */, pred);
 		}
 		measures[0] = correct;					 						// accuracy
 		measures[1] = truePositive;										// true positive
 		measures[2] = falsePositive;									// false positive
 		measures[3] = falseNegative;									// false negative
-		
+
 		return measures;
 	}
 
@@ -83,7 +83,7 @@ public abstract class Predictor {
 	 * Run tests on data
 	 */
 	public void runTests(String source_file, int num_folds, PrintWriter writer, int threshold, int friendK) throws Exception {
-		
+
 		int correct = 0;									// correct classification
 		int truePositive = 0;								// true positives
 		int falsePositive = 0;								// false positives
@@ -98,10 +98,38 @@ public abstract class Predictor {
 		writer.println("Running " + getName() + " using " + source_file);
 
 		for (int i = 0; i < num_folds; i++){
-			
+
 			String trainName = source_file + ".train." + (i+1);
 			String testName  = source_file + ".test."  + (i+1);
-			
+
+			int groupsSize = Launcher.GROUPS_SIZE;
+			int pagesSize = Launcher.PAGES_SIZE;
+			int outgoingSize = Launcher.OUTGOING_MESSAGES_SIZE;
+			int incomingSize = Launcher.INCOMING_MESSAGES_SIZE;
+			if (Launcher.SIZES_OVERRIDE){
+				if (this instanceof FriendLiked){
+					groupsSize = Launcher.FRIEND_GROUPS_SIZE_OVERRIDE;
+					pagesSize = Launcher.FRIEND_PAGES_SIZE_OVERRIDE;
+					outgoingSize = Launcher.FRIEND_OUTGOING_SIZE_OVERRIDE;
+					incomingSize = Launcher.FRIEND_INCOMING_SIZE_OVERRIDE;
+				} else if (this instanceof NaiveBayes){
+					groupsSize = Launcher.NB_GROUPS_SIZE_OVERRIDE;
+					pagesSize = Launcher.NB_PAGES_SIZE_OVERRIDE;
+					outgoingSize = Launcher.NB_OUTGOING_SIZE_OVERRIDE;
+					incomingSize = Launcher.NB_INCOMING_SIZE_OVERRIDE;
+				} else if (this instanceof LogisticRegression){
+					groupsSize = Launcher.LR_GROUPS_SIZE_OVERRIDE;
+					pagesSize = Launcher.LR_PAGES_SIZE_OVERRIDE;
+					outgoingSize = Launcher.LR_OUTGOING_SIZE_OVERRIDE;
+					incomingSize = Launcher.LR_INCOMING_SIZE_OVERRIDE;
+				} else if (this instanceof SVMLibSVM || this instanceof SVMLibLinear) {
+					groupsSize = Launcher.SVM_GROUPS_SIZE_OVERRIDE;
+					pagesSize = Launcher.SVM_PAGES_SIZE_OVERRIDE;
+					outgoingSize = Launcher.SVM_OUTGOING_SIZE_OVERRIDE;
+					incomingSize = Launcher.SVM_INCOMING_SIZE_OVERRIDE;
+				}
+			}
+
 			_trainData = new ArffData();
 			_trainData.setThreshold(0);
 			_trainData.setFriendSize(0);
@@ -114,24 +142,24 @@ public abstract class Predictor {
 			_trainData.setOutgoingMessages(Launcher.OUTGOING_MESSAGES_FEATURE, Launcher.OUTGOING_MESSAGES_SIZE);
 			_trainData.setIncomingMessages(Launcher.INCOMING_MESSAGES_FEATURE, Launcher.INCOMING_MESSAGES_SIZE);
 			_trainData.setFileName(trainName);
-			
+
 			_testData  = new ArffData();
 			_testData.setThreshold(threshold);
 			_testData.setFriendSize(friendK);
 			_testData.setFriends(Launcher.FRIENDS_FEATURE);
 			_testData.setInteractions(Launcher.INTERACTIONS_FEATURE);
 			_testData.setDemographics(Launcher.DEMOGRAPHICS_FEATURE);
-			_testData.setGroups(Launcher.GROUPS_FEATURE, Launcher.GROUPS_SIZE);
-			_testData.setPages(Launcher.PAGES_FEATURE, Launcher.PAGES_SIZE);
+			_testData.setGroups(Launcher.GROUPS_FEATURE, groupsSize);
+			_testData.setPages(Launcher.PAGES_FEATURE, pagesSize);
 			_testData.setTraits(Launcher.TRAITS_FEATURE);
-			_testData.setOutgoingMessages(Launcher.OUTGOING_MESSAGES_FEATURE, Launcher.OUTGOING_MESSAGES_SIZE);
-			_testData.setIncomingMessages(Launcher.INCOMING_MESSAGES_FEATURE, Launcher.INCOMING_MESSAGES_SIZE);
+			_testData.setOutgoingMessages(Launcher.OUTGOING_MESSAGES_FEATURE, outgoingSize);
+			_testData.setIncomingMessages(Launcher.INCOMING_MESSAGES_FEATURE, incomingSize);
 			_testData.setFileName(testName);
-			
+
 			if (_testData._data.size() == 0 || _trainData._data.size() == 0){
 				continue;
 			}
-			
+
 			clear();
 			train();										// build a classifier and train (dont need to train each time..)
 			int[] testMeasures = measures(_testData._data);	// test data
@@ -141,12 +169,12 @@ public abstract class Predictor {
 			falseNegative = testMeasures[3];
 			double precision = truePositive/(double)(truePositive + falsePositive);			// precision over folds
 			double recall    = truePositive/(double)(truePositive + falseNegative);			// recall over folds														// recall over folds
-		
+
 			accuracies.add( correct / (double)_testData._data.size() );
 			precisions.add( precision );
 			recalls.add( recall );
 			fscores.add(  2d * ((precision * recall)/(double)(precision + recall)) );
-			
+
 			//System.out.println("- Finished fold " + (i+1) + ", accuracy: " + df3.format( correct / (double)_testData._data.size() ));
 		}
 

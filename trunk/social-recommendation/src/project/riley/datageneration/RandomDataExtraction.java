@@ -15,11 +15,9 @@ import java.util.Map.Entry;
 import org.nicta.lr.util.SQLUtil;
 
 import project.riley.predictor.ArffData;
-import project.riley.predictor.ArffData.Attribute;
 import project.riley.predictor.NaiveBayes;
 import project.riley.predictor.ArffData.DataEntry;
 import project.riley.predictor.NaiveBayes.ClassCondProb;
-import project.riley.predictor.Launcher;
 import project.riley.predictor.LogisticRegression;
 import project.riley.predictor.Predictor;
 
