@@ -821,7 +821,7 @@ public class ArffData {
 		_testData.setDemographics(Launcher.DEMOGRAPHICS_FEATURE);
 		_testData.setGroups(Launcher.GROUPS_FEATURE, Launcher.GROUPS_SIZE);
 		_testData.setPages(Launcher.PAGES_FEATURE, Launcher.PAGES_SIZE);
-		_testData.setTraits(Launcher.TRAITS_FEATURE);
+		_testData.setTraits(true);
 		_testData.setOutgoingMessages(Launcher.OUTGOING_MESSAGES_FEATURE, Launcher.OUTGOING_MESSAGES_SIZE);
 		_testData.setIncomingMessages(Launcher.INCOMING_MESSAGES_FEATURE, Launcher.INCOMING_MESSAGES_SIZE);
 		_testData.setFileName("active_all_1000_3.arff");
