@@ -107,12 +107,7 @@ public abstract class Predictor {
 			int outgoingSize = Launcher.OUTGOING_MESSAGES_SIZE;
 			int incomingSize = Launcher.INCOMING_MESSAGES_SIZE;
 			if (Launcher.SIZES_OVERRIDE){
-				if (this instanceof FriendLiked){
-					groupsSize = Launcher.FRIEND_GROUPS_SIZE_OVERRIDE;
-					pagesSize = Launcher.FRIEND_PAGES_SIZE_OVERRIDE;
-					outgoingSize = Launcher.FRIEND_OUTGOING_SIZE_OVERRIDE;
-					incomingSize = Launcher.FRIEND_INCOMING_SIZE_OVERRIDE;
-				} else if (this instanceof NaiveBayes){
+				if (this instanceof NaiveBayes){
 					groupsSize = Launcher.NB_GROUPS_SIZE_OVERRIDE;
 					pagesSize = Launcher.NB_PAGES_SIZE_OVERRIDE;
 					outgoingSize = Launcher.NB_OUTGOING_SIZE_OVERRIDE;

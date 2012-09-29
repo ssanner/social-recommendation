@@ -3,6 +3,7 @@ package project.riley.datageneration;
 import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -15,6 +16,7 @@ import java.util.Map.Entry;
 import org.nicta.lr.util.SQLUtil;
 
 import project.riley.predictor.ArffData;
+import project.riley.predictor.Launcher;
 import project.riley.predictor.NaiveBayes;
 import project.riley.predictor.ArffData.DataEntry;
 import project.riley.predictor.NaiveBayes.ClassCondProb;
@@ -125,13 +127,238 @@ public class RandomDataExtraction {
 		}
 	}
 
+	public static void runColumnWeightsTests() throws Exception{
+		String[] names = {"interactions","demographics","traits","groups","pages","messages outgoing","messages incoming"};
+		boolean[][] flags = {{true, false, false, false, false, false, false},
+				{false, true, false, false, false, false, false},
+				{false, false, true, false, false, false, false},
+				{false, false, false, true, false, false, false},
+				{false, false, false, false, true, false, false},
+				{false, false, false, false, false, true, false},
+				{false, false, false, false, false, false, true}};
+		int[][] vals = {{0,0,0,0,0,0,0,0},
+				{0,1,0,0,0,0,0,0},
+				{0,0,2,0,0,0,0,0},
+				{0,0,0,3,0,0,0,0},
+				{0,0,0,0,4,0,0,0},
+				{0,0,0,0,0,5,0,0},
+				{0,0,0,0,0,0,6,0}};
+
+		LogisticRegression[] lrs = {new LogisticRegression(LogisticRegression.PRIOR_TYPE.L2, 2d),
+				new LogisticRegression(LogisticRegression.PRIOR_TYPE.L2, 2d),
+				new LogisticRegression(LogisticRegression.PRIOR_TYPE.L2, 2d),
+				new LogisticRegression(LogisticRegression.PRIOR_TYPE.L2, 2d),
+				new LogisticRegression(LogisticRegression.PRIOR_TYPE.L2, 2d),
+				new LogisticRegression(LogisticRegression.PRIOR_TYPE.L2, 2d),
+				new LogisticRegression(LogisticRegression.PRIOR_TYPE.L2, 2d)};
+
+
+		for (int i = 0; i < names.length; i++){
+			//System.out.println(names[i]);			
+			NaiveBayes nb = new NaiveBayes(1.0d);
+			LogisticRegression lr = lrs[i];
+
+			Map<Integer,Double> nb_termWeightsyy = new HashMap<Integer,Double>();
+			Map<Integer,Double> nb_positiveWeightsyy = new HashMap<Integer,Double>();
+			Map<Integer,Double> nb_negativeWeightsyy = new HashMap<Integer,Double>();
+			Map<Integer,Double> nb_neutralWeightsyy = new HashMap<Integer,Double>();
+
+			Map<Integer,Double> nb_termWeightsyn = new HashMap<Integer,Double>();
+			Map<Integer,Double> nb_positiveWeightsyn = new HashMap<Integer,Double>();
+			Map<Integer,Double> nb_negativeWeightsyn = new HashMap<Integer,Double>();
+			Map<Integer,Double> nb_neutralWeightsyn = new HashMap<Integer,Double>();
+
+			Map<Integer,Double> lr_termWeights = new HashMap<Integer,Double>();
+			Map<Integer,Double> lr_positiveWeights = new HashMap<Integer,Double>();
+			Map<Integer,Double> lr_negativeWeights = new HashMap<Integer,Double>();
+			Map<Integer,Double> lr_neutralWeights = new HashMap<Integer,Double>();
+
+			ArffData nb_trainData_all = new ArffData();
+			nb_trainData_all.setThreshold(0);
+			nb_trainData_all.setFriendSize(0);
+			nb_trainData_all.setFriends(false);
+			nb_trainData_all.setInteractions(flags[i][0]);
+			nb_trainData_all.setDemographics(flags[i][1]);
+			nb_trainData_all.setTraits(flags[i][2]);
+			nb_trainData_all.setGroups(flags[i][3], vals[i][0]);
+			nb_trainData_all.setPages(flags[i][4], vals[i][1]);
+			nb_trainData_all.setOutgoingMessages(flags[i][5], vals[i][2]);
+			nb_trainData_all.setIncomingMessages(flags[i][6], vals[i][3]);
+			nb_trainData_all.setFileName(Launcher.DATA_FILE);
+			
+			ArffData lr_trainData_all = new ArffData();
+			lr_trainData_all.setFriends(false);
+			lr_trainData_all.setThreshold(0);
+			lr_trainData_all.setFriendSize(0);
+			lr_trainData_all.setInteractions(flags[i][0]);
+			lr_trainData_all.setDemographics(flags[i][1]);
+			lr_trainData_all.setTraits(flags[i][2]);
+			lr_trainData_all.setGroups(flags[i][3], vals[i][4]);
+			lr_trainData_all.setPages(flags[i][4], vals[i][5]);
+			lr_trainData_all.setOutgoingMessages(flags[i][5], vals[i][6]);
+			lr_trainData_all.setIncomingMessages(flags[i][6], vals[i][7]);
+			lr_trainData_all.setFileName(Launcher.DATA_FILE);
+
+			for (int k = 0; k < Launcher.NUM_FOLDS; k++){												
+
+				String trainName = Launcher.DATA_FILE + ".train." + (k+1);
+				String testName  = Launcher.DATA_FILE + ".test."  + (k+1);
+
+				ArffData nb_trainData = new ArffData();
+				nb_trainData.setThreshold(0);
+				nb_trainData.setFriendSize(0);
+				nb_trainData.setFriends(false);
+				nb_trainData.setInteractions(flags[i][0]);
+				nb_trainData.setDemographics(flags[i][1]);
+				nb_trainData.setTraits(flags[i][2]);
+				nb_trainData.setGroups(flags[i][3], vals[i][0]);
+				nb_trainData.setPages(flags[i][4], vals[i][1]);
+				nb_trainData.setOutgoingMessages(flags[i][5], vals[i][2]);
+				nb_trainData.setIncomingMessages(flags[i][6], vals[i][3]);
+				nb_trainData.setFileName(trainName);
+
+				ArffData nb_testData  = new ArffData();
+				nb_testData.setFriends(false);
+				nb_trainData.setThreshold(0);
+				nb_trainData.setFriendSize(0);
+				nb_trainData.setInteractions(flags[i][0]);
+				nb_trainData.setDemographics(flags[i][1]);
+				nb_trainData.setTraits(flags[i][2]);
+				nb_trainData.setGroups(flags[i][3], vals[i][0]);
+				nb_trainData.setPages(flags[i][4], vals[i][1]);
+				nb_trainData.setOutgoingMessages(flags[i][5], vals[i][2]);
+				nb_trainData.setIncomingMessages(flags[i][6], vals[i][3]);
+				nb_testData.setFileName(testName);
+
+				ArffData lr_trainData = new ArffData();
+				lr_trainData.setFriends(false);
+				lr_trainData.setThreshold(0);
+				lr_trainData.setFriendSize(0);
+				lr_trainData.setInteractions(flags[i][0]);
+				lr_trainData.setDemographics(flags[i][1]);
+				lr_trainData.setTraits(flags[i][2]);
+				lr_trainData.setGroups(flags[i][3], vals[i][4]);
+				lr_trainData.setPages(flags[i][4], vals[i][5]);
+				lr_trainData.setOutgoingMessages(flags[i][5], vals[i][6]);
+				lr_trainData.setIncomingMessages(flags[i][6], vals[i][7]);
+				lr_trainData.setFileName(trainName);
+
+				ArffData lr_testData  = new ArffData();
+				lr_testData.setFriends(false);
+				lr_testData.setThreshold(0);
+				lr_testData.setFriendSize(0);
+				lr_testData.setInteractions(flags[i][0]);
+				lr_testData.setDemographics(flags[i][1]);
+				lr_testData.setTraits(flags[i][2]);
+				lr_testData.setGroups(flags[i][3], vals[i][4]);
+				lr_testData.setPages(flags[i][4], vals[i][5]);
+				lr_testData.setOutgoingMessages(flags[i][5], vals[i][6]);
+				lr_testData.setIncomingMessages(flags[i][6], vals[i][7]);
+				lr_testData.setFileName(testName);
+
+				nb._trainData = nb_trainData;
+				nb._testData = nb_testData;
+				nb.clear();
+				nb.train();
+
+				lr._trainData = lr_trainData;
+				lr._testData = lr_testData;
+				lr.clear();
+				lr.train();	
+
+				Map<Integer,Double>[] nb_results = getColumnWeightsNB(nb);
+				nb_termWeightsyy = mergeMaps(nb_termWeightsyy, nb_results[0]);
+				nb_positiveWeightsyy = mergeMaps(nb_positiveWeightsyy, nb_results[1]);
+				nb_negativeWeightsyy = mergeMaps(nb_negativeWeightsyy, nb_results[2]);
+				nb_neutralWeightsyy = mergeMaps(nb_neutralWeightsyy, nb_results[3]);
+
+				nb_termWeightsyn = mergeMaps(nb_termWeightsyn, nb_results[4]);
+				nb_positiveWeightsyn = mergeMaps(nb_positiveWeightsyn, nb_results[5]);
+				nb_negativeWeightsyn = mergeMaps(nb_negativeWeightsyn, nb_results[6]);
+				nb_neutralWeightsyn = mergeMaps(nb_neutralWeightsyn, nb_results[7]);
+
+				Map<Integer,Double>[] lr_results = getColumnWeightsLR(lr);
+				lr_termWeights = mergeMaps(lr_termWeights, lr_results[0]);
+				lr_positiveWeights = mergeMaps(lr_positiveWeights, lr_results[1]);
+				lr_negativeWeights = mergeMaps(lr_negativeWeights, lr_results[2]);
+				lr_neutralWeights = mergeMaps(lr_neutralWeights, lr_results[3]);
+			}									
+
+			nb_termWeightsyy = normaliseMap(nb_termWeightsyy);
+			nb_positiveWeightsyy = normaliseMap(nb_positiveWeightsyy);
+			nb_negativeWeightsyy = normaliseMap(nb_negativeWeightsyy);
+			nb_neutralWeightsyy = normaliseMap(nb_neutralWeightsyy);
+
+			nb_termWeightsyn = normaliseMap(nb_termWeightsyn);
+			nb_positiveWeightsyn = normaliseMap(nb_positiveWeightsyn);
+			nb_negativeWeightsyn = normaliseMap(nb_negativeWeightsyn);
+			nb_neutralWeightsyn = normaliseMap(nb_neutralWeightsyn);
+
+			lr_termWeights = normaliseMap(lr_termWeights);
+			lr_positiveWeights = normaliseMap(lr_positiveWeights);
+			lr_negativeWeights = normaliseMap(lr_negativeWeights);
+			lr_neutralWeights = normaliseMap(lr_neutralWeights);			
+
+			System.out.println(names[i] + " naive bayes results");
+			System.out.println("P(attribute = y | class = y)");
+			System.out.println("Top results for all");
+			sortMap(nb_termWeightsyy,nb_trainData_all);
+			System.out.println("\nTop results for positive");
+			sortMap(nb_positiveWeightsyy,nb_trainData_all);
+			System.out.println("\nTop results for negative");
+			sortMap(nb_negativeWeightsyy,nb_trainData_all);
+			System.out.println("\nTop results for neutral");
+			sortMap(nb_neutralWeightsyy,nb_trainData_all);
+			System.out.println();
+
+			System.out.println("P(attribute = y | class = y) / P(attribute = y | class = n)");
+			System.out.println("Top results for all");
+			sortMap(nb_termWeightsyn,nb_trainData_all);
+			System.out.println("\nTop results for positive");
+			sortMap(nb_positiveWeightsyn,nb_trainData_all);
+			System.out.println("\nTop results for negative");
+			sortMap(nb_negativeWeightsyn,nb_trainData_all);
+			System.out.println("\nTop results for neutral");
+			sortMap(nb_neutralWeightsyn,nb_trainData_all);
+			System.out.println();
+			
+			System.out.println(names[i] + " logistic regression results");
+			System.out.println("Top results for all");
+			sortMap(lr_termWeights,lr_trainData_all);
+			System.out.println("\nTop results for positive");
+			sortMap(lr_positiveWeights,lr_trainData_all);
+			System.out.println("\nTop results for negative");
+			sortMap(lr_negativeWeights,lr_trainData_all);
+			System.out.println("\nTop results for neutral");
+			sortMap(lr_neutralWeights,lr_trainData_all);
+			System.out.println();
+		}							
+	}
+
+	public static Map<Integer,Double> mergeMaps(Map<Integer,Double> map1, Map<Integer,Double> map2){
+		Map<Integer, Double> merged = new HashMap<Integer, Double>(map1); 
+		for (Map.Entry<Integer, Double> entry : map2.entrySet()) {
+			Double y = merged.get(entry.getKey()); 
+			merged.put(entry.getKey(), entry.getValue() + (y == null ? 0 : y));
+		} 
+		return merged;
+	}
+
+	public static Map<Integer,Double> normaliseMap(Map<Integer,Double> map1){		
+		for (Entry<Integer, Double> element : map1.entrySet()){
+			map1.put(element.getKey(), (element.getValue()/Launcher.NUM_FOLDS));
+		}
+		return map1;
+	}
+
 	/*
 	 * Extract weights from columns
 	 */
-	public static void getColumnWeightsLR(LogisticRegression lr,int display) throws Exception{		
+	public static Map<Integer,Double>[] getColumnWeightsLR(LogisticRegression lr) throws Exception{		
 		//lr.runTests(FILE, /* file to use */ 10 /* folds to use */, threshold /* test threshold */, groupsSize /*groups size*/, pagesSize, messagesSize, new PrintWriter("a.txt") /* file to write */, DEMOGRAPHICS, GROUPS, PAGES, TRAITS, MESSAGES);
 
 		System.out.println("Using Predictor " + lr.getName());
+		Map<Integer,Double>[] results = new HashMap[4];
 
 		Map<Integer,Double> termWeights = new HashMap<Integer,Double>();
 		Map<Integer,Double> positiveWeights = new HashMap<Integer,Double>();
@@ -154,6 +381,14 @@ public class RandomDataExtraction {
 			}
 		}
 
+		results[0] = termWeights;
+		results[1] = positiveWeights;
+		results[2] = negativeWeights;
+		results[3] = neutralWeights;
+
+		return results;
+
+		/*
 		System.out.println("Top " + display + " results for all");
 		sortMap(termWeights,display,lr);
 		System.out.println("\nTop " + display + " results for positive");
@@ -161,13 +396,13 @@ public class RandomDataExtraction {
 		System.out.println("\nTop " + display + " results for negative");
 		sortMap(negativeWeights,display,lr);
 		System.out.println("\nTop " + display + " results for neutral");
-		sortMap(neutralWeights,display,lr);	
+		sortMap(neutralWeights,display,lr);	*/
 	}
 
-	public static void getColumnWeightsNB(NaiveBayes nb, int display) throws Exception{
-		//nb.runTests(FILE, /* file to use */ 10 /* folds to use */, threshold /* test threshold */, groupsSize /*groups size*/, pagesSize, messagesSize, new PrintWriter("a.txt") /* file to write */, DEMOGRAPHICS, GROUPS, PAGES, TRAITS, MESSAGES);
+	public static Map<Integer,Double>[] getColumnWeightsNB(NaiveBayes nb) throws Exception{
 
 		System.out.println("Using Predictor " + nb.getName());
+		Map<Integer,Double>[] results = new HashMap[8];
 
 		Map<Integer,Double> termWeightsyy = new HashMap<Integer,Double>();
 		Map<Integer,Double> positiveWeightsyy = new HashMap<Integer,Double>();
@@ -213,25 +448,17 @@ public class RandomDataExtraction {
 
 		}
 
-		System.out.println("P(attribute = y | class = y)");
-		System.out.println("Top " + display + " results for all");
-		sortMap(termWeightsyy,display,nb);
-		System.out.println("\nTop " + display + " results for positive");
-		sortMap(positiveWeightsyy,display,nb);
-		System.out.println("\nTop " + display + " results for negative");
-		sortMap(negativeWeightsyy,display,nb);
-		System.out.println("\nTop " + display + " results for neutral");
-		sortMap(neutralWeightsyy,display,nb);	
+		results[0] = termWeightsyy;
+		results[1] = positiveWeightsyy;
+		results[2] = negativeWeightsyy;
+		results[3] = neutralWeightsyy;
 
-		System.out.println("P(attribute = y | class = y) / P(attribute = y | class = n)");
-		System.out.println("Top " + display + " results for all");
-		sortMap(termWeightsyn,display,nb);
-		System.out.println("\nTop " + display + " results for positive");
-		sortMap(positiveWeightsyn,display,nb);
-		System.out.println("\nTop " + display + " results for negative");
-		sortMap(negativeWeightsyn,display,nb);
-		System.out.println("\nTop " + display + " results for neutral");
-		sortMap(neutralWeightsyn,display,nb);	
+		results[4] = termWeightsyn;
+		results[5] = positiveWeightsyn;
+		results[6] = negativeWeightsyn;
+		results[7] = neutralWeightsyn;
+
+		return results;				
 	}
 
 	/*
@@ -257,25 +484,27 @@ public class RandomDataExtraction {
 	/*
 	 * sort and display map
 	 */
-	static void sortMap(Map<Integer,Double> map, int display, Predictor p) throws Exception{
+	static void sortMap(Map<Integer,Double> map, ArffData p) throws Exception{
+		int display = 10;
 		SortedMap sortedData = new TreeMap(new ValueComparer(map));
-		ArffData a = p._trainData;
 
 		//System.out.println(map);
 		int count = 1;
+		int offset = 2;
 		sortedData.putAll(map);		
 		for (Object key : sortedData.keySet()){
-			String attribute = a._attr.get(((Integer)key+3)).toString().split(" ", 2)[0];
+			//System.out.println(key);
+			String attribute = p._attr.get(((Integer)key+offset)).toString().split(" ", 2)[0];
 
 			int yes = 0;
 			int uniqueYes = 0;
 			Set<Double> users = new HashSet<Double>();
-			for (DataEntry entry : a._data){
-				if ((Integer)entry.getData((Integer) key+3) > 0){
-					yes += (Integer)(entry.getData((Integer) key+3));
+			for (DataEntry entry : p._data){
+				if ((Integer)entry.getData((Integer) key+offset) > 0){
+					yes++;
 					//System.out.println((Double)entry.getData(0) + ":" + users.contains((Double)entry.getData(0)) + ":" + users.size());
 					if (!users.contains((Double)entry.getData(0))){
-						uniqueYes += (Integer)(entry.getData((Integer) key+3));
+						uniqueYes += (Integer)(entry.getData((Integer) key+offset));
 						users.add((Double)entry.getData(0));
 					}
 				}				
@@ -288,9 +517,9 @@ public class RandomDataExtraction {
 		}
 		//System.out.println(sortedData);
 	}
-	
+
 	public static void getFriendsCounts(String name){				
-		
+
 		for (int i = 0; i <= 10; i++){			
 			ArffData d = new ArffData();
 			d.setFriends(true);
@@ -301,12 +530,32 @@ public class RandomDataExtraction {
 			d.setTraits(false);
 			d.setOutgoingMessages(false,0);
 			d.setIncomingMessages(false,0);
-			
+
 			d.setFriendSize(i);
 			d.setFileName(name);
 			System.out.println("Friend threshold: " + i + "\t Size: " + d._data.size());
 		}		
-		
+
+	}
+	
+	public static void incomingOutgoingAnalysis(String name){				
+
+		for (int i = 0; i <= 10; i++){			
+			ArffData d = new ArffData();
+			d.setFriends(true);
+			d.setInteractions(false);
+			d.setDemographics(false);
+			d.setGroups(false,0);
+			d.setPages(false,0);
+			d.setTraits(false);
+			d.setOutgoingMessages(false,0);
+			d.setIncomingMessages(false,0);
+
+			d.setFriendSize(i);
+			d.setFileName(name);
+			System.out.println("Friend threshold: " + i + "\t Size: " + d._data.size());
+		}		
+
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -315,8 +564,9 @@ public class RandomDataExtraction {
 
 		//LogisticRegression lr = new LogisticRegression(LogisticRegression.PRIOR_TYPE.L2, 2d);
 		//getColumnWeightsLR(lr,15);
-		
-		getFriendsCounts("active_all_1000_3.arff");
+
+		//getFriendsCounts("active_all_1000_3.arff");
+		runColumnWeightsTests();	
 	}
 
 }

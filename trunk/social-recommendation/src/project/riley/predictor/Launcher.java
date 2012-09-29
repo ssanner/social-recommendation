@@ -41,31 +41,26 @@ public class Launcher {
 	public static int		INCOMING_MESSAGES_SIZE = 1000;
 	
 	// best sizes for these types
-	public static boolean	SIZES_OVERRIDE = false;
-	public static int		NB_GROUPS_SIZE_OVERRIDE = 1000;
-	public static int		LR_GROUPS_SIZE_OVERRIDE = 1000;
-	public static int		SVM_GROUPS_SIZE_OVERRIDE = 1000;
-	public static int		FRIEND_GROUPS_SIZE_OVERRIDE = 1000;
-	public static int		SMB_GROUPS_SIZE_OVERRIDE = 1000;
+	public static boolean	SIZES_OVERRIDE = true;
+	public static int		NB_GROUPS_SIZE_OVERRIDE = 300;
+	public static int		LR_GROUPS_SIZE_OVERRIDE = 800;
+	public static int		SVM_GROUPS_SIZE_OVERRIDE = 700;
+	public static int		SMB_GROUPS_SIZE_OVERRIDE = 100;
 	
-	public static int		NB_PAGES_SIZE_OVERRIDE = 1000;
-	public static int		LR_PAGES_SIZE_OVERRIDE = 1000;
-	public static int		SVM_PAGES_SIZE_OVERRIDE = 1000;
-	public static int		FRIEND_PAGES_SIZE_OVERRIDE = 1000;
-	public static int		SMB_PAGES_SIZE_OVERRIDE = 1000;
-	
-	public static int		NB_INCOMING_SIZE_OVERRIDE = 1000;
-	public static int		LR_INCOMING_SIZE_OVERRIDE = 1000;
-	public static int		SVM_INCOMING_SIZE_OVERRIDE = 1000;
-	public static int		FRIEND_INCOMING_SIZE_OVERRIDE = 1000;
-	public static int		SMB_INCOMING_SIZE_OVERRIDE = 1000;
+	public static int		NB_PAGES_SIZE_OVERRIDE = 500;
+	public static int		LR_PAGES_SIZE_OVERRIDE = 900;
+	public static int		SVM_PAGES_SIZE_OVERRIDE = 800;
+	public static int		SMB_PAGES_SIZE_OVERRIDE = 100;
 
-	public static int		NB_OUTGOING_SIZE_OVERRIDE = 1000;
-	public static int		LR_OUTGOING_SIZE_OVERRIDE = 1000;
-	public static int		SVM_OUTGOING_SIZE_OVERRIDE = 1000;
-	public static int		FRIEND_OUTGOING_SIZE_OVERRIDE = 1000;
-	public static int		SMB_OUTGOING_SIZE_OVERRIDE = 1000;
+	public static int		NB_OUTGOING_SIZE_OVERRIDE = 300;
+	public static int		LR_OUTGOING_SIZE_OVERRIDE = 800;
+	public static int		SVM_OUTGOING_SIZE_OVERRIDE = 900;
+	public static int		SMB_OUTGOING_SIZE_OVERRIDE = 100;
 	
+	public static int		NB_INCOMING_SIZE_OVERRIDE = 100;
+	public static int		LR_INCOMING_SIZE_OVERRIDE = 800;
+	public static int		SVM_INCOMING_SIZE_OVERRIDE = 900;
+	public static int		SMB_INCOMING_SIZE_OVERRIDE = 100;
 	/*
 	 * set up predictors
 	 */
@@ -108,7 +103,7 @@ public class Launcher {
 
 		Predictor[] predictors = new Predictor[] {
 				//matchbox,
-				friendLiked,
+				//friendLiked,
 				soc_matchbox,
 				naiveBayes, 
 				constPredTrue,
@@ -185,7 +180,7 @@ public class Launcher {
 
 		Date dNow = new Date();
 		SimpleDateFormat ft = new SimpleDateFormat ("dd_MM_yyyy");
-		String outName = "group_all_results_" + ft.format(dNow) + ".txt"; 
+		String outName = "groups_results_" + ft.format(dNow) + ".txt"; 
 
 		writer = new PrintWriter(outName);		
 		
@@ -194,12 +189,12 @@ public class Launcher {
 		//launcher.launchFlag("interactions");				
 		//launcher.launchFlag("demographics");				
 		//launcher.launchFlag("traits");				
-		//launcher.launchFlag("groups");
+		launcher.launchFlag("groups");
 		//launcher.launchFlag("pages");
 		//launcher.launchFlag("messages outgoing");
 		//launcher.launchFlag("messages incoming");
 
-		launcher.launchSizeComparisons("group");		
+		//launcher.launchSizeComparisons("group");		
 		//launcher.launchSizeComparisons("pages");
 		//launcher.launchSizeComparisons("messages outgoing");
 		//launcher.launchSizeComparisons("messages incoming");
