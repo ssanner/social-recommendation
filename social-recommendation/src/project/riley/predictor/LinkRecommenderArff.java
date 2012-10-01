@@ -23,6 +23,7 @@ public class LinkRecommenderArff extends org.nicta.lr.LinkRecommender
 	static DecimalFormat df3 = new DecimalFormat("#.###");
 	//Use as much of the old code as possible.
 	//But make a new class and method as I don't trust myself yet to edit the old code and not break anything
+	
 	public Double[] run(ArffData trainArff, ArffData testArff, String type)
 			throws Exception
 			{
@@ -137,7 +138,7 @@ public class LinkRecommenderArff extends org.nicta.lr.LinkRecommender
 
 	public static void runTests(String source_file, int num_folds, PrintWriter writer, int threshold, int friendK) throws Exception {
 		int normal = num_folds;
-		
+
 		Double[] accuracies = new Double[num_folds];
 		Double[] precisions = new Double[num_folds];
 		Double[] recalls = new Double[num_folds];
@@ -162,7 +163,7 @@ public class LinkRecommenderArff extends org.nicta.lr.LinkRecommender
 				outgoingSize = Launcher.SMB_OUTGOING_SIZE_OVERRIDE;
 				incomingSize = Launcher.SMB_INCOMING_SIZE_OVERRIDE;
 			}
-			
+
 			ArffData _testData  = new ArffData();
 			_testData.setThreshold(threshold);
 			_testData.setFriendSize(friendK);
@@ -175,7 +176,7 @@ public class LinkRecommenderArff extends org.nicta.lr.LinkRecommender
 			_testData.setOutgoingMessages(Launcher.OUTGOING_MESSAGES_FEATURE, outgoingSize);
 			_testData.setIncomingMessages(Launcher.INCOMING_MESSAGES_FEATURE, incomingSize);
 			_testData.setFileName(testName);
-			
+
 			ArffData _trainData  = new ArffData();
 			_trainData.setThreshold(0);
 			_trainData.setFriendSize(0);
@@ -188,7 +189,7 @@ public class LinkRecommenderArff extends org.nicta.lr.LinkRecommender
 			_trainData.setOutgoingMessages(Launcher.OUTGOING_MESSAGES_FEATURE, outgoingSize);
 			_trainData.setIncomingMessages(Launcher.INCOMING_MESSAGES_FEATURE, incomingSize);
 			_trainData.setFileName(trainName);
-			
+
 			if (_testData._data.size() == 0 || _trainData._data.size() == 0){
 				//System.out.println(threshold);
 				//System.out.println(trainName + ":" + _trainData._data.size());
@@ -199,7 +200,7 @@ public class LinkRecommenderArff extends org.nicta.lr.LinkRecommender
 
 			//String type = Constants.FEATURE;
 			//String type = Constants.SOCIAL;
-			
+
 			Double[] results = new LinkRecommenderArff().run(_trainData, _testData, type);
 
 			accuracies[i] = results[0];
@@ -252,7 +253,7 @@ public class LinkRecommenderArff extends org.nicta.lr.LinkRecommender
 		System.out.println();
 		writer.println();
 	}
-	
+
 	public static void setType(String t){
 		type = t;
 	}
@@ -264,6 +265,10 @@ public class LinkRecommenderArff extends org.nicta.lr.LinkRecommender
 		//runTests(source_file,num_folds);
 	}
 
+	public Map<Long,Double> getProbabilites(){
+		return null;
+	}
+	
 	public Double[] getArffMetrics(Map<Long, Map<Long, Double>> predictions, Map<Long, Set<Long>> linkLikes, double threshold)
 	{
 		double truePos = 0;

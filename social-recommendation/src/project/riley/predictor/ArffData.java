@@ -63,7 +63,7 @@ public class ArffData {
 	public int incomingMessages_index_start = outgoingMessages_index_end;
 	public int incomingMessages_index_end = incomingMessages_index_start + DataGeneratorPassiveActive.topWordsN;
 
-	public boolean testFriends = true;
+	public boolean generating = true;
 	public int thresholdSize = 0;
 	public int friendsSize = 0;
 	public int groupsSize = 1000;
@@ -369,7 +369,7 @@ public class ArffData {
 			} else {				
 				//System.out.println(i + ":" + _attr.get(i) + ":" + StripQuotes(split[i]) + ":" + split.length + ":" + _attr.size());
 				if (friends && i > (friends_index_start-offset) && i <= (friends_index_end-offset)){
-					if (!testFriends){
+					if (generating){
 						d.addData(StripQuotes(split[i]));	
 					} else {
 						if (Integer.parseInt(StripQuotes(split[i])) > 0) {
@@ -526,7 +526,7 @@ public class ArffData {
 
 	public class DataEntry {
 		// These are either Integers or Doubles
-		ArrayList _entries = null;
+		public ArrayList _entries = null;
 		Integer friendLiked = null;
 
 		public DataEntry() {
