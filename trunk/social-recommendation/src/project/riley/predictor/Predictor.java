@@ -131,11 +131,11 @@ public abstract class Predictor {
 			_trainData.setFriends(Launcher.FRIENDS_FEATURE);
 			_trainData.setInteractions(Launcher.INTERACTIONS_FEATURE);
 			_trainData.setDemographics(Launcher.DEMOGRAPHICS_FEATURE);
-			_trainData.setGroups(Launcher.GROUPS_FEATURE, Launcher.GROUPS_SIZE);
-			_trainData.setPages(Launcher.PAGES_FEATURE, Launcher.PAGES_SIZE);
+			_trainData.setGroups(Launcher.GROUPS_FEATURE, groupsSize);
+			_trainData.setPages(Launcher.PAGES_FEATURE, pagesSize);
 			_trainData.setTraits(Launcher.TRAITS_FEATURE);
-			_trainData.setOutgoingMessages(Launcher.OUTGOING_MESSAGES_FEATURE, Launcher.OUTGOING_MESSAGES_SIZE);
-			_trainData.setIncomingMessages(Launcher.INCOMING_MESSAGES_FEATURE, Launcher.INCOMING_MESSAGES_SIZE);
+			_trainData.setOutgoingMessages(Launcher.OUTGOING_MESSAGES_FEATURE, outgoingSize);
+			_trainData.setIncomingMessages(Launcher.INCOMING_MESSAGES_FEATURE, incomingSize);
 			_trainData.setFileName(trainName);
 
 			_testData  = new ArffData();

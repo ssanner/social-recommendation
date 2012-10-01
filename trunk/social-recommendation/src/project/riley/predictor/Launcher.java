@@ -30,7 +30,7 @@ public class Launcher {
 	public static boolean 	INTERACTIONS_FEATURE = false;
 	public static boolean 	DEMOGRAPHICS_FEATURE = false; 
 	public static boolean 	GROUPS_FEATURE = false;
-	public static boolean 	PAGES_FEATURE = true;
+	public static boolean 	PAGES_FEATURE = false;
 	public static boolean	TRAITS_FEATURE = false;
 	public static boolean 	OUTGOING_MESSAGES_FEATURE = false;
 	public static boolean 	INCOMING_MESSAGES_FEATURE = false;
@@ -41,7 +41,7 @@ public class Launcher {
 	public static int		INCOMING_MESSAGES_SIZE = 1000;
 	
 	// best sizes for these types
-	public static boolean	SIZES_OVERRIDE = true;
+	public static boolean	SIZES_OVERRIDE = false;
 	public static int		NB_GROUPS_SIZE_OVERRIDE = 300;
 	public static int		LR_GROUPS_SIZE_OVERRIDE = 800;
 	public static int		SVM_GROUPS_SIZE_OVERRIDE = 700;
@@ -143,7 +143,7 @@ public class Launcher {
 	 */
 	public void launchSizeComparisons(String name) throws Exception{
 		for (int i = 100; i <= maxGroupsSize; i += groupsStep){
-			if (name.contains("group")){
+			if (name.contains("groups")){
 				Launcher.GROUPS_SIZE = i;
 			} else if (name.contains("pages")){
 				Launcher.PAGES_SIZE = i;
@@ -151,7 +151,10 @@ public class Launcher {
 				Launcher.OUTGOING_MESSAGES_SIZE = i;
 			} else if (name.contains("incoming")){
 				Launcher.INCOMING_MESSAGES_SIZE = i;
-			}			
+			} else {
+				System.err.println("No comparison set");
+				return;
+			}
 			for (Predictor p : predictors){
 				System.out.println("Running predictors on " + DATA_FILE + " using " +  name +  " size " + i);
 				writer.println("Running predictors on " + DATA_FILE + " using " +  name +  " size " + i);
@@ -172,6 +175,24 @@ public class Launcher {
 			}
 		}
 	}
+	
+	public void setFlag(String flag){
+		if (flag.contains("interaction")){
+			Launcher.INTERACTIONS_FEATURE = true;
+		} else if (flag.contains("demographics")){
+			Launcher.DEMOGRAPHICS_FEATURE = true;
+		} else if (flag.contains("traits")){
+			Launcher.TRAITS_FEATURE = true;
+		} else if (flag.contains("groups")){
+			Launcher.GROUPS_FEATURE = true;
+		} else if (flag.contains("pages")){
+			Launcher.PAGES_FEATURE = true;
+		} else if (flag.contains("outgoing")){
+			Launcher.OUTGOING_MESSAGES_FEATURE = true;
+		} else if (flag.contains("incoming")){
+			Launcher.INCOMING_MESSAGES_FEATURE = true;
+		}
+	}
 
 	public static void main(String[] args) throws Exception {
 		Launcher launcher = new Launcher();
@@ -184,20 +205,20 @@ public class Launcher {
 
 		writer = new PrintWriter(outName);		
 		
+		String flag;
+		//flag = "interactions";
+		//flag = "demographics";
+		//flag = "traits";
+		//flag = "groups";
+		flag = "pages";
+		//flag = "outgoing";
+		//flag = "incoming";
+		
 		//launcher.launchThresholds();
-
-		//launcher.launchFlag("interactions");				
-		//launcher.launchFlag("demographics");				
-		//launcher.launchFlag("traits");				
-		//launcher.launchFlag("groups");
-		launcher.launchFlag("pages");
-		//launcher.launchFlag("messages outgoing");
-		//launcher.launchFlag("messages incoming");
-
-		//launcher.launchSizeComparisons("group");		
-		//launcher.launchSizeComparisons("pages");
-		//launcher.launchSizeComparisons("messages outgoing");
-		//launcher.launchSizeComparisons("messages incoming");
+		Launcher.SIZES_OVERRIDE = true;
+		launcher.setFlag(flag);
+		launcher.launchFlag(flag);				
+		//launcher.launchSizeComparisons(flag);		
 		
 		System.out.println("Finished writing to file " + outName);
 		writer.close();
