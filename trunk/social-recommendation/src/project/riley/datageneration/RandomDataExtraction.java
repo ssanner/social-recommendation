@@ -16,6 +16,7 @@ import java.util.Map.Entry;
 import org.nicta.lr.util.SQLUtil;
 
 import project.riley.predictor.ArffData;
+import project.riley.predictor.ArffData.Attribute;
 import project.riley.predictor.Launcher;
 import project.riley.predictor.NaiveBayes;
 import project.riley.predictor.ArffData.DataEntry;
@@ -136,13 +137,6 @@ public class RandomDataExtraction {
 				{false, false, false, false, true, false, false},
 				{false, false, false, false, false, true, false},
 				{false, false, false, false, false, false, true}};
-		int[][] vals = {{0,0,0,0,0,0,0,0},
-				{0,1,0,0,0,0,0,0},
-				{0,0,2,0,0,0,0,0},
-				{0,0,0,3,0,0,0,0},
-				{0,0,0,0,4,0,0,0},
-				{0,0,0,0,0,5,0,0},
-				{0,0,0,0,0,0,6,0}};
 
 		LogisticRegression[] lrs = {new LogisticRegression(LogisticRegression.PRIOR_TYPE.L2, 2d),
 				new LogisticRegression(LogisticRegression.PRIOR_TYPE.L2, 2d),
@@ -180,23 +174,23 @@ public class RandomDataExtraction {
 			nb_trainData_all.setInteractions(flags[i][0]);
 			nb_trainData_all.setDemographics(flags[i][1]);
 			nb_trainData_all.setTraits(flags[i][2]);
-			nb_trainData_all.setGroups(flags[i][3], vals[i][0]);
-			nb_trainData_all.setPages(flags[i][4], vals[i][1]);
-			nb_trainData_all.setOutgoingMessages(flags[i][5], vals[i][2]);
-			nb_trainData_all.setIncomingMessages(flags[i][6], vals[i][3]);
+			nb_trainData_all.setGroups(flags[i][3], Launcher.NB_GROUPS_SIZE_OVERRIDE);
+			nb_trainData_all.setPages(flags[i][4], Launcher.NB_PAGES_SIZE_OVERRIDE);
+			nb_trainData_all.setOutgoingMessages(flags[i][5], Launcher.NB_OUTGOING_SIZE_OVERRIDE);
+			nb_trainData_all.setIncomingMessages(flags[i][6], Launcher.NB_INCOMING_SIZE_OVERRIDE);
 			nb_trainData_all.setFileName(Launcher.DATA_FILE);
-			
+
 			ArffData lr_trainData_all = new ArffData();
-			lr_trainData_all.setFriends(false);
 			lr_trainData_all.setThreshold(0);
 			lr_trainData_all.setFriendSize(0);
+			lr_trainData_all.setFriends(false);
 			lr_trainData_all.setInteractions(flags[i][0]);
 			lr_trainData_all.setDemographics(flags[i][1]);
 			lr_trainData_all.setTraits(flags[i][2]);
-			lr_trainData_all.setGroups(flags[i][3], vals[i][4]);
-			lr_trainData_all.setPages(flags[i][4], vals[i][5]);
-			lr_trainData_all.setOutgoingMessages(flags[i][5], vals[i][6]);
-			lr_trainData_all.setIncomingMessages(flags[i][6], vals[i][7]);
+			lr_trainData_all.setGroups(flags[i][3], Launcher.LR_GROUPS_SIZE_OVERRIDE);
+			lr_trainData_all.setPages(flags[i][4], Launcher.LR_PAGES_SIZE_OVERRIDE);
+			lr_trainData_all.setOutgoingMessages(flags[i][5], Launcher.LR_OUTGOING_SIZE_OVERRIDE);
+			lr_trainData_all.setIncomingMessages(flags[i][6], Launcher.LR_INCOMING_SIZE_OVERRIDE);
 			lr_trainData_all.setFileName(Launcher.DATA_FILE);
 
 			for (int k = 0; k < Launcher.NUM_FOLDS; k++){												
@@ -211,23 +205,23 @@ public class RandomDataExtraction {
 				nb_trainData.setInteractions(flags[i][0]);
 				nb_trainData.setDemographics(flags[i][1]);
 				nb_trainData.setTraits(flags[i][2]);
-				nb_trainData.setGroups(flags[i][3], vals[i][0]);
-				nb_trainData.setPages(flags[i][4], vals[i][1]);
-				nb_trainData.setOutgoingMessages(flags[i][5], vals[i][2]);
-				nb_trainData.setIncomingMessages(flags[i][6], vals[i][3]);
+				nb_trainData.setGroups(flags[i][3], Launcher.NB_GROUPS_SIZE_OVERRIDE);
+				nb_trainData.setPages(flags[i][4], Launcher.NB_PAGES_SIZE_OVERRIDE);
+				nb_trainData.setOutgoingMessages(flags[i][5], Launcher.NB_OUTGOING_SIZE_OVERRIDE);
+				nb_trainData.setIncomingMessages(flags[i][6], Launcher.NB_INCOMING_SIZE_OVERRIDE);
 				nb_trainData.setFileName(trainName);
 
 				ArffData nb_testData  = new ArffData();
 				nb_testData.setFriends(false);
-				nb_trainData.setThreshold(0);
-				nb_trainData.setFriendSize(0);
-				nb_trainData.setInteractions(flags[i][0]);
-				nb_trainData.setDemographics(flags[i][1]);
-				nb_trainData.setTraits(flags[i][2]);
-				nb_trainData.setGroups(flags[i][3], vals[i][0]);
-				nb_trainData.setPages(flags[i][4], vals[i][1]);
-				nb_trainData.setOutgoingMessages(flags[i][5], vals[i][2]);
-				nb_trainData.setIncomingMessages(flags[i][6], vals[i][3]);
+				nb_testData.setThreshold(0);
+				nb_testData.setFriendSize(0);
+				nb_testData.setInteractions(flags[i][0]);
+				nb_testData.setDemographics(flags[i][1]);
+				nb_testData.setTraits(flags[i][2]);
+				nb_testData.setGroups(flags[i][3], Launcher.NB_GROUPS_SIZE_OVERRIDE);
+				nb_testData.setPages(flags[i][4], Launcher.NB_PAGES_SIZE_OVERRIDE);
+				nb_testData.setOutgoingMessages(flags[i][5], Launcher.NB_OUTGOING_SIZE_OVERRIDE);
+				nb_testData.setIncomingMessages(flags[i][6], Launcher.NB_INCOMING_SIZE_OVERRIDE);
 				nb_testData.setFileName(testName);
 
 				ArffData lr_trainData = new ArffData();
@@ -237,10 +231,10 @@ public class RandomDataExtraction {
 				lr_trainData.setInteractions(flags[i][0]);
 				lr_trainData.setDemographics(flags[i][1]);
 				lr_trainData.setTraits(flags[i][2]);
-				lr_trainData.setGroups(flags[i][3], vals[i][4]);
-				lr_trainData.setPages(flags[i][4], vals[i][5]);
-				lr_trainData.setOutgoingMessages(flags[i][5], vals[i][6]);
-				lr_trainData.setIncomingMessages(flags[i][6], vals[i][7]);
+				lr_trainData.setGroups(flags[i][3], Launcher.LR_GROUPS_SIZE_OVERRIDE);
+				lr_trainData.setPages(flags[i][4], Launcher.LR_PAGES_SIZE_OVERRIDE);
+				lr_trainData.setOutgoingMessages(flags[i][5], Launcher.LR_OUTGOING_SIZE_OVERRIDE);
+				lr_trainData.setIncomingMessages(flags[i][6], Launcher.LR_INCOMING_SIZE_OVERRIDE);
 				lr_trainData.setFileName(trainName);
 
 				ArffData lr_testData  = new ArffData();
@@ -250,10 +244,10 @@ public class RandomDataExtraction {
 				lr_testData.setInteractions(flags[i][0]);
 				lr_testData.setDemographics(flags[i][1]);
 				lr_testData.setTraits(flags[i][2]);
-				lr_testData.setGroups(flags[i][3], vals[i][4]);
-				lr_testData.setPages(flags[i][4], vals[i][5]);
-				lr_testData.setOutgoingMessages(flags[i][5], vals[i][6]);
-				lr_testData.setIncomingMessages(flags[i][6], vals[i][7]);
+				lr_testData.setGroups(flags[i][3], Launcher.LR_GROUPS_SIZE_OVERRIDE);
+				lr_testData.setPages(flags[i][4], Launcher.LR_PAGES_SIZE_OVERRIDE);
+				lr_testData.setOutgoingMessages(flags[i][5], Launcher.LR_OUTGOING_SIZE_OVERRIDE);
+				lr_testData.setIncomingMessages(flags[i][6], Launcher.LR_INCOMING_SIZE_OVERRIDE);
 				lr_testData.setFileName(testName);
 
 				nb._trainData = nb_trainData;
@@ -321,7 +315,7 @@ public class RandomDataExtraction {
 			System.out.println("\nTop results for neutral");
 			sortMap(nb_neutralWeightsyn,nb_trainData_all);
 			System.out.println();
-			
+
 			System.out.println(names[i] + " logistic regression results");
 			System.out.println("Top results for all");
 			sortMap(lr_termWeights,lr_trainData_all);
@@ -355,8 +349,6 @@ public class RandomDataExtraction {
 	 * Extract weights from columns
 	 */
 	public static Map<Integer,Double>[] getColumnWeightsLR(LogisticRegression lr) throws Exception{		
-		//lr.runTests(FILE, /* file to use */ 10 /* folds to use */, threshold /* test threshold */, groupsSize /*groups size*/, pagesSize, messagesSize, new PrintWriter("a.txt") /* file to write */, DEMOGRAPHICS, GROUPS, PAGES, TRAITS, MESSAGES);
-
 		System.out.println("Using Predictor " + lr.getName());
 		Map<Integer,Double>[] results = new HashMap[4];
 
@@ -388,15 +380,6 @@ public class RandomDataExtraction {
 
 		return results;
 
-		/*
-		System.out.println("Top " + display + " results for all");
-		sortMap(termWeights,display,lr);
-		System.out.println("\nTop " + display + " results for positive");
-		sortMap(positiveWeights,display,lr);
-		System.out.println("\nTop " + display + " results for negative");
-		sortMap(negativeWeights,display,lr);
-		System.out.println("\nTop " + display + " results for neutral");
-		sortMap(neutralWeights,display,lr);	*/
 	}
 
 	public static Map<Integer,Double>[] getColumnWeightsNB(NaiveBayes nb) throws Exception{
@@ -537,24 +520,53 @@ public class RandomDataExtraction {
 		}		
 
 	}
-	
+
 	public static void incomingOutgoingAnalysis(String name){				
 
-		for (int i = 0; i <= 10; i++){			
-			ArffData d = new ArffData();
-			d.setFriends(true);
-			d.setInteractions(false);
-			d.setDemographics(false);
-			d.setGroups(false,0);
-			d.setPages(false,0);
-			d.setTraits(false);
-			d.setOutgoingMessages(false,0);
-			d.setIncomingMessages(false,0);
-
-			d.setFriendSize(i);
-			d.setFileName(name);
-			System.out.println("Friend threshold: " + i + "\t Size: " + d._data.size());
-		}		
+		ArffData in = new ArffData();
+		in.setFriends(false);
+		in.setInteractions(false);
+		in.setDemographics(false);
+		in.setGroups(false,0);
+		in.setPages(false,0);
+		in.setTraits(false);
+		in.setOutgoingMessages(true,1000);
+		in.setIncomingMessages(false,0);		
+		in.setFileName(name);
+		
+		ArffData out = new ArffData();
+		out.setFriends(false);
+		out.setInteractions(false);
+		out.setDemographics(false);
+		out.setGroups(false,0);
+		out.setPages(false,0);
+		out.setTraits(false);
+		out.setOutgoingMessages(false,1000);
+		out.setIncomingMessages(true,1000);		
+		out.setFileName(name);
+		
+		System.out.println("Outgoing size: " + out._attr.size());
+		int count[] = new int[out._attr.size()*2];
+		
+		for (int i = 0; i < out._data.size(); i++){
+			DataEntry de = out._data.get(i);
+			for (int j = 3; j < de._entries.size(); j++){
+				count[j-3] += (Integer) de.getData(j);
+				//System.out.println(i + " " + out._attr.get(j) + " " + de.getData(j));
+			}
+		}
+		
+		for (int i = 0; i < in._data.size(); i++){
+			DataEntry de = in._data.get(i);
+			for (int j = 3; j < de._entries.size(); j++){
+				count[1000+j-3] += (Integer) de.getData(j);
+				//System.out.println(i + " " + in._attr.get(j) + " " + de.getData(j));
+			}
+		}
+		
+		for (int i = 3; i < out._attr.size(); i++){
+			System.out.println(out._attr.get(i) + " " + count[i-3] + "\t" + in._attr.get(i) + " " + count[1000+i-3]);
+		}
 
 	}
 
@@ -566,6 +578,8 @@ public class RandomDataExtraction {
 		//getColumnWeightsLR(lr,15);
 
 		//getFriendsCounts("active_all_1000_3.arff");
+		//incomingOutgoingAnalysis("active_all_1000_3.arff");
+		
 		runColumnWeightsTests();	
 	}
 

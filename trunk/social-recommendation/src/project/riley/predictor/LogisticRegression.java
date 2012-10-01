@@ -95,6 +95,7 @@ public class LogisticRegression extends Predictor {
 		_betas = _model.weightVectors();
 	}	
 
+	public double prob_0;
 	@Override
 	public int evaluate(DataEntry de) {
 		double[] features = getFeatures((DataEntry)de);
@@ -106,7 +107,7 @@ public class LogisticRegression extends Predictor {
 			weight_prediction_0 += _betas[0].value(j) * features[j];
 
 		// Logistic transform
-		double prob_0 = Math.exp(weight_prediction_0) / (1d + Math.exp(weight_prediction_0));
+		prob_0 = Math.exp(weight_prediction_0) / (1d + Math.exp(weight_prediction_0));
 
 		// Make prediction with probability
 		double prediction = /*conditionalProbs[0]*/ prob_0 >= _threshold ? 0 : 1;
@@ -114,6 +115,10 @@ public class LogisticRegression extends Predictor {
 		return (int) prediction;
 	}
 
+	public double getProbability(){
+		return prob_0;
+	}
+	
 	@Override
 	public void clear() {
 		_model = null;

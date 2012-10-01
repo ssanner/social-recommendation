@@ -200,19 +200,19 @@ public class Launcher {
 		System.out.println("Running predictors on " + DATA_FILE);
 
 		Date dNow = new Date();
-		SimpleDateFormat ft = new SimpleDateFormat ("dd_MM_yyyy");
-		String outName = "pages_results_" + ft.format(dNow) + ".txt"; 
-
-		writer = new PrintWriter(outName);		
+		SimpleDateFormat ft = new SimpleDateFormat ("dd_MM_yyyy");			
 		
 		String flag;
 		//flag = "interactions";
 		//flag = "demographics";
 		//flag = "traits";
-		//flag = "groups";
-		flag = "pages";
+		flag = "groups";
+		//flag = "pages";
 		//flag = "outgoing";
 		//flag = "incoming";
+		
+		String outName = flag + "_results_" + ft.format(dNow) + ".txt"; 
+		writer = new PrintWriter(outName);
 		
 		//launcher.launchThresholds();
 		Launcher.SIZES_OVERRIDE = true;

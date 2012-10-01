@@ -19,7 +19,7 @@ public class UserInfoHack {
 	static int TOPN = DataGeneratorPassiveActive.topWordsN;
 
 	// store messages
-	static String MESSAGES_FILE = "user_messages_incoming.txt";
+	static String MESSAGES_FILE = "user_messages.txt";
 
 	// user mentions
 	static Map<Long,Map<Long,boolean[]>> OUTGOING_WORDS = new HashMap<Long,Map<Long,boolean[]>>();
@@ -51,7 +51,6 @@ public class UserInfoHack {
 				Long from_id = result.getLong(2);
 				String message = result.getString(3);	
 				messagesWriter.println(uid + " " + from_id + " " + message.replace("\n", " ").replace("\r", " ").replace(".", " ").replace("!"," ").replace(","," ").replace("?"," ").replace("\""," ").replace("-", " "));
-				//System.out.println(uid + " " + from_id + " " + message.replace("\n", " ").replace("\r", " ").replace(".", " ").replace("!"," ").replace(","," ").replace("?"," ").replace("\""," "));
 			}
 			result.close();
 
@@ -73,17 +72,12 @@ public class UserInfoHack {
 		Long uid = 0L;
 		Long from_id = 0L;
 		String[] bits;
-		StringBuilder line;
 		ArrayList<String> topNWords = PredictiveWords.getTopN(TOPN);
 
 		while ((message = br.readLine()) != null && message.length() > 0){
 			bits = message.split("\\s+");
 			uid = Long.parseLong(bits[0]);
 			from_id = Long.parseLong(bits[1]);
-			line = new StringBuilder();
-			for (int i = 2; i < bits.length; i++)
-				line.append(bits[i] + " ");
-		//	System.out.println(uid + " " + line.toString());
 
 			Map<Long,boolean[]> outgoingSet = (OUTGOING_WORDS.get(from_id) == null ? new HashMap<Long,boolean[]>() : OUTGOING_WORDS.get(from_id));
 			Map<Long,boolean[]> incomingSet = (INCOMING_WORDS.get(uid) == null ? new HashMap<Long,boolean[]>() : INCOMING_WORDS.get(uid));
@@ -109,24 +103,14 @@ public class UserInfoHack {
 	}
 
 	// users who have said a top n word in an outgiong message
-	public static boolean[] getSeenOutgoing(long uid, long from_id) throws Exception{
-		return (OUTGOING_WORDS.get(from_id) == null ? null : OUTGOING_WORDS.get(from_id).get(uid));
+	public static boolean[] getSeenOutgoing(long uid, long likeeid) throws Exception{
+		return (OUTGOING_WORDS.get(uid) == null ? null : OUTGOING_WORDS.get(uid).get(likeeid));
 	}
 
 	// users who have said a top n word in an incoming message
-	public static boolean[] getSeenIncoming(long uid, long from_id) throws Exception{
-		return (INCOMING_WORDS.get(uid) == null ? null : INCOMING_WORDS.get(uid).get(from_id));
+	public static boolean[] getSeenIncoming(long uid, long likeeid) throws Exception{
+		return (INCOMING_WORDS.get(uid) == null ? null : INCOMING_WORDS.get(uid).get(likeeid));
 	}	
-	
-	// get all words user has said
-	public static Map<Long,boolean[]> getAllOutgoing(long from_id){
-		return OUTGOING_WORDS.get(from_id);
-	}
-	
-	// get all words said to user
-	public static Map<Long,boolean[]> getAllIncoming(long uid){
-		return INCOMING_WORDS.get(uid);
-	}
 
 	public static void main(String[] args) throws Exception{
 		DataGeneratorPassiveActive.populateCachedData(true);

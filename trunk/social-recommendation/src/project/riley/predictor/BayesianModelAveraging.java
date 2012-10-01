@@ -68,6 +68,11 @@ public class BayesianModelAveraging {
 		
 	}
 	
+	public double sigmoid(double t){
+		double k = 1.0;
+		return 1.0 / (1.0 + Math.pow(Math.E,(k * -t)));
+	}
+	
 	public static void main(String[] args) {
 		Predictor naiveBayes = new NaiveBayes(1.0d);
 		Predictor logisticRegression_l1 = new LogisticRegression(LogisticRegression.PRIOR_TYPE.L1, 2d);
