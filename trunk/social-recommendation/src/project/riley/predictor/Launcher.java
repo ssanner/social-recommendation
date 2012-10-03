@@ -207,8 +207,8 @@ public class Launcher {
 		//flag = "demographics";
 		//flag = "traits";
 		//flag = "groups";
-		flag = "pages";
-		//flag = "outgoing";
+		//flag = "pages";
+		flag = "outgoing";
 		//flag = "incoming";
 		
 		String outName = flag + "_results_" + ft.format(dNow) + ".txt"; 
@@ -217,8 +217,8 @@ public class Launcher {
 		//launcher.launchThresholds();
 		Launcher.SIZES_OVERRIDE = true;
 		launcher.setFlag(flag);
-		launcher.launchFlag(flag);				
-		//launcher.launchSizeComparisons(flag);		
+		//launcher.launchFlag(flag);				
+		launcher.launchSizeComparisons(flag);		
 		
 		System.out.println("Finished writing to file " + outName);
 		writer.close();
