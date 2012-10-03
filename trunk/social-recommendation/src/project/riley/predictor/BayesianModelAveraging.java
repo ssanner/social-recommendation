@@ -87,7 +87,7 @@ public class BayesianModelAveraging {
 				predictors[i].train();
 				
 				for (DataEntry de : predictors[i]._testData._data) {
-					predictors[i].evaluate(de); 
+					predictors[i].evaluate(de);							// populate probabilities 
 				}	
 				
 				Map<Long, Map<Long, Double>> probabilities = predictors[i].getProbabilities();
