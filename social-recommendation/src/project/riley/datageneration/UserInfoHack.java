@@ -67,23 +67,19 @@ public class UserInfoHack {
 	// find users who used top n words in messages
 	public static void processMessages() throws Exception{
 		BufferedReader br = new BufferedReader(new FileReader(MESSAGES_FILE));
-		String message;
-		String word;
-		Long uid = 0L;
-		Long from_id = 0L;
-		String[] bits;
 		ArrayList<String> topNWords = PredictiveWords.getTopN(TOPN);
+		String message;
 
 		while ((message = br.readLine()) != null && message.length() > 0){
-			bits = message.split("\\s+");
-			uid = Long.parseLong(bits[0]);
-			from_id = Long.parseLong(bits[1]);
+			String[] bits = message.split("\\s+");
+			Long uid = Long.parseLong(bits[0]);
+			Long from_id = Long.parseLong(bits[1]);
 
 			Map<Long,boolean[]> outgoingSet = (OUTGOING_WORDS.get(from_id) == null ? new HashMap<Long,boolean[]>() : OUTGOING_WORDS.get(from_id));
 			Map<Long,boolean[]> incomingSet = (INCOMING_WORDS.get(uid) == null ? new HashMap<Long,boolean[]>() : INCOMING_WORDS.get(uid));
 			
 			for (int i = 2; i < bits.length; i++){
-				word = bits[i].toLowerCase();
+				String word = bits[i].toLowerCase();
 				boolean[] outgoingWords = (outgoingSet.get(uid) == null ? new boolean[TOPN] : outgoingSet.get(uid));
 				boolean[] incomingWords = (incomingSet.get(from_id) == null ? new boolean[TOPN] : incomingSet.get(from_id));
 				for (int j = 0; j < outgoingWords.length; j++){
@@ -95,7 +91,7 @@ public class UserInfoHack {
 					}
 				}
 				outgoingSet.put(uid, outgoingWords);
-				incomingSet.put(from_id, outgoingWords);
+				incomingSet.put(from_id, incomingWords);
 			}
 			OUTGOING_WORDS.put(from_id, outgoingSet);
 			INCOMING_WORDS.put(uid, incomingSet);

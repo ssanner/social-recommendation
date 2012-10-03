@@ -63,7 +63,7 @@ public class ArffData {
 	public int incomingMessages_index_start = outgoingMessages_index_end;
 	public int incomingMessages_index_end = incomingMessages_index_start + DataGeneratorPassiveActive.topWordsN;
 
-	public boolean generating = false;
+	public boolean generating = true;
 	public int thresholdSize = 0;
 	public int friendsSize = 0;
 	public int groupsSize = 1000;
