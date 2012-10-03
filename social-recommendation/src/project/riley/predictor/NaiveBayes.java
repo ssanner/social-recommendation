@@ -3,6 +3,7 @@ package project.riley.predictor;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Map;
 
 import project.riley.predictor.ArffData.DataEntry;
 
@@ -233,6 +234,12 @@ public class NaiveBayes extends Predictor {
 	public static void main(String[] args) throws Exception {
 		NaiveBayes nb = new NaiveBayes(1.0d);
 	//	nb.runTests("active.arff", 10);
+	}
+
+	@Override
+	public Map<Long, Map<Long, Double>> getProbabilities() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

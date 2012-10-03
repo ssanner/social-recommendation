@@ -3,6 +3,7 @@ package project.riley.predictor;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Map;
 
 import libsvm.svm;
 import libsvm.svm_model;
@@ -121,6 +122,12 @@ public class SVMLibSVM extends Predictor {
 			}
 		}
 	
+	}
+
+	@Override
+	public Map<Long, Map<Long, Double>> getProbabilities() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

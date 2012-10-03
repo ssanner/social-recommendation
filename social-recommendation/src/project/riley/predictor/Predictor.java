@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Map;
 
 import project.riley.predictor.ArffData.Attribute;
 import project.riley.predictor.ArffData.DataEntry;
@@ -21,6 +22,7 @@ public abstract class Predictor {
 	public abstract void train();									// train the model
 	public abstract int evaluate(DataEntry de);	// evaluate a new data entry based on trained model
 	public abstract void clear();									// clear the model
+	public abstract Map<Long, Map<Long,Double>> getProbabilities();
 	public abstract String getName();								// name of the classifier
 
 	/*
@@ -68,8 +70,6 @@ public abstract class Predictor {
 			if (pred == actual && actual == 1) truePositive++;
 			if (pred == 1 && actual == 0) falsePositive++;
 			if (pred == 0 && actual == 1) falseNegative++;
-
-			//BayesianModelAveraging.addResult(getName(), 0 /* data index */, pred);
 		}
 		measures[0] = correct;					 						// accuracy
 		measures[1] = truePositive;										// true positive

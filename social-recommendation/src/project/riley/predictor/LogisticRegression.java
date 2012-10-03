@@ -93,9 +93,15 @@ public class LogisticRegression extends Predictor {
 				1, // min epochs
 				5000);// max epochs
 		_betas = _model.weightVectors();
+		t_predictions = new HashMap<Long, Map<Long,Double>>();
 	}	
 
-	public double prob_0;
+
+	Map<Long, Map<Long, Double>> t_predictions;
+	public Map<Long, Map<Long,Double>> getProbabilities(){
+		return t_predictions;
+	}		
+	
 	@Override
 	public int evaluate(DataEntry de) {
 		double[] features = getFeatures((DataEntry)de);
@@ -107,16 +113,18 @@ public class LogisticRegression extends Predictor {
 			weight_prediction_0 += _betas[0].value(j) * features[j];
 
 		// Logistic transform
-		prob_0 = Math.exp(weight_prediction_0) / (1d + Math.exp(weight_prediction_0));
+		double prob_0 = Math.exp(weight_prediction_0) / (1d + Math.exp(weight_prediction_0));
 
+		long uid = ((Double)de.getData(0)).longValue();
+		long link_id = ((Double)de.getData(1)).longValue();
+		Map<Long, Double> items = (t_predictions.get(uid) == null ? new HashMap<Long,Double>() : t_predictions.get(uid));
+		items.put(link_id, prob_0);
+		t_predictions.put(uid, items);
+		
 		// Make prediction with probability
 		double prediction = /*conditionalProbs[0]*/ prob_0 >= _threshold ? 0 : 1;
 
 		return (int) prediction;
-	}
-
-	public double getProbability(){
-		return prob_0;
 	}
 	
 	@Override
