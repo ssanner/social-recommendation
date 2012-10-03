@@ -6,6 +6,7 @@ import project.riley.predictor.ArffData.DataEntry;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.DecimalFormat;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.HashSet;
 import java.util.Map;
@@ -265,9 +266,10 @@ public class LinkRecommenderArff extends org.nicta.lr.LinkRecommender
 		//runTests(source_file,num_folds);
 	}
 
-	public Map<Long,Double> getProbabilites(){
-		return null;
-	}
+	Map<Long, Map<Long, Double>> t_predictions;
+	public Map<Long, Map<Long,Double>> getProbabilities(){
+		return t_predictions;
+	}		
 	
 	public Double[] getArffMetrics(Map<Long, Map<Long, Double>> predictions, Map<Long, Set<Long>> linkLikes, double threshold)
 	{
@@ -275,6 +277,15 @@ public class LinkRecommenderArff extends org.nicta.lr.LinkRecommender
 		double falsePos = 0;
 		double trueNeg = 0;
 		double falseNeg = 0;
+		
+		t_predictions = new HashMap<Long, Map<Long,Double>>(predictions);
+		for (Long uid : t_predictions.keySet()){
+			Map<Long, Double> items = t_predictions.get(uid);
+			for (Long item_id : items.keySet()){
+				items.put(item_id, items.get(item_id) - threshold);
+			}
+			t_predictions.put(uid, items);
+		}
 
 		int totalCount = 0;
 

@@ -2,6 +2,7 @@ package project.riley.predictor;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Map;
 
 import org.nicta.lr.util.Constants;
 
@@ -38,6 +39,12 @@ public class SocialRecommender extends Predictor {
 		writer.println("Running " + getName() + " using " + source_file);
 		LinkRecommenderArff.setType(type);		
 		LinkRecommenderArff.runTests(source_file, num_folds, writer, threshold, friendK);
+	}
+
+	@Override
+	public Map<Long, Map<Long, Double>> getProbabilities() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

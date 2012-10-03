@@ -1,6 +1,7 @@
 package project.riley.predictor;
 
 import java.text.DecimalFormat;
+import java.util.Map;
 
 import libsvm.svm;
 
@@ -153,6 +154,12 @@ public class SVMLibLinear extends Predictor {
 				//svm.runTests("active.arff", 10);
 			}
 		}
+	}
+
+	@Override
+	public Map<Long, Map<Long, Double>> getProbabilities() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

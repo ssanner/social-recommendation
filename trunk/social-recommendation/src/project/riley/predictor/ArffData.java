@@ -821,11 +821,14 @@ public class ArffData {
 		_testData.setDemographics(Launcher.DEMOGRAPHICS_FEATURE);
 		_testData.setGroups(Launcher.GROUPS_FEATURE, Launcher.GROUPS_SIZE);
 		_testData.setPages(Launcher.PAGES_FEATURE, Launcher.PAGES_SIZE);
-		_testData.setTraits(true);
-		_testData.setOutgoingMessages(Launcher.OUTGOING_MESSAGES_FEATURE, Launcher.OUTGOING_MESSAGES_SIZE);
-		_testData.setIncomingMessages(Launcher.INCOMING_MESSAGES_FEATURE, Launcher.INCOMING_MESSAGES_SIZE);
+		_testData.setTraits(false);
+		_testData.setOutgoingMessages(false, 100);
+		_testData.setIncomingMessages(true, 200);
 		_testData.setFileName("active_all_1000_3.arff");
-		System.out.println(_testData);
+		for (Attribute s : _testData._attr){
+			System.out.println(s);
+		}
+		//System.out.println(_testData);
 
 
 		//		System.out.println(f1._attr);
