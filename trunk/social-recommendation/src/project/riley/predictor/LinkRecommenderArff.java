@@ -282,7 +282,7 @@ public class LinkRecommenderArff extends org.nicta.lr.LinkRecommender
 		for (Long uid : t_predictions.keySet()){
 			Map<Long, Double> items = t_predictions.get(uid);
 			for (Long item_id : items.keySet()){
-				items.put(item_id, items.get(item_id) - threshold);
+				items.put(item_id, BayesianModelAveraging.sigmoid(items.get(item_id) - threshold));
 			}
 			t_predictions.put(uid, items);
 		}

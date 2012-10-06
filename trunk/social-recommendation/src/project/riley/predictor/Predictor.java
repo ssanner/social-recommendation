@@ -82,6 +82,7 @@ public abstract class Predictor {
 	/*
 	 * Run tests on data
 	 */
+	int current;
 	public void runTests(String source_file, int num_folds, PrintWriter writer, int threshold, int friendK) throws Exception {
 
 		int correct = 0;									// correct classification
@@ -99,6 +100,8 @@ public abstract class Predictor {
 
 		for (int i = 0; i < num_folds; i++){
 
+			current = i;
+			
 			String trainName = source_file + ".train." + (i+1);
 			String testName  = source_file + ".test."  + (i+1);
 
