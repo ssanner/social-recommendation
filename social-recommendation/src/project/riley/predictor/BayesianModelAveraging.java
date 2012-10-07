@@ -1,27 +1,14 @@
 package project.riley.predictor;
 
-import java.io.FileNotFoundException;
 import java.io.PrintWriter;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.nicta.lr.util.Constants;
 
 import project.riley.predictor.ArffData.DataEntry;
 
-import util.Statistics;
-
 public class BayesianModelAveraging extends Predictor {
-
-	/*
-	 * run tests for pages/groups
-	 * apply bma based on predictions
-	 */
-
-	//http://en.wikipedia.org/wiki/Ensemble_learning#Bayesian_model_averaging	
 
 	static Predictor[] predictors;
 	static double[][][] weights;
@@ -61,7 +48,7 @@ public class BayesianModelAveraging extends Predictor {
 		ArffData data = new ArffData();
 		data.setThreshold(0);
 		data.setFriendSize(friend);
-		data.setFriends(true);
+		data.setFriends(false);
 		data.setInteractions(((flag == 1 || flag == 8) ? true : false));
 		data.setDemographics(((flag == 2 || flag == 8) ? true : false));
 		data.setTraits(((flag == 3 || flag == 8) ? true : false));
@@ -74,7 +61,7 @@ public class BayesianModelAveraging extends Predictor {
 		return data;
 	}
 
-	//* @author Scott Sanner (ssanner@gmail.com)
+	// @author Scott Sanner (ssanner@gmail.com)
 	// for a,b given log versions log_a, log_b returns log(a + b)
 	public static double LogSum(double log_a, double log_b) {
 		double max = Math.max(log_a, log_b);
@@ -90,22 +77,36 @@ public class BayesianModelAveraging extends Predictor {
 	@Override
 	public void train() {
 		predictors = setUp();		
-		weights = new double[predictors.length][Launcher.NUM_FOLDS][2];
+		weights = new double[predictors.length][Launcher.NUM_FOLDS][2];		// weights for each predictor of wm_0 & wm_1 at each fold
+			
+		for (int i = 0; i < predictors.length; i++){						// initialise weights
+			for (int j = 0; j < Launcher.NUM_FOLDS; j++){
+				weights[i][j][0] = 1.0 / predictors.length;
+				weights[i][j][1] = 1.0 / predictors.length;
+			}
+		}
+		
 		probabilities = new HashMap[predictors.length][Launcher.NUM_FOLDS];
-		double[][][] wm_1_norm = new double[predictors.length][Launcher.NUM_FOLDS][2];
-		double[][][] wm_0_norm = new double[predictors.length][Launcher.NUM_FOLDS][2];
+		double[][] normals = new double[Launcher.NUM_FOLDS][2];				// normals
 
 		for (int i = 0; i < predictors.length; i++){			
 
+			System.out.println("BMA training " + predictors[i].getName());
+			
 			for (int j = 0; j < Launcher.NUM_FOLDS; j++){
+				
+				System.out.println("Fold " + j);
+				
 				String trainName = Launcher.DATA_FILE + ".train." + (j+1);
 				String testName  = Launcher.DATA_FILE + ".test."  + (j+1);
 
 				predictors[i]._trainData = getArff(i,0,trainName);
 				predictors[i]._testData = getArff(i,0,testName);
+				
+				System.out.println(predictors[i]._trainData.getFlags());
 
 				if (predictors[i] instanceof LogisticRegression){
-					predictors[i].train();
+					predictors[i].train();										
 				} else {
 					LinkRecommenderArff.setType(Constants.SOCIAL);		
 					try {
@@ -114,7 +115,6 @@ public class BayesianModelAveraging extends Predictor {
 						e.printStackTrace();
 					}
 				}
-
 
 				for (DataEntry de : predictors[i]._testData._data) {
 					predictors[i].evaluate(de);								// populate probabilities 
@@ -127,28 +127,27 @@ public class BayesianModelAveraging extends Predictor {
 					Long link_id = ((Double)de.getData(1)).longValue();
 					int friend_liked = de.friendLiked;
 
-					System.out.println(predictors[i].getName() + " " + uid + " " + link_id + " " + friend_liked + " " + testName);
+					/*System.out.println(predictors[i].getName() + " " + uid + " " + link_id + " " + friend_liked + " " + testName);
 					for (Long link : probabilities[i][j].get(uid).keySet()) {
 						System.out.println(uid + " " + link);
-
-					}
+					}*/
 
 					if (friend_liked == 0){
 						weights[i][j][0] *= probabilities[i][j].get(uid).get(link_id);
-						wm_0_norm[i][j][0] = LogSum(wm_0_norm[i][j][0], probabilities[i][j].get(uid).get(link_id));
+						normals[j][0] = LogSum(normals[j][0], probabilities[i][j].get(uid).get(link_id));
 					} else {
 						weights[i][j][1] *= probabilities[i][j].get(uid).get(link_id);
-						wm_1_norm[i][j][1] = LogSum(wm_1_norm[i][j][1], probabilities[i][j].get(uid).get(link_id));
+						normals[j][1] = LogSum(normals[j][1], probabilities[i][j].get(uid).get(link_id));
 					}
 				}				
 			}
 		}		
 
-		// normalise
-		for (int i = 0; i < predictors.length; i++){
+		for (int i = 0; i < predictors.length; i++){				// normalise
 			for (int j = 0; j < Launcher.NUM_FOLDS; j++){
-				weights[i][j][0] /= wm_0_norm[i][j][0];
-				weights[i][j][1] /= wm_1_norm[i][j][1];
+				weights[i][j][0] /= normals[j][0];
+				weights[i][j][1] /= normals[j][1];
+				System.out.println(i + " " + j + " " + weights[i][j][0] + " " + weights[i][j][1]);
 			}
 		}
 
@@ -164,11 +163,12 @@ public class BayesianModelAveraging extends Predictor {
 		Long uid = (Long) de.getData(0);
 		Long link_id = (Long) de.getData(1);
 		int friend_liked = de.friendLiked;		
+		int fold = current;
 		double prob = 0.0;
 
 		for (int i = 0; i < predictors.length; i++){
-			double prediction = probabilities[i][current].get(uid).get(link_id);
-			double weight = (friend_liked == 0 ? weights[i][current][0] : weights[i][current][1]);
+			double prediction = probabilities[i][fold].get(uid).get(link_id);
+			double weight = (friend_liked == 0 ? weights[i][fold][0] : weights[i][fold][1]);
 			prob = LogSum(prob, (prediction * weight));
 		}
 
@@ -176,7 +176,11 @@ public class BayesianModelAveraging extends Predictor {
 	}
 
 	@Override
-	public void clear() {	}
+	public void clear() {
+		predictors = null;
+		weights = null;
+		probabilities = null;
+	}
 
 	@Override
 	public Map<Long, Map<Long, Double>> getProbabilities() {
