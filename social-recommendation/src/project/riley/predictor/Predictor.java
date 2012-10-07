@@ -109,6 +109,9 @@ public abstract class Predictor {
 			int pagesSize = Launcher.PAGES_SIZE;
 			int outgoingSize = Launcher.OUTGOING_MESSAGES_SIZE;
 			int incomingSize = Launcher.INCOMING_MESSAGES_SIZE;
+			
+			System.out.println(outgoingSize);
+			
 			if (Launcher.SIZES_OVERRIDE){
 				if (this instanceof NaiveBayes){
 					groupsSize = Launcher.NB_GROUPS_SIZE_OVERRIDE;
