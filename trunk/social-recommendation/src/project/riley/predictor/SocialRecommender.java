@@ -43,8 +43,7 @@ public class SocialRecommender extends Predictor {
 
 	@Override
 	public Map<Long, Map<Long, Double>> getProbabilities() {
-		// TODO Auto-generated method stub
-		return null;
+		return LinkRecommenderArff.getProbabilities();
 	}
 
 }

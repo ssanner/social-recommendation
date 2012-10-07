@@ -29,7 +29,7 @@ public class LinkRecommenderArff extends org.nicta.lr.LinkRecommender
 			throws Exception
 			{
 		this.type = type;
-
+		
 		Set<Long> linkIds = new HashSet<Long>();
 		Set<Long> userIds = new HashSet<Long>();
 		Map<Long, Set<Long>> linkLikes= new HashMap<Long, Set<Long>>();
@@ -133,7 +133,28 @@ public class LinkRecommenderArff extends org.nicta.lr.LinkRecommender
 
 		Map<Long, Map<Long, Double>> predictions = recommender.getPredictions(testData);
 		Map<Long, Map<Long, Double>> trainPredictions = recommender.getPredictions(trainData);
+		
+		for (long uid : predictions.keySet()){
+			System.out.println(uid + " " + predictions.get(uid));
+		}
+		System.out.println("---------");
+		for (long uid : trainPredictions.keySet()){
+			System.out.println(uid + " " + trainPredictions.get(uid));
+		}				
+		
 		double threshold = getOptimalThreshold(trainPredictions, linkLikes);
+		
+		t_predictions = new HashMap<Long, Map<Long,Double>>();
+		t_predictions.putAll(predictions);
+		t_predictions.putAll(trainPredictions);
+		for (Long uid : t_predictions.keySet()){
+			Map<Long, Double> items = t_predictions.get(uid);
+			for (Long item_id : items.keySet()){
+				items.put(item_id, BayesianModelAveraging.sigmoid(items.get(item_id) - threshold));
+			}
+			t_predictions.put(uid, items);
+		}
+		
 		return getArffMetrics(predictions, testLikes, threshold);
 			}
 
@@ -226,7 +247,7 @@ public class LinkRecommenderArff extends org.nicta.lr.LinkRecommender
 		double stdF1 = 0;
 
 		for (int x = 0; x < normal; x++) {
-			System.out.println(meanAccuracy + " " + normal + " " + x + " " + accuracies[x] + " " + friendK);
+			//System.out.println(meanAccuracy + " " + normal + " " + x + " " + accuracies[x] + " " + friendK);
 			stdAccuracy += Math.pow(meanAccuracy - accuracies[x], 2);
 			stdPrecision += Math.pow(meanPrecision - precisions[x], 2);
 			stdRecall += Math.pow(meanRecall - recalls[x], 2);
@@ -266,8 +287,8 @@ public class LinkRecommenderArff extends org.nicta.lr.LinkRecommender
 		//runTests(source_file,num_folds);
 	}
 
-	Map<Long, Map<Long, Double>> t_predictions;
-	public Map<Long, Map<Long,Double>> getProbabilities(){
+	static Map<Long, Map<Long, Double>> t_predictions;
+	public static Map<Long, Map<Long,Double>> getProbabilities(){
 		return t_predictions;
 	}		
 	
@@ -276,21 +297,13 @@ public class LinkRecommenderArff extends org.nicta.lr.LinkRecommender
 		double truePos = 0;
 		double falsePos = 0;
 		double trueNeg = 0;
-		double falseNeg = 0;
-		
-		t_predictions = new HashMap<Long, Map<Long,Double>>(predictions);
-		for (Long uid : t_predictions.keySet()){
-			Map<Long, Double> items = t_predictions.get(uid);
-			for (Long item_id : items.keySet()){
-				items.put(item_id, BayesianModelAveraging.sigmoid(items.get(item_id) - threshold));
-			}
-			t_predictions.put(uid, items);
-		}
+		double falseNeg = 0;				
 
 		int totalCount = 0;
 
 		for (long userId : predictions.keySet()) {
 			Map<Long, Double> userPredictions = predictions.get(userId);
+			//System.out.println(userId + " " + predictions.get(userId) + "-------");
 
 			for (long linkId : userPredictions.keySet()) {
 				totalCount++;

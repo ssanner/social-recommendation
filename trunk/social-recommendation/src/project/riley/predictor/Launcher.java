@@ -21,7 +21,7 @@ public class Launcher {
 	public static Predictor[]  	predictors;
 
 	public static int 			threshold = 5;
-	public static int 			maxGroupsSize = 200;
+	public static int 			maxGroupsSize = 1000;
 	public static int 			groupsStep = 100;
 	public static int 			maxFriendSize = 3;
 	public static int			friendsStep = 1;
