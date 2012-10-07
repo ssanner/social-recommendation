@@ -198,15 +198,7 @@ public class RandomDataExtraction {
 	}
 
 	public static void main(String[] args) throws Exception {
-		//NaiveBayes nb = new NaiveBayes(1.0d);
-		//getColumnWeightsNB(nb, 15);
-
-		//LogisticRegression lr = new LogisticRegression(LogisticRegression.PRIOR_TYPE.L2, 2d);
-		//getColumnWeightsLR(lr,15);
-
-		//getFriendsCounts("active_all_1000_3.arff");
-		//incomingOutgoingAnalysis("active_all_1000_3.arff");
-		
+		incomingOutgoingAnalysis("active_all_1000_3.arff");		
 	}
 
 }
