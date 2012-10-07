@@ -77,6 +77,22 @@ public class ArffData {
 		_nf.setGroupingUsed(false);
 	}
 
+	public String getFlags(){
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append("ArffData " + _filename + " flags\n");
+		sb.append("\t friends:" + friends + "\n");
+		sb.append("\t interactions:" + interactions + "\n");
+		sb.append("\t demographics:" + demographics + "\n");
+		sb.append("\t traits:" + traits + "\n");
+		sb.append("\t groups:" + groups + " size " + groupsSize + "\n");
+		sb.append("\t pages:" + pages + " size " + pagesSize + "\n");
+		sb.append("\t outgoing:" + outgoingMessages + " size " + outgoingMessagesSize + "\n");
+		sb.append("\t incoming:" + incomingMessages + " size " + incomingMessagesSize + "\n");		
+		
+		return sb.toString();
+	}
+	
 	public ArffData() {	}
 
 	public ArffData(ArffData d) {

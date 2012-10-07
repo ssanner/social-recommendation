@@ -145,8 +145,13 @@ public class LinkRecommenderArff extends org.nicta.lr.LinkRecommender
 		double threshold = getOptimalThreshold(trainPredictions, linkLikes);
 		
 		t_predictions = new HashMap<Long, Map<Long,Double>>();
-		t_predictions.putAll(predictions);
 		t_predictions.putAll(trainPredictions);
+		for (Long uid : predictions.keySet()){
+			Map<Long,Double> items = ((t_predictions.get(uid) == null) ? new HashMap<Long,Double>() : t_predictions.get(uid));			
+			items.putAll(predictions.get(uid));
+			t_predictions.put(uid, items);
+		}
+		
 		for (Long uid : t_predictions.keySet()){
 			Map<Long, Double> items = t_predictions.get(uid);
 			for (Long item_id : items.keySet()){
