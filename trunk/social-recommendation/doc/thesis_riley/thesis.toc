@@ -1,37 +1,40 @@
 \contentsline {chapter}{Abstract}{v}
 \contentsline {chapter}{\numberline {1}Introduction}{1}
-\contentsline {section}{\numberline {1.1}Social Networks}{1}
-\contentsline {section}{\numberline {1.2}Data Set}{1}
-\contentsline {section}{\numberline {1.3}Goal}{3}
-\contentsline {chapter}{\numberline {2}Background}{5}
-\contentsline {section}{\numberline {2.1}Notation}{5}
-\contentsline {section}{\numberline {2.2}Evaluation Metrics}{5}
-\contentsline {subsection}{\numberline {2.2.1}Accuracy}{6}
-\contentsline {subsection}{\numberline {2.2.2}Precision}{6}
-\contentsline {subsection}{\numberline {2.2.3}Recall}{6}
-\contentsline {subsection}{\numberline {2.2.4}F-Score}{6}
-\contentsline {section}{\numberline {2.3}Previous Work}{7}
-\contentsline {subsection}{\numberline {2.3.1}Content Based Filtering}{7}
-\contentsline {subsection}{\numberline {2.3.2}Information Diffusion}{7}
-\contentsline {section}{\numberline {2.4}Methodology}{7}
-\contentsline {subsection}{\numberline {2.4.1}Constant True}{7}
-\contentsline {subsection}{\numberline {2.4.2}Naive Bayes}{7}
-\contentsline {subsection}{\numberline {2.4.3}Logistic Regression}{7}
-\contentsline {subsection}{\numberline {2.4.4}Support Vector Machine}{7}
-\contentsline {subsection}{\numberline {2.4.5}Social Recommender}{7}
-\contentsline {section}{\numberline {2.5}Training and Testing}{7}
-\contentsline {chapter}{\numberline {3}Evaluation of User Traits}{9}
+\contentsline {section}{\numberline {1.1}Objectives}{1}
+\contentsline {section}{\numberline {1.2}Contributions}{1}
+\contentsline {section}{\numberline {1.3}Outline}{1}
+\contentsline {chapter}{\numberline {2}Background}{3}
+\contentsline {section}{\numberline {2.1}Social Networks}{3}
+\contentsline {section}{\numberline {2.2}Data Set}{3}
+\contentsline {section}{\numberline {2.3}Notation}{5}
+\contentsline {section}{\numberline {2.4}Previous Work}{5}
+\contentsline {subsection}{\numberline {2.4.1}Content Based Filtering}{5}
+\contentsline {subsection}{\numberline {2.4.2}Information Diffusion}{5}
+\contentsline {section}{\numberline {2.5}Prediction Algorithms}{5}
+\contentsline {subsection}{\numberline {2.5.1}Constant True}{5}
+\contentsline {subsection}{\numberline {2.5.2}Social Recommender}{5}
+\contentsline {subsection}{\numberline {2.5.3}Naive Bayes}{5}
+\contentsline {subsection}{\numberline {2.5.4}Logistic Regression}{6}
+\contentsline {subsection}{\numberline {2.5.5}Support Vector Machine}{6}
+\contentsline {section}{\numberline {2.6}Training and Testing}{6}
+\contentsline {section}{\numberline {2.7}Evaluation Metrics}{6}
+\contentsline {section}{\numberline {2.8}Feature Sets}{7}
+\contentsline {chapter}{\numberline {3}User Interactions}{9}
 \contentsline {section}{\numberline {3.1}Introduction}{9}
 \contentsline {section}{\numberline {3.2}Interactions}{9}
-\contentsline {section}{\numberline {3.3}Demographics}{9}
-\contentsline {section}{\numberline {3.4}Groups}{12}
-\contentsline {section}{\numberline {3.5}Conversation}{14}
-\contentsline {section}{\numberline {3.6}Results}{22}
-\contentsline {chapter}{\numberline {4}Interaction Thresholding}{37}
-\contentsline {section}{\numberline {4.1}Introduction}{37}
-\contentsline {section}{\numberline {4.2}Results}{37}
-\contentsline {section}{\numberline {4.3}Conclusion}{45}
-\contentsline {chapter}{\numberline {5}Bayesian Model Averaging}{47}
-\contentsline {chapter}{\numberline {6}Conclusions}{49}
-\contentsline {section}{\numberline {6.1}Summary}{49}
-\contentsline {section}{\numberline {6.2}Future Work}{49}
+\contentsline {section}{\numberline {3.3}Conversation}{9}
+\contentsline {subsection}{\numberline {3.3.1}Outgoing}{9}
+\contentsline {subsection}{\numberline {3.3.2}Incoming}{9}
+\contentsline {chapter}{\numberline {4}User Preferences}{13}
+\contentsline {section}{\numberline {4.1}Introduction}{13}
+\contentsline {section}{\numberline {4.2}Demographics}{13}
+\contentsline {section}{\numberline {4.3}Traits}{16}
+\contentsline {section}{\numberline {4.4}Groups}{16}
+\contentsline {section}{\numberline {4.5}Pages}{18}
+\contentsline {chapter}{\numberline {5}Bayesian Model Averaging}{25}
+\contentsline {section}{\numberline {5.1}Introduction}{25}
+\contentsline {section}{\numberline {5.2}Derivation}{25}
+\contentsline {section}{\numberline {5.3}Results}{25}
+\contentsline {chapter}{\numberline {6}Conclusions}{27}
+\contentsline {section}{\numberline {6.1}Summary}{27}
+\contentsline {section}{\numberline {6.2}Future Work}{27}
