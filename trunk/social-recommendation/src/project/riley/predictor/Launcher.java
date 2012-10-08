@@ -208,8 +208,8 @@ public class Launcher {
 		//flag = "traits";
 		//flag = "groups";
 		//flag = "pages";
-		flag = "outgoing";
-		//flag = "incoming";
+		//flag = "outgoing";
+		flag = "incoming";
 		
 		String outName = flag + "_results_" + ft.format(dNow) + ".txt"; 
 		writer = new PrintWriter(outName);
