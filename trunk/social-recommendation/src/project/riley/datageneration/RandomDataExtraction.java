@@ -75,18 +75,14 @@ public class RandomDataExtraction {
 	/*
 	 * Extract gruops info
 	 */
-	public static void getGroupsInfo() throws Exception{			
-
-		int minSize = 1;
-		int maxSize = 10;
+	public static void getGroupsInfo(String table) throws Exception{			
 
 		//String query = "select count(*), id, name from linkrGroups group by id having count(*) > 10 and count(*) < 15 order by count(*) desc;";
-		String query = "select count(*),id,name from linkrGroups where uid in (select distinct uid from trackRecommendedLinks) group by id having count(*) > " + minSize + " and count(*) < " + maxSize + " order by count(*) desc;";
+		String query = "select count(*),id,name from " + table + " where uid in (select distinct uid from trackRecommendedLinks) group by id order by count(*) desc limit 15;";
 
 		Statement statement = SQLUtil.getStatement();		
 		ResultSet result = statement.executeQuery(query);
 
-		System.out.println("Group ranges " + minSize + " to " + maxSize);
 		while (result.next()) {			
 			int count = result.getInt(1);
 			String name = result.getString(3);			
@@ -198,7 +194,10 @@ public class RandomDataExtraction {
 	}
 
 	public static void main(String[] args) throws Exception {
-		incomingOutgoingAnalysis("active_all_1000_3.arff");		
+		//incomingOutgoingAnalysis("active_all_1000_3.arff");
+		getGroupsInfo("linkrGroups");
+		System.out.println("------------------");
+		getGroupsInfo("linkrLikes");
 	}
 
 }

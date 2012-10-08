@@ -35,7 +35,7 @@ public class WeightsExtractor {
 		LogisticRegression[] lrs = {new LogisticRegression(LogisticRegression.PRIOR_TYPE.L1, 2d, /*maxent*/ true),	// inter
 				new LogisticRegression(LogisticRegression.PRIOR_TYPE.L2, 2d),										// demo
 				new LogisticRegression(LogisticRegression.PRIOR_TYPE.L1, 2d, /*maxent*/ true),						// traits
-				new LogisticRegression(LogisticRegression.PRIOR_TYPE.L2, 2d),										// groups
+				new LogisticRegression(LogisticRegression.PRIOR_TYPE.L2, 2d, true),									// groups
 				new LogisticRegression(LogisticRegression.PRIOR_TYPE.L2, 2d),										// pages
 				new LogisticRegression(LogisticRegression.PRIOR_TYPE.L2, 2d),										// outgoing
 				new LogisticRegression(LogisticRegression.PRIOR_TYPE.L2, 2d)};										// incoming

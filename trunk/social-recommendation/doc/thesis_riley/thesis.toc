@@ -7,34 +7,34 @@
 \contentsline {section}{\numberline {2.1}Social Networks}{3}
 \contentsline {section}{\numberline {2.2}Data Set}{3}
 \contentsline {section}{\numberline {2.3}Notation}{5}
-\contentsline {section}{\numberline {2.4}Previous Work}{5}
-\contentsline {subsection}{\numberline {2.4.1}Content Based Filtering}{5}
-\contentsline {subsection}{\numberline {2.4.2}Information Diffusion}{5}
-\contentsline {section}{\numberline {2.5}Prediction Algorithms}{5}
-\contentsline {subsection}{\numberline {2.5.1}Constant True}{5}
-\contentsline {subsection}{\numberline {2.5.2}Social Recommender}{5}
-\contentsline {subsection}{\numberline {2.5.3}Naive Bayes}{5}
-\contentsline {subsection}{\numberline {2.5.4}Logistic Regression}{6}
-\contentsline {subsection}{\numberline {2.5.5}Support Vector Machine}{6}
-\contentsline {section}{\numberline {2.6}Training and Testing}{6}
-\contentsline {section}{\numberline {2.7}Evaluation Metrics}{6}
-\contentsline {section}{\numberline {2.8}Feature Sets}{7}
+\contentsline {section}{\numberline {2.4}Feature Sets}{5}
+\contentsline {section}{\numberline {2.5}Previous Work}{5}
+\contentsline {subsection}{\numberline {2.5.1}Content Based Filtering}{5}
+\contentsline {subsection}{\numberline {2.5.2}Information Diffusion}{5}
+\contentsline {section}{\numberline {2.6}Prediction Algorithms}{5}
+\contentsline {subsection}{\numberline {2.6.1}Constant}{5}
+\contentsline {subsection}{\numberline {2.6.2}Social Recommender}{6}
+\contentsline {subsection}{\numberline {2.6.3}Naive Bayes}{6}
+\contentsline {subsection}{\numberline {2.6.4}Logistic Regression}{6}
+\contentsline {subsection}{\numberline {2.6.5}Support Vector Machine}{6}
+\contentsline {section}{\numberline {2.7}Training and Testing}{6}
+\contentsline {section}{\numberline {2.8}Evaluation Metrics}{7}
 \contentsline {chapter}{\numberline {3}User Interactions}{9}
 \contentsline {section}{\numberline {3.1}Introduction}{9}
 \contentsline {section}{\numberline {3.2}Interactions}{9}
-\contentsline {section}{\numberline {3.3}Conversation}{9}
-\contentsline {subsection}{\numberline {3.3.1}Outgoing}{9}
-\contentsline {subsection}{\numberline {3.3.2}Incoming}{9}
-\contentsline {chapter}{\numberline {4}User Preferences}{13}
-\contentsline {section}{\numberline {4.1}Introduction}{13}
-\contentsline {section}{\numberline {4.2}Demographics}{13}
-\contentsline {section}{\numberline {4.3}Traits}{16}
-\contentsline {section}{\numberline {4.4}Groups}{16}
-\contentsline {section}{\numberline {4.5}Pages}{18}
-\contentsline {chapter}{\numberline {5}Bayesian Model Averaging}{25}
-\contentsline {section}{\numberline {5.1}Introduction}{25}
-\contentsline {section}{\numberline {5.2}Derivation}{25}
-\contentsline {section}{\numberline {5.3}Results}{25}
-\contentsline {chapter}{\numberline {6}Conclusions}{27}
-\contentsline {section}{\numberline {6.1}Summary}{27}
-\contentsline {section}{\numberline {6.2}Future Work}{27}
+\contentsline {section}{\numberline {3.3}Conversation}{12}
+\contentsline {subsection}{\numberline {3.3.1}Outgoing}{14}
+\contentsline {subsection}{\numberline {3.3.2}Incoming}{14}
+\contentsline {chapter}{\numberline {4}User Preferences}{15}
+\contentsline {section}{\numberline {4.1}Introduction}{15}
+\contentsline {section}{\numberline {4.2}Demographics}{15}
+\contentsline {section}{\numberline {4.3}Traits}{20}
+\contentsline {section}{\numberline {4.4}Groups}{26}
+\contentsline {section}{\numberline {4.5}Pages}{30}
+\contentsline {chapter}{\numberline {5}Bayesian Model Averaging}{33}
+\contentsline {section}{\numberline {5.1}Introduction}{33}
+\contentsline {section}{\numberline {5.2}Derivation}{33}
+\contentsline {section}{\numberline {5.3}Results}{33}
+\contentsline {chapter}{\numberline {6}Conclusions}{35}
+\contentsline {section}{\numberline {6.1}Summary}{35}
+\contentsline {section}{\numberline {6.2}Future Work}{35}

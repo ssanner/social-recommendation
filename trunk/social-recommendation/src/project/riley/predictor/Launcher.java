@@ -52,14 +52,14 @@ public class Launcher {
 	public static int		SVM_PAGES_SIZE_OVERRIDE = 800;
 	public static int		SMB_PAGES_SIZE_OVERRIDE = 100;
 
-	public static int		NB_OUTGOING_SIZE_OVERRIDE = 300;
-	public static int		LR_OUTGOING_SIZE_OVERRIDE = 800;
+	public static int		NB_OUTGOING_SIZE_OVERRIDE = 500;
+	public static int		LR_OUTGOING_SIZE_OVERRIDE = 200;
 	public static int		SVM_OUTGOING_SIZE_OVERRIDE = 900;
 	public static int		SMB_OUTGOING_SIZE_OVERRIDE = 100;
 	
-	public static int		NB_INCOMING_SIZE_OVERRIDE = 100;
-	public static int		LR_INCOMING_SIZE_OVERRIDE = 800;
-	public static int		SVM_INCOMING_SIZE_OVERRIDE = 900;
+	public static int		NB_INCOMING_SIZE_OVERRIDE = 300;
+	public static int		LR_INCOMING_SIZE_OVERRIDE = 100;
+	public static int		SVM_INCOMING_SIZE_OVERRIDE = 1000;
 	public static int		SMB_INCOMING_SIZE_OVERRIDE = 100;
 	/*
 	 * set up predictors
@@ -208,17 +208,17 @@ public class Launcher {
 		//flag = "traits";
 		//flag = "groups";
 		//flag = "pages";
-		//flag = "outgoing";
-		flag = "incoming";
+		flag = "outgoing";
+		//flag = "incoming";
 		
 		String outName = flag + "_results_" + ft.format(dNow) + ".txt"; 
 		writer = new PrintWriter(outName);
 		
 		//launcher.launchThresholds();
-		//Launcher.SIZES_OVERRIDE = true;
+		Launcher.SIZES_OVERRIDE = true;
 		launcher.setFlag(flag);
-		//launcher.launchFlag(flag);				
-		launcher.launchSizeComparisons(flag);		
+		launcher.launchFlag(flag);				
+		//launcher.launchSizeComparisons(flag);		
 		
 		System.out.println("Finished writing to file " + outName);
 		writer.close();
