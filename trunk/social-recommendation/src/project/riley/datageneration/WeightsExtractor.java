@@ -112,11 +112,11 @@ public class WeightsExtractor {
 				String trainName = Launcher.DATA_FILE + ".train." + (k+1);
 				String testName  = Launcher.DATA_FILE + ".test."  + (k+1);
 
-				nb_trainData = getArff(k+1, 1, trainName);
-				nb_testData  = getArff(k+1, 1, testName); 
+				nb_trainData = getArff(i+1, 1, trainName);
+				nb_testData  = getArff(i+1, 1, testName); 
 
-				lr_trainData = getArff(k+1, 0, trainName);
-				lr_testData  = getArff(k+1, 0, testName);
+				lr_trainData = getArff(i+1, 0, trainName);
+				lr_testData  = getArff(i+1, 0, testName);				
 				
 				nb._trainData = nb_trainData;
 				nb._testData = nb_testData;
@@ -163,7 +163,7 @@ public class WeightsExtractor {
 			lr_negativeWeights = normaliseMap(lr_negativeWeights);
 			lr_neutralWeights = normaliseMap(lr_neutralWeights);			
 
-			System.out.println(names[i] + " naive bayes results " + lr_trainData.getFlags());
+			System.out.println(names[i] + " naive bayes results " + lr_trainData.getSetFlag());
 			System.out.println("P(attribute = y | class = y)");
 			System.out.println("Top results for all");
 			sortMap(nb_termWeightsyy,nb_trainData);
@@ -186,7 +186,7 @@ public class WeightsExtractor {
 			sortMap(nb_neutralWeightsyn,nb_trainData);
 			System.out.println();
 
-			System.out.println(names[i] + " logistic regression results " + lr_trainData.getFlags());
+			System.out.println(names[i] + " logistic regression results " + lr_trainData.getSetFlag());
 			System.out.println("Top results for all");
 			sortMap(lr_termWeights,lr_trainData);
 			System.out.println("\nTop results for positive");
@@ -347,7 +347,6 @@ public class WeightsExtractor {
 			}
 
 			System.out.println(count + "\t" + map.get(key) + "\t" + attribute + "\t yes(" + yes + ") " + "\t unique(" + uniqueYes + ") " + (attribute.contains("group_") ? "\t" + getData("linkrGroups",attribute) : "") + (attribute.contains("page_") ? "\t" + getData("linkrLikes",attribute) : ""));
-			System.out.println(count + " " + display + " " + map.size());
 			if (count >= display)
 				break;
 			count++;
