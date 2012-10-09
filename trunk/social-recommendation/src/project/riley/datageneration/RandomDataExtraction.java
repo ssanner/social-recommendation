@@ -78,7 +78,7 @@ public class RandomDataExtraction {
 	public static void getGroupsInfo(String table) throws Exception{			
 
 		//String query = "select count(*), id, name from linkrGroups group by id having count(*) > 10 and count(*) < 15 order by count(*) desc;";
-		String query = "select count(*),id,name from " + table + " where uid in (select distinct uid from trackRecommendedLinks) group by id order by count(*) desc limit 15;";
+		String query = "select count(*),id,name from " + table + " where uid in (select distinct uid from trackRecommendedLinks) group by id order by count(*) desc limit 25;";
 
 		Statement statement = SQLUtil.getStatement();		
 		ResultSet result = statement.executeQuery(query);

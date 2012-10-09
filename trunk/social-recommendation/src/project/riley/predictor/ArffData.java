@@ -93,6 +93,21 @@ public class ArffData {
 		return sb.toString();
 	}
 	
+	public String getSetFlag(){
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append("ArffData " + _filename + " flags\n");
+		sb.append((interactions) ? "interactions" : "");
+		sb.append((demographics) ? "demographics" : "");
+		sb.append((traits) ? "traits" : "");
+		sb.append((groups) ? "groups" : "");
+		sb.append((pages) ? "pages" : "");
+		sb.append((outgoingMessages) ? "outgoing" : "");				
+		sb.append((incomingMessages) ? "incoming" : "");
+		
+		return sb.toString();
+	}
+	
 	public ArffData() {	}
 
 	public ArffData(ArffData d) {

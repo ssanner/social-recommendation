@@ -25,16 +25,16 @@
 \contentsline {section}{\numberline {3.3}Conversation}{12}
 \contentsline {subsection}{\numberline {3.3.1}Outgoing}{14}
 \contentsline {subsection}{\numberline {3.3.2}Incoming}{14}
-\contentsline {chapter}{\numberline {4}User Preferences}{15}
-\contentsline {section}{\numberline {4.1}Introduction}{15}
-\contentsline {section}{\numberline {4.2}Demographics}{15}
-\contentsline {section}{\numberline {4.3}Traits}{20}
-\contentsline {section}{\numberline {4.4}Groups}{26}
-\contentsline {section}{\numberline {4.5}Pages}{30}
-\contentsline {chapter}{\numberline {5}Bayesian Model Averaging}{33}
-\contentsline {section}{\numberline {5.1}Introduction}{33}
-\contentsline {section}{\numberline {5.2}Derivation}{33}
-\contentsline {section}{\numberline {5.3}Results}{33}
-\contentsline {chapter}{\numberline {6}Conclusions}{35}
-\contentsline {section}{\numberline {6.1}Summary}{35}
-\contentsline {section}{\numberline {6.2}Future Work}{35}
+\contentsline {chapter}{\numberline {4}User Preferences}{21}
+\contentsline {section}{\numberline {4.1}Introduction}{21}
+\contentsline {section}{\numberline {4.2}Demographics}{21}
+\contentsline {section}{\numberline {4.3}Traits}{26}
+\contentsline {section}{\numberline {4.4}Groups}{32}
+\contentsline {section}{\numberline {4.5}Pages}{36}
+\contentsline {chapter}{\numberline {5}Bayesian Model Averaging}{39}
+\contentsline {section}{\numberline {5.1}Introduction}{39}
+\contentsline {section}{\numberline {5.2}Derivation}{39}
+\contentsline {section}{\numberline {5.3}Results}{39}
+\contentsline {chapter}{\numberline {6}Conclusions}{41}
+\contentsline {section}{\numberline {6.1}Summary}{41}
+\contentsline {section}{\numberline {6.2}Future Work}{41}
