@@ -81,7 +81,7 @@ public class WeightsExtractor {
 	public static void runColumnWeightsTests() throws Exception{
 		writer = new PrintWriter("weights_results.txt");
 		
-		for (int i = 0; i < names.length; i++){
+		for (int i = 0; i < names.length; i++){			
 			
 			NaiveBayes nb = new NaiveBayes(1.0d);
 			LogisticRegression lr = lrs[i];
@@ -145,6 +145,8 @@ public class WeightsExtractor {
 				lr_negativeWeights = mergeMaps(lr_negativeWeights, lr_results[2]);
 				lr_neutralWeights = mergeMaps(lr_neutralWeights, lr_results[3]);
 			}									
+			
+			System.out.println("Trained " + names[i] + " using " + lr_trainData.getSetFlag());
 			
 			nb_termWeightsyy = normaliseMap(nb_termWeightsyy);
 			nb_positiveWeightsyy = normaliseMap(nb_positiveWeightsyy);
@@ -223,7 +225,6 @@ public class WeightsExtractor {
 	 * Extract weights from columns
 	 */
 	public static Map<Integer,Double>[] getColumnWeightsLR(LogisticRegression lr) throws Exception{		
-		System.out.println("Using Predictor " + lr.getName());
 		Map<Integer,Double>[] results = new HashMap[4];
 
 		Map<Integer,Double> termWeights = new HashMap<Integer,Double>();
@@ -257,8 +258,6 @@ public class WeightsExtractor {
 	}
 
 	public static Map<Integer,Double>[] getColumnWeightsNB(NaiveBayes nb) throws Exception{
-
-		System.out.println("Using Predictor " + nb.getName());
 		Map<Integer,Double>[] results = new HashMap[8];
 
 		Map<Integer,Double> termWeightsyy = new HashMap<Integer,Double>();
