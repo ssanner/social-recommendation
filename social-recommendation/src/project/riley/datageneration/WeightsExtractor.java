@@ -1,5 +1,6 @@
 package project.riley.datageneration;
 
+import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Comparator;
@@ -22,27 +23,66 @@ import project.riley.predictor.NaiveBayes.ClassCondProb;
 
 public class WeightsExtractor {
 
+	static PrintWriter writer;
+	static String[] names = {"interactions","demographics","traits","groups","pages","messages outgoing","messages incoming"};
+	static LogisticRegression[] lrs = 
+		{new LogisticRegression(LogisticRegression.PRIOR_TYPE.L1, 2d, /*maxent*/ true),						// inter
+		new LogisticRegression(LogisticRegression.PRIOR_TYPE.L2, 2d),										// demo
+		new LogisticRegression(LogisticRegression.PRIOR_TYPE.L1, 2d, /*maxent*/ true),						// traits
+		new LogisticRegression(LogisticRegression.PRIOR_TYPE.L2, 2d, true),									// groups
+		new LogisticRegression(LogisticRegression.PRIOR_TYPE.L2, 2d),										// pages
+		new LogisticRegression(LogisticRegression.PRIOR_TYPE.L2, 2d, true),									// outgoing
+		new LogisticRegression(LogisticRegression.PRIOR_TYPE.L2, 2d, true)};								// incoming
+
+	/*
+	 * set up arff file based on flag
+	 */
+	public static ArffData getArff(int flag, int type, String name){
+		// 0 = none
+		// 1 = interactions
+		// 2 = demographics
+		// 3 = traits
+		// 4 = groups
+		// 5 = pages
+		// 6 = outgoing
+		// 7 = incoming
+		// 8 = all
+		int groupsize;
+		int pagesize;
+		int outgoingsize;
+		int incomingsize;
+		if (type == 1){
+			groupsize = Launcher.NB_GROUPS_SIZE_OVERRIDE;
+			pagesize = Launcher.NB_PAGES_SIZE_OVERRIDE;
+			outgoingsize = Launcher.NB_OUTGOING_SIZE_OVERRIDE;
+			incomingsize = Launcher.NB_INCOMING_SIZE_OVERRIDE;
+		} else {
+			groupsize = Launcher.LR_GROUPS_SIZE_OVERRIDE;
+			pagesize = Launcher.LR_PAGES_SIZE_OVERRIDE;
+			outgoingsize = Launcher.LR_OUTGOING_SIZE_OVERRIDE;
+			incomingsize = Launcher.LR_INCOMING_SIZE_OVERRIDE;
+		}
+		ArffData data = new ArffData();
+		data.setThreshold(0);
+		data.setFriendSize(0);
+		data.setFriends(false);
+		data.setInteractions(((flag == 1 || flag == 8) ? true : false));
+		data.setDemographics(((flag == 2 || flag == 8) ? true : false));
+		data.setTraits(((flag == 3 || flag == 8) ? true : false));
+		data.setGroups(((flag == 4 || flag == 8) ? true : false), groupsize);
+		data.setPages(((flag == 5 || flag == 8) ? true : false), pagesize);
+		data.setOutgoingMessages(((flag == 6 || flag == 8) ? true : false), outgoingsize);
+		data.setIncomingMessages(((flag == 7 || flag == 8) ? true : false), incomingsize);
+		data.setFileName(name);
+
+		return data;
+	}	
+
 	public static void runColumnWeightsTests() throws Exception{
-		String[] names = {"interactions","demographics","traits","groups","pages","messages outgoing","messages incoming"};
-		boolean[][] flags = {{true, false, false, false, false, false, false},
-				{false, true, false, false, false, false, false},
-				{false, false, true, false, false, false, false},
-				{false, false, false, true, false, false, false},
-				{false, false, false, false, true, false, false},
-				{false, false, false, false, false, true, false},
-				{false, false, false, false, false, false, true}};
-
-		LogisticRegression[] lrs = {new LogisticRegression(LogisticRegression.PRIOR_TYPE.L1, 2d, /*maxent*/ true),	// inter
-				new LogisticRegression(LogisticRegression.PRIOR_TYPE.L2, 2d),										// demo
-				new LogisticRegression(LogisticRegression.PRIOR_TYPE.L1, 2d, /*maxent*/ true),						// traits
-				new LogisticRegression(LogisticRegression.PRIOR_TYPE.L2, 2d, true),									// groups
-				new LogisticRegression(LogisticRegression.PRIOR_TYPE.L2, 2d),										// pages
-				new LogisticRegression(LogisticRegression.PRIOR_TYPE.L2, 2d),										// outgoing
-				new LogisticRegression(LogisticRegression.PRIOR_TYPE.L2, 2d)};										// incoming
-
-
+		writer = new PrintWriter("weights_results.txt");
+		
 		for (int i = 0; i < names.length; i++){
-			//System.out.println(names[i]);			
+			
 			NaiveBayes nb = new NaiveBayes(1.0d);
 			LogisticRegression lr = lrs[i];
 
@@ -61,89 +101,23 @@ public class WeightsExtractor {
 			Map<Integer,Double> lr_negativeWeights = new HashMap<Integer,Double>();
 			Map<Integer,Double> lr_neutralWeights = new HashMap<Integer,Double>();
 
-			ArffData nb_trainData_all = new ArffData();
-			nb_trainData_all.setThreshold(0);
-			nb_trainData_all.setFriendSize(0);
-			nb_trainData_all.setFriends(false);
-			nb_trainData_all.setInteractions(flags[i][0]);
-			nb_trainData_all.setDemographics(flags[i][1]);
-			nb_trainData_all.setTraits(flags[i][2]);
-			nb_trainData_all.setGroups(flags[i][3], Launcher.NB_GROUPS_SIZE_OVERRIDE);
-			nb_trainData_all.setPages(flags[i][4], Launcher.NB_PAGES_SIZE_OVERRIDE);
-			nb_trainData_all.setOutgoingMessages(flags[i][5], Launcher.NB_OUTGOING_SIZE_OVERRIDE);
-			nb_trainData_all.setIncomingMessages(flags[i][6], Launcher.NB_INCOMING_SIZE_OVERRIDE);
-			nb_trainData_all.setFileName(Launcher.DATA_FILE);
-
-			ArffData lr_trainData_all = new ArffData();
-			lr_trainData_all.setThreshold(0);
-			lr_trainData_all.setFriendSize(0);
-			lr_trainData_all.setFriends(false);
-			lr_trainData_all.setInteractions(flags[i][0]);
-			lr_trainData_all.setDemographics(flags[i][1]);
-			lr_trainData_all.setTraits(flags[i][2]);
-			lr_trainData_all.setGroups(flags[i][3], Launcher.LR_GROUPS_SIZE_OVERRIDE);
-			lr_trainData_all.setPages(flags[i][4], Launcher.LR_PAGES_SIZE_OVERRIDE);
-			lr_trainData_all.setOutgoingMessages(flags[i][5], Launcher.LR_OUTGOING_SIZE_OVERRIDE);
-			lr_trainData_all.setIncomingMessages(flags[i][6], Launcher.LR_INCOMING_SIZE_OVERRIDE);
-			lr_trainData_all.setFileName(Launcher.DATA_FILE);
+			ArffData nb_trainData = null;
+			ArffData nb_testData = null;
+			
+			ArffData lr_trainData = null;
+			ArffData lr_testData = null;	
 
 			for (int k = 0; k < Launcher.NUM_FOLDS; k++){												
 
 				String trainName = Launcher.DATA_FILE + ".train." + (k+1);
 				String testName  = Launcher.DATA_FILE + ".test."  + (k+1);
 
-				ArffData nb_trainData = new ArffData();
-				nb_trainData.setThreshold(0);
-				nb_trainData.setFriendSize(0);
-				nb_trainData.setFriends(false);
-				nb_trainData.setInteractions(flags[i][0]);
-				nb_trainData.setDemographics(flags[i][1]);
-				nb_trainData.setTraits(flags[i][2]);
-				nb_trainData.setGroups(flags[i][3], Launcher.NB_GROUPS_SIZE_OVERRIDE);
-				nb_trainData.setPages(flags[i][4], Launcher.NB_PAGES_SIZE_OVERRIDE);
-				nb_trainData.setOutgoingMessages(flags[i][5], Launcher.NB_OUTGOING_SIZE_OVERRIDE);
-				nb_trainData.setIncomingMessages(flags[i][6], Launcher.NB_INCOMING_SIZE_OVERRIDE);
-				nb_trainData.setFileName(trainName);
+				nb_trainData = getArff(k+1, 1, trainName);
+				nb_testData  = getArff(k+1, 1, testName); 
 
-				ArffData nb_testData  = new ArffData();
-				nb_testData.setFriends(false);
-				nb_testData.setThreshold(0);
-				nb_testData.setFriendSize(0);
-				nb_testData.setInteractions(flags[i][0]);
-				nb_testData.setDemographics(flags[i][1]);
-				nb_testData.setTraits(flags[i][2]);
-				nb_testData.setGroups(flags[i][3], Launcher.NB_GROUPS_SIZE_OVERRIDE);
-				nb_testData.setPages(flags[i][4], Launcher.NB_PAGES_SIZE_OVERRIDE);
-				nb_testData.setOutgoingMessages(flags[i][5], Launcher.NB_OUTGOING_SIZE_OVERRIDE);
-				nb_testData.setIncomingMessages(flags[i][6], Launcher.NB_INCOMING_SIZE_OVERRIDE);
-				nb_testData.setFileName(testName);
-
-				ArffData lr_trainData = new ArffData();
-				lr_trainData.setFriends(false);
-				lr_trainData.setThreshold(0);
-				lr_trainData.setFriendSize(0);
-				lr_trainData.setInteractions(flags[i][0]);
-				lr_trainData.setDemographics(flags[i][1]);
-				lr_trainData.setTraits(flags[i][2]);
-				lr_trainData.setGroups(flags[i][3], Launcher.LR_GROUPS_SIZE_OVERRIDE);
-				lr_trainData.setPages(flags[i][4], Launcher.LR_PAGES_SIZE_OVERRIDE);
-				lr_trainData.setOutgoingMessages(flags[i][5], Launcher.LR_OUTGOING_SIZE_OVERRIDE);
-				lr_trainData.setIncomingMessages(flags[i][6], Launcher.LR_INCOMING_SIZE_OVERRIDE);
-				lr_trainData.setFileName(trainName);
-
-				ArffData lr_testData  = new ArffData();
-				lr_testData.setFriends(false);
-				lr_testData.setThreshold(0);
-				lr_testData.setFriendSize(0);
-				lr_testData.setInteractions(flags[i][0]);
-				lr_testData.setDemographics(flags[i][1]);
-				lr_testData.setTraits(flags[i][2]);
-				lr_testData.setGroups(flags[i][3], Launcher.LR_GROUPS_SIZE_OVERRIDE);
-				lr_testData.setPages(flags[i][4], Launcher.LR_PAGES_SIZE_OVERRIDE);
-				lr_testData.setOutgoingMessages(flags[i][5], Launcher.LR_OUTGOING_SIZE_OVERRIDE);
-				lr_testData.setIncomingMessages(flags[i][6], Launcher.LR_INCOMING_SIZE_OVERRIDE);
-				lr_testData.setFileName(testName);
-
+				lr_trainData = getArff(k+1, 0, trainName);
+				lr_testData  = getArff(k+1, 0, testName);
+				
 				nb._trainData = nb_trainData;
 				nb._testData = nb_testData;
 				nb.clear();
@@ -171,7 +145,7 @@ public class WeightsExtractor {
 				lr_negativeWeights = mergeMaps(lr_negativeWeights, lr_results[2]);
 				lr_neutralWeights = mergeMaps(lr_neutralWeights, lr_results[3]);
 			}									
-
+			
 			nb_termWeightsyy = normaliseMap(nb_termWeightsyy);
 			nb_positiveWeightsyy = normaliseMap(nb_positiveWeightsyy);
 			nb_negativeWeightsyy = normaliseMap(nb_negativeWeightsyy);
@@ -186,39 +160,39 @@ public class WeightsExtractor {
 			lr_positiveWeights = normaliseMap(lr_positiveWeights);
 			lr_negativeWeights = normaliseMap(lr_negativeWeights);
 			lr_neutralWeights = normaliseMap(lr_neutralWeights);			
-			
-			System.out.println(names[i] + " naive bayes results");
+
+			System.out.println(names[i] + " naive bayes results " + lr_trainData.getFlags());
 			System.out.println("P(attribute = y | class = y)");
 			System.out.println("Top results for all");
-			sortMap(nb_termWeightsyy,nb_trainData_all);
+			sortMap(nb_termWeightsyy,nb_trainData);
 			System.out.println("\nTop results for positive");
-			sortMap(nb_positiveWeightsyy,nb_trainData_all);
+			sortMap(nb_positiveWeightsyy,nb_trainData);
 			System.out.println("\nTop results for negative");
-			sortMap(nb_negativeWeightsyy,nb_trainData_all);
+			sortMap(nb_negativeWeightsyy,nb_trainData);
 			System.out.println("\nTop results for neutral");
-			sortMap(nb_neutralWeightsyy,nb_trainData_all);
+			sortMap(nb_neutralWeightsyy,nb_trainData);
 			System.out.println();
 
 			System.out.println("P(attribute = y | class = y) / P(attribute = y | class = n)");
 			System.out.println("Top results for all");
-			sortMap(nb_termWeightsyn,nb_trainData_all);
+			sortMap(nb_termWeightsyn,nb_trainData);
 			System.out.println("\nTop results for positive");
-			sortMap(nb_positiveWeightsyn,nb_trainData_all);
+			sortMap(nb_positiveWeightsyn,nb_trainData);
 			System.out.println("\nTop results for negative");
-			sortMap(nb_negativeWeightsyn,nb_trainData_all);
+			sortMap(nb_negativeWeightsyn,nb_trainData);
 			System.out.println("\nTop results for neutral");
-			sortMap(nb_neutralWeightsyn,nb_trainData_all);
+			sortMap(nb_neutralWeightsyn,nb_trainData);
 			System.out.println();
 
-			System.out.println(names[i] + " logistic regression results");
+			System.out.println(names[i] + " logistic regression results " + lr_trainData.getFlags());
 			System.out.println("Top results for all");
-			sortMap(lr_termWeights,lr_trainData_all);
+			sortMap(lr_termWeights,lr_trainData);
 			System.out.println("\nTop results for positive");
-			sortMap(lr_positiveWeights,lr_trainData_all);
+			sortMap(lr_positiveWeights,lr_trainData);
 			System.out.println("\nTop results for negative");
-			sortMap(lr_negativeWeights,lr_trainData_all);
+			sortMap(lr_negativeWeights,lr_trainData);
 			System.out.println("\nTop results for neutral");
-			sortMap(lr_neutralWeights,lr_trainData_all);
+			sortMap(lr_neutralWeights,lr_trainData);
 			System.out.println();
 		}							
 	}
@@ -343,7 +317,7 @@ public class WeightsExtractor {
 
 		return results;				
 	}
-	
+
 	/*
 	 * sort and display map
 	 */
@@ -374,14 +348,15 @@ public class WeightsExtractor {
 			}
 
 			System.out.println(count + "\t" + map.get(key) + "\t" + attribute + "\t yes(" + yes + ") " + "\t unique(" + uniqueYes + ") " + (attribute.contains("group_") ? "\t" + getData("linkrGroups",attribute) : "") + (attribute.contains("page_") ? "\t" + getData("linkrLikes",attribute) : ""));
+			System.out.println(count + " " + display + " " + map.size());
 			if (count >= display)
 				break;
 			count++;
 		}
 		//System.out.println(sortedData);
 	}
-	
-	
+
+
 	/*
 	 * group info
 	 */
@@ -401,7 +376,7 @@ public class WeightsExtractor {
 
 		return ret;
 	}	
-	
+
 	public static void main(String[] args) throws Exception {
 		runColumnWeightsTests();
 	}
