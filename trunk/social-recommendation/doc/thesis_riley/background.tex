@@ -5,33 +5,34 @@
 \chapter{Background}
 \label{cha:back}
 
-\section{Social Networks}
-\label{sec:sn}
+In the following, we define the source of our data set, notation used throughout this thesis, our choice of prediction algorithms and 
+our testing methodology.
 
-The social network central for this study is Facebook. Once registering, Facebook users have the option of setting up a personalised profile, they can then establish
- themselves as friends of other users. Friends can interact via wall posts, conversations or by liking some facebook element.
-
-Social networks such as Facebook provide a wide array of user preferences (link, tag, photo, video likes) in an array of interaction mediums and modalities 
-(outgoing, incoming) as well as user specific information (gender, age, location, group memberships, favorite movies) and conversation content.
-
-A problem with the Facebook paradigm in relation to this analysis is the requirement for assumed dislikes, if a user does not like some link can we 
-imply the user does not like this link? Given the time period Facebook shows a link and the differing online times for Facebook users, this is generally 
-a poor assumption. As such a Facebook app named LinkR was developed by NICTA which explicitly stores like and dislike data for users. This app will 
-be discussed in the following section.
-
-Expsoreu curve for likes, over time facebook stops showing things
-
-If no interactions filtering won't help
-
-\section{Data Set}
+\section{Facebook}
 \label{sec:data}
+
+Facebook is the largest and most active social media service in the world. Facebook users can create a profile containing personal preferences 
+and have friendships and interactions between other users. These interactions can also be liked or commented on by other users.
+
+\section{LinkR}
+\label{sec:linkr}
+
+NICTA developed a Facebook app named LinkR \footnote{The main developer of the LinkR
+Facebook App is Khoi-Nguyen Tran, a PhD student at the Australian
+National University.  Khoi-Nguyen wrote the user interface and database
+crawling code for LinkR.} 
+which would make recommendations to app users and record whether or not the user liked the item.
+
+The dataset includes information about each app user as well as a subset of available data about their friends.
 
 The LinkR Facebook app was used to collect information about users, their interactions and preferences. The data set contains information about app users as 
 well as a sub-set of visible information about their friends. The app tracked and stored information for over 100 app users and their 39,000+ friends.
 
 The four main interactions between users are posts (posting an element on a friends' wall), tags (being mentioned in a friends post or comment), 
- comments (written data on a post) and likes (clicking a like button if a user likes a post or comment). The table below outlines data collected during 
- app trials.
+comments (written data on a post) and likes (clicking a like button if a user likes a post or comment). The table below outlines data collected during 
+app trials.
+ 
+The table below summarises the data collected from both app users and their friends.
 
 \begin{table}[!htbp]
 \centering
@@ -49,25 +50,44 @@ The four main interactions between users are posts (posting an element on a frie
 		\textbf{Photo} & 1,098,679 & 8,407,822 & 2,978,635 & 1,960,138 \\ \hline
 		\textbf{Video} & 56,241 & 858,054 & 463,401 & 308,763 \\ \hline
 	\end{tabular}
-	\caption{Total app user records}
+	\caption{Data records for interactions between users. Rows are the type of interaction, columns are the context.}
 	\label{tab:revpol}
 \end{table}
 
-\clearpage
+Pertanent user data which is collected by the LinkR app includes:
+\begin{itemize}
+\item Gender
+\item Age
+\item Hometown
+\item Locale
+\item Group Memberships
+\item Page Likes
+\item Favourite Activities
+\item Favourite Books
+\item Favourite Athletes
+\item Favourite Teams
+\item Inspirational People
+\item Interests
+\item Favourite Movies
+\item Favourite Music
+\item Favourite Sports
+\item Favourite Television Shows
+\item School Information
+\item Work Information
+\item Messages data
+\end{itemize}
 
 \section{Notation}
 \label{sec:notation}
 
-The mathematical notation used by our Predictors during this thesis are outlined below.
+The mathematical notation used by our classifiers during this thesis are outlined below.
 
 \begin{itemize}
-\item A dataset $D$ comprised of $N$ user feature vectors $x$ of size $I$, where each element $x_i \in \{0,1\}$
-
-\item The feature size of $I$ for each $x$ is defined by the current feature set being tested.
-
-\item A mapping for each tested vector $N$ from $D$ of the form $x \to y$ where $y$ is the prediction for this feature vector of the form
-$y \in \{0 \;\mbox{(like)},1 \;\mbox{(dislike)}\}$ based on each element in $x_i$
-
+\item $N$ users. 
+\item $M$ items.
+\item User features $F$ of size $i$ user features.
+\item A dataset $D$ comprised of $D = \{(n,m,f_i) \to y\}$ with the binary response $y \in \{0,1\}$ where $0$ represents a dislike and $1$ 
+represents a like.
 \end{itemize}
 
 \section{Feature Sets}
@@ -88,24 +108,35 @@ The feature sets in $x$ can be any of the following, which are discussed further
 \section{Previous Work}
 \label{sec:pw}
 
+While many Facebook users have a friend count which is close to the human real word limit, known as the Dunbar number ~\cite{hill2003social},
+this work shows that user interactions are focused on a much smaller subset of their friends.
+
+\cite{backstrom2011center} studied two types of user uses of Facebook, explicit communication interaction and viewing attention. Communication 
+is focused on a limited subset of friends whilst viewing attention is dispersed among a much larger set. This supports the approach of testing
+a wide array of user interactiuons and preferences, as each users preferences are driven by where their attention is focused.
+
 \subsection{Content Based Filtering}
 \label{sec:cbf}
 
-\subsection{Information Diffusion}
-\label{sec:id}
+Content based filtering (CBF) ~\cite{newsweeder} is an extension of the technique of Collaborative filtering (CF) ~\cite{collab_filtering} 
+which predicts whether a user will like an item via information about that users' prefererences as well as that of other users, CBF extends 
+this approach by generalising from the item features which the user has explicitly liked or disliked.
 
-\section{Prediction Algorithms}
+Baesd on previous user trials ~\cite{joseph} Social Matchbox was the best performing algorithm in live user trials, gaining more likes then
+dislikes.
+
+\section{Classification Algorithms}
 \label{sec:meth}
 
-This analysis makes use of the results from a number of different prediction algorithms which are outlined below.
+This analysis makes use of the results from a number of different classification algorithms which are outlined below.
 
 \subsection{Constant}
 \label{sec:const}
 
 The constant predictor returns a constant result irrespective of the feature vectors selected from above. The most common result in our data
-set is $False$ and hence the $False$ predictor is used in our analysis.
+set is $False$ and hence the $False$ predictor is displayed in our analysis.
 
-\subsection{Social Recommender}
+\subsection{Social Match Box}
 \label{sec:sr}
 
 \subsection{Naive Bayes}
@@ -121,11 +152,7 @@ The NB implementation used during this thesis is an implementation previously de
 \emph{Logistic Regression} (LR) predicts the odds of being either a like or a dislike by converting a dependent variable and one or more continuous 
 independent variable(s) into probabability odds.
 
-The LR implementation used during this thesis is \emph{LingPipe} \cite{lin}, which supports:
-\begin{itemize}
-\item Three priors for regression (Cauchy, Gaussian, Laplace)
-\item Maximum entropy mode
-\end{itemize}
+The LR implementation used during this thesis is \emph{LingPipe} \cite{lin}.
 
 \subsection{Support Vector Machine}
 \label{sec:svm}
@@ -134,16 +161,7 @@ The \emph{Support Vector Machine} (SVM) is a supervised learning machine based o
 hyperplane between the data points. Training involves buidling the relevant hyperplanes which can then be used for testing. Each data point is
 classified depending on which side of the hyperplane it falls.
 
-The SVM implementation used during this thesis is \emph{SVMLibLinear} \cite{cjlin}, which supports:
-\begin{itemize}
-\item L2-regularized classifiers
-\item L2-loss linear SVM, L1-loss linear SVM, and logistic regression (LR)
-\item L1-regularized classifiers
-\item L2-loss linear SVM and logistic regression (LR)
-\item L2-regularized support vector regression
-\item L2-loss linear SVR and L1-loss linear SVR.
-\item Probability estimates
-\end{itemize}
+The SVM implementation used during this thesis is \emph{SVMLibLinear} \cite{cjlin}.
 
 \section{Training and Testing}
 \label{sec:tt}
@@ -163,7 +181,7 @@ When evaluating the success of each method at correctly predicting the classific
 \item A \emph{false negative} occurs when the prediction is false but the actual class is true.
 \end{itemize}
 
-Accuracy relates to the closeness of the true value. In the context of our results, the accuracy refers to the number of correct classifications 
+Accuracy relates to the closeness to the true value. In the context of our results, the accuracy refers to the number of correct classifications 
 divided by the size of the data set.
 
 \[
@@ -189,6 +207,8 @@ The f-score combines and balances both precision and recall and is refered to as
 \[
  \text{f-score} = 2 \times \frac{\text{precision} \times \text{recall}}{\text{precision} + \text{recall}}
 \]
+
+The main metric we use for analysis in this thesis is accuracy.
 
 %%% Local Variables: 
 %%% mode: latex
