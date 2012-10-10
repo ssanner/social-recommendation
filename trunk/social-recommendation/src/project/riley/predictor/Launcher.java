@@ -209,14 +209,20 @@ public class Launcher {
 		//flag = "groups";
 		//flag = "pages";
 		//flag = "outgoing";
-		flag = "incoming";
+		//flag = "incoming";
+		flag = "combination";
 		
 		String outName = flag + "_results_" + ft.format(dNow) + ".txt"; 
 		writer = new PrintWriter(outName);
 		
 		//launcher.launchThresholds();
 		Launcher.SIZES_OVERRIDE = true;
-		launcher.setFlag(flag);
+		//launcher.setFlag(flag);
+		launcher.setFlag("demographics");
+		launcher.setFlag("traits");
+		launcher.setFlag("groups");
+		launcher.setFlag("pages");
+		
 		launcher.launchFlag(flag);				
 		//launcher.launchSizeComparisons(flag);		
 		
