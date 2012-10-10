@@ -3,22 +3,22 @@
 \@writefile{toc}{\contentsline {chapter}{Acknowledgements}{vii}}
 \@writefile{toc}{\contentsline {chapter}{Abstract}{ix}}
 \citation{netflix}
-\citation{pmf}
+\@writefile{lof}{\contentsline {figure}{\numberline {1.1}{\ignorespaces A link posted by the author that has been liked by three other users. The objective of this thesis is to build an automated link recommendation App for Facebook that learns user preferences via social collaborative filtering techniques and automatically recommends links (such as this one) to other users. We actively collect like/dislike feedback from the users to measure recommendation algorithm performance and to learn from for future recommendations.}}{1}}
+\newlabel{fig:ex_link}{{1.1}{1}}
 \@writefile{toc}{\contentsline {chapter}{\numberline {1}Introduction}{1}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
 \newlabel{cha:intro}{{1}{1}}
-\@writefile{toc}{\contentsline {section}{\numberline {1.1}Objectives}{1}}
-\newlabel{sec:objective}{{1.1}{1}}
-\pagecite{netflix}{1}
-\@writefile{lof}{\contentsline {figure}{\numberline {1.1}{\ignorespaces A link posted by the author that has been liked by three other users. The objective of this thesis is to build an automated link recommendation App for Facebook that learns user preferences via social collaborative filtering techniques and automatically recommends links (such as this one) to other users. We actively collect like/dislike feedback from the users to measure recommendation algorithm performance and to learn from for future recommendations.}}{2}}
-\newlabel{fig:ex_link}{{1.1}{2}}
+\citation{pmf}
+\@writefile{toc}{\contentsline {section}{\numberline {1.1}Objectives}{2}}
+\newlabel{sec:objective}{{1.1}{2}}
 \pagecite{pmf}{2}
+\pagecite{netflix}{2}
 \citation{matchbox}
 \@writefile{toc}{\contentsline {section}{\numberline {1.2}Contributions}{3}}
 \newlabel{sec:Contributions}{{1.2}{3}}
 \pagecite{matchbox}{3}
-\@writefile{toc}{\contentsline {section}{\numberline {1.3}Outline}{5}}
+\@writefile{toc}{\contentsline {section}{\numberline {1.3}Outline}{4}}
 \citation{collab_filtering}
 \citation{collab_filtering}
 \@writefile{toc}{\contentsline {chapter}{\numberline {2}Background}{7}}
@@ -83,15 +83,15 @@
 \@writefile{toc}{\contentsline {section}{\numberline {3.2}Dataset}{16}}
 \newlabel{sec:dataset}{{3.2}{16}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.2.1}User Data}{16}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.2}Link Data}{17}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.2}Link Data}{16}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.2.3}Implicit Dislikes}{17}}
 \@writefile{toc}{\contentsline {section}{\numberline {3.3}Evaluation Metrics}{17}}
 \newlabel{sec:map}{{3.3}{17}}
 \@writefile{toc}{\contentsline {section}{\numberline {3.4}Training and Testing Issues}{18}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.4.1}Training Data}{18}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.4.2}Live Online Recommendation Trials}{19}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4.2}Live Online Recommendation Trials}{18}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.2}{\ignorespaces Screenshot of a recommendation made by the LinkR application with the rating and feedback options. In contrast to Figure\nobreakspace  {}3.1\hbox {}, which showed a recommendation from a non-friend, this example shows a recommendation from a friend, where we are then able to also provide the friend's name and comment text along with the link recommendation.}}{19}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.4.3}Test Data}{19}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.2}{\ignorespaces Screenshot of a recommendation made by the LinkR application with the rating and feedback options. In contrast to Figure\nobreakspace  {}3.1\hbox {}, which showed a recommendation from a non-friend, this example shows a recommendation from a friend, where we are then able to also provide the friend's name and comment text along with the link recommendation.}}{20}}
 \citation{matchbox}
 \citation{pmf}
 \@writefile{toc}{\contentsline {chapter}{\numberline {4}Comparison of Existing Recommender Systems}{21}}
@@ -100,12 +100,12 @@
 \@writefile{toc}{\contentsline {section}{\numberline {4.1}Objective components}{21}}
 \citation{lla}
 \citation{socinf}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.1}Matchbox Matrix Factorization ($\@mathit {Obj}_\@mathit {pmcf}$)}{22}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.1}Matchbox Matrix Factorization ($\mathit  {Obj}_\mathit  {pmcf}$)}{22}}
 \pagecite{matchbox}{22}
 \pagecite{pmf}{22}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.2}L2 $U$ Regularization ($\@mathit {Obj}_\@mathit {ru}$)}{22}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.3}L2 $V$ Regularization ($\@mathit {Obj}_\@mathit {rv}$)}{22}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.4}Social Regularization ($\@mathit {Obj}_\@mathit {rs}$)}{22}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.2}L2 $U$ Regularization ($\mathit  {Obj}_\mathit  {ru}$)}{22}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.3}L2 $V$ Regularization ($\mathit  {Obj}_\mathit  {rv}$)}{22}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1.4}Social Regularization ($\mathit  {Obj}_\mathit  {rs}$)}{22}}
 \newlabel{sec:SocRec}{{4.1.4}{22}}
 \pagecite{lla}{22}
 \pagecite{socinf}{22}
@@ -119,62 +119,62 @@
 \@writefile{toc}{\contentsline {section}{\numberline {4.3}Online Results}{25}}
 \@writefile{lof}{\contentsline {figure}{\numberline {4.1}{\ignorespaces Results of the online live trials. The percentage of Liked ratings are stacked on top of the percentage of Disliked ratings per algorithm. Social Matchbox was found to be the best performing of the four algorithms evaluated in the first trial.}}{26}}
 \newlabel{fig:OnlineResult1}{{4.1}{26}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.2}{\ignorespaces Results of the online live trials, split between friends and non-friends. The percentage of Liked ratings are stacked on top of the percentage of Disliked ratings per algorithm. There is a significant drop in performance between recommending friend links and recommending non-friend links.}}{26}}
+\newlabel{fig:OnlineFriend1}{{4.2}{26}}
 \@writefile{toc}{\contentsline {section}{\numberline {4.4}Survey Results}{26}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.2}{\ignorespaces Results of the online live trials, split between friends and non-friends. The percentage of Liked ratings are stacked on top of the percentage of Disliked ratings per algorithm. There is a significant drop in performance between recommending friend links and recommending non-friend links.}}{27}}
-\newlabel{fig:OnlineFriend1}{{4.2}{27}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.3}{\ignorespaces Results of the user survey after the first trial. The survey answers from the users reflect the online results that Social Matchbox was the best recommendation algorithm in this trial.}}{28}}
-\newlabel{fig:survey1}{{4.3}{28}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.5}Offline Results}{28}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.6}Summary}{29}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.4}{\ignorespaces Results of training on PASSIVE data.}}{30}}
-\newlabel{fig:passive1}{{4.4}{30}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.5}{\ignorespaces Results of training on ACTIVE data.}}{31}}
-\newlabel{fig:active1}{{4.5}{31}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.6}{\ignorespaces Results of training on UNION data. When testing on APP-USER-ACTIVE-ALL, we find that Social Matchbox was again the best recommendation algorithm. Training on UNION and testing on APP-USER-ACTIVE-ALL is the training/test data combination that is most similar to the online setup.}}{32}}
-\newlabel{fig:union1}{{4.6}{32}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {5}New Algorithms for Social Recommendation}{33}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.3}{\ignorespaces Results of the user survey after the first trial. The survey answers from the users reflect the online results that Social Matchbox was the best recommendation algorithm in this trial.}}{27}}
+\newlabel{fig:survey1}{{4.3}{27}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.4}{\ignorespaces Results of training on PASSIVE data.}}{27}}
+\newlabel{fig:passive1}{{4.4}{27}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.5}{\ignorespaces Results of training on ACTIVE data.}}{27}}
+\newlabel{fig:active1}{{4.5}{27}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.5}Offline Results}{27}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.6}{\ignorespaces Results of training on UNION data. When testing on APP-USER-ACTIVE-ALL, we find that Social Matchbox was again the best recommendation algorithm. Training on UNION and testing on APP-USER-ACTIVE-ALL is the training/test data combination that is most similar to the online setup.}}{28}}
+\newlabel{fig:union1}{{4.6}{28}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.6}Summary}{28}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {5}New Algorithms for Social Recommendation}{29}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {5.1}New Objective Components}{33}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.1}Hybrid Objective ($\@mathit {Obj}_\@mathit {phy}$ )}{33}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.1}New Objective Components}{29}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.1}Hybrid Objective ($\mathit  {Obj}_\mathit  {phy}$ )}{29}}
 \citation{matchbox}
 \citation{sr}
 \citation{rrmf}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.2}L2 $\@mathbf {w}$ Regularization ($ \@mathit {Obj}_\@mathit {rw}$)}{34}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.3}Social Spectral Regularization ($\@mathit {Obj}_\@mathit {rss}$)}{34}}
-\pagecite{matchbox}{34}
-\pagecite{sr}{34}
-\pagecite{rrmf}{34}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.4}Social Co-preference Regularization ($\@mathit {Obj}_\@mathit {rsc}$)}{35}}
-\newlabel{sec:rsc}{{5.1.4}{35}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.5}Social Co-preference Spectral Regularization ($\@mathit {Obj}_\@mathit {rscs}$)}{35}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.2}L2 $\mathbf  {w}$ Regularization ($ \mathit  {Obj}_\mathit  {rw}$)}{30}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.3}Social Spectral Regularization ($\mathit  {Obj}_\mathit  {rss}$)}{30}}
+\pagecite{matchbox}{30}
+\pagecite{sr}{30}
+\pagecite{rrmf}{30}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.4}Social Co-preference Regularization ($\mathit  {Obj}_\mathit  {rsc}$)}{31}}
+\newlabel{sec:rsc}{{5.1.4}{31}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.5}Social Co-preference Spectral Regularization ($\mathit  {Obj}_\mathit  {rscs}$)}{31}}
 \citation{matrix}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.6}Derivatives}{36}}
-\pagecite{matrix}{36}
-\@writefile{toc}{\contentsline {section}{\numberline {5.2}Second Trial}{39}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.1}Online Results}{39}}
-\newlabel{sec:online2}{{5.2.1}{39}}
-\@writefile{lot}{\contentsline {table}{\numberline {5.1}{\ignorespaces Number of Users Assigned per Algorithm.}}{40}}
-\newlabel{tab:assigned2}{{5.1}{40}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.1}{\ignorespaces Results of online live trials. The percentage of Liked ratings are stacked on top of the percentage of Disliked ratings per algorithm. Spectral Matchbox achieved the highest ratio of likes to dislikes among the four algorithms. Spectral social regularization in general appears to be a better way to socially regularize compared to social regularization.}}{40}}
-\newlabel{fig:online2}{{5.1}{40}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.2}{\ignorespaces Results of the online live trials, split between friends and non-friends. As in the first trial, there is a significant drop in performance between recommending friend links and recommending non-friend links.}}{41}}
-\newlabel{fig:OnlineFriend2}{{5.2}{41}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.3}Offline Results}{42}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.3}{\ignorespaces Results of training on Passive data}}{43}}
-\newlabel{fig:passive2}{{5.3}{43}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.4}Summary}{43}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.4}{\ignorespaces Results of training on Active data}}{44}}
-\newlabel{fig:active2}{{5.4}{44}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.5}{\ignorespaces Results of training on Union data}}{45}}
-\newlabel{fig:union2}{{5.5}{45}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.6}Derivatives}{32}}
+\pagecite{matrix}{32}
+\@writefile{toc}{\contentsline {section}{\numberline {5.2}Second Trial}{35}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.1}Online Results}{35}}
+\newlabel{sec:online2}{{5.2.1}{35}}
+\@writefile{lot}{\contentsline {table}{\numberline {5.1}{\ignorespaces Number of Users Assigned per Algorithm.}}{36}}
+\newlabel{tab:assigned2}{{5.1}{36}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.1}{\ignorespaces Results of online live trials. The percentage of Liked ratings are stacked on top of the percentage of Disliked ratings per algorithm. Spectral Matchbox achieved the highest ratio of likes to dislikes among the four algorithms. Spectral social regularization in general appears to be a better way to socially regularize compared to social regularization.}}{36}}
+\newlabel{fig:online2}{{5.1}{36}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.2}{\ignorespaces Results of the online live trials, split between friends and non-friends. As in the first trial, there is a significant drop in performance between recommending friend links and recommending non-friend links.}}{36}}
+\newlabel{fig:OnlineFriend2}{{5.2}{36}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.3}Offline Results}{37}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.3}{\ignorespaces Results of training on Passive data}}{38}}
+\newlabel{fig:passive2}{{5.3}{38}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.4}{\ignorespaces Results of training on Active data}}{38}}
+\newlabel{fig:active2}{{5.4}{38}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.5}{\ignorespaces Results of training on Union data}}{38}}
+\newlabel{fig:union2}{{5.5}{38}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.4}Summary}{38}}
 \citation{matchbox}
-\@writefile{toc}{\contentsline {chapter}{\numberline {6}Conclusion}{47}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {6}Conclusion}{39}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\@writefile{toc}{\contentsline {section}{\numberline {6.1}Summary}{47}}
-\pagecite{matchbox}{47}
-\@writefile{toc}{\contentsline {section}{\numberline {6.2}Future Work}{48}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.1}Summary}{39}}
+\pagecite{matchbox}{39}
+\@writefile{toc}{\contentsline {section}{\numberline {6.2}Future Work}{40}}
 \citation{ste}
 \citation{lla}
 \citation{glfm}
@@ -219,7 +219,7 @@
 \bibcite{chu-Ghahramani-icml-05}{\citeauthoryear {Chu and Ghahramani}{Chu and Ghahramani}{2005b}}
 \bibcite{conitzer-jair-09}{\citeauthoryear {Conitzer}{Conitzer}{2009a}}
 \bibcite{conitzer09161}{\citeauthoryear {Conitzer}{Conitzer}{2009b}}
-\@writefile{toc}{\contentsline {chapter}{Bibliography}{51}}
+\@writefile{toc}{\contentsline {chapter}{Bibliography}{43}}
 \bibcite{svms}{\citeauthoryear {Cortes and Vapnik}{Cortes and Vapnik}{1995}}
 \bibcite{socinf}{\citeauthoryear {Cui, Wang, Liu, Ou, and Yang}{Cui et\nobreakspace  {}al.}{2011}}
 \bibcite{brochu-et-al-nips-08}{\citeauthoryear {Eric, Freitas, and Ghosh}{Eric et\nobreakspace  {}al.}{2008}}

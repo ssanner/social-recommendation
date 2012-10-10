@@ -5,17 +5,64 @@
 \chapter{Introduction}
 \label{cha:intro}
 
+An individuals social presence on the web is continually expanding, with the emergence of services such as Facebook, Myspace, LinkedIn, Twitter 
+and Google+ what defines a user and their online social interactions (messages, posting, commenting, etc) and preferences 
+(demographics, group memberships, likes, etc) is an ever expanding graph structure of verbose social content. Providing a myriad of expanding
+social information and user driven content.
+
+Our question becomes, how can we exploit this information to decipher which user interactions or preferences are most indicitive of user likes?
+Can we leverage this information and generalise over a social population?
+
 \section{Objectives}
 \label{sec:objectives}
+
+The primary objective of this thesis is to contrast and compare differing user feature sets. Using the
+machine learning concepts of \emph{Naive Bayes}, \emph{Logistic Regression} and \emph{Support Vector Machines} compared with our 
+appropriate baslines of \emph{Social Mathbox} and \emph{Constant Classifiers}.
+
+Using these classification techniques we will compare both user interaction features 
+\emph{interactions, incoming/outgoing messages} and user preference features \emph{demographics, traits, groups, pages}. To analyse the effect 
+each feature set has on classification.
+
+These algorithms will also be tested against a subset of the data, using a hold out technique to only test against items which has been liked
+by some friend.
+
+Finally, we will analyse the effect of combining successful user feature sets together and the results of combining successful models together 
+using a \emph{Bayesian Model Averaging} approach.
 
 \section{Contributions}
 \label{sec:contributions}
 
+In the preceding section, we outlined different user interaction and preference features. Our specific contributions made during this thesis show 
+
+\begin{itemize}
+\item Both \emph{interactions} and \emph{incoming/outgoing messages} are not more predictive then previously used \emph{Social Matchboxing} 
+techniques.
+\item Each user preference of \emph{demographics, traits, groups, pages} contributed to a better result then our baselines.
+\item Combining user preferences with a hold out technique for user likes results in a sgnificant improvement from our baslines.
+\item Combination of user preferences is better
+\item Model combination can encapsulate these ideas
+\end{itemize} 
+
+Overall, we provide a methodology which improves upon previous work and offers a way to combine positively contributing aspects of different 
+feature sets in our data.
+
 \section{Outline}
 \label{sec:outline}
 
-The goal of this thesis is to discover which sub-set or combination of user interactions and/or user preferences will be the most predictive of user likes. 
+The remaining chapters in this thesis are organised as follows:
+\begin{itemize}
+\item \textbf{Chapter 2}: We first outline appropriate background information for the reader. Including information pertaining to the source of 
+the data set, notation used throughout this thesis, previous work in this area and our research approach and methodology
+\item \textbf{Chapter 3}: In this chapter we discuss different feature sets for user interactions and the results from applying these feature sets 
+in comparison with our baselines.
+\item \textbf{Chapter 4}: Similarly as above, however we discuss user preferences
+\item \textbf{Chapter 5}: In this chapter we discuss results from combining different feature sets and models
+\item \textbf{Chapter 6}: Finally, we draw the work done throughout this thesis to a conclusion and offer avenues for future work in this area.
+\end{itemize}
 
+All chapters combined, this thesis represents a novel approach to which feature sets are predictive of user likes and offer an approach to 
+combining positive components into a useful classifier.
 
 %%% Local Variables: 
 %%% mode: latex
