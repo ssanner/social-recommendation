@@ -18,28 +18,23 @@
 \contentsline {subsection}{\numberline {2.6.5}Support Vector Machine}{6}
 \contentsline {section}{\numberline {2.7}Training and Testing}{7}
 \contentsline {section}{\numberline {2.8}Evaluation Metrics}{7}
-\contentsline {chapter}{\numberline {3}User Interactions}{9}
-\contentsline {section}{\numberline {3.1}Introduction}{9}
-\contentsline {section}{\numberline {3.2}Interactions}{9}
-\contentsline {section}{\numberline {3.3}Introduction}{9}
-\contentsline {section}{\numberline {3.4}Feature Types}{9}
-\contentsline {subsection}{\numberline {3.4.1}Direction}{9}
-\contentsline {subsection}{\numberline {3.4.2}Modality}{9}
-\contentsline {subsection}{\numberline {3.4.3}Type}{10}
-\contentsline {section}{\numberline {3.5}Conversation}{13}
-\contentsline {subsection}{\numberline {3.5.1}Outgoing}{15}
-\contentsline {subsection}{\numberline {3.5.2}Incoming}{15}
+\contentsline {chapter}{\numberline {3}Interactions}{9}
+\contentsline {section}{\numberline {3.1}User Interactions}{9}
+\contentsline {section}{\numberline {3.2}Conversation}{12}
+\contentsline {subsection}{\numberline {3.2.1}Outgoing}{14}
+\contentsline {subsection}{\numberline {3.2.2}Incoming}{15}
+\contentsline {section}{\numberline {3.3}Conclusion}{15}
 \contentsline {chapter}{\numberline {4}User Preferences}{21}
 \contentsline {section}{\numberline {4.1}Introduction}{21}
 \contentsline {section}{\numberline {4.2}Demographics}{21}
-\contentsline {section}{\numberline {4.3}Traits}{26}
+\contentsline {section}{\numberline {4.3}Traits}{23}
 \contentsline {section}{\numberline {4.4}Groups}{31}
 \contentsline {section}{\numberline {4.5}Pages}{35}
 \contentsline {chapter}{\numberline {5}Model Combinations}{39}
-\contentsline {section}{\numberline {5.1}Introduction}{39}
-\contentsline {section}{\numberline {5.2}Derivation}{39}
-\contentsline {section}{\numberline {5.3}Results}{39}
-\contentsline {section}{\numberline {5.4}Summary}{39}
+\contentsline {section}{\numberline {5.1}Introduction}{40}
+\contentsline {section}{\numberline {5.2}Positive Feature Selection}{40}
+\contentsline {section}{\numberline {5.3}Bayesian Model Averaging}{40}
+\contentsline {section}{\numberline {5.4}Summary}{40}
 \contentsline {chapter}{\numberline {6}Conclusions}{41}
 \contentsline {section}{\numberline {6.1}Future Work}{41}
 \contentsline {chapter}{Bibliography}{43}

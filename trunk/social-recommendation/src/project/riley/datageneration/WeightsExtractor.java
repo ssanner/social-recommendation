@@ -82,8 +82,7 @@ public class WeightsExtractor {
 	public static void runColumnWeightsTests() throws Exception{
 		writer = new PrintWriter("weights_results.txt");
 		
-		//for (int i = 0; i < names.length; i++){			
-		for (int i = 0; i < 2; i++){
+		for (int i = 0; i < names.length; i++){			
 			
 			NaiveBayes nb = new NaiveBayes(1.0d);
 			LogisticRegression lr = lrs[i];
