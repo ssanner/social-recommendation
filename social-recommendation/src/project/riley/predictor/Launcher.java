@@ -218,7 +218,7 @@ public class Launcher {
 		//launcher.launchThresholds();
 		Launcher.SIZES_OVERRIDE = true;
 		//launcher.setFlag(flag);
-		launcher.setFlag("demographics");
+		//launcher.setFlag("demographics");
 		launcher.setFlag("traits");
 		launcher.setFlag("groups");
 		launcher.setFlag("pages");
