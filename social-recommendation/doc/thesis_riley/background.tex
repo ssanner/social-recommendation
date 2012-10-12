@@ -6,13 +6,17 @@
 \label{cha:back}
 
 In the following, we define the source of our data set, notation used throughout this thesis, our choice of prediction algorithms and 
-our testing methodology.
+our testing appraoch and methodology.
 
 \section{Facebook}
 \label{sec:data}
 
 Facebook is the largest and most active social media service in the world. Facebook users can create a profile containing personal preferences 
 and have friendships and interactions between other users. These interactions can also be liked or commented on by other users.
+
+discuss feed time for facebook
+
+need to show all different ways to interact
 
 \section{LinkR}
 \label{sec:linkr}
@@ -82,16 +86,29 @@ Pertanent user data which is collected by the LinkR app includes:
 
 The mathematical notation used by our classifiers during this thesis are outlined below.
 
+
+define k for exposire
+alters
+
+\begin{figure}[h]
+	\begin{center}
+		\includegraphics[scale=0.60]{imgs/alters.pdf}
+		\caption{Predictors paradigm}
+	\end{center}
+\end{figure}
+
 \begin{itemize}
 \item $N$ users. 
 \item $M$ items.
-\item User features $F$ of size $i$ user features.
+\item A user feature set $F$ of size $i$.
 \item A dataset $D$ comprised of $D = \{(n,m,f_i) \to y\}$ with the binary response $y \in \{0,1\}$ where $0$ represents a dislike and $1$ 
 represents a like.
 \end{itemize}
 
 \section{Feature Sets}
 \label{sec:features}
+
+Need to discuss different feature sets
 
 The feature sets in $x$ can be any of the following, which are discussed further in :::
 
@@ -122,8 +139,8 @@ Content based filtering (CBF) ~\cite{newsweeder} is an extension of the techniqu
 which predicts whether a user will like an item via information about that users' prefererences as well as that of other users, CBF extends 
 this approach by generalising from the item features which the user has explicitly liked or disliked.
 
-Baesd on previous user trials ~\cite{joseph} Social Matchbox was the best performing algorithm in live user trials, gaining more likes then
-dislikes.
+Based on previous user trials ~\cite{joseph} Social Matchbox was the best performing algorithm in live user trials, gaining more likes then
+dislikes and hence will be the base line comparator used in this thesis.
 
 \section{Classification Algorithms}
 \label{sec:meth}
@@ -138,6 +155,17 @@ set is $False$ and hence the $False$ predictor is displayed in our analysis.
 
 \subsection{Social Match Box}
 \label{sec:sr}
+
+Social Matchbox uses the Social Regularization method to incorporate the social in-formation of the Facebook data. ~\cite{joseph}
+
+What this objective component does is constrain users with a high similarity rating to have the same values in the latent feature space. 
+This models the assumption that users who are similar socially should also have similar preferences for items.
+
+This method is an extension of existing SCF techniques~\cite{lla,socinf} that constrain the latent space to enforce users 
+to have similar preferences latent representations when they interact heavily. Like Matchbox which extends regular matrix factorization
+methods by making use of user and link features, our extension to the Social Regularization method incorporates user features to learn
+similarities between users in the latent space.
+
 
 \subsection{Naive Bayes}
 \label{sec:nb}
@@ -170,6 +198,17 @@ All evaluation is done using 10 fold cross validation wherein the data is partit
 of two separate parts one section is used for training $(80\%)$ and the other $(20\%)$ is used for testing. This is performed on 10 distinct 
 subsets and the results are averaged across each fold.
 
+"has been shown that positive social annotations on search items adds perceived utiltiy to the worth of a result, particularly with close social
+connections"
+~\cite{pantel}
+
+accuracy and exposure curve
+
+all graphs accuracy
+
+However, if we use only a subset of the data, holding out on only elements which have at least k likes amoung the group of alters 
+we can compare using these exposure curves  which can provide some indicator of a users exposure to a liked item.
+
 \section{Evaluation Metrics}
 \label{sec:notation}
 
@@ -184,29 +223,21 @@ When evaluating the success of each method at correctly predicting the classific
 Accuracy relates to the closeness to the true value. In the context of our results, the accuracy refers to the number of correct classifications 
 divided by the size of the data set.
 
-\[
- \text{accuracy} = \frac{\text{number of correct classifications}}{\text{size of the test data set}}
-\]
+\[ \text{accuracy} = \frac{\text{number of correct classifications}}{\text{size of the test data set}}\]
 
 Precision relates to the number of retrieved predictions which are relevant. In the context of our results, the precision refers to the number of true positive predictions 
 divided by the sum of the true positive and false positive predictions.
 
-\[
- \text{precision} = \frac{\text{number of true positives}}{\text{number of true positives + number of false positives}}
-\]
+\[ \text{precision} = \frac{\text{number of true positives}}{\text{number of true positives + number of false positives}}\]
 
 Recall refers to the number of relevant predictions that are retrieved. In the context of our results, recall refers to the number of true positive predictions 
 divided by the sum of the true positive and false negative predicitons.
 
-\[
- \text{recall} = \frac{\text{number of true positives}}{\text{number of true positives + number of false negatives}}
-\]
+\[ \text{recall} = \frac{\text{number of true positives}}{\text{number of true positives + number of false negatives}}\]
 
 The f-score combines and balances both precision and recall and is refered to as the weighted average of both precision and recall. 
 
-\[
- \text{f-score} = 2 \times \frac{\text{precision} \times \text{recall}}{\text{precision} + \text{recall}}
-\]
+\[ \text{f-score} = 2 \times \frac{\text{precision} \times \text{recall}}{\text{precision} + \text{recall}}\]
 
 The main metric we use for analysis in this thesis is accuracy.
 
