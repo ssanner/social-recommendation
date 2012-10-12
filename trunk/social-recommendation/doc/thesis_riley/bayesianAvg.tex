@@ -2,25 +2,24 @@
 %% Template conclusion.tex
 %%
 
-\chapter{Model Combinations}
+\chapter{Feature Combinations}
 \label{cha:bma}
 
-In this section we discuss two different approaches to combining the information we learned above.
+As outlined above, features which positively contributed to our classifiers were from the \emph{Traits}, \emph{Groups} and \emph{Pages} feature 
+vectors. In this section we combine these positive feature vectors together into a larger feature vector comprised of the individual 
+positively contributing elements.
 
 \section{Positive Feature Selection}
 \label{sec:notation}
 
-Firstly, we can combine features which were successful at improving from our baseline.
-
-Using the combined feature set of:
+Using the combined feature vector $X$ where $I$ is comprised of:
 \begin{itemize}
 \item Traits
-\item Pages
 \item Groups
+\item Pages
 \end{itemize}
 
-Using these combined results we find an improvement over SMB of the form:
-(data here)
+Applying this feature vector to the data set:
 
 \begin{figure}[h]
 	\begin{center}
@@ -29,7 +28,63 @@ Using these combined results we find an improvement over SMB of the form:
 	\end{center}
 \end{figure}
 
-This trend continues over the exposure curve
+We find that the \emph{Combination} feature vector gives better results for our classifiers when compared with our baselines.
+
+\begin{table}[h]
+\begin{minipage}[b]{.50\textwidth}
+\centering
+  \begin{tabular}{|l|l|} % cols: (left, center, right)
+  \hline
+  		\textbf{Classifier} & \textbf{Accuracy} \\ \hline
+		SMB & 0.604 $\pm$ 0.006 \\ \hline
+		NB & 0.583 $\pm$ 0.012 \\ \hline
+		LR & 0.617 $\pm$ 0.01 \\ \hline
+		SVM & 0.614 $\pm$ 0.009 \\ \hline
+  \end{tabular}
+  \caption{\emph{Traits} results for $k=0$}
+\end{minipage}
+\begin{minipage}[b]{.50\textwidth}
+\centering
+  \begin{tabular}{|l|l|} % cols: (left, center, right)
+  \hline
+  		\textbf{Classifier} & \textbf{Accuracy} \\ \hline
+		SMB & 0.604 $\pm$ 0.006 \\ \hline
+		NB & 0.604 $\pm$ 0.01 \\ \hline
+		LR & 0.613 $\pm$ 0.01 \\ \hline
+		SVM & 0.611 $\pm$ 0.008 \\ \hline
+  \end{tabular}
+  \caption{\emph{Pages} results for $k=0$}
+\end{minipage}
+\\
+\\
+\begin{minipage}[b]{.50\textwidth}
+\centering
+  \begin{tabular}{|l|l|} % cols: (left, center, right)
+  \hline
+  		\textbf{Classifier} & \textbf{Accuracy} \\ \hline
+		SMB & 0.604 $\pm$ 0.006 \\ \hline
+		NB & 0.565 $\pm$ 0.013 \\ \hline
+		LR & 0.622 $\pm$ 0.008 \\ \hline
+		SVM & 0.609 $\pm$ 0.011 \\ \hline
+  \end{tabular}
+  \caption{\emph{Groups} results for $k=0$}
+\end{minipage}
+\begin{minipage}[b]{.50\textwidth}
+\centering
+  \begin{tabular}{|l|l|} % cols: (left, center, right)
+  \hline
+  		\textbf{Classifier} & \textbf{Accuracy} \\ \hline
+		SMB & 0.604 $\pm$ 0.006 \\ \hline
+		NB & 0.605 $\pm$ 0.01 \\ \hline
+		LR & 0.624 $\pm$ 0.009 \\ \hline
+		SVM & 0.618 $\pm$ 0.01 \\ \hline
+  \end{tabular}
+  \caption{\emph{Combined} results for $k=0$}
+\end{minipage}
+\end{table}
+
+This shows that based on our results the most predictive feature vector is a combination of the individual best feature vectors found 
+in our \emph{User Preferences} section.
 
 \begin{figure}[h]
 	\begin{center}
@@ -38,11 +93,13 @@ This trend continues over the exposure curve
 	\end{center}
 \end{figure}
 
+This trend continues over the exposure curve with LR, SVM and NB all improving as $k$ increases.
 
-\section{Bayesian Model Averaging}
-\label{sec:bma}
+By extracting the model weights from the case where $k=0$ we can see which components of the \emph{Combination} feature vector were most
+predictive:
+PAGES HERE
 
-Hopefully can implement this.
+This shows us that ...
 
 %%% Local Variables: 
 %%% mode: latex

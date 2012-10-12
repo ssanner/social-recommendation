@@ -3,10 +3,12 @@ package project.riley.datageneration;
 import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -23,7 +25,7 @@ import project.riley.predictor.NaiveBayes.ClassCondProb;
 public class WeightsExtractor {
 
 	static PrintWriter writer;
-	static String[] names = {"interactions","demographics","traits","groups","pages","messages outgoing","messages incoming"};
+	static String[] names = {"interactions","demographics","traits","groups","pages","messages outgoing","messages incoming","combination"};
 	static LogisticRegression[] lrs = 
 		{new LogisticRegression(LogisticRegression.PRIOR_TYPE.L1, 2d, /*maxent*/ true),						// inter
 		new LogisticRegression(LogisticRegression.PRIOR_TYPE.L2, 2d),										// demo
@@ -78,6 +80,7 @@ public class WeightsExtractor {
 	}	
 
 	static int offset;
+
 	public static void runColumnWeightsTests() throws Exception{
 		writer = new PrintWriter("weights_results.txt");
 		
@@ -85,7 +88,7 @@ public class WeightsExtractor {
 			
 			NaiveBayes nb = new NaiveBayes(1.0d);
 			LogisticRegression lr = lrs[i];
-
+			
 			Map<Integer,Double> nb_termWeightsyy = new HashMap<Integer,Double>();
 			Map<Integer,Double> nb_positiveWeightsyy = new HashMap<Integer,Double>();
 			Map<Integer,Double> nb_negativeWeightsyy = new HashMap<Integer,Double>();
@@ -106,9 +109,9 @@ public class WeightsExtractor {
 			
 			ArffData lr_trainData = null;
 			ArffData lr_testData = null;	
-
+			
 			for (int k = 0; k < Launcher.NUM_FOLDS; k++){												
-
+				
 				String trainName = Launcher.DATA_FILE + ".train." + (k+1);
 				String testName  = Launcher.DATA_FILE + ".test."  + (k+1);
 
@@ -159,60 +162,60 @@ public class WeightsExtractor {
 			lr_termWeights = normaliseMap(lr_termWeights);
 			lr_positiveWeights = normaliseMap(lr_positiveWeights);
 			lr_negativeWeights = normaliseMap(lr_negativeWeights);
-			lr_neutralWeights = normaliseMap(lr_neutralWeights);			
+			lr_neutralWeights = normaliseMap(lr_neutralWeights);		
 
 			offset = 2;
 			System.out.println("Trained " + names[i] + " using " + lr_trainData.getSetFlag());
 			writer.println("Trained " + names[i] + " using " + lr_trainData.getSetFlag());
 			System.out.println("P(attribute = y | class = y)");
 			writer.println("P(attribute = y | class = y)");
-			System.out.println("Top results for all");
+			/*System.out.println("Top results for all");
 			writer.println("Top results for all");
-			sortMap(nb_termWeightsyy,nb_trainData);
+			sortMap(nb_termWeightsyy,nb_trainData);*/
 			System.out.println("\nTop results for positive");
 			writer.println("\nTop results for positive");
 			sortMap(nb_positiveWeightsyy,nb_trainData);
 			System.out.println("\nTop results for negative");
 			writer.println("\nTop results for negative");
 			sortMap(nb_negativeWeightsyy,nb_trainData);
-			System.out.println("\nTop results for neutral");
+			/*System.out.println("\nTop results for neutral");
 			writer.println("\nTop results for neutral");
-			sortMap(nb_neutralWeightsyy,nb_trainData);
+			sortMap(nb_neutralWeightsyy,nb_trainData);*/
 			System.out.println();
 			writer.println();
 
 			System.out.println("P(attribute = y | class = y) / P(attribute = y | class = n)");
 			writer.println("P(attribute = y | class = y) / P(attribute = y | class = n)");
-			System.out.println("Top results for all");
+			/*System.out.println("Top results for all");
 			writer.println("Top results for all");
-			sortMap(nb_termWeightsyn,nb_trainData);
+			sortMap(nb_termWeightsyn,nb_trainData);*/
 			System.out.println("\nTop results for positive");
 			writer.println("\nTop results for positive");
 			sortMap(nb_positiveWeightsyn,nb_trainData);
 			System.out.println("\nTop results for negative");
 			writer.println("\nTop results for negative");
 			sortMap(nb_negativeWeightsyn,nb_trainData);
-			System.out.println("\nTop results for neutral");
+		/*	System.out.println("\nTop results for neutral");
 			writer.println("\nTop results for neutral");
-			sortMap(nb_neutralWeightsyn,nb_trainData);
+			sortMap(nb_neutralWeightsyn,nb_trainData);*/
 			System.out.println();
 			writer.println();
 			
 			offset = 3;
 			System.out.println("Regression");
 			writer.println("Regression");
-			System.out.println("Top results for all");
+			/*System.out.println("Top results for all");
 			writer.println("Top results for all");
-			sortMap(lr_termWeights,lr_trainData);
+			sortMap(lr_termWeights,lr_trainData);*/
 			System.out.println("\nTop results for positive");
 			writer.println("\nTop results for positive");
 			sortMap(lr_positiveWeights,lr_trainData);
 			System.out.println("\nTop results for negative");
 			writer.println("\nTop results for negative");
 			sortMap(lr_negativeWeights,lr_trainData);
-			System.out.println("\nTop results for neutral");
+			/*System.out.println("\nTop results for neutral");
 			writer.println("\nTop results for neutral");
-			sortMap(lr_neutralWeights,lr_trainData);
+			sortMap(lr_neutralWeights,lr_trainData);*/
 			System.out.println();
 			writer.println();
 		}
@@ -234,22 +237,18 @@ public class WeightsExtractor {
 	/*
 	 * normalise maps over folds
 	 */
-	public static Map<Integer,Double> normaliseMap(Map<Integer,Double> map1){
+	public static Map<Integer,Double> normaliseMap(Map<Integer,Double> map){		
+				
+		for (Entry<Integer, Double> element : map.entrySet()){
+			map.put(element.getKey(), (Math.log(element.getValue())/(double)Launcher.NUM_FOLDS));
+		}
 		
-		/*
-		 * features get classified differently, sometimes +'ve sometimes -'ve sometimes neutral..
-		 * so just stick with a summation for now..
-		 */
-		
-		/*for (Entry<Integer, Double> element : map1.entrySet()){
-			map1.put(element.getKey(), (element.getValue()/Launcher.NUM_FOLDS));
-		}*/
-		return map1;
+		return map;
 	}
 
 	/*
 	 * Extract weights from columns
-	 */
+	 */	
 	public static Map<Integer,Double>[] getColumnWeightsLR(LogisticRegression lr) throws Exception{		
 		Map<Integer,Double>[] results = new HashMap[4];
 
@@ -257,8 +256,10 @@ public class WeightsExtractor {
 		Map<Integer,Double> positiveWeights = new HashMap<Integer,Double>();
 		Map<Integer,Double> negativeWeights = new HashMap<Integer,Double>();
 		Map<Integer,Double> neutralWeights = new HashMap<Integer,Double>();				
-
+		
 		for (int i = 0; i < lr._betas[0].numDimensions(); i++){
+			//System.out.println(lr._trainData._attr.get(i+offset).name);
+			
 			double val = lr._betas[0].value(i);
 			if (val > 0.0){
 				positiveWeights.put(i, val);
@@ -294,12 +295,16 @@ public class WeightsExtractor {
 		Map<Integer,Double> neutralWeightsyn = new HashMap<Integer,Double>();
 
 		for (int i = 0; i < nb._condProb.size(); i++) {
+						
 			ClassCondProb ccp = nb._condProb.get(i);
 
 			ArffData.Attribute  a = nb._trainData._attr.get(ccp._attr_index);
 			ArffData.Attribute ca = nb._trainData._attr.get(nb.CLASS_INDEX);
 
 			if (ccp._attr_index != nb.CLASS_INDEX){
+				
+				//System.out.println(nb._trainData._attr.get(i+2).name);
+				
 				/*System.out.println("P( " + a.name + " = " + a.getClassName(1) + " | " + ca.name + " = " + ca.getClassName(1) + 
 						" ) = " + (Math.exp(ccp._logprob[1][1])));
 				System.out.println("P( " + a.name + " = " + a.getClassName(1) + " | " + ca.name + " = " + ca.getClassName(0) + 
@@ -307,17 +312,21 @@ public class WeightsExtractor {
 				double yy = Math.exp(ccp._logprob[1][1]);
 				double yn = Math.exp(ccp._logprob[1][0]);
 
-				if (yy > 0.5)
+				if (yy > 0.5){
 					positiveWeightsyy.put(i, yy);
-				else if (yy < 0.5)
+				}
+				else if (yy < 0.5){
 					negativeWeightsyy.put(i, yy);
+				}
 				else
 					neutralWeightsyy.put(i, yy);
 
-				if ((yy / yn) > 0.5)
+				if ((yy / yn) > 0.5){
 					positiveWeightsyn.put(i, (yy / yn));
-				else if ((yy / yn) < 0.5)
+				}
+				else if ((yy / yn) < 0.5){
 					negativeWeightsyn.put(i, (yy / yn));
+				}
 				else 
 					neutralWeightsyn.put(i, (yy / yn));
 

@@ -6,16 +6,39 @@
 \section{Summary}
 \label{sec:summary}
 
-In this thesis we have tested different feature sets against appropriate baselines and found improvements.
+In this thesis we have tested and compared different feature vectors across different exposures of size $k$. 
+We have shown that \emph{User Interactions} in themselves are not predictive of user likes, however coupled with the 
+likes exposure curve, they do show an improvement over our baselines.
+
+We have also shown the interesting result that \emph{User Preferences} are predictive of user likes in the base case of $k = 0$ and 
+this trend continues over the likes exposure curve as $k$ increases.
+
+To answer the question initially proposed for this thesis, we have shown the feature vector which provides the highest predictiveness 
+for user likes is the combination of the individually predictive feature vectors which is the novel insight provided by this thesis.
 
 \section{Future Work}
 \label{sec:fw}
 
+Proposed future work can be summarised under the following points.
+
 \begin{itemize}
-\item Passive likes: 
-\item Cold start: 
-\item General user set: Such as the study done by ~\cite{jugand} which comprised of the entire active social network of 721 million users 
-as of May 2011.
+\item \textbf{Increase size ranges}: Given our maximum test sizes for \emph{Groups} and \emph{Pages} of $1000$ this size could be 
+increased to find the optimal testing size for each classifier
+\item \textbf{Ranges tests}: \emph{Groups} and \emph{Pages} were tested based on their popularity, a more useful comparison could be to 
+test based on some other condition, such as \emph{Group} or \emph{Page} size.
+\item \textbf{Individual Traits analysis}: During our traits analysis the feature vector was set to $1$ if the user and any user in 
+the set of alters were part of the same \emph{Traits} group, it would be beneficial to do an individual analysis on each component of 
+the \emph{Traits} data to find which parts of \emph{Traits} are most predictive (similar analysis as done in \emph{Groups}).
+\item \textbf{Passive likes}: Given the Facebook model of allowing users to like but not dislike data, explicit dislike data can not be gleaned
+from Facebook, which is hence why the LinkR active likes data was used for this evaluation. An approach could be developed which can predict 
+whether a user will have seen an item (online timestamps, recent interactions with user) and can infer that if the user did not like the item then
+they disliked it.
+\item \textbf{Cold start}: Leaving out some subset of users when training our models, but including them during testing.
+\item \textbf{General user set}: Such as the study done by ~\cite{jugand} which comprised of the entire active social network of 721 million users 
+as of May 2011, applying these methods to a data set which is more indicitive of the general Facebook user population would result in more generalsied 
+results.
+\item \textbf{Bayesian Model Averging}: Weighting the most successful machine learning models under different feature sets and exposure curves 
+to simulate a new combined classifier.
 \end{itemize}
 
 %%% Local Variables: 

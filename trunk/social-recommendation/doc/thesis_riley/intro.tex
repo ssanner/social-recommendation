@@ -7,75 +7,44 @@
 
 An individuals social presence on the web is continually expanding, with the emergence of services such as Facebook, Myspace, LinkedIn, Twitter 
 and Google+ what defines a user and their online social interactions (messages, posting, commenting, etc) and preferences 
-(demographics, group memberships, likes, etc) is an ever expanding graph structure of verbose social content. Providing a myriad of expanding
-social information and user driven content.
+(demographics, group memberships, likes, etc) is an ever expanding graph structure of verbose social content. The internet is becoming a network 
+of people, providing a myriad of expanding social information and user driven content.
 
-Our question becomes, how can we exploit this information to decipher which user interactions or preferences are most indicitive of user likes?
-Can we leverage this information and generalise over a social population?
+The ultimate question we wish to address in this thesis then becomes: 
+How can we exploit this information to decipher which user interactions or preferences are most indicitive of user likes? 
 
-Internet is becoming a network of people
+We address this question by comparing and contrasting different feature vectors in our data against appropriate baselines and 
+ultimately offer a feature vector combination paradigm which represents improved results which are computationaly faster and can more 
+appropriately generalise over a population then previous methods.
 
 \section{Objectives}
 \label{sec:objectives}
 
-The primary objective of this thesis is to contrast and compare differing user feature sets. Using the
-machine learning concepts of \emph{Naive Bayes}, \emph{Logistic Regression} and \emph{Support Vector Machines} compared with our 
-appropriate baslines of \emph{Social Mathbox} and \emph{Constant Classifiers}.
+The primary objective of this thesis is to contrast and compare differing user feature vectors across user interactions and preferences. 
+Using the machine learning concepts of \emph{Naive Bayes} (NB), \emph{Logistic Regression} (LR) and \emph{Support Vector Machines} (SVM) compared with our 
+appropriate baslines of \emph{Social Mathbox} (SMB) and \emph{Constant Classifiers}. With the goal of discovering which features are most predictive 
+or user likes.
 
-Using these classification techniques we will compare both user interaction features 
-\emph{interactions, incoming/outgoing messages} and user preference features \emph{demographics, traits, groups, pages}. To analyse the effect 
-each feature set has on classification.
+Based on the insight that social inﬂuence can play a crucial role in a range of behavioral phenomena \cite{grano,watts} we will also test 
+using an exposure curve \cite{Romero2011hashtag} hold out technique, where data is only tested if some friend has already liked that datum. 
 
-These algorithms will also be tested against a subset of the data, using a hold out technique to only test against items which has been liked
-by some friend.
-
-Finally, we will analyse the effect of combining successful user feature sets together and the results of combining successful models together 
-using a \emph{Bayesian Model Averaging} approach.
+Finally, we will analyse the effect of combining successful user feature vectors together using a \emph{Feature Combination} approach.
 
 \section{Contributions}
 \label{sec:contributions}
 
-In the preceding section, we outlined different user interaction and preference features. Our specific contributions made during this thesis show 
-
-
-"Facebook users during the 2010 US congressional elections. The results show that the messages directly influenced political
-self-expression, information seeking and real-world voting behaviour of millions of people. Furthermore, the messages not only 
-influenced the users who received them but also the users’ friends, and friends of friends. The effect of social transmission on real-world
-voting was greater than the direct effect of the messages themselves, and nearly all the transmission occurred between ‘close friends’
-who were more likely to have a face-to-face relationship. These results suggest that strong ties are instrumental for spreading both
-online and real-world behaviour in human social networks."
-~\cite{nature}
-
-
-discuss feed time for facebook
-
-"Social inﬂuence can play a crucial role in a range of behav-
-ioral phenomena, from the dissemination of information, to
-the adoption of political opinions and technologies [23, 42],"
-~\cite{grano}
-~\cite{watts}
-
-
-"has been shown that positive social annotations on search items adds perceived utiltiy to the worth of a result, particularly with close social
-connections"
-~\cite{pantel}
-
-
-
-
-
+Our specific contributions made during this thesis show:
 
 \begin{itemize}
-\item Both \emph{interactions} and \emph{incoming/outgoing messages} are not more predictive then previously used \emph{Social Matchboxing} 
+\item Both \emph{Interactions} and \emph{Incoming\\Outgoing messages} are not more predictive then previously used \emph{Social Matchboxing} 
 techniques.
-\item Each user preference of \emph{demographics, traits, groups, pages} contributed to a better result then our baselines.
-\item Combining user preferences with a hold out technique for user likes results in a sgnificant improvement from our baslines.
-\item Combination of user preferences is better
-\item Model combination can encapsulate these ideas
+\item Each user preference of \emph{Traits}, \emph{Groups} and \emph{Pages} contributed to a better result then previously used techniques.
+\item Combining user preferences with an exposure curve for user likes results in a substantial improvement from previously used techniques.
+\item Combination of beneficial user preferences results in the most advantageous feature vector for this data.
 \end{itemize} 
 
-Overall, we provide a methodology which improves upon previous work and offers a way to combine positively contributing aspects of different 
-feature sets in our data.
+Overall, we provide a methodology which improves upon previous work and offers an approach to combine positively contributing aspects of different 
+feature vectors in our data.
 
 \section{Outline}
 \label{sec:outline}
@@ -83,16 +52,18 @@ feature sets in our data.
 The remaining chapters in this thesis are organised as follows:
 \begin{itemize}
 \item \textbf{Chapter 2}: We first outline appropriate background information for the reader. Including information pertaining to the source of 
-the data set, notation used throughout this thesis, previous work in this area and our research approach and methodology
-\item \textbf{Chapter 3}: In this chapter we discuss different feature sets for user interactions and the results from applying these feature sets 
+our data set, mathematical notation used throughout this thesis, previous work in this area and our research approach and methodology.
+\item \textbf{Chapter 3}: In this chapter we discuss different feature vectors for user interactions and the results of applying these feature vectors 
 in comparison with our baselines.
-\item \textbf{Chapter 4}: Similarly as above, however we discuss user preferences
-\item \textbf{Chapter 5}: In this chapter we discuss results from combining different feature sets and models
+\item \textbf{Chapter 4}: A similar feature vector analysis as above, however the feature vectors we utilise are for user preferences.
+\item \textbf{Chapter 5}: In this chapter we discuss results from combining different positive feature vectors and propose an ideal 
+combination based on our analysis.
 \item \textbf{Chapter 6}: Finally, we draw the work done throughout this thesis to a conclusion and offer avenues for future work in this area.
 \end{itemize}
 
-All chapters combined, this thesis represents a novel approach to which feature sets are predictive of user likes and offer an approach to 
-combining positive components into a useful classifier.
+All chapters combined, this thesis represents a novel approach to exploiting and analysing user interactions and preferences to ascertain 
+which features are most indicitive of user likes and present an approach of combining these useful feature components into an effective 
+classification paradigm.
 
 %%% Local Variables: 
 %%% mode: latex
