@@ -6,16 +6,16 @@
 \label{cha:back}
 
 In the following section, we define the source of our data set, notation used throughout this thesis, our choice of classification algorithms and 
-our testing appraoch and methodology.
+our testing approach and methodology.
 
 \section{Facebook}
 \label{sec:data}
 
 Facebook is the largest and most active social media service in the world. Facebook users can create a profile containing personal 
-preferences and information (age, birthgday, group preferences, favourite athlete, etc) and have friendships and interactions 
+preferences and information (age, birthday, group preferences, favourite athlete, etc) and have friendships and interactions 
 between other users. The four main interactions between users are posts (posting an element on a friends' wall), tags
 (being mentioned in a friends post or comment), comments (written data on a post) and likes (clicking a like button if a user 
-likes a post or comment). The three mediums for these interactions are across links (some url), posts (some Facebook post), 
+likes a post or comment). The three mediums for these interactions are across links (some URL), posts (some Facebook post), 
 photos (some uploaded Facebook photo) and videos (some uploaded Facebook video).
 
 \begin{figure}[h]
@@ -28,11 +28,11 @@ photos (some uploaded Facebook photo) and videos (some uploaded Facebook video).
 \clearpage
 One issue present in this Facebook paradigm is discovering whether a user doesn't like an item, a users Facebook feed is comprised of 
 activity between their friends, content, groups, etc given the enormous scope of potential feed items, Facebook will only show feed 
-items for users who you have recently interacted with using their \emph{EdgeRank} ~\cite{edge} algorithm. 
+items for users who you have recently interacted with using their \emph{Edge-Rank} ~\cite{edge} algorithm. 
 
 While many Facebook users have a friend count which is close to the human real word limit, known as the Dunbar number 
-~\cite{hill2003social}, the \emph{EdgeRank} algorithm ensures user interactions are focused on a much smaller subset of their friends.
-Additionaly, given the rate of posting, these top feed items are only displayed for a short amount of time. This is coupled 
+~\cite{hill2003social}, the \emph{Edge-Rank} algorithm ensures user interactions are focused on a much smaller subset of their friends.
+Additionally, given the rate of posting, these top feed items are only displayed for a short amount of time. This is coupled 
 with the fact that Facebook allows users to explicitly like an item, but not dislike it - hence distinguishing between what 
 a user does and does not like becomes difficult.
 
@@ -77,7 +77,7 @@ The table below summarises the data collected from both app users and their frie
 
 \clearpage
 
-Pertanent user features we will exploit during this thesis include:
+Pertinent user features we will exploit during this thesis include:
 \begin{itemize}
 \item Gender
 \item Age
@@ -113,7 +113,7 @@ and is explicitly defined in each section. In other words $X = \langle x_1, x_2,
 \item A set of alters $A$ of size $j$, the size and composition of each alters set varied based on the current user features being 
 analysed and is explicitly defined in each section.
 \item An exposure of size $k$, where each $k$ represents the number of some user $n$'s friends who have liked some item $m$.
-\item A dataset $D$ comprised of $D = \{(n,m,x_i) \to y\}$ with the binary response $y \in \{0,1\}$ where $0$ represents a dislike 
+\item A data-set $D$ comprised of $D = \{(n,m,x_i) \to y\}$ with the binary response $y \in \{0,1\}$ where $0$ represents a dislike 
 and $1$ represents a like.
 \end{itemize}
 
@@ -122,7 +122,7 @@ and $1$ represents a like.
 
 Individual feature vectors for $X$ will be discussed and defined in their appropriate sections under \emph{User Interactions} and 
 \emph{User Preferences}. During this thesis we will analyse the results gained from the $7$ different user features listed below, 
-additionaly a combination of the most predictive individual feature vectors will also be tested.
+additionally a combination of the most predictive individual feature vectors will also be tested.
 
 \begin{itemize}
 \item Interactions
@@ -142,12 +142,12 @@ Below we discuss previous work done in this classification area completed in 201
 \subsection{Social Collaborative Filtering}
 \label{sec:cbf}
 
-Two general appraoches to classification prediction are \emph{content-based filtering} (CBF) ~\cite{newsweeder} which exploits 
+Two general approaches to classification prediction are \emph{content-based filtering} (CBF) ~\cite{newsweeder} which exploits 
 item features based on items a user has previously liked, or the second approach which is \emph{collaborative filtering} (CF) 
-~\cite{collab_filtering} which explots the current user's preferences as well as those of other users.
+~\cite{collab_filtering} which exploits the current user's preferences as well as those of other users.
 
-Previous work defined the term \emph{social} CF (SCF) ~\cite{joseph} which augments traditional CF mtehods with additional social 
-network information, the results of this previous work and analysis came to the conclusion that the approach of \emph{Social Matchbox} (SMB)
+Previous work defined the term \emph{social} CF (SCF) ~\cite{joseph} which augments traditional CF methods with additional social 
+network information, the results of this previous work and analysis came to the conclusion that the approach of \emph{Social Matchbox}
 provided the best results for this data set. In live user trials SMB provided the best performance against all other implemented 
 algorithms and as such will be used as a baseline in this thesis.
 
@@ -162,7 +162,7 @@ table and graph.
 \section{Classification Algorithms}
 \label{sec:meth}
 
-Each classifiction algorithm used in this thesis is passed the training set for each fold as discussed previously. Based on this 
+Each classification algorithm used in this thesis is passed the training set for each fold as discussed previously. Based on this 
 data and the current feature vector $X$ the classifier builds a model representation of the data and uses this model to classify 
 each component in the test set into either a like or a dislike.
 
@@ -188,7 +188,7 @@ models the assumption that users who are similar socially should also have simil
 \subsection{Naive Bayes}
 \label{sec:nb}
 
-\emph{Naive Bayes} (NB) is a basic probabilistic classifier which involves applying Bayes' theorem using strong conditional independence 
+\emph{Naive Bayes} is a basic probabilistic classifier which involves applying Bayes' theorem using strong conditional independence 
 assumptions between each feature in $X$. During training each element $i$ in the feature vector is devised to contribute some 
 evidence that this $X$ belongs to either a like or dislike classification, during testing the class with the highest probability 
 when applied to the model is the classification returned. 
@@ -199,16 +199,16 @@ The NB implementation used during this thesis is an implementation previously de
 \subsection{Logistic Regression}
 \label{sec:lr}
 
-\emph{Logistic Regression} (LR) directly estimates paramaters based on the training data assuming a parametric form of the distribution.
+\emph{Logistic Regression} directly estimates parameters based on the training data assuming a parametric form of the distribution.
 LR predicts the odds of a feature vector $X$ being either a like or a dislike by converting a dependent variable and 
-one or more continuous independent variable(s) into probabability odds.
+one or more continuous independent variable(s) into probability odds.
 
 The LR implementation used during this thesis is \emph{LingPipe} \cite{lin}.
 
 \subsection{Support Vector Machine}
 \label{sec:svm}
 
-The \emph{Support Vector Machine} (SVM) is a supervised learning machine based on a set of basis functions which help construct 
+The \emph{Support Vector Machine} is a supervised learning machine based on a set of basis functions which help construct 
 a separating hyperplane between data points. Training involves building the relevant hyperplanes which can then be used for testing. 
 Each data point is classified as a like or dislike depending on which side of the hyperplane it falls.
 
@@ -236,7 +236,7 @@ divided by the sum of the TP and FP predictions.
 \[ \text{precision} = \frac{\text{number of TP}}{\text{number of TP + number of FP}}\]
 
 Recall refers to the number of relevant predictions that are retrieved. In the context of our results, recall refers to the number of TP predictions 
-divided by the sum of the TP and FN predicitons.
+divided by the sum of the TP and FN predictions.
 
 \[ \text{recall} = \frac{\text{number of TP}}{\text{number of TP + number of FN}}\]
 

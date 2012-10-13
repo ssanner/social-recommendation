@@ -31,7 +31,7 @@ public class WeightsExtractor {
 	// this was a rush job..
 
 	static PrintWriter writer;
-	static String[] names = {"interactions","demographics","traits","groups","pages","messages outgoing","messages incoming","combination"};
+	static String[] names = {"interactions","demographics","traits","groups","pages","messages outgoing","messages incoming"};
 	static LogisticRegression[] lrs = 
 		{new LogisticRegression(LogisticRegression.PRIOR_TYPE.L1, 2d, /*maxent*/ true),						// inter
 		new LogisticRegression(LogisticRegression.PRIOR_TYPE.L2, 2d),										// demo
@@ -95,10 +95,10 @@ public class WeightsExtractor {
 	public static void runColumnWeightsTests() throws Exception{
 		writer = new PrintWriter("weights_results.txt");
 
-		//for (int i = 0; i < names.length; i++){			
+		for (int i = 0; i < names.length; i++){			
 
 			NaiveBayes nb = new NaiveBayes(1.0d);
-			LogisticRegression lr = lrs[7];				
+			LogisticRegression lr = lrs[i];				
 
 			ArffData nb_trainData = null;
 			ArffData nb_testData = null;
@@ -113,18 +113,18 @@ public class WeightsExtractor {
 				String trainName = Launcher.DATA_FILE + ".train." + (k+1);
 				String testName  = Launcher.DATA_FILE + ".test."  + (k+1);
 
-				nb_trainData = getArff(8, 1, trainName);
-				nb_testData  = getArff(8, 1, testName); 
+				nb_trainData = getArff((i+1), 1, trainName);
+				nb_testData  = getArff((i+1), 1, testName); 
 
-				lr_trainData = getArff(8, 0, trainName);
-				lr_testData  = getArff(8, 0, testName);
+				lr_trainData = getArff((i+1), 0, trainName);
+				lr_testData  = getArff((i+1), 0, testName);
 
 				if (!set){
 					// 1 = LR, 2 = NB_YY, 3 = NB_YN					
 					//System.out.println(nb_trainData._attr.size());
 					//System.out.println(lr_trainData._attr.size());
 					results = new Double[4][2][Launcher.NUM_FOLDS][2500];
-					current = getArff(8, 0, Launcher.DATA_FILE);
+					current = getArff((i+1), 0, Launcher.DATA_FILE);
 					set = true;
 				}
 
@@ -161,7 +161,7 @@ public class WeightsExtractor {
 			System.out.println();
 			writer.println();
 			
-		//}
+		}
 		writer.close();
 	}
 	

@@ -1,7 +1,7 @@
 \contentsline {chapter}{Abstract}{v}
 \contentsline {chapter}{\numberline {1}Introduction}{1}
 \contentsline {section}{\numberline {1.1}Objectives}{1}
-\contentsline {section}{\numberline {1.2}Contributions}{1}
+\contentsline {section}{\numberline {1.2}Contributions}{2}
 \contentsline {section}{\numberline {1.3}Outline}{2}
 \contentsline {chapter}{\numberline {2}Background}{3}
 \contentsline {section}{\numberline {2.1}Facebook}{3}
@@ -29,9 +29,9 @@
 \contentsline {section}{\numberline {4.2}Traits}{27}
 \contentsline {section}{\numberline {4.3}Groups}{37}
 \contentsline {section}{\numberline {4.4}Pages}{42}
-\contentsline {section}{\numberline {4.5}Conclusion}{46}
+\contentsline {section}{\numberline {4.5}Conclusion}{47}
 \contentsline {chapter}{\numberline {5}Feature Combinations}{49}
-\contentsline {section}{\numberline {5.1}Positive Feature Selection}{49}
+\contentsline {section}{\numberline {5.1}Positive Feature Combination}{49}
 \contentsline {section}{\numberline {5.2}Summary}{52}
 \contentsline {section}{\numberline {5.3}Future Work}{53}
 \contentsline {chapter}{Bibliography}{55}
