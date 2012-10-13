@@ -122,7 +122,7 @@ public class WeightsExtractor {
 					// 1 = LR, 2 = NB_YY, 3 = NB_YN					
 					//System.out.println(nb_trainData._attr.size());
 					//System.out.println(lr_trainData._attr.size());
-					results = new Double[4][2][Launcher.NUM_FOLDS][nb_trainData._attr.size()-3];
+					results = new Double[4][2][Launcher.NUM_FOLDS][1000];
 					current = getArff(i+1, 0, Launcher.DATA_FILE);
 					set = true;
 				}
@@ -190,6 +190,10 @@ public class WeightsExtractor {
 			if (t == 1)
 				index = indexes[avg.length-i-1];
 			
+			if (avg[index] == 0.0){
+				break;
+			}			
+			
 			String attribute = current._attr.get(index+3).name;
 	
 			int yes = 0;
@@ -206,10 +210,6 @@ public class WeightsExtractor {
 						users.add((Double)entry.getData(0));
 					}
 				}				
-			}
-			
-			if (avg[index] == 0.0){
-				break;
 			}
 			
 			System.out.println((i+1) + "\t" + attribute + "\t\t" + df3.format(avg[index]) + " +/- " + df3.format(std[index]) + "\t\t yes(" + yes + ") " + "\t\t unique(" + uniqueYes + ")" +  (attribute.contains("group_") ? "\t\t" + getData("linkrGroups",attribute) : "") + (attribute.contains("page_") ? "\t\t" + getData("linkrLikes",attribute) : ""));
