@@ -1,37 +1,37 @@
 \contentsline {chapter}{Abstract}{v}
 \contentsline {chapter}{\numberline {1}Introduction}{1}
 \contentsline {section}{\numberline {1.1}Objectives}{1}
-\contentsline {section}{\numberline {1.2}Contributions}{2}
+\contentsline {section}{\numberline {1.2}Contributions}{1}
 \contentsline {section}{\numberline {1.3}Outline}{2}
 \contentsline {chapter}{\numberline {2}Background}{3}
 \contentsline {section}{\numberline {2.1}Facebook}{3}
-\contentsline {section}{\numberline {2.2}LinkR}{4}
-\contentsline {section}{\numberline {2.3}Notation}{5}
-\contentsline {section}{\numberline {2.4}Feature Vectors}{5}
-\contentsline {section}{\numberline {2.5}Previous Work}{6}
-\contentsline {subsection}{\numberline {2.5.1}Social Collaborative Filtering}{6}
-\contentsline {section}{\numberline {2.6}Training and Testing}{6}
-\contentsline {section}{\numberline {2.7}Classification Algorithms}{6}
-\contentsline {subsection}{\numberline {2.7.1}Constant}{7}
-\contentsline {subsection}{\numberline {2.7.2}Social Match Box}{7}
-\contentsline {subsection}{\numberline {2.7.3}Naive Bayes}{7}
-\contentsline {subsection}{\numberline {2.7.4}Logistic Regression}{7}
-\contentsline {subsection}{\numberline {2.7.5}Support Vector Machine}{7}
-\contentsline {section}{\numberline {2.8}Evaluation Metrics}{8}
-\contentsline {chapter}{\numberline {3}Interactions}{9}
-\contentsline {section}{\numberline {3.1}User Interactions}{9}
-\contentsline {section}{\numberline {3.2}Conversation}{10}
-\contentsline {subsection}{\numberline {3.2.1}Outgoing}{10}
-\contentsline {subsection}{\numberline {3.2.2}Incoming}{13}
-\contentsline {section}{\numberline {3.3}Conclusion}{14}
-\contentsline {chapter}{\numberline {4}User Preferences}{21}
-\contentsline {section}{\numberline {4.1}Demographics}{21}
-\contentsline {section}{\numberline {4.2}Traits}{24}
-\contentsline {section}{\numberline {4.3}Groups}{26}
-\contentsline {section}{\numberline {4.4}Pages}{35}
-\contentsline {section}{\numberline {4.5}Conclusion}{38}
-\contentsline {chapter}{\numberline {5}Feature Combinations}{41}
-\contentsline {section}{\numberline {5.1}Positive Feature Selection}{41}
-\contentsline {section}{\numberline {5.2}Summary}{42}
-\contentsline {section}{\numberline {5.3}Future Work}{43}
-\contentsline {chapter}{Bibliography}{45}
+\contentsline {section}{\numberline {2.2}LinkR}{5}
+\contentsline {section}{\numberline {2.3}Notation}{6}
+\contentsline {section}{\numberline {2.4}Feature Vectors}{7}
+\contentsline {section}{\numberline {2.5}Previous Work}{7}
+\contentsline {subsection}{\numberline {2.5.1}Social Collaborative Filtering}{7}
+\contentsline {section}{\numberline {2.6}Training and Testing}{8}
+\contentsline {section}{\numberline {2.7}Classification Algorithms}{8}
+\contentsline {subsection}{\numberline {2.7.1}Constant}{8}
+\contentsline {subsection}{\numberline {2.7.2}Social Match Box}{8}
+\contentsline {subsection}{\numberline {2.7.3}Naive Bayes}{8}
+\contentsline {subsection}{\numberline {2.7.4}Logistic Regression}{9}
+\contentsline {subsection}{\numberline {2.7.5}Support Vector Machine}{9}
+\contentsline {section}{\numberline {2.8}Evaluation Metrics}{9}
+\contentsline {chapter}{\numberline {3}Interactions}{11}
+\contentsline {section}{\numberline {3.1}User Interactions}{11}
+\contentsline {section}{\numberline {3.2}Conversation}{14}
+\contentsline {subsection}{\numberline {3.2.1}Outgoing}{16}
+\contentsline {subsection}{\numberline {3.2.2}Incoming}{18}
+\contentsline {section}{\numberline {3.3}Conclusion}{21}
+\contentsline {chapter}{\numberline {4}User Preferences}{23}
+\contentsline {section}{\numberline {4.1}Demographics}{23}
+\contentsline {section}{\numberline {4.2}Traits}{27}
+\contentsline {section}{\numberline {4.3}Groups}{37}
+\contentsline {section}{\numberline {4.4}Pages}{42}
+\contentsline {section}{\numberline {4.5}Conclusion}{46}
+\contentsline {chapter}{\numberline {5}Feature Combinations}{49}
+\contentsline {section}{\numberline {5.1}Positive Feature Selection}{49}
+\contentsline {section}{\numberline {5.2}Summary}{52}
+\contentsline {section}{\numberline {5.3}Future Work}{53}
+\contentsline {chapter}{Bibliography}{55}
