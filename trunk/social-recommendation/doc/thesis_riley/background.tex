@@ -5,37 +5,46 @@
 \chapter{Background}
 \label{cha:back}
 
-In the following, we define the source of our data set, notation used throughout this thesis, our choice of prediction algorithms and 
+In the following section, we define the source of our data set, notation used throughout this thesis, our choice of classification algorithms and 
 our testing appraoch and methodology.
 
 \section{Facebook}
 \label{sec:data}
 
-Facebook is the largest and most active social media service in the world. Facebook users can create a profile containing personal preferences 
-and have friendships and interactions between other users. These interactions can also be liked or commented on by other users.
+Facebook is the largest and most active social media service in the world. Facebook users can create a profile containing personal 
+preferences and information (age, birthgday, group preferences, favourite athlete, etc) and have friendships and interactions 
+between other users. The four main interactions between users are posts (posting an element on a friends' wall), tags
+(being mentioned in a friends post or comment), comments (written data on a post) and likes (clicking a like button if a user 
+likes a post or comment). The three mediums for these interactions are across links (some url), posts (some Facebook post), 
+photos (some uploaded Facebook photo) and videos (some uploaded Facebook video).
 
-discuss feed time for facebook
+One issue present in this Facebook paradigm is discovering whether a user doesn't like an item, a users Facebook feed is comprised of 
+activity between their friends, content, groups, etc given the enormous scope of potential feed items, Facebook will only show feed 
+items for users who you have recently interacted with using their \emph{EdgeRank} ~\cite{edge} algorithm. 
 
-need to show all different ways to interact
+While many Facebook users have a friend count which is close to the human real word limit, known as the Dunbar number 
+~\cite{hill2003social}, the \emph{EdgeRank} algorithm ensures user interactions are focused on a much smaller subset of their friends.
+Additionaly, given the rate of posting, these top feed items are only displayed for a short amount of time. This is coupled 
+with the fact that Facebook allows users to explicitly like an item, but not dislike it - hence distinguishing between what 
+a user does and does not like becomes difficult.
+
+Given this issue, NICTA have developed an app which explicitly determines a users preference for an item, by facilitating explicit 
+like and dislike options, which will be discussed in the following section.
+
+%\cite{backstrom2011center} studied two types of user uses of Facebook, explicit communication interaction and viewing attention. Communication 
+%is focused on a limited subset of friends whilst viewing attention is dispersed among a much larger set. This supports the approach of testing
+%a wide array of user interactiuons and preferences, as each users preferences are driven by where their attention is focused.
 
 \section{LinkR}
 \label{sec:linkr}
 
-NICTA developed a Facebook app named LinkR \footnote{The main developer of the LinkR
-Facebook App is Khoi-Nguyen Tran, a PhD student at the Australian
-National University.  Khoi-Nguyen wrote the user interface and database
-crawling code for LinkR.} 
-which would make recommendations to app users and record whether or not the user liked the item.
+NICTA developed a Facebook app named \emph{LinkR} \footnote{The main developer of the LinkR Facebook App is Khoi-Nguyen Tran, 
+a PhD student at the Australian National University.} which would make recommendations to users and record whether or not the 
+user liked the recommended item.
 
-The dataset includes information about each app user as well as a subset of available data about their friends.
+The app also collected information about users, their interactions and preferences as well as a subset of available information about 
+their friends. The app tracked and stored information for over 100 app users and their 39,000+ friends over a 4-month time period.
 
-The LinkR Facebook app was used to collect information about users, their interactions and preferences. The data set contains information about app users as 
-well as a sub-set of visible information about their friends. The app tracked and stored information for over 100 app users and their 39,000+ friends.
-
-The four main interactions between users are posts (posting an element on a friends' wall), tags (being mentioned in a friends post or comment), 
-comments (written data on a post) and likes (clicking a like button if a user likes a post or comment). The table below outlines data collected during 
-app trials.
- 
 The table below summarises the data collected from both app users and their friends.
 
 \begin{table}[!htbp]
@@ -54,11 +63,11 @@ The table below summarises the data collected from both app users and their frie
 		\textbf{Photo} & 1,098,679 & 8,407,822 & 2,978,635 & 1,960,138 \\ \hline
 		\textbf{Video} & 56,241 & 858,054 & 463,401 & 308,763 \\ \hline
 	\end{tabular}
-	\caption{Data records for interactions between users. Rows are the type of interaction, columns are the context.}
+	\caption{Data records for interactions between users. Rows are the type of interaction, columns are the medium.}
 	\label{tab:revpol}
 \end{table}
 
-Pertanent user data which is collected by the LinkR app includes:
+Pertanent user features we will exploit during this thesis include:
 \begin{itemize}
 \item Gender
 \item Age
@@ -86,31 +95,24 @@ Pertanent user data which is collected by the LinkR app includes:
 
 The mathematical notation used by our classifiers during this thesis are outlined below.
 
-
-define k for exposire
-alters
-
-\begin{figure}[h]
-	\begin{center}
-		\includegraphics[scale=0.60]{imgs/alters.pdf}
-		\caption{Predictors paradigm}
-	\end{center}
-\end{figure}
-
 \begin{itemize}
-\item $N$ users. 
-\item $M$ items.
-\item A user feature set $F$ of size $i$.
-\item A dataset $D$ comprised of $D = \{(n,m,f_i) \to y\}$ with the binary response $y \in \{0,1\}$ where $0$ represents a dislike and $1$ 
-represents a like.
+\item A set of users of size $N$. 
+\item A set of items of size $M$.
+\item A user feature vector $X$ of size $i$, the size of each feature vector varies based on the current user features being analysed
+and is explicitly defined in each section. In other words $X = \langle x_1, x_2, \dots , x_i \rangle$
+\item A set of alters $A$ of size $j$, the size and composition of each alters set varied based on the current user features being 
+analysed and is explicitly defined in each section.
+\item An exposure of size $k$, where each $k$ represents the number of some user $n$'s friends who have liked some item $m$.
+\item A dataset $D$ comprised of $D = \{(n,m,x_i) \to y\}$ with the binary response $y \in \{0,1\}$ where $0$ represents a dislike 
+and $1$ represents a like.
 \end{itemize}
 
-\section{Feature Sets}
+\section{Feature Vectors}
 \label{sec:features}
 
-Need to discuss different feature sets
-
-The feature sets in $x$ can be any of the following, which are discussed further in :::
+Individual feature vectors for $X$ will be discussed and defined in their appropriate sections under \emph{User Interactions} and 
+\emph{User Preferences}. During this thesis we will analyse the results gained from the $7$ different user features listed below, 
+additionaly a combination of the most predictive individual feature vectors will also be tested.
 
 \begin{itemize}
 \item Interactions
@@ -125,99 +127,92 @@ The feature sets in $x$ can be any of the following, which are discussed further
 \section{Previous Work}
 \label{sec:pw}
 
-While many Facebook users have a friend count which is close to the human real word limit, known as the Dunbar number ~\cite{hill2003social},
-this work shows that user interactions are focused on a much smaller subset of their friends.
+Below we discuss previous work done in this classification area completed in 2011 by Joseph Noel.
 
-\cite{backstrom2011center} studied two types of user uses of Facebook, explicit communication interaction and viewing attention. Communication 
-is focused on a limited subset of friends whilst viewing attention is dispersed among a much larger set. This supports the approach of testing
-a wide array of user interactiuons and preferences, as each users preferences are driven by where their attention is focused.
-
-\subsection{Content Based Filtering}
+\subsection{Social Collaborative Filtering}
 \label{sec:cbf}
 
-Content based filtering (CBF) ~\cite{newsweeder} is an extension of the technique of Collaborative filtering (CF) ~\cite{collab_filtering} 
-which predicts whether a user will like an item via information about that users' prefererences as well as that of other users, CBF extends 
-this approach by generalising from the item features which the user has explicitly liked or disliked.
+Two general appraoches to classification prediction are \emph{content-based filtering} (CBF) ~\cite{newsweeder} which exploits 
+item features based on items a user has previously liked, or the second approach which is \emph{collaborative filtering} (CF) 
+~\cite{collab_filtering} which explots the current user's preferences as well as those of other users.
 
-Based on previous user trials ~\cite{joseph} Social Matchbox was the best performing algorithm in live user trials, gaining more likes then
-dislikes and hence will be the base line comparator used in this thesis.
+Previous work defined the term \emph{social} CF (SCF) ~\cite{joseph} which augments traditional CF mtehods with additional social 
+network information, the results of this previous work and analysis came to the conclusion that the approach of \emph{Social Matchbox} (SMB)
+provided the best results for this data set. In live user trials SMB provided the best performance against all other implemented 
+algorithms and as such will be used as a baseline in this thesis.
+
+\section{Training and Testing}
+\label{sec:tt}
+
+All evaluation is done using 10 fold cross validation wherein the data is partitioned into 10 complimentary subsets, each 
+subset is composed of two separate parts, one part is used for training $(80\%)$ and the other $(20\%)$ is used for testing. 
+All training and testing is performed on each distinct fold and the results are averaged along with their standard error in each
+table and graph.
 
 \section{Classification Algorithms}
 \label{sec:meth}
 
-This analysis makes use of the results from a number of different classification algorithms which are outlined below.
+Each classifiction algorithm used in this thesis is passed the training set for each fold as discussed previously. Based on this 
+data and the current feature vector $X$ the classifier builds a model representation of the data and uses this model to classify 
+each component in the test set into either a like or a dislike.
+
+All feature vector analysis carried out in this thesis will be performed on the following classification algorithms.
 
 \subsection{Constant}
 \label{sec:const}
 
-The constant predictor returns a constant result irrespective of the feature vectors selected from above. The most common result in our data
-set is $False$ and hence the $False$ predictor is displayed in our analysis.
+The constant (Constant) predictor returns a constant result irrespective of the feature vectors selected. The most common result 
+in our data set is $False$ and hence the $False$ predictor is displayed in all analysis, tables and graphs.
 
 \subsection{Social Match Box}
 \label{sec:sr}
 
-Social Matchbox uses the Social Regularization method to incorporate the social in-formation of the Facebook data. ~\cite{joseph}
+SMB is an extension of existing SCF techniques~\cite{lla,socinf} which constrain the latent space to enforce users 
+who have similar preferences to maintain similar latent representations when they interact heavily.
 
-What this objective component does is constrain users with a high similarity rating to have the same values in the latent feature space. 
-This models the assumption that users who are similar socially should also have similar preferences for items.
-
-This method is an extension of existing SCF techniques~\cite{lla,socinf} that constrain the latent space to enforce users 
-to have similar preferences latent representations when they interact heavily. Like Matchbox which extends regular matrix factorization
-methods by making use of user and link features, our extension to the Social Regularization method incorporates user features to learn
-similarities between users in the latent space.
-
+SMB uses the \emph{Social Regularization} method which incorporates user features to learn
+similarities between users in the latent space which allows us to incorporate the social information of the Facebook data ~\cite{joseph}.
+This objective component constrains users with a high similarity rating to have the same values in the latent feature space, which
+models the assumption that users who are similar socially should also have similar preferences for items.
 
 \subsection{Naive Bayes}
 \label{sec:nb}
 
-\emph{Naive Bayes} (NB) is a basic predictor which involves applying Bayes' theorem using independence assumptions between each feature in $x$.
+\emph{Naive Bayes} (NB) is a basic probabilistic classifier which involves applying Bayes' theorem using strong conditional independence 
+assumptions between each feature in $X$. During training each element $i$ in the feature vector is devised to contribute some 
+evidence that this $X$ belongs to either a like or dislike classification, during testing the class with the highest probability 
+when applied to the model is the classification returned. 
 
-The NB implementation used during this thesis is an implementation previously devised by \emph{Scott Sanner} \cite{scott}.
+The NB implementation used during this thesis is an implementation previously devised by Scott Sanner.
+\footnote{Scott Sanner is a Senior Researcher in the Machine Learning Group at NICTA and the supervisor for this research.}.
 
 \subsection{Logistic Regression}
 \label{sec:lr}
 
-\emph{Logistic Regression} (LR) predicts the odds of being either a like or a dislike by converting a dependent variable and one or more continuous 
-independent variable(s) into probabability odds.
+\emph{Logistic Regression} (LR) directly estimates paramaters based on the training data assuming a parametric form of the distribution.
+LR predicts the odds of a feature vector $X$ being either a like or a dislike by converting a dependent variable and 
+one or more continuous independent variable(s) into probabability odds.
 
 The LR implementation used during this thesis is \emph{LingPipe} \cite{lin}.
 
 \subsection{Support Vector Machine}
 \label{sec:svm}
 
-The \emph{Support Vector Machine} (SVM) is a supervised learning machine based on a set of basis functions which help construct a separating 
-hyperplane between the data points. Training involves buidling the relevant hyperplanes which can then be used for testing. Each data point is
-classified depending on which side of the hyperplane it falls.
+The \emph{Support Vector Machine} (SVM) is a supervised learning machine based on a set of basis functions which help construct 
+a separating hyperplane between data points. Training involves building the relevant hyperplanes which can then be used for testing. 
+Each data point is classified as a like or dislike depending on which side of the hyperplane it falls.
 
 The SVM implementation used during this thesis is \emph{SVMLibLinear} \cite{cjlin}.
-
-\section{Training and Testing}
-\label{sec:tt}
-
-All evaluation is done using 10 fold cross validation wherein the data is partitioned into 10 complimentary subsets, each subset is composed 
-of two separate parts one section is used for training $(80\%)$ and the other $(20\%)$ is used for testing. This is performed on 10 distinct 
-subsets and the results are averaged across each fold.
-
-"has been shown that positive social annotations on search items adds perceived utiltiy to the worth of a result, particularly with close social
-connections"
-~\cite{pantel}
-
-accuracy and exposure curve
-
-all graphs accuracy
-
-However, if we use only a subset of the data, holding out on only elements which have at least k likes amoung the group of alters 
-we can compare using these exposure curves  which can provide some indicator of a users exposure to a liked item.
 
 \section{Evaluation Metrics}
 \label{sec:notation}
 
-When evaluating the success of each method at correctly predicting the classification, the following metrics will be used.
+When evaluating the success of each feature vector at correctly classifying an item, the following metrics will be analysed.
 
 \begin{itemize}
-\item A \emph{true positive} prediction refers to when the classifier correctly identifies the class as true. 
-\item A \emph{false positive} occurs when the prediction is true, but the true class was false. 
-\item A \emph{false negative} occurs when the prediction is false but the actual class is true.
+\item A \emph{true positive} (TP) prediction refers to when the classifier correctly identifies the class as true. 
+\item A \emph{false positive} (FP) occurs when the prediction is true, but the true class was false. 
+\item A \emph{false negative} (FN) occurs when the prediction is false but the actual class is true.
 \end{itemize}
 
 Accuracy relates to the closeness to the true value. In the context of our results, the accuracy refers to the number of correct classifications 
@@ -225,21 +220,21 @@ divided by the size of the data set.
 
 \[ \text{accuracy} = \frac{\text{number of correct classifications}}{\text{size of the test data set}}\]
 
-Precision relates to the number of retrieved predictions which are relevant. In the context of our results, the precision refers to the number of true positive predictions 
-divided by the sum of the true positive and false positive predictions.
+Precision relates to the number of retrieved predictions which are relevant. In the context of our results, the precision refers to the number of TP predictions 
+divided by the sum of the TP and FP predictions.
 
-\[ \text{precision} = \frac{\text{number of true positives}}{\text{number of true positives + number of false positives}}\]
+\[ \text{precision} = \frac{\text{number of TP}}{\text{number of TP + number of FP}}\]
 
-Recall refers to the number of relevant predictions that are retrieved. In the context of our results, recall refers to the number of true positive predictions 
-divided by the sum of the true positive and false negative predicitons.
+Recall refers to the number of relevant predictions that are retrieved. In the context of our results, recall refers to the number of TP predictions 
+divided by the sum of the TP and FN predicitons.
 
-\[ \text{recall} = \frac{\text{number of true positives}}{\text{number of true positives + number of false negatives}}\]
+\[ \text{recall} = \frac{\text{number of TP}}{\text{number of TP + number of FN}}\]
 
-The f-score combines and balances both precision and recall and is refered to as the weighted average of both precision and recall. 
+The f-score combines and balances both precision and recall and is interpreted as the weighted average of both precision and recall. 
 
 \[ \text{f-score} = 2 \times \frac{\text{precision} \times \text{recall}}{\text{precision} + \text{recall}}\]
 
-The main metric we use for analysis in this thesis is accuracy.
+The main metric we use for analysis, tabulation and graphing in this thesis is accuracy.
 
 %%% Local Variables: 
 %%% mode: latex
