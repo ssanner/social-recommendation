@@ -5,18 +5,18 @@
 \chapter{Feature Combinations}
 \label{cha:bma}
 
-As outlined above, features which positively contributed to our classifiers were from the \emph{Traits}, \emph{Groups} and \emph{Pages} feature 
+As outlined above, features which positively improved classification were from the \emph{Traits}, \emph{Groups} and \emph{Pages} feature 
 vectors. In this section we combine these positive feature vectors together into a larger feature vector comprised of the individual 
 positively contributing elements.
 
-\section{Positive Feature Selection}
+\section{Positive Feature Combination}
 \label{sec:notation}
 
 Using the combined feature vector $X$ where $I$ is comprised of:
 \begin{itemize}
-\item Traits
-\item Groups
-\item Pages
+\item \emph{Traits}
+\item \emph{Groups}
+\item \emph{Pages}
 \end{itemize}
 
 \clearpage
@@ -26,13 +26,16 @@ Applying this feature vector to the data set:
 \begin{figure}[h]
 	\begin{center}
 		\includegraphics[scale=0.75]{results/combination/bar_combination.pdf}
-		\caption{Accuracy results using the \emph{combined} feature set}
+		\caption{Accuracy results using the \emph{Positively Combined} feature set.}
 	\end{center}
 \end{figure}
 
 \clearpage
 
-We find that the \emph{Combination} feature vector gives better results for our classifiers when compared with our baselines.
+We find that the \emph{Combination} feature vector gives better results for our classifiers when compared with our baselines. This 
+holds for all values of $k$ and offers the most predictive feature vector found during this research.
+
+This can be summarised in the table below:
 
 \begin{table}[h]
 \begin{minipage}[b]{.50\textwidth}
@@ -87,22 +90,26 @@ We find that the \emph{Combination} feature vector gives better results for our 
 \end{minipage}
 \end{table}
 
-This shows that based on our results the most predictive feature vector is a combination of the individual best feature vectors found 
-in our \emph{User Preferences} section.
+These tables show that based on our results the most predictive feature vector is a combination of the individual best 
+feature vectors found in our \emph{User Preferences} section.
 
 \clearpage
+
+Applying this same feature vector across our exposure curve:
 
 \begin{figure}[h]
 	\begin{center}
 		\includegraphics[scale=0.75]{results/combination/line_combination.pdf}
-		\caption{Accuracy results for an exposure curve using the \emph{pages} feature set}
+		\caption{Accuracy results for an exposure curve using the \emph{Positively Combined} feature set.}
 	\end{center}
 \end{figure}
 
-This trend continues over the exposure curve with LR, SVM and NB all improving as $k$ increases.
+This trend continues over the exposure curve with LR, SVM and NB all improving as $k$ increases. Again, this feature vector 
+combination provides the most predictive results when compared with all other analysis completed during this thesis.
 
 By extracting the model weights from the case where $k=0$ we can see which components of the \emph{Combination} feature vector were most
 predictive:
+
 PAGES HERE
 
 This shows us that ...

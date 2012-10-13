@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.4.13)  13 OCT 2012 18:05
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.4.13)  13 OCT 2012 20:42
 entering extended mode
  %&-line parsing enabled.
 **thesis.tex
@@ -163,6 +163,21 @@ LaTeX Warning: Label `tab:revpol' multiply defined.
 
 LaTeX Warning: Label `tab:revpol' multiply defined.
 
+
+LaTeX Warning: Label `sec:groups' multiply defined.
+
+
+LaTeX Warning: Label `tab:revpol' multiply defined.
+
+
+LaTeX Warning: Label `tab:revpol' multiply defined.
+
+
+LaTeX Warning: Label `sec:conc' multiply defined.
+
+
+LaTeX Warning: Label `sec:notation' multiply defined.
+
 )
 \openout1 = `thesis.aux'.
 
@@ -245,15 +260,13 @@ LaTeX Font Info:    Font shape `OT1/ppl/bx/n' in size <10> not available
 
 ] [6
 
-] (./thesis.toc)
+] (./thesis.toc [7
+
+])
 \tf@toc=\write4
 \openout4 = `thesis.toc'.
 
- [7
-
-] [8
-
-] (./intro.tex
+ [8] (./intro.tex
 Chapter 1.
 LaTeX Font Info:    Font shape `OT1/ppl/bx/n' in size <12> not available
 (Font)              Font shape `OT1/ppl/b/n' tried instead on input line 5.
@@ -263,21 +276,13 @@ Missing character: There is no ï in font pplr7t!
 Missing character: There is no ¬ in font pplr7t!
 Missing character: There is no ‚ in font pplr7t!
 
-LaTeX Warning: Citation `grano' on page 1 undefined on input line 28.
+Underfull \vbox (badness 4846) has occurred while \output is active []
+
+ [1
 
 
-LaTeX Warning: Citation `watts' on page 1 undefined on input line 28.
-
-
-LaTeX Warning: Citation `Romero2011hashtag' on page 1 undefined on input line 2
-9.
-
-
-LaTeX Warning: Citation `pantel' on page 1 undefined on input line 30.
-
-[1
-
-]) (./background.tex [2]
+])
+(./background.tex [2]
 Chapter 2.
 <results/imageLiked.png, id=39, 312.67836pt x 335.75438pt>
 File: results/imageLiked.png Graphic file (type png)
@@ -288,50 +293,12 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 
 [3
 
-] [4 <./results/imageLiked.png>]
-
-LaTeX Warning: Citation `edge' on page 5 undefined on input line 31.
-
-
-LaTeX Warning: Citation `hill2003social' on page 5 undefined on input line 34.
-
-[5
+] [4 <./results/imageLiked.png>] [5
 
 ] [6
 
-]
-
-LaTeX Warning: Citation `newsweeder' on page 7 undefined on input line 145.
-
-
-LaTeX Warning: Citation `collab_filtering' on page 7 undefined on input line 14
-7.
-
-
-LaTeX Warning: Citation `joseph' on page 7 undefined on input line 149.
-
-[7]
-
-LaTeX Warning: Citation `lla' on page 8 undefined on input line 180.
-
-
-LaTeX Warning: Citation `socinf' on page 8 undefined on input line 180.
-
-
-LaTeX Warning: Citation `joseph' on page 8 undefined on input line 184.
-
-[8]
-
-LaTeX Warning: Citation `lin' on page 9 undefined on input line 206.
-
-
-LaTeX Warning: Citation `cjlin' on page 9 undefined on input line 215.
-
-[9]) (./userInteractions.tex [10]
+] [7] [8] [9]) (./userInteractions.tex [10]
 Chapter 3.
-
-LaTeX Warning: Citation `saez2011high' on page 11 undefined on input line 20.
-
 <imgs/alters.pdf, id=68, 457.71pt x 270.00874pt>
 File: imgs/alters.pdf Graphic file (type pdf)
  <use imgs/alters.pdf>
@@ -429,31 +396,16 @@ Overfull \hbox (22.19206pt too wide) in paragraph at lines 237--238
  [] 
  []
 
-
-LaTeX Warning: Citation `Anderson2012' on page 21 undefined on input line 250.
-
-
-LaTeX Warning: Citation `brandtzag2011facebook' on page 21 undefined on input l
-ine 254.
-
+Missing character: There is no ï in font pplr7t!
+Missing character: There is no ¿ in font pplr7t!
+Missing character: There is no ½ in font pplr7t!
 [21
 
  <./results/incoming/line_incoming.pdf>]) (./userPreferences.tex [22]
 Chapter 4.
-
-LaTeX Warning: Citation `jugand' on page 23 undefined on input line 37.
-
-
-LaTeX Warning: Citation `backstrom2011center' on page 23 undefined on input lin
-e 38.
-
 [23
 
-]
-
-LaTeX Warning: Citation `jugand' on page 24 undefined on input line 78.
-
-[24
+] [24
 
 ] [25
 
@@ -599,48 +551,51 @@ Overfull \hbox (22.19206pt too wide) in paragraph at lines 599--600
  [] 
  []
 
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
 [42
 
- <./results/groups/line_groups.pdf>] [43
+ <./results/groups/line_groups.pdf>] [43] [44
 
 ]
-<results/pages/top_pages.pdf, id=859, 578.16pt x 433.62pt>
+<results/pages/top_pages.pdf, id=862, 578.16pt x 433.62pt>
 File: results/pages/top_pages.pdf Graphic file (type pdf)
 
 <use results/pages/top_pages.pdf>
-Overfull \hbox (22.19206pt too wide) in paragraph at lines 668--669
- [] 
- []
-
-[44
-
- <./results/pages/top_pages.pdf>]
-<results/pages/bar_pages.pdf, id=912, 578.16pt x 433.62pt>
-File: results/pages/bar_pages.pdf Graphic file (type pdf)
-
-<use results/pages/bar_pages.pdf>
-Overfull \hbox (22.19206pt too wide) in paragraph at lines 694--695
+Overfull \hbox (22.19206pt too wide) in paragraph at lines 685--686
  [] 
  []
 
 [45
 
- <./results/pages/bar_pages.pdf>]
-<results/pages/line_pages.pdf, id=953, 578.16pt x 433.62pt>
-File: results/pages/line_pages.pdf Graphic file (type pdf)
+ <./results/pages/top_pages.pdf>]
+<results/pages/bar_pages.pdf, id=915, 578.16pt x 433.62pt>
+File: results/pages/bar_pages.pdf Graphic file (type pdf)
 
-<use results/pages/line_pages.pdf>
-Overfull \hbox (22.19206pt too wide) in paragraph at lines 708--709
+<use results/pages/bar_pages.pdf>
+Overfull \hbox (22.19206pt too wide) in paragraph at lines 711--712
  [] 
  []
 
-) (./bayesianAvg.tex [46
+[46
 
- <./results/pages/line_pages.pdf>] [47] [48
+ <./results/pages/bar_pages.pdf>]
+<results/pages/line_pages.pdf, id=956, 578.16pt x 433.62pt>
+File: results/pages/line_pages.pdf Graphic file (type pdf)
 
-]
+<use results/pages/line_pages.pdf>
+Overfull \hbox (22.19206pt too wide) in paragraph at lines 725--726
+ [] 
+ []
+
+) (./bayesianAvg.tex [47
+
+ <./results/pages/line_pages.pdf>] [48]
 Chapter 5.
-[49] <results/combination/bar_combination.pdf, id=1013, 578.16pt x 433.62pt>
+[49
+
+] <results/combination/bar_combination.pdf, id=1013, 578.16pt x 433.62pt>
 File: results/combination/bar_combination.pdf Graphic file (type pdf)
 
 <use results/combination/bar_combination.pdf>
@@ -651,17 +606,17 @@ Overfull \hbox (22.19206pt too wide) in paragraph at lines 28--29
 [50
 
  <./results/combination/bar_combination.pdf>]
-Overfull \hbox (2.08049pt too wide) in paragraph at lines 38--88
+Overfull \hbox (2.08049pt too wide) in paragraph at lines 41--91
 [][] [] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 38--88
+Underfull \hbox (badness 10000) in paragraph at lines 41--91
 
  []
 
 
-Overfull \hbox (2.08049pt too wide) in paragraph at lines 38--88
+Overfull \hbox (2.08049pt too wide) in paragraph at lines 41--91
 [] [] 
  []
 
@@ -671,17 +626,17 @@ Overfull \hbox (2.08049pt too wide) in paragraph at lines 38--88
 File: results/combination/line_combination.pdf Graphic file (type pdf)
 
 <use results/combination/line_combination.pdf>
-Overfull \hbox (22.19206pt too wide) in paragraph at lines 97--98
+Overfull \hbox (22.19206pt too wide) in paragraph at lines 102--103
  [] 
  []
 
 ) (./conclusion.tex [52
 
  <./results/combination/line_combination.pdf>]
-
-LaTeX Warning: Citation `jugand' on page 53 undefined on input line 37.
-
-) [53] [54
+LaTeX Font Info:    Font shape `OT1/ppl/bx/it' in size <10.95> not available
+(Font)              Font shape `OT1/ppl/b/it' tried instead on input line 30.
+) [53]
+[54
 
 ] (./thesis.bbl
 Underfull \hbox (badness 2042) in paragraph at lines 24--30
@@ -715,23 +670,24 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 2286 strings out of 495061
- 29715 string characters out of 1182621
- 87343 words of memory out of 3000000
- 5336 multiletter control sequences out of 15000+50000
- 46031 words of font info for 115 fonts, out of 3000000 for 9000
+ 2290 strings out of 495061
+ 29766 string characters out of 1182621
+ 88432 words of memory out of 3000000
+ 5338 multiletter control sequences out of 15000+50000
+ 47134 words of font info for 117 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
- 27i,10n,21p,399b,300s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 27i,11n,21p,400b,300s stack positions out of 5000i,500n,10000p,200000b,50000s
 {/usr/share/texmf-texlive/fonts/enc/dvips/base/8r.enc}</usr/share/texmf-texli
 ve/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-texlive/fonts/typ
 e1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-texlive/fonts/type1/public/a
 msfonts/euler/eurm10.pfb></usr/share/texmf-texlive/fonts/type1/urw/palatino/upl
-b8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/palatino/uplr8a.pfb></usr/sha
-re/texmf-texlive/fonts/type1/urw/palatino/uplr8a.pfb></usr/share/texmf-texlive/
-fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on thesis.pdf (64 pages, 777656 bytes).
+b8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/palatino/uplbi8a.pfb></usr/sh
+are/texmf-texlive/fonts/type1/urw/palatino/uplr8a.pfb></usr/share/texmf-texlive
+/fonts/type1/urw/palatino/uplr8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/
+palatino/uplri8a.pfb>
+Output written on thesis.pdf (64 pages, 786945 bytes).
 PDF statistics:
- 1145 PDF objects out of 1200 (max. 8388607)
+ 1149 PDF objects out of 1200 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  111 words of extra memory for PDF output out of 10000 (max. 10000000)
 
