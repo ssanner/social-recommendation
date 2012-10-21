@@ -14,18 +14,17 @@ method improves with exposure
 
 In this thesis we have tested and compared an exhaustive list of different affinity features across varied exposures sizes.
 
-We have shown that \emph{user interaction} affinity features in themselves are not predictive of user likes, however coupled with user 
+We have demonstrated that \emph{user interaction} affinity features in themselves are not predictive of user likes, however coupled with user 
 exposure, they show a comprehensive improvement over our baselines.
 
 We have also shown the interesting result that \emph{user preference} affinity features are more predictive of user likes when compared
 with our baselines and this trend continues with user exposure.
 
-To answer the question initially proposed for this thesis:
-We have shown the affinity features which provide the highest predictiveness of user likes come from \emph{user preferences} and not
+To answer the question initially proposed for this thesis, we have shown the affinity features which provide the highest predictiveness of user likes come from \emph{user preferences} and not
 \emph{user interactions}. The most predictive features found in this analysis are \emph{favourites}, \emph{group memberships} 
 and \emph{page likes}.
 
-Which is the exciting novel insight examined proposed in this thesis.
+This provides the exciting and novel insights examined during this thesis.
 
 \section{Future Work}
 \label{sec:ftw}
@@ -36,7 +35,7 @@ Proposed future work can be summarised under the following points:
 \item \textbf{Increase size ranges}: Given our maximum test sizes for \emph{groups} and \emph{pages} of $1000$ this size could be 
 increased to find the optimal testing range for each of our classifiers.
 \item \textbf{Passive likes}: Given the Facebook model of allowing users to like but not dislike data, explicit dislike data can not be 
-gleaned from Facebook, which is hence why the NICTA sourced active likes data was used for this evaluation. An approach could be developed 
+gleaned from Facebook, which is why NICTA sourced active likes data was used for this evaluation. An approach could be developed 
 which can predict whether a user will have seen an item (online timestamps, recent interactions with user) and can infer that if the 
 user did not like the item then they disliked it. This data set could then be applied to the testing methodology undertaken above.
 \item \textbf{Cold start}: Leaving out some subset of users when training our models, but including them during testing to explore their 

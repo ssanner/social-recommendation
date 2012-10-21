@@ -70,10 +70,11 @@ and the length and components of $I$ are uniquely defined for each affinity feat
 \item A set of items $V$.
 \item A friend function $Friend_{u,z}$ which is $True$ when users $u$ and $z$ are friends.
 \item A liked function $Liked_{u,v}$ which is $True$ when user $u$ likes item $v$.
-\item A relationship $R$ between users where $R_{u,z}$ is uniquely defined for each affinity feature.
+\item A relationship $R$ between users where $R_{i,u}$ is uniquely defined for each affinity feature.
 \item An alters set $A$ for each user $u$ item $v$ pair, based on some relationship $R$ between other users $z$. 
 Where $a_{u,v,r} = \{z | R_{u,z} \wedge Likes_{z,v}\}$.
 
+\clearpage
 This alters set can be visualised in the figure below:
 
 \begin{figure}[tbh!]
@@ -91,7 +92,7 @@ This exposure can be visualised in the figure below:
 
 \begin{figure}[tbh!]
 	\begin{center}
-		\includegraphics[scale=0.85]{results/imageLiked.png}
+		\includegraphics[scale=0.7]{results/imageLiked.png}
 		\caption{Here we see an example of a link posted to a friends wall, which has subsequently been liked by two friends $z$. This 
 				 demonstrates an exposure of $2$ for this link $m$.}
 	\end{center}
@@ -117,7 +118,7 @@ The individual components of these groups are displayed below:
 
 \emph{User preferences}:
 \begin{itemize}
-\item \emph{Demographics} : Age, Gender, Hometown.
+\item \emph{Demographics} : Age, Gender, Location.
 \item \emph{Favourites} : Activities, Books, Athletes, Teams, Movies, Music, Sports, Television, Movies, People, Interests.
 \item \emph{Groups} : All groups a user has joined.
 \item \emph{Pages} :  All pages a user has liked.
@@ -149,7 +150,7 @@ these subsets are used for training while the remaining $20\%$ are used for test
 
 The training and testing process is repeated $10$ times for each set of fold data. These results are then averaged to produce our 
 estimates and standard error. The benefit of this method over repeated sub-sampling is all data points are used for both training 
-and validatation.
+and validation.
 
 \section{Classification Algorithms}
 \label{sec:meth}
@@ -202,9 +203,14 @@ $\mathrm{classify}(f_1,\dots,f_n) = \underset{c \in \{1,0\}}{\operatorname{argma
 LR predicts the odds of a feature vector $X$ being either a like or a dislike by converting a dependent variable and 
 one or more continuous independent variable(s) into probability odds.
 
-With feature vector $f \in \mathbb{R}^F$ derived from $(x,y) \in D$, denoted as $f_{x,y}$. The linear predictor function $f(i)$ for a particular 
-data point $i$ is written as $f(i) = \beta_0 + \beta_1 x_{1,i} + \cdots + \beta_M x_{m,i}$, where $\beta_0, \ldots, \beta_M$ are 
-regression co-efficients indicating the relative effect of a particular explanatory variable $x_{m,i}$ on the outcome.
+The probability $p_i$ is modelled using a linear predictor function $l(i)$, the linear predictor function of a particular point $d$ 
+is written as $l(i) = \beta_0 + \beta_1 x_{1,i} + \cdots + \beta_M x_{m,i}$, where each data point $d$ is associated with an explanatory 
+feature vector $X$ and $\beta_0, \ldots, \beta_M$ are regression co-efficients indicating the relative effect of a particular 
+explanatory variable $x_{m,i}$ on the prediction.
+
+The probability of a particular outcome is linked to the linear prediction function, 
+$\operatorname{logit}(\mathbb{E}[Y_i|x_{1,i},\ldots,x_{m,i}]) = \operatorname{logit}(p_i)=\ln\left(\frac{p_i}{1-p_i}\right) = \beta_0 + \beta_1 x_{1,i} + \cdots + \beta_M x_{m,i}$
+Where the class of either dislike ($0$) or like ($1$) with the higher probability is the prediction made.
 
 The LR implementation used during this thesis is \emph{LingPipe} \cite{lin}.
 
@@ -223,7 +229,7 @@ The SVM implementation used during this thesis is \emph{SVMLibLinear} \cite{cjli
 \section{Evaluation Metrics}
 \label{sec:notation}
 
-When evaluating the success of each afinnity feature at correctly classifying an item, the following metrics have been analysed.
+When evaluating the success of each affinity feature at correctly classifying an item, the following metrics have been analysed.
 
 \begin{itemize}
 \item A \emph{true positive} (TP) prediction refers to when the prediction correctly identifies the class as true. 

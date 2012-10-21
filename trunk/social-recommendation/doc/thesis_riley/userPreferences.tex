@@ -5,22 +5,27 @@
 \chapter{User Preferences}
 \label{cha:ivg}
 
-demographics gender and age are predictive
+In this chapter we will compare the predictiveness of applying different types of \emph{user preferences} as our feature vector.
 
-In this section we will discuss the effects of applying different types of \emph{User Preferences} as the feature vector and 
-their predictive tendencies within our data set.
+The \emph{user preferences} we examine during this thesis are:
+\begin{itemize}
+\item \textbf{Demographics} : Age, Gender, Location.
+\item \textbf{Favourites} : Activities, Books, Athletes, Teams, Movies, Music, Sports, Television, People, Interests.
+\item \textbf{Groups} : All groups a user has joined.
+\item \textbf{Pages} :  All pages a user has liked.
+\end{itemize}
 
 \section{Demographics}
 \label{sec:demo}
 
-The \emph{Demographics} data we are interested in includes:
+The \emph{demographics} data we are interested in includes:
 \begin{itemize}
 \item \textbf{Age}
 \item \textbf{Birthday}
-\item \textbf{Locale}
+\item \textbf{Location}
 \end{itemize}
 
-Below we will give a basic analysis of the \emph{Demographics} data when extracted from our data set.
+Below we will give a basic analysis of the \emph{demographics} data in our data set.
 
 Gender breakdown:
 % select count(*), lu.gender from linkrUser lu where lu.uid in (SELECT distinct uid FROM trackRecommendedLinks) group by gender;
@@ -32,14 +37,14 @@ Gender breakdown:
 		\textbf{Male} & \textbf{Female} & \textbf{Undisclosed}  \\ \hline
 		85 & 33 & 1 \\ \hline
 	\end{tabular}
-	\caption{Gender breakdown for users.}
+	\caption{Gender breakdown for app users. We see a strong male bias.}
 	\label{tab:revpol}
 \end{table}
 
 Despite this clear male bias \cite{jugand} found that in a social setting, there are no strong gender homophily tendencies. Hence the male 
 skew should not negatively affect our results. Additionally \cite{backstrom2011center} have shown that different genders have differing 
-tendencies to disperse interactions across genders, implying our male skew should be unimportant. Hence gender information will be used in 
-the \emph{Demographics} feature vector.
+tendencies to disperse interactions across genders, implying our gender bias is unimportant and hence gender information will be used in 
+the \emph{demographics} feature vector.
 
 \clearpage
 
@@ -73,12 +78,13 @@ Birthday breakdown:
 		1991-1995 & 25 \\ \hline
 		1996-2000 & 2 \\ \hline
 	\end{tabular}
-	\caption{Birthday breakdown}
+	\caption{Birthday breakdown for app users. There is a clear densely populated age range of around $18 - 30$.}
 	\label{tab:revpol}
 \end{table}
 
-Birthdays are grouped in a distinct range, most users in this data set are grouped in the age ranges of ~$\{18 - 30\}$. \cite{jugand} have 
-found that there is a strong effect of age on friendship preferences. Hence birthday information will be used in this feature vector.
+Birthdays are grouped in a distinct range, most users in this data set are grouped in the range of around $18 - 30$. 
+\cite{jugand} have found that there is a strong effect of age on friendship preferences, which implies that many of our app users 
+should share similar preferences and hence birthday information will be a useful component of this feature.
 
 \clearpage
 
@@ -102,150 +108,209 @@ Location breakdown:
 		Frederick, Maryland & 3 \\ \hline
 		Geelong, Victoria & 1 \\ \hline
 	\end{tabular}
-	\caption{Location breakdown}
+	\caption{Location breakdown for app users. Most users are either undisclosed of based in Canberra where this app was developed.}
 	\label{tab:revpol}
 \end{table}
 
-Given the fact that most users are either situated in the ACT (location of the app development and deployment) or are undisclosed, 
-location information will not be used for this feature vector.
+Given the fact that most app users are either situated in Canberra (location of the app development and deployment) or are undisclosed, 
+location information will not be used by this feature vector.
 
-For \emph{Demographics} the $I$ of our feature vector $X$ is defined by the following conditions:
+For \emph{demographics} each user $u$, item $v$ and feature vector $x$ the alters set is defined as $ alters_{u,v} = \{z | Liked_{z,v}\} $
+the relationships $R$ are explicitly defined below:
+
 \begin{itemize}
-\item Whether the user is male.
-\item Whether the user is female.
-\item Whether the user and any user in the alters set share the same gender.
-\item Whether the user and any user in the alters are of a different gender.
-\item Whether the user and any user in the alters set share the same birth range.
+\item $x_1 = $ Whether the user $u$ is male, $gender_u = male$.
+\item $x_2 = $ Whether the user $u$ is female, $gender_u = female$.
+\item $x_3 = $ Whether the user $u$ and any user in the alters set share the same gender, $gender_u \in \{gender_{\{alters\}}\}$.
+\item $x_4 = $ Whether the user $u$ and any user in the alters are of a different gender, $gender_u \not\in \{gender_{\{alters\}}\}$.
+\item $x_5 = $ Whether the user $u$ and any user in the alters set share the same birth range, $birthday_u \in \{birthday_{\{alters\}}\}$.
 \end{itemize}
 
-
-
-
-Denote the set of 
-$G \in \{m,f\}$
-
-$u = male$
-$u = female$
-$u = male \land $
-
-$u = male \land \exists male \in \{alters\}$
-
-The alters of $I$ can then be defined as the set of users who have liked the current item $M$.
-Each component of $I$ is set to $1$ if any of the alters have meet the conditions described above, in comparison (where required) 
-with the user $n$, otherwise it is set to $0$.
+Where the functions $gender_u \in \{male, female\}$ returns the gender of $u$ and $birthday_u \in range (1935-2000)$ returns the birthday range for $u$.
 
 \clearpage
 
-Applying this feature vector to our classifiers we obtain:
+Applying this feature to our classifiers we obtain:
 
 \begin{figure}[h]
 	\begin{center}
 		\includegraphics[scale=0.75]{results/demographics/bar_demographics.pdf}
-		\caption{Accuracy results using the \emph{Demographics} feature vector.}
+		\caption{Accuracy results using \emph{demographics} features. \emph{Demographics} are our best performing feature so far for $k=0$, 
+				 however we still do not outperform our SMB baseline.}
 	\end{center}
 \end{figure}
 
-The \emph{Demographics} feature vector shows our first positive results, this feature vector almost performs as well as our 
-SMB baseline for the case of $k = 0$.
+The \emph{demographics} feature vector provides our best results so far for the case when $k=0$, however it is still less predictive then 
+our SMB baseline.
 
 \clearpage
 	
-Comparing \emph{Demographics} against our exposure curve we obtain:
+Comparing \emph{demographics} against exposure we obtain:
 	
 \begin{figure}[h]
 	\begin{center}
 		\includegraphics[scale=0.75]{results/demographics/line_demographics.pdf}
-		\caption{Accuracy results for an exposure curve using the \emph{Demographics} feature vector. Note in this case Constant = NB and LR = SVM.}
+		\caption{Accuracy results for exposure using the \emph{demographics} features. As $k$ increases the predictiveness of \emph{demographics} substantially 
+				 increases with it. Clearly gender and age are both predictive. Note in this case Constant = NB and LR = SVM.}
 	\end{center}
 \end{figure}
 
-The exposure curve for \emph{Demographics} shows a sizable improvement over our baselines as our $k$ increases. This demonstrates that as the
-number of friends who like an item increases, the probability that a user will like that item also increases. This positive corelation between
-number of likes and user likes increases with each $k$.
+The exposure for \emph{demographics} shows a sizable improvement over our baselines as our $k$ increases. This demonstrates that as the
+number of friends who like an item increases, the predictiveness of our \emph{demographics} feature increases. Clearly, both gender and 
+age are predictive \emph{user features}.
 
-\section{Traits}
+\section{Favourites}
 \label{sec:traits}
 
-Facebook facilitates a wide variety of user chosen preferences which we have defined as \emph{Traits}. 
-These \emph{Traits} allow users to define under a specific area of their profile different areas or activities they are interested in 
-or associate with.
+Facebook facilitates a wide variety of user selected \emph{favourites}. 
 
-User \emph{Traits} we will investigate include:
+The \emph{favourites} we will investigate include:
 \begin{itemize}
-\item Activities
-\item Books
-\item Athletes
-\item Teams
-\item Inspirational People
-\item Interests
-\item Movies
-\item Music
-\item Sports
-\item Television
+\item \textbf{Activities}
+\item \textbf{Athletes}
+\item \textbf{Books}
+\item \textbf{Interests}
+\item \textbf{Movies}
+\item \textbf{Music}
+\item \textbf{People}
+\item \textbf{Sports}
+\item \textbf{Teams}
+\item \textbf{Television}
 \end{itemize}
 
-Below we display graphs for the different \emph{Traits} sets extracted from our data set. Followed by a subsequent analysis.
-Each table shows only the frequency of app users for each of the \emph{Traits}.
+Memberships of different \emph{favourite} categories can be partitioned into three sets (high, medium, low) based on membership 
+frequency of our app users. 
 
+Below we display example tables of the the three different frequency categories: (A full table set can be found in \emph{Appendix A}).
+\begin{table}[h]
+\begin{minipage}[b]{.30\textwidth}
+\centering
+  \begin{tabular}{|l|l|} % cols: (left, center, right)
+  \hline
+  	\small{\textbf{F}} & \small{\textbf{Television}} \\ \hline
+		\small{20} & \small{The Big Bang [..]} \\ \hline
+		\small{19} & \small{How I Met [..]} \\ \hline
+		\small{14} & \small{The Simpsons} \\ \hline
+		\small{13} & \small{Top Gear} \\ \hline
+		\small{12} & \small{Futurama} \\ \hline
+		\small{12} & \small{Scrubs} \\ \hline
+		\small{11} & \small{Black Books} \\ \hline
+		\small{10} & \small{Black Books} \\ \hline
+		\small{10} & \small{South Park} \\ \hline
+		\small{10} & \small{Family Guy} \\ \hline
+		\small{9} & \small{The Daily Show} \\ \hline
+		\small{8} & \small{The IT Crowd} \\ \hline
+		\small{8} & \small{FRIENDS} \\ \hline
+		\small{7} & \small{True Blood} \\ \hline
+		\small{7} & \small{MythBusters} \\ \hline
+  \end{tabular}
+  \caption{Top \emph{Television} shows for app users.}
+\end{minipage}
+\begin{minipage}[b]{.30\textwidth}
+\centering
+  \begin{tabular}{|l|l|} % cols: (left, center, right)
+  \hline
+  	\small{\textbf{F}} & \small{\textbf{Interest}} \\ \hline
+		\small{5} & \small{Movies} \\ \hline
+		\small{5} & \small{Music} \\ \hline
+		\small{3} & \small{Cooking} \\ \hline
+		\small{3} & \small{Sports} \\ \hline
+		\small{2} & \small{Psychology} \\ \hline
+		\small{2} & \small{Internet} \\ \hline
+		\small{2} & \small{Video Games} \\ \hline
+		\small{2} & \small{Martial arts} \\ \hline
+		\small{2} & \small{Literature} \\ \hline
+		\small{2} & \small{Economics} \\ \hline
+		\small{2} & \small{Tennis} \\ \hline
+		\small{2} & \small{Badminton} \\ \hline
+		\small{2} & \small{Artificial intelligence} \\ \hline
+		\small{2} & \small{Computers} \\ \hline
+		\small{2} & \small{Travel} \\ \hline
+  \end{tabular}
+  \caption{Top \emph{Interests} for app users.}
+\end{minipage}
+\begin{minipage}[b]{.30\textwidth}
+\centering
+  \begin{tabular}{|l|l|} % cols: (left, center, right)
+  \hline
+  		\small{\textbf{F}} & \small{\textbf{People}} \\ \hline
+  		\small{2} & \small{Alan Turing} \\ \hline
+		\small{1} & \small{Bender} \\ \hline
+		\small{1} & \small{Maurice Moss} \\ \hline
+		\small{1} & \small{Steve Jobs} \\ \hline
+		\small{1} & \small{Sean Parker} \\ \hline
+		\small{1} & \small{Pope Benedict XVI}\\ \hline
+		\small{1} & \small{Martin Luther} \\ \hline
+		\small{1} & \small{Alistair McGrath} \\ \hline
+		\small{1} & \small{St Augustine} \\ \hline
+		\small{1} & \small{Dennis Ritchie} \\ \hline
+		\small{1} & \small{Linus Torvalds} \\ \hline
+		\small{1} & \small{Richard Stallman} \\ \hline
+		\small{1} & \small{C. S. Lewis} \\ \hline
+		\small{1} & \small{Mike Oldfield} \\ \hline
+		\small{1} & \small{Ryan Giggs} \\ \hline
+  \end{tabular}
+  \caption{\emph{Inspirational people} for app users.}
+\end{minipage}
+\end{table}
 
-The \emph{Traits} graphed above can be broken down into three distinct sets based on their locality within the app user base.
-
+The different frequency levels (high, medium, low) between \emph{favourites} is summarised below:
 \begin{itemize}
-\item \textbf{High Locality}: \emph{Music}, \emph{Movies}, \emph{Television} - Showing our app users appear to share similar \emph{Traits} in a media 
+\item \textbf{High Locality}: \emph{Music}, \emph{Movies}, \emph{Television} - Showing our app users appear to share similar \emph{favourites} in a media 
 setting.
 \item \textbf{Medium Locality}: \emph{Activities}, \emph{Books}, \emph{Interests}, \emph{Sports} - Showing our app users share some degree of similar preferences 
-across these \emph{Traits}.
+across these \emph{favourites}.
 \item \textbf{Low Locality}: \emph{Inspirational People}, \emph{Athletes}, \emph{Teams} - Showing our app users do not share many similar preferences  
-across these \emph{Traits}.
+across these \emph{favourites} involving specific people and teams.
 \end{itemize}
 
-For each \emph{Traits} group the $I$ of our feature vector $X$ is defined by the following conditions:
-\begin{itemize}
-\item $I \in \{Activities, Books, Athletes, Teams, Inspirational People, Interests, Music, 
-\\ Movies, Sports, Television\}$.
-\end{itemize}
+For \emph{favourites} each user $u$ and feature vector $x$ is defined as:
 
-The alters of $I$ can then be defined as the set of users who have liked the current item $M$.
-Each component of $I$ is set to $1$ if any of the alters have meet the conditions described above for each $t$, in comparison 
-with the user $n$, otherwise it is set to $0$.
+\[ I = \{Activities, Athletes, Books, Interests, Movies, Music, People, Sports, Teams, Television\} \]
 
-\clearpage
+The alters set for each $i$ is conditioned by the relationship $R$, where:
+
+\[ R_{i,u,v} = \{z | Liked_{z,v} \wedge Favourite_{u,v,i}\} \]
+
+In this case the $Favourite$ function returns whether user $u$ and user $z$ both share a \emph{favourite} via the current \emph{favourite} $i$.
 
 Applying this feature vector to our classifiers we obtain:
 
 \begin{figure}[h]
 	\begin{center}
 		\includegraphics[scale=0.75]{results/traits/bar_traits.pdf}
-		\caption{Accuracy results using the \emph{Traits} feature vector.}
+		\caption{Accuracy results using the \emph{favourites} feature. \emph{Favourites} are our first feature more predictive then SMB
+				 for the case when $k=0$, indicating that \emph{favourites} are highly predictive of user preferences.}
 	\end{center}
 \end{figure}
 
-The \emph{Traits} feature vector shows our first improvement over our SMB baseline in the LR and SVM case for $k=0$ demonstrating that 
-\emph{Traits} are more predictive then user likes for any previously applied method.
+The \emph{favourites} feature shows our first improvement over our SMB baseline in both the LR and SVM case for $k=0$ demonstrating that 
+\emph{favourites} are more predictive then any previously applied feature.
 
-\clearpage
-
-Comparing \emph{Traits} against our exposure curve we obtain:
+Comparing \emph{favourites} across our exposure we obtain:
 
 \begin{figure}[h]
 	\begin{center}
 		\includegraphics[scale=0.75]{results/traits/line_traits.pdf}
-		\caption{Accuracy results for an exposure curve using the \emph{Traits} feature vector.}
+		\caption{Accuracy results against exposure using the \emph{favourites} features. Clearly, \emph{favourites} are more predictive of
+				 user preferences compared with our baselines across all exposures $k$.}
 	\end{center}
 \end{figure}
 
-This trend continues across the exposure curve where each successive increase of $k$ causes the performance of our classifiers to increase.
+This predictive trend continues with exposure where each successive increase of $k$ causes the performance of our classifiers to increase
+using the \emph{favourites} features.
 
 \clearpage
 
-By extracting the model weights from the case where $k=0$ we can see which \emph{Traits} contain the most predictive qualities:
+Given this predictive result, we extract the model weights for the most predictive classifier of LR from the case where $k=0$.
+In the following table we can see which \emph{favourites} contribute the most predictive qualities:
 
 \begin{table}[h]
 \begin{minipage}[b]{1.0\textwidth}
 \centering
   \begin{tabular}{|l|l|l|l|} % cols: (left, center, right)
   \hline
-  		\textbf{Trait} & \textbf{Weight} & \textbf{Frequency} \\ \hline
+  		\textbf{Favourite} & \textbf{Weight} & \textbf{Frequency} \\ \hline
 		Activities & -5.927 $\pm$ 0.001 & 281 \\ \hline
 		Television & -5.210 $\pm$ 0.0 & 1,029 \\ \hline
 		Music & -3.409 $\pm$ 0.001 & 629 \\ \hline
@@ -254,26 +319,25 @@ By extracting the model weights from the case where $k=0$ we can see which \emph
 		Sports & -1.820 $\pm$ 0.001 & 27 \\ \hline		
 		Books & -1.769 $\pm$ 0.0 & 163 \\ \hline		
   \end{tabular}
-  \caption{\emph{Logistic Regression} feature weights extracted for the case where $k=0$. The \emph{Trait} column shows which \emph{Trait}
-  is being displayed. The \emph{Weight} column shows the weighting given for this \emph{Trait}. The \emph{Yes'} column displays the number of times 
-  this feature vector was set to $1$ for a user and the \emph{Distinct} column displays the number of unique times the feature vector 
-  was set to $1$.}
+  \caption{LR feature weights extracted for the case where $k=0$. The \emph{favourite} column displays the current \emph{favourite}.
+  The \emph{weight} column shows the weighting given for this \emph{favourite} and the \emph{frequency} column displays the number of times 
+  this \emph{favourite} was set to $1$. We find that both high and medium frequency \emph{favourites} are most predictive.}
 \end{minipage}
 \end{table}
 
-This shows us that \emph{Traits} which exhibit a medium to high degree of locality have a larger influence during classification. 
-\cite{brandtzag2011facebook} found that virtual interactions help reveal common interests, while real world interactions helps 
-to support friendships. These common interests investigated above are clearly predictive of user likes.
+This table shows that the \emph{favourites} which exhibit a high to medium frequency have a larger influence during prediction. 
 
-\clearpage
+\cite{brandtzag2011facebook} found that virtual interactions help reveal common interests, while real world interactions help 
+support friendships. Our data supports this, these common interests or \emph{favourites} investigated above are clearly predictive 
+of user likes, providing our most predictive results so far.
+
 
 \section{Groups}
 \label{sec:groups}
 
-Facebook facilitates users to join \emph{Groups} for a large and varied set of different types ranging from 
-local sports teams and political preferences to computer games.
-
-\clearpage
+Facebook facilitates users to join \emph{groups} for a large number of different types ranging from 
+local sports teams and political preferences to computer games. These \emph{groups} facilitate users to associate
+themselves with other who users who also share this same \emph{group} preference.
 
 The most popular groups for our app users are shown below:
 
@@ -283,7 +347,7 @@ The most popular groups for our app users are shown below:
 \centering
 	\begin{tabular}{|l|l|} % cols: (left, center, right)
 		\hline
-		\textbf{\small{Group Name}} & \textbf{\small{Frequency}}  \\ \hline
+		\textbf{\small{Frequency}} & \textbf{\small{Group Name}}  \\ \hline
 		27 & \small{ANU StalkerSpace} \\ \hline
 		20 & \small{Facebook Developers} \\ \hline
 		15 & \small{ANU CSSA} \\ \hline
@@ -310,15 +374,15 @@ The most popular groups for our app users are shown below:
 		5 & \small{The Great Australian Internet Blackout} \\ \hline
 		5 & \small{When I was your age, Pluto was a planet.} \\ \hline
 	\end{tabular}
-	\caption{App users popular \emph{Groups} breakdown.}
+	\caption{Popular \emph{groups} breakdown for our app users. The \emph{groups} joined by our app users exhibit a high 
+			 degree of locality, many of these top rated \emph{groups} have an ANU and Canberra focus.}
 	\label{tab:revpol}
 \end{table}
 
-\clearpage
+The most popular \emph{groups} joined by our app users exhibit a high degree of ANU and Canberra based locality. Additionally the 
+frequencies of these top \emph{groups} are consistent with the most predictive \emph{favourites} outlined in the previous section.
 
-In comparison with \emph{Traits}, \emph{Groups} show a higher locality among the most popular groups.
-
-Given the quantity of groups on Facebook, we need to find some optimal test size $j$ for our data set. 
+Given the quantity of \emph{groups} on Facebook, we need to find some optimal \emph{group} test size $j$ for our data set. 
 Given memory and time constraints we tested within a range of $\{100-1000\}$ with an incremental step size of $100$ for each test.
 
 \clearpage
@@ -328,58 +392,65 @@ The results for these tests are shown below:
 \begin{figure}[h]
 	\begin{center}
 		\includegraphics[scale=0.75]{results/groups/top_groups.pdf}
-		\caption{Accuracy results for different \emph{Groups} sizes}
+		\caption{Accuracy results for testing using different \emph{group} sizes. Unlike the previous results for the unpredictive \emph{messages} features,
+				 the predictiveness of \emph{groups} increases as the \emph{groups} size increases, implying that the more \emph{groups} the more 
+				 predictive this feature will be.}
 	\end{center}
 \end{figure}
 
-More gruops help. Localitly.
+Here we see as the \emph{group} size increases, the predictiveness of this feature also improves. LR and SVM show a gradual increase 
+as this \emph{group} size increases, alluding to the possibility of an even higher group size being optimal.
 
-The most predictive \emph{Group} sizes $j$ for each of our classifiers are:
+The most predictive \emph{group} sizes $j$ for each of our classifiers are:
 \begin{itemize}
 \item \textbf{Naive Bayes}: 300
 \item \textbf{Logistic Regression}: 900
 \item \textbf{Support Vector Machine}: 800
 \end{itemize}
 
-LR and SVM show a gradual increase as this group size increases, alluding to the possibility of an even higher group size being optimal.
+For \emph{groups} each user $u$ and feature vector $x$ is defined as:
 
-For \emph{Groups} the $I$ of our feature vector $X$ contains an element $i$ for each of the top $j$ groups sizes defined above.
+\[ I = \{Group\} \times \{Number of Groups\} \]
 
-The alters of $I$ can then be defined as all users who have liked the current item $M$.
-Each component of $I$ is set to $1$ if any of the alters are a member of the current group $j$ where $i = j$ along with the 
-current user $n$, otherwise it is set to $0$.
+Where the optimal \emph{groups size} $J$ is defined above for each classifier.
 
-\clearpage
+The alters set for each $i$ is conditioned by the relationship $R$, where:
 
-Using the most predictive \emph{Group} sizes $j$ for each of our classifiers as defined above and comparing to our baselines we obtain:
+\[ R_{i,u,v} = \{z | Liked_{z,v} \wedge GroupLiked_{i,u,z}\} \]
+
+In this case the $GroupLiked$ function returns whether both user $u$ and user $z$ have both liked the \emph{group} at index $i$.
+
+Using the most predictive \emph{group} sizes $j$ for each of our classifiers as defined above and comparing to our baselines we obtain:
 
 \begin{figure}[h]
 	\begin{center}
 		\includegraphics[scale=0.75]{results/groups/bar_groups.pdf}
-		\caption{Accuracy results using the \emph{Groups} feature vector.}
+		\caption{Accuracy results using the \emph{groups} feature vector. We see \emph{groups} are also more predictive over our baselines 
+				 for the case where $k=0$, particularly the LR classifier.}
 	\end{center}
 \end{figure}
 
-Both LR and SVM show an improvement over our SMB baseline for the case of $k = 0$ demonstrating that \emph{Groups} are more predictive then 
-previous methods.
+Both LR and SVM show an improvement over our SMB baseline for the case of $k = 0$ demonstrating that \emph{groups} are predictive features.
 
 \clearpage
 
-Applying the \emph{Groups} feature vector across our exposure curve, we obtain:
+Applying the \emph{groups} feature against our exposure, we obtain:
 
 \begin{figure}[h]
 	\begin{center}
 		\includegraphics[scale=0.75]{results/groups/line_groups.pdf}
-		\caption{Accuracy results for an exposure curve using the \emph{Groups} feature vector.}
+		\caption{Accuracy results against exposure using the \emph{groups} features. Here we see that the predictive trend for the $k=0$
+				 case continues with exposure for both LR and SVM.}
 	\end{center}
 \end{figure}
 
-This trend continues across the exposure curve where each successive increase of $k$ causes the performance of our LR and SVM classifiers to 
-increase.
+This predictive trend continues across with exposure where each successive increase of $k$ causes the performance of our LR and SVM 
+classifiers to increase.
 
 \clearpage
 
-By extracting the model weights from the case where $k=0$ we can see which \emph{Groups} contain the most predictive qualities:
+Given the predictive tendencies of groups, we extract the model weights for the case where $k=0$ to see which \emph{groups} 
+contain the most predictive qualities:
 
 \begin{table}[h]
 \begin{minipage}[b]{1.0\textwidth}
@@ -387,43 +458,42 @@ By extracting the model weights from the case where $k=0$ we can see which \emph
   \begin{tabular}{|l|l|l|l|l|} % cols: (left, center, right)
   \hline
   \textbf{Name} & \textbf{Size} & \textbf{Weight} & \textbf{Frequency} \\ \hline
-ANU StalkerSpace & 1292 & -7.236 $\pm$ 0 & 453 \\ \hline
-Facebook Developers & 487 & -3.442 $\pm$ 0 & 177 \\ \hline
-ANU CSSA & 38 & -2.742 $\pm$ 0 & 191 \\ \hline
-Australian National University & 619 & -2.565 $\pm$ 0 & 70 \\ \hline
-Overheard at the Ateneo de Manila University & 253 & -2.462 $\pm$ 0 & 26 \\ \hline
-iDiscount ANU & 338 & -2.203 $\pm$ 0 & 88 \\ \hline
-PETITION FOR FACEBOOK TO INSTALL A DISLIKE BUTTON & 683 & -2.018 $\pm$ 0 & 92 \\ \hline
-I grew up in Australia in the 90s & 731 & -1.991 $\pm$ 0 & 75 \\ \hline
-Grow up Australia - R18+ Rating for Computer Games & 222 & -1.951 $\pm$ 0 & 102 \\ \hline
-Heavy Metal - CANBERRA METAL & 30 & -1.694 $\pm$ 0 & 42 \\ \hline
+\small{ANU StalkerSpace} & 1292 & -7.236 $\pm$ 0 & 453 \\ \hline
+\small{Facebook Developers} & 487 & -3.442 $\pm$ 0 & 177 \\ \hline
+\small{ANU CSSA} & 38 & -2.742 $\pm$ 0 & 191 \\ \hline
+\small{Australian National University} & 619 & -2.565 $\pm$ 0 & 70 \\ \hline
+\small{Overheard at the Ateneo de Manila University} & 253 & -2.462 $\pm$ 0 & 26 \\ \hline
+\small{iDiscount ANU} & 338 & -2.203 $\pm$ 0 & 88 \\ \hline
+\small{PETITION FOR FACEBOOK TO INSTALL A DISLIKE BUTTON} & 683 & -2.018 $\pm$ 0 & 92 \\ \hline
+\small{I grew up in Australia in the 90s} & 731 & -1.991 $\pm$ 0 & 75 \\ \hline
+\small{Grow up Australia - R18+ Rating for Computer Games} & 222 & -1.951 $\pm$ 0 & 102 \\ \hline
+\small{Heavy Metal - CANBERRA METAL} & 30 & -1.694 $\pm$ 0 & 42 \\ \hline
   \end{tabular}
-  \caption{\emph{Logistic Regression} feature weights extracted for the case where $k=0$. The \emph{Name} column displays the name of the feature vector.
-                        \emph{Size} represents the size of the \emph{Page} or \emph{Group}.
-                        \emph{Weight} represents the weight this feature vector received.  
-                        \emph{Yes'} column displays the number of times this feature vector was set to $1$ for a user.
-                        \emph{Distinct} column displays the number of unique times the feature vector was set to $1$.}
+  \caption{LR feature weights extracted for the case where $k=0$. The \emph{name} column displays the current \emph{group} name.
+  The \emph{size} column shows the total size of this group across all users.
+  The \emph{weight} column shows the weighting given for this \emph{group} and the \emph{frequency} column displays the number of times 
+  this \emph{group} was set to $1$. We find that highly local \emph{groups} with a high frequency of app users are most predictive.}
 \end{minipage}
 \end{table}
 
-\emph{Groups} of a relatively small size, but a relatively high concentration of app users appear to be most predictive of user 
-preferences.
+\emph{Groups} are highly predictive of user preferences, we see from the weights table above that \emph{groups} which are highly local to 
+the ANU and Canberra are are highly predictive as well as \emph{groups} which have a high frequency of app users.
 
 \section{Pages}
 \label{sec:pages}
 
-Facebook facilitates users to like \emph{Pages} for 'things' they like across a large and varied set of different areas ranging from 
-web browsers and TV shows to schools.
+Facebook facilitates users to like \emph{pages} for 'things' they like across a wide spectrum of different areas ranging from 
+web browsers and TV shows to schools. This allows Facebook users to associate themselves with other users who like these similar 'things'.
 
 \clearpage
 
-The most popular \emph{Pages} liked by our app users are shown below:
+The most popular \emph{pages} liked by our app users are shown below:
 
 \begin{table}[!htbp]
 \centering
 	\begin{tabular}{|l|l|} % cols: (left, center, right)
 		\hline
-		\textbf{\small{Page Name}} & \textbf{\small{Frequency}}  \\ \hline
+		\textbf{\small{Frequency}} & \textbf{\small{Page Name}}  \\ \hline
 		33 & \small{ANU Computer Science Students' Association (ANU CSSA) 2011} \\ \hline
 		32 & \small{The Australian National University} \\ \hline
 		31 & \small{ANU Stalkerspace} \\ \hline
@@ -450,96 +520,106 @@ The most popular \emph{Pages} liked by our app users are shown below:
 		12 & \small{The Stig} \\ \hline
 		11 & \small{Black Books} \\ \hline
 	\end{tabular}
-	\caption{App users \emph{Pages} breakdown.}
+	\caption{Popular \emph{pages} breakdown for our app users. \emph{Pages} exhibit less locality preferences when compared with \emph{pages},
+			 while some \emph{pages} are Canberra focused, many are also more general. Additionally app user memberships for \emph{pages} is 
+			 much higher then for \emph{groups}.}
 	\label{tab:revpol}
 \end{table}
 
-In comparison with \emph{Traits} and \emph{Groups}, \emph{Pages} show a higher locality across the most popular pages for app users.
+In comparison with \emph{groups} and \emph{favourites}, \emph{pages} show a frequency across the most popular \emph{pages} for app users and 
+have a less Canberra and ANU centric focus.
 
-Given the quantity of \emph{Pages} on Facebook, we need to find some optimal test size $j$ for our data set. Given memory and time constraints we tested 
-within a range of $\{100-1000\}$ with an incremental step size of $100$ for each test.
+Given the quantity of \emph{pages} on Facebook, we need to find some optimal test size $j$ for each classifier. Given memory and time constraints we tested 
+within a range of $(100-1000)$ with an incremental step size of $100$ for each test.
 
 \clearpage
 
-The results for these tests are shown below:
+The results of these tests are shown below:
 
 \begin{figure}[h]
 	\begin{center}
 		\includegraphics[scale=0.75]{results/pages/top_pages.pdf}
-		\caption{Accuracy results for different \emph{Pages} sizes.}
+		\caption{Accuracy results for different \emph{page} sizes. Results for \emph{page} sizes are quite jumpy, however a similar trend 
+				 from \emph{groups} follows that the more \emph{pages} we use for testing, the more predictive our results.}
 	\end{center}
 \end{figure}
 
-The most predictive \emph{Page} sizes $j$ for each of our classifiers are:
+The most predictive \emph{page} sizes $j$ for each of our classifiers are:
 \begin{itemize}
-\item Naive Bayes: 500
-\item Logistic Regression: 900
-\item Support Vector Machine: 800
+\item \textbf{Naive Bayes}: 500
+\item \textbf{Logistic Regression}: 900
+\item \textbf{Support Vector Machine}: 800
 \end{itemize}
 
-LR and SVM show a gradual increase as this group size increases, alluding to the possibility of an even higher page size being optimal.
+LR and SVM exhibit a gradual increase as our \emph{page} size increases, alluding to the possibility of an even higher \emph{page}
+size being optimal for prediction.
 
-For \emph{Pages} the $I$ of our feature vector $X$ contains an element $i$ for each of the top $j$ page sizes defined above.
+For \emph{pages} each user $u$ and feature vector $x$ is defined as:
 
-The alters of $I$ can then be defined as all users who have liked the current item $M$.
-Each component of $I$ is set to $1$ if any of the alters are a member of the current page $j$ where $i = j$ along with the 
-current user $n$, otherwise it is set to $0$.
+\[ I = \{Page\} \times \{Number of Pages\} \]
 
-\clearpage
+Where the optimal \emph{pages size} $J$ is defined above for each classifier.
 
-Using the most predictive \emph{Page} sizes $j$ for each of our classifiers as defined above and comparing to our baselines we obtain:
+The alters set for each $i$ is conditioned by the relationship $R$, where:
+
+\[ R_{i,u,v} = \{z | Liked_{z,v} \wedge PageLiked_{i,u,z}\} \]
+
+In this case the $PageLiked$ function returns whether both user $u$ and user $z$ have both liked the \emph{page} at index $i$.
+
+Using the most predictive \emph{page} sizes $j$ for each of our classifiers as defined above we obtain:
 
 \begin{figure}[h]
 	\begin{center}
 		\includegraphics[scale=0.75]{results/pages/bar_pages.pdf}
-		\caption{Accuracy results using the \emph{Pages} feature vector.}
+		\caption{Accuracy results using the \emph{pages} feature, we can see an improvement over our baselines for both LR and SVM. 
+				 Demonstrating that \emph{pages} are a predictive \emph{user preference}, however they are not as predictive as 
+				 \emph{groups} or \emph{favourites}.}
 	\end{center}
 \end{figure}
 
-Improvement over SMB, but not groups. Perhaps because more local.
-
-Both NB, LR and SVM show an improvement over our SMB baseline for the case of $k = 0$ demonstrating that \emph{Pages} are also 
-more predictive then previous methods.
+Here we see NB, LR and SVM show an improvement over our SMB baseline for the case of $k = 0$ demonstrating that \emph{pages} are also predictive.
+However, \emph{groups} and \emph{favourites} are still both more predictive. Possibly due to the fact that \emph{groups} are generally more 
+local and they have a lower frequency of app user members.
 
 \clearpage
 
-Applying the \emph{Pages} feature vector across our exposure curve, we obtain:
+Applying the \emph{pages} feature against exposure, we obtain:
 
 \begin{figure}[h]
 	\begin{center}
 		\includegraphics[scale=0.75]{results/pages/line_pages.pdf}
-		\caption{Accuracy results for an exposure curve using the \emph{Pages} feature vector.}
+		\caption{Accuracy results against exposure using the \emph{pages} feature. We see a similar trend as demonstrated in \emph{groups}
+				 and \emph{favourites} where the predictiveness of this feature improves with exposure $k$.}
 	\end{center}
 \end{figure}
 
-This trend continues across the exposure curve where each successive increase of $k$ causes the performance of our LR and SVM classifiers to 
-increase.
+The trend of improved predictiveness over exposure $k$ continues similarly with \emph{pages}. As more data is available for the 
+classifiers to learn from, their prediction accuracy increases.
 
 \clearpage
 
-By extracting the model weights from the case where $k=0$ we can see which \emph{Pages} contain the most predictive qualities:
+By extracting the model weights from the case where $k=0$ we can see which \emph{pages} contain the most predictive qualities:
 \begin{table}[h]
 \begin{minipage}[b]{1.0\textwidth}
 \centering
   \begin{tabular}{|l|l|l|l|l|} % cols: (left, center, right)
   \hline
   \textbf{Name} & \textbf{Size} & \textbf{Weight} & \textbf{Frequency} \\ \hline
-Sorry mate i can't, i've got Quidditch  & 254 & -1.799 $\pm$ 0 & 18 \\ \hline
-Avatar: The Last Airbender  & 324 & -1.514 $\pm$ 0.001 & 13 \\ \hline
-National Geographic  & 662 & -1.437 $\pm$ 0.001 & 18 \\ \hline
-The Simpsons  & 1552 & -1.414 $\pm$ 0 & 170 \\ \hline
-Sushi  & 387 & -1.33 $\pm$ 0.001 & 9 \\ \hline
-House  & 1746 & -1.291 $\pm$ 0 & 66 \\ \hline
-Seinfeld  & 609 & -1.249 $\pm$ 0 & 15 \\ \hline
-Starbucks  & 1548 & -1.249 $\pm$ 0 & 7 \\ \hline
-American Dad  & 540 & -1.215 $\pm$ 0.001 & 18 \\ \hline
-friends don't let friends vote for Tony Abbott  & 551 & -1.206 $\pm$ 0.001 & 19 \\ \hline
+\small{Sorry mate i can't, i've got Quidditch}  & 254 & -1.799 $\pm$ 0 & 18 \\ \hline
+\small{Avatar: The Last Airbender}  & 324 & -1.514 $\pm$ 0.001 & 13 \\ \hline
+\small{National Geographic}  & 662 & -1.437 $\pm$ 0.001 & 18 \\ \hline
+\small{The Simpsons}  & 1552 & -1.414 $\pm$ 0 & 170 \\ \hline
+\small{Sushi}  & 387 & -1.33 $\pm$ 0.001 & 9 \\ \hline
+\small{House}  & 1746 & -1.291 $\pm$ 0 & 66 \\ \hline
+\small{Seinfeld}  & 609 & -1.249 $\pm$ 0 & 15 \\ \hline
+\small{Starbucks}  & 1548 & -1.249 $\pm$ 0 & 7 \\ \hline
+\small{American Dad}  & 540 & -1.215 $\pm$ 0.001 & 18 \\ \hline
+\small{friends don't let friends vote for Tony Abbott}  & 551 & -1.206 $\pm$ 0.001 & 19 \\ \hline
   \end{tabular}
-  \caption{\emph{Logistic Regression} negative feature weights extracted for the case where $k=0$. The \emph{Name} column displays the name of the feature vector.
-                        \emph{Size} represents the size of the \emph{Page} or \emph{Group}.
-                        \emph{Weight} represents the weight this feature vector received.  
-                        \emph{Yes'} column displays the number of times this feature vector was set to $1$ for a user.
-                        \emph{Distinct} column displays the number of unique times the feature vector was set to $1$.}
+ \caption{Negative LR feature weights extracted for the case where $k=0$. The \emph{name} column displays the current \emph{page} name.
+  The \emph{size} column shows the total size of this group across all users.
+  The \emph{weight} column shows the weighting given for this \emph{page} and the \emph{frequency} column displays the number of times 
+  this \emph{page} was set to $1$. We find non-local and medium sized \emph{pages} to be most predictive.}
 \end{minipage}
 \end{table}
 
@@ -549,43 +629,36 @@ friends don't let friends vote for Tony Abbott  & 551 & -1.206 $\pm$ 0.001 & 19 
   \begin{tabular}{|l|l|l|l|l|} % cols: (left, center, right)
   \hline
   \textbf{Name} & \textbf{Size} & \textbf{Weight} & \textbf{Frequency} \\ \hline
-
-CatDog  & 259 & 1.815 $\pm$ 0.001 & 12 \\ \hline
-Worst. Idea. Ever. [pause] Let's do it.  & 227 & 1.737 $\pm$ 0 & 21 \\ \hline
-Grug  & 279 & 1.698 $\pm$ 0 & 9 \\ \hline
-Kings Of Leon  & 840 & 1.607 $\pm$ 0.001 & 14 \\ \hline
-Planking Australia  & 166 & 1.598 $\pm$ 0.001 & 4 \\ \hline
-Dr. House  & 964 & 1.588 $\pm$ 0 & 28 \\ \hline
-Suit Up  & 466 & 1.389 $\pm$ 0.001 & 17 \\ \hline
-Don't you hate it when Gandalf marks your exam and [..]  & 110 & 1.372 $\pm$ 0.001 & 19 \\ \hline
-Paramore  & 1004 & 1.343 $\pm$ 0.001 & 31 \\ \hline
-Tintin  & 250 & 1.339 $\pm$ 0.001 & 11 \\ \hline
+\small{CatDog}  & 259 & 1.815 $\pm$ 0.001 & 12 \\ \hline
+\small{Worst. Idea. Ever. [pause] Let's do it.}  & 227 & 1.737 $\pm$ 0 & 21 \\ \hline
+\small{Grug}  & 279 & 1.698 $\pm$ 0 & 9 \\ \hline
+\small{Kings Of Leon}  & 840 & 1.607 $\pm$ 0.001 & 14 \\ \hline
+\small{Planking Australia}  & 166 & 1.598 $\pm$ 0.001 & 4 \\ \hline
+\small{Dr. House}  & 964 & 1.588 $\pm$ 0 & 28 \\ \hline
+\small{Suit Up}  & 466 & 1.389 $\pm$ 0.001 & 17 \\ \hline
+\small{Don't you hate it when Gandalf marks your [..]}  & 110 & 1.372 $\pm$ 0.001 & 19 \\ \hline
+\small{Paramore}  & 1004 & 1.343 $\pm$ 0.001 & 31 \\ \hline
+\small{Tintin}  & 250 & 1.339 $\pm$ 0.001 & 11 \\ \hline
   \end{tabular}
-  \caption{\emph{Logistic Regression} feature weights extracted for the case where $k=0$. The \emph{Name} column displays the name of the feature vector.
-                        \emph{Size} represents the size of the \emph{Page} or \emph{Group}.
-                        \emph{Weight} represents the weight this feature vector received.  
-                        \emph{Yes'} column displays the number of times this feature vector was set to $1$ for a user.
-                        \emph{Distinct} column displays the number of unique times the feature vector was set to $1$.}
+ \caption{Positive LR feature weights extracted for the case where $k=0$. The \emph{name} column displays the current \emph{page} name.
+  The \emph{size} column shows the total size of this group across all users.
+  The \emph{weight} column shows the weighting given for this \emph{page} and the \emph{frequency} column displays the number of times 
+  this \emph{page} was set to $1$. We find non-local and medium sized \emph{pages} to be most predictive.}
 \end{minipage}
 \end{table}
 
-The most predictive \emph{Pages} in our data set are ones which contain a larger number of members and a lower concentration of 
-app users.
+The most predictive \emph{pages} in our data are non-local, which was the opposite case to \emph{groups}, additionally medium sized \emph{pages}
+with highly varied frequencies were the most predictive.
 
 \section{Conclusion}
 \label{sec:conc}
+Throughout this chapter we have explored different \emph{user preferences} available to users to demonstrate their personal preferences across a range of 
+different topics and mediums.
 
-Throughout this section we have explored different avenues available for users to demonstrate their personal preferences across a range of 
-different mediums.
-
-We have found that \emph{User Preferences} are predictive of user likes, particularly for \emph{Traits}, \emph{Groups} and \emph{Pages}. This 
-holds true for the case of $k = 0$ and continues to improve with each successive $k$.
-
-Similarly as with \emph{User Interactions}, our results have shown, that it is enough for some user to have liked an item to allow our classification 
-methodology to increase in predictiveness.
-
-pages, groups more local. higher prediction of localised likes (local news, events, etc).
-favourites - high frequency 
+Others have pointed out that non-social information is more predictive of user likes \cite{www} and we observe that too.
+We have found that \emph{user preferences} are more predictive of user likes compared with \emph{user interactions}, this is particularly 
+true for \emph{favourites}, \emph{groups} and \emph{pages}. This observation holds true for the exposure case of $k = 0$ and our 
+predictions continue to improve with each successive increase in $k$ (notably at the detriment of our baseline).
 
 %%% Local Variables: 
 %%% mode: latex

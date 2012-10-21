@@ -2,85 +2,83 @@
 %% Template chap2.tex
 %%
 
-
-others have pointed out non social more important and we observe that too
-interactions give implicit networks of friendshipsprevious methods say if people interact alot then they will like the same things, 
-we break it down into smaller implicit overlap of preferences
-
-\chapter{Interactions}
+\chapter{User Interactions}
 \label{cha:interactions}
-
-stronger affinity for what people say to you
 
 This chapter is dedicated to analysing the different \emph{user interaction} features present in Facebook.
 
-The \emph{user interactions} we examine in this thesis can be broken down into two distinct groups, interactions between users and messages 
-sent between users.
-
-bias for incoming having a stronger affinity
-
-interaction filtering cant help when interactions dont exist - as soon as interactions we can exploit the information
-
-\section{User Interactions}
-\label{sec:inter}
-
-There are a number of potential interaction mediums between users under the Facebook paradigm. These can be summarised into the following 
-categories.
-
+The \emph{user interactions} we examine in this thesis can be broken down into two distinct groups:
 \begin{itemize}
-\item \textbf{Direction}: The manner an interaction is received, either \emph{Incoming} where a message is posted to some user or 
-\emph{Outgoing} where some user posts a message to another user. Interaction directionality has been shown to be highly 
-reflective of user preferences ~\cite{saez2011high}.
-\item \textbf{Modality}: The medium some user employs to interact with another user via either \emph{Links}, \emph{Posts}, \emph{Photos} or \emph{Videos}.
-\item \textbf{Type}: The style some user employs to interact with another user via either \emph{Comment}, \emph{Tag} or \emph{Like}.
+\item \textbf{Interactions} : Posts, Tags, Likes, Comments between users.
+\item \textbf{Messages} : Both outgoing and incoming messages sent between users.
 \end{itemize}
 
-In this case, the $I$ for out feature vector $X$ is defined as the cross product of the above components where:
+These interactions give implicit networks of friendships, previous methods \cite{www} have claimed if people interact frequently 
+they will like the same things, in this section we break this idea down into the smaller implicit overlaps of these interactions.
+
+\section{Interactions}
+\label{sec:inter}
+
+Interactions between users in Facebook can be summarised under the following categories:
+
+\begin{itemize}
+\item \textbf{Direction}: The manner an interaction is received, either \emph{incoming} for example where a message is posted to some user or 
+\emph{outgoing} where some user posts a message to another user. Interaction directionality has been shown to be highly 
+reflective of user preferences \cite{saez2011high}.
+\item \textbf{Modality}: The medium some user employs to interact with another user via either \emph{links}, \emph{posts}, \emph{photos} or \emph{videos}.
+\item \textbf{Type}: The style some user employs to interact with another user via either \emph{comments}, \emph{tags} or \emph{likes}.
+\end{itemize}
+
+For \emph{user interactions} each user $u$ and feature vector $x$ is defined as the cross product of the above components where:
+
 \[ I = \{Incoming, Outgoing\} \times \{Posts,Photos,Videos,Links\} \times \{Comments,Tags,Likes\} \]
 
-The alters of $I$ can then be defined as all users who have interacted with or been interacted with the current user via some $i$. 
-Each component of $I$ is set to $1$ if any of the alters defined by the current set $i$ have also liked the current item $M$, otherwise 
-it is set to $0$.
+The alters set for each $i$ is conditioned by the relationship $R$, where:
 
-Applying the feature vector described above to our classification algorithms we obtain:
+\[ R_{i,u} = \{z | Interacted_{i,u,z}\} \]
+
+In this case the $Interacted$ function returns all users $z$ who have interacted with user $u$ via the current interaction $i$.
+
+Applying this affinity feature to our classification algorithms we obtain:
 
 \begin{figure}[tbh!]
 	\begin{center}
 		\includegraphics[scale=0.75]{results/interactions/bar_interactions.pdf}
-		\caption{Accuracy results using \emph{user interaction} features. Against all data \emph{user interactions} do not outperform our baselines.}
+		\caption{Accuracy results using \emph{user interactions} against all data. \emph{User interactions} do not outperform our baselines.}
 	\end{center}
 \end{figure}
 
-\emph{User Interactions} are marginally outperformed by our SMB baseline, showing that relatively \emph{User Interactions} do not 
-improve upon classification.
-
-One reason for this result could be we can not track information passing outside of Facebook, users who frequently interact could be real 
-world friends and hence share information via email or word of mouth and not over Facebook.
+\emph{User interactions} in themselves are not more predictive then our SMB baseline. One reason for this result could be we can 
+not track information passing outside of Facebook, users who frequently interact could be real world friends and hence share 
+information via email or word of mouth and not over Facebook.
 
 \clearpage
 
-Comparing \emph{User Interactions} against our exposure curve we obtain:
+Comparing \emph{user interactions} against an exposure across $k$ we obtain:
 
 \begin{figure}[tbh!]
 	\begin{center}
 		\includegraphics[scale=0.75]{results/interactions/line_interactions.pdf}
 		\caption{Accuracy results against exposure using \emph{user interaction} features. \emph{User interactions} provide a drastic improvement 
-		over our baselines as $k$ increases, suggesting SMB is not always the best classifier.}
+		over our baselines as $k$ increases, suggesting SMB is not always the best classifier. 
+		This demonstrates the intuitive assumption that \emph{user interactions} can not improve prediction when these interactions do not exist between users.
+		Note in this case LR and SVM both learnt the same result.}
 	\end{center}
 \end{figure}
 
-We glean that as our data is restricted, the performance of our classifiers improves (note LR and SVM obtained the same results in this graph) 
-over time. This graph shows that for \emph{User Interactions} having one user liking an item is enough to improve upon our baselines classifiers.
+Our comparison has shown that as our data is restricted across an exposure, the performance of our classifiers improves.
+This implies that for \emph{user interactions} simply having one user liking an item is enough to improve upon our baselines. 
+This is intuitively correct as our classifiers can not learn when interacts do not exist between users.
 
 \section{Conversation}
 \label{sec:groups}
 
-Given the nature of Facebook, it is possible for users to post or receive messages from other users.
+The next \emph{user interactions} we compare are messages passed between users.
 
-These messages can be broken down based on their directionality, either \emph{Outgoing} which are words sent to other users or \emph{Incoming} 
-which are words received from other users.
+These messages can be broken down based on their directionality, either \emph{outgoing} which are messages sent to other users or 
+\emph{incoming} which are messages received from other users.
 
-Based on our data set, the most commonly used words occur with a high frequency over our user base and can be seen in the table below:
+Based on our data set, the most common words occur with a high frequency and are outlined in the table below:
 
 \begin{table}[!htbp]
 \begin{minipage}[b]{.5\textwidth}
@@ -137,137 +135,139 @@ Based on our data set, the most commonly used words occur with a high frequency 
 	\end{tabular}
 \end{minipage}
 	\caption{Top conversation content data for all users. We see very common words and online expressions have a high frequency in
-	our data set.}
+	our data set. Additionally highly emotive and sentimental words are very common, implying these interactions occur between \emph{real} friends.}
 	\label{tab:revpol}
 \end{table}
 
-There is clearly a high number of emotional and sentimental words being used on Facebook.
-This would imply interactions between real friends.
+For messages each user $u$ and feature vector $x$ is defined as the cross product of:
 
-\clearpage 
+\[ I = \{Incoming, Outgoing\} \times \{Messages Size\} \]
 
-WUT - scott
-For messages the $I$ of our feature vector $X$ contains an element $i$ for each of the top $j$ most commonly used words based on the conversation 
-content of all users.
+Where the optimal \emph{messages size} $J$ is defined for each directionality and classifier.
 
-The alters of $I$ can then be defined as all users who have liked the current item $M$.
-Each component of $I$ is set to $1$ if any of the alters have used the current word $j$ where $i = j$ with the user $n$, otherwise 
-it is set to $0$.
+The alters set for each $i$ is conditioned by the relationship $R$, where:
+
+\[ R_{i,u} = \{z | Messaged_{i,u,z,j}\} \]
+
+In this case the $Messaged$ function returns all users $z$ who have messaged user $u$ via the current messaging direction $i$ with the
+word at index $j$.
 
 \subsection{Outgoing}
 \label{sec:id}
 
-The first issue present is to determine the most predictive number of top \emph{Outgoing} words $j$ for use by our classifiers. 
-Given the enormous size of potential messages and memory constraints in the testing environment we decided to test within a range 
+The first issue is to determine the most predictive number of \emph{outgoing} words $j$ for use by our classifiers. 
+Given the expansive size of potential messages and memory constraints in the testing environment we decided to test within a range 
 of $\{100-1000\}$ with an incremental step size of $100$ for each test.
 
-The results of testing based on differing sizes of \emph{Outgoing Words} can be seen below:
+The results of testing based on differing sizes of \emph{outgoing} words can be seen below:
 
 \begin{figure}[h]
 	\begin{center}
 		\includegraphics[scale=0.75]{results/outgoing/top_outgoing.pdf}
-		\caption{Accuracy results for different \emph{outgoing words} sizes. Best performance can be found using LR with a small word size of only	 $200$.}
+		\caption{Accuracy results for different \emph{outgoing} words sizes. Best performance can be found using LR with a relatively small word size of only $200$.}
 	\end{center}
 \end{figure}
 
-The most predictive \emph{Outgoing Words} words sizes $j$ for each of our classifiers are:
+The most predictive \emph{outgoing} words sizes $j$ for each of our classifiers are:
 \begin{itemize}
 \item \textbf{Naive Bayes}: 500
 \item \textbf{Logistic Regression}: 200
 \item \textbf{Support Vector Machine}: 900
 \end{itemize}
 
-Using the most predictive word sizes $j$ for each of our classifiers and building our feature vector as defined above 
-we compare to our baselines and obtain:
+Using the most predictive word sizes $j$ for each of our classifiers and building our feature vector as defined above we obtain:
 
 \begin{figure}[h]
 	\begin{center}
 		\includegraphics[scale=0.75]{results/outgoing/bar_outgoing.pdf}
-		\caption{Accuracy results using the \emph{outgoing words} features. \emph{Outgoing words} are a weaker predictor then \emph{user interactions}.}
+		\caption{Accuracy results using the \emph{outgoing} words features. \emph{Outgoing} words are clearly less predictive then \emph{user interactions}.}
 	\end{center}
 \end{figure}
 
-These results do not show an improvement over our baselines and in fact are only a marginal improvement over the \emph{Constant} baseline. 
+These results do not show an improvement over our baselines and are only a marginal improvement over the \emph{constant} baseline. 
+
 A possible reason for this could be due to the commonality of the words being tested. Highly common and frequently used words would 
-result in poor predictive tendencies, this is eluded to in our graph above which shows an improvement in predictiveness over 
-step sizes for SVM.
+result in poor predictive tendencies.
 
 \clearpage
 
-Comparing \emph{Outgoing Messages} against our exposure curve we obtain:
+Comparing \emph{outgoing} words against exposure we obtain:
 
 \begin{figure}[h]
 	\begin{center}
 		\includegraphics[scale=0.75]{results/outgoing/line_outgoing.pdf}
-		\caption{Accuracy results against exposure using the \emph{outgoing words} feature vector. \emph{Outgoing words} accuracy improve as $k$ increases, but are less predictive then \emph{user interactions}.}
+		\caption{Accuracy results against exposure using the \emph{outgoing} words feature. \emph{Outgoing} words predictiveness improve as $k$ increases, but are still less predictive
+				 even in the case for $k=3$ when compared with SMB when $k=0$.}
 	\end{center}
 \end{figure}
 
-Our exposure curve follows this similar trend of unimproved results for $k = 1$ likes, however as $k$ increases there is some improvement 
-from the baselines, but this is negligible in comparison to $k = 0$ for our classifiers.
+The exposure offers an increase in the predictiveness of the \emph{outgoing} words feature. However even when $k=3$, this feature does 
+not outperform SMB when $k=0$. Indicating that \emph{outgoing} words are not a predictive feature in our data set.
 
 \subsection{Incoming}
 \label{sec:id}
 
-Similarly for \emph{Incoming Words} we need to discover which is the most predictive $j$ for use of by our classifiers, 
-using the same methodology as described above for \emph{Outgoing Words} we obtain the following graph:
+Similarly for \emph{incoming} words we need to discover which is the most predictive word size $j$ for use by our classifiers, 
+using the same methodology as described above for \emph{outgoing} words we obtain the following graph:
 
 \begin{figure}[h]
 	\begin{center}
 		\includegraphics[scale=0.75]{results/incoming/top_incoming.pdf}
-		\caption{Accuracy results for different \emph{incoming words} sizes. \emph{Incoming words} are more predictive then \emph{outgoing words}.}
+		\caption{Accuracy results for different \emph{incoming} words sizes. \emph{Incoming} words are more predictive then \emph{outgoing} words, but follow
+				 the similar trend that small sizes offer close to optimal predictions for this feature.}
 	\end{center}
 \end{figure}
 
-\clearpage
-
-The most predictive \emph{Incoming Words} words sizes $j$ for each of our classifiers are:
+The most predictive \emph{incoming} words sizes $j$ for each of our classifiers are:
 \begin{itemize}
 \item \textbf{Naive Bayes}: 300
 \item \textbf{Logistic Regression}: 100
 \item \textbf{Support Vector Machine}: 1000
 \end{itemize}
 
-Using the most predictive word sizes $j$ for each of our classifiers as defined above and comparing to our baselines we obtain:
+\clearpage
+
+Using these most predictive word sizes for each of our classifiers we obtain:
 
 \begin{figure}[h]
 	\begin{center}
 		\includegraphics[scale=0.75]{results/incoming/bar_incoming.pdf}
-		\caption{Accuracy results using the \emph{incoming words} features. \emph{Incoming words} are a weaker predictor then \emph{user interactions}.}
+		\caption{Accuracy results using the \emph{incoming} words features. \emph{Incoming} words are a 
+				 stronger predictor then \emph{outgoing} words, however they are still a weaker predictor then \emph{user interactions}.}
 	\end{center}
 \end{figure}
 
-Again, \emph{Incoming Words} themselves are not predictive in comparison to our baselines, however not to the same negative
-extent as \emph{Outgoing Words}.
+Similarly to \emph{outgoing} words, \emph{incoming} words themselves are not more predictive in comparison to our baselines.
 
-\clearpage
-
-Comparing \emph{Incoming Messages} against our exposure curve we obtain:
+Comparing \emph{incoming} words against exposure we obtain:
 
 \begin{figure}[h]
 	\begin{center}
 		\includegraphics[scale=0.75]{results/incoming/line_incoming.pdf}
-		\caption{Accuracy results against exposure using \emph{incoming words} features. \emph{Imcoming words} accuracy improve as $k$ increases, but are less predictive then \emph{user interactions}.
+		\caption{Accuracy results against exposure using \emph{incoming} words features. 
+				 \emph{Incoming} words predictive accuracy improves as $k$ increases, but are still less predictive then \emph{user interactions}.
 		}
 	\end{center}
 \end{figure}
 
-For \emph{user interactions} outgoing are more important, however for \emph{words}, \emph{incoming} are more important.
+Similarly, \emph{incoming} words improve upon our baselines as $k$ increases, however this predictive increase is 
+negligible in comparison with $k = 0$ and hence \emph{incoming} words are not predictive of user likes.
 
-Similarly, \emph{Incoming Words} improve upon our baselines as $k$ increases, however this performance increase is 
-negligible in comparison with $k = 0$ and hence \emph{Incoming Words} do not prove to be predictive of user likes.
+\emph{Incoming} words show an improvement over \emph{outgoing} words, however neither outperforms \emph{user interactions}.
 
 \section{Conclusion}
 \label{sec:conc}
 
-Throughout this section we have explored different avenues available for users to maintain interactions between other users. 
+Throughout this chapter we have explored the different interaction types available between users on Facebook. 
 
 We have found that words, irrespective of their directionality do not assist in improving predictions. \cite{Anderson2012} concluded 
-that it is less important what users say, then who they interact with, which we also found in our results, our interactions results were 
-comparable to our baselines over $k = 0$ and this improvement continued over the exposure curve as our $k$ increased.
+that it is less important what users say, then who they interact with, which we also found in our results. Additionally, it has been shown
+for \emph{user interactions} outgoing interactions are more important \cite{www}, while our results have found that
+for \emph{words}, \emph{incoming} are more important.
 
-Our results have shown, that for \emph{User Interactions} it is enough for some user to have previously liked an item, which allows our 
-classification methodology to offer an increase in predictiveness as $k$ increases.
+Our results have shown, that for \emph{user interactions} to improve upon baseline prediction it is enough for some user to 
+have previously liked the item, this allows our classification methodology to improve predictiveness as $k$ increases because 
+interactions exist between these users and our classifiers can learn from them.
 
 %%% Local Variables: 
 %%% mode: latex
