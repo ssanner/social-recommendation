@@ -5,33 +5,45 @@
 \chapter{Introduction}
 \label{cha:intro}
 
-An individuals social presence on the web is continually expanding, with the emergence of services such as Facebook, Myspace, LinkedIn, Twitter 
-and Google+ what defines a user and their online social interactions (messages, posting, commenting, etc) and preferences 
-(demographics, group memberships, likes, etc) is an ever expanding graph structure of verbose social content. The Internet is becoming a network 
-of people, providing a myriad of expanding social information and user driven content.
+The Internet is becoming a network of people, providing a myriad of expanding social information and user driven content. 
+Social presence on the web is continually expanding. With the emergence of services such as Facebook, Myspace, LinkedIn, Twitter 
+and Google+, what defines a user and their online \emph{user interactions} (such as comment and message passing, tags, likes) and \emph{user preferences} 
+(such as favourite movies and music, group memberships, page likes) is an expanding graph of rich social content. 
 
 The ultimate question we wish to address in this thesis then becomes: 
-How can we exploit this user information to decipher which \emph{User Interactions} or \emph{User Preferences} are most 
-indicative of user likes? 
+How can we leverage this user information to decipher which \emph{user interaction} or \emph{user preference} affinity features 
+are most predictive of user likes? 
 
-We address this question by comparing and contrasting different feature vectors in our data against appropriate baselines and 
-ultimately offer a \emph{Positive Feature Combination} paradigm which represents improved results which are computationally faster and can more 
-appropriately generalise over a population then previously explored methods.
+We address this question by comparing and contrasting these different potential affinity relationships in our data against appropriate 
+baselines and ultimately offer a combination of features which offers our best solution to the question posed above.
+
+In this chapter we will outline the objectives of this research, summarise the contributions we have made and describe the lay out of this
+thesis.
 
 \section{Objectives}
 \label{sec:objectives}
 
-The primary objective of this thesis is to contrast and compare differing user feature vectors across \emph{User Interactions} and 
-\emph{User Preferences}. Using the machine learning concepts of NB, LR and SVM compared with our appropriate baselines of 
-SMB and \emph{Constant Classifiers}. With the goal of discovering which features vectors are most predictive or user likes.
+One issue present in this Facebook paradigm is discovering whether a user doesn't like an item, a users Facebook feed is comprised of 
+activity between their friends, content, groups, etc giving an enormous scope of potential feed items. Facebook will only show feed 
+items for users who have recently interacted with using their \emph{Edge-Rank} ~\cite{edge} algorithm. 
 
-Based on the insight that social inﬂuence can play a crucial role in a range of behavioral phenomena \cite{grano,watts} we will 
-also test using an exposure curve \cite{Romero2011hashtag} hold out technique, where data is only tested if some friend has 
-already liked that item. ~\cite{pantel} has been shown that positive social annotations on search items adds perceived utility
-to the worth of a result, implying that a previously liked item will be more predictive.
+While many Facebook users have a friend count which is close to the human real word limit, known as the Dunbar number 
+~\cite{hill2003social}, the \emph{Edge-Rank} algorithm ensures user interactions are focused on a much smaller subset of their friends.
+Additionally, given the rate of posting, these top feed items are only displayed for a short amount of time. Coupled 
+with the fact that Facebook allows users to explicitly like an item, but not dislike it - distinguishing between what 
+a user does and does not like becomes difficult.
 
-Finally, we will analyse the effect of combining successful user feature vectors together using a \emph{Positive Feature Combination} 
-approach.
+The primary objective of this thesis is to contrast and compare differing potential affinity features across \emph{user interactions} and 
+\emph{user preferences}. Using state of the art machine learning concepts of \emph{Naive Bayes} (NB), \emph{Logistic Regression} (LR) 
+and \emph{Support Vector Machines} (SVM) compared with our appropriate baselines of \emph{Social Matchbox} (SMB) and \emph{Constant Classifiers}. 
+With the aim of discovering which affinity features are most predictive or user likes.
+
+Based on the insight that social inﬂuence can play a crucial role in a range of behavioural phenomena \cite{grano,watts} and that
+positive social annotations on search items add perceived utility to the worth of a result \cite{pantel} we will 
+also test using an exposure hold out technique, where data is only tested if some friend has already liked that item. Hence analysing the 
+effect of exposure on our affinity features.
+
+Finally, we will assess and compare the effect of combining successful individual affinity features found during our analysis.
 
 \section{Contributions}
 \label{sec:contributions}
@@ -39,15 +51,16 @@ approach.
 Our specific contributions made during this thesis show:
 
 \begin{itemize}
-\item Both \emph{Interactions} and \emph{Incoming\\Outgoing messages} are not more predictive then previously used SMB
-techniques.
-\item Each user preference of \emph{Traits}, \emph{Groups} and \emph{Pages} contributed to a better result then these previously used techniques.
-\item Combining user preferences with an exposure curve for user likes results in a substantial improvement from previously used techniques.
-\item \emph{Positive Feature Combination} of beneficial \emph{User Preferences} results in the most advantageous feature vector for this data.
+\item Both \emph{interactions} and \emph{incoming \textbackslash outgoing messages} posted between users are not more predictive then 
+previously used SMB techniques.
+\item Each \emph{user preference} affinity of \emph{favourites} (such as favourite movies, music), \emph{group} memberships (such as Australian National University
+and Students in Canberra) and \emph{page} likes (such as Google Chrome and The Simpsons) outperformed our baselines.
+\item Combining both affinity types of \emph{user interactions} and \emph{user preferences} with an exposure limit resulted in a 
+substantial improvement over previous techniques as the exposure increases.
+\item Combination of the advantageous affinity features briefly mentioned above gives the best results in our analysis.
 \end{itemize} 
 
-Overall, we provide a methodology which improves upon previous work and offers an approach to combine positively contributing aspects of different 
-feature vectors in our data.
+Overall, we provide a methodology which improves upon previous work and offer an approach to combine positive affinity features.
 
 \section{Outline}
 \label{sec:outline}
@@ -56,16 +69,16 @@ The remaining chapters in this thesis are organised as follows:
 \begin{itemize}
 \item \textbf{Chapter 2}: We first outline appropriate background information for the reader. Including information pertaining to the source of 
 our data set, mathematical notation used throughout this thesis, previous work in this area and our research approach and methodology.
-\item \textbf{Chapter 3}: In this chapter we discuss different feature vectors for \emph{User Interactions} and the results of applying these feature vectors 
+\item \textbf{Chapter 3}: In this chapter we discuss different affinity features for \emph{user interactions} and the results of applying these features to NB, SVM and LR 
 in comparison with our baselines.
-\item \textbf{Chapter 4}: A similar feature vector analysis as above, however the feature vectors we utilise are for \emph{User Preferences}.
-\item \textbf{Chapter 5}: In this chapter we discuss results from combining different positive feature vectors into a \emph{Positive Feature Combination}
-and propose an ideal feature hybrid based on our analysis.
+\item \textbf{Chapter 4}: A similar affinity feature analysis as above is applied, however the features we utilise are for \emph{user preferences}.
+\item \textbf{Chapter 5}: In this chapter we discuss the effect of combining different affinity features based on results gained in the previous sections
+and propose an ideal affinity feature hybrid.
 \item \textbf{Chapter 6}: Finally, we draw the work done throughout this thesis to a conclusion and offer avenues for future work in this area.
 \end{itemize}
 
-All chapters combined, this thesis represents a novel approach to exploiting and analysing \emph{User Interactions} and \emph{User Preferences} 
-to ascertain which features are most indicative of user likes and present an approach of combining these useful feature components into an effective 
+All chapters combined, this thesis represents a novel approach to exploiting and analysing \emph{user interactions} and \emph{user preferences} affinity relationships
+to ascertain which features are most predictive of user likes and present an approach of combining these useful feature components into an effective 
 classification paradigm.
 
 %%% Local Variables: 

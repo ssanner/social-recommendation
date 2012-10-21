@@ -5,12 +5,17 @@
 \chapter{Feature Combinations}
 \label{cha:bma}
 
+most predictive features allows for feature selection which is crucial with limited data, cant afford to combing all.
+
 As outlined above, features which positively improved classification were from the \emph{Traits}, \emph{Groups} and \emph{Pages} feature 
 vectors. In this section we combine these positive feature vectors together into a larger feature vector comprised of the individual 
 positively contributing elements.
 
-\section{Positive Feature Combination}
+\section{Feature Set Selection}
 \label{sec:notation}
+
+given so many features and based on size feature selection is good
+time consuming and costly
 
 Using the combined feature vector $X$ where $I$ is comprised of:
 \begin{itemize}
@@ -43,7 +48,6 @@ This can be summarised in the table below:
   \begin{tabular}{|l|l|} % cols: (left, center, right)
   \hline
   		\textbf{Classifier} & \textbf{Accuracy} \\ \hline
-		SMB & 0.604 $\pm$ 0.006 \\ \hline
 		NB & 0.583 $\pm$ 0.012 \\ \hline
 		LR & 0.617 $\pm$ 0.01 \\ \hline
 		SVM & 0.614 $\pm$ 0.009 \\ \hline
@@ -55,7 +59,6 @@ This can be summarised in the table below:
   \begin{tabular}{|l|l|} % cols: (left, center, right)
   \hline
   		\textbf{Classifier} & \textbf{Accuracy} \\ \hline
-		SMB & 0.604 $\pm$ 0.006 \\ \hline
 		NB & 0.604 $\pm$ 0.01 \\ \hline
 		LR & 0.613 $\pm$ 0.01 \\ \hline
 		SVM & 0.611 $\pm$ 0.008 \\ \hline
@@ -69,7 +72,6 @@ This can be summarised in the table below:
   \begin{tabular}{|l|l|} % cols: (left, center, right)
   \hline
   		\textbf{Classifier} & \textbf{Accuracy} \\ \hline
-		SMB & 0.604 $\pm$ 0.006 \\ \hline
 		NB & 0.565 $\pm$ 0.013 \\ \hline
 		LR & 0.622 $\pm$ 0.008 \\ \hline
 		SVM & 0.609 $\pm$ 0.011 \\ \hline
@@ -81,7 +83,6 @@ This can be summarised in the table below:
   \begin{tabular}{|l|l|} % cols: (left, center, right)
   \hline
   		\textbf{Classifier} & \textbf{Accuracy} \\ \hline
-		SMB & 0.604 $\pm$ 0.006 \\ \hline
 		NB & 0.605 $\pm$ 0.01 \\ \hline
 		LR & 0.624 $\pm$ 0.009 \\ \hline
 		SVM & 0.618 $\pm$ 0.01 \\ \hline
@@ -92,6 +93,8 @@ This can be summarised in the table below:
 
 These tables show that based on our results the most predictive feature vector is a combination of the individual best 
 feature vectors found in our \emph{User Preferences} section.
+
+too costly to combine all features so need a subset.
 
 \clearpage
 
@@ -107,12 +110,68 @@ Applying this same feature vector across our exposure curve:
 This trend continues over the exposure curve with LR, SVM and NB all improving as $k$ increases. Again, this feature vector 
 combination provides the most predictive results when compared with all other analysis completed during this thesis.
 
+\clearpage
+
 By extracting the model weights from the case where $k=0$ we can see which components of the \emph{Combination} feature vector were most
 predictive:
+\begin{table}[h]
+\begin{minipage}[b]{1.0\textwidth}
+\centering
+  \begin{tabular}{|l|l|l|l|l|} % cols: (left, center, right)
+  \hline
+  \textbf{Name} & \textbf{Size} & \textbf{Weight} & \textbf{Frequency} \\ \hline
 
-PAGES HERE
+Avatar: The Last Airbender (Page) & 324 & -1.68 $\pm$ 0.001 & 13 \\ \hline
+I'm late. Got attacked by a wild Pokemon (Page) & 161 & -1.609 $\pm$ 0 & 20 \\ \hline
+Overheard at the Ateneo de Manila University (Group) & 253 & -1.527 $\pm$ 0.001 & 26 \\ \hline
+Sorry mate i can't, i've got Quidditch (Page) & 254 & -1.501 $\pm$ 0 & 18 \\ \hline
+I would.........for Escapium. (Group) & 50 & -1.467 $\pm$ 0.001 & 11 \\ \hline
+Burgtoons (Group) & 34 & -1.37 $\pm$ 0.001 & 7 \\ \hline
+The Simpsons (Page) & 1552 & -1.355 $\pm$ 0.001 & 170 \\ \hline
+City Gate Hall (Group) & 27 & -1.346 $\pm$ 0 & 5 \\ \hline
+Victoria's Secret (Page) & 764 & -1.337 $\pm$ 0 & 11 \\ \hline
+Starbucks (Page) & 1548 & -1.313 $\pm$ 0 & 7 \\ \hline
+  \end{tabular}
+  \caption{\emph{Logistic Regression} feature weights extracted for the negative case where $k=0$. The \emph{Name} column displays the name of the feature vector.
+                        \emph{Size} represents the size of the \emph{Page} or \emph{Group}.
+                        \emph{Weight} represents the weight this feature vector received.  
+                        \emph{Yes'} column displays the number of times this feature vector was set to $1$ for a user.
+                        \emph{Distinct} column displays the number of unique times the feature vector was set to $1$.}
+\end{minipage}
+\end{table}
 
-This shows us that ...
+The Negative LR weights are equally broken up into \emph{Pages} and \emph{Groups}, and implies that smaller sizes for both the \emph{Pages}
+and \emph{Groups} are more predictive, however the number of distinct users who like these \emph{Groups} or \emph{Pages} are quite small.
+
+\begin{table}[h]
+\begin{minipage}[b]{1.0\textwidth}
+\centering
+  \begin{tabular}{|l|l|l|l|l|} % cols: (left, center, right)
+  \hline
+  \textbf{Name} & \textbf{Size} & \textbf{Weight} & \textbf{Distinct} \\ \hline
+
+Don't you hate it when Gandalf marks your exam and [...] (Page) & 110 & 1.627 $\pm$ 0.001 & 19 \\ \hline
+Goodberry's (Page) & 318 & 1.591 $\pm$ 0 & 73 \\ \hline
+Worst. Idea. Ever. [pause] Let's do it. (Page) & 227 & 1.561 $\pm$ 0 & 21 \\ \hline
+CatDog (Page) & 259 & 1.531 $\pm$ 0.001 & 12 \\ \hline
+Planking Australia (Page) & 166 & 1.501 $\pm$ 0.001 & 4 \\ \hline
+Avenged Sevenfold (Page) & 351 & 1.471 $\pm$ 0 & 6 \\ \hline
+Grug (Page) & 279 & 1.465 $\pm$ 0 & 9 \\ \hline
+Dr. House (Page) & 964 & 1.451 $\pm$ 0 & 28 \\ \hline
+If 1m people join, girlfriend will let me [...] (Group) & 416 & 1.362 $\pm$ 0 & 68 \\ \hline
+Do you ride kangaroos? no mate the cool kids ride emus (Page) & 321 & 1.333 $\pm$ 0.001 & 23 \\ \hline
+  \end{tabular}
+  \caption{\emph{Logistic Regression} feature weights extracted for the positive case where $k=0$. The \emph{Name} column displays the name of the feature vector.
+                        \emph{Size} represents the size of the \emph{Page} or \emph{Group}.
+                        \emph{Weight} represents the weight this feature vector received.  
+                        \emph{Yes'} column displays the number of times this feature vector was set to $1$ for a user.
+                        \emph{Distinct} column displays the number of unique times the feature vector was set to $1$.}
+\end{minipage}
+\end{table}
+
+The Positive LR weights are equally broken up into \emph{Pages} and \emph{Groups}, though with a stronger \emph{Page} focus which and again 
+implies that smaller sizes for the \emph{Pages} are more predictive, though the trend follows that the number of distinct users who like these 
+\emph{Pages} are quite small.
 
 %%% Local Variables: 
 %%% mode: latex
