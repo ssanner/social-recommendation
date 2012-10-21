@@ -4,17 +4,10 @@ import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
-import java.util.SortedMap;
-import java.util.TreeMap;
 
 import org.nicta.lr.util.SQLUtil;
 
@@ -39,8 +32,8 @@ public class WeightsExtractor {
 		new LogisticRegression(LogisticRegression.PRIOR_TYPE.L2, 2d, true),									// groups
 		new LogisticRegression(LogisticRegression.PRIOR_TYPE.L2, 2d),										// pages
 		new LogisticRegression(LogisticRegression.PRIOR_TYPE.L2, 2d, true),									// outgoing
-		new LogisticRegression(LogisticRegression.PRIOR_TYPE.L2, 2d, true),
-		new LogisticRegression(LogisticRegression.PRIOR_TYPE.L2, 2d)};								// incoming
+		new LogisticRegression(LogisticRegression.PRIOR_TYPE.L2, 2d, true),									// incoming
+		new LogisticRegression(LogisticRegression.PRIOR_TYPE.L2, 2d)};								
 	static DecimalFormat df3 = new DecimalFormat("#.###");
 
 	
@@ -48,6 +41,7 @@ public class WeightsExtractor {
 	 * set up arff file based on flag
 	 */
 	public static ArffData getArff(int flag, int type, String name){
+		// flag
 		// 0 = none
 		// 1 = interactions
 		// 2 = demographics
@@ -57,6 +51,10 @@ public class WeightsExtractor {
 		// 6 = outgoing
 		// 7 = incoming
 		// 8 = all
+		
+		//type
+		// 0 = lr
+		// 1 = nb
 		int groupsize;
 		int pagesize;
 		int outgoingsize;
@@ -155,8 +153,8 @@ public class WeightsExtractor {
 			
 			System.out.println("NB YN");
 			writer.println("NB YN");
-			display(2,0);
-			display(2,1);
+			display(3,0);
+			display(3,1);
 			
 			System.out.println();
 			writer.println();
@@ -294,7 +292,8 @@ public class WeightsExtractor {
 			//System.out.println(val + " " + fold + " "+ i);
 			if (val > 0.0){
 				results[1][1][fold][i] = val;
-			} else if (val < 0.0){
+//			} else if (val < 0.0){
+			} else {
 				results[1][0][fold][i] = val;
 			} 
 			//System.out.println(i + " " + lr._model.weightVectors()[0].value(i));
