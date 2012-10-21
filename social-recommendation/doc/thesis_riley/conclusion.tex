@@ -2,45 +2,50 @@
 %% Template conclusion.tex
 %%
 
+\chapter{Conclusion}
+\label{cha:conc}
+
+In this chapter we will outline a summary of the work completed during this thesis and outlines a proposal for future work in this area.
+
+method improves with exposure
 
 \section{Summary}
-\label{sec:summary}
+\label{sec:conc}
 
-In this thesis we have tested and compared different feature vectors across different exposures of size $k$. 
-We have shown that \emph{User Interactions} in themselves are not predictive of user likes, however coupled with the 
-likes exposure curve, they do show an improvement over our baselines as $k$ increases.
+In this thesis we have tested and compared an exhaustive list of different affinity features across varied exposures sizes.
 
-We have also shown the interesting result that \emph{User Preferences} are predictive of user likes in the base case of $k = 0$ and 
-this trend continues over the likes exposure curve.
+We have shown that \emph{user interaction} affinity features in themselves are not predictive of user likes, however coupled with user 
+exposure, they show a comprehensive improvement over our baselines.
 
-To answer the question initially proposed for this thesis, we have shown the feature vector which provides the highest predictiveness 
-of user likes is the combined vector comprised of \emph{Traits}, \emph{Groups} and \emph{Pages}. These were the highest performing 
-individual feature vectors and combined, represent the most predictive feature vector across our testing scope.
+We have also shown the interesting result that \emph{user preference} affinity features are more predictive of user likes when compared
+with our baselines and this trend continues with user exposure.
 
-Which is the exciting novel insight examined by this thesis.
+To answer the question initially proposed for this thesis:
+We have shown the affinity features which provide the highest predictiveness of user likes come from \emph{user preferences} and not
+\emph{user interactions}. The most predictive features found in this analysis are \emph{favourites}, \emph{group memberships} 
+and \emph{page likes}.
+
+Which is the exciting novel insight examined proposed in this thesis.
 
 \section{Future Work}
-\label{sec:fw}
+\label{sec:ftw}
 
 Proposed future work can be summarised under the following points:
 
 \begin{itemize}
-\item \textbf{Increase size ranges}: Given our maximum test sizes for \emph{Groups} and \emph{Pages} of $1000$ this size could be 
+\item \textbf{Increase size ranges}: Given our maximum test sizes for \emph{groups} and \emph{pages} of $1000$ this size could be 
 increased to find the optimal testing range for each of our classifiers.
-\item \textbf{Individual \emph{Traits} analysis}: During our \emph{Traits} analysis the feature vector was set to $1$ if the user and any user in 
-the set of alters were part of the same \emph{Traits} group, it could be beneficial to do an individual analysis on each component of 
-the \emph{Traits} data to find which individual elements of each \emph{Trait} are most predictive (similar to the analysis as done for \emph{Groups} and \emph{Pages}).
-\item \textbf{Passive likes}: Given the Facebook model of allowing users to like but not dislike data, explicit dislike data can not be gleaned
-from Facebook, which is hence why the LinkR active likes data was used for this evaluation. An approach could be developed which can predict 
-whether a user will have seen an item (online timestamps, recent interactions with user) and can infer that if the user did not like the item then
-they disliked it. This data set could then be applied to the testing methodology outlined above.
+\item \textbf{Passive likes}: Given the Facebook model of allowing users to like but not dislike data, explicit dislike data can not be 
+gleaned from Facebook, which is hence why the NICTA sourced active likes data was used for this evaluation. An approach could be developed 
+which can predict whether a user will have seen an item (online timestamps, recent interactions with user) and can infer that if the 
+user did not like the item then they disliked it. This data set could then be applied to the testing methodology undertaken above.
 \item \textbf{Cold start}: Leaving out some subset of users when training our models, but including them during testing to explore their 
 effects on results.
-\item \textbf{General user set}: Such as the study done by ~\cite{jugand} which comprised of the entire active social network of 721 million users 
-as of May 2011, applying these methods to a data set which is more indicative of the general Facebook user population could offer more generalisable 
-results.
-\item \textbf{Bayesian Model Averaging}: Weighting the most successful machine learning models under different feature sets and exposure curves 
-to simulate a new combined classifier, which has learnt from the positive results of each individual classifier.
+\item \textbf{General user set}: Such as the study done by \cite{jugand} which comprised of the entire active social network of 721 million users 
+(as of May 2011), applying these methods to a data set which is more indicative of the general Facebook user population could offer more 
+generalisable results.
+\item \textbf{Bayesian Model Averaging}: Weighting the most successful machine learning models under different affinity features and 
+exposures to generate a new combined classifier, which combines the best results of each individual classifier.
 \end{itemize}
 
 %%% Local Variables: 

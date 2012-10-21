@@ -1,0 +1,280 @@
+%%
+%% Template chap2.tex
+%%
+
+\chapter{Interaction Thresholding}
+\label{cha:interactionThresholding}
+
+\section{Introduction}
+\label{sec:ITintro}
+
+
+\begin{table}[h]
+	\centering
+	\begin{tabular}{|c|c|} % cols: (left, center, right)
+		\hline
+		\textbf{Threshold} & \textbf{Data count} \\ \hline
+		0 & 6,780 \\ \hline
+		1 & 593 \\ \hline
+		2 & 546 \\ \hline
+		3 & 527 \\ \hline
+		4 & 506 \\ \hline
+		5 & 447 \\ \hline
+	\end{tabular}
+	\caption{Thresholding data set sizes for passive data}
+	\label{tab:revpol}
+\end{table}
+
+\begin{table}[h]
+	\centering
+	\begin{tabular}{|c|c|} % cols: (left, center, right)
+		\hline
+		\textbf{Threshold} & \textbf{Data count} \\ \hline
+		0 & 7,403 \\ \hline
+		1 & 991 \\ \hline
+		2 & 810 \\ \hline
+		3 & 692 \\ \hline
+		4 & 612 \\ \hline
+		5 & 552 \\ \hline
+	\end{tabular}
+	\caption{Thresholding data set sizes for active data}
+	\label{tab:revpol}
+\end{table}
+
+\section{Results}
+\label{sec:ITresults}
+
+
+
+
+
+\clearpage
+\begin{table}[h]
+	\centering
+	\begin{tabular}{|l|l|l|l|l|} % cols: (left, center, right)
+	\hline
+	& Accuracy & Precision & Recall & F-Score \\ \hline
+	Threshold 0 & 0.611	\( \pm \) 0.010	& 0.606	\( \pm \) 0.015	& 0.323	\( \pm \) 0.013	& 0.420	\( \pm \) 0.012	\\ \hline
+	Threshold 1 & 0.611	\( \pm \) 0.010	& 0.606	\( \pm \) 0.015	& 0.323	\( \pm \) 0.013	& 0.420	\( \pm \) 0.012	\\ \hline
+	Threshold 2 & 0.611	\( \pm \) 0.010	& 0.606	\( \pm \) 0.015	& 0.323	\( \pm \) 0.013	& 0.420	\( \pm \) 0.012	\\ \hline
+	Threshold 3 & 0.611	\( \pm \) 0.010	& 0.606	\( \pm \) 0.015	& 0.323	\( \pm \) 0.013	& 0.420	\( \pm \) 0.012	\\ \hline
+	Threshold 4 & 0.611	\( \pm \) 0.010	& 0.606	\( \pm \) 0.015	& 0.323	\( \pm \) 0.013	& 0.420	\( \pm \) 0.012	\\ \hline
+	Threshold 5 & 0.611	\( \pm \) 0.010	& 0.606	\( \pm \) 0.015	& 0.323	\( \pm \) 0.013	& 0.420	\( \pm \) 0.012	\\ \hline
+	\end{tabular}
+	\caption{SocialRecommender(feature)}
+	\label{tab:revpol}
+\end{table}
+\begin{table}[h]
+	\centering
+	\begin{tabular}{|l|l|l|l|l|} % cols: (left, center, right)
+	\hline
+	& Accuracy & Precision & Recall & F-Score \\ \hline
+	Threshold 0 & 0.596	\( \pm \) 0.011	& 0.693	\( \pm \) 0.040	& 0.136	\( \pm \) 0.008	& 0.227	\( \pm \) 0.014	\\ \hline
+	Threshold 1 & 0.608	\( \pm \) 0.038	& 0.693	\( \pm \) 0.040	& 0.696	\( \pm \) 0.032	& 0.693	\( \pm \) 0.031	\\ \hline
+	Threshold 2 & 0.636	\( \pm \) 0.035	& 0.693	\( \pm \) 0.040	& 0.817	\( \pm \) 0.044	& 0.748	\( \pm \) 0.029	\\ \hline
+	Threshold 3 & 0.669	\( \pm \) 0.035	& 0.691	\( \pm \) 0.041	& 0.924	\( \pm \) 0.034	& 0.789	\( \pm \) 0.030	\\ \hline
+	Threshold 4 & 0.701	\( \pm \) 0.040	& 0.701	\( \pm \) 0.040	& 1.000	\( \pm \) 0.000	& 0.823	\( \pm \) 0.028	\\ \hline
+	Threshold 5 & 0.702	\( \pm \) 0.051	& 0.702	\( \pm \) 0.051	& 1.000	\( \pm \) 0.000	& 0.823	\( \pm \) 0.035	\\ \hline
+	\end{tabular}
+	\caption{NaiveBayes(1.0)}
+	\label{tab:revpol}
+\end{table}
+\begin{table}[h]
+	\centering
+	\begin{tabular}{|l|l|l|l|l|} % cols: (left, center, right)
+	\hline
+	& Accuracy & Precision & Recall & F-Score \\ \hline
+	Threshold 0 & 0.598	\( \pm \) 0.013	& 0.642	\( \pm \) 0.021	& 0.182	\( \pm \) 0.013	& 0.283	\( \pm \) 0.017	\\ \hline
+	Threshold 1 & 0.626	\( \pm \) 0.021	& 0.642	\( \pm \) 0.021	& 0.933	\( \pm \) 0.046	& 0.759	\( \pm \) 0.021	\\ \hline
+	Threshold 2 & 0.653	\( \pm \) 0.029	& 0.669	\( \pm \) 0.032	& 0.947	\( \pm \) 0.024	& 0.783	\( \pm \) 0.022	\\ \hline
+	Threshold 3 & 0.665	\( \pm \) 0.044	& 0.681	\( \pm \) 0.044	& 0.954	\( \pm \) 0.030	& 0.793	\( \pm \) 0.033	\\ \hline
+	Threshold 4 & 0.683	\( \pm \) 0.046	& 0.700	\( \pm \) 0.043	& 0.956	\( \pm \) 0.030	& 0.807	\( \pm \) 0.032	\\ \hline
+	Threshold 5 & 0.691	\( \pm \) 0.054	& 0.703	\( \pm \) 0.053	& 0.971	\( \pm \) 0.024	& 0.813	\( \pm \) 0.037	\\ \hline
+	\end{tabular}
+	\caption{LogisticRegression(L1,2.0)}
+	\label{tab:revpol}
+\end{table}
+\clearpage
+\begin{table}[h]
+	\centering
+	\begin{tabular}{|l|l|l|l|l|} % cols: (left, center, right)
+	\hline
+	& Accuracy & Precision & Recall & F-Score \\ \hline
+	Threshold 0 & 0.599	\( \pm \) 0.012	& 0.645	\( \pm \) 0.027	& 0.184	\( \pm \) 0.010	& 0.286	\( \pm \) 0.013	\\ \hline
+	Threshold 1 & 0.636	\( \pm \) 0.027	& 0.643	\( \pm \) 0.026	& 0.963	\( \pm \) 0.017	& 0.771	\( \pm \) 0.020	\\ \hline
+	Threshold 2 & 0.662	\( \pm \) 0.035	& 0.669	\( \pm \) 0.035	& 0.977	\( \pm \) 0.013	& 0.793	\( \pm \) 0.024	\\ \hline
+	Threshold 3 & 0.678	\( \pm \) 0.043	& 0.681	\( \pm \) 0.043	& 0.990	\( \pm \) 0.010	& 0.806	\( \pm \) 0.030	\\ \hline
+	Threshold 4 & 0.697	\( \pm \) 0.042	& 0.700	\( \pm \) 0.041	& 0.993	\( \pm \) 0.011	& 0.820	\( \pm \) 0.029	\\ \hline
+	Threshold 5 & 0.699	\( \pm \) 0.052	& 0.701	\( \pm \) 0.051	& 0.995	\( \pm \) 0.011	& 0.821	\( \pm \) 0.036	\\ \hline
+	\end{tabular}
+	\caption{SVMLibLinear(L1R\_LR,0.125,0.001)}
+	\label{tab:revpol}
+\end{table}
+\begin{table}[h]
+	\centering
+	\begin{tabular}{|l|l|l|l|l|} % cols: (left, center, right)
+	\hline
+	& Accuracy & Precision & Recall & F-Score \\ \hline
+	Threshold 0 & 0.599	\( \pm \) 0.011	& 0.637	\( \pm \) 0.025	& 0.193	\( \pm \) 0.010	& 0.296	\( \pm \) 0.014	\\ \hline
+	Threshold 1 & 0.633	\( \pm \) 0.024	& 0.637	\( \pm \) 0.025	& 0.991	\( \pm \) 0.011	& 0.774	\( \pm \) 0.018	\\ \hline
+	Threshold 2 & 0.661	\( \pm \) 0.033	& 0.664	\( \pm \) 0.033	& 0.995	\( \pm \) 0.009	& 0.795	\( \pm \) 0.024	\\ \hline
+	Threshold 3 & 0.680	\( \pm \) 0.043	& 0.680	\( \pm \) 0.043	& 1.000	\( \pm \) 0.000	& 0.808	\( \pm \) 0.030	\\ \hline
+	Threshold 4 & 0.701	\( \pm \) 0.040	& 0.701	\( \pm \) 0.040	& 1.000	\( \pm \) 0.000	& 0.823	\( \pm \) 0.028	\\ \hline
+	Threshold 5 & 0.702	\( \pm \) 0.051	& 0.702	\( \pm \) 0.051	& 1.000	\( \pm \) 0.000	& 0.823	\( \pm \) 0.035	\\ \hline
+	\end{tabular}
+	\caption{LogisticRegression(L1,2.0,MAX\_ENT)}
+	\label{tab:revpol}
+\end{table}
+\begin{table}[h]
+	\centering
+	\begin{tabular}{|l|l|l|l|l|} % cols: (left, center, right)
+	\hline
+	& Accuracy & Precision & Recall & F-Score \\ \hline
+	Threshold 0 & 0.598	\( \pm \) 0.013	& 0.650	\( \pm \) 0.022	& 0.175	\( \pm \) 0.012	& 0.275	\( \pm \) 0.016	\\ \hline
+	Threshold 1 & 0.625	\( \pm \) 0.023	& 0.650	\( \pm \) 0.022	& 0.898	\( \pm \) 0.059	& 0.752	\( \pm \) 0.023	\\ \hline
+	Threshold 2 & 0.657	\( \pm \) 0.030	& 0.676	\( \pm \) 0.032	& 0.933	\( \pm \) 0.025	& 0.782	\( \pm \) 0.021	\\ \hline
+	Threshold 3 & 0.671	\( \pm \) 0.044	& 0.687	\( \pm \) 0.045	& 0.949	\( \pm \) 0.031	& 0.795	\( \pm \) 0.032	\\ \hline
+	Threshold 4 & 0.687	\( \pm \) 0.046	& 0.705	\( \pm \) 0.044	& 0.954	\( \pm \) 0.031	& 0.809	\( \pm \) 0.033	\\ \hline
+	Threshold 5 & 0.696	\( \pm \) 0.055	& 0.708	\( \pm \) 0.054	& 0.968	\( \pm \) 0.025	& 0.815	\( \pm \) 0.038	\\ \hline
+	\end{tabular}
+	\caption{SVMLibLinear(L2R\_L2LOSS\_SVC,0.125,0.001)}
+	\label{tab:revpol}
+\end{table}
+\clearpage
+\begin{table}[h]
+	\centering
+	\begin{tabular}{|l|l|l|l|l|} % cols: (left, center, right)
+	\hline
+	& Accuracy & Precision & Recall & F-Score \\ \hline
+	Threshold 0 & 0.598	\( \pm \) 0.012	& 0.648	\( \pm \) 0.026	& 0.173	\( \pm \) 0.017	& 0.272	\( \pm \) 0.022	\\ \hline
+	Threshold 1 & 0.621	\( \pm \) 0.031	& 0.648	\( \pm \) 0.026	& 0.884	\( \pm \) 0.060	& 0.746	\( \pm \) 0.030	\\ \hline
+	Threshold 2 & 0.661	\( \pm \) 0.032	& 0.673	\( \pm \) 0.034	& 0.956	\( \pm \) 0.018	& 0.789	\( \pm \) 0.023	\\ \hline
+	Threshold 3 & 0.675	\( \pm \) 0.044	& 0.685	\( \pm \) 0.046	& 0.971	\( \pm \) 0.019	& 0.801	\( \pm \) 0.031	\\ \hline
+	Threshold 4 & 0.692	\( \pm \) 0.045	& 0.701	\( \pm \) 0.045	& 0.976	\( \pm \) 0.018	& 0.815	\( \pm \) 0.031	\\ \hline
+	Threshold 5 & 0.697	\( \pm \) 0.055	& 0.703	\( \pm \) 0.055	& 0.985	\( \pm \) 0.015	& 0.818	\( \pm \) 0.037	\\ \hline
+	\end{tabular}
+	\caption{SVMLibLinear(L2R\_LR,0.125,0.001)}
+	\label{tab:revpol}
+\end{table}
+\begin{table}[h]
+	\centering
+	\begin{tabular}{|l|l|l|l|l|} % cols: (left, center, right)
+	\hline
+	& Accuracy & Precision & Recall & F-Score \\ \hline
+	Threshold 0 & 0.563	\( \pm \) 0.015	& 0.000 \( \pm \) 0.000 & 0.000	\( \pm \) 0.000	& 0.000 \( \pm \) 0.000 \\ \hline
+	Threshold 1 & 0.363	\( \pm \) 0.026	& 0.000 \( \pm \) 0.000 & 0.000	\( \pm \) 0.000	& 0.000 \( \pm \) 0.000 \\ \hline
+	Threshold 2 & 0.335	\( \pm \) 0.033	& 0.000 \( \pm \) 0.000 & 0.000	\( \pm \) 0.000	& 0.000 \( \pm \) 0.000 \\ \hline
+	Threshold 3 & 0.320	\( \pm \) 0.043	& 0.000 \( \pm \) 0.000 & 0.000	\( \pm \) 0.000	& 0.000 \( \pm \) 0.000 \\ \hline
+	Threshold 4 & 0.299	\( \pm \) 0.040	& 0.000 \( \pm \) 0.000 & 0.000	\( \pm \) 0.000	& 0.000 \( \pm \) 0.000 \\ \hline
+	Threshold 5 & 0.298	\( \pm \) 0.051	& 0.000 \( \pm \) 0.000 & 0.000	\( \pm \) 0.000	& 0.000 \( \pm \) 0.000 \\ \hline
+	\end{tabular}
+	\caption{ConstantPredictor(false)}
+	\label{tab:revpol}
+\end{table}
+\begin{table}[h]
+	\centering
+	\begin{tabular}{|l|l|l|l|l|} % cols: (left, center, right)
+	\hline
+	& Accuracy & Precision & Recall & F-Score \\ \hline
+	Threshold 0 & 0.597	\( \pm \) 0.013	& 0.643	\( \pm \) 0.021	& 0.177	\( \pm \) 0.014	& 0.277	\( \pm \) 0.018	\\ \hline
+	Threshold 1 & 0.619	\( \pm \) 0.020	& 0.643	\( \pm \) 0.021	& 0.906	\( \pm \) 0.058	& 0.750	\( \pm \) 0.022	\\ \hline
+	Threshold 2 & 0.651	\( \pm \) 0.028	& 0.671	\( \pm \) 0.030	& 0.931	\( \pm \) 0.022	& 0.779	\( \pm \) 0.022	\\ \hline
+	Threshold 3 & 0.664	\( \pm \) 0.041	& 0.684	\( \pm \) 0.042	& 0.938	\( \pm \) 0.032	& 0.790	\( \pm \) 0.032	\\ \hline
+	Threshold 4 & 0.681	\( \pm \) 0.043	& 0.703	\( \pm \) 0.041	& 0.942	\( \pm \) 0.032	& 0.804	\( \pm \) 0.032	\\ \hline
+	Threshold 5 & 0.689	\( \pm \) 0.051	& 0.706	\( \pm \) 0.051	& 0.955	\( \pm \) 0.028	& 0.810	\( \pm \) 0.037	\\ \hline
+	\end{tabular}
+	\caption{LogisticRegression(L2,2.0)}
+	\label{tab:revpol}
+\end{table}
+\clearpage
+\begin{table}[h]
+	\centering
+	\begin{tabular}{|l|l|l|l|l|} % cols: (left, center, right)
+	\hline
+	& Accuracy & Precision & Recall & F-Score \\ \hline
+	Threshold 0 & 0.437	\( \pm \) 0.015	& 0.437	\( \pm \) 0.015	& 1.000	\( \pm \) 0.000	& 0.608	\( \pm \) 0.015	\\ \hline
+	Threshold 1 & 0.637	\( \pm \) 0.026	& 0.637	\( \pm \) 0.026	& 1.000	\( \pm \) 0.000	& 0.778	\( \pm \) 0.019	\\ \hline
+	Threshold 2 & 0.665	\( \pm \) 0.033	& 0.665	\( \pm \) 0.033	& 1.000	\( \pm \) 0.000	& 0.798	\( \pm \) 0.024	\\ \hline
+	Threshold 3 & 0.680	\( \pm \) 0.043	& 0.680	\( \pm \) 0.043	& 1.000	\( \pm \) 0.000	& 0.808	\( \pm \) 0.030	\\ \hline
+	Threshold 4 & 0.701	\( \pm \) 0.040	& 0.701	\( \pm \) 0.040	& 1.000	\( \pm \) 0.000	& 0.823	\( \pm \) 0.028	\\ \hline
+	Threshold 5 & 0.702	\( \pm \) 0.051	& 0.702	\( \pm \) 0.051	& 1.000	\( \pm \) 0.000	& 0.823	\( \pm \) 0.035	\\ \hline
+	\end{tabular}
+	\caption{ConstantPredictor(true)}
+	\label{tab:revpol}
+\end{table}
+\begin{table}[h]
+	\centering
+	\begin{tabular}{|l|l|l|l|l|} % cols: (left, center, right)
+	\hline
+	& Accuracy & Precision & Recall & F-Score \\ \hline
+	Threshold 0 & 0.599	\( \pm \) 0.013	& 0.647	\( \pm \) 0.025	& 0.181	\( \pm \) 0.010	& 0.282	\( \pm \) 0.014	\\ \hline
+	Threshold 1 & 0.632	\( \pm \) 0.023	& 0.645	\( \pm \) 0.024	& 0.940	\( \pm \) 0.022	& 0.764	\( \pm \) 0.018	\\ \hline
+	Threshold 2 & 0.656	\( \pm \) 0.032	& 0.671	\( \pm \) 0.034	& 0.950	\( \pm \) 0.020	& 0.785	\( \pm \) 0.024	\\ \hline
+	Threshold 3 & 0.670	\( \pm \) 0.040	& 0.682	\( \pm \) 0.042	& 0.964	\( \pm \) 0.022	& 0.797	\( \pm \) 0.030	\\ \hline
+	Threshold 4 & 0.687	\( \pm \) 0.043	& 0.700	\( \pm \) 0.042	& 0.969	\( \pm \) 0.022	& 0.812	\( \pm \) 0.031	\\ \hline
+	Threshold 5 & 0.696	\( \pm \) 0.052	& 0.703	\( \pm \) 0.052	& 0.983	\( \pm \) 0.021	& 0.818	\( \pm \) 0.037	\\ \hline
+	\end{tabular}
+	\caption{SVMLibLinear(L1R\_L2LOSS\_SVC,0.125,0.001)}
+	\label{tab:revpol}
+\end{table}
+\begin{table}[h]
+	\centering
+	\begin{tabular}{|l|l|l|l|l|} % cols: (left, center, right)
+	\hline
+	& Accuracy & Precision & Recall & F-Score \\ \hline
+	Threshold 1 & 0.599	\( \pm \) 0.011	& 0.643	\( \pm \) 0.027	& 0.186	\( \pm \) 0.008	& 0.289	\( \pm \) 0.012	\\ \hline
+	Threshold 2 & 0.634	\( \pm \) 0.028	& 0.643	\( \pm \) 0.027	& 0.957	\( \pm \) 0.019	& 0.768	\( \pm \) 0.021	\\ \hline
+	Threshold 3 & 0.658	\( \pm \) 0.037	& 0.668	\( \pm \) 0.036	& 0.969	\( \pm \) 0.015	& 0.790	\( \pm \) 0.026	\\ \hline
+	Threshold 4 & 0.678	\( \pm \) 0.044	& 0.682	\( \pm \) 0.044	& 0.987	\( \pm \) 0.010	& 0.805	\( \pm \) 0.031	\\ \hline
+	Threshold 5 & 0.697	\( \pm \) 0.043	& 0.701	\( \pm \) 0.042	& 0.991	\( \pm \) 0.011	& 0.820	\( \pm \) 0.029	\\ \hline
+	Threshold 5 & 0.699	\( \pm \) 0.052	& 0.702	\( \pm \) 0.052	& 0.993	\( \pm \) 0.012	& 0.820	\( \pm \) 0.036	\\ \hline
+	\end{tabular}
+	\caption{SVMLibSVM(0.125,0.1)}
+	\label{tab:revpol}
+\end{table}
+\clearpage
+\begin{table}[h]
+	\centering
+	\begin{tabular}{|l|l|l|l|l|} % cols: (left, center, right)
+	\hline
+	& Accuracy & Precision & Recall & F-Score \\ \hline
+	Threshold 0 & 0.592	\( \pm \) 0.019	& 0.598	\( \pm \) 0.027	& 0.386	\( \pm \) 0.066	& 0.432	\( \pm \) 0.021	\\ \hline
+	Threshold 1 & 0.592	\( \pm \) 0.019	& 0.598	\( \pm \) 0.027	& 0.386	\( \pm \) 0.066	& 0.432	\( \pm \) 0.021	\\ \hline
+	Threshold 2 & 0.592	\( \pm \) 0.019	& 0.598	\( \pm \) 0.027	& 0.386	\( \pm \) 0.066	& 0.432	\( \pm \) 0.021	\\ \hline
+	Threshold 3 & 0.592	\( \pm \) 0.019	& 0.598	\( \pm \) 0.027	& 0.386	\( \pm \) 0.066	& 0.432	\( \pm \) 0.021	\\ \hline
+	Threshold 4 & 0.592	\( \pm \) 0.019	& 0.598	\( \pm \) 0.027	& 0.386	\( \pm \) 0.066	& 0.432	\( \pm \) 0.021	\\ \hline
+	Threshold 5 & 0.592	\( \pm \) 0.019	& 0.598	\( \pm \) 0.027	& 0.386	\( \pm \) 0.066	& 0.432	\( \pm \) 0.021	\\ \hline
+	\end{tabular}
+	\caption{SocialRecommender(social2)}
+	\label{tab:revpol}
+\end{table}
+
+
+
+
+\begin{figure}[h]
+	\begin{center}
+		\includegraphics[scale=0.85]{imgs/ConstantPredictor(true).pdf}
+		\caption{Constant true predictor}
+	\end{center}
+\end{figure}
+\clearpage
+
+\begin{figure}[h]
+	\begin{center}
+		\includegraphics[scale=0.85]{imgs/TopPerforming.pdf}
+		\caption{Top performing Predictors}
+	\end{center}
+\end{figure}
+
+
+\clearpage
+\section{Conclusion}
+\label{sec:ITconclusion}
+
+Conclusion here..
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "thesis"
+%%% End: 
