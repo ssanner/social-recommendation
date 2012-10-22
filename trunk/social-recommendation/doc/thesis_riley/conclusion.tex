@@ -5,24 +5,25 @@
 \chapter{Conclusion}
 \label{cha:conc}
 
-In this chapter we will outline a summary of the work completed during this thesis and outlines a proposal for future work in this area.
-
-method improves with exposure
+In this chapter we will outline a summary of the work completed during this thesis and outline a proposal for future work in this area.
 
 \section{Summary}
 \label{sec:conc}
 
-In this thesis we have tested and compared an exhaustive list of different affinity features across varied exposures sizes.
+In this thesis we have tested and compared an exhaustive list of different affinity features across varied exposure sizes.
 
-We have demonstrated that \emph{user interaction} affinity features in themselves are not predictive of user likes, however coupled with user 
-exposure, they show a comprehensive improvement over our baselines.
+We have demonstrated that \emph{user interaction} affinity features in themselves are not predictive of user likes, however coupled against 
+exposure, they show a comprehensive predictive improvement over our baselines.
 
 We have also shown the interesting result that \emph{user preference} affinity features are more predictive of user likes when compared
 with our baselines and this trend continues with user exposure.
 
+We have investigated individual groups and found the most predictive were highly localised with a medium
+user frequency, while the most predictive pages were much more general and of a higher relative user frequency.
+
 To answer the question initially proposed for this thesis, we have shown the affinity features which provide the highest predictiveness of user likes come from \emph{user preferences} and not
 \emph{user interactions}. The most predictive features found in this analysis are \emph{favourites}, \emph{group memberships} 
-and \emph{page likes}.
+and \emph{page likes}, additionally a combination of these individually predictive features results in the most predictive classification.
 
 This provides the exciting and novel insights examined during this thesis.
 
@@ -32,19 +33,20 @@ This provides the exciting and novel insights examined during this thesis.
 Proposed future work can be summarised under the following points:
 
 \begin{itemize}
-\item \textbf{Increase size ranges}: Given our maximum test sizes for \emph{groups} and \emph{pages} of $1000$ this size could be 
+\item \textbf{Increase size ranges}: Given our maximum test sizes for \emph{groups} and \emph{pages} of $1000$  and the trend that an increased
+size range resulted in better prediction, this size could be 
 increased to find the optimal testing range for each of our classifiers.
 \item \textbf{Passive likes}: Given the Facebook model of allowing users to like but not dislike data, explicit dislike data can not be 
-gleaned from Facebook, which is why NICTA sourced active likes data was used for this evaluation. An approach could be developed 
-which can predict whether a user will have seen an item (online timestamps, recent interactions with user) and can infer that if the 
-user did not like the item then they disliked it. This data set could then be applied to the testing methodology undertaken above.
+gleaned from Facebook, which is why the active likes sourced from the NICTA app were used during this evaluation. An approach could be developed 
+which can predict whether a user will have seen an item (online timestamps, recent interactions with a user, etc) and we can infer that if the 
+user did not like the item then they disliked it. This data set could then be applied to the testing methodology outlined in chapters.
 \item \textbf{Cold start}: Leaving out some subset of users when training our models, but including them during testing to explore their 
 effects on results.
 \item \textbf{General user set}: Such as the study done by \cite{jugand} which comprised of the entire active social network of 721 million users 
 (as of May 2011), applying these methods to a data set which is more indicative of the general Facebook user population could offer more 
 generalisable results.
-\item \textbf{Bayesian Model Averaging}: Weighting the most successful machine learning models under different affinity features and 
-exposures to generate a new combined classifier, which combines the best results of each individual classifier.
+\item \textbf{Bayesian Model Averaging}: Weighting the most successful machine learning classifiers under different affinity features and 
+exposures based on their predictive tendencies to generate a new hybrid classifier, which combines the most predictive results of each individual classifier.
 \end{itemize}
 
 %%% Local Variables: 

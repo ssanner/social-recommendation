@@ -1,3 +1,24 @@
+Make sure each chapter has intro/conclusion
+
+
+Interactions more predictive then messages, messages are a much weaker predictive interaction.
+
+This is a sufficiently large dataset for performing our analysis.
+
+We conclude by summarising the key novel observations found during this research.
+
+Some of these online interactions suggest a real world relationship such as being tagged in photos or videos.
+
+Only include items that have had at least k likes among the members of alters. (Romero, Meeder and Kleinberg)
+Romero2011hashtag
+
+Smaller groups are generally more predictive which adheres to the common sense notion that large groups appeal more 
+broadly (www)
+
+Multiple studies have found that online interactions tend to corelate more with interests then user profile (www)
+
+Anderson et al 2012 concluded that it is less about the content of what people say, but more about who they interacted with.
+
 %%
 %% Template conclusion.tex
 %%
@@ -5,40 +26,43 @@
 \chapter{Feature Combination}
 \label{cha:bma}
 
-Given the vast number of potential affinity features as outlined in the previous sections, it is both computationally costly and time 
-consuming to group all features together into one huge combined affinity feature. Hence, it is crucial we provide a practical method which 
-facilitates a combination of the most predictive individual affinity features found during this research.
+Given the vast number of affinity features outlined in the previous sections, it is both computationally costly and time 
+consuming to group all features together into one combined feature. Hence, it is crucial we provide a practical method which 
+facilitates the combination of the most individually predictive affinity features found during this research.
 
-In this chapter we combine the individually most predictive affinity features together into one large, but manageable feature vector 
-and examine the results.
+In this chapter we combine these individually predictive affinity features together and examine the results.
 
 \section{Affinity Feature Selection}
 \label{sec:notation}
 
-Based on results found during our \emph{user preference} analysis, the combined affinity feature we examine is comprised of:
+Based on results found during our \emph{user interactions} and \emph{user preference} analysis, the most predictive features we have found are:
 \begin{itemize}
-\item \emph{Favourites}
-\item \emph{Groups}
-\item \emph{Pages}
+\item \textbf{Favourites}
+\item \textbf{Groups}
+\item \textbf{Pages}
 \end{itemize}
+
+The following results and analysis are based on these above features combined.
 
 \clearpage
 
-Applying this combined affinity feature to the data set:
+Applying this combined affinity feature to the data set we obtain:
 
 \begin{figure}[h]
 	\begin{center}
 		\includegraphics[scale=0.75]{results/combination/bar_combination.pdf}
-		\caption{Accuracy results using the \emph{combined} feature set. We can see a large improvement over our SMB baseline for the case
-				 where $k=0$, particularly for the LR case.}
+		\caption{Accuracy results using the \emph{combined} feature set. This \emph{combined} feature gives our best prediction 
+		in comparison to all other individual features and we can see a large improvement over our SMB baseline for the case where $k=0$, particularly for the LR case.}
 	\end{center}
 \end{figure}
 
 \clearpage
 
-We find that the \emph{combined} affinity feature gives better results for our classifiers when compared with our baselines, particularly for 
-the LR case. In fact, this \emph{combined} affinity feature results in the best results found during this research, which is summarised in 
-the table below:
+We find that the \emph{combined} affinity feature gives the most predictive results when compared with both our baselines and all
+other individual features tested during this research.
+
+The most predictive individual results of \emph{favourites}, \emph{groups} and \emph{pages} against the \emph{combined}
+feature are shown below:
 
 \begin{table}[h]
 \begin{minipage}[b]{.50\textwidth}
@@ -89,10 +113,11 @@ the table below:
 \end{minipage}
 \end{table}
 
-These results show that based on our results the most predictive feature vector is a combination of the individual most predictive 
-feature vectors found in our \emph{user preferences} section.
+These tables clearly show that the most predictive feature vector is a combination of the individually most predictive 
+features found during our analysis. This trend continues across our exposure $k$ and offers the most predictive feature 
+vector found during this research over all exposures.
 
-This trend continues for all values of $k$ and offers the most predictive feature vector found during this research.
+This graph can be seen below:
 
 \clearpage
 
@@ -100,13 +125,10 @@ This trend continues for all values of $k$ and offers the most predictive featur
 	\begin{center}
 		\includegraphics[scale=0.75]{results/combination/line_combination.pdf}
 		\caption{Accuracy results across exposure using the \emph{combined} feature set. This feature set offers the most predictive 
-				 results discovered during this research. As our exposure $k$ increases, the improved predictive performance of this 
-				 feature combination increases with it.}
+				 results discovered during this research for all $k$. As our exposure increases, the improved predictive performance of this 
+				 \emph{combined} feature increases too.}
 	\end{center}
 \end{figure}
-
-Clearly, this \emph{combined} feature provides the most predictive results when compared with all other analysis completed 
-during this thesis.
 
 \clearpage
 
@@ -131,7 +153,7 @@ were most predictive:
 \small{Victoria's Secret (Page)} & 764 & -1.337 $\pm$ 0 & 11 \\ \hline
 \small{Starbucks (Page)} & 1548 & -1.313 $\pm$ 0 & 7 \\ \hline
   \end{tabular}
-  \caption{\emph{Logistic Regression} feature weights extracted for the negative case where $k=0$. The \emph{Name} column displays the name of the feature.
+  \caption{LR feature weights extracted for the negative case where $k=0$. The \emph{Name} column displays the name of the feature.
                         \emph{Size} represents the size of the \emph{Page} or \emph{Group}.
                         \emph{Weight} represents the weight this feature vector received.  
                         \emph{Frequency} displays the number of times this feature vector was set to $1$ for a user.}
@@ -155,7 +177,7 @@ were most predictive:
 \small{If 1m people join, girlfriend will let [...] (Group)} & 416 & 1.362 $\pm$ 0 & 68 \\ \hline
 \small{Do you ride kangaroos? no mate the [...] (Page)} & 321 & 1.333 $\pm$ 0.001 & 23 \\ \hline
   \end{tabular}
-  \caption{\emph{Logistic Regression} feature weights extracted for the positive case where $k=0$. The \emph{Name} column displays the name of the feature.
+  \caption{LR feature weights extracted for the positive case where $k=0$. The \emph{Name} column displays the name of the feature.
                         \emph{Size} represents the size of the \emph{Page} or \emph{Group}.
                         \emph{Weight} represents the weight this feature vector received.  
                         \emph{Frequency} displays the number of times this feature vector was set to $1$ for a user.}
@@ -164,17 +186,19 @@ were most predictive:
 
 The negative LR weights are equally broken up into \emph{pages} and \emph{groups} as contributing highly to the prediction. The size ranges 
 for both \emph{pages} and \emph{groups} varies greatly from as little as $27$ up to as high as $1552$ and there is little corelation between 
-the frequency and sizes, in fact lower frequencies $~20$ contribute most to the prediction.
+the frequency and sizes, in fact lower frequencies of around $20$ contribute most to the prediction.
 
-The positive LR weights are more focused on the predictiveness of \emph{pages} and the sizes of the \emph{pages} are much more consistent 
-$~200$.
+The positive LR weights are more focused on the predictiveness of \emph{pages} and the sizes of the \emph{pages} are in
+a much more consistent range, while the frequencies still vary.
 
 These LR weights show that both \emph{groups} and especially \emph{pages} are highly predictive of a users like preferences and particular 
-sizes or frequencies do not appear to be more predictive then others. Additionally under this combined paradigm, \emph{favourites} do not appear 
+sizes or frequencies do not appear to be more predictive then others. Additionally under this \emph{combined} paradigm, \emph{favourites} do not appear 
 to contribute strongly to our results.
 
-We have shown in this chapter that a \emph{combined} version of our individually predictive affinity features results in the most 
-accurate predictions for our data set, when compared with all other individual features.
+We have shown in this chapter that the \emph{combined} feature of our individually most predictive affinity features results in the most 
+accurate and concise predictions for our data set, when \emph{combined}, \emph{favourites} are less predictive then \emph{groups} and 
+\emph{groups} are less predictive then \emph{pages}. Additionally, the sizes and frequencies of these \emph{groups} and \emph{pages} 
+do not appear to be consistent in their predictive qualities.
 
 %%% Local Variables: 
 %%% mode: latex

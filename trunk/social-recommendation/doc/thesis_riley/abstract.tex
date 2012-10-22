@@ -7,20 +7,21 @@
 \addcontentsline{toc}{chapter}{Abstract}
 
 Social networks such as Facebook allow users to create a rich and verbose profile composed of both user specific interactions (such as 
-comment and message passing, tags, likes) and user preferences (such as favourite movies and music, group memberships, page likes). 
+comment and message passing, tags, likes, etc) and user preferences (such as favourite movies and music, group memberships, page likes, etc). 
 These distinct components of a users profile can be leveraged to gauge their affinity with certain links and ultimately predict their
 explicit like preferences.
 
-The goal of this thesis is to decipher which of these aforementioned affinity measures are truly predictive of a users like preferences.
+The objective of this thesis is to decipher which of these aforementioned affinity measures are truly predictive of a users like preferences.
 
 The success of our predictions are evaluated using the machine learning algorithms of  
 \emph{Naive Bayes}, \emph{Logistic Regression} and \emph{Support Vector Machines}, results are compared to previous 
 work using the state of the art social collaborative filtering technique of \emph{Social Matchbox} as a baseline. 
-The data set is sourced from a set of over 100 Facebook users and their interactions with over 39,000+ friends during a four month period.
+The data is sourced from a set of over 100 Facebook users and their interactions with over 39,000+ friends during a four month period.
 
-Our analysis has shown that user interactions in themselves are not highly predictive of user likes, while user preferences are. We conclude 
-by analysing a combination of the most predictive user preference measures, offer a summary of our work to date and propose recommendations
-for additional research in this area.
+Our analysis has shown that user interactions in themselves are not highly predictive of user likes, however user preferences are. 
+This increasingly predictive trend continues as we limit user exposure (ensuring some $k$ number of users $u$ have liked a link $v$) over links. 
+We conclude by analysing a combination of the most predictive user preference affinity measures, offer a summary of our work to date and propose 
+recommendations for additional research in this area.
 
 %%% Local Variables: 
 %%% mode: latex
