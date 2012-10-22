@@ -119,9 +119,8 @@ public class WeightsExtractor {
 
 				if (!set){
 					// 1 = LR, 2 = NB_YY, 3 = NB_YN					
-					//System.out.println(nb_trainData._attr.size());
 					//System.out.println(lr_trainData._attr.size());
-					results = new Double[4][2][Launcher.NUM_FOLDS][2500];
+					results = new Double[4][2][Launcher.NUM_FOLDS][lr_trainData._attr.size()-3];
 					current = getArff((i+1), 0, Launcher.DATA_FILE);
 					set = true;
 				}
@@ -137,7 +136,7 @@ public class WeightsExtractor {
 				nb.train();
 
 				getColumnWeightsLR(lr,k);
-				getColumnWeightsNB(nb,k);
+				//getColumnWeightsNB(nb,k);
 				
 			}												
 			
@@ -146,7 +145,7 @@ public class WeightsExtractor {
 			display(1,0);
 			display(1,1);
 			
-			System.out.println("NB YY");
+			/*System.out.println("NB YY");
 		 	writer.println("NB YY");
 			display(2,0);
 			display(2,1);
@@ -154,7 +153,7 @@ public class WeightsExtractor {
 			System.out.println("NB YN");
 			writer.println("NB YN");
 			display(3,0);
-			display(3,1);
+			display(3,1);*/
 			
 			System.out.println();
 			writer.println();
@@ -189,9 +188,9 @@ public class WeightsExtractor {
 			if (t == 1)
 				index = indexes[avg.length-i-1];
 			
-			if (avg[index] == 0.0){
+		/*	if (avg[index] == 0.0){
 				break;
-			}			
+			}	*/		
 			
 			String attribute = current._attr.get(index+3).name;
 	
@@ -285,18 +284,15 @@ public class WeightsExtractor {
 	 */	
 	public static void getColumnWeightsLR(LogisticRegression lr, int fold) throws Exception{		
 
-		//System.out.println(lr._betas[0].numDimensions() + " " + results[1][1][fold].length);
-		for (int i = 0; i < lr._betas[0].numDimensions(); i++){
-			//System.out.println(lr._trainData._attr.get(i+offset).name);			
+		for (int i = 0; i < lr._betas[0].numDimensions(); i++){			
 			Double val = lr._betas[0].value(i);
-			//System.out.println(val + " " + fold + " "+ i);
+		//	System.out.println(val + " " + fold + " "+ i + " " + current._attr.get(i+3).name);
 			if (val > 0.0){
 				results[1][1][fold][i] = val;
 //			} else if (val < 0.0){
 			} else {
 				results[1][0][fold][i] = val;
 			} 
-			//System.out.println(i + " " + lr._model.weightVectors()[0].value(i));
 		}
 	}
 
