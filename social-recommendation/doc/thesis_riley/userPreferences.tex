@@ -5,12 +5,11 @@
 \chapter{User Preferences}
 \label{cha:ivg}
 
-In this chapter we will compare the predictiveness of applying different types of \emph{user preferences} as our feature vector.
-
-The \emph{user preferences} we examine during this thesis are:
+In this chapter we will compare the predictiveness across the following different types of \emph{user preferences} available
+in Facebook:
 \begin{itemize}
-\item \textbf{Demographics} : Age, Gender, Location.
-\item \textbf{Favourites} : Activities, Books, Athletes, Teams, Movies, Music, Sports, Television, People, Interests.
+\item \textbf{Demographics} : Age, gender and location of a user.
+\item \textbf{Favourites} : A users favourite preferences for activities, books, athletes, teams, movies, music, sports, television, people and interests.
 \item \textbf{Groups} : All groups a user has joined.
 \item \textbf{Pages} :  All pages a user has liked.
 \end{itemize}
@@ -18,14 +17,14 @@ The \emph{user preferences} we examine during this thesis are:
 \section{Demographics}
 \label{sec:demo}
 
-The \emph{demographics} data we are interested in includes:
+The first \emph{user preference} we will examine is \emph{demographics}, the specific \emph{demographics} data we are interested in includes:
 \begin{itemize}
-\item \textbf{Age}
-\item \textbf{Birthday}
-\item \textbf{Location}
+\item \textbf{Users age}
+\item \textbf{Users birthday}
+\item \textbf{Users location}
 \end{itemize}
 
-Below we will give a basic analysis of the \emph{demographics} data in our data set.
+Below we will give a basic analysis of this \emph{demographics} data in our data set.
 
 Gender breakdown:
 % select count(*), lu.gender from linkrUser lu where lu.uid in (SELECT distinct uid FROM trackRecommendedLinks) group by gender;
@@ -43,8 +42,8 @@ Gender breakdown:
 
 Despite this clear male bias \cite{jugand} found that in a social setting, there are no strong gender homophily tendencies. Hence the male 
 skew should not negatively affect our results. Additionally \cite{backstrom2011center} have shown that different genders have differing 
-tendencies to disperse interactions across genders, implying our gender bias is unimportant and hence gender information will be used in 
-the \emph{demographics} feature vector.
+tendencies to disperse interactions across genders, implying this gender bias will not negatively effect prediction and hence gender information will be used as 
+part of the \emph{demographics} feature vector.
 
 \clearpage
 
@@ -78,13 +77,13 @@ Birthday breakdown:
 		1991-1995 & 25 \\ \hline
 		1996-2000 & 2 \\ \hline
 	\end{tabular}
-	\caption{Birthday breakdown for app users. There is a clear densely populated age range of around $18 - 30$.}
+	\caption{Birthday breakdown for app users. There is clearly a densely populated age range of around $18 - 30$.}
 	\label{tab:revpol}
 \end{table}
 
 Birthdays are grouped in a distinct range, most users in this data set are grouped in the range of around $18 - 30$. 
 \cite{jugand} have found that there is a strong effect of age on friendship preferences, which implies that many of our app users 
-should share similar preferences and hence birthday information will be a useful component of this feature.
+should share similar preferences given their age similarities and hence birthday information will be a useful component of this feature.
 
 \clearpage
 
@@ -115,32 +114,39 @@ Location breakdown:
 Given the fact that most app users are either situated in Canberra (location of the app development and deployment) or are undisclosed, 
 location information will not be used by this feature vector.
 
-For \emph{demographics} each user $u$, item $v$ and feature vector $x$ the alters set is defined as $ alters_{u,v} = \{z | Liked_{z,v}\} $
-the relationships $R$ are explicitly defined below:
+For \emph{demographics} each feature vector $X$ where $X \in \mathbb{R}^I$ is composed of the cross product between the above components where:
 
 \begin{itemize}
 \item $x_1 = $ Whether the user $u$ is male, $gender_u = male$.
 \item $x_2 = $ Whether the user $u$ is female, $gender_u = female$.
-\item $x_3 = $ Whether the user $u$ and any user in the alters set share the same gender, $gender_u \in \{gender_{\{alters\}}\}$.
-\item $x_4 = $ Whether the user $u$ and any user in the alters are of a different gender, $gender_u \not\in \{gender_{\{alters\}}\}$.
-\item $x_5 = $ Whether the user $u$ and any user in the alters set share the same birth range, $birthday_u \in \{birthday_{\{alters\}}\}$.
+\item $x_3 = $ Whether the user $u$ and any user in the alters share the same gender defined by the relationship:
+
+\[ Relationship_{u,3} = \{z | gender_u = gender_z\} \]
+
+\item $x_4 = $ Whether the user $u$ and any user in the alters are of a different gender defined by the relationship:
+
+\[ Relationship_{u,4} = \{z | gender_u \neq gender_z\} \]
+
+\item $x_5 = $ Whether the user $u$ and any user in the alters set share the same birth range defined by the relationship:
+
+\[ Relationship_{u,5} = \{z | birthrange_u = birthrange_z\} \]
+
 \end{itemize}
 
-Where the functions $gender_u \in \{male, female\}$ returns the gender of $u$ and $birthday_u \in range (1935-2000)$ returns the birthday range for $u$.
+In this case the functions $gender_{u}$ returns the gender of $u$ where $gender \in \{male, female\}$ and $birthrange_u$ returns 
+the birthrange of $u$ where $birthrange \in \mathbb{R}$.
 
-\clearpage
-
-Applying this feature to our classifiers we obtain:
+Applying this \emph{demographics} feature to our classifiers we obtain:
 
 \begin{figure}[h]
 	\begin{center}
 		\includegraphics[scale=0.75]{results/demographics/bar_demographics.pdf}
-		\caption{Accuracy results using \emph{demographics} features. \emph{Demographics} are our best performing feature so far for $k=0$, 
+		\caption{Accuracy results using \emph{demographics} features. \emph{Demographics} are our best performing feature so far for $k=0$ implying \emph{demographics} are predictive, 
 				 however we still do not outperform our SMB baseline.}
 	\end{center}
 \end{figure}
 
-The \emph{demographics} feature vector provides our best results so far for the case when $k=0$, however it is still less predictive then 
+The \emph{demographics} feature vector provides our best results so far for the case when $k=0$ implying \emph{demographics} are predictive, however they are still less predictive then 
 our SMB baseline.
 
 \clearpage
@@ -155,16 +161,18 @@ Comparing \emph{demographics} against exposure we obtain:
 	\end{center}
 \end{figure}
 
-The exposure for \emph{demographics} shows a sizable improvement over our baselines as our $k$ increases. This demonstrates that as the
-number of friends who like an item increases, the predictiveness of our \emph{demographics} feature increases. Clearly, both gender and 
+The exposure for \emph{demographics} shows a sizable improvement over our baselines as $k$ increases. This demonstrates that as the
+number of friends who like an item increase, the predictiveness of our \emph{demographics} feature increases. 
+
+Hence, both gender and 
 age are predictive \emph{user features}.
 
 \section{Favourites}
 \label{sec:traits}
 
 Facebook facilitates a wide variety of user selected \emph{favourites}. 
+These \emph{favourites} allow a user to associate themselves with other people who share their same favourite tendencies under the below headings:
 
-The \emph{favourites} we will investigate include:
 \begin{itemize}
 \item \textbf{Activities}
 \item \textbf{Athletes}
@@ -178,12 +186,11 @@ The \emph{favourites} we will investigate include:
 \item \textbf{Television}
 \end{itemize}
 
-Memberships of different \emph{favourite} categories can be partitioned into three sets (high, medium, low) based on membership 
-frequency of our app users. 
+Based on the frequency of memberships between our app users for these different \emph{favourite} categories they can be partitioned into three sets.
+Below we display example tables of these three distinct frequency categories of high, medium and low: 
 
-Below we display example tables of the the three different frequency categories: (A full table set can be found in \emph{Appendix A}).
 \begin{table}[h]
-\begin{minipage}[b]{.30\textwidth}
+\begin{minipage}[b]{.32\textwidth}
 \centering
   \begin{tabular}{|l|l|} % cols: (left, center, right)
   \hline
@@ -204,9 +211,9 @@ Below we display example tables of the the three different frequency categories:
 		\small{7} & \small{True Blood} \\ \hline
 		\small{7} & \small{MythBusters} \\ \hline
   \end{tabular}
-  \caption{Top \emph{Television} shows for app users.}
+  \caption{\emph{Television}.}
 \end{minipage}
-\begin{minipage}[b]{.30\textwidth}
+\begin{minipage}[b]{.33\textwidth}
 \centering
   \begin{tabular}{|l|l|} % cols: (left, center, right)
   \hline
@@ -227,9 +234,9 @@ Below we display example tables of the the three different frequency categories:
 		\small{2} & \small{Computers} \\ \hline
 		\small{2} & \small{Travel} \\ \hline
   \end{tabular}
-  \caption{Top \emph{Interests} for app users.}
+  \caption{\emph{Interests}.}
 \end{minipage}
-\begin{minipage}[b]{.30\textwidth}
+\begin{minipage}[b]{.32\textwidth}
 \centering
   \begin{tabular}{|l|l|} % cols: (left, center, right)
   \hline
@@ -250,29 +257,34 @@ Below we display example tables of the the three different frequency categories:
 		\small{1} & \small{Mike Oldfield} \\ \hline
 		\small{1} & \small{Ryan Giggs} \\ \hline
   \end{tabular}
-  \caption{\emph{Inspirational people} for app users.}
+  \caption{\emph{People}.}
 \end{minipage}
 \end{table}
 
-The different frequency levels (high, medium, low) between \emph{favourites} is summarised below:
+Where the first column \emph{F} displays the frequency for this \emph{favourite} and the second column denotes the type of \emph{favourite} displayed. 
+Here we can see \emph{television} represents an example of a high frequency \emph{favourite}, \emph{interests} represent an example of a 
+medium frequency \emph{favourite} and \emph{People} represent an example of a low frequency \emph{favourite}.
+Note a full \emph{favourites} set can be found in \emph{Appendix A}.
+\\ 
+
+The different frequency levels are summarised between the \emph{favourites} associations below:
 \begin{itemize}
-\item \textbf{High Locality}: \emph{Music}, \emph{Movies}, \emph{Television} - Showing our app users appear to share similar \emph{favourites} in a media 
+\item \textbf{High Locality}: \emph{Music}, \emph{movies}, \emph{television} - Showing our app users appear to share similar \emph{favourites} in a media 
 setting.
-\item \textbf{Medium Locality}: \emph{Activities}, \emph{Books}, \emph{Interests}, \emph{Sports} - Showing our app users share some degree of similar preferences 
+\item \textbf{Medium Locality}: \emph{activities}, \emph{books}, \emph{interests}, \emph{Sports} - Showing our app users share some degree of similar preferences 
 across these \emph{favourites}.
-\item \textbf{Low Locality}: \emph{Inspirational People}, \emph{Athletes}, \emph{Teams} - Showing our app users do not share many similar preferences  
+\item \textbf{Low Locality}: \emph{people}, \emph{athletes}, \emph{teams} - Showing our app users do not share many similar preferences  
 across these \emph{favourites} involving specific people and teams.
 \end{itemize}
 
-For \emph{favourites} each user $u$ and feature vector $x$ is defined as:
+For \emph{favourites} each feature vector $X$ where $X \in \mathbb{R}^I$ is composed of the above components where:
+\[ I = \{activities, athletes, books, interests, movies, music, people, sports, teams, television\} \]
 
-\[ I = \{Activities, Athletes, Books, Interests, Movies, Music, People, Sports, Teams, Television\} \]
+The alters set for each $i$ is conditioned by the relationship:
 
-The alters set for each $i$ is conditioned by the relationship $R$, where:
+\[ Relationship_{u,i} = \{z | SameMembership_{u,z,i}\} \]
 
-\[ R_{i,u,v} = \{z | Liked_{z,v} \wedge Favourite_{u,v,i}\} \]
-
-In this case the $Favourite$ function returns whether user $u$ and user $z$ both share a \emph{favourite} via the current \emph{favourite} $i$.
+In this case the $SameMembership_{u,z,i}$ function returns $True$ if a user $u$ shares a membership with user $v$ via the current \emph{favourite} $i$.
 
 Applying this feature vector to our classifiers we obtain:
 
@@ -284,8 +296,10 @@ Applying this feature vector to our classifiers we obtain:
 	\end{center}
 \end{figure}
 
-The \emph{favourites} feature shows our first improvement over our SMB baseline in both the LR and SVM case for $k=0$ demonstrating that 
-\emph{favourites} are more predictive then any previously applied feature.
+\clearpage
+
+The \emph{favourites} feature shows our first improvement over our SMB baseline in both the LR and SVM case for demonstrating that 
+\emph{favourites} are more predictive then any previously applied feature or method.
 
 Comparing \emph{favourites} across our exposure we obtain:
 
@@ -293,17 +307,17 @@ Comparing \emph{favourites} across our exposure we obtain:
 	\begin{center}
 		\includegraphics[scale=0.75]{results/traits/line_traits.pdf}
 		\caption{Accuracy results against exposure using the \emph{favourites} features. Clearly, \emph{favourites} are more predictive of
-				 user preferences compared with our baselines across all exposures $k$.}
+				 user preferences compared with our baselines and all \emph{user interactions} across all exposures $k$.}
 	\end{center}
 \end{figure}
 
-This predictive trend continues with exposure where each successive increase of $k$ causes the performance of our classifiers to increase
-using the \emph{favourites} features.
+This predictive trend continues with exposure where each successive increase of $k$ causes the predictiveness of our classifiers to increase
+using the \emph{favourites} feature. Clearly, \emph{favourites} are highly predictive of a users like preferences.
 
 \clearpage
 
-Given this predictive result, we extract the model weights for the most predictive classifier of LR from the case where $k=0$.
-In the following table we can see which \emph{favourites} contribute the most predictive qualities:
+Given the highly predictive nature of \emph{favourites}, we extract the model weights from the most predictive classifier of LR for the case where $k=0$.
+In the following table we can see explicitly which \emph{favourites} are most predictive:
 
 \begin{table}[h]
 \begin{minipage}[b]{1.0\textwidth}
@@ -321,11 +335,12 @@ In the following table we can see which \emph{favourites} contribute the most pr
   \end{tabular}
   \caption{LR feature weights extracted for the case where $k=0$. The \emph{favourite} column displays the current \emph{favourite}.
   The \emph{weight} column shows the weighting given for this \emph{favourite} and the \emph{frequency} column displays the number of times 
-  this \emph{favourite} was set to $1$. We find that both high and medium frequency \emph{favourites} are most predictive.}
+  this \emph{favourite} was set to $1$. We find that both high and medium frequency \emph{favourites} are the most predictive.}
 \end{minipage}
 \end{table}
 
-This table shows that the \emph{favourites} which exhibit a high to medium frequency have a larger influence during prediction. 
+This table shows that the \emph{favourites} which exhibit a high to medium frequency have a larger influence during prediction. The most 
+predictive \emph{favourites} are mostly focused on media and leisure.
 
 \cite{brandtzag2011facebook} found that virtual interactions help reveal common interests, while real world interactions help 
 support friendships. Our data supports this, these common interests or \emph{favourites} investigated above are clearly predictive 
@@ -337,9 +352,8 @@ of user likes, providing our most predictive results so far.
 
 Facebook facilitates users to join \emph{groups} for a large number of different types ranging from 
 local sports teams and political preferences to computer games. These \emph{groups} facilitate users to associate
-themselves with other who users who also share this same \emph{group} preference.
-
-The most popular groups for our app users are shown below:
+themselves with other people who share a similar \emph{group} preference. We outline the most popular groups for our app users 
+in the table below:
 
 % select count(*),id,name from linkrGroups where uid in (select distinct uid from trackRecommendedLinks) group by id having count(*) > " + minSize + " and count(*) < " + maxSize + " order by count(*) desc;
 
@@ -375,38 +389,64 @@ The most popular groups for our app users are shown below:
 		5 & \small{When I was your age, Pluto was a planet.} \\ \hline
 	\end{tabular}
 	\caption{Popular \emph{groups} breakdown for our app users. The \emph{groups} joined by our app users exhibit a high 
-			 degree of locality, many of these top rated \emph{groups} have an ANU and Canberra focus.}
+			 degree of locality, many of these top rated \emph{groups} have an ANU and/or Canberra focus.}
 	\label{tab:revpol}
 \end{table}
 
-The most popular \emph{groups} joined by our app users exhibit a high degree of ANU and Canberra based locality. Additionally the 
+\clearpage
+
+The most popular \emph{groups} joined by our app users exhibit a high degree of ANU and/or Canberra based locality. The 
 frequencies of these top \emph{groups} are consistent with the most predictive \emph{favourites} outlined in the previous section.
 
-Given the quantity of \emph{groups} on Facebook, we need to find some optimal \emph{group} test size $j$ for our data set. 
-Given memory and time constraints we tested within a range of $\{100-1000\}$ with an incremental step size of $100$ for each test.
-
-\clearpage
+Given the quantity of \emph{groups} on Facebook, we need to find some optimal \emph{group} test size for our data set. 
+Given memory and time constraints we tested within a range of $(100-1000)$ with an incremental step size of $100$ for each test.
 
 The results for these tests are shown below:
 
 \begin{figure}[h]
 	\begin{center}
 		\includegraphics[scale=0.75]{results/groups/top_groups.pdf}
-		\caption{Accuracy results for testing using different \emph{group} sizes. Unlike the previous results for the unpredictive \emph{messages} features,
-				 the predictiveness of \emph{groups} increases as the \emph{groups} size increases, implying that the more \emph{groups} the more 
-				 predictive this feature will be.}
+		\caption{Accuracy results for testing using different \emph{group} sizes. Unlike \emph{messages},
+				 the predictiveness of \emph{groups} increases as the \emph{groups} size increases, implying that the more \emph{groups} considered the more 
+				 predictive \emph{groups} will be.}
 	\end{center}
 \end{figure}
 
-Here we see as the \emph{group} size increases, the predictiveness of this feature also improves. LR and SVM show a gradual increase 
-as this \emph{group} size increases, alluding to the possibility of an even higher group size being optimal.
+Here we see as the \emph{group} size increases, the predictiveness of this feature improves too. LR and SVM show a gradual increase 
+as this \emph{group} size increases, alluding to the possibility of an even higher \emph{group} size being optimal.
 
-The most predictive \emph{group} sizes $j$ for each of our classifiers are:
+The most predictive \emph{group} sizes for each of our classifiers are:
 \begin{itemize}
 \item \textbf{Naive Bayes}: 300
 \item \textbf{Logistic Regression}: 900
 \item \textbf{Support Vector Machine}: 800
 \end{itemize}
+
+
+
+
+For \emph{user interactions} each feature vector $X$ where $X \in \mathbb{R}^I$ is composed of the cross product between the above components where:
+
+\[ I = \{Incoming, Outgoing\} \times \{Posts,Photos,Videos,Links\} \times \{Comments,Tags,Likes\} \]
+
+The alters set for each $i$ is conditioned by the relationship:
+
+\[ Relationship_{u,i} = \{z | Interacted_{u,z,i}\} \]
+
+In this case the $Interacted_{u,z,i}$ function returns $True$ if a user $u$ has interacted with a user $v$ via the current interaction $i$.
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 For \emph{groups} each user $u$ and feature vector $x$ is defined as:
 

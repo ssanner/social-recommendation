@@ -20,19 +20,19 @@
 \contentsline {chapter}{\numberline {3}User Interactions}{13}
 \contentsline {section}{\numberline {3.1}Interactions}{13}
 \contentsline {section}{\numberline {3.2}Conversation}{15}
-\contentsline {subsection}{\numberline {3.2.1}Outgoing}{16}
-\contentsline {subsection}{\numberline {3.2.2}Incoming}{19}
-\contentsline {section}{\numberline {3.3}Conclusion}{21}
-\contentsline {chapter}{\numberline {4}User Preferences}{23}
-\contentsline {section}{\numberline {4.1}Demographics}{23}
-\contentsline {section}{\numberline {4.2}Favourites}{27}
-\contentsline {section}{\numberline {4.3}Groups}{31}
-\contentsline {section}{\numberline {4.4}Pages}{36}
-\contentsline {section}{\numberline {4.5}Conclusion}{42}
-\contentsline {chapter}{\numberline {5}Feature Combination}{43}
-\contentsline {section}{\numberline {5.1}Affinity Feature Selection}{43}
-\contentsline {chapter}{\numberline {6}Conclusion}{49}
-\contentsline {section}{\numberline {6.1}Summary}{49}
-\contentsline {section}{\numberline {6.2}Future Work}{49}
-\contentsline {chapter}{\numberline {A}Favourites Group Summary}{51}
-\contentsline {chapter}{Bibliography}{57}
+\contentsline {subsection}{\numberline {3.2.1}Outgoing}{17}
+\contentsline {subsection}{\numberline {3.2.2}Incoming}{20}
+\contentsline {section}{\numberline {3.3}Conclusion}{24}
+\contentsline {chapter}{\numberline {4}User Preferences}{25}
+\contentsline {section}{\numberline {4.1}Demographics}{25}
+\contentsline {section}{\numberline {4.2}Favourites}{29}
+\contentsline {section}{\numberline {4.3}Groups}{34}
+\contentsline {section}{\numberline {4.4}Pages}{39}
+\contentsline {section}{\numberline {4.5}Conclusion}{45}
+\contentsline {chapter}{\numberline {5}Feature Combination}{47}
+\contentsline {section}{\numberline {5.1}Affinity Feature Selection}{47}
+\contentsline {chapter}{\numberline {6}Conclusion}{53}
+\contentsline {section}{\numberline {6.1}Summary}{53}
+\contentsline {section}{\numberline {6.2}Future Work}{53}
+\contentsline {chapter}{\numberline {A}Favourites Group Summary}{55}
+\contentsline {chapter}{Bibliography}{61}

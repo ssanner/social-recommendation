@@ -1,42 +1,40 @@
 \relax 
 \newlabel{cha:abstract}{{}{v}}
 \@writefile{toc}{\contentsline {chapter}{Abstract}{v}}
-\citation{edge}
-\citation{hill2003social}
+\citation{grano}
+\citation{watts}
+\citation{pantel}
 \@writefile{toc}{\contentsline {chapter}{\numberline {1}Introduction}{1}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
 \newlabel{cha:intro}{{1}{1}}
 \@writefile{toc}{\contentsline {section}{\numberline {1.1}Objectives}{1}}
 \newlabel{sec:objectives}{{1.1}{1}}
-\pagecite{edge}{1}
-\pagecite{hill2003social}{1}
-\citation{grano}
-\citation{watts}
-\citation{pantel}
-\pagecite{grano}{2}
-\pagecite{watts}{2}
-\pagecite{pantel}{2}
+\pagecite{grano}{1}
+\pagecite{watts}{1}
+\pagecite{pantel}{1}
 \@writefile{toc}{\contentsline {section}{\numberline {1.2}Contributions}{2}}
 \newlabel{sec:contributions}{{1.2}{2}}
 \@writefile{toc}{\contentsline {section}{\numberline {1.3}Outline}{2}}
 \newlabel{sec:outline}{{1.3}{2}}
-\citation{fbzise}
+\citation{fbsize}
+\citation{edge}
 \@writefile{toc}{\contentsline {chapter}{\numberline {2}Background}{5}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
 \newlabel{cha:back}{{2}{5}}
 \@writefile{toc}{\contentsline {section}{\numberline {2.1}Facebook}{5}}
 \newlabel{sec:data}{{2.1}{5}}
-\pagecite{fbzise}{5}
+\pagecite{fbsize}{5}
 \@writefile{toc}{\contentsline {section}{\numberline {2.2}Data Set}{5}}
 \newlabel{sec:linkr}{{2.2}{5}}
+\pagecite{edge}{5}
 \@writefile{lot}{\contentsline {table}{\numberline {2.1}{\ignorespaces Data records for interactions between users. Rows are the type of interaction, columns are the medium of interaction.}}{6}}
 \newlabel{tab:revpol}{{2.1}{6}}
 \@writefile{toc}{\contentsline {section}{\numberline {2.3}Notation}{6}}
 \newlabel{sec:notation}{{2.3}{6}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2.1}{\ignorespaces Alters paradigm. A user $u$ likes some item $m$, a relationship $R_{u,z}$ is defined via some affinity $i$ uniquely defined for each affinity feature, to create our set of alters $A$.}}{7}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2.2}{\ignorespaces Here we see an example of a link posted to a friends wall, which has subsequently been liked by two friends $z$. This demonstrates an exposure of $2$ for this link $m$.}}{7}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.1}{\ignorespaces Alters paradigm. A user $u$ likes some item $v$, a $Relationship_{u,z}$ is defined via some affinity $i$ (in this example we use \emph  {interactions}) uniquely defined for each affinity feature, to create our set of $alters_{u,v}$.}}{7}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2.2}{\ignorespaces Here we see an example of a link $v$ posted to a friends wall, which has subsequently been liked by two friends $z$. This demonstrates an exposure of $2$ for $v$.}}{7}}
 \citation{newsweeder}
 \citation{collab_filtering}
 \citation{joseph}
@@ -86,125 +84,126 @@
 \newlabel{sec:inter}{{3.1}{13}}
 \pagecite{saez2011high}{13}
 \@writefile{lof}{\contentsline {figure}{\numberline {3.1}{\ignorespaces Accuracy results using \emph  {user interactions} against all data. \emph  {User interactions} do not outperform our baselines.}}{14}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.2}{\ignorespaces Accuracy results against exposure using \emph  {user interaction} features. \emph  {User interactions} provide a drastic improvement over our baselines as $k$ increases, suggesting SMB is not always the best classifier. This demonstrates the intuitive assumption that \emph  {user interactions} can not improve prediction when these interactions do not exist between users. Note in this case LR and SVM both learnt the same result.}}{15}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.2}{\ignorespaces Accuracy results against exposure using \emph  {user interaction} features. \emph  {User interactions} provide a drastic improvement over our baselines as $k$ increases, suggesting SMB is not always the best classifier. This demonstrates the intuitive assumption that \emph  {user interactions} can not improve prediction when interactions do not exist between users. Note in this case LR and SVM both learnt the same result.}}{15}}
 \@writefile{toc}{\contentsline {section}{\numberline {3.2}Conversation}{15}}
 \newlabel{sec:groups}{{3.2}{15}}
-\@writefile{lot}{\contentsline {table}{\numberline {3.1}{\ignorespaces Top conversation content data for all users. We see very common words and online expressions have a high frequency in our data set. Additionally highly emotive and sentimental words are very common, implying these interactions occur between \emph  {real} friends.}}{16}}
+\@writefile{lot}{\contentsline {table}{\numberline {3.1}{\ignorespaces Top conversation content data for all users. We see very common words and online expressions have a high frequency in our data set. Additionally highly emotive and sentimental words are very common, implying these interactions occur between real friends.}}{16}}
 \newlabel{tab:revpol}{{3.1}{16}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.1}Outgoing}{16}}
-\newlabel{sec:id}{{3.2.1}{16}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.3}{\ignorespaces Accuracy results for different \emph  {outgoing} words sizes. Best performance can be found using LR with a relatively small word size of only $200$.}}{17}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.4}{\ignorespaces Accuracy results using the \emph  {outgoing} words features. \emph  {Outgoing} words are clearly less predictive then \emph  {user interactions}.}}{18}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.5}{\ignorespaces Accuracy results against exposure using the \emph  {outgoing} words feature. \emph  {Outgoing} words predictiveness improve as $k$ increases, but are still less predictive even in the case for $k=3$ when compared with SMB when $k=0$.}}{19}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.2}Incoming}{19}}
-\newlabel{sec:id}{{3.2.2}{19}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.6}{\ignorespaces Accuracy results for different \emph  {incoming} words sizes. \emph  {Incoming} words are more predictive then \emph  {outgoing} words, but follow the similar trend that small sizes offer close to optimal predictions for this feature.}}{20}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.1}Outgoing}{17}}
+\newlabel{sec:id}{{3.2.1}{17}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.3}{\ignorespaces Accuracy results for different \emph  {outgoing} words sizes. Best performance can be found using LR with a relatively small word size of only $200$ more words do not appear to increase the predictiveness of \emph  {outgoing} words.}}{18}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.4}{\ignorespaces Accuracy results using the \emph  {outgoing} words features. \emph  {Outgoing} words are clearly less predictive then \emph  {user interactions}.}}{19}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.5}{\ignorespaces Accuracy results against exposure using the \emph  {outgoing} words feature. \emph  {Outgoing} words predictiveness improve as $k$ increases, but this feature is less predictive even in the case for $k=3$ when compared with SMB when $k=0$.}}{20}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.2}Incoming}{20}}
+\newlabel{sec:id}{{3.2.2}{20}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.6}{\ignorespaces Accuracy results for different \emph  {incoming} words sizes. \emph  {Incoming} words are more predictive then \emph  {outgoing} words, but follow the similar trend that relatively small sizes offer close to optimal predictions for this feature.}}{21}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.7}{\ignorespaces Accuracy results using the \emph  {incoming} words features. \emph  {Incoming} words are a stronger predictor then \emph  {outgoing} words implying \emph  {incoming} words are more predictive, however they are still a weaker predictor then \emph  {user interactions}.}}{22}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.8}{\ignorespaces Accuracy results against exposure using \emph  {incoming} words features. \emph  {Incoming} words predictions improve as $k$ increases and outperform SMB, but are still less predictive then \emph  {user interactions}. }}{23}}
 \citation{Anderson2012}
 \citation{www}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.7}{\ignorespaces Accuracy results using the \emph  {incoming} words features. \emph  {Incoming} words are a stronger predictor then \emph  {outgoing} words, however they are still a weaker predictor then \emph  {user interactions}.}}{21}}
-\@writefile{toc}{\contentsline {section}{\numberline {3.3}Conclusion}{21}}
-\newlabel{sec:conc}{{3.3}{21}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.8}{\ignorespaces Accuracy results against exposure using \emph  {incoming} words features. \emph  {Incoming} words predictive accuracy improves as $k$ increases, but are still less predictive then \emph  {user interactions}. }}{22}}
-\pagecite{Anderson2012}{22}
-\pagecite{www}{22}
+\@writefile{toc}{\contentsline {section}{\numberline {3.3}Conclusion}{24}}
+\newlabel{sec:conc}{{3.3}{24}}
+\pagecite{Anderson2012}{24}
+\pagecite{www}{24}
 \citation{jugand}
 \citation{backstrom2011center}
-\@writefile{toc}{\contentsline {chapter}{\numberline {4}User Preferences}{23}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {4}User Preferences}{25}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{cha:ivg}{{4}{23}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.1}Demographics}{23}}
-\newlabel{sec:demo}{{4.1}{23}}
-\@writefile{lot}{\contentsline {table}{\numberline {4.1}{\ignorespaces Gender breakdown for app users. We see a strong male bias.}}{23}}
-\newlabel{tab:revpol}{{4.1}{23}}
-\pagecite{jugand}{23}
-\pagecite{backstrom2011center}{23}
+\newlabel{cha:ivg}{{4}{25}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.1}Demographics}{25}}
+\newlabel{sec:demo}{{4.1}{25}}
+\@writefile{lot}{\contentsline {table}{\numberline {4.1}{\ignorespaces Gender breakdown for app users. We see a strong male bias.}}{25}}
+\newlabel{tab:revpol}{{4.1}{25}}
+\pagecite{jugand}{25}
+\pagecite{backstrom2011center}{25}
 \citation{jugand}
-\@writefile{lot}{\contentsline {table}{\numberline {4.2}{\ignorespaces Birthday breakdown for app users. There is a clear densely populated age range of around $18 - 30$.}}{24}}
-\newlabel{tab:revpol}{{4.2}{24}}
-\pagecite{jugand}{24}
-\@writefile{lot}{\contentsline {table}{\numberline {4.3}{\ignorespaces Location breakdown for app users. Most users are either undisclosed of based in Canberra where this app was developed.}}{25}}
-\newlabel{tab:revpol}{{4.3}{25}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.1}{\ignorespaces Accuracy results using \emph  {demographics} features. \emph  {Demographics} are our best performing feature so far for $k=0$, however we still do not outperform our SMB baseline.}}{26}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.2}{\ignorespaces Accuracy results for exposure using the \emph  {demographics} features. As $k$ increases the predictiveness of \emph  {demographics} substantially increases with it. Clearly gender and age are both predictive. Note in this case Constant = NB and LR = SVM.}}{27}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.2}Favourites}{27}}
-\newlabel{sec:traits}{{4.2}{27}}
-\@writefile{lot}{\contentsline {table}{\numberline {4.4}{\ignorespaces Top \emph  {Television} shows for app users.}}{28}}
-\@writefile{lot}{\contentsline {table}{\numberline {4.5}{\ignorespaces Top \emph  {Interests} for app users.}}{28}}
-\@writefile{lot}{\contentsline {table}{\numberline {4.6}{\ignorespaces \emph  {Inspirational people} for app users.}}{28}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.3}{\ignorespaces Accuracy results using the \emph  {favourites} feature. \emph  {Favourites} are our first feature more predictive then SMB for the case when $k=0$, indicating that \emph  {favourites} are highly predictive of user preferences.}}{29}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.4}{\ignorespaces Accuracy results against exposure using the \emph  {favourites} features. Clearly, \emph  {favourites} are more predictive of user preferences compared with our baselines across all exposures $k$.}}{30}}
+\@writefile{lot}{\contentsline {table}{\numberline {4.2}{\ignorespaces Birthday breakdown for app users. There is clearly a densely populated age range of around $18 - 30$.}}{26}}
+\newlabel{tab:revpol}{{4.2}{26}}
+\pagecite{jugand}{26}
+\@writefile{lot}{\contentsline {table}{\numberline {4.3}{\ignorespaces Location breakdown for app users. Most users are either undisclosed of based in Canberra where this app was developed.}}{27}}
+\newlabel{tab:revpol}{{4.3}{27}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.1}{\ignorespaces Accuracy results using \emph  {demographics} features. \emph  {Demographics} are our best performing feature so far for $k=0$ implying \emph  {demographics} are predictive, however we still do not outperform our SMB baseline.}}{28}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.2}{\ignorespaces Accuracy results for exposure using the \emph  {demographics} features. As $k$ increases the predictiveness of \emph  {demographics} substantially increases with it. Clearly gender and age are both predictive. Note in this case Constant = NB and LR = SVM.}}{29}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.2}Favourites}{29}}
+\newlabel{sec:traits}{{4.2}{29}}
+\@writefile{lot}{\contentsline {table}{\numberline {4.4}{\ignorespaces \emph  {Television}.}}{30}}
+\@writefile{lot}{\contentsline {table}{\numberline {4.5}{\ignorespaces \emph  {Interests}.}}{30}}
+\@writefile{lot}{\contentsline {table}{\numberline {4.6}{\ignorespaces \emph  {People}.}}{30}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.3}{\ignorespaces Accuracy results using the \emph  {favourites} feature. \emph  {Favourites} are our first feature more predictive then SMB for the case when $k=0$, indicating that \emph  {favourites} are highly predictive of user preferences.}}{32}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.4}{\ignorespaces Accuracy results against exposure using the \emph  {favourites} features. Clearly, \emph  {favourites} are more predictive of user preferences compared with our baselines and all \emph  {user interactions} across all exposures $k$.}}{33}}
 \citation{brandtzag2011facebook}
-\@writefile{lot}{\contentsline {table}{\numberline {4.7}{\ignorespaces LR feature weights extracted for the case where $k=0$. The \emph  {favourite} column displays the current \emph  {favourite}. The \emph  {weight} column shows the weighting given for this \emph  {favourite} and the \emph  {frequency} column displays the number of times this \emph  {favourite} was set to $1$. We find that both high and medium frequency \emph  {favourites} are most predictive.}}{31}}
-\pagecite{brandtzag2011facebook}{31}
-\@writefile{toc}{\contentsline {section}{\numberline {4.3}Groups}{31}}
-\newlabel{sec:groups}{{4.3}{31}}
-\@writefile{lot}{\contentsline {table}{\numberline {4.8}{\ignorespaces Popular \emph  {groups} breakdown for our app users. The \emph  {groups} joined by our app users exhibit a high degree of locality, many of these top rated \emph  {groups} have an ANU and Canberra focus.}}{32}}
-\newlabel{tab:revpol}{{4.8}{32}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.5}{\ignorespaces Accuracy results for testing using different \emph  {group} sizes. Unlike the previous results for the unpredictive \emph  {messages} features, the predictiveness of \emph  {groups} increases as the \emph  {groups} size increases, implying that the more \emph  {groups} the more predictive this feature will be.}}{33}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.6}{\ignorespaces Accuracy results using the \emph  {groups} feature vector. We see \emph  {groups} are also more predictive over our baselines for the case where $k=0$, particularly the LR classifier.}}{34}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.7}{\ignorespaces Accuracy results against exposure using the \emph  {groups} features. Here we see that the predictive trend for the $k=0$ case continues with exposure for both LR and SVM.}}{35}}
-\@writefile{lot}{\contentsline {table}{\numberline {4.9}{\ignorespaces LR feature weights extracted for the case where $k=0$. The \emph  {name} column displays the current \emph  {group} name. The \emph  {size} column shows the total size of this group across all users. The \emph  {weight} column shows the weighting given for this \emph  {group} and the \emph  {frequency} column displays the number of times this \emph  {group} was set to $1$. We find that highly local \emph  {groups} with a high frequency of app users are most predictive.}}{36}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.4}Pages}{36}}
-\newlabel{sec:pages}{{4.4}{36}}
-\@writefile{lot}{\contentsline {table}{\numberline {4.10}{\ignorespaces Popular \emph  {pages} breakdown for our app users. \emph  {Pages} exhibit less locality preferences when compared with \emph  {pages}, while some \emph  {pages} are Canberra focused, many are also more general. Additionally app user memberships for \emph  {pages} is much higher then for \emph  {groups}.}}{37}}
-\newlabel{tab:revpol}{{4.10}{37}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.8}{\ignorespaces Accuracy results for different \emph  {page} sizes. Results for \emph  {page} sizes are quite jumpy, however a similar trend from \emph  {groups} follows that the more \emph  {pages} we use for testing, the more predictive our results.}}{38}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.9}{\ignorespaces Accuracy results using the \emph  {pages} feature, we can see an improvement over our baselines for both LR and SVM. Demonstrating that \emph  {pages} are a predictive \emph  {user preference}, however they are not as predictive as \emph  {groups} or \emph  {favourites}.}}{39}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.10}{\ignorespaces Accuracy results against exposure using the \emph  {pages} feature. We see a similar trend as demonstrated in \emph  {groups} and \emph  {favourites} where the predictiveness of this feature improves with exposure $k$.}}{40}}
-\@writefile{lot}{\contentsline {table}{\numberline {4.11}{\ignorespaces Negative LR feature weights extracted for the case where $k=0$. The \emph  {name} column displays the current \emph  {page} name. The \emph  {size} column shows the total size of this group across all users. The \emph  {weight} column shows the weighting given for this \emph  {page} and the \emph  {frequency} column displays the number of times this \emph  {page} was set to $1$. We find non-local and medium sized \emph  {pages} to be most predictive.}}{41}}
-\@writefile{lot}{\contentsline {table}{\numberline {4.12}{\ignorespaces Positive LR feature weights extracted for the case where $k=0$. The \emph  {name} column displays the current \emph  {page} name. The \emph  {size} column shows the total size of this group across all users. The \emph  {weight} column shows the weighting given for this \emph  {page} and the \emph  {frequency} column displays the number of times this \emph  {page} was set to $1$. We find non-local and medium sized \emph  {pages} to be most predictive.}}{41}}
+\@writefile{lot}{\contentsline {table}{\numberline {4.7}{\ignorespaces LR feature weights extracted for the case where $k=0$. The \emph  {favourite} column displays the current \emph  {favourite}. The \emph  {weight} column shows the weighting given for this \emph  {favourite} and the \emph  {frequency} column displays the number of times this \emph  {favourite} was set to $1$. We find that both high and medium frequency \emph  {favourites} are the most predictive.}}{34}}
+\pagecite{brandtzag2011facebook}{34}
+\@writefile{toc}{\contentsline {section}{\numberline {4.3}Groups}{34}}
+\newlabel{sec:groups}{{4.3}{34}}
+\@writefile{lot}{\contentsline {table}{\numberline {4.8}{\ignorespaces Popular \emph  {groups} breakdown for our app users. The \emph  {groups} joined by our app users exhibit a high degree of locality, many of these top rated \emph  {groups} have an ANU and/or Canberra focus.}}{35}}
+\newlabel{tab:revpol}{{4.8}{35}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.5}{\ignorespaces Accuracy results for testing using different \emph  {group} sizes. Unlike \emph  {messages}, the predictiveness of \emph  {groups} increases as the \emph  {groups} size increases, implying that the more \emph  {groups} considered the more predictive \emph  {groups} will be.}}{36}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.6}{\ignorespaces Accuracy results using the \emph  {groups} feature vector. We see \emph  {groups} are also more predictive over our baselines for the case where $k=0$, particularly the LR classifier.}}{37}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.7}{\ignorespaces Accuracy results against exposure using the \emph  {groups} features. Here we see that the predictive trend for the $k=0$ case continues with exposure for both LR and SVM.}}{38}}
+\@writefile{lot}{\contentsline {table}{\numberline {4.9}{\ignorespaces LR feature weights extracted for the case where $k=0$. The \emph  {name} column displays the current \emph  {group} name. The \emph  {size} column shows the total size of this group across all users. The \emph  {weight} column shows the weighting given for this \emph  {group} and the \emph  {frequency} column displays the number of times this \emph  {group} was set to $1$. We find that highly local \emph  {groups} with a high frequency of app users are most predictive.}}{39}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.4}Pages}{39}}
+\newlabel{sec:pages}{{4.4}{39}}
+\@writefile{lot}{\contentsline {table}{\numberline {4.10}{\ignorespaces Popular \emph  {pages} breakdown for our app users. \emph  {Pages} exhibit less locality preferences when compared with \emph  {pages}, while some \emph  {pages} are Canberra focused, many are also more general. Additionally app user memberships for \emph  {pages} is much higher then for \emph  {groups}.}}{40}}
+\newlabel{tab:revpol}{{4.10}{40}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.8}{\ignorespaces Accuracy results for different \emph  {page} sizes. Results for \emph  {page} sizes are quite jumpy, however a similar trend from \emph  {groups} follows that the more \emph  {pages} we use for testing, the more predictive our results.}}{41}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.9}{\ignorespaces Accuracy results using the \emph  {pages} feature, we can see an improvement over our baselines for both LR and SVM. Demonstrating that \emph  {pages} are a predictive \emph  {user preference}, however they are not as predictive as \emph  {groups} or \emph  {favourites}.}}{42}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.10}{\ignorespaces Accuracy results against exposure using the \emph  {pages} feature. We see a similar trend as demonstrated in \emph  {groups} and \emph  {favourites} where the predictiveness of this feature improves with exposure $k$.}}{43}}
+\@writefile{lot}{\contentsline {table}{\numberline {4.11}{\ignorespaces Negative LR feature weights extracted for the case where $k=0$. The \emph  {name} column displays the current \emph  {page} name. The \emph  {size} column shows the total size of this group across all users. The \emph  {weight} column shows the weighting given for this \emph  {page} and the \emph  {frequency} column displays the number of times this \emph  {page} was set to $1$. We find non-local and medium sized \emph  {pages} to be most predictive.}}{44}}
+\@writefile{lot}{\contentsline {table}{\numberline {4.12}{\ignorespaces Positive LR feature weights extracted for the case where $k=0$. The \emph  {name} column displays the current \emph  {page} name. The \emph  {size} column shows the total size of this group across all users. The \emph  {weight} column shows the weighting given for this \emph  {page} and the \emph  {frequency} column displays the number of times this \emph  {page} was set to $1$. We find non-local and medium sized \emph  {pages} to be most predictive.}}{44}}
 \citation{www}
-\@writefile{toc}{\contentsline {section}{\numberline {4.5}Conclusion}{42}}
-\newlabel{sec:conc}{{4.5}{42}}
-\pagecite{www}{42}
-\@writefile{toc}{\contentsline {chapter}{\numberline {5}Feature Combination}{43}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.5}Conclusion}{45}}
+\newlabel{sec:conc}{{4.5}{45}}
+\pagecite{www}{45}
+\@writefile{toc}{\contentsline {chapter}{\numberline {5}Feature Combination}{47}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{cha:bma}{{5}{43}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.1}Affinity Feature Selection}{43}}
-\newlabel{sec:notation}{{5.1}{43}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.1}{\ignorespaces Accuracy results using the \emph  {combined} feature set. We can see a large improvement over our SMB baseline for the case where $k=0$, particularly for the LR case.}}{44}}
-\@writefile{lot}{\contentsline {table}{\numberline {5.1}{\ignorespaces \emph  {Favourite} feature results for $k=0$.}}{45}}
-\@writefile{lot}{\contentsline {table}{\numberline {5.2}{\ignorespaces \emph  {Pages} feature results for $k=0$.}}{45}}
-\@writefile{lot}{\contentsline {table}{\numberline {5.3}{\ignorespaces \emph  {Groups} feature results for $k=0$.}}{45}}
-\@writefile{lot}{\contentsline {table}{\numberline {5.4}{\ignorespaces \emph  {Combined} feature results for $k=0$.}}{45}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5.2}{\ignorespaces Accuracy results across exposure using the \emph  {combined} feature set. This feature set offers the most predictive results discovered during this research. As our exposure $k$ increases, the improved predictive performance of this feature combination increases with it.}}{46}}
-\@writefile{lot}{\contentsline {table}{\numberline {5.5}{\ignorespaces \emph  {Logistic Regression} feature weights extracted for the negative case where $k=0$. The \emph  {Name} column displays the name of the feature. \emph  {Size} represents the size of the \emph  {Page} or \emph  {Group}. \emph  {Weight} represents the weight this feature vector received. \emph  {Frequency} displays the number of times this feature vector was set to $1$ for a user.}}{47}}
-\@writefile{lot}{\contentsline {table}{\numberline {5.6}{\ignorespaces \emph  {Logistic Regression} feature weights extracted for the positive case where $k=0$. The \emph  {Name} column displays the name of the feature. \emph  {Size} represents the size of the \emph  {Page} or \emph  {Group}. \emph  {Weight} represents the weight this feature vector received. \emph  {Frequency} displays the number of times this feature vector was set to $1$ for a user.}}{47}}
-\@writefile{toc}{\contentsline {chapter}{\numberline {6}Conclusion}{49}}
+\newlabel{cha:bma}{{5}{47}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.1}Affinity Feature Selection}{47}}
+\newlabel{sec:notation}{{5.1}{47}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.1}{\ignorespaces Accuracy results using the \emph  {combined} feature set. This \emph  {combined} feature gives our best prediction in comparison to all other individual features and we can see a large improvement over our SMB baseline for the case where $k=0$, particularly for the LR case.}}{48}}
+\@writefile{lot}{\contentsline {table}{\numberline {5.1}{\ignorespaces \emph  {Favourite} feature results for $k=0$.}}{49}}
+\@writefile{lot}{\contentsline {table}{\numberline {5.2}{\ignorespaces \emph  {Pages} feature results for $k=0$.}}{49}}
+\@writefile{lot}{\contentsline {table}{\numberline {5.3}{\ignorespaces \emph  {Groups} feature results for $k=0$.}}{49}}
+\@writefile{lot}{\contentsline {table}{\numberline {5.4}{\ignorespaces \emph  {Combined} feature results for $k=0$.}}{49}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5.2}{\ignorespaces Accuracy results across exposure using the \emph  {combined} feature set. This feature set offers the most predictive results discovered during this research for all $k$. As our exposure increases, the improved predictive performance of this \emph  {combined} feature increases too.}}{50}}
+\@writefile{lot}{\contentsline {table}{\numberline {5.5}{\ignorespaces LR feature weights extracted for the negative case where $k=0$. The \emph  {Name} column displays the name of the feature. \emph  {Size} represents the size of the \emph  {Page} or \emph  {Group}. \emph  {Weight} represents the weight this feature vector received. \emph  {Frequency} displays the number of times this feature vector was set to $1$ for a user.}}{51}}
+\@writefile{lot}{\contentsline {table}{\numberline {5.6}{\ignorespaces LR feature weights extracted for the positive case where $k=0$. The \emph  {Name} column displays the name of the feature. \emph  {Size} represents the size of the \emph  {Page} or \emph  {Group}. \emph  {Weight} represents the weight this feature vector received. \emph  {Frequency} displays the number of times this feature vector was set to $1$ for a user.}}{51}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {6}Conclusion}{53}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{cha:conc}{{6}{49}}
-\@writefile{toc}{\contentsline {section}{\numberline {6.1}Summary}{49}}
-\newlabel{sec:conc}{{6.1}{49}}
-\@writefile{toc}{\contentsline {section}{\numberline {6.2}Future Work}{49}}
-\newlabel{sec:ftw}{{6.2}{49}}
+\newlabel{cha:conc}{{6}{53}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.1}Summary}{53}}
+\newlabel{sec:conc}{{6.1}{53}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.2}Future Work}{53}}
+\newlabel{sec:ftw}{{6.2}{53}}
 \citation{jugand}
-\pagecite{jugand}{50}
-\@writefile{toc}{\contentsline {chapter}{\numberline {A}Favourites Group Summary}{51}}
+\pagecite{jugand}{54}
+\@writefile{toc}{\contentsline {chapter}{\numberline {A}Favourites Group Summary}{55}}
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
-\newlabel{app:app1}{{A}{51}}
-\@writefile{lot}{\contentsline {table}{\numberline {A.1}{\ignorespaces Top \emph  {Activities} for app users.}}{52}}
-\@writefile{lot}{\contentsline {table}{\numberline {A.2}{\ignorespaces Top \emph  {Inspirational People} for app users.}}{52}}
-\@writefile{lot}{\contentsline {table}{\numberline {A.3}{\ignorespaces Top \emph  {Books} for app users, here we see an example of the non-distinct properties inherent in Facebook, where books can have the same name, yet still be regarded as a different entity.}}{52}}
-\@writefile{lot}{\contentsline {table}{\numberline {A.4}{\ignorespaces Top \emph  {Interests} for app users.}}{53}}
-\@writefile{lot}{\contentsline {table}{\numberline {A.5}{\ignorespaces Top \emph  {Music} for app users.}}{53}}
-\@writefile{lot}{\contentsline {table}{\numberline {A.6}{\ignorespaces Top \emph  {Movies} for app users.}}{53}}
-\@writefile{lot}{\contentsline {table}{\numberline {A.7}{\ignorespaces Top \emph  {Sports} for app users.}}{54}}
-\@writefile{lot}{\contentsline {table}{\numberline {A.8}{\ignorespaces Top \emph  {Television} shows for app users.}}{54}}
-\@writefile{lot}{\contentsline {table}{\numberline {A.9}{\ignorespaces Top \emph  {Athletes} for app users.}}{54}}
-\@writefile{lot}{\contentsline {table}{\numberline {A.10}{\ignorespaces Top \emph  {Teams} for app users.}}{55}}
+\newlabel{app:app1}{{A}{55}}
+\@writefile{lot}{\contentsline {table}{\numberline {A.1}{\ignorespaces Top \emph  {Activities} for app users.}}{56}}
+\@writefile{lot}{\contentsline {table}{\numberline {A.2}{\ignorespaces Top \emph  {Inspirational People} for app users.}}{56}}
+\@writefile{lot}{\contentsline {table}{\numberline {A.3}{\ignorespaces Top \emph  {Books} for app users, here we see an example of the non-distinct properties inherent in Facebook, where books can have the same name, yet still be regarded as a different entity.}}{56}}
+\@writefile{lot}{\contentsline {table}{\numberline {A.4}{\ignorespaces Top \emph  {Interests} for app users.}}{57}}
+\@writefile{lot}{\contentsline {table}{\numberline {A.5}{\ignorespaces Top \emph  {Music} for app users.}}{57}}
+\@writefile{lot}{\contentsline {table}{\numberline {A.6}{\ignorespaces Top \emph  {Movies} for app users.}}{57}}
+\@writefile{lot}{\contentsline {table}{\numberline {A.7}{\ignorespaces Top \emph  {Sports} for app users.}}{58}}
+\@writefile{lot}{\contentsline {table}{\numberline {A.8}{\ignorespaces Top \emph  {Television} shows for app users.}}{58}}
+\@writefile{lot}{\contentsline {table}{\numberline {A.9}{\ignorespaces Top \emph  {Athletes} for app users.}}{58}}
+\@writefile{lot}{\contentsline {table}{\numberline {A.10}{\ignorespaces Top \emph  {Teams} for app users.}}{59}}
 \bibstyle{acmnew-xref}
 \bibdata{thesis}
-\bibcite{www}{\citeauthoryear {??}{www}{}}
+\bibcite{www}{\citeauthoryear {??}{www}{2012}}
 \bibcite{lin}{\citeauthoryear {Alias-i. 2008. LingPipe 4.1.0. http://alias-i.com/lingpipe\nobreakspace  {}(accessed October\nobreakspace  {}1}{Alias-i. 2008. LingPipe 4.1.0. http://alias-i.com/lingpipe\nobreakspace  {}(accessed October\nobreakspace  {}1}{2011}}
 \bibcite{Anderson2012}{\citeauthoryear {Anderson, Huttenlocher, Kleinberg, and Leskovec}{Anderson et\nobreakspace  {}al.}{2012}}
 \bibcite{backstrom2011center}{\citeauthoryear {Backstrom, Bakshy, Kleinberg, Lento, and Rosenn}{Backstrom et\nobreakspace  {}al.}{2011}}
 \bibcite{brandtzag2011facebook}{\citeauthoryear {Brandtz�g and Nov}{Brandtz�g and Nov}{2011}}
 \bibcite{cjlin}{\citeauthoryear {Chang and Lin}{Chang and Lin}{2011}}
 \bibcite{socinf}{\citeauthoryear {Cui, Wang, Liu, Ou, and Yang}{Cui et\nobreakspace  {}al.}{2011}}
+\bibcite{fbsize}{\citeauthoryear {Facebook}{Facebook}{2012}}
 \bibcite{grano}{\citeauthoryear {Granovetter}{Granovetter}{1978}}
 \bibcite{hill2003social}{\citeauthoryear {Hill and Dunbar}{Hill and Dunbar}{2003}}
 \bibcite{newsweeder}{\citeauthoryear {Lang}{Lang}{1995}}
@@ -212,7 +211,7 @@
 \bibcite{pantel}{\citeauthoryear {Pantel and Haas}{Pantel and Haas}{2012}}
 \bibcite{collab_filtering}{\citeauthoryear {Resnick and Varian}{Resnick and Varian}{1997}}
 \bibcite{saez2011high}{\citeauthoryear {Saez-Trumper, Nettleton, and Baeza-Yates}{Saez-Trumper et\nobreakspace  {}al.}{2011}}
-\@writefile{toc}{\contentsline {chapter}{Bibliography}{57}}
+\@writefile{toc}{\contentsline {chapter}{Bibliography}{61}}
 \bibcite{edge}{\citeauthoryear {Sanghvi and Steinberg}{Sanghvi and Steinberg}{2010}}
 \bibcite{jugand}{\citeauthoryear {Ugander and Marlow}{Ugander and Marlow}{2011}}
 \bibcite{watts}{\citeauthoryear {Watts and Strogatz}{Watts and Strogatz}{1998}}
