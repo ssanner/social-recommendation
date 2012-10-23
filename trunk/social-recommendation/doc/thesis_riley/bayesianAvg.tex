@@ -1,24 +1,3 @@
-Make sure each chapter has intro/conclusion
-
-
-Interactions more predictive then messages, messages are a much weaker predictive interaction.
-
-This is a sufficiently large dataset for performing our analysis.
-
-We conclude by summarising the key novel observations found during this research.
-
-Some of these online interactions suggest a real world relationship such as being tagged in photos or videos.
-
-Only include items that have had at least k likes among the members of alters. (Romero, Meeder and Kleinberg)
-Romero2011hashtag
-
-Smaller groups are generally more predictive which adheres to the common sense notion that large groups appeal more 
-broadly (www)
-
-Multiple studies have found that online interactions tend to corelate more with interests then user profile (www)
-
-Anderson et al 2012 concluded that it is less about the content of what people say, but more about who they interacted with.
-
 %%
 %% Template conclusion.tex
 %%
@@ -27,15 +6,15 @@ Anderson et al 2012 concluded that it is less about the content of what people s
 \label{cha:bma}
 
 Given the vast number of affinity features outlined in the previous sections, it is both computationally costly and time 
-consuming to group all features together into one combined feature. Hence, it is crucial we provide a practical method which 
-facilitates the combination of the most individually predictive affinity features found during this research.
+consuming to group all features together into one combined feature. Hence, it is crucial we provide a practical approach which 
+facilitates the combination of the individually most predictive affinity features found during this research.
 
-In this chapter we combine these individually predictive affinity features together and examine the results.
+In this chapter we combine the individually most predictive affinity features together and examine the results.
 
 \section{Affinity Feature Selection}
 \label{sec:notation}
 
-Based on results found during our \emph{user interactions} and \emph{user preference} analysis, the most predictive features we have found are:
+Based on results found during our \emph{user interactions} and \emph{user preference} analysis, the most predictive features we have found were:
 \begin{itemize}
 \item \textbf{Favourites}
 \item \textbf{Groups}
@@ -51,8 +30,8 @@ Applying this combined affinity feature to the data set we obtain:
 \begin{figure}[h]
 	\begin{center}
 		\includegraphics[scale=0.75]{results/combination/bar_combination.pdf}
-		\caption{Accuracy results using the \emph{combined} feature set. This \emph{combined} feature gives our best prediction 
-		in comparison to all other individual features and we can see a large improvement over our SMB baseline for the case where $k=0$, particularly for the LR case.}
+		\caption{Accuracy results using the \emph{combined} feature set. This \emph{combined} features give our best prediction 
+		in comparison to all other individual features and we see a large improvement over our SMB baseline, particularly for the LR case.}
 	\end{center}
 \end{figure}
 
@@ -62,7 +41,7 @@ We find that the \emph{combined} affinity feature gives the most predictive resu
 other individual features tested during this research.
 
 The most predictive individual results of \emph{favourites}, \emph{groups} and \emph{pages} against the \emph{combined}
-feature are shown below:
+feature are tabulated below:
 
 \begin{table}[h]
 \begin{minipage}[b]{.50\textwidth}
@@ -114,17 +93,17 @@ feature are shown below:
 \end{table}
 
 These tables clearly show that the most predictive feature vector is a combination of the individually most predictive 
-features found during our analysis. This trend continues across our exposure $k$ and offers the most predictive feature 
-vector found during this research over all exposures.
+features found during our analysis. This trend continues across our exposure $k$ and this \emph{combined} feature offers the most predictive results 
+found during this research over all exposures.
 
-This graph can be seen below:
+This can be seen in the graph below:
 
 \clearpage
 
 \begin{figure}[h]
 	\begin{center}
 		\includegraphics[scale=0.75]{results/combination/line_combination.pdf}
-		\caption{Accuracy results across exposure using the \emph{combined} feature set. This feature set offers the most predictive 
+		\caption{Accuracy results across exposure using the \emph{combined} feature set. This feature offers the most predictive 
 				 results discovered during this research for all $k$. As our exposure increases, the improved predictive performance of this 
 				 \emph{combined} feature increases too.}
 	\end{center}
@@ -132,7 +111,7 @@ This graph can be seen below:
 
 \clearpage
 
-By extracting the model feature weights from the case where $k=0$ we can see which components of the \emph{combined} affinity feature 
+By extracting the model feature weights from the case where $k=0$ we can see which \emph{combined} components 
 were most predictive:
 
 \begin{table}[h]
@@ -184,21 +163,23 @@ were most predictive:
 \end{minipage}
 \end{table}
 
-The negative LR weights are equally broken up into \emph{pages} and \emph{groups} as contributing highly to the prediction. The size ranges 
+The negative LR weights are equally broken up into \emph{pages} and \emph{groups} as contributing highly to a prediction of dislike. The size ranges 
 for both \emph{pages} and \emph{groups} varies greatly from as little as $27$ up to as high as $1552$ and there is little corelation between 
-the frequency and sizes, in fact lower frequencies of around $20$ contribute most to the prediction.
+the frequency and sizes, in fact lower frequencies of around $20$ contribute most to the dislike prediction.
 
-The positive LR weights are more focused on the predictiveness of \emph{pages} and the sizes of the \emph{pages} are in
+The positive LR weights are more focused on the predictiveness of \emph{pages} for a like and the sizes of the \emph{pages} are in
 a much more consistent range, while the frequencies still vary.
 
 These LR weights show that both \emph{groups} and especially \emph{pages} are highly predictive of a users like preferences and particular 
-sizes or frequencies do not appear to be more predictive then others. Additionally under this \emph{combined} paradigm, \emph{favourites} do not appear 
+sizes or frequencies do not appear to be more predictive then others. Both \emph{groups} and \emph{pages} are indicitve of a dislike prediction 
+while \emph{pages} are most predictive for a like. Additionally under this \emph{combined} paradigm, \emph{favourites} do not appear 
 to contribute strongly to our results.
 
-We have shown in this chapter that the \emph{combined} feature of our individually most predictive affinity features results in the most 
-accurate and concise predictions for our data set, when \emph{combined}, \emph{favourites} are less predictive then \emph{groups} and 
-\emph{groups} are less predictive then \emph{pages}. Additionally, the sizes and frequencies of these \emph{groups} and \emph{pages} 
-do not appear to be consistent in their predictive qualities.
+We have shown in this chapter that the \emph{combined} feature of our individually most predictive features results in the most 
+accurate and concise predictions from our data set, when combined \emph{favourites} are less predictive then \emph{groups} and 
+\emph{groups} are less predictive then \emph{pages}. \emph{Pages} and \emph{groups} both contribute to a dislike prediction, while a like
+prediction is more strongly associated with \emph{pages} - which is not surprising as \emph{pages} are more predictive then \emph{groups}.
+Additionally, the sizes and frequencies of these \emph{groups} and \emph{pages} do not appear to be consistent in their predictive qualities.
 
 %%% Local Variables: 
 %%% mode: latex

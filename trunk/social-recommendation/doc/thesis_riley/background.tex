@@ -6,21 +6,21 @@
 \label{cha:back}
 
 In this chapter, we define the social network Facebook central to this study, the source of our data set, notation used throughout 
-this thesis, our choice of classification algorithms and our testing approach and methodology.
+this thesis, our choice of classification algorithms and finally our testing approach and methodology.
 
 \section{Facebook}
 \label{sec:data}
 
 Facebook is the largest and most active social media service in the world (as of September 2012 it had more than 1 billion active users \cite{fbsize}).
-Facebook users can create a profile containing personal preferences and information including their favourite music, favourite movies, 
-inspirational people, interests, age, birthday, etc and have friendships and interactions between other users. 
+Facebook users can create a profile containing personal \emph{preferences} and information including their favourite music, favourite movies, 
+inspirational people, interests, age, birthday, etc and have friendships and \emph{interactions} between other users. 
 
 The four main interactions between users are posts (posting something on a friends' wall), 
 tags (being mentioned in a friends post or comment), comments (written data on a post) and likes (clicking a like button if a user 
 likes a post or comment). The mediums for these interactions are across links (some URL), posts (some Facebook post), 
 photos (some uploaded Facebook photo) and videos (some uploaded Facebook video).
 
-Given the enormous scope of interaction and preference information available for each user, NICTA have developed an application (app) capable of tracking 
+Given the enormous scope of \emph{interaction} and \emph{preference} information available for each user, NICTA have developed an application (app) capable of tracking 
 and recording all pertinent user information. This app will be discussed in the following section.
 
 %\cite{backstrom2011center} studied two types of user uses of Facebook, explicit communication interaction and viewing attention. Communication 
@@ -33,18 +33,19 @@ and recording all pertinent user information. This app will be discussed in the 
 One issue present in the Facebook paradigm is deciphering whether a user does not like an item, a users Facebook feed (current visible 
 personalised Facebook information) is comprised of recent
 activity (Facebook will only show feed 
-items for users who have recently interacted with using their \emph{Edge-Rank} ~\cite{edge} algorithm) between their friends, groups, pages, etc giving an enormous scope of potential feed items.
+items for users who have recently interacted with using their \emph{Edge-Rank} ~\cite{edge} algorithm) between their friends, groups, pages, etc giving an enormous scope for potential feed items.
 Given the high rate of posting, these top feed items are only displayed for a short period of time. Coupled 
 with the fact that Facebook allows users to explicitly like an item, but not dislike it - distinguishing between what 
-a user has seen and what a user does and does not like becomes difficult.
+a user does and does not like becomes difficult.
 
 %While many Facebook users have a friend count which is close to the human real word limit, known as the Dunbar number 
 %~\cite{hill2003social}, the \emph{Edge-Rank} algorithm ensures user interactions are focused on a much smaller subset of their friends.
 
 Given this fact, NICTA developed a Facebook app named \emph{LinkR}\footnote{The main developer of the LinkR Facebook App is Khoi-Nguyen Tran, a PhD student at the Australian National University.}.
 This app collected information about users, their interactions and preferences as well as a subset of available information about 
-their friends. Additionally, the app proposed links to users and asked them to explicity rate each link as either a like or dislike. 
-The app tracked and stored this information for over 100 app users and their 39,000+ friends over a 4-month time period.
+their friends. Additionally, the app proposed links to users and asked them to explicitly rate each link as either a like or dislike. 
+The app tracked and stored this information for over 100 app users and their 39,000+ friends over a 4-month time period. Which is a sufficiently large data-set for 
+performing our analysis.
 
 The table below summarises the interactions data collected from both app users and their friends used during subsequent analysis.
 
@@ -90,12 +91,12 @@ This alters set can be visualised in the figure below:
 	\begin{center}
 		\includegraphics[scale=0.60]{imgs/alters.pdf}
 		\caption{Alters paradigm. A user $u$ likes some item $v$, a $Relationship_{u,z}$ is defined via some affinity $i$ (in this example we use \emph{interactions}) uniquely defined
-		for each affinity feature, to create our set of $alters_{u,v}$.}
+		for each affinity feature, to create our set of $alters_{u,v,i}$.}
 	\end{center}
 \end{figure}
 
 \item An exposure limit where $Exposure_{u,v} = \displaystyle\sum_{z}^{N} (Friend_{u,z} \wedge Liked_{z,v})$ where this exposure can be 
-limited by some $k$ with the condition $Exposure_{u,v} >= k$.
+limited by some $k$ with the condition $Exposure_{u,v} >= k$. Thus ensuring some $k$ number of friends have liked a link $v$.
 
 This exposure can be visualised in the figure below:
 
@@ -103,7 +104,7 @@ This exposure can be visualised in the figure below:
 	\begin{center}
 		\includegraphics[scale=0.65]{results/imageLiked.png}
 		\caption{Here we see an example of a link $v$ posted to a friends wall, which has subsequently been liked by two friends $z$. This 
-				 demonstrates an exposure of $2$ for $v$.}
+				 demonstrates an exposure of $2$ for item $v$.}
 	\end{center}
 \end{figure}
 
@@ -115,9 +116,9 @@ where $0$ represents a dislike and $1$ represents a like.
 \label{sec:features}
 
 Given the vast amount of potential affinity features available on Facebook, we need to group our features into two 
-distinct sets. Our two main headings will be \emph{user interactions} and \emph{user preferences}.
+distinct sets. Our two main categories will be \emph{user interactions} and \emph{user preferences}.
 
-The individual components of these groups are displayed below:
+The individual components of these categories are displayed below:
 
 \emph{User interactions}:
 \begin{itemize}
@@ -135,7 +136,8 @@ The individual components of these groups are displayed below:
 \end{itemize}
 
 Each of these affinity features will be discussed in detail under their separate sections of this thesis.
-During our analysis we will compare the predictiveness of each of these affinity features individually, as well as in combination.
+During our analysis we will compare the predictiveness of each of these affinity features individually and in combination.
+Each feature will also be tested against some exposure to analyse the differences in results.
 
 \section{Previous Work}
 \label{sec:pw}
