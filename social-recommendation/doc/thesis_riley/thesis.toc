@@ -8,31 +8,31 @@
 \contentsline {section}{\numberline {2.2}Data Set}{5}
 \contentsline {section}{\numberline {2.3}Notation}{6}
 \contentsline {section}{\numberline {2.4}Affinity Features}{8}
-\contentsline {section}{\numberline {2.5}Previous Work}{8}
-\contentsline {section}{\numberline {2.6}Training and Testing}{9}
-\contentsline {section}{\numberline {2.7}Classification Algorithms}{9}
-\contentsline {subsection}{\numberline {2.7.1}Constant}{9}
-\contentsline {subsection}{\numberline {2.7.2}Social Match Box}{9}
-\contentsline {subsection}{\numberline {2.7.3}Naive Bayes}{9}
-\contentsline {subsection}{\numberline {2.7.4}Logistic Regression}{10}
-\contentsline {subsection}{\numberline {2.7.5}Support Vector Machine}{10}
-\contentsline {section}{\numberline {2.8}Evaluation Metrics}{11}
-\contentsline {chapter}{\numberline {3}User Interactions}{13}
-\contentsline {section}{\numberline {3.1}Interactions}{13}
-\contentsline {section}{\numberline {3.2}Conversation}{15}
-\contentsline {subsection}{\numberline {3.2.1}Outgoing}{17}
-\contentsline {subsection}{\numberline {3.2.2}Incoming}{20}
-\contentsline {section}{\numberline {3.3}Conclusion}{24}
-\contentsline {chapter}{\numberline {4}User Preferences}{25}
-\contentsline {section}{\numberline {4.1}Demographics}{25}
-\contentsline {section}{\numberline {4.2}Favourites}{29}
-\contentsline {section}{\numberline {4.3}Groups}{34}
-\contentsline {section}{\numberline {4.4}Pages}{39}
-\contentsline {section}{\numberline {4.5}Conclusion}{45}
-\contentsline {chapter}{\numberline {5}Feature Combination}{47}
-\contentsline {section}{\numberline {5.1}Affinity Feature Selection}{47}
-\contentsline {chapter}{\numberline {6}Conclusion}{53}
-\contentsline {section}{\numberline {6.1}Summary}{53}
-\contentsline {section}{\numberline {6.2}Future Work}{53}
-\contentsline {chapter}{\numberline {A}Favourites Group Summary}{55}
-\contentsline {chapter}{Bibliography}{61}
+\contentsline {section}{\numberline {2.5}Previous Work}{9}
+\contentsline {section}{\numberline {2.6}Training and Testing}{10}
+\contentsline {section}{\numberline {2.7}Classification Algorithms}{10}
+\contentsline {subsection}{\numberline {2.7.1}Constant}{10}
+\contentsline {subsection}{\numberline {2.7.2}Social Match Box}{10}
+\contentsline {subsection}{\numberline {2.7.3}Naive Bayes}{10}
+\contentsline {subsection}{\numberline {2.7.4}Logistic Regression}{11}
+\contentsline {subsection}{\numberline {2.7.5}Support Vector Machine}{11}
+\contentsline {section}{\numberline {2.8}Evaluation Metrics}{12}
+\contentsline {chapter}{\numberline {3}User Interactions}{15}
+\contentsline {section}{\numberline {3.1}Interactions}{15}
+\contentsline {section}{\numberline {3.2}Conversation}{17}
+\contentsline {subsection}{\numberline {3.2.1}Outgoing}{19}
+\contentsline {subsection}{\numberline {3.2.2}Incoming}{22}
+\contentsline {section}{\numberline {3.3}Conclusion}{26}
+\contentsline {chapter}{\numberline {4}User Preferences}{27}
+\contentsline {section}{\numberline {4.1}Demographics}{27}
+\contentsline {section}{\numberline {4.2}Favourites}{31}
+\contentsline {section}{\numberline {4.3}Groups}{36}
+\contentsline {section}{\numberline {4.4}Pages}{42}
+\contentsline {section}{\numberline {4.5}Conclusion}{48}
+\contentsline {chapter}{\numberline {5}Feature Combination}{49}
+\contentsline {section}{\numberline {5.1}Affinity Feature Selection}{49}
+\contentsline {chapter}{\numberline {6}Conclusion}{55}
+\contentsline {section}{\numberline {6.1}Summary}{55}
+\contentsline {section}{\numberline {6.2}Future Work}{55}
+\contentsline {chapter}{\numberline {A}Favourites Group Summary}{57}
+\contentsline {chapter}{Bibliography}{63}
