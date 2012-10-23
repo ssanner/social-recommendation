@@ -36,7 +36,7 @@ Gender breakdown:
 		\textbf{Male} & \textbf{Female} & \textbf{Undisclosed}  \\ \hline
 		85 & 33 & 1 \\ \hline
 	\end{tabular}
-	\caption{Gender breakdown for app users. We see a strong male bias.}
+	\caption{Gender breakdown for app users. We see a strong male bias due to the majority of app users being computer science students (or graduates).}
 	\label{tab:revpol}
 \end{table}
 
@@ -77,7 +77,7 @@ Birthday breakdown:
 		1991-1995 & 25 \\ \hline
 		1996-2000 & 2 \\ \hline
 	\end{tabular}
-	\caption{Birthday breakdown for app users. There is clearly a densely populated age range of around $18 - 30$.}
+	\caption{Birthday breakdown for app users. There is clearly a densely populated age range of around $18 - 30$, similarly as in \emph{Table 4.1} due to the majority of app users being computer science students (or graduates).}
 	\label{tab:revpol}
 \end{table}
 
@@ -157,12 +157,13 @@ Comparing \emph{demographics} against exposure we find:
 	\begin{center}
 		\includegraphics[scale=0.75]{results/demographics/line_demographics.pdf}
 		\caption{Accuracy results for exposure using the \emph{demographics} features. As $k$ increases the predictiveness of \emph{demographics} substantially 
-				 increases with it. Clearly gender and age are both predictive. Note in this case Constant = NB and LR = SVM.}
+				 increases with it, clearly gender and age are both predictive as exposure increases. Note in this case Constant = NB and LR = SVM.}
 	\end{center}
 \end{figure}
 
 The exposure for \emph{demographics} shows a sizable improvement over our baselines as $k$ increases. This demonstrates that as the
-number of friends who like an item increase, the predictiveness of our \emph{demographics} feature increases (as there are more users available to learn from). 
+number of friends who like an item increase, the predictiveness of our \emph{demographics} feature increases, due to affinity groups requiring 
+more consensus (higher exposure) to see improved prediction performance.
 
 Hence, both gender and age are predictive \emph{user features}.
 
@@ -173,16 +174,16 @@ Facebook facilitates a wide variety of user selected \emph{favourites}.
 These \emph{favourites} allow a user to associate themselves with other people who share their same favourite tendencies under the below headings:
 
 \begin{itemize}
-\item \textbf{Activities}.
-\item \textbf{Athletes}.
-\item \textbf{Books}.
-\item \textbf{Interests}.
-\item \textbf{Movies}.
-\item \textbf{Music}.
-\item \textbf{People}.
-\item \textbf{Sports}.
-\item \textbf{Teams}.
-\item \textbf{Television}.
+\item \textbf{Activities} i.e, Sleeping, eating, reading.
+\item \textbf{Athletes} i.e, Roger Federer, Rafael Nadal, Leo Messi.
+\item \textbf{Books} i.e, Harry Potter, The Bible, Terry Pratchett.
+\item \textbf{Interests} i.e, Movies, Music, Cooking.
+\item \textbf{Movies} i.e, Inception, Avatar, Fight Club.
+\item \textbf{Music} i.e, Daft Punk, Muse, Pink Floyd.
+\item \textbf{People} i.e, Alan Turing, Maurice Moss, Steve Jobs.
+\item \textbf{Sports} i.e, Badminton, Basketball, Cycling.
+\item \textbf{Teams} i.e, Manchester United, Liverpool FC, Canberra Raiders.
+\item \textbf{Television} i.e, The Big Bang Theory, How I Met Your Mother, The Simpsons.
 \end{itemize}
 
 Based on the membership frequencies of our app users for these different \emph{favourite} categories they can be partitioned into three 
@@ -264,7 +265,6 @@ Below we display example tables of these categories:
 Where the first column \emph{F} displays the frequency for this \emph{favourite} and the second column denotes the type of \emph{favourite} displayed. 
 Here we can see \emph{television} represents an example of a high frequency \emph{favourite} of around $20-10$, \emph{interests} represent an example of a 
 medium frequency \emph{favourite} of around $9-5$ and \emph{People} represent an example of a low frequency \emph{favourite} of around $4-1$.
-Note a full \emph{favourites} set can be found in \emph{Appendix A}.
 \\ 
 
 The different frequency levels are summarised between the \emph{favourites} categories below:
@@ -292,7 +292,8 @@ Applying this feature vector to our classifiers we obtain:
 	\begin{center}
 		\includegraphics[scale=0.75]{results/traits/bar_traits.pdf}
 		\caption{Accuracy results using the \emph{favourites} feature. \emph{Favourites} are our first feature more predictive then SMB
-				 for the case when $k=0$, indicating that \emph{favourites} are highly predictive of a users preferences.}
+				 for the case when $k=0$, indicating that \emph{favourites} are highly predictive of a users preferences. Demonstrating the 
+		novel insight that affinity filtering can offer better results than collaborative filtering.}
 	\end{center}
 \end{figure}
 
@@ -307,7 +308,8 @@ Comparing \emph{favourites} across exposure we obtain:
 	\begin{center}
 		\includegraphics[scale=0.75]{results/traits/line_traits.pdf}
 		\caption{Accuracy results against exposure using the \emph{favourites} features. Clearly, \emph{favourites} are more predictive of
-				 user preferences compared to our baselines and all \emph{user interactions} across all exposures $k$.}
+				 user preferences compared to our baselines and all \emph{user interactions} across all exposures $k$, due to the fact 
+				 (unlike \emph{interaction filtering}) \emph{user preferences} do not require explicit interactions with friends.}
 	\end{center}
 \end{figure}
 
@@ -325,23 +327,23 @@ In the following table we can see explicitly which \emph{favourites} are most pr
   \begin{tabular}{|l|l|l|l|} % cols: (left, center, right)
   \hline
   		\textbf{Favourite} & \textbf{Weight} & \textbf{Frequency} \\ \hline
-		Activities & -5.927 $\pm$ 0.001 & 281 \\ \hline
-		Television & -5.210 $\pm$ 0.0 & 1,029 \\ \hline
-		Music & -3.409 $\pm$ 0.001 & 629 \\ \hline
-		Movies & -2.668 $\pm$ 0.001 & 454 \\ \hline
-		Interests & -1.921 $\pm$ 0.001 & 64 \\ \hline
-		Sports & -1.820 $\pm$ 0.001 & 27 \\ \hline		
-		Books & -1.769 $\pm$ 0.0 & 163 \\ \hline		
+		Activities & 5.927 $\pm$ 0.001 & 281 \\ \hline
+		Television & 5.210 $\pm$ 0.0 & 1,029 \\ \hline
+		Music & 3.409 $\pm$ 0.001 & 629 \\ \hline
+		Movies & 2.668 $\pm$ 0.001 & 454 \\ \hline
+		Interests & 1.921 $\pm$ 0.001 & 64 \\ \hline
+		Sports & 1.820 $\pm$ 0.001 & 27 \\ \hline		
+		Books & 1.769 $\pm$ 0.0 & 163 \\ \hline		
   \end{tabular}
-  \caption{LR feature weights extracted for the case where $k=0$. The \emph{favourite} column displays the current \emph{favourite}.
+  \caption{LR feature weights. The \emph{favourite} column displays the current \emph{favourite}.
   The \emph{weight} column shows the weighting given for this \emph{favourite} and the \emph{frequency} column displays the number of times 
   this \emph{favourite} was set to $1$. We find that high frequency \emph{favourites} are most predictive of dislikes.}
 \end{minipage}
 \end{table}
 
-This table shows that the \emph{favourites} which exhibit a high frequency have a larger influence of dislike during prediction. These most 
-predictive dislike \emph{favourites} are mostly focused on media and leisure, while no explicit \emph{favourite} is given a positive feature 
-weight which would be predictive of a like.
+This table shows that the \emph{favourites} which exhibit a high frequency have a larger influence of like during prediction. These most 
+predictive like \emph{favourites} are mostly focused on media and leisure, while no explicit \emph{favourite} is given a negative feature 
+weight which would be predictive of a dislike.
 
 \cite{brandtzag2011facebook} found that virtual interactions help reveal common interests, while real world interactions help 
 support friendships. Our data supports this, these common interests or \emph{favourites} investigated above are clearly predictive 
@@ -472,27 +474,27 @@ contribute most to the predictions:
   \begin{tabular}{|l|l|l|l|l|} % cols: (left, center, right)
   \hline
   \textbf{Name} & \textbf{Size} & \textbf{Weight} & \textbf{Frequency} \\ \hline
-\small{ANU StalkerSpace} & 1292 & -7.236 $\pm$ 0 & 453 \\ \hline
-\small{Facebook Developers} & 487 & -3.442 $\pm$ 0 & 177 \\ \hline
-\small{ANU CSSA} & 38 & -2.742 $\pm$ 0 & 191 \\ \hline
-\small{Australian National University} & 619 & -2.565 $\pm$ 0 & 70 \\ \hline
-\small{Overheard at the Ateneo de Manila University} & 253 & -2.462 $\pm$ 0 & 26 \\ \hline
-\small{iDiscount ANU} & 338 & -2.203 $\pm$ 0 & 88 \\ \hline
-\small{PETITION FOR FACEBOOK TO INSTALL A DISLIKE BUTTON} & 683 & -2.018 $\pm$ 0 & 92 \\ \hline
-\small{I grew up in Australia in the 90s} & 731 & -1.991 $\pm$ 0 & 75 \\ \hline
-\small{Grow up Australia - R18+ Rating for Computer Games} & 222 & -1.951 $\pm$ 0 & 102 \\ \hline
-\small{Heavy Metal - CANBERRA METAL} & 30 & -1.694 $\pm$ 0 & 42 \\ \hline
+\small{ANU StalkerSpace} & 1292 & 7.236 $\pm$ 0 & 453 \\ \hline
+\small{Facebook Developers} & 487 & 3.442 $\pm$ 0 & 177 \\ \hline
+\small{ANU CSSA} & 38 & 2.742 $\pm$ 0 & 191 \\ \hline
+\small{Australian National University} & 619 & 2.565 $\pm$ 0 & 70 \\ \hline
+\small{Overheard at the Ateneo de Manila University} & 253 & 2.462 $\pm$ 0 & 26 \\ \hline
+\small{iDiscount ANU} & 338 & 2.203 $\pm$ 0 & 88 \\ \hline
+\small{PETITION FOR FACEBOOK TO INSTALL A DISLIKE BUTTON} & 683 & 2.018 $\pm$ 0 & 92 \\ \hline
+\small{I grew up in Australia in the 90s} & 731 & 1.991 $\pm$ 0 & 75 \\ \hline
+\small{Grow up Australia - R18+ Rating for Computer Games} & 222 & 1.951 $\pm$ 0 & 102 \\ \hline
+\small{Heavy Metal - CANBERRA METAL} & 30 & 1.694 $\pm$ 0 & 42 \\ \hline
   \end{tabular}
-  \caption{LR feature weights extracted for the case where $k=0$. The \emph{name} column displays the current \emph{group} name.
+  \caption{LR feature weights. The \emph{name} column displays the current \emph{group} name.
   The \emph{size} column shows the total size of this group across all users.
   The \emph{weight} column shows the weighting given for this \emph{group} and the \emph{frequency} column displays the number of times 
-  this \emph{group} was set to $1$. We find that highly local \emph{groups} with a high relative frequency of app users are most predictive of a users dislike preferences.}
+  this \emph{group} was set to $1$. We find that highly local \emph{groups} with a high relative frequency of app users are most predictive of a users like preferences.}
 \end{minipage}
 \end{table}
 
 We have found \emph{groups} are highly predictive of a users like preferences, we see from the weights table above that \emph{groups} which are highly local to 
-the ANU and/or Canberra and have a high relative frequency of app users are most predictive of a users dislikes. Notably, no \emph{groups} contribute 
-explicit like (positive) weights. The 
+the ANU and/or Canberra and have a high relative frequency of app users are most predictive of a users likes. Notably, no \emph{groups} contribute 
+explicit dislike (negative) weights. The 
 overall sizes of these \emph{groups} is relatively small which adheres to the common sense notion that large groups appeal more 
 broadly and are less predictive of a users preferences.
 
@@ -589,7 +591,7 @@ Using the most predictive \emph{page} sizes as defined above we obtain:
 	\begin{center}
 		\includegraphics[scale=0.75]{results/pages/bar_pages.pdf}
 		\caption{Accuracy results using the \emph{pages} feature, we can see an improvement over our baselines for both LR and SVM. 
-				 Demonstrating that \emph{pages} are predictive of a users like preferences, however they are not as predictive as 
+				 Demonstrating that while \emph{pages} are predictive of a users like preferences, they are not as predictive as 
 				 \emph{groups} or \emph{favourites}.}
 	\end{center}
 \end{figure}
@@ -622,18 +624,18 @@ By extracting the model weights from the case where $k=0$ we can see which expli
   \begin{tabular}{|l|l|l|l|l|} % cols: (left, center, right)
   \hline
   \textbf{Name} & \textbf{Size} & \textbf{Weight} & \textbf{Frequency} \\ \hline
-\small{Sorry mate i can't, i've got Quidditch}  & 254 & -1.799 $\pm$ 0 & 18 \\ \hline
-\small{Avatar: The Last Airbender}  & 324 & -1.514 $\pm$ 0.001 & 13 \\ \hline
-\small{National Geographic}  & 662 & -1.437 $\pm$ 0.001 & 18 \\ \hline
-\small{The Simpsons}  & 1552 & -1.414 $\pm$ 0 & 170 \\ \hline
-\small{Sushi}  & 387 & -1.33 $\pm$ 0.001 & 9 \\ \hline
-\small{House}  & 1746 & -1.291 $\pm$ 0 & 66 \\ \hline
-\small{Seinfeld}  & 609 & -1.249 $\pm$ 0 & 15 \\ \hline
-\small{Starbucks}  & 1548 & -1.249 $\pm$ 0 & 7 \\ \hline
-\small{American Dad}  & 540 & -1.215 $\pm$ 0.001 & 18 \\ \hline
-\small{friends don't let friends vote for Tony Abbott}  & 551 & -1.206 $\pm$ 0.001 & 19 \\ \hline
+\small{Sorry mate i can't, i've got Quidditch}  & 254 & 1.799 $\pm$ 0 & 18 \\ \hline
+\small{Avatar: The Last Airbender}  & 324 & 1.514 $\pm$ 0.001 & 13 \\ \hline
+\small{National Geographic}  & 662 & 1.437 $\pm$ 0.001 & 18 \\ \hline
+\small{The Simpsons}  & 1552 & 1.414 $\pm$ 0 & 170 \\ \hline
+\small{Sushi}  & 387 & 1.33 $\pm$ 0.001 & 9 \\ \hline
+\small{House}  & 1746 & 1.291 $\pm$ 0 & 66 \\ \hline
+\small{Seinfeld}  & 609 & 1.249 $\pm$ 0 & 15 \\ \hline
+\small{Starbucks}  & 1548 & 1.249 $\pm$ 0 & 7 \\ \hline
+\small{American Dad}  & 540 & 1.215 $\pm$ 0.001 & 18 \\ \hline
+\small{friends don't let friends vote for Tony Abbott}  & 551 & 1.206 $\pm$ 0.001 & 19 \\ \hline
   \end{tabular}
- \caption{Negative LR feature weights extracted for the case where $k=0$. The \emph{name} column displays the current \emph{page} name.
+ \caption{Positive LR feature weights. The \emph{name} column displays the current \emph{page} name.
   The \emph{size} column shows the total size of this group across all users.
   The \emph{weight} column shows the weighting given for this \emph{page} and the \emph{frequency} column displays the number of times 
   this \emph{page} was set to $1$. We find non-local and a high range of \emph{page} sizes to be most predictive.}
@@ -646,18 +648,18 @@ By extracting the model weights from the case where $k=0$ we can see which expli
   \begin{tabular}{|l|l|l|l|l|} % cols: (left, center, right)
   \hline
   \textbf{Name} & \textbf{Size} & \textbf{Weight} & \textbf{Frequency} \\ \hline
-\small{CatDog}  & 259 & 1.815 $\pm$ 0.001 & 12 \\ \hline
-\small{Worst. Idea. Ever. [pause] Let's do it.}  & 227 & 1.737 $\pm$ 0 & 21 \\ \hline
-\small{Grug}  & 279 & 1.698 $\pm$ 0 & 9 \\ \hline
-\small{Kings Of Leon}  & 840 & 1.607 $\pm$ 0.001 & 14 \\ \hline
-\small{Planking Australia}  & 166 & 1.598 $\pm$ 0.001 & 4 \\ \hline
-\small{Dr. House}  & 964 & 1.588 $\pm$ 0 & 28 \\ \hline
-\small{Suit Up}  & 466 & 1.389 $\pm$ 0.001 & 17 \\ \hline
-\small{Don't you hate it when Gandalf marks your [..]}  & 110 & 1.372 $\pm$ 0.001 & 19 \\ \hline
-\small{Paramore}  & 1004 & 1.343 $\pm$ 0.001 & 31 \\ \hline
-\small{Tintin}  & 250 & 1.339 $\pm$ 0.001 & 11 \\ \hline
+\small{CatDog}  & 259 & -1.815 $\pm$ 0.001 & 12 \\ \hline
+\small{Worst. Idea. Ever. [pause] Let's do it.}  & 227 & -1.737 $\pm$ 0 & 21 \\ \hline
+\small{Grug}  & 279 & -1.698 $\pm$ 0 & 9 \\ \hline
+\small{Kings Of Leon}  & 840 & -1.607 $\pm$ 0.001 & 14 \\ \hline
+\small{Planking Australia}  & 166 & -1.598 $\pm$ 0.001 & 4 \\ \hline
+\small{Dr. House}  & 964 & -1.588 $\pm$ 0 & 28 \\ \hline
+\small{Suit Up}  & 466 & -1.389 $\pm$ 0.001 & 17 \\ \hline
+\small{Don't you hate it when Gandalf marks your [..]}  & 110 & -1.372 $\pm$ 0.001 & 19 \\ \hline
+\small{Paramore}  & 1004 & -1.343 $\pm$ 0.001 & 31 \\ \hline
+\small{Tintin}  & 250 & -1.339 $\pm$ 0.001 & 11 \\ \hline
   \end{tabular}
- \caption{Positive LR feature weights extracted for the case where $k=0$. The \emph{name} column displays the current \emph{page} name.
+ \caption{Negative LR feature weights. The \emph{name} column displays the current \emph{page} name.
   The \emph{size} column shows the total size of this group across all users.
   The \emph{weight} column shows the weighting given for this \emph{page} and the \emph{frequency} column displays the number of times 
   this \emph{page} was set to $1$. We find non-local and a high range of \emph{page} sizes to be most predictive.}
@@ -680,6 +682,10 @@ predictions continue to improve with each successive increase in $k$ (notably at
 \emph{favourites} and \emph{groups} actively weight to predict what a user will dislike, while \emph{page} weights are used for 
 both like and dislike predictions. 
 
+The novel insight we find throughout this chapter is \emph{user preference} affinity filtering can offer more predictive results then the previously 
+applied technqiues of collaborative filtering.
+
+In the next chapter we will investigate the effect of combining the individually predictive affinity features found in this chapter.
 
 %%% Local Variables: 
 %%% mode: latex
