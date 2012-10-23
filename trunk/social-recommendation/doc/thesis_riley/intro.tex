@@ -12,7 +12,7 @@ and Google+, what defines a user and their online \emph{user interactions} (such
 
 From this premise, the ultimate question we wish to address in this thesis becomes: 
 How can we leverage this user information to decipher which \emph{user interaction} or \emph{user preference} affinity features 
-are most predictive of user likes? 
+are most predictive of user "likes"? 
 
 We address this question by comparing and contrasting these varied potential affinity relationships in our data against appropriate 
 baselines and ultimately offer a combination of features which proposes the best solution the question posed above.
@@ -28,7 +28,7 @@ The primary objective of this thesis is to compare and contrast differing potent
 and \emph{Support Vector Machines} (SVM) compared with our appropriate baselines of \emph{Social Matchbox} (SMB) and \emph{Constant Classifiers} (Constant). 
 With the primary aim of discovering which affinity features are most predictive or a users like preferences.
 
-Based on the insight that social inﬂuence can play a crucial role in a range of behavioural phenomena \cite{grano,watts} and that
+Based on the insight that social influence can play a crucial role in a range of behavioural phenomena \cite{grano,watts} and that
 positive social annotations on search items add perceived utility to the worth of a result \cite{pantel} we will 
 also test while limiting user exposure to a link. This exposure hold out technique involves ensuring some $k$ number of users $u$ have 
 liked some link $v$.
@@ -42,7 +42,11 @@ Finally, we will assess and compare the effect of combining the individually pre
 \section{Contributions}
 \label{sec:contributions}
 
-The specific contributions made during this thesis show:
+Most previous work has simply compressed all social information into a single "user similarity" metric, which does not leverage
+the fact that very specific interactions or preferences can be very predictive. Our approach involves  
+recommendation via affinity groups. This is a novel way to do social recommendation as it can leverage very fine-grained social features.
+
+Specific contributions made during this thesis show:
 
 \begin{itemize}
 \item Both \emph{interactions} (tags, likes, etc) and \emph{messages} (incoming and outgoing messages posted between users) are not more predictive than 
@@ -56,7 +60,8 @@ substantial improvement over previous techniques as this exposure increases.
 \item Combination of the most predictive individual affinity features outlined above present the most predictive results found during our analysis.
 \end{itemize} 
 
-Overall, we discover which user affinities are most predictive of a users like preferences, analyse the effect of user exposure across links, 
+Overall, we discover which user affinities are most predictive of a users like preferences (e.g., 
+whether a user will "like" a certain news article or blog post), analyse the effect of user exposure across links, 
 evaluate which explicit affinity features contribute the most weight during prediction and assess the predictive qualities of combining 
 the individually most predictive affinities found during our analysis.
 
@@ -65,14 +70,14 @@ the individually most predictive affinities found during our analysis.
 
 The remaining chapters in this thesis are organised as follows:
 \begin{itemize}
-\item \textbf{Chapter 2}: We first outline appropriate background information for the reader. Including information pertaining to the source of 
+\item \textbf{Chapter 2 (Background)}: We first outline appropriate background information for the reader. Including information pertaining to the source of 
 our data set, mathematical notation used throughout this thesis, previous work in this area and our research approach and methodology.
-\item \textbf{Chapter 3}: In this chapter we discuss different affinity features for \emph{user interactions} and the results of applying these features to NB, SVM and LR 
+\item \textbf{Chapter 3 (User Interactions)}: In this chapter we discuss different affinity features for \emph{user interactions} and the results of applying these features to NB, SVM and LR 
 in comparison with our baselines.
-\item \textbf{Chapter 4}: A similar affinity feature analysis as above is applied, however the features we utilise are for \emph{user preferences}.
-\item \textbf{Chapter 5}: In this chapter we discuss the effect of combining individually predictive affinity features based on results gained in the previous sections
+\item \textbf{Chapter 4 (User Preferences)}: A similar affinity feature analysis as above is applied, however the features we utilise are for \emph{user preferences}.
+\item \textbf{Chapter 5 (Feature Combination)}: In this chapter we discuss the effect of combining individually predictive affinity features based on results gained in the previous sections
 and propose an ideal feature hybrid.
-\item \textbf{Chapter 6}: Finally, we draw the work done throughout this thesis to a conclusion and offer avenues for future work in this area.
+\item \textbf{Chapter 6 (Conclusion)}: Finally, we draw the work done throughout this thesis to a conclusion and offer avenues for future work in this area.
 \end{itemize}
 
 With all chapters combined, this thesis represents a novel approach to exploiting and analysing \emph{user interactions} and \emph{user preferences} affinity relationships

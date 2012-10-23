@@ -5,9 +5,9 @@
 \chapter{Feature Combination}
 \label{cha:bma}
 
-Given the vast number of affinity features outlined in the previous sections, it is both computationally costly and time 
-consuming to group all features together into one combined feature. Hence, it is crucial we provide a practical approach which 
-facilitates the combination of the individually most predictive affinity features found during this research.
+Given the vast number of affinity features outlined in the previous sections and the scope of users and associated data on Facebook, it is computationally costly, time 
+consuming and ineffective to naively combine all features together. Hence, it is crucial we provide a practical approach which 
+facilitates the combination of the individually most predictive affinity features found during this research from which we can efficiently learn.
 
 In this chapter we combine the individually most predictive affinity features together and examine the results.
 
@@ -121,18 +121,18 @@ were most predictive:
   \hline
   \textbf{Name} & \textbf{Size} & \textbf{Weight} & \textbf{Frequency} \\ \hline
 
-\small{Avatar: The Last Airbender (Page)} & 324 & -1.68 $\pm$ 0.001 & 13 \\ \hline
-\small{I'm late. Got attacked by a wild Pokemon (Page)} & 161 & -1.609 $\pm$ 0 & 20 \\ \hline
-\small{Overheard at the Ateneo de Manila (Group)} & 253 & -1.527 $\pm$ 0.001 & 26 \\ \hline
-\small{Sorry mate i can't, i've got Quidditch (Page)} & 254 & -1.501 $\pm$ 0 & 18 \\ \hline
-\small{I would.........for Escapium. (Group)} & 50 & -1.467 $\pm$ 0.001 & 11 \\ \hline
-\small{Burgtoons (Group)} & 34 & -1.37 $\pm$ 0.001 & 7 \\ \hline
-\small{The Simpsons (Page)} & 1552 & -1.355 $\pm$ 0.001 & 170 \\ \hline
-\small{City Gate Hall (Group)} & 27 & -1.346 $\pm$ 0 & 5 \\ \hline
-\small{Victoria's Secret (Page)} & 764 & -1.337 $\pm$ 0 & 11 \\ \hline
-\small{Starbucks (Page)} & 1548 & -1.313 $\pm$ 0 & 7 \\ \hline
+\small{\textbf{(Page)} Avatar: The Last Airbender} & 324 & 1.68 $\pm$ 0.001 & 13 \\ \hline
+\small{\textbf{(Page)} I'm late. Got attacked by a wild Pokemon} & 161 & 1.609 $\pm$ 0 & 20 \\ \hline
+\small{\textbf{(Group)} Overheard at the Ateneo de Manila} & 253 & 1.527 $\pm$ 0.001 & 26 \\ \hline
+\small{\textbf{(Page)} Sorry mate i can't, i've got Quidditch} & 254 & 1.501 $\pm$ 0 & 18 \\ \hline
+\small{\textbf{(Group)} I would.........for Escapium.} & 50 & 1.467 $\pm$ 0.001 & 11 \\ \hline
+\small{\textbf{(Group)} Burgtoons} & 34 & 1.37 $\pm$ 0.001 & 7 \\ \hline
+\small{\textbf{(Page)} The Simpsons} & 1552 & 1.355 $\pm$ 0.001 & 170 \\ \hline
+\small{\textbf{(Group)} City Gate Hall} & 27 & 1.346 $\pm$ 0 & 5 \\ \hline
+\small{\textbf{(Page)} Victoria's Secret} & 764 & 1.337 $\pm$ 0 & 11 \\ \hline
+\small{\textbf{(Page)} Starbucks} & 1548 & 1.313 $\pm$ 0 & 7 \\ \hline
   \end{tabular}
-  \caption{LR feature weights extracted for the negative case where $k=0$. The \emph{Name} column displays the name of the feature.
+  \caption{LR feature weights extracted for the positive case. The \emph{Name} column displays the name of the feature.
                         \emph{Size} represents the size of the \emph{Page} or \emph{Group}.
                         \emph{Weight} represents the weight this feature vector received.  
                         \emph{Frequency} displays the number of times this feature vector was set to $1$ for a user.}
@@ -145,29 +145,29 @@ were most predictive:
   \hline
   \textbf{Name} & \textbf{Size} & \textbf{Weight} & \textbf{Frequency} \\ \hline
 
-\small{Don't you hate it when Gandalf marks [...] (Page)} & 110 & 1.627 $\pm$ 0.001 & 19 \\ \hline
-\small{Goodberry's (Page)} & 318 & 1.591 $\pm$ 0 & 73 \\ \hline
-\small{Worst. Idea. Ever. [pause] Let's do it. (Page)} & 227 & 1.561 $\pm$ 0 & 21 \\ \hline
-\small{CatDog (Page)} & 259 & 1.531 $\pm$ 0.001 & 12 \\ \hline
-\small{Planking Australia (Page)} & 166 & 1.501 $\pm$ 0.001 & 4 \\ \hline
-\small{Avenged Sevenfold (Page)} & 351 & 1.471 $\pm$ 0 & 6 \\ \hline
-\small{Grug (Page)} & 279 & 1.465 $\pm$ 0 & 9 \\ \hline
-\small{Dr. House (Page)} & 964 & 1.451 $\pm$ 0 & 28 \\ \hline
-\small{If 1m people join, girlfriend will let [...] (Group)} & 416 & 1.362 $\pm$ 0 & 68 \\ \hline
-\small{Do you ride kangaroos? no mate the [...] (Page)} & 321 & 1.333 $\pm$ 0.001 & 23 \\ \hline
+\small{\textbf{(Page)} Don't you hate it when Gandalf marks [...] } & 110 & -1.627 $\pm$ 0.001 & 19 \\ \hline
+\small{\textbf{(Page)} Goodberry's } & 318 & -1.591 $\pm$ 0 & 73 \\ \hline
+\small{\textbf{(Page)} Worst. Idea. Ever. [pause] Let's do it. } & 227 & -1.561 $\pm$ 0 & 21 \\ \hline
+\small{\textbf{(Page)} CatDog } & 259 & -1.531 $\pm$ 0.001 & 12 \\ \hline
+\small{\textbf{(Page)} Planking Australia } & 166 & -1.501 $\pm$ 0.001 & 4 \\ \hline
+\small{\textbf{(Page)} Avenged Sevenfold } & 351 & -1.471 $\pm$ 0 & 6 \\ \hline
+\small{\textbf{(Page)} Grug } & 279 & -1.465 $\pm$ 0 & 9 \\ \hline
+\small{\textbf{(Page)} Dr. House } & 964 & -1.451 $\pm$ 0 & 28 \\ \hline
+\small{\textbf{(Group)} If 1m people join, girlfriend will let [...] } & 416 & -1.362 $\pm$ 0 & 68 \\ \hline
+\small{\textbf{(Page)} Do you ride kangaroos? no mate the [...] } & 321 & -1.333 $\pm$ 0.001 & 23 \\ \hline
   \end{tabular}
-  \caption{LR feature weights extracted for the positive case where $k=0$. The \emph{Name} column displays the name of the feature.
+  \caption{LR feature weights extracted for the negative case. The \emph{Name} column displays the name of the feature.
                         \emph{Size} represents the size of the \emph{Page} or \emph{Group}.
                         \emph{Weight} represents the weight this feature vector received.  
                         \emph{Frequency} displays the number of times this feature vector was set to $1$ for a user.}
 \end{minipage}
 \end{table}
 
-The negative LR weights are equally broken up into \emph{pages} and \emph{groups} as contributing highly to a prediction of dislike. The size ranges 
+The positive LR weights are equally broken up into \emph{pages} and \emph{groups} as contributing highly to a prediction of like. The size ranges 
 for both \emph{pages} and \emph{groups} varies greatly from as little as $27$ up to as high as $1552$ and there is little corelation between 
-the frequency and sizes, in fact lower frequencies of around $20$ contribute most to the dislike prediction.
+the frequency and sizes, in fact lower frequencies of around $20$ contribute most to the like prediction.
 
-The positive LR weights are more focused on the predictiveness of \emph{pages} for a like and the sizes of the \emph{pages} are in
+The negative LR weights are more focused on the predictiveness of \emph{pages} for a like and the sizes of the \emph{pages} are in
 a much more consistent range, while the frequencies still vary.
 
 These LR weights show that both \emph{groups} and especially \emph{pages} are highly predictive of a users like preferences and particular 

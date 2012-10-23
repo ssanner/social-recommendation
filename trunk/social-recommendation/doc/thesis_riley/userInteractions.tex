@@ -135,7 +135,7 @@ We extracted the most common words exchanged between our users, the top 40 are d
 	\end{tabular}
 \end{minipage}
 	\caption{Top conversation content data for all users. We see very common words and online expressions have a high frequency in
-	our data set. Highly emotive and sentimental words are very common, implying these interactions occur between real friends.}
+	our data set. Highly emotive and sentimental words are very common, implying these interactions occur between close friends.}
 	\label{tab:revpol}
 \end{table}
 
@@ -193,15 +193,14 @@ Using these most predictive word sizes for each of our classifiers and building 
 \begin{figure}[h]
 	\begin{center}
 		\includegraphics[scale=0.75]{results/outgoing/bar_outgoing.pdf}
-		\caption{Accuracy results using \emph{outgoing} words. \emph{Outgoing} words are clearly less predictive then both our baseline and \emph{user interactions}.}
+		\caption{Accuracy results using \emph{outgoing} words. \emph{Outgoing} words are clearly less predictive then both our baseline and \emph{user interactions}. As shown in \emph{Figure 3.1}.}
 	\end{center}
 \end{figure}
 
 These results do not show an improvement over our \emph{interactions} or our baselines and are only a marginal improvement over the \emph{constant} baseline. 
 Demonstrating that \emph{outgoing words} are not predictive of a users like preferences.
 
-A possible reason for this could be due to the commonality of the words being tested. Highly common and frequently used words could 
-result in poor predictive performance.
+A possible reason for this poor predictive performance could be we don't see infrequent words often enough to get low-variance parameter estimates.
 
 \clearpage
 
@@ -210,8 +209,8 @@ Comparing \emph{outgoing} words against exposure we obtain:
 \begin{figure}[h]
 	\begin{center}
 		\includegraphics[scale=0.75]{results/outgoing/line_outgoing.pdf}
-		\caption{Accuracy results against exposure using the \emph{outgoing} words feature. \emph{Outgoing} words predictiveness improve as $k$ increases, but this feature is less predictive
-				 even in the case for $k=3$ when compared with SMB when $k=0$.}
+		\caption{Accuracy results against exposure using the \emph{outgoing} words feature. \emph{Outgoing} words predictiveness improve as $k$ increases, but this is
+		negligible when compared with the exposure results from \emph{user interactions} as seen in \emph{Figure 3.2}.}
 	\end{center}
 \end{figure}
 
@@ -228,7 +227,7 @@ using the same methodology as described above for \emph{outgoing} words we obtai
 	\begin{center}
 		\includegraphics[scale=0.75]{results/incoming/top_incoming.pdf}
 		\caption{Accuracy results for different \emph{incoming} words sizes. \emph{Incoming} words are more predictive then \emph{outgoing} words, but follow
-				 the similar trend that relatively small sizes offer close to optimal predictions for this feature.}
+				 the similar trend that relatively small sizes offer close to optimal predictions for this feature as seen in \emph{Figure 3.3}.}
 	\end{center}
 \end{figure}
 
@@ -276,15 +275,19 @@ hence \emph{incoming} words are not predictive of user likes.
 
 Throughout this chapter we have explored the different interaction types available between users on Facebook. 
 
-We have found that words, irrespective of their directionality do not assist in improving predictions. \cite{Anderson2012} concluded 
+We have found that words, irrespective of their directionality do not assist with improving predictions. \cite{Anderson2012} concluded 
 that it is less important what users say, then who they interact with, which we also found in our results. Additionally, it has been shown
 for \emph{user interactions} \emph{outgoing} interactions are more important then \emph{incoming} \cite{www}, while our results have found that
-for words, \emph{incoming} are more important then \emph{outgoing}. Overall, \emph{messages} are a much weaker at prediction compared 
+for words, \emph{incoming} are (slightly) more important then \emph{outgoing}. Overall, \emph{messages} are a much weaker at prediction compared 
 with both \emph{interactions} and our baselines.
 
 Our results have shown, that for \emph{interactions} to improve upon our baseline predictions it is enough for some user to 
 have previously liked the item, this allows an improvement in predictiveness as $k$ increases because there are at least $k$ users for each item
-which our predictors can learn from.
+which our predictors can learn from. An important result we have found is SMB clearly fails when there are \emph{interactions} to learn from and 
+this is where these \emph{user interactions} can help with prediction.
+
+In the next chapter we proceed to other ways to define affinity groups based on \emph{user preferences} 
+to see if they are more or less predictive than the affinity groups based on \emph{user interactions} explored above.
 
 %%% Local Variables: 
 %%% mode: latex

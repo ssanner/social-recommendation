@@ -10,10 +10,10 @@
 \contentsline {section}{\numberline {2.4}Affinity Features}{8}
 \contentsline {section}{\numberline {2.5}Previous Work}{9}
 \contentsline {section}{\numberline {2.6}Training and Testing}{10}
-\contentsline {section}{\numberline {2.7}Classification Algorithms}{10}
+\contentsline {section}{\numberline {2.7}Recommendation Algorithms and Baselines}{10}
 \contentsline {subsection}{\numberline {2.7.1}Constant}{10}
 \contentsline {subsection}{\numberline {2.7.2}Social Match Box}{10}
-\contentsline {subsection}{\numberline {2.7.3}Naive Bayes}{10}
+\contentsline {subsection}{\numberline {2.7.3}Naive Bayes}{11}
 \contentsline {subsection}{\numberline {2.7.4}Logistic Regression}{11}
 \contentsline {subsection}{\numberline {2.7.5}Support Vector Machine}{11}
 \contentsline {section}{\numberline {2.8}Evaluation Metrics}{12}
@@ -34,5 +34,5 @@
 \contentsline {chapter}{\numberline {6}Conclusion}{55}
 \contentsline {section}{\numberline {6.1}Summary}{55}
 \contentsline {section}{\numberline {6.2}Future Work}{55}
-\contentsline {chapter}{\numberline {A}Favourites Group Summary}{57}
-\contentsline {chapter}{Bibliography}{63}
+\contentsline {section}{\numberline {6.3}Concluding Remarks}{56}
+\contentsline {chapter}{Bibliography}{57}
