@@ -170,16 +170,14 @@ The first issue is to determine the most predictive number of \emph{outgoing} wo
 Given the expansive size of potential messages and memory constraints in the testing environment we decided to test within a range 
 of $(100-1000)$ with an incremental step size of $100$ for each test.
 
-The results of testing based on differing sizes of \emph{outgoing} words can be seen below:
 
-\begin{figure}[h]
+
+\begin{figure}[h!]
 	\begin{center}
 		\includegraphics[scale=0.75]{results/outgoing/top_outgoing.pdf}
 		\caption{Accuracy results for different \emph{outgoing} words sizes. Best performance can be found using LR with a relatively small word size of only $200$ more words do not appear to increase the predictiveness for \emph{outgoing} words.}
 	\end{center}
 \end{figure}
-
-\clearpage
 
 The most predictive \emph{outgoing} words sizes for each of our classifiers are:
 \begin{itemize}
@@ -187,6 +185,10 @@ The most predictive \emph{outgoing} words sizes for each of our classifiers are:
 \item \textbf{Logistic Regression}: 200.
 \item \textbf{Support Vector Machine}: 900.
 \end{itemize}
+
+The results of testing based on differing sizes of \emph{outgoing} words can be seen below.
+
+\clearpage
 
 Using these most predictive word sizes for each of our classifiers and building our feature vector as defined above we obtain the following results:
 
@@ -198,7 +200,7 @@ Using these most predictive word sizes for each of our classifiers and building 
 \end{figure}
 
 These results do not show an improvement over our \emph{interactions} or our baselines and are only a marginal improvement over the \emph{constant} baseline. 
-Demonstrating that \emph{outgoing words} are not predictive of a users like preferences.
+Demonstrating that \emph{outgoing words} are not predictive of a user's like preferences.
 
 A possible reason for this poor predictive performance could be we don't see infrequent words often enough to get low-variance parameter estimates.
 
@@ -253,6 +255,8 @@ Using these most predictive word sizes for each of our classifiers we obtain the
 \emph{Incoming} words are more predictive then \emph{outgoing} words, however \emph{incoming} words themselves are not more predictive then our baselines.
 Comparing \emph{incoming} words against exposure we obtain:
 
+\clearpage
+
 \begin{figure}[h]
 	\begin{center}
 		\includegraphics[scale=0.75]{results/incoming/line_incoming.pdf}
@@ -262,7 +266,7 @@ Comparing \emph{incoming} words against exposure we obtain:
 	\end{center}
 \end{figure}
 
-\clearpage
+
 
 \emph{Incoming} words improve upon our baselines as $k$ increases, however this predictive increase is 
 negligible in comparison with SMB when $k = 0$ and \emph{user interactions} across $k=2$ and $k=3$ and 
