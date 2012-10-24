@@ -292,7 +292,7 @@ Applying this feature vector to our classifiers we obtain:
 	\begin{center}
 		\includegraphics[scale=0.75]{results/traits/bar_traits.pdf}
 		\caption{Accuracy results using the \emph{favourites} feature. \emph{Favourites} are our first feature more predictive then SMB
-				 for the case when $k=0$, indicating that \emph{favourites} are highly predictive of a users preferences. Demonstrating the 
+				 for the case when $k=0$, indicating that \emph{favourites} are highly predictive of a user's preferences. Demonstrating the 
 		novel insight that affinity filtering can offer better results than collaborative filtering.}
 	\end{center}
 \end{figure}
@@ -314,7 +314,7 @@ Comparing \emph{favourites} across exposure we obtain:
 \end{figure}
 
 This predictive trend continues with exposure where each successive increase of $k$ causes the predictiveness of our classifiers to increase. 
-Clearly, \emph{favourites} are highly predictive of a users like preferences.
+Clearly, \emph{favourites} are highly predictive of a user's like preferences.
 
 \clearpage
 
@@ -341,8 +341,8 @@ In the following table we can see explicitly which \emph{favourites} are most pr
 \end{minipage}
 \end{table}
 
-This table shows that the \emph{favourites} which exhibit a high frequency have a larger influence of like during prediction. These most 
-predictive like \emph{favourites} are mostly focused on media and leisure, while no explicit \emph{favourite} is given a negative feature 
+This table shows that the \emph{favourites} which exhibit a high frequency have a larger influence of indicating a like during prediction. These most 
+predictive like \emph{favourites} are mostly focused on media and leisure, notably no explicit \emph{favourite} is given a negative feature 
 weight which would be predictive of a dislike.
 
 \cite{brandtzag2011facebook} found that virtual interactions help reveal common interests, while real world interactions help 
@@ -444,7 +444,7 @@ Using the most predictive \emph{group} sizes defined above and comparing to our 
 \begin{figure}[h]
 	\begin{center}
 		\includegraphics[scale=0.75]{results/groups/bar_groups.pdf}
-		\caption{Accuracy results using the \emph{groups} feature vector. We see \emph{groups} are highly predictive of a users like preferences, showing an improvement over \emph{favourites} and our baselines.}
+		\caption{Accuracy results using the \emph{groups} feature vector. We see \emph{groups} are highly predictive of a user's like preferences, showing an improvement over \emph{favourites} and our baselines.}
 	\end{center}
 \end{figure}
 
@@ -460,7 +460,7 @@ Applying the \emph{groups} feature across our exposure, we obtain:
 	\end{center}
 \end{figure}
 
-\clearpage
+
 
 The predictive qualities of \emph{groups} continues with exposure where each successive increase of $k$ causes the predictiveness of our LR and SVM 
 classifiers to increase, demonstrating the intuition that the more users available to learn from, the better our classifiers can perform.
@@ -492,11 +492,11 @@ contribute most to the predictions:
 \end{minipage}
 \end{table}
 
-We have found \emph{groups} are highly predictive of a users like preferences, we see from the weights table above that \emph{groups} which are highly local to 
-the ANU and/or Canberra and have a high relative frequency of app users are most predictive of a users likes. Notably, no \emph{groups} contribute 
+We have found \emph{groups} are highly predictive of a user's like preferences, we see from the weights table above that \emph{groups} which are highly local to 
+the ANU and/or Canberra and have a high relative frequency of app users are most predictive of a user's likes. Notably, no \emph{groups} contribute 
 explicit dislike (negative) weights. The 
 overall sizes of these \emph{groups} is relatively small which adheres to the common sense notion that large groups appeal more 
-broadly and are less predictive of a users preferences.
+broadly and are less predictive of a user's preferences.
 
 \section{Pages}
 \label{sec:pages}
@@ -591,7 +591,7 @@ Using the most predictive \emph{page} sizes as defined above we obtain:
 	\begin{center}
 		\includegraphics[scale=0.75]{results/pages/bar_pages.pdf}
 		\caption{Accuracy results using the \emph{pages} feature, we can see an improvement over our baselines for both LR and SVM. 
-				 Demonstrating that while \emph{pages} are predictive of a users like preferences, they are not as predictive as 
+				 Demonstrating that while \emph{pages} are predictive of a user's like preferences, they are not as predictive as 
 				 \emph{groups} or \emph{favourites}.}
 	\end{center}
 \end{figure}
@@ -617,7 +617,7 @@ classifiers to learn from, the accuracy of the prediction increases.
 
 \clearpage
 
-By extracting the model weights from the case where $k=0$ we can see which explicit \emph{pages} are most predictive of a users like preferences:
+By extracting the model weights from the case where $k=0$ we can see which explicit \emph{pages} are most predictive of a user's like preferences:
 \begin{table}[h]
 \begin{minipage}[b]{1.0\textwidth}
 \centering
@@ -666,9 +666,9 @@ By extracting the model weights from the case where $k=0$ we can see which expli
 \end{minipage}
 \end{table}
 
-For this case we find individual \emph{pages} predictive for both likes (positive) and dislikes (negative). 
+For this case we find individual \emph{pages} predictive for both likes (positive weights) and dislikes (negative weights). 
 The individually most predictive \emph{pages} in our data are non-local (which was the opposite case to \emph{groups}) and
-relatively highly varied. This trend continues for \emph{pages} which are both predictive of likes and dislikes.
+relatively highly varied. This trend continues for \emph{pages} across both like and dislike weight influence.
 
 \section{Conclusion}
 \label{sec:conc}
@@ -682,8 +682,8 @@ predictions continue to improve with each successive increase in $k$ (notably at
 \emph{favourites} and \emph{groups} actively weight to predict what a user will dislike, while \emph{page} weights are used for 
 both like and dislike predictions. 
 
-The novel insight we find throughout this chapter is \emph{user preference} affinity filtering can offer more predictive results then the previously 
-applied technqiues of collaborative filtering.
+The novel insight we find throughout this chapter is \emph{user preference} affinity filtering can offer more predictive results then 
+previously applied collaborative filtering techniques.
 
 In the next chapter we will investigate the effect of combining the individually predictive affinity features found in this chapter.
 

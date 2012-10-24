@@ -18,14 +18,14 @@ exposure, they show a comprehensive predictive improvement over our baselines.
 Conversely, we have shown the interesting result that \emph{user preference} affinity features are more predictive of user likes
 and this trend continues across user exposure.
 
-We have investigated individual groups and found the most predictive were highly localised with a medium
+We have investigated individual groups and found that the most predictive were highly localised with a medium
 user frequency, while the most predictive pages were much more general and of a higher relative user frequency.
 
-To answer the question initially proposed for this thesis, we have shown the affinity features which provide the highest predictiveness of user likes come from \emph{user preferences} and not
+To answer the question initially proposed for this thesis, we have shown that the affinity features which provide the highest predictiveness of user likes come from \emph{user preferences} and not
 \emph{user interactions}. The most predictive features found in this analysis are \emph{favourites}, \emph{group memberships} 
-and \emph{page likes}, additionally a combination of these individually predictive features results in the most predictive classification.
+and \emph{page likes}. Additionally a combination of these individually predictive features results in the most predictive classification.
 
-This provides the exciting and novel insights examined during this thesis.
+Which summarises the exciting and novel insights examined during this thesis.
 
 \section{Future Work}
 \label{sec:ftw}
@@ -41,23 +41,24 @@ gleaned from Facebook, which is why the active likes sourced from the NICTA app 
 which can predict whether a user will have seen an item (online timestamps, recent interactions with a user, etc) and we can infer that if the 
 user did not like the item then they disliked it. This data set could then be applied to the testing methodology outlined in the above chapters.
 \item \textbf{General user set}: As outlined in our \emph{demographics} section, the user set used during this analysis is mostly composed of 
-computer science undergraduates (and graduates). Applying the methods outloned above to a more general user set such as in the study done by \cite{jugand} which comprised of the entire active social network of 721 million users 
+computer science undergraduates (and graduates). Applying the methods outlined above to a more general user set such as in the study done by \cite{jugand} which comprised of the entire active social network of 721 million users 
 (as of May 2011), which is more indicative of the general Facebook user population could offer more 
 generalisable results.
 \item \textbf{Bayesian Model Averaging}: Combining the most predictive qualities of the individually trained classifiers by sampling and
-weighting the results by applying Bayes' law, which does not require the explicit feature selection (as outlined in \emph{Chapter 5}).
+weighting the results by applying Bayes' law, this approach does not require explicit feature selection (as outlined in \emph{Chapter 5}).
 \end{itemize}
 
 \section{Concluding Remarks}
 \label{sec:cr}
 Our approach to affinity filtering has not been previously explored, the rich Facebook data-set available has allowed us to compare 
-the importance of individual features and discover which are most predictive of a users like preferences. In contrast to previous social 
-CF work, we leverage fine-grained \emph{user interactions} and common \emph{user preferences}, showing these are highly predictive 
+the importance of individual affinity features and discover which are most predictive of a user's like preferences. In contrast to previous social 
+CF work, we leverage fine-grained \emph{user interactions} and common \emph{user preferences} and show that these are highly predictive, 
 even without an individual latent user/item model.
 
-This is the novel insight examined in this research, we have shown the impressive result that the explicit \emph{user preferences} of
-\emph{favourites}, \emph{groups} and \emph{pages} (as well as in combination) outperform SMB across the board, by 
-applying these non user-specific features, we have developed a highly scalable and more predictive approach 
+This methodology (and associated empirical results) are the exciting and novel insights examined in this research; we have shown 
+the impressive result that the explicit \emph{user preferences} of
+\emph{favourites}, \emph{groups} and \emph{pages} (individually as well as in combination) outperform SMB across the board. By 
+applying these non user-specific features, we have developed a highly scalable and more predictive approach than previous methods,
 making this the current state-of-the-art technique for recommendation on rich social networks such as Facebook.
 
 %%% Local Variables: 

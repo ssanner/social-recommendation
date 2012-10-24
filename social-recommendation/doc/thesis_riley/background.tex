@@ -43,12 +43,12 @@ a user does and does not like becomes difficult.
 Given this fact, a Facebook app named \emph{LinkR}\footnote{The main developer of the LinkR Facebook App is Khoi-Nguyen Tran, a PhD student at the Australian National University.} was developed \cite{www}.
 This app collected information about users, their interactions and preferences as well as a subset of available information about 
 their friends. Additionally, the app proposed links to users and asked them to explicitly rate each link as either a like or dislike. 
-The app tracked and stored this information for over 100 app users and their 39,000+ friends over a 4-month time period. Which is a sufficiently large data-set for 
+The app tracked and stored this information for over 100 app users and their 39,000 friends over a 4-month time period. Which is a sufficiently large data-set for 
 performing our analysis.
 
 The table below summarises the interactions data collected from both app users and their friends used during subsequent analysis.
 
-\begin{table}[tbh!]
+\begin{table}[h!]
 \centering
 	\begin{tabular}{|l|r|r|r|r|} % cols: (left, center, right)
 		\hline
@@ -83,12 +83,11 @@ where the length and components of $I$ are uniquely defined for each affinity fe
 \item An alters set for each user $u$ item $v$ pair over some feature index $i$, based on some relationship between other users $z$ and where each of $u$ and $z$ have liked item $v$. 
 Where $alters_{u,v,i} = \{z | Relationship_{u,i} \wedge Likes_{u,v} \wedge Likes_{z,v}\}$.
 
-\clearpage
 This alters set can be visualised in the figure below:
 
-\begin{figure}[tbh!]
+\begin{figure}[h!]
 	\begin{center}
-		\includegraphics[scale=0.60]{imgs/alters.pdf}
+		\includegraphics[scale=0.5]{imgs/alters.pdf}
 		\caption{Alters paradigm. A user $u$ likes some item $v$, a $Relationship_{u,z}$ is defined via some affinity $i$ (in this example we use \emph{interactions}) uniquely defined
 		for each affinity feature, to create our set of $alters_{u,v,i}$.}
 	\end{center}
@@ -100,9 +99,9 @@ limited by some $k$ with the condition $Exposure_{u,v} >= k$. Thus ensuring some
 
 This exposure can be visualised in the figure below:
 
-\begin{figure}[tbh!]
+\begin{figure}[h!]
 	\begin{center}
-		\includegraphics[scale=0.65]{results/imageLiked.png}
+		\includegraphics[scale=0.5]{results/imageLiked.png}
 		\caption{Here we see an example of a link $v$ posted to a friends wall, which has subsequently been liked by two friends $z$. This 
 				 demonstrates an exposure of $2$ for item $v$.}
 	\end{center}
@@ -116,7 +115,7 @@ where $0$ represents a dislike and $1$ represents a like.
 \label{sec:features}
 
 Given the vast amount of potential information available about users on Facebook, we need to break this information down into individual 
-features. The two distinct categories we will group these features under are \emph{user interactions} and \emph{user preferences}. 
+features.The two distinct categories we will group these features under are \emph{user interactions} and \emph{user preferences}. 
 \emph{User interactions} involve explicit affinity relationships between users, while \emph{user preferences} involve latent 
 similarities expressed between users.
 
@@ -138,7 +137,7 @@ The individual components of these affinity based categories are displayed below
 \end{itemize}
 
 Each of these affinity features will be used individually to train and test our classifiers defined below and are discussed 
-in detail under their separate sections of this thesis.
+in explicit detail under their separate sections of this thesis.
 During our analysis we will compare the predictiveness of each of these affinity features individually and in combination.
 Each feature will also be tested against some exposure to analyse the differences in results.
 
@@ -154,19 +153,14 @@ network information, the results of this previous work and analysis using live u
 provided the best results for this data set and as such will be used as a baseline.
 
 These methods of CBF, CF and SCF result in a user gaining some similarity measure between other users, while the affinity features we 
-explore during this thesis are based on explicit \emph{user interaction} and \emph{user preference} features and result in different 
+explore during this thesis are based on explicit individual \emph{user interaction} and \emph{user preference} features and result in different 
 models and predictions based on our feature selection.
 
-\fbox {
-    \parbox{\linewidth}{
-    This is some text! Blah blah blah...
-    }
-}
 \section{Training and Testing}
 \label{sec:tt}
 
 All evaluation is applied using $10$ fold cross validation wherein the data is partitioned into $10$ complementary subsets, 
-eight folds ($80\%$ of data) for training, two folds ($20\%$ of data) for testing.
+eight folds ($80\%$ of data) for training and two folds ($20\%$ of data) for testing.
 
 The training and testing process is repeated $10$ times for each set of fold data. These results are then averaged to produce our 
 estimates and standard error. The benefit of this method over repeated sub-sampling is all data points are used for both training 

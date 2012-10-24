@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.4.13)  24 OCT 2012 02:24
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.4.13)  24 OCT 2012 13:26
 entering extended mode
  %&-line parsing enabled.
 **thesis.tex
@@ -318,7 +318,7 @@ LaTeX Font Info:    Font shape `OT1/ppl/bx/n' in size <14.4> not available
 
 
 ]
-Overfull \hbox (13.0341pt too wide) in paragraph at lines 58--60
+Overfull \hbox (13.0341pt too wide) in paragraph at lines 59--61
 []\OT1/ppl/m/n/10.95 Individual \OT1/ppl/m/it/10.95 groups \OT1/ppl/m/n/10.95 w
 hich were most pre-dic-tive were highly lo-calised with a medium
  []
@@ -346,33 +346,27 @@ Overfull \hbox (4.54906pt too wide) in paragraph at lines 82--83
 /m/n/10.95 where this $\OML/zpple/m/it/10.95 Relationship[]$
  []
 
-[6] [7] <imgs/alters.pdf, id=57, 457.71pt x 270.00874pt>
+<imgs/alters.pdf, id=49, 457.71pt x 270.00874pt>
 File: imgs/alters.pdf Graphic file (type pdf)
  <use imgs/alters.pdf>
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 10.42007pt on input line 93.
+(Font)              scaled to size 10.42007pt on input line 92.
 LaTeX Font Info:    Font shape `U/msa/m/n' will be
-(Font)              scaled to size 7.91925pt on input line 93.
+(Font)              scaled to size 7.91925pt on input line 92.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 10.42007pt on input line 93.
+(Font)              scaled to size 10.42007pt on input line 92.
 LaTeX Font Info:    Font shape `U/msb/m/n' will be
-(Font)              scaled to size 7.91925pt on input line 93.
-
-<results/imageLiked.png, id=58, 312.67836pt x 335.75438pt>
+(Font)              scaled to size 7.91925pt on input line 92.
+ [6]
+<results/imageLiked.png, id=54, 312.67836pt x 335.75438pt>
 File: results/imageLiked.png Graphic file (type png)
 
-<use results/imageLiked.png> [8
-
- <./imgs/alters.pdf>] [9 <./results/imageLiked.png>]
-Overfull \hbox (29.27496pt too wide) in paragraph at lines 161--162
-[][] 
- []
-
-[10] [11] [12]) (./userInteractions.tex [13] [14
-
-]
+<use results/imageLiked.png> [7 <./imgs/alters.pdf> <./results/imageLiked.png>]
+[8] [9] [10] [11]) (./userInteractions.tex [12]
 Chapter 3.
-[15] <results/interactions/bar_interactions.pdf, id=111, 578.16pt x 433.62pt>
+[13
+
+] <results/interactions/bar_interactions.pdf, id=105, 578.16pt x 433.62pt>
 File: results/interactions/bar_interactions.pdf Graphic file (type pdf)
 
 <use results/interactions/bar_interactions.pdf>
@@ -380,8 +374,8 @@ Overfull \hbox (22.19206pt too wide) in paragraph at lines 47--48
  [] 
  []
 
-[16 <./results/interactions/bar_interactions.pdf>]
-<results/interactions/line_interactions.pdf, id=152, 578.16pt x 433.62pt>
+[14 <./results/interactions/bar_interactions.pdf>]
+<results/interactions/line_interactions.pdf, id=146, 578.16pt x 433.62pt>
 File: results/interactions/line_interactions.pdf Graphic file (type pdf)
 
 <use results/interactions/line_interactions.pdf>
@@ -394,13 +388,13 @@ Overfull \hbox (2.08049pt too wide) in paragraph at lines 84--138
 [][] [] 
  []
 
-[17
+[15
 
  <./results/interactions/line_interactions.pdf>]
 Underfull \vbox (badness 4378) has occurred while \output is active []
 
- [18]
-<results/outgoing/top_outgoing.pdf, id=207, 578.16pt x 433.62pt>
+ [16]
+<results/outgoing/top_outgoing.pdf, id=200, 578.16pt x 433.62pt>
 File: results/outgoing/top_outgoing.pdf Graphic file (type pdf)
 
 <use results/outgoing/top_outgoing.pdf>
@@ -409,71 +403,68 @@ Overfull \hbox (22.19206pt too wide) in paragraph at lines 177--178
  []
 
 
-LaTeX Warning: `h' float specifier changed to `ht'.
+LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[19] [20 <./results/outgoing/top_outgoing.pdf>]
-<results/outgoing/bar_outgoing.pdf, id=264, 578.16pt x 433.62pt>
+[17] [18 <./results/outgoing/top_outgoing.pdf>]
+<results/outgoing/bar_outgoing.pdf, id=258, 578.16pt x 433.62pt>
 File: results/outgoing/bar_outgoing.pdf Graphic file (type pdf)
 
 <use results/outgoing/bar_outgoing.pdf>
-Overfull \hbox (22.19206pt too wide) in paragraph at lines 195--196
+Overfull \hbox (22.19206pt too wide) in paragraph at lines 197--198
  [] 
  []
 
-[21
+[19
 
  <./results/outgoing/bar_outgoing.pdf>]
-<results/outgoing/line_outgoing.pdf, id=306, 578.16pt x 433.62pt>
+<results/outgoing/line_outgoing.pdf, id=300, 578.16pt x 433.62pt>
 File: results/outgoing/line_outgoing.pdf Graphic file (type pdf)
 
 <use results/outgoing/line_outgoing.pdf>
-Overfull \hbox (22.19206pt too wide) in paragraph at lines 211--213
+Overfull \hbox (22.19206pt too wide) in paragraph at lines 213--215
  [] 
  []
 
-<results/incoming/top_incoming.pdf, id=307, 578.16pt x 433.62pt>
+<results/incoming/top_incoming.pdf, id=301, 578.16pt x 433.62pt>
 File: results/incoming/top_incoming.pdf Graphic file (type pdf)
 
 <use results/incoming/top_incoming.pdf>
-Overfull \hbox (22.19206pt too wide) in paragraph at lines 228--230
+Overfull \hbox (22.19206pt too wide) in paragraph at lines 230--232
  [] 
  []
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[22
+[20
 
- <./results/outgoing/line_outgoing.pdf>] [23 <./results/incoming/top_incoming.p
-df>] <results/incoming/bar_incoming.pdf, id=414, 578.16pt x 433.62pt>
+ <./results/outgoing/line_outgoing.pdf>] [21 <./results/incoming/top_incoming.p
+df>] <results/incoming/bar_incoming.pdf, id=407, 578.16pt x 433.62pt>
 File: results/incoming/bar_incoming.pdf Graphic file (type pdf)
 
 <use results/incoming/bar_incoming.pdf>
-Overfull \hbox (22.19206pt too wide) in paragraph at lines 247--249
+Overfull \hbox (22.19206pt too wide) in paragraph at lines 249--251
  [] 
  []
 
-<results/incoming/line_incoming.pdf, id=415, 578.16pt x 433.62pt>
+[22
+
+ <./results/incoming/bar_incoming.pdf>]
+<results/incoming/line_incoming.pdf, id=450, 578.16pt x 433.62pt>
 File: results/incoming/line_incoming.pdf Graphic file (type pdf)
 
 <use results/incoming/line_incoming.pdf>
-Overfull \hbox (22.19206pt too wide) in paragraph at lines 258--261
+Overfull \hbox (22.19206pt too wide) in paragraph at lines 262--265
  [] 
  []
 
+[23
 
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-[24
-
- <./results/incoming/bar_incoming.pdf>] [25 <./results/incoming/line_incoming.p
-df>]) (./userPreferences.tex [26
-
-]
+ <./results/incoming/line_incoming.pdf>]) (./userPreferences.tex [24]
 Chapter 4.
-[27
+[25
 
-] [28
+] [26
 
 ]
 Overfull \hbox (23.22887pt too wide) in paragraph at lines 136--138
@@ -483,7 +474,7 @@ l/m/n/10.95 where $\OML/zpple/m/it/10.95 gender \OMS/zpple/m/n/10.95 2 f\OML/zp
 ple/m/it/10.95 male; female\OMS/zpple/m/n/10.95 g$
  []
 
-<results/demographics/bar_demographics.pdf, id=519, 578.16pt x 433.62pt>
+<results/demographics/bar_demographics.pdf, id=513, 578.16pt x 433.62pt>
 File: results/demographics/bar_demographics.pdf Graphic file (type pdf)
 
 <use results/demographics/bar_demographics.pdf>
@@ -494,10 +485,10 @@ Overfull \hbox (22.19206pt too wide) in paragraph at lines 143--145
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[29
+[27
 
-] [30 <./results/demographics/bar_demographics.pdf>]
-<results/demographics/line_demographics.pdf, id=568, 578.16pt x 433.62pt>
+] [28 <./results/demographics/bar_demographics.pdf>]
+<results/demographics/line_demographics.pdf, id=561, 578.16pt x 433.62pt>
 File: results/demographics/line_demographics.pdf Graphic file (type pdf)
 
 <use results/demographics/line_demographics.pdf>
@@ -505,14 +496,14 @@ Overfull \hbox (22.19206pt too wide) in paragraph at lines 158--160
  [] 
  []
 
-[31
+[29
 
  <./results/demographics/line_demographics.pdf>]
 Underfull \hbox (badness 10000) in paragraph at lines 265--269
 
  []
 
-[32] <results/traits/bar_traits.pdf, id=625, 578.16pt x 433.62pt>
+[30] <results/traits/bar_traits.pdf, id=619, 578.16pt x 433.62pt>
 File: results/traits/bar_traits.pdf Graphic file (type pdf)
 
 <use results/traits/bar_traits.pdf>
@@ -523,8 +514,8 @@ Overfull \hbox (22.19206pt too wide) in paragraph at lines 293--296
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[33] [34 <./results/traits/bar_traits.pdf>]
-<results/traits/line_traits.pdf, id=669, 578.16pt x 433.62pt>
+[31] [32 <./results/traits/bar_traits.pdf>]
+<results/traits/line_traits.pdf, id=663, 578.16pt x 433.62pt>
 File: results/traits/line_traits.pdf Graphic file (type pdf)
 
 <use results/traits/line_traits.pdf>
@@ -532,16 +523,16 @@ Overfull \hbox (22.19206pt too wide) in paragraph at lines 309--312
  [] 
  []
 
-[35
+[33
 
  <./results/traits/line_traits.pdf>]
 Missing character: There is no ï in font pplr7t!
 Missing character: There is no ¿ in font pplr7t!
 Missing character: There is no ½ in font pplr7t!
- [36
+ [34
 
-] [37]
-<results/groups/top_groups.pdf, id=727, 578.16pt x 433.62pt>
+] [35]
+<results/groups/top_groups.pdf, id=721, 578.16pt x 433.62pt>
 File: results/groups/top_groups.pdf Graphic file (type pdf)
 
 <use results/groups/top_groups.pdf>
@@ -549,10 +540,10 @@ Overfull \hbox (22.19206pt too wide) in paragraph at lines 423--426
  [] 
  []
 
-[38
+[36
 
-] [39 <./results/groups/top_groups.pdf>]
-<results/groups/bar_groups.pdf, id=784, 578.16pt x 433.62pt>
+] [37 <./results/groups/top_groups.pdf>]
+<results/groups/bar_groups.pdf, id=778, 578.16pt x 433.62pt>
 File: results/groups/bar_groups.pdf Graphic file (type pdf)
 
 <use results/groups/bar_groups.pdf>
@@ -560,7 +551,7 @@ Overfull \hbox (22.19206pt too wide) in paragraph at lines 446--447
  [] 
  []
 
-<results/groups/line_groups.pdf, id=785, 578.16pt x 433.62pt>
+<results/groups/line_groups.pdf, id=779, 578.16pt x 433.62pt>
 File: results/groups/line_groups.pdf Graphic file (type pdf)
 
 <use results/groups/line_groups.pdf>
@@ -571,18 +562,23 @@ Overfull \hbox (22.19206pt too wide) in paragraph at lines 457--459
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[40
+[38
 
- <./results/groups/bar_groups.pdf>] [41 <./results/groups/line_groups.pdf>]
-Overfull \hbox (44.21483pt too wide) in paragraph at lines 474--491
+ <./results/groups/bar_groups.pdf>]
+Overfull \hbox (40.56853pt too wide) in paragraph at lines 474--491
  [][] 
  []
 
-[42
 
-] [43
+LaTeX Warning: `h' float specifier changed to `ht'.
 
-] <results/pages/top_pages.pdf, id=886, 578.16pt x 433.62pt>
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [39 <./results/groups/line_groups.pdf>] [40] [41
+
+]
+<results/pages/top_pages.pdf, id=880, 578.16pt x 433.62pt>
 File: results/pages/top_pages.pdf Graphic file (type pdf)
 
 <use results/pages/top_pages.pdf>
@@ -590,8 +586,8 @@ Overfull \hbox (22.19206pt too wide) in paragraph at lines 570--572
  [] 
  []
 
-[44 <./results/pages/top_pages.pdf>]
-<results/pages/bar_pages.pdf, id=939, 578.16pt x 433.62pt>
+[42 <./results/pages/top_pages.pdf>]
+<results/pages/bar_pages.pdf, id=933, 578.16pt x 433.62pt>
 File: results/pages/bar_pages.pdf Graphic file (type pdf)
 
 <use results/pages/bar_pages.pdf>
@@ -599,10 +595,10 @@ Overfull \hbox (22.19206pt too wide) in paragraph at lines 592--595
  [] 
  []
 
-[45
+[43
 
  <./results/pages/bar_pages.pdf>]
-<results/pages/line_pages.pdf, id=982, 578.16pt x 433.62pt>
+<results/pages/line_pages.pdf, id=976, 578.16pt x 433.62pt>
 File: results/pages/line_pages.pdf Graphic file (type pdf)
 
 <use results/pages/line_pages.pdf>
@@ -610,19 +606,19 @@ Overfull \hbox (22.19206pt too wide) in paragraph at lines 609--611
  [] 
  []
 
-[46
+[44
 
  <./results/pages/line_pages.pdf>]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [47
+ [45
 
 ])
-(./bayesianAvg.tex [48]
+(./bayesianAvg.tex [46]
 Chapter 5.
-[49
+[47
 
-] <results/combination/bar_combination.pdf, id=1044, 578.16pt x 433.62pt>
+] <results/combination/bar_combination.pdf, id=1038, 578.16pt x 433.62pt>
 File: results/combination/bar_combination.pdf Graphic file (type pdf)
 
 <use results/combination/bar_combination.pdf>
@@ -630,7 +626,7 @@ Overfull \hbox (22.19206pt too wide) in paragraph at lines 32--34
  [] 
  []
 
-[50
+[48
 
  <./results/combination/bar_combination.pdf>]
 Overfull \hbox (2.08049pt too wide) in paragraph at lines 47--93
@@ -647,9 +643,9 @@ Overfull \hbox (2.08049pt too wide) in paragraph at lines 47--93
 [] [] 
  []
 
-[51
+[49
 
-] <results/combination/line_combination.pdf, id=1090, 578.16pt x 433.62pt>
+] <results/combination/line_combination.pdf, id=1084, 578.16pt x 433.62pt>
 File: results/combination/line_combination.pdf Graphic file (type pdf)
 
 <use results/combination/line_combination.pdf>
@@ -657,22 +653,16 @@ Overfull \hbox (22.19206pt too wide) in paragraph at lines 105--108
  [] 
  []
 
-[52
+[50
 
- <./results/combination/line_combination.pdf>] [53
+ <./results/combination/line_combination.pdf>] [51
 
 ]) (./conclusion.tex
-[54]
+[52]
 Chapter 6.
+[53
 
-Overfull \hbox (1.96909pt too wide) in paragraph at lines 21--23
-[]\OT1/ppl/m/n/10.95 We have in-ves-ti-gated in-di-vid-ual groups and found the
- most pre-dic-tive were highly
- []
-
-[55
-
-]) [56] (./thesis.bbl
+]) [54] (./thesis.bbl
 Underfull \hbox (badness 2042) in paragraph at lines 30--36
 []\OT1/ppl/m/sc/10.95 Backstrom, L., Bak-shy, E., Klein-berg, J., Lento, T., an
 d Rosenn, I.
@@ -684,11 +674,10 @@ Missing character: There is no ½ in font pplrc7t!
 Missing character: There is no â in font pplri7t!
 Missing character: There is no € in font pplri7t!
 Missing character: There is no “ in font pplri7t!
-[57
+[55
 
 
 ]
-Bib-XRef Warning: No page list for reference `edge'.
 Missing character: There is no â in font pplr7t!
 Missing character: There is no € in font pplr7t!
 Missing character: There is no ˜ in font pplr7t!
@@ -700,19 +689,19 @@ Missing character: There is no € in font pplri7t!
 Missing character: There is no “ in font pplri7t!
 )
 No file thesis.ind.
-[58] (./thesis.aux)
+[56] (./thesis.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 2374 strings out of 495061
- 30775 string characters out of 1182621
- 90942 words of memory out of 3000000
- 5400 multiletter control sequences out of 15000+50000
+ 2373 strings out of 495061
+ 30769 string characters out of 1182621
+ 90932 words of memory out of 3000000
+ 5399 multiletter control sequences out of 15000+50000
  53605 words of font info for 145 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
- 27i,11n,22p,626b,363s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 27i,11n,22p,588b,363s stack positions out of 5000i,500n,10000p,200000b,50000s
 {/usr/share/texmf-texlive/fonts/enc/dvips/base/8r.enc}</usr/share/texmf-texli
 ve/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texmf-texlive/fonts/ty
 pe1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-texlive/fonts/type1/public/
@@ -723,9 +712,9 @@ sr/share/texmf-texlive/fonts/type1/urw/palatino/uplb8a.pfb></usr/share/texmf-te
 xlive/fonts/type1/urw/palatino/uplr8a.pfb></usr/share/texmf-texlive/fonts/type1
 /urw/palatino/uplr8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/palatino/upl
 ri8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/symbol/usyr.pfb>
-Output written on thesis.pdf (66 pages, 835867 bytes).
+Output written on thesis.pdf (64 pages, 834730 bytes).
 PDF statistics:
- 1200 PDF objects out of 1200 (max. 8388607)
+ 1194 PDF objects out of 1200 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  111 words of extra memory for PDF output out of 10000 (max. 10000000)
 

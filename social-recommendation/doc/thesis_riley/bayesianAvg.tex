@@ -6,19 +6,19 @@
 \label{cha:bma}
 
 Given the vast number of affinity features outlined in the previous sections and the scope of users and associated data on Facebook, it is computationally costly, time 
-consuming and ineffective to naively combine all features together. Hence, it is crucial we provide a practical approach which 
-facilitates the combination of the individually most predictive affinity features found during this research from which we can efficiently learn.
+consuming and ineffective to naively combine all features. Hence, it is crucial we provide a practical approach which 
+facilitates the combination of the individually most predictive affinity features, from which we can efficiently learn.
 
-In this chapter we combine the individually most predictive affinity features together and examine the results.
+In this chapter we combine these individually most predictive affinity features together and examine the results.
 
 \section{Affinity Feature Selection}
 \label{sec:notation}
 
 Based on results found during our \emph{user interactions} and \emph{user preference} analysis, the most predictive features we have found were:
 \begin{itemize}
-\item \textbf{Favourites}
-\item \textbf{Groups}
-\item \textbf{Pages}
+\item \textbf{Favourites}.
+\item \textbf{Groups}.
+\item \textbf{Pages}.
 \end{itemize}
 
 The following results and analysis are based on these above features combined.
@@ -111,7 +111,7 @@ This can be seen in the graph below:
 
 \clearpage
 
-By extracting the model feature weights from the case where $k=0$ we can see which \emph{combined} components 
+By extracting the model feature weights we can see which \emph{combined} features 
 were most predictive:
 
 \begin{table}[h]
@@ -163,16 +163,16 @@ were most predictive:
 \end{minipage}
 \end{table}
 
-The positive LR weights are equally broken up into \emph{pages} and \emph{groups} as contributing highly to a prediction of like. The size ranges 
+The positive LR weights are equally broken up into \emph{pages} and \emph{groups} as contributing highly to a prediction of a like. The size ranges 
 for both \emph{pages} and \emph{groups} varies greatly from as little as $27$ up to as high as $1552$ and there is little corelation between 
-the frequency and sizes, in fact lower frequencies of around $20$ contribute most to the like prediction.
+frequency and sizes, in fact lower frequencies of around $20$ contribute most to a like prediction.
 
-The negative LR weights are more focused on the predictiveness of \emph{pages} for a like and the sizes of the \emph{pages} are in
+The negative LR weights are more focused on the predictiveness of \emph{pages} for a dislike and the sizes of the \emph{pages} are in
 a much more consistent range, while the frequencies still vary.
 
-These LR weights show that both \emph{groups} and especially \emph{pages} are highly predictive of a users like preferences and particular 
-sizes or frequencies do not appear to be more predictive then others. Both \emph{groups} and \emph{pages} are indicitve of a dislike prediction 
-while \emph{pages} are most predictive for a like. Additionally under this \emph{combined} paradigm, \emph{favourites} do not appear 
+These LR weights show that both \emph{groups} and especially \emph{pages} are highly predictive of a user's like preferences and particular 
+sizes or frequencies do not appear to be more predictive then others. Both \emph{groups} and \emph{pages} are indicative of a like prediction 
+while \emph{pages} are most predictive for a dislike. Additionally under this \emph{combined} paradigm, \emph{favourites} do not appear 
 to contribute strongly to our results.
 
 We have shown in this chapter that the \emph{combined} feature of our individually most predictive features results in the most 
