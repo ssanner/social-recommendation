@@ -131,20 +131,6 @@ public class LinkRecommenderMLJ extends LinkRecommender
                         dataSplits[x] = testData;
                 }
                 
-                FileOutputStream fos = new FileOutputStream("dataset.csv"); 
-        		OutputStreamWriter out = new OutputStreamWriter(fos);
-        		
-        		for(int i=0; i< 10; i++){
-        			 Map<Long, Set<Long>> d = dataSplits[i];
-        			 for(Long uid: d.keySet()){
-        				 for(Long linkid: d.get(uid)){
-        					 out.write(uid.toString()+","+linkid.toString()+"\n");
-        					 out.flush();
-        				 }
-        			 }
-        		}
-        		out.close();
-        		fos.close();
                 return dataSplits;
         }
         
@@ -245,6 +231,22 @@ public class LinkRecommenderMLJ extends LinkRecommender
                 LinkRecommenderMLJ mlj = new LinkRecommenderMLJ();
                 Map<Long, Set<Long>>[] dataSplits = mlj.splitData();
                 
+                //write data split to csv file
+                FileOutputStream fos = new FileOutputStream("dataset.csv"); 
+        		OutputStreamWriter out = new OutputStreamWriter(fos);
+        		
+        		for(int i=0; i< 10; i++){
+        			 Map<Long, Set<Long>> d = dataSplits[i];
+        			 for(Long uid: d.keySet()){
+        				 for(Long linkid: d.get(uid)){
+        					 out.write(uid.toString()+","+linkid.toString()+"\n");
+        					 out.flush();
+        				 }
+        			 }
+        		}
+        		out.close();
+        		fos.close();
+        		
                 //type = Constants.SOCIAL;
                 //new LinkRecommenderMLJ().run1(dataSplits);
         }
