@@ -96,12 +96,15 @@ public class LinkRecommenderMLJ extends LinkRecommender
                                         Long linkId = (Long)links[randomIndex];
                                         
                                         if (active == null || !active.contains(linkId)) continue;
-                                        if (userDone.get(userId).contains(linkId)) continue;
+                                        if (userDone.get(userId).contains(linkId)) {
+                                        	System.out.println("Skip");
+                                        	continue;
+                                        }
                                         
                                         if (userLikes.contains(linkId) && !userTest.contains(linkId)) {
                                                 userTest.add(linkId);
                                                 addedLike++;
-        
+                                                userDone.get(userId).add(linkId);
                                         }       
                                 }
                                 
@@ -111,11 +114,15 @@ public class LinkRecommenderMLJ extends LinkRecommender
                                         Long linkId = (Long)links[randomIndex];
                                         
                                         if (active == null || !active.contains(linkId)) continue;
-                                        if (userDone.get(userId).contains(linkId)) continue;
+                                        if (userDone.get(userId).contains(linkId)) {
+                                        	System.out.println("Skip");
+                                        	continue;
+                                        }
                                         
                                         if (!userLikes.contains(linkId) && !userTest.contains(linkId)) {
                                                 userTest.add(linkId);
                                                 addedNotLike++;
+                                                userDone.get(userId).add(linkId);
                                         }
                                 }
                                 
@@ -168,8 +175,7 @@ public class LinkRecommenderMLJ extends LinkRecommender
                 
                 for (int x = 0; x < 10; x++) {
                 	Recommender recommender = getRecommender(type, linkLikes, users, links, friendships);
-                    ((SocialRecommender)recommender).setLambda(1);
-                    ((SocialRecommender)recommender).setBeta(0.0001);
+                    ((FeatureRecommender)recommender).setLambda(1);
                     
                         Map<Long, Set<Long>> testData = dataSplits[x];
                         Map<Long, Set<Long>> trainData = new HashMap<Long, Set<Long>>();
@@ -225,8 +231,8 @@ public class LinkRecommenderMLJ extends LinkRecommender
                 LinkRecommenderMLJ mlj = new LinkRecommenderMLJ();
                 Map<Long, Set<Long>>[] dataSplits = mlj.splitData();
                 
-                type = Constants.SOCIAL;
-                new LinkRecommenderMLJ().run1(dataSplits);
+                type = Constants.FEATURE;
+                mlj.run1(dataSplits);
         }
         
         public Map<Long, Set<Long>>[] getActiveData(Map<Long, Map<Long, Double>> friendships, int restriction)
