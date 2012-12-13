@@ -175,8 +175,10 @@ public class LinkRecommenderMLJ extends LinkRecommender
                 
                 for (int x = 0; x < 10; x++) {
                 	Recommender recommender = getRecommender(type, linkLikes, users, links, friendships);
-                    ((FeatureRecommender)recommender).setLambda(1);
-                    
+                    //((FeatureRecommender)recommender).setLambda(0.01);
+                	((SocialRecommender)recommender).setLambda(1);
+                	((SocialRecommender)recommender).setBeta(0.0000001);
+                	
                         Map<Long, Set<Long>> testData = dataSplits[x];
                         Map<Long, Set<Long>> trainData = new HashMap<Long, Set<Long>>();
                         
@@ -231,7 +233,7 @@ public class LinkRecommenderMLJ extends LinkRecommender
                 LinkRecommenderMLJ mlj = new LinkRecommenderMLJ();
                 Map<Long, Set<Long>>[] dataSplits = mlj.splitData();
                 
-                type = Constants.FEATURE;
+                type = Constants.SOCIAL;
                 mlj.run1(dataSplits);
         }
         
