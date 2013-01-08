@@ -28,8 +28,13 @@ public abstract class Predictor {
 		double[] features = new double[dataEntry._entries.size() - 2];
 		Integer value;
 		for(int i = 2; i < dataEntry._entries.size(); i++){
-			value = (Integer) dataEntry._entries.get(i);
-			features[ i - 2] = value.doubleValue();
+			if(dataEntry._entries.get(i) instanceof Double){
+				features[ i - 2] = (Double) dataEntry._entries.get(i);
+			}
+			else{
+				value = (Integer) dataEntry._entries.get(i);
+				features[ i - 2] = value.doubleValue();
+			}
 		}
 		return features;
 	}	
@@ -44,7 +49,7 @@ public abstract class Predictor {
 		int falsePositive = 0;
 		int falseNegative = 0;
 		int correct = 0;
-		System.out.format("Data size : %d \n", data.size() );
+
 		for (DataEntry de : data) {
 			int pred = evaluate(de); 												// predicted class
 			int actual = ((Integer)((ArffData.DataEntry)de).getData(CLASS_INDEX)).intValue();	// actual class

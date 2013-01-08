@@ -1,6 +1,9 @@
 package project.suvash.predictor;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
+import de.bwaldvogel.liblinear.FeatureNode;
 
 import libsvm.svm;
 import libsvm.svm_model;
@@ -36,17 +39,9 @@ public class SVMLibSVM extends Predictor {
 		prob.y = new double[dataCount];
 		prob.l = dataCount;
 		prob.x = new svm_node[dataCount][];		
-		
-		for (int i = 0; i < dataCount; i++){			
+		for (int i = 0; i < dataCount; i++){	
 			double[] features = getFeatures(_trainData._data.get(i));
-			prob.x[i] = new svm_node[features.length-1];
-			// first 'feature' is class value
-			for (int j = 1; j < features.length; j++){
-				svm_node node = new svm_node();
-				node.index = j;
-				node.value = features[j];
-				prob.x[i][j-1] = node;
-			}			
+			prob.x[i] = toLibSVMSparseFeaturesFormat(features);		
 			prob.y[i] = (features[0] == 0) ? -1 : 1;
 			if (i == 0) // Check first training example
 				_firstLabelIsTrue = (prob.y[i] == 1);
@@ -63,17 +58,26 @@ public class SVMLibSVM extends Predictor {
 		
 		return model;
 	}
-
+	
+	private svm_node[] toLibSVMSparseFeaturesFormat(double[] feats){
+		ArrayList<svm_node> features = new ArrayList<svm_node>();
+		for(int i = 1; i < feats.length; i++){
+			if(feats[i] != 0){
+				svm_node node = new svm_node();
+				node.index = i;
+				node.value = feats[i];
+				features.add(node);
+			}
+		}
+		svm_node[] tfeatures = new svm_node[features.size()];
+		return features.toArray(tfeatures);
+	}
+	
 	@Override
 	public int evaluate(DataEntry de) {
 		
 		double[] features = getFeatures((DataEntry)de);
-		svm_node[] nodes = new svm_node[features.length-1];
-		for (int i = 1; i < features.length; i++){
-			nodes[i-1] = new svm_node();
-			nodes[i-1].index = i;
-			nodes[i-1].value = features[i];
-		}
+		svm_node[] nodes = toLibSVMSparseFeaturesFormat(features);
 		
 		double[] dbl = new double[1]; 
 		svm.svm_predict_values(_model, nodes, dbl);
@@ -93,8 +97,27 @@ public class SVMLibSVM extends Predictor {
 	}
 
 	public static void main(String[] args) throws IOException{
-		SVMLibSVM svm = new SVMLibSVM(15d, 0.0001d);
-		svm.runTests("folds/balanced/balanced_data.arff", 10);
+		SVMLibSVM svm = new SVMLibSVM(50d, 0.00001d);
+		
+		//svm.runTests("folds/interaction/active_data.arff", 10); //best C 10
+		//svm.runTests("folds/Groups/Binary/active_group_membership_binary_data.arff",10);.
+		//svm.runTests("folds/pages/binary/active_page_membership_binary_data.arff",10);
+		//svm.runTests("folds/Groups/integer/active_group_membership_integer_data.arff",10);
+		//svm.runTests("folds/Groups/integer/filtered/active_group_membership_integer_filtered_data.arff",10);
+		//svm.runTests("folds/interests/binary/active_interest_binary_data.arff",10);
+		//svm.runTests("folds/groups_interests/binary/active_group_interest_binary_data.arff",10);
+		//svm.runTests("folds/combined/binary/active_combined_binary_data.arff", 10);
+		
+		//svm.runTests("fresh/groups_binary/active_group_membership_binary_data.arff", 10);
+		//svm.runTests("fresh/groups_integer/active_group_membership_integer_data.arff", 10);
+		//svm.runTests("fresh/groups_integer_filtered/active_group_membership_integer_filtered_data.arff", 10);
+		//svm.runTests("fresh/pages_binary/active_page_membership_binary_data.arff", 10);
+		//svm.runTests("fresh/pages_integer/active_page_membership_integer_data.arff", 10);
+		//svm.runTests("fresh/interest_binary/active_interest_binary_data.arff", 10);
+		//svm.runTests("fresh/combined_binary/active_combined.arff", 10);
+		//svm.runTests("fresh/groups_pages_binary/active_groups_pages_binary_data.arff", 10);
+		svm.runTests("fresh/groups_interests_binary/active_groups_interests_binary_data.arff", 10);
+
 	}
 	
 }
