@@ -179,6 +179,7 @@ public class ArffData {
 		DataEntry d = new DataEntry(_attr.size());
 		for (String s : split) 
 			d.addData(StripQuotes(s));
+		
 		if (d._entries.size() == _attr.size())
 			_data.add(d);
 		else {
@@ -211,6 +212,7 @@ public class ArffData {
 			String index = entry.substring(0, first_char).trim();
 			String value = StripQuotes(entry.substring(first_char).trim());
 			//System.out.println(index + " : " + value);
+			System.out.println(value);
 			d.setData(new Integer(index).intValue(), value);
 		}
 		

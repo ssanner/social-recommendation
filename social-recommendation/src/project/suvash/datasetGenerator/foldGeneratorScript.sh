@@ -1,6 +1,7 @@
 #!/bin/bash 
 if [ $# -ne 4 ]; then
     echo "Usage: 'foldGenerator.sh inputfile no_of_folds percentage_split outputfolder' "
+    exit -1;
 fi
 
 for ((  i = 1 ;  i <= $2;  i++  ))
