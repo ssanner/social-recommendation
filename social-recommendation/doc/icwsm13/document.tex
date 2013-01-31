@@ -1,0 +1,79 @@
+\documentclass[letterpaper]{article}
+\usepackage{aaai}
+\usepackage{times}
+\usepackage{helvet}
+\usepackage{courier}
+
+\usepackage{amsmath,amsfonts,amssymb,amsthm}
+\usepackage{array}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{epstopdf}
+
+%\usepackage{hyperref}
+\frenchspacing
+
+\newcommand{\link}{\mathit{link}}
+\newcommand{\post}{\mathit{post}}
+\newcommand{\photo}{\mathit{photo}}
+\newcommand{\video}{\mathit{video}}
+\newcommand{\all}{\mathit{all}}
+\newcommand{\app}{\mathit{app}}
+
+% place holder spacing hacks
+\newcommand{\secmoveup}{\vspace{-1.2mm}}                %{\vspace{-0.12in}}
+\newcommand{\bigsecmoveup}{\secmoveup\vspace{-.0mm}}   %{\vspace{-0.08in}}
+\newcommand{\textmoveup}{\vspace{-0mm}}               %{\vspace{-0.08in}}
+\newcommand{\bigtextmoveup}{\textmoveup\vspace{-0.0in}} %{\vspace{-0.06in}}
+\newcommand{\itemmoveup}{\vspace{-0mm}}              %{\vspace{-0.04in}}
+\newcommand{\eqmoveup}{\vspace{-0.0in}}                 %{\vspace{-0.16in}}
+\newcommand{\captionmoveup}{\eqmoveup\vspace{-0.0in}}   %{\vspace{-0.16in}}
+\newcommand{\refitemmoveup}{\vspace{-0mm}}            %{\vspace{-0.16in}}
+% hold but hide chunks of text
+\newcommand{\eat}[1]{}
+
+\newcommand{\true}{\mathit{true}}
+\newcommand{\false}{\mathit{false}}
+\def\argmax{\operatornamewithlimits{arg\,max}}
+\def\argmin{\operatornamewithlimits{arg\,min}}
+
+\setcounter{secnumdepth}{0}
+
+\begin{document}
+% The file aaai.sty is the style file for AAAI Press 
+% proceedings, working notes, and technical reports.
+%
+\title{Which Social Interactions and User Traits Reflect \\Common Preferences on Facebook?}
+\author{Anonymous}
+
+\begin{abstract}
+\end{abstract}
+
+\section{Introduction}
+
+%\input introduction
+
+\section{Data Description}
+
+\input{data-description}
+
+\section{Methodology}
+
+%\input{methodology}
+
+\section{Evaluation}
+
+\input{evaluation}
+
+\section{Related Work}
+
+%\input related-work
+
+\section{Conclusions}
+
+%\input conclusions
+
+%\bibliography{icwsm11_relpred}
+\bibliographystyle{aaai}
+\end{document}
+

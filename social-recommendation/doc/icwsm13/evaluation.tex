@@ -1,0 +1,236 @@
+\begin{itemize}
+  \item Page likes are most predictive followed by group and favourites
+  \item Mutual information vs Size plot shows that the most predictive groups/page/favourites are spread around middle. This signifies that medium sized groups/pages/favourites are more predictive (!!!although not very strong signal)
+  \item Collapsed mutual information ranking \\Video $>$ Photo $>$ Post $>$ Link\\ Comments $>$ Like $>$ Tags\\
+   (No significant difference between Incoming and Outgoing)
+   \item For Large social networks encoding user's membership(group/pages/favourites) as features and performing matrix factorization is not scalable (as there are millions of groups/pages/activities). This research shows that the memebership can be directly plugged into existing highly scalable algorithms to achieve better accuracy than state of art matrix factorization techniques. 
+\end{itemize}
+
+
+\begin{figure}
+\centering
+\includegraphics[width=100mm, height=50mm]{data/accuracy.eps}
+\caption{Accuracy plots}
+\label{Fig: Accuracy}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=100mm, height=30mm]{data/CEvsSize.eps}
+\caption{Conditional Entropy vs Size}
+\label{Fig: Conditional Entropy vs Size}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=100mm, height=30mm]{data/CEvsSizeLog.eps}
+\caption{Conditional Entropy vs Size(log)}
+\label{Fig: Conditional Entropy vs Size(Log)}
+\end{figure}
+
+\pagebreak
+
+
+\begin{figure}
+\centering
+\includegraphics[width=100mm, height=30mm]{data/MIvsSize.eps}
+\caption {Mutual Information vs Size}
+\label {Fig: Mutual Information vs Size}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=100mm, height=30mm]{data/MIvsSizelog.eps}
+\caption{Mutual Information  vs Size(log)}
+\label {Fig: Mutual Information vs Size(log)}
+\end{figure}
+
+%Results using mutual information are more explainable 
+\begin{table}
+	\centering
+	\begin{tabular}{| >{\small}l | >{\small}r |}
+		\hline
+		 & \textbf{Mutual Information}\\
+		\hline
+		\textbf{video} & 8.0947e-04 \\
+		\hline
+		\textbf{photo} & 1.2251e-04 \\
+		\hline 
+		\textbf{post} & 2.4799e-05\\
+		\hline
+		\textbf{link} & 1.5086e-05\\
+		\hline
+		\hline
+		& \textbf{Conditional Entropy}\\
+		\hline
+		\textbf{photo} & 0.9839\\
+		\hline
+		\textbf{post} & 0.9872\\
+		\hline
+		\textbf{link} & 0.9897\\
+		\hline
+		\textbf{video} & 0.9982\\
+		\hline
+%	\end{tabular}
+%\end{table}
+
+%\begin{table}
+%	\centering
+
+%	\begin{tabular}{| >{\small}l | >{\small}r |}
+		\hline
+		 & \textbf{Mutual Information}\\
+		\hline
+		\textbf{comments} & 6.7656e-05\\
+		\hline
+		\textbf{likes} & 2.8765e-05 \\
+		\hline 
+		\textbf{tags} & 4.6544e-06\\
+		\hline
+		\hline
+		& \textbf{Conditional Entropy}\\
+		\hline
+		\textbf{likes} & 0.9871\\
+		\hline
+		\textbf{comments} & 0.9879\\
+		\hline
+		\textbf{tags} & 0.9913\\
+		\hline
+%	\end{tabular}
+%\end{table}
+
+
+%\begin{table}
+%	\centering
+%	\begin{tabular}{| >{\small}l | >{\small}r |}
+		\hline
+		 & \textbf{Mutual Information}\\
+		\hline
+		\textbf{Outgoing} & 5.7508e-05\\
+		\hline
+		\textbf{Incoming} &  5.7508e-05 \\
+		\hline 
+		\hline
+		& \textbf{Conditional Entropy}\\
+		\hline
+		\textbf{Incoming} & 0.98696\\
+		\hline
+		\textbf{Outgoing} & 0.99018\\
+		\hline
+		
+	\end{tabular}
+\end{table}
+
+\begin{table}
+	\centering
+	\begin{tabular}{| >{\small}l | >{\small}r | >{\small}r |}
+	\hline
+	\textbf{Interaction} & \textbf{Conditional Entropy}\\
+	\hline
+	\textbf{FRIENDS} & 0.9350 \\
+	\hline
+	\textbf{VIDEO\_TAGS\_OUTGOING} & 0.9425 \\
+	\hline
+	\textbf{VIDEO\_TAGS\_INCOMING} & 0.9459 \\
+	\hline
+	\textbf{VIDEO\_LIKES\_OUTGOING} & 0.9755 \\
+	\hline
+	\textbf{PHOTO\_COMMENTS\_INCOMING} & 0.9796 \\
+	\hline
+	\textbf{PHOTO\_LIKES\_INCOMING} & 0.9868 \\
+	\hline
+	\textbf{POST\_COMMENTS\_OUTGOING} & 0.9870 \\
+	\hline
+	\textbf{POST\_COMMENTS\_INCOMING} & 0.9893 \\
+	\hline
+	\textbf{POST\_LIKES\_INCOMING} & 0.9906 \\
+	\hline
+	\textbf{PHOTO\_TAGS\_INCOMING} & 0.9907 \\ 
+	\hline
+	\textbf{LINK\_COMMENTS\_OUTGOING} & 0.9914 \\
+	\hline
+	\textbf{PHOTO\_LIKES\_OUTGOING} & 0.9932 \\ 
+	\hline
+	\textbf{LINK\_LIKES\_INCOMING} & 0.9937 \\
+	\hline
+	\textbf{POST\_LIKES\_OUTGOING} & 0.9942 \\ 
+	\hline
+	\textbf{VIDEO\_LIKES\_INCOMING} & 0.9942 \\ 
+	\hline
+	\textbf{VIDEO\_COMMENTS\_INCOMING} & 0.9959 \\ 
+	\hline
+	\textbf{POST\_TAGS\_OUTGOING} & 0.9972 \\
+	\hline
+	\textbf{LINK\_LIKES\_OUTGOING} & 0.9973 \\ 
+	\hline
+	\textbf{VIDEO\_COMMENTS\_OUTGOING} & 0.9975 \\
+	\hline
+	\textbf{POST\_TAGS\_INCOMING} & 0.9979 \\
+	\hline
+	\textbf{LINK\_COMMENTS\_INCOMING} & 0.9984 \\
+	\hline
+	\textbf{PHOTO\_COMMENTS\_OUTGOING} & 0.9999 \\
+	\hline
+	\textbf{PHOTO\_TAGS\_OUTGOING} & 0.9999 \\
+	\hline
+	\end{tabular}
+	\npnoround
+\end{table}
+
+\begin{table}
+	\centering
+	\begin{tabular}{| >{\small}l | >{\small}r |}
+	\hline
+	\textbf{Interaction} & \textbf{Mutual Information} \\
+	\hline
+	\textbf{FRIENDS} & 4.813e-03\\
+	\hline
+	\textbf{POST\_TAGS\_INCOMING} &8.239e-04\\
+	\hline
+	\textbf{PHOTO\_TAGS\_OUTGOING} & 4.347e-04\\
+	\hline
+	\textbf{LINK\_COMMENTS\_INCOMING} & 2.281e-04\\
+	\hline
+	\textbf{LINK\_LIKES\_OUTGOING} & 2.156e-04\\
+	\hline
+	\textbf{PHOTO\_COMMENTS\_OUTGOING} & 1.622e-04\\
+	\hline
+	\textbf{VIDEO\_LIKES\_OUTGOING} & 1.597e-04\\
+	\hline
+	\textbf{POST\_TAGS\_OUTGOING} & 1.406e-04\\
+	\hline
+	\textbf{VIDEO\_LIKES\_INCOMING} & 1.258e-04\\
+	\hline
+	\textbf{POST\_LIKES\_OUTGOING} & 8.051e-05\\
+	\hline
+	\textbf{LINK\_LIKES\_INCOMING} & 5.741e-05\\
+	\hline
+	\textbf{VIDEO\_TAGS\_OUTGOING} & 5.263e-05\\
+	\hline
+	\textbf{VIDEO\_TAGS\_INCOMING} & 4.953e-05\\
+	\hline
+	\textbf{PHOTO\_COMMENTS\_INCOMING} & 4.083e-05\\
+	\hline
+	\textbf{VIDEO\_COMMENTS\_OUTGOING} & 1.378e-05\\
+	\hline
+	\textbf{VIDEO\_COMMENTS\_INCOMING} & 1.129e-05\\
+	\hline
+	\textbf{LINK\_COMMENTS\_OUTGOING} & 1.097e-05\\
+	\hline
+	\textbf{POST\_LIKES\_INCOMING} & 9.909e-06\\
+	\hline
+	\textbf{PHOTO\_LIKES\_OUTGOING} & 8.736e-06\\
+	\hline
+	\textbf{PHOTO\_TAGS\_INCOMING} & 5.265e-06\\
+	\hline
+	\textbf{POST\_COMMENTS\_OUTGOING} & 3.741e-06\\
+	\hline
+	\textbf{PHOTO\_LIKES\_INCOMING} & 1.799e-06\\
+	\hline
+	\textbf{POST\_COMMENTS\_INCOMING} & 9.797e-07\\
+	\hline
+	\end{tabular}
+	\npnoround
+\end{table}
+
+	
