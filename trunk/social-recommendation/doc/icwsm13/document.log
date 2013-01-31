@@ -1,6 +1,6 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2013.1.3)  31 JAN 2013 11:06
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2013.1.3)  31 JAN 2013 12:44
 entering extended mode
- \write18 enabled.
+ Source specials enabled.
  %&-line parsing enabled.
 **document.tex
 (./document.tex
@@ -190,11 +190,13 @@ Package pdftexcmds Info: LuaTeX not detected.
 Package pdftexcmds Info: \pdf@primitive is available.
 Package pdftexcmds Info: \pdf@ifprimitive is available.
 )
+
+Package epstopdf Warning: Shell escape feature is not enabled.
+
 Package grfext Info: Graphics extension search list:
 (grfext)             [.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPE
 G,.JBIG2,.JB2,.eps]
 (grfext)             \AppendGraphicsExtensions on input line 433.
-
 (/usr/share/texmf-texlive/tex/latex/latexconfig/epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2009/10/26 v1.1 Configuration of epstopdf for TeX Live
 )))
@@ -243,26 +245,11 @@ LaTeX Font Info:    Try loading font information for U+msb on input line 2.
 (/usr/share/texmf-texlive/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2009/06/22 v3.00 AMS symbols B
 )
-
-LaTeX Warning: Reference `tab:interactions' on page 1 undefined on input line 6
-2.
-
-
-LaTeX Warning: Reference `tab:interests' on page 1 undefined on input line 62.
-
-
-LaTeX Warning: Reference `tab:interactions' on page 1 undefined on input line 6
-4.
-
-
-LaTeX Warning: Reference `tab:demographics' on page 1 undefined on input line 6
-6.
-
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <9> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 75.
 
 Overfull \hbox (18.75471pt too wide) in paragraph at lines 73--98
- [][] 
+ [][][] 
  []
 
 ) (./evaluation.tex
@@ -278,161 +265,143 @@ LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <10> not available
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
 Underfull \hbox (badness 1406) in paragraph at lines 6--7
-[]\OT1/ptm/m/n/10 For Large so-cial net-works en-cod-ing user's mem-ber-
+[][]\OT1/ptm/m/n/10 For Large so-cial net-works en-cod-ing user's mem-ber-
  []
 
 Package epstopdf Info: Source file: <data/accuracy.eps>
 (epstopdf)                    date: 2013-01-31 10:37:23
 (epstopdf)                    size: 57979 bytes
 (epstopdf)             Output file: <data/accuracy-eps-converted-to.pdf>
+(epstopdf)                    date: 2013-01-31 11:06:58
+(epstopdf)                    size: 23921 bytes
 (epstopdf)             Command: <epstopdf --outfile=data/accuracy-eps-converted
 -to.pdf data/accuracy.eps>
 (epstopdf)             \includegraphics on input line 12.
-runsystem(epstopdf --outfile=data/accuracy-eps-converted-to.pdf data/accuracy.e
-ps)...executed.
-
-Package epstopdf Info: Result file: <data/accuracy-eps-converted-to.pdf>
-(epstopdf)                    date: 2013-01-31 11:06:58
-(epstopdf)                    size: 23921 bytes.
+Package epstopdf Info: Output file is already uptodate.
 <data/accuracy-eps-converted-to.pdf, id=8, 1670.24pt x 454.69875pt>
 File: data/accuracy-eps-converted-to.pdf Graphic file (type pdf)
 
 <use data/accuracy-eps-converted-to.pdf>
-Overfull \hbox (45.12885pt too wide) in paragraph at lines 12--13
- [][] 
+Overfull \hbox (178.1646pt too wide) in paragraph at lines 12--13
+ [][][] 
  []
 
 Package epstopdf Info: Source file: <data/CEvsSize.eps>
 (epstopdf)                    date: 2013-01-31 10:36:19
 (epstopdf)                    size: 845147 bytes
 (epstopdf)             Output file: <data/CEvsSize-eps-converted-to.pdf>
+(epstopdf)                    date: 2013-01-31 11:06:58
+(epstopdf)                    size: 168873 bytes
 (epstopdf)             Command: <epstopdf --outfile=data/CEvsSize-eps-converted
 -to.pdf data/CEvsSize.eps>
 (epstopdf)             \includegraphics on input line 19.
-runsystem(epstopdf --outfile=data/CEvsSize-eps-converted-to.pdf data/CEvsSize.e
-ps)...executed.
-
-Package epstopdf Info: Result file: <data/CEvsSize-eps-converted-to.pdf>
-(epstopdf)                    date: 2013-01-31 11:06:58
-(epstopdf)                    size: 168873 bytes.
+Package epstopdf Info: Output file is already uptodate.
 <data/CEvsSize-eps-converted-to.pdf, id=9, 1672.2475pt x 466.74374pt>
 File: data/CEvsSize-eps-converted-to.pdf Graphic file (type pdf)
 
 <use data/CEvsSize-eps-converted-to.pdf>
 Overfull \hbox (45.11359pt too wide) in paragraph at lines 19--20
- [][] 
+ [][][] 
  []
 
 Package epstopdf Info: Source file: <data/CEvsSizeLog.eps>
 (epstopdf)                    date: 2013-01-31 10:36:19
 (epstopdf)                    size: 877977 bytes
 (epstopdf)             Output file: <data/CEvsSizeLog-eps-converted-to.pdf>
+(epstopdf)                    date: 2013-01-31 11:06:59
+(epstopdf)                    size: 207454 bytes
 (epstopdf)             Command: <epstopdf --outfile=data/CEvsSizeLog-eps-conver
 ted-to.pdf data/CEvsSizeLog.eps>
 (epstopdf)             \includegraphics on input line 26.
-runsystem(epstopdf --outfile=data/CEvsSizeLog-eps-converted-to.pdf data/CEvsSiz
-eLog.eps)...executed.
-
-Package epstopdf Info: Result file: <data/CEvsSizeLog-eps-converted-to.pdf>
-(epstopdf)                    date: 2013-01-31 11:06:59
-(epstopdf)                    size: 207454 bytes.
+Package epstopdf Info: Output file is already uptodate.
 <data/CEvsSizeLog-eps-converted-to.pdf, id=10, 1664.2175pt x 516.93124pt>
 File: data/CEvsSizeLog-eps-converted-to.pdf Graphic file (type pdf)
 
 <use data/CEvsSizeLog-eps-converted-to.pdf>
 Overfull \hbox (45.11867pt too wide) in paragraph at lines 26--27
- [][] 
+ [][][] 
  []
 
 
-Underfull \vbox (badness 7168) has occurred while \output is active []
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
 Package epstopdf Info: Source file: <data/MIvsSize.eps>
 (epstopdf)                    date: 2013-01-31 10:36:20
 (epstopdf)                    size: 853235 bytes
 (epstopdf)             Output file: <data/MIvsSize-eps-converted-to.pdf>
+(epstopdf)                    date: 2013-01-31 11:06:59
+(epstopdf)                    size: 179016 bytes
 (epstopdf)             Command: <epstopdf --outfile=data/MIvsSize-eps-converted
 -to.pdf data/MIvsSize.eps>
 (epstopdf)             \includegraphics on input line 36.
-runsystem(epstopdf --outfile=data/MIvsSize-eps-converted-to.pdf data/MIvsSize.e
-ps)...executed.
-
-Package epstopdf Info: Result file: <data/MIvsSize-eps-converted-to.pdf>
-(epstopdf)                    date: 2013-01-31 11:06:59
-(epstopdf)                    size: 179016 bytes.
+Package epstopdf Info: Output file is already uptodate.
 
 <data/MIvsSize-eps-converted-to.pdf, id=11, 1672.2475pt x 496.85625pt>
 File: data/MIvsSize-eps-converted-to.pdf Graphic file (type pdf)
 
 <use data/MIvsSize-eps-converted-to.pdf>
 Overfull \hbox (45.11359pt too wide) in paragraph at lines 36--37
- [][] 
+ [][][] 
  []
 
 Package epstopdf Info: Source file: <data/MIvsSizelog.eps>
 (epstopdf)                    date: 2013-01-31 10:36:20
 (epstopdf)                    size: 893416 bytes
 (epstopdf)             Output file: <data/MIvsSizelog-eps-converted-to.pdf>
+(epstopdf)                    date: 2013-01-31 11:07:00
+(epstopdf)                    size: 215143 bytes
 (epstopdf)             Command: <epstopdf --outfile=data/MIvsSizelog-eps-conver
 ted-to.pdf data/MIvsSizelog.eps>
 (epstopdf)             \includegraphics on input line 43.
-runsystem(epstopdf --outfile=data/MIvsSizelog-eps-converted-to.pdf data/MIvsSiz
-elog.eps)...executed.
-
-Package epstopdf Info: Result file: <data/MIvsSizelog-eps-converted-to.pdf>
-(epstopdf)                    date: 2013-01-31 11:07:00
-(epstopdf)                    size: 215143 bytes.
+Package epstopdf Info: Output file is already uptodate.
 <data/MIvsSizelog-eps-converted-to.pdf, id=12, 1670.24pt x 484.81125pt>
 File: data/MIvsSizelog-eps-converted-to.pdf Graphic file (type pdf)
 
 <use data/MIvsSizelog-eps-converted-to.pdf>
 Overfull \hbox (45.12885pt too wide) in paragraph at lines 43--44
- [][] 
+ [][][] 
  []
 
-! Undefined control sequence.
-l.177 	\npnoround
-                 
-? 
-
-Overfull \hbox (8.38257pt too wide) in paragraph at lines 126--178
- [][] 
+[2 <./data/accuracy-eps-converted-to.pdf> <./data/CEvsSize-eps-converted-to.pdf
+> <./data/CEvsSizeLog-eps-converted-to.pdf> <./data/MIvsSize-eps-converted-to.p
+df> <./data/MIvsSizelog-eps-converted-to.pdf>]
+Overfull \hbox (139.25131pt too wide) in paragraph at lines 52--106
+ [][][] 
  []
 
-! Undefined control sequence.
-l.233 	\npnoround
-                 
-? 
 
-Overfull \hbox (6.30353pt too wide) in paragraph at lines 182--234
- [][] 
+Overfull \hbox (240.73438pt too wide) in paragraph at lines 110--161
+ [][][] 
  []
 
-) [2 <./data/accuracy-eps-converted-to.pdf> <./data/CEvsSize-eps-converted-to.p
-df> <./data/CEvsSizeLog-eps-converted-to.pdf> <./data/MIvsSize-eps-converted-to
-.pdf> <./data/MIvsSizelog-eps-converted-to.pdf>] [3] (./document.aux)
-
-LaTeX Warning: There were undefined references.
+[3
 
 
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+]
+Overfull \hbox (239.31293pt too wide) in paragraph at lines 167--218
+ [][][] 
+ []
 
- ) 
+) [4
+
+
+] (./document.aux) ) 
 Here is how much of TeX's memory you used:
  2403 strings out of 495061
  31304 string characters out of 1182622
- 94446 words of memory out of 3000000
+ 96510 words of memory out of 3000000
  5516 multiletter control sequences out of 15000+50000
  20166 words of font info for 49 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
  41i,8n,23p,434b,229s stack positions out of 5000i,500n,10000p,200000b,50000s
-{/usr/share/texmf-texlive/fonts/enc/dvips/base/8r.enc}</usr/share/texmf-texli
-ve/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-texlive/fonts/ty
-pe1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-texlive/fonts/type1/urw/tim
-es/utmb8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/times/utmr8a.pfb>
-Output written on document.pdf (3 pages, 846864 bytes).
+{/usr/share/texmf-texlive/fonts/enc/dvips/base/8r.enc}</usr
+/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texm
+f-texlive/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-texlive/f
+onts/type1/urw/times/utmb8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/times
+/utmr8a.pfb>
+Output written on document.pdf (4 pages, 849622 bytes).
 PDF statistics:
- 226 PDF objects out of 1000 (max. 8388607)
+ 229 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  26 words of extra memory for PDF output out of 10000 (max. 10000000)
 
