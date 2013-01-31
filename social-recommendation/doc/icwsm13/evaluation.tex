@@ -9,7 +9,7 @@
 
 \begin{figure}
 \centering
-\includegraphics[width=100mm, height=50mm]{data/accuracy.eps}
+\includegraphics[scale=0.25]{data/accuracy.eps}
 \caption{Accuracy plots}
 \label{Fig: Accuracy}
 \end{figure}
@@ -45,77 +45,61 @@
 \label {Fig: Mutual Information vs Size(log)}
 \end{figure}
 
-%Results using mutual information are more explainable 
+
+\cleardoublepage
 \begin{table}
 	\centering
-	\begin{tabular}{| >{\small}l | >{\small}r |}
+	\begin{tabular}{| >{\small}l | >{\small}r | >{\small}r | >{\small}r | >{\small}r | >{\small}r |}
 		\hline
-		 & \textbf{Mutual Information}\\
+		Modality & ConditionalEntropy & (Like,True) & (Dislike,True) & (Like,False) & (Dislike,False)\\
 		\hline
-		\textbf{video} & 8.0947e-04 \\
+		\textbf{video} & 0.850116919421 & 117 & 44 & 2402 & 2962\\
 		\hline
-		\textbf{photo} & 1.2251e-04 \\
-		\hline 
-		\textbf{post} & 2.4799e-05\\
+		\textbf{link} & 0.914700608855 & 989 & 486 & 1530 & 2520\\
 		\hline
-		\textbf{link} & 1.5086e-05\\
+		\textbf{post} & 0.918160390299 & 1154 & 576 & 1365 & 2430\\
 		\hline
-		\hline
-		& \textbf{Conditional Entropy}\\
-		\hline
-		\textbf{photo} & 0.9839\\
-		\hline
-		\textbf{post} & 0.9872\\
-		\hline
-		\textbf{link} & 0.9897\\
-		\hline
-		\textbf{video} & 0.9982\\
-		\hline
-%	\end{tabular}
-%\end{table}
-
-%\begin{table}
-%	\centering
-
-%	\begin{tabular}{| >{\small}l | >{\small}r |}
-		\hline
-		 & \textbf{Mutual Information}\\
-		\hline
-		\textbf{comments} & 6.7656e-05\\
-		\hline
-		\textbf{likes} & 2.8765e-05 \\
-		\hline 
-		\textbf{tags} & 4.6544e-06\\
+		\textbf{photo} & 0.9259513318 & 675 & 349 & 1844 & 2657\\
 		\hline
 		\hline
-		& \textbf{Conditional Entropy}\\
+		\textbf{Modality} & MutualInformation & (Like,True) & (Dislike,True) & (Like,False) & (Dislike,False)\\
 		\hline
-		\textbf{likes} & 0.9871\\
+		\textbf{post} & 0.0594688018722 & 1154 & 576 & 1365 & 2430\\
 		\hline
-		\textbf{comments} & 0.9879\\
+		\textbf{link} & 0.0490133947836 & 989 & 486 & 1530 & 2520\\
 		\hline
-		\textbf{tags} & 0.9913\\
+		\textbf{photo} & 0.0273700186713 & 675 & 349 & 1844 & 2657\\
 		\hline
-%	\end{tabular}
-%\end{table}
-
-
-%\begin{table}
-%	\centering
-%	\begin{tabular}{| >{\small}l | >{\small}r |}
+		\textbf{video} & 0.0064494273283 & 117 & 44 & 2402 & 2962\\
 		\hline
-		 & \textbf{Mutual Information}\\
 		\hline
-		\textbf{Outgoing} & 5.7508e-05\\
+		\textbf{Type}  & Conditional Entropy & (Like,True) & (Dislike,True) & (Like,False) & (Dislike,False)\\
 		\hline
-		\textbf{Incoming} &  5.7508e-05 \\
-		\hline 
+		\textbf{Tags}  &  0.919971597996 & 809 & 407 & 1710 & 2599\\
 		\hline
-		& \textbf{Conditional Entropy}\\
+		\textbf{Comments}  &  0.921373670369 & 1009 & 511 & 1510 & 2495\\
 		\hline
-		\textbf{Incoming} & 0.98696\\
+		\textbf{Likes}  &  0.924414408934 & 1135 & 583 & 1384 & 2423\\
 		\hline
-		\textbf{Outgoing} & 0.99018\\
+		\textbf{Type}  & Mutual Information & (Like,True) & (Dislike,True) & (Like,False) & (Dislike,False)\\
+		\hline
+		\textbf{Likes}  &  0.0553328447681 & 1135 & 583 & 1384 & 2423\\
+		\hline
+		\textbf{Comments}  &  0.0479360954681 & 1009 & 511 & 1510 & 2495\\
+		\hline
+		\textbf{Tags}  &  0.0361031572103 & 809 & 407 & 1710 & 2599\\
+		\hline
+		\textbf{Direction} & Mutual Information & (Like,True) & (Dislike,True) & (Like,False) & (Dislike,False)\\
+		\hline
+		\textbf{Outgoing}  &  0.049470651248 & 1074 & 562 & 1445 & 2444\\
+		\hline
+		\textbf{Incoming}  &  0.0470981200647 & 1081 & 584 & 1438 & 2422\\
+		\hline
+		\textbf{Direction} & Conditional Entropy &  (Like,True) & (Dislike,True) & (Like,False) & (Dislike,False)\\
+		\hline
+		\textbf{Outgoing}  &  0.928353525673 & 1074 & 562 & 1445 & 2444\\
+		\hline
+		\textbf{Incoming}  &  0.934921690705 & 1081 & 584 & 1438 & 2422\\
 		\hline
 		
 	\end{tabular}
@@ -123,114 +107,114 @@
 
 \begin{table}
 	\centering
-	\begin{tabular}{| >{\small}l | >{\small}r | >{\small}r |}
+	\begin{tabular}{| >{\small}l | >{\small}r | >{\small}r | >{\small}r | >{\small}r | >{\small}r |}
 	\hline
-	\textbf{Interaction} & \textbf{Conditional Entropy}\\
+	Interaction & Conditional Entropy & (Like,True) & (Dislike,True) & (Like,False) & (Dislike,False)\\
 	\hline
-	\textbf{FRIENDS} & 0.9350 \\
+	\textbf{VIDEO\_LIKES\_OUTGOING} & 0.722397472066 & 31 & 7 & 2488 & 2999\\
 	\hline
-	\textbf{VIDEO\_TAGS\_OUTGOING} & 0.9425 \\
+	\textbf{VIDEO\_LIKES\_INCOMING} & 0.775086171837 & 43 & 12 & 2476 & 2994\\
 	\hline
-	\textbf{VIDEO\_TAGS\_INCOMING} & 0.9459 \\
+	\textbf{POST\_TAGS\_INCOMING} & 0.802855788214 & 444 & 143 & 2075 & 2863\\
 	\hline
-	\textbf{VIDEO\_LIKES\_OUTGOING} & 0.9755 \\
+	\textbf{PHOTO\_COMMENTS\_OUTGOING} & 0.816036600382 & 135 & 45 & 2384 & 2961\\
 	\hline
-	\textbf{PHOTO\_COMMENTS\_INCOMING} & 0.9796 \\
+	\textbf{PHOTO\_TAGS\_OUTGOING} & 0.818540125915 & 427 & 145 & 2092 & 2861\\
 	\hline
-	\textbf{PHOTO\_LIKES\_INCOMING} & 0.9868 \\
+	\textbf{PHOTO\_LIKES\_INCOMING} & 0.853009353418 & 277 & 106 & 2242 & 2900\\
 	\hline
-	\textbf{POST\_COMMENTS\_OUTGOING} & 0.9870 \\
+	\textbf{LINK\_LIKES\_OUTGOING} & 0.855368864256 & 728 & 282 & 1791 & 2724\\
 	\hline
-	\textbf{POST\_COMMENTS\_INCOMING} & 0.9893 \\
+	\textbf{POST\_TAGS\_OUTGOING} & 0.856163233945 & 505 & 196 & 2014 & 2810\\
 	\hline
-	\textbf{POST\_LIKES\_INCOMING} & 0.9906 \\
+	\textbf{LINK\_COMMENTS\_INCOMING} & 0.865533720447 & 530 & 213 & 1989 & 2793\\
 	\hline
-	\textbf{PHOTO\_TAGS\_INCOMING} & 0.9907 \\ 
+	\textbf{POST\_LIKES\_OUTGOING} & 0.870618130159 & 834 & 342 & 1685 & 2664\\
 	\hline
-	\textbf{LINK\_COMMENTS\_OUTGOING} & 0.9914 \\
+	\textbf{VIDEO\_COMMENTS\_OUTGOING} & 0.883596675997 & 43 & 18 & 2476 & 2988\\
 	\hline
-	\textbf{PHOTO\_LIKES\_OUTGOING} & 0.9932 \\ 
+	\textbf{LINK\_LIKES\_INCOMING} & 0.888406184542 & 742 & 326 & 1777 & 2680\\
 	\hline
-	\textbf{LINK\_LIKES\_INCOMING} & 0.9937 \\
+	\textbf{POST\_LIKES\_INCOMING} & 0.889444522106 & 929 & 410 & 1590 & 2596\\
 	\hline
-	\textbf{POST\_LIKES\_OUTGOING} & 0.9942 \\ 
+	\textbf{POST\_COMMENTS\_INCOMING} & 0.890449138325 & 763 & 338 & 1756 & 2668\\
 	\hline
-	\textbf{VIDEO\_LIKES\_INCOMING} & 0.9942 \\ 
+	\textbf{PHOTO\_TAGS\_INCOMING} & 0.890856994354 & 485 & 215 & 2034 & 2791\\
 	\hline
-	\textbf{VIDEO\_COMMENTS\_INCOMING} & 0.9959 \\ 
+	\textbf{POST\_COMMENTS\_OUTGOING} & 0.894129257133 & 694 & 312 & 1825 & 2694\\
 	\hline
-	\textbf{POST\_TAGS\_OUTGOING} & 0.9972 \\
+	\textbf{LINK\_COMMENTS\_OUTGOING} & 0.895134128697 & 543 & 245 & 1976 & 2761\\
 	\hline
-	\textbf{LINK\_LIKES\_OUTGOING} & 0.9973 \\ 
+	\textbf{PHOTO\_LIKES\_OUTGOING} & 0.89759612767 & 161 & 73 & 2358 & 2933\\
 	\hline
-	\textbf{VIDEO\_COMMENTS\_OUTGOING} & 0.9975 \\
+	\textbf{PHOTO\_COMMENTS\_INCOMING} & 0.906541518549 & 290 & 137 & 2229 & 2869\\
 	\hline
-	\textbf{POST\_TAGS\_INCOMING} & 0.9979 \\
+	\textbf{VIDEO\_COMMENTS\_INCOMING} & 0.92652449307 & 53 & 27 & 2466 & 2979\\
 	\hline
-	\textbf{LINK\_COMMENTS\_INCOMING} & 0.9984 \\
+	\textbf{FRIENDS} & 0.965942963751 & 1392 & 895 & 1127 & 2111\\
 	\hline
-	\textbf{PHOTO\_COMMENTS\_OUTGOING} & 0.9999 \\
+	\textbf{VIDEO\_TAGS\_INCOMING} & 0.999999611934 & 17 & 17 & 2502 & 2989\\
 	\hline
-	\textbf{PHOTO\_TAGS\_OUTGOING} & 0.9999 \\
+	\textbf{VIDEO\_TAGS\_OUTGOING} & 0.999999611934 & 16 & 16 & 2503 & 2990\\
 	\hline
 	\end{tabular}
-	\npnoround
 \end{table}
+
+\cleardoublepage
 
 \begin{table}
 	\centering
-	\begin{tabular}{| >{\small}l | >{\small}r |}
+	\begin{tabular}{| >{\small}l | >{\small}r | >{\small}r | >{\small}r | >{\small}r | >{\small}r |}
 	\hline
-	\textbf{Interaction} & \textbf{Mutual Information} \\
+	Interaction & Mutual Information & (Like,True) & (Dislike,True) & (Like,False) & (Dislike,False)\\
 	\hline
-	\textbf{FRIENDS} & 4.813e-03\\
+	\textbf{POST\_LIKES\_INCOMING} & 0.0524561740233 & 929 & 410 & 1590 & 2596\\
 	\hline
-	\textbf{POST\_TAGS\_INCOMING} &8.239e-04\\
+	\textbf{POST\_LIKES\_OUTGOING}& 0.050407410911 & 834 & 342 & 1685 & 2664\\
 	\hline
-	\textbf{PHOTO\_TAGS\_OUTGOING} & 4.347e-04\\
+	\textbf{FRIENDS} & 0.0473539909731 & 1392 & 895 & 1127 & 2111\\
 	\hline
-	\textbf{LINK\_COMMENTS\_INCOMING} & 2.281e-04\\
+	\textbf{LINK\_LIKES\_OUTGOING}& 0.0457244144031 & 728 & 282 & 1791 & 2724\\
 	\hline
-	\textbf{LINK\_LIKES\_OUTGOING} & 2.156e-04\\
+	\textbf{POST\_COMMENTS\_INCOMING}& 0.0405155210996 & 763 & 338 & 1756 & 2668\\
 	\hline
-	\textbf{PHOTO\_COMMENTS\_OUTGOING} & 1.622e-04\\
+	\textbf{LINK\_LIKES\_INCOMING}& 0.0396004717225 & 742 & 326 & 1777 & 2680\\
 	\hline
-	\textbf{VIDEO\_LIKES\_OUTGOING} & 1.597e-04\\
+	\textbf{POST\_COMMENTS\_OUTGOING}& 0.0352609340207 & 694 & 312 & 1825 & 2694\\
 	\hline
-	\textbf{POST\_TAGS\_OUTGOING} & 1.406e-04\\
+	\textbf{POST\_TAGS\_INCOMING}& 0.0315770377754 & 444 & 143 & 2075 & 2863\\
 	\hline
-	\textbf{VIDEO\_LIKES\_INCOMING} & 1.258e-04\\
+	\textbf{LINK\_COMMENTS\_INCOMING}& 0.0299391900579 & 530 & 213 & 1989 & 2793\\
 	\hline
-	\textbf{POST\_LIKES\_OUTGOING} & 8.051e-05\\
+	\textbf{POST\_TAGS\_OUTGOING}& 0.0296108833783 & 505 & 196 & 2014 & 2810\\
 	\hline
-	\textbf{LINK\_LIKES\_INCOMING} & 5.741e-05\\
+	\textbf{PHOTO\_TAGS\_OUTGOING}& 0.0286060075004 & 427 & 145 & 2092 & 2861\\
 	\hline
-	\textbf{VIDEO\_TAGS\_OUTGOING} & 5.263e-05\\
+	\textbf{LINK\_COMMENTS\_OUTGOING}& 0.0261662648974 & 543 & 245 & 1976 & 2761\\
 	\hline
-	\textbf{VIDEO\_TAGS\_INCOMING} & 4.953e-05\\
+	\textbf{PHOTO\_TAGS\_INCOMING}& 0.0235803030398 & 485 & 215 & 2034 & 2791\\
 	\hline
-	\textbf{PHOTO\_COMMENTS\_INCOMING} & 4.083e-05\\
+	\textbf{PHOTO\_LIKES\_INCOMING}& 0.0155060725343 & 277 & 106 & 2242 & 2900\\
 	\hline
-	\textbf{VIDEO\_COMMENTS\_OUTGOING} & 1.378e-05\\
+	\textbf{PHOTO\_COMMENTS\_INCOMING}& 0.0120447345005 & 290 & 137 & 2229 & 2869\\
 	\hline
-	\textbf{VIDEO\_COMMENTS\_INCOMING} & 1.129e-05\\
+	\textbf{PHOTO\_COMMENTS\_OUTGOING}& 0.00851951888057 & 135 & 45 & 2384 & 2961\\
 	\hline
-	\textbf{LINK\_COMMENTS\_OUTGOING} & 1.097e-05\\
+	\textbf{PHOTO\_LIKES\_OUTGOING}& 0.00687365820792 & 161 & 73 & 2358 & 2933\\
 	\hline
-	\textbf{POST\_LIKES\_INCOMING} & 9.909e-06\\
+	\textbf{VIDEO\_LIKES\_INCOMING}& 0.00309679794205 & 43 & 12 & 2476 & 2994\\
 	\hline
-	\textbf{PHOTO\_LIKES\_OUTGOING} & 8.736e-06\\
+	\textbf{VIDEO\_LIKES\_OUTGOING}& 0.00259896191026 & 31 & 7 & 2488 & 2999\\
 	\hline
-	\textbf{PHOTO\_TAGS\_INCOMING} & 5.265e-06\\
+	\textbf{VIDEO\_COMMENTS\_OUTGOING}& 0.00197259388552 & 43 & 18 & 2476 & 2988\\
 	\hline
-	\textbf{POST\_COMMENTS\_OUTGOING} & 3.741e-06\\
+	\textbf{VIDEO\_COMMENTS\_INCOMING}& 0.0017837362825 & 53 & 27 & 2466 & 2979\\
 	\hline
-	\textbf{PHOTO\_LIKES\_INCOMING} & 1.799e-06\\
+	\textbf{VIDEO\_TAGS\_INCOMING}& 3.598735115e-05 & 17 & 17 & 2502 & 2989\\
 	\hline
-	\textbf{POST\_COMMENTS\_INCOMING} & 9.797e-07\\
+	\textbf{VIDEO\_TAGS\_OUTGOING}& 3.39757297236e-05 & 16 & 16 & 2503 & 2990\\
 	\hline
 	\end{tabular}
-	\npnoround
 \end{table}
 
 	
