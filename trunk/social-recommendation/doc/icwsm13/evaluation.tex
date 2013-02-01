@@ -7,12 +7,34 @@
 \end{itemize}
 
 
-\begin{figure}
+\begin{figure*}
 \centering
 \includegraphics[scale=0.25]{data/accuracy.eps}
 \caption{Accuracy plots}
 \label{Fig: Accuracy}
-\end{figure}
+\end{figure*}
+
+\begin{figure*}
+\centering
+\includegraphics[scale=0.25]{data/MIvsGroupSizeBox.eps}
+\caption{Mutual Information vs Group Size}
+\label{Fig: Mutual Information vs Group Size}
+\end{figure*}
+
+\begin{figure*}
+\centering
+\includegraphics[scale=0.25]{data/MIvsPageSizeBox.eps}
+\caption{Mutual Information vs Page Size}
+\label{Fig: Mutual Information vs Page Size}
+\end{figure*}
+
+\begin{figure*}
+\centering
+\includegraphics[scale=0.25]{data/MIvsFavouritesSizeBox.eps}
+\caption{Mutual Information vs Favourite Size}
+\label{Fig: Mutual Information vs Favourite Size}
+\end{figure*}
+
 
 \begin{figure}
 \centering
@@ -81,6 +103,7 @@
 		\hline
 		\textbf{Likes}  &  0.924414408934 & 1135 & 583 & 1384 & 2423\\
 		\hline
+		\hline
 		\textbf{Type}  & Mutual Information & (Like,True) & (Dislike,True) & (Like,False) & (Dislike,False)\\
 		\hline
 		\textbf{Likes}  &  0.0553328447681 & 1135 & 583 & 1384 & 2423\\
@@ -89,11 +112,13 @@
 		\hline
 		\textbf{Tags}  &  0.0361031572103 & 809 & 407 & 1710 & 2599\\
 		\hline
+		\hline
 		\textbf{Direction} & Mutual Information & (Like,True) & (Dislike,True) & (Like,False) & (Dislike,False)\\
 		\hline
 		\textbf{Outgoing}  &  0.049470651248 & 1074 & 562 & 1445 & 2444\\
 		\hline
 		\textbf{Incoming}  &  0.0470981200647 & 1081 & 584 & 1438 & 2422\\
+		\hline
 		\hline
 		\textbf{Direction} & Conditional Entropy &  (Like,True) & (Dislike,True) & (Like,False) & (Dislike,False)\\
 		\hline
