@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2013.1.3)  31 JAN 2013 12:44
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2013.1.3)  1 FEB 2013 13:52
 entering extended mode
  Source specials enabled.
  %&-line parsing enabled.
@@ -282,10 +282,54 @@ Package epstopdf Info: Output file is already uptodate.
 File: data/accuracy-eps-converted-to.pdf Graphic file (type pdf)
 
 <use data/accuracy-eps-converted-to.pdf>
-Overfull \hbox (178.1646pt too wide) in paragraph at lines 12--13
- [][][] 
- []
+Package epstopdf Info: Source file: <data/MIvsGroupSizeBox.eps>
+(epstopdf)                    date: 2013-02-01 13:40:04
+(epstopdf)                    size: 54148 bytes
+(epstopdf)             Output file: <data/MIvsGroupSizeBox-eps-converted-to.pdf
+>
+(epstopdf)                    date: 2013-02-01 13:43:29
+(epstopdf)                    size: 22179 bytes
+(epstopdf)             Command: <epstopdf --outfile=data/MIvsGroupSizeBox-eps-c
+onverted-to.pdf data/MIvsGroupSizeBox.eps>
+(epstopdf)             \includegraphics on input line 19.
+Package epstopdf Info: Output file is already uptodate.
 
+<data/MIvsGroupSizeBox-eps-converted-to.pdf, id=9, 1668.2325pt x 433.62pt>
+File: data/MIvsGroupSizeBox-eps-converted-to.pdf Graphic file (type pdf)
+
+<use data/MIvsGroupSizeBox-eps-converted-to.pdf>
+Package epstopdf Info: Source file: <data/MIvsPageSizeBox.eps>
+(epstopdf)                    date: 2013-02-01 13:40:04
+(epstopdf)                    size: 70238 bytes
+(epstopdf)             Output file: <data/MIvsPageSizeBox-eps-converted-to.pdf>
+
+(epstopdf)                    date: 2013-02-01 13:43:29
+(epstopdf)                    size: 29529 bytes
+(epstopdf)             Command: <epstopdf --outfile=data/MIvsPageSizeBox-eps-co
+nverted-to.pdf data/MIvsPageSizeBox.eps>
+(epstopdf)             \includegraphics on input line 26.
+Package epstopdf Info: Output file is already uptodate.
+
+<data/MIvsPageSizeBox-eps-converted-to.pdf, id=10, 1634.105pt x 433.62pt>
+File: data/MIvsPageSizeBox-eps-converted-to.pdf Graphic file (type pdf)
+
+<use data/MIvsPageSizeBox-eps-converted-to.pdf>
+Package epstopdf Info: Source file: <data/MIvsFavouritesSizeBox.eps>
+(epstopdf)                    date: 2013-02-01 13:40:04
+(epstopdf)                    size: 59788 bytes
+(epstopdf)             Output file: <data/MIvsFavouritesSizeBox-eps-converted-t
+o.pdf>
+(epstopdf)                    date: 2013-02-01 13:43:29
+(epstopdf)                    size: 23692 bytes
+(epstopdf)             Command: <epstopdf --outfile=data/MIvsFavouritesSizeBox-
+eps-converted-to.pdf data/MIvsFavouritesSizeBox.eps>
+(epstopdf)             \includegraphics on input line 33.
+Package epstopdf Info: Output file is already uptodate.
+
+<data/MIvsFavouritesSizeBox-eps-converted-to.pdf, id=11, 1660.2025pt x 433.62pt
+>
+File: data/MIvsFavouritesSizeBox-eps-converted-to.pdf Graphic file (type pdf)
+ <use data/MIvsFavouritesSizeBox-eps-converted-to.pdf>
 Package epstopdf Info: Source file: <data/CEvsSize.eps>
 (epstopdf)                    date: 2013-01-31 10:36:19
 (epstopdf)                    size: 845147 bytes
@@ -294,13 +338,14 @@ Package epstopdf Info: Source file: <data/CEvsSize.eps>
 (epstopdf)                    size: 168873 bytes
 (epstopdf)             Command: <epstopdf --outfile=data/CEvsSize-eps-converted
 -to.pdf data/CEvsSize.eps>
-(epstopdf)             \includegraphics on input line 19.
+(epstopdf)             \includegraphics on input line 41.
 Package epstopdf Info: Output file is already uptodate.
-<data/CEvsSize-eps-converted-to.pdf, id=9, 1672.2475pt x 466.74374pt>
+
+<data/CEvsSize-eps-converted-to.pdf, id=12, 1672.2475pt x 466.74374pt>
 File: data/CEvsSize-eps-converted-to.pdf Graphic file (type pdf)
 
 <use data/CEvsSize-eps-converted-to.pdf>
-Overfull \hbox (45.11359pt too wide) in paragraph at lines 19--20
+Overfull \hbox (45.11359pt too wide) in paragraph at lines 41--42
  [][][] 
  []
 
@@ -312,13 +357,13 @@ Package epstopdf Info: Source file: <data/CEvsSizeLog.eps>
 (epstopdf)                    size: 207454 bytes
 (epstopdf)             Command: <epstopdf --outfile=data/CEvsSizeLog-eps-conver
 ted-to.pdf data/CEvsSizeLog.eps>
-(epstopdf)             \includegraphics on input line 26.
+(epstopdf)             \includegraphics on input line 48.
 Package epstopdf Info: Output file is already uptodate.
-<data/CEvsSizeLog-eps-converted-to.pdf, id=10, 1664.2175pt x 516.93124pt>
+<data/CEvsSizeLog-eps-converted-to.pdf, id=13, 1664.2175pt x 516.93124pt>
 File: data/CEvsSizeLog-eps-converted-to.pdf Graphic file (type pdf)
 
 <use data/CEvsSizeLog-eps-converted-to.pdf>
-Overfull \hbox (45.11867pt too wide) in paragraph at lines 26--27
+Overfull \hbox (45.11867pt too wide) in paragraph at lines 48--49
  [][][] 
  []
 
@@ -333,14 +378,14 @@ Package epstopdf Info: Source file: <data/MIvsSize.eps>
 (epstopdf)                    size: 179016 bytes
 (epstopdf)             Command: <epstopdf --outfile=data/MIvsSize-eps-converted
 -to.pdf data/MIvsSize.eps>
-(epstopdf)             \includegraphics on input line 36.
+(epstopdf)             \includegraphics on input line 58.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/MIvsSize-eps-converted-to.pdf, id=11, 1672.2475pt x 496.85625pt>
+<data/MIvsSize-eps-converted-to.pdf, id=14, 1672.2475pt x 496.85625pt>
 File: data/MIvsSize-eps-converted-to.pdf Graphic file (type pdf)
 
 <use data/MIvsSize-eps-converted-to.pdf>
-Overfull \hbox (45.11359pt too wide) in paragraph at lines 36--37
+Overfull \hbox (45.11359pt too wide) in paragraph at lines 58--59
  [][][] 
  []
 
@@ -352,45 +397,47 @@ Package epstopdf Info: Source file: <data/MIvsSizelog.eps>
 (epstopdf)                    size: 215143 bytes
 (epstopdf)             Command: <epstopdf --outfile=data/MIvsSizelog-eps-conver
 ted-to.pdf data/MIvsSizelog.eps>
-(epstopdf)             \includegraphics on input line 43.
+(epstopdf)             \includegraphics on input line 65.
 Package epstopdf Info: Output file is already uptodate.
-<data/MIvsSizelog-eps-converted-to.pdf, id=12, 1670.24pt x 484.81125pt>
+<data/MIvsSizelog-eps-converted-to.pdf, id=15, 1670.24pt x 484.81125pt>
 File: data/MIvsSizelog-eps-converted-to.pdf Graphic file (type pdf)
 
 <use data/MIvsSizelog-eps-converted-to.pdf>
-Overfull \hbox (45.12885pt too wide) in paragraph at lines 43--44
+Overfull \hbox (45.12885pt too wide) in paragraph at lines 65--66
  [][][] 
  []
 
-[2 <./data/accuracy-eps-converted-to.pdf> <./data/CEvsSize-eps-converted-to.pdf
-> <./data/CEvsSizeLog-eps-converted-to.pdf> <./data/MIvsSize-eps-converted-to.p
-df> <./data/MIvsSizelog-eps-converted-to.pdf>]
-Overfull \hbox (139.25131pt too wide) in paragraph at lines 52--106
+[2 <./data/CEvsSize-eps-converted-to.pdf> <./data/CEvsSizeLog-eps-converted-to.
+pdf> <./data/MIvsSize-eps-converted-to.pdf> <./data/MIvsSizelog-eps-converted-t
+o.pdf>] [3 <./data/accuracy-eps-converted-to.pdf> <./data/MIvsGroupSizeBox-eps-
+converted-to.pdf> <./data/MIvsPageSizeBox-eps-converted-to.pdf> <./data/MIvsFav
+ouritesSizeBox-eps-converted-to.pdf>]
+Overfull \hbox (139.25131pt too wide) in paragraph at lines 74--131
  [][][] 
  []
 
 
-Overfull \hbox (240.73438pt too wide) in paragraph at lines 110--161
+Overfull \hbox (240.73438pt too wide) in paragraph at lines 135--186
  [][][] 
  []
 
-[3
+[4
 
 
 ]
-Overfull \hbox (239.31293pt too wide) in paragraph at lines 167--218
+Overfull \hbox (239.31293pt too wide) in paragraph at lines 192--243
  [][][] 
  []
 
-) [4
+) [5
 
 
 ] (./document.aux) ) 
 Here is how much of TeX's memory you used:
- 2403 strings out of 495061
- 31304 string characters out of 1182622
- 96510 words of memory out of 3000000
- 5516 multiletter control sequences out of 15000+50000
+ 2421 strings out of 495061
+ 32065 string characters out of 1182622
+ 96534 words of memory out of 3000000
+ 5531 multiletter control sequences out of 15000+50000
  20166 words of font info for 49 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
  41i,8n,23p,434b,229s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -399,9 +446,9 @@ Here is how much of TeX's memory you used:
 f-texlive/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-texlive/f
 onts/type1/urw/times/utmb8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/times
 /utmr8a.pfb>
-Output written on document.pdf (4 pages, 849622 bytes).
+Output written on document.pdf (5 pages, 920686 bytes).
 PDF statistics:
- 229 PDF objects out of 1000 (max. 8388607)
+ 338 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 26 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 41 words of extra memory for PDF output out of 10000 (max. 10000000)
 
