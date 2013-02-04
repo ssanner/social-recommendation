@@ -160,3 +160,25 @@ VIDEO_COMMENTS_OUTGOING	43	18	2476	2988
 VIDEO_TAGS_INCOMING	17	17	2502	2989
 
 VIDEO_TAGS_OUTGOING	16	16	2503	2990
+
+
+
+Friend Recommendation:
+
+SVM
+Accuracy:  0.635  +/-  0.019
+Precision: 0.677  +/-  0.028
+Recall:    0.769  +/-  0.019
+F-Score:   0.719  +/-  0.017
+
+LR
+Accuracy:  0.638  +/-  0.021
+Precision: 0.679  +/-  0.031
+Recall:    0.772  +/-  0.019
+F-Score:   0.722  +/-  0.017
+
+Naive Bayes:
+Accuracy:  0.591  +/-  0.025
+Precision: 0.7  +/-  0.027
+Recall:    0.576  +/-  0.03
+F-Score:   0.631  +/-  0.021
