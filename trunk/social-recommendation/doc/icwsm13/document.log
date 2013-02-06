@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2013.1.3)  1 FEB 2013 13:52
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2013.1.3)  6 FEB 2013 18:48
 entering extended mode
  Source specials enabled.
  %&-line parsing enabled.
@@ -412,12 +412,7 @@ pdf> <./data/MIvsSize-eps-converted-to.pdf> <./data/MIvsSizelog-eps-converted-t
 o.pdf>] [3 <./data/accuracy-eps-converted-to.pdf> <./data/MIvsGroupSizeBox-eps-
 converted-to.pdf> <./data/MIvsPageSizeBox-eps-converted-to.pdf> <./data/MIvsFav
 ouritesSizeBox-eps-converted-to.pdf>]
-Overfull \hbox (139.25131pt too wide) in paragraph at lines 74--131
- [][][] 
- []
-
-
-Overfull \hbox (240.73438pt too wide) in paragraph at lines 135--186
+Overfull \hbox (201.73584pt too wide) in paragraph at lines 74--130
  [][][] 
  []
 
@@ -425,19 +420,60 @@ Overfull \hbox (240.73438pt too wide) in paragraph at lines 135--186
 
 
 ]
-Overfull \hbox (239.31293pt too wide) in paragraph at lines 192--243
+Overfull \hbox (261.97253pt too wide) in paragraph at lines 136--182
  [][][] 
  []
 
-) [5
+
+Overfull \hbox (303.2189pt too wide) in paragraph at lines 186--237
+ [][][] 
+ []
+
+[5
+
+
+]
+Overfull \hbox (301.79745pt too wide) in paragraph at lines 243--294
+ [][][] 
+ []
+
+[6
+
+
+]
+Overfull \hbox (196.8059pt too wide) in paragraph at lines 299--325
+[][][] 
+ []
+
+[7
+
+
+]
+Missing character: There is no â in font ptmr7t!
+Missing character: There is no ˜ in font ptmr7t!
+Missing character: There is no   in font ptmr7t!
+
+Overfull \hbox (298.28859pt too wide) in paragraph at lines 333--359
+[][][] 
+ []
+
+[8
+
+
+]
+Overfull \hbox (312.04039pt too wide) in paragraph at lines 366--392
+[][][] 
+ []
+
+) [9
 
 
 ] (./document.aux) ) 
 Here is how much of TeX's memory you used:
- 2421 strings out of 495061
- 32065 string characters out of 1182622
- 96534 words of memory out of 3000000
- 5531 multiletter control sequences out of 15000+50000
+ 2424 strings out of 495061
+ 32197 string characters out of 1182622
+ 101558 words of memory out of 3000000
+ 5534 multiletter control sequences out of 15000+50000
  20166 words of font info for 49 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
  41i,8n,23p,434b,229s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -446,9 +482,9 @@ Here is how much of TeX's memory you used:
 f-texlive/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-texlive/f
 onts/type1/urw/times/utmb8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/times
 /utmr8a.pfb>
-Output written on document.pdf (5 pages, 920686 bytes).
+Output written on document.pdf (9 pages, 935644 bytes).
 PDF statistics:
- 338 PDF objects out of 1000 (max. 8388607)
+ 352 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  41 words of extra memory for PDF output out of 10000 (max. 10000000)
 
