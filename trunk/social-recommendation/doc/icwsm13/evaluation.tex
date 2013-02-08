@@ -1,72 +1,138 @@
 \begin{itemize}
   \item Page likes are most predictive followed by group and favourites
-  \item Mutual information vs Size plot shows that the most predictive groups/page/favourites are spread around middle. This signifies that medium sized groups/pages/favourites are more predictive (!!!although not very strong signal)
-  \item Collapsed mutual information ranking \\Video $>$ Photo $>$ Post $>$ Link\\ Comments $>$ Like $>$ Tags\\
-   (No significant difference between Incoming and Outgoing)
    \item For Large social networks encoding user's membership(group/pages/favourites) as features and performing matrix factorization is not scalable (as there are millions of groups/pages/activities). This research shows that the memebership can be directly plugged into existing highly scalable algorithms to achieve better accuracy than state of art matrix factorization techniques. 
 \end{itemize}
 
 
 \begin{figure*}
 \centering
-\includegraphics[scale=0.25]{data/accuracy.eps}
-\caption{Accuracy plots}
+\begin{tabular}{cc}
+\subfloat[Fig: Friend and NonFriend Recommended Data][Friend and NonFriend Recommended Links]{\includegraphics[scale=0.25]{data/plots/accuracy/accuracy.eps}}
+\subfloat[Fig: Friend Recommended Data][Friend Recommended Links]{\includegraphics[height=38mm, width=28mm]{data/plots/accuracy/friendRecommendation.eps}}
+\end{tabular}
+\caption{Accuracy of predictors (constant, social matchbox, naive bayes, logistic regression, SVM) for interation, group, page, favourite features}
 \label{Fig: Accuracy}
 \end{figure*}
 
+%\begin{figure*}
+%\centering
+%\includegraphics[height=45mm, width=30mm]{data/plots/accuracy/friendRecommendation.eps}
+%\caption{Accuracy of predictors (constant, social matchbox, naive bayes, logistic regression, SVM) based on interaction features for friend recommended links}
+%\label{Fig: Accuracy}
+%\end{figure*}
+
 \begin{figure*}
 \centering
-\includegraphics[scale=0.25]{data/MIvsGroupSizeBox.eps}
-\caption{Mutual Information vs Group Size}
-\label{Fig: Mutual Information vs Group Size}
+\begin{tabular}{c}
+\subfloat[Fig: Conditional Entropy vs Group Size][conditional entropy vs group size (top 500)]{\includegraphics[height=40mm,width=150mm]{data/plots/boxPlots/CEvsGroupSize.eps}}\\
+\subfloat[Fig: Conditional Entropy vs Page Size][conditional entropy vs page size (top 1000)]{\includegraphics[height=40mm,width=150mm]{data/plots/boxPlots/CEvsPageSize.eps}}\\
+\subfloat[Fig: Conditional Entropy vs Favourites Size][conditional entropy vs favourites size (top 800)]{\includegraphics[height=40mm,width=150mm]{data/plots/boxPlots/CEvsFavouriteSize.eps}}
+\end{tabular}
+\caption{conditional entropy vs size (top k)}
+\label{Fig: conditional entropy vs size(top k) Box plots}
 \end{figure*}
 
 \begin{figure*}
 \centering
-\includegraphics[scale=0.25]{data/MIvsPageSizeBox.eps}
-\caption{Mutual Information vs Page Size}
-\label{Fig: Mutual Information vs Page Size}
+\begin{tabular}{c}
+\subfloat[Fig: mutual information vs Group Size][mutual information vs group size (top 500)]{\includegraphics[height=40mm,width=150mm]{data/plots/boxPlots/MIvsGroupSizeTop500.eps}}\\
+\subfloat[Fig: mutual information vs Page Size][mutual information vs page size (top 1000)]{\includegraphics[height=40mm,width=150mm]{data/plots/boxPlots/MIvsPageSizeTop1000.eps}}\\
+\subfloat[Fig:  mutual information vs Favourites Size][mutual information vs favourites size (top 800)]{\includegraphics[height=40mm,width=150mm]{data/plots/boxPlots/MIvsFavSizeTop800.eps}}
+\end{tabular}
+\caption{ mutual information  vs size (top k)}
+\label{Fig: mutual information  vs size(top k) Box plots}
 \end{figure*}
 
 \begin{figure*}
 \centering
-\includegraphics[scale=0.25]{data/MIvsFavouritesSizeBox.eps}
-\caption{Mutual Information vs Favourite Size}
-\label{Fig: Mutual Information vs Favourite Size}
+\begin{tabular}{c}
+\subfloat[Fig: mutual information vs Page Size][mutual information vs page size (top 1000)]{\includegraphics[height=40mm,width=150mm]{data/plots/boxPlots/MIvsPageSizeLogtop1000.eps}}\\
+\subfloat[Fig:  mutual information vs Favourites Size][mutual information vs favourites size (top 800)]{\includegraphics[height=40mm,width=150mm]{data/plots/boxPlots/MIvsFavSizeLogtop800.eps}}
+\end{tabular}
+\caption{ mutual information  vs size (top k)}
+\label{Fig: mutual information  vs size(top k) Box plots}
+\end{figure*}
+
+\begin{figure*}
+\centering
+\begin{tabular}{c}
+\subfloat[Fig:  conditional entropy vs favourite categories][ conditional entropy vs favourite categories]{\includegraphics[height=40mm,width=150mm]{data/plots/boxPlots/CEvsFavTypes.eps}}\\
+\subfloat[Fig:  mutual information vs favourite categories][mutual information vs favourite categories]{\includegraphics[height=40mm,width=150mm]{data/plots/boxPlots/MIvsFavTypes.eps}}
+\end{tabular}
+\caption{ mutual information  vs favourite categories}
+\label{Fig: mutual information  vs favourite categories}
 \end{figure*}
 
 
-\begin{figure}
+\begin{figure*}[h]
 \centering
-\includegraphics[width=100mm, height=30mm]{data/CEvsSize.eps}
-\caption{Conditional Entropy vs Size}
-\label{Fig: Conditional Entropy vs Size}
-\end{figure}
+\begin{tabular}{ccc}
+\subfloat[Fig: conditional entropy vs group size ][CE vs group]{\includegraphics[width=40mm, height=30mm]{data/plots/scatterplots/vssize/CEvsGroupSizeEgo.eps}}
+\subfloat[Fig: conditional entropy vs page size ][CE vs page]{\includegraphics[width=40mm, height=30mm]{data/plots/scatterplots/vssize/CEvsPageSize.eps}}
+\subfloat[Fig: conditional entropy vs favourite size ][CE vs favourite]{\includegraphics[width=40mm, height=30mm]{data/plots/scatterplots/vssize/CEvsFavSize.eps}} \\
+\subfloat[Fig: conditional entropy vs group size(log) ][CE vs group]{\includegraphics[width=40mm, height=30mm]{data/plots/scatterplots/vssize/CEvsGroupSizeLog.eps}}
+\subfloat[Fig: conditional entropy vs page size(log) ][CE vs page]{\includegraphics[width=40mm, height=30mm]{data/plots/scatterplots/vssize/CEvsPageSizeLog.eps}}
+\subfloat[Fig: conditional entropy vs favourite size(log) ][CE vs favourite]{\includegraphics[width=40mm, height=30mm]{data/plots/scatterplots/vssize/CEvsFavSizeLog.eps}}\\
+\subfloat[Fig: conditional entropy vs group size(ego) ][CE vs group(ego)]{\includegraphics[width=40mm, height=30mm]{data/plots/scatterplots/vssize/CEvsGroupSizeEgo.eps}}
+\subfloat[Fig: conditional entropy vs page size ][CE vs page(ego)]{\includegraphics[width=40mm, height=30mm]{data/plots/scatterplots/vssize/CEvsPageSizeEgo.eps}}
+\subfloat[Fig: conditional entropy vs favourite size(ego) ][CE vs favourite(ego)]{\includegraphics[width=40mm, height=30mm]{data/plots/scatterplots/vssize/CEvsFavSizeEgo.eps}}
+\end{tabular}
+\caption{conditional entropy vs size}
+\label{Fig: conditional entropy vs size}
+\end{figure*}
 
-\begin{figure}
+\begin{figure*}[h]
 \centering
-\includegraphics[width=100mm, height=30mm]{data/CEvsSizeLog.eps}
-\caption{Conditional Entropy vs Size(log)}
-\label{Fig: Conditional Entropy vs Size(Log)}
-\end{figure}
+\begin{tabular}{ccc}
+\subfloat[Fig: mutual information vs group size ][MI vs group]{\includegraphics[width=40mm, height=30mm]{data/plots/scatterplots/vssize/MIvsGroupSizeEgo.eps}}
+\subfloat[Fig: mutual information vs page size ][MI vs page]{\includegraphics[width=40mm, height=30mm]{data/plots/scatterplots/vssize/MIvsPageSize.eps}}
+\subfloat[Fig: mutual information vs favourite size ][MI vs favourite]{\includegraphics[width=40mm, height=30mm]{data/plots/scatterplots/vssize/MIvsFavSize.eps}} \\
+\subfloat[Fig: mutual information vs group size(log) ][MI vs group]{\includegraphics[width=40mm, height=30mm]{data/plots/scatterplots/vssize/MIvsGroupSizeLog.eps}}
+\subfloat[Fig: mutual information vs page size(log) ][MI vs page]{\includegraphics[width=40mm, height=30mm]{data/plots/scatterplots/vssize/MIvsPageSizeLog.eps}}
+\subfloat[Fig: mutual information vs favourite size(log) ][MI vs favourite]{\includegraphics[width=40mm, height=30mm]{data/plots/scatterplots/vssize/MIvsFavSizeLog.eps}}\\
+\subfloat[Fig: mutual information vs group size(ego) ][MI vs group(ego)]{\includegraphics[width=40mm, height=30mm]{data/plots/scatterplots/vssize/MIvsGroupSizeEgo.eps}}
+\subfloat[Fig: mutual information vs page size ][MI vs page(ego)]{\includegraphics[width=40mm, height=30mm]{data/plots/scatterplots/vssize/MIvsPageSizeEgo.eps}}
+\subfloat[Fig: mutual information vs favourite size(ego) ][MI vs favourite(ego)]{\includegraphics[width=40mm, height=30mm]{data/plots/scatterplots/vssize/MIvsFavSizeEgo.eps}}
+\end{tabular}
+\caption{ mutual information  vs size}
+\label{Fig: mutual information  vs size}
+\end{figure*}
 
-\pagebreak
 
-
-\begin{figure}
+\begin{figure*}[h]
 \centering
-\includegraphics[width=100mm, height=30mm]{data/MIvsSize.eps}
-\caption {Mutual Information vs Size}
-\label {Fig: Mutual Information vs Size}
-\end{figure}
+\begin{tabular}{ccc}
+\subfloat[Fig: logistic regression coefficients vs group size ][LR coefficient vs group]{\includegraphics[width=40mm, height=30mm]{data/plots/scatterplots/LRweights/LRweightvsGroupSize.eps}}
+\subfloat[Fig: logistic regression coefficients vs page size ][LR coefficient vs page]{\includegraphics[width=40mm, height=30mm]{data/plots/scatterplots/LRweights/LRweightvsPageSize.eps}}
+\subfloat[Fig: logistic regression coefficients vs favourite size ][LR coefficient vs favourite]{\includegraphics[width=40mm, height=30mm]{data/plots/scatterplots/LRweights/LRweightvsFavouriteSize.eps}} \\
+\subfloat[Fig: logistic regression coefficients vs group size(ego) ][LR coefficient vs group(ego)]{\includegraphics[width=40mm, height=30mm]{data/plots/scatterplots/LRweights/LRweightvsGroupEgoSize.eps}}
+\subfloat[Fig: logistic regression coefficients vs page size ][LR coefficient vs page(ego)]{\includegraphics[width=40mm, height=30mm]{data/plots/scatterplots/LRweights/LRweightvsPageEgoSize.eps}}
+\subfloat[Fig: logistic regression coefficients vs favourite size(ego) ][LR coefficient vs favourite(ego)]{\includegraphics[width=40mm, height=30mm]{data/plots/scatterplots/LRweights/LRweightvsFavouriteEgoSize.eps}}
+\end{tabular}
+\caption{ logistic regression coefficients   vs size}
+\label{Fig: logistic regression coefficients   vs size}
+\end{figure*}
 
-\begin{figure}
+
+\begin{figure*}[h]
 \centering
-\includegraphics[width=100mm, height=30mm]{data/MIvsSizelog.eps}
-\caption{Mutual Information  vs Size(log)}
-\label {Fig: Mutual Information vs Size(log)}
-\end{figure}
+\begin{tabular}{ccc}
+\subfloat[Fig: conditional entropy vs size][CE vs size(top 500)]{\includegraphics[width=40mm, height=30mm]{data/plots/scatterplots/sortedBySE/CEvsGroupSize.eps}}
+\subfloat[Fig: conditional entropy vs size][CE vs size(top 1000)]{\includegraphics[width=40mm, height=30mm]{data/plots/scatterplots/sortedBySE/CEvsPageSize.eps}}
+\subfloat[Fig: conditional entropy vs size][CE vs size(top 800)]{\includegraphics[width=40mm, height=30mm]{data/plots/scatterplots/sortedBySE/CEvsfavSize.eps}} \\
+\subfloat[Fig: mutual information vs size][MI vs size(top 500)]{\includegraphics[width=40mm, height=30mm]{data/plots/scatterplots/sortedBySE/MIvsGroupSize.eps}}
+\subfloat[Fig: mutual information vs size][MI vs size(top 1000)]{\includegraphics[width=40mm, height=30mm]{data/plots/scatterplots/sortedBySE/MIvsPageSize.eps}}
+\subfloat[Fig: mutual information vs size][MI vs size(top 800)]{\includegraphics[width=40mm, height=30mm]{data/plots/scatterplots/sortedBySE/MIvsfavSize.eps}}
+\end{tabular}
+\caption{ conditional entropy/mutual information vs size (top k sorted by standard error)}
+\label{Fig:  conditional entropy/mutual information vs size (top k sorted by standard error)}
+\end{figure*}
 
+\begin{figure*}[h]
+\centering
+\includegraphics[scale=0.25]{data/plots/vsk/CEvsK.eps}
+\caption{All graph plots Conditional Entropy for interaction actions vs Interaction modalities. Each graph analyzes different Interaction Directionality  }
+\end{figure*}
 
 \cleardoublepage
 \begin{table}
@@ -145,6 +211,7 @@
 		COMMENTS\_INCOMING & 0.911567201865 & 840 & 407 & 1679 & 2599 & 0.6736\\
 		\hline
 		\hline
+		Interaction & Mutual Information & (Like,True) & (Dislike,True) & (Like,False) & (Dislike,False)& P(like|True)\\		
 		\hline
 		LIKES\_INCOMING & 0.0532717033854 & 986 & 458 & 1533 & 2548 &  0.6828\\
 		LIKES\_OUTGOING & 0.0527680578968 & 911 & 396 & 1608 & 2610 & 0.6970\\
@@ -293,38 +360,6 @@
 	\end{tabular}
 \end{table}
 
-\cleardoublepage
-
-\begin{table}
-\begin{tabular}{| >{\small}l | >{\small}r | >{\small}r | >{\small}r | >{\small}r | >{\small}r |>{\small}r |}
-\hline
-{} &               id &                 name &      size &  egosize &  Cond Entropy &  Mutual Information \\
-\hline
-1620 &      22934684677 &  The Big Bang Theory &  24382711 &     2339 &             0.898472 &            0.018366 \\
-558  &      29534858696 &         The Simpsons &  59144063 &     1439 &             0.786530 &            0.017291 \\
-1546 &       9588466619 &             Futurama &  24939188 &     1131 &             0.818993 &            0.017171 \\
-630  &     494637910144 &         The IT Crowd &    937445 &      565 &             0.790827 &            0.016082 \\
-1678 &      24609282673 &           Family Guy &  49865912 &     2036 &             0.804842 &            0.015698 \\
-37   &       6708787004 &           South Park &  43243922 &     1444 &             0.855054 &            0.015199 \\
-1425 &      29112278285 &               Scrubs &  12543319 &     1532 &             0.861083 &            0.014135 \\
-24   &      28627688223 &          MythBusters &   6060917 &      597 &             0.460559 &            0.013485 \\
-1409 &  163542213701619 &   Avascular Necrosis &       195 &       36 &             0.114687 &            0.012040 \\
-1304 &      21570237112 &       Blind Guardian &    422327 &       54 &             0.328430 &            0.012004 \\
-328  &     292772493767 &             Tortured &      1082 &       32 &             0.120693 &            0.011223 \\
-685  &  115344841825821 &              Elysian &      3195 &       36 &             0.120693 &            0.011223 \\
-1687 &      76613428183 &            Community &   1369762 &      304 &             0.760992 &            0.010984 \\
-230  &       7496603409 &                Opeth &    997062 &      155 &             0.260887 &            0.010700 \\
-1372 &      19058419696 &              Pantera &   6125926 &      220 &             0.353390 &            0.010469 \\
-39   &  149992358386897 &          Anno Domini &      6306 &       21 &             0.127431 &            0.010408 \\
-745  &  108511629178228 &          Hellbringer &      1533 &       25 &             0.129247 &            0.010204 \\
-1388 &     170724093400 &      Johnny Roadkill &       973 &       25 &             0.129247 &            0.010204 \\
-1445 &      17222896745 &          Darker Half &     12964 &       25 &             0.129247 &            0.010204 \\
-848  &     186487216175 &     Robert The Bruce &       220 &       69 &             0.539975 &            0.010013 \\
-\hline
-\end{tabular}
-\caption{Top 20 Favourite ranked by Mutual Information}
-\label {Top 20 Favourite ranked by Mutual Information}
-\end{table}
 
 
 \cleardoublepage
@@ -391,5 +426,134 @@
 \end{tabular}
 \caption{Top 20 Page ranked by Mutual Information}
 \label {Top 20 Page ranked by Mutual Information}
+\end{table}
+
+\cleardoublepage
+
+\begin{table}
+\begin{tabular}{| >{\small}l | >{\small}r | >{\small}r | >{\small}r | >{\small}r | >{\small}r |>{\small}r |}
+\hline
+{} &               id &                 name &      size &  egosize &  cond entropy &  mutual information \\
+\hline
+1620 &      22934684677 &  the big bang theory &  24382711 &     2339 &             0.898472 &            0.018366 \\
+558  &      29534858696 &         the simpsons &  59144063 &     1439 &             0.786530 &            0.017291 \\
+1546 &       9588466619 &             futurama &  24939188 &     1131 &             0.818993 &            0.017171 \\
+630  &     494637910144 &         the it crowd &    937445 &      565 &             0.790827 &            0.016082 \\
+1678 &      24609282673 &           family guy &  49865912 &     2036 &             0.804842 &            0.015698 \\
+37   &       6708787004 &           south park &  43243922 &     1444 &             0.855054 &            0.015199 \\
+1425 &      29112278285 &               scrubs &  12543319 &     1532 &             0.861083 &            0.014135 \\
+24   &      28627688223 &          mythbusters &   6060917 &      597 &             0.460559 &            0.013485 \\
+1409 &  163542213701619 &   avascular necrosis &       195 &       36 &             0.114687 &            0.012040 \\
+1304 &      21570237112 &       blind guardian &    422327 &       54 &             0.328430 &            0.012004 \\
+328  &     292772493767 &             tortured &      1082 &       32 &             0.120693 &            0.011223 \\
+685  &  115344841825821 &              elysian &      3195 &       36 &             0.120693 &            0.011223 \\
+1687 &      76613428183 &            community &   1369762 &      304 &             0.760992 &            0.010984 \\
+230  &       7496603409 &                opeth &    997062 &      155 &             0.260887 &            0.010700 \\
+1372 &      19058419696 &              pantera &   6125926 &      220 &             0.353390 &            0.010469 \\
+39   &  149992358386897 &          anno domini &      6306 &       21 &             0.127431 &            0.010408 \\
+745  &  108511629178228 &          hellbringer &      1533 &       25 &             0.129247 &            0.010204 \\
+1388 &     170724093400 &      johnny roadkill &       973 &       25 &             0.129247 &            0.010204 \\
+1445 &      17222896745 &          darker half &     12964 &       25 &             0.129247 &            0.010204 \\
+848  &     186487216175 &     robert the bruce &       220 &       69 &             0.539975 &            0.010013 \\
+\hline
+\end{tabular}
+\caption{Top 20 Favourite ranked by Mutual Information}
+\label {Top 20 Favourite ranked by Mutual Information}
+\end{table}
+
+
+\cleardoublepage
+\begin{table}
+\begin{tabular}{| >{\small}l | >{\small}r | >{\small}r | >{\small}r | >{\small}r | >{\small}r |>{\small}r |}
+\hline
+{} &               id &                                               name &  size &  egosize &  conditional Entropy &  Mutual Information \\
+\hline
+693  &     219745416919 &  ☠ Heavy Metal - Australian Capital Territory, ... &    30 &       30 &             0.133053 &            0.009798 \\
+865  &     208417795185 &     Stephen Conroy Should Not Filter Our Internet! &    48 &       48 &             0.146109 &            0.008583 \\
+1399 &  130385273640777 &                                  Silicone Stripper &    17 &       17 &             0.162342 &            0.007374 \\
+603  &     300607567325 &                    Hardcore dancing is not moshing &     8 &        8 &             0.179274 &            0.006372 \\
+394  &     206485584139 &  Metal bands come to Canberra cause I'm sick of... &    12 &       12 &             0.187194 &            0.005973 \\
+602  &     271451673295 &                                 Canberra Rock Gigs &   105 &      105 &             0.200642 &            0.010805 \\
+712  &     260400635979 &  Let's Mosh - Canberra metal radio show - 2XX 9... &    22 &       22 &             0.205612 &            0.005178 \\
+942  &     375249421929 &                   Bring Steel Panther to Australia &     7 &        7 &             0.205612 &            0.005178 \\
+1351 &      24472987632 &            Canberra Death/Heavy Metal Appreciation &    16 &       16 &             0.205612 &            0.005178 \\
+683  &     175414921393 &                            Robert The Bruce (Band) &    54 &       54 &             0.222306 &            0.004586 \\
+1357 &  122079121158013 &                         Heavy Metal in Canberra !! &    20 &       20 &             0.235215 &            0.004193 \\
+313  &       2494134578 &                              Monash Primary School &    23 &       23 &             0.242315 &            0.003997 \\
+508  &       6192861590 &              Exploiters of the Music Shop shortcut &    76 &       76 &             0.242315 &            0.003997 \\
+802  &       2325864288 &                                       Aust H Metal &    10 &       10 &             0.242315 &            0.003997 \\
+1016 &  162541263795239 &                                    ANU ESA Members &    11 &       11 &             0.242315 &            0.003997 \\
+1185 &      13913770873 &                                         illuminati &    10 &       10 &             0.242315 &            0.003997 \\
+246  &      19062002920 &  If This Group Gets To 100,000 I Will Eat A Bou... &    58 &       58 &             0.258043 &            0.003607 \\
+183  &     187121217154 &                          Specialist Maths LTC 2009 &    19 &       19 &             0.266789 &            0.003412 \\
+1159 &       2228823181 &  I learnt all my life lessons from the sad bits... &    19 &       19 &             0.266789 &            0.003412 \\
+914  &     105714109273 &                                     Canberra Music &    67 &       67 &             0.276221 &            0.006458 \\
+\hline
+\end{tabular}
+\caption{Top 20 Group ranked by Conditional Entropy}
+\label {Top 20 Group ranked by Conditional Entropy}
+\end{table}
+
+\cleardoublepage
+\begin{table}
+\begin{tabular}{| >{\small}l | >{\small}r | >{\small}r | >{\small}r | >{\small}r | >{\small}r |>{\small}r |}
+\hline
+{} &               id &                   name &     size &  egosize &  conditional Entropy &  Mutual Information \\
+\hline
+3732 &  163542213701619 &     Avascular Necrosis &      195 &       36 &             0.114687 &            0.012040 \\
+3876 &  128224467221576 &               Assidian &     1873 &       44 &             0.116127 &            0.011835 \\
+875  &     292772493767 &               Tortured &     1080 &       34 &             0.120693 &            0.011223 \\
+1840 &  115344841825821 &                Elysian &     3188 &       37 &             0.120693 &            0.011223 \\
+3998 &      17222896745 &            Darker Half &    12898 &       28 &             0.120693 &            0.011223 \\
+959  &     170724093400 &        Johnny Roadkill &      970 &       30 &             0.123962 &            0.010815 \\
+107  &  149992358386897 &            Anno Domini &     6304 &       25 &             0.127431 &            0.010408 \\
+926  &  106609569416773 &          Billy Madison &  1378990 &      189 &             0.127431 &            0.010408 \\
+2024 &  108511629178228 &            Hellbringer &     1521 &       25 &             0.129247 &            0.010204 \\
+4689 &  107950569228237 &          Metalocalypse &   607654 &       87 &             0.133053 &            0.009798 \\
+54   &     481263060510 &        Bane Of Isildur &      920 &       12 &             0.137113 &            0.009392 \\
+672  &  107790305938800 &              Katabasis &     2751 &       14 &             0.137113 &            0.009392 \\
+1681 &       8769188951 &                Turisas &   189152 &       29 &             0.137113 &            0.009392 \\
+2913 &  154602167894995 &          Aeon of Horus &     2619 &       40 &             0.137113 &            0.009392 \\
+2578 &  155961171094428 &           Better Music &      717 &       43 &             0.141455 &            0.008987 \\
+2784 &       8216149897 &        Ne Obliviscaris &    12873 &       18 &             0.141455 &            0.008987 \\
+1157 &  131572223581891 &  Led Zeppelin Official &  7434089 &      314 &             0.143741 &            0.008785 \\
+3085 &       7890846826 &                  Edguy &   241190 &       28 &             0.143741 &            0.008785 \\
+735  &  133307246745003 &          Jimmy McGrath &       88 &       11 &             0.148564 &            0.008381 \\
+2251 &     117564953823 &            HEAVY METAL &    83252 &       21 &             0.148564 &            0.008381 \\
+\hline
+\end{tabular}
+\caption{Top 20 Page ranked by Conditional Entropy}
+\label {Top 20 Page ranked by Conditional Entropy}
+\end{table}
+\cleardoublepage
+\begin{table}
+\begin{tabular}{| >{\small}l | >{\small}r | >{\small}r | >{\small}r | >{\small}r | >{\small}r |>{\small}r |}
+\hline
+{} &               id &                      name &    size &  egosize &  conditional Entropy &  Mutual Information \\
+\hline
+1409 &  163542213701619 &        Avascular Necrosis &     195 &       36 &             0.114687 &            0.012040 \\
+328  &     292772493767 &                  Tortured &    1082 &       32 &             0.120693 &            0.011223 \\
+685  &  115344841825821 &                   Elysian &    3195 &       36 &             0.120693 &            0.011223 \\
+39   &  149992358386897 &               Anno Domini &    6306 &       21 &             0.127431 &            0.010408 \\
+745  &  108511629178228 &               Hellbringer &    1533 &       25 &             0.129247 &            0.010204 \\
+1388 &     170724093400 &           Johnny Roadkill &     973 &       25 &             0.129247 &            0.010204 \\
+1445 &      17222896745 &               Darker Half &   12964 &       25 &             0.129247 &            0.010204 \\
+20   &     481263060510 &           Bane Of Isildur &     923 &       12 &             0.137113 &            0.009392 \\
+247  &  107790305938800 &                 Katabasis &    2754 &       13 &             0.137113 &            0.009392 \\
+759  &  154602167894995 &             Aeon of Horus &    2622 &       35 &             0.137113 &            0.009392 \\
+625  &       8769188951 &                   Turisas &  189507 &       24 &             0.139247 &            0.009190 \\
+1046 &       8216149897 &           Ne Obliviscaris &   12929 &       16 &             0.141455 &            0.008987 \\
+1775 &  107950569228237 &             Metalocalypse &  608063 &       77 &             0.141455 &            0.008987 \\
+1150 &       7890846826 &                     Edguy &  241626 &       28 &             0.143741 &            0.008785 \\
+271  &  133307246745003 &             Jimmy McGrath &      88 &       11 &             0.148564 &            0.008381 \\
+582  &  112609095431682 &  The Schoenberg Automaton &    5237 &       14 &             0.153757 &            0.007977 \\
+911  &  120174841337841 &                    Hemina &    1560 &       14 &             0.156507 &            0.007776 \\
+1633 &     117564953823 &               HEAVY METAL &   83371 &       20 &             0.156507 &            0.007776 \\
+566  &     266872843888 &                 Avantasia &  271596 &       20 &             0.159366 &            0.007575 \\
+160  &  132168983461762 &         Silicone Stripper &     143 &       12 &             0.165443 &            0.007173 \\
+\hline
+\end{tabular}
+\caption{Top 20 Favourite ranked by Conditional Entropy}
+\label {Top 20 Favourite ranked by Conditional Entropy}
 \end{table}
 	

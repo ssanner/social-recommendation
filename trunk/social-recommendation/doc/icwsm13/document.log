@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2013.1.3)  6 FEB 2013 18:48
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2013.1.3)  8 FEB 2013 15:52
 entering extended mode
  Source specials enabled.
  %&-line parsing enabled.
@@ -127,6 +127,37 @@ Package: array 2008/09/09 v2.4c Tabular extension package (FMi)
 \extratabsurround=\skip50
 \backup@length=\skip51
 )
+(/usr/share/texmf-texlive/tex/latex/subfig/subfig.sty
+Package: subfig 2005/06/28 ver: 1.3 subfig package
+
+(/usr/share/texmf-texlive/tex/latex/caption/caption.sty
+Package: caption 2009/10/09 v3.1k Customizing captions (AR)
+
+(/usr/share/texmf-texlive/tex/latex/caption/caption3.sty
+Package: caption3 2009/10/09 v3.1k caption3 kernel (AR)
+\captionmargin=\dimen114
+\captionmargin@=\dimen115
+\captionwidth=\dimen116
+\caption@indent=\dimen117
+\caption@parindent=\dimen118
+\caption@hangindent=\dimen119
+)
+\c@ContinuedFloat=\count99
+)
+\c@KVtest=\count100
+\sf@farskip=\skip52
+\sf@captopadj=\dimen120
+\sf@capskip=\skip53
+\sf@nearskip=\skip54
+\c@subfigure=\count101
+\c@subfigure@save=\count102
+\c@lofdepth=\count103
+\c@subtable=\count104
+\c@subtable@save=\count105
+\c@lotdepth=\count106
+\sf@top=\skip55
+\sf@bottom=\skip56
+)
 (/usr/share/texmf-texlive/tex/latex/graphics/graphicx.sty
 Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
 
@@ -143,10 +174,10 @@ Package graphics Info: Driver file: pdftex.def on input line 91.
 
 (/usr/share/texmf-texlive/tex/latex/pdftex-def/pdftex.def
 File: pdftex.def 2010/03/12 v0.04p Graphics/color for pdfTeX
-\Gread@gobject=\count99
+\Gread@gobject=\count107
 ))
-\Gin@req@height=\dimen114
-\Gin@req@width=\dimen115
+\Gin@req@height=\dimen121
+\Gin@req@width=\dimen122
 )
 (/usr/share/texmf-texlive/tex/latex/oberdiek/epstopdf.sty
 Package: epstopdf 2009/10/17 v2.4 Conversion with epstopdf on the fly (HO)
@@ -200,42 +231,52 @@ G,.JBIG2,.JB2,.eps]
 (/usr/share/texmf-texlive/tex/latex/latexconfig/epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2009/10/26 v1.1 Configuration of epstopdf for TeX Live
 )))
-(./document.aux)
+(./document.aux
+
+LaTeX Warning: Label `Fig: mutual information vs size(top k) Box plots' multipl
+y defined.
+
+)
 \openout1 = `document.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 42.
-LaTeX Font Info:    ... okay on input line 42.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 42.
-LaTeX Font Info:    ... okay on input line 42.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 42.
-LaTeX Font Info:    ... okay on input line 42.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 42.
-LaTeX Font Info:    ... okay on input line 42.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 42.
-LaTeX Font Info:    ... okay on input line 42.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 42.
-LaTeX Font Info:    ... okay on input line 42.
-LaTeX Font Info:    Try loading font information for OT1+ptm on input line 42.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Try loading font information for OT1+ptm on input line 43.
  (/usr/share/texmf-texlive/tex/latex/psnfss/ot1ptm.fd
 File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
 )
+Package caption Info: Begin \AtBeginDocument code.
+Package caption3 Info: subfig package 1.2 or 1.3 is loaded.
+LaTeX Info: Redefining \subref on input line 43.
+Package caption Info: End \AtBeginDocument code.
+
 (/usr/share/texmf-texlive/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count100
-\scratchdimen=\dimen116
+\scratchcounter=\count108
+\scratchdimen=\dimen123
 \scratchbox=\box28
-\nofMPsegments=\count101
-\nofMParguments=\count102
+\nofMPsegments=\count109
+\nofMParguments=\count110
 \everyMPshowfont=\toks27
-\MPscratchCnt=\count103
-\MPscratchDim=\dimen117
-\MPnumerator=\count104
+\MPscratchCnt=\count111
+\MPscratchDim=\dimen124
+\MPnumerator=\count112
 \everyMPtoPDFconversion=\toks28
 )
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 49.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 50.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 52.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 53.
  (./data-description.tex
 LaTeX Font Info:    Try loading font information for U+msa on input line 2.
  (/usr/share/texmf-texlive/tex/latex/amsfonts/umsa.fd
@@ -260,192 +301,927 @@ File: omsptm.fd
 LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <10> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 2.
 
+Underfull \hbox (badness 1406) in paragraph at lines 3--4
+[][]\OT1/ptm/m/n/10 For Large so-cial net-works en-cod-ing user's mem-ber-
+ []
+
 [1
 
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
-Underfull \hbox (badness 1406) in paragraph at lines 6--7
-[][]\OT1/ptm/m/n/10 For Large so-cial net-works en-cod-ing user's mem-ber-
- []
-
-Package epstopdf Info: Source file: <data/accuracy.eps>
-(epstopdf)                    date: 2013-01-31 10:37:23
-(epstopdf)                    size: 57979 bytes
-(epstopdf)             Output file: <data/accuracy-eps-converted-to.pdf>
-(epstopdf)                    date: 2013-01-31 11:06:58
-(epstopdf)                    size: 23921 bytes
-(epstopdf)             Command: <epstopdf --outfile=data/accuracy-eps-converted
--to.pdf data/accuracy.eps>
-(epstopdf)             \includegraphics on input line 12.
+Package epstopdf Info: Source file: <data/plots/accuracy/accuracy.eps>
+(epstopdf)                    date: 2013-02-08 11:24:59
+(epstopdf)                    size: 55673 bytes
+(epstopdf)             Output file: <data/plots/accuracy/accuracy-eps-converted
+-to.pdf>
+(epstopdf)                    date: 2013-02-08 11:25:06
+(epstopdf)                    size: 21862 bytes
+(epstopdf)             Command: <epstopdf --outfile=data/plots/accuracy/accurac
+y-eps-converted-to.pdf data/plots/accuracy/accuracy.eps>
+(epstopdf)             \includegraphics on input line 10.
 Package epstopdf Info: Output file is already uptodate.
-<data/accuracy-eps-converted-to.pdf, id=8, 1670.24pt x 454.69875pt>
-File: data/accuracy-eps-converted-to.pdf Graphic file (type pdf)
 
-<use data/accuracy-eps-converted-to.pdf>
-Package epstopdf Info: Source file: <data/MIvsGroupSizeBox.eps>
-(epstopdf)                    date: 2013-02-01 13:40:04
-(epstopdf)                    size: 54148 bytes
-(epstopdf)             Output file: <data/MIvsGroupSizeBox-eps-converted-to.pdf
+<data/plots/accuracy/accuracy-eps-converted-to.pdf, id=8, 1601.985pt x 436.6312
+6pt>
+File: data/plots/accuracy/accuracy-eps-converted-to.pdf Graphic file (type pdf)
+
+ <use data/plots/accuracy/accuracy-eps-converted-to.pdf>
+Package epstopdf Info: Source file: <data/plots/accuracy/friendRecommendation.e
+ps>
+(epstopdf)                    date: 2013-02-08 10:28:12
+(epstopdf)                    size: 22752 bytes
+(epstopdf)             Output file: <data/plots/accuracy/friendRecommendation-e
+ps-converted-to.pdf>
+(epstopdf)                    date: 2013-02-08 14:58:44
+(epstopdf)                    size: 17346 bytes
+(epstopdf)             Command: <epstopdf --outfile=data/plots/accuracy/friendR
+ecommendation-eps-converted-to.pdf data/plots/accuracy/friendRecommendation.eps
 >
-(epstopdf)                    date: 2013-02-01 13:43:29
-(epstopdf)                    size: 22179 bytes
-(epstopdf)             Command: <epstopdf --outfile=data/MIvsGroupSizeBox-eps-c
-onverted-to.pdf data/MIvsGroupSizeBox.eps>
-(epstopdf)             \includegraphics on input line 19.
+(epstopdf)             \includegraphics on input line 11.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/MIvsGroupSizeBox-eps-converted-to.pdf, id=9, 1668.2325pt x 433.62pt>
-File: data/MIvsGroupSizeBox-eps-converted-to.pdf Graphic file (type pdf)
+<data/plots/accuracy/friendRecommendation-eps-converted-to.pdf, id=9, 578.16pt 
+x 433.62pt>
+File: data/plots/accuracy/friendRecommendation-eps-converted-to.pdf Graphic fil
+e (type pdf)
 
-<use data/MIvsGroupSizeBox-eps-converted-to.pdf>
-Package epstopdf Info: Source file: <data/MIvsPageSizeBox.eps>
-(epstopdf)                    date: 2013-02-01 13:40:04
-(epstopdf)                    size: 70238 bytes
-(epstopdf)             Output file: <data/MIvsPageSizeBox-eps-converted-to.pdf>
+<use data/plots/accuracy/friendRecommendation-eps-converted-to.pdf>
+Underfull \hbox (badness 10000) in paragraph at lines 11--11
+[]\OT1/ptm/m/n/9 (b) |Friend Rec-om-
+ []
 
-(epstopdf)                    date: 2013-02-01 13:43:29
-(epstopdf)                    size: 29529 bytes
-(epstopdf)             Command: <epstopdf --outfile=data/MIvsPageSizeBox-eps-co
-nverted-to.pdf data/MIvsPageSizeBox.eps>
-(epstopdf)             \includegraphics on input line 26.
+Package epstopdf Info: Source file: <data/plots/boxPlots/CEvsGroupSize.eps>
+(epstopdf)                    date: 2013-02-06 19:00:02
+(epstopdf)                    size: 43402 bytes
+(epstopdf)             Output file: <data/plots/boxPlots/CEvsGroupSize-eps-conv
+erted-to.pdf>
+(epstopdf)                    date: 2013-02-08 11:16:26
+(epstopdf)                    size: 18927 bytes
+(epstopdf)             Command: <epstopdf --outfile=data/plots/boxPlots/CEvsGro
+upSize-eps-converted-to.pdf data/plots/boxPlots/CEvsGroupSize.eps>
+(epstopdf)             \includegraphics on input line 27.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/MIvsPageSizeBox-eps-converted-to.pdf, id=10, 1634.105pt x 433.62pt>
-File: data/MIvsPageSizeBox-eps-converted-to.pdf Graphic file (type pdf)
-
-<use data/MIvsPageSizeBox-eps-converted-to.pdf>
-Package epstopdf Info: Source file: <data/MIvsFavouritesSizeBox.eps>
-(epstopdf)                    date: 2013-02-01 13:40:04
-(epstopdf)                    size: 59788 bytes
-(epstopdf)             Output file: <data/MIvsFavouritesSizeBox-eps-converted-t
-o.pdf>
-(epstopdf)                    date: 2013-02-01 13:43:29
-(epstopdf)                    size: 23692 bytes
-(epstopdf)             Command: <epstopdf --outfile=data/MIvsFavouritesSizeBox-
-eps-converted-to.pdf data/MIvsFavouritesSizeBox.eps>
-(epstopdf)             \includegraphics on input line 33.
+<data/plots/boxPlots/CEvsGroupSize-eps-converted-to.pdf, id=10, 1672.2475pt x 4
+33.62pt>
+File: data/plots/boxPlots/CEvsGroupSize-eps-converted-to.pdf Graphic file (type
+ pdf)
+ <use data/plots/boxPlots/CEvsGroupSize-eps-converted-to.pdf>
+Package epstopdf Info: Source file: <data/plots/boxPlots/CEvsPageSize.eps>
+(epstopdf)                    date: 2013-02-06 18:55:21
+(epstopdf)                    size: 45874 bytes
+(epstopdf)             Output file: <data/plots/boxPlots/CEvsPageSize-eps-conve
+rted-to.pdf>
+(epstopdf)                    date: 2013-02-08 11:16:26
+(epstopdf)                    size: 20247 bytes
+(epstopdf)             Command: <epstopdf --outfile=data/plots/boxPlots/CEvsPag
+eSize-eps-converted-to.pdf data/plots/boxPlots/CEvsPageSize.eps>
+(epstopdf)             \includegraphics on input line 28.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/MIvsFavouritesSizeBox-eps-converted-to.pdf, id=11, 1660.2025pt x 433.62pt
+<data/plots/boxPlots/CEvsPageSize-eps-converted-to.pdf, id=11, 1606.0pt x 436.6
+3126pt>
+File: data/plots/boxPlots/CEvsPageSize-eps-converted-to.pdf Graphic file (type 
+pdf)
+ <use data/plots/boxPlots/CEvsPageSize-eps-converted-to.pdf>
+Package epstopdf Info: Source file: <data/plots/boxPlots/CEvsFavouriteSize.eps>
+
+(epstopdf)                    date: 2013-02-06 18:57:31
+(epstopdf)                    size: 46531 bytes
+(epstopdf)             Output file: <data/plots/boxPlots/CEvsFavouriteSize-eps-
+converted-to.pdf>
+(epstopdf)                    date: 2013-02-08 11:16:26
+(epstopdf)                    size: 21114 bytes
+(epstopdf)             Command: <epstopdf --outfile=data/plots/boxPlots/CEvsFav
+ouriteSize-eps-converted-to.pdf data/plots/boxPlots/CEvsFavouriteSize.eps>
+(epstopdf)             \includegraphics on input line 29.
+Package epstopdf Info: Output file is already uptodate.
+
+<data/plots/boxPlots/CEvsFavouriteSize-eps-converted-to.pdf, id=12, 1642.135pt 
+x 434.62375pt>
+File: data/plots/boxPlots/CEvsFavouriteSize-eps-converted-to.pdf Graphic file (
+type pdf)
+
+<use data/plots/boxPlots/CEvsFavouriteSize-eps-converted-to.pdf>
+Package epstopdf Info: Source file: <data/plots/boxPlots/MIvsGroupSizeTop500.ep
+s>
+(epstopdf)                    date: 2013-02-08 11:37:19
+(epstopdf)                    size: 43993 bytes
+(epstopdf)             Output file: <data/plots/boxPlots/MIvsGroupSizeTop500-ep
+s-converted-to.pdf>
+(epstopdf)                    date: 2013-02-08 11:44:51
+(epstopdf)                    size: 19642 bytes
+(epstopdf)             Command: <epstopdf --outfile=data/plots/boxPlots/MIvsGro
+upSizeTop500-eps-converted-to.pdf data/plots/boxPlots/MIvsGroupSizeTop500.eps>
+(epstopdf)             \includegraphics on input line 38.
+Package epstopdf Info: Output file is already uptodate.
+
+<data/plots/boxPlots/MIvsGroupSizeTop500-eps-converted-to.pdf, id=13, 1497.595p
+t x 470.75874pt>
+File: data/plots/boxPlots/MIvsGroupSizeTop500-eps-converted-to.pdf Graphic file
+ (type pdf)
+
+<use data/plots/boxPlots/MIvsGroupSizeTop500-eps-converted-to.pdf>
+Package epstopdf Info: Source file: <data/plots/boxPlots/MIvsPageSizeTop1000.ep
+s>
+(epstopdf)                    date: 2013-02-08 11:36:10
+(epstopdf)                    size: 47491 bytes
+(epstopdf)             Output file: <data/plots/boxPlots/MIvsPageSizeTop1000-ep
+s-converted-to.pdf>
+(epstopdf)                    date: 2013-02-08 11:44:51
+(epstopdf)                    size: 22110 bytes
+(epstopdf)             Command: <epstopdf --outfile=data/plots/boxPlots/MIvsPag
+eSizeTop1000-eps-converted-to.pdf data/plots/boxPlots/MIvsPageSizeTop1000.eps>
+(epstopdf)             \includegraphics on input line 39.
+Package epstopdf Info: Output file is already uptodate.
+
+<data/plots/boxPlots/MIvsPageSizeTop1000-eps-converted-to.pdf, id=14, 1477.52pt
+ x 433.62pt>
+File: data/plots/boxPlots/MIvsPageSizeTop1000-eps-converted-to.pdf Graphic file
+ (type pdf)
+
+<use data/plots/boxPlots/MIvsPageSizeTop1000-eps-converted-to.pdf>
+Package epstopdf Info: Source file: <data/plots/boxPlots/MIvsFavSizeTop800.eps>
+
+(epstopdf)                    date: 2013-02-08 11:38:58
+(epstopdf)                    size: 49059 bytes
+(epstopdf)             Output file: <data/plots/boxPlots/MIvsFavSizeTop800-eps-
+converted-to.pdf>
+(epstopdf)                    date: 2013-02-08 11:44:51
+(epstopdf)                    size: 21146 bytes
+(epstopdf)             Command: <epstopdf --outfile=data/plots/boxPlots/MIvsFav
+SizeTop800-eps-converted-to.pdf data/plots/boxPlots/MIvsFavSizeTop800.eps>
+(epstopdf)             \includegraphics on input line 40.
+Package epstopdf Info: Output file is already uptodate.
+
+<data/plots/boxPlots/MIvsFavSizeTop800-eps-converted-to.pdf, id=15, 1664.2175pt
+ x 436.63126pt>
+File: data/plots/boxPlots/MIvsFavSizeTop800-eps-converted-to.pdf Graphic file (
+type pdf)
+
+<use data/plots/boxPlots/MIvsFavSizeTop800-eps-converted-to.pdf>
+Package epstopdf Info: Source file: <data/plots/boxPlots/MIvsPageSizeLogtop1000
+.eps>
+(epstopdf)                    date: 2013-02-08 12:11:32
+(epstopdf)                    size: 28147 bytes
+(epstopdf)             Output file: <data/plots/boxPlots/MIvsPageSizeLogtop1000
+-eps-converted-to.pdf>
+(epstopdf)                    date: 2013-02-08 12:12:19
+(epstopdf)                    size: 18491 bytes
+(epstopdf)             Command: <epstopdf --outfile=data/plots/boxPlots/MIvsPag
+eSizeLogtop1000-eps-converted-to.pdf data/plots/boxPlots/MIvsPageSizeLogtop1000
+.eps>
+(epstopdf)             \includegraphics on input line 49.
+Package epstopdf Info: Output file is already uptodate.
+
+<data/plots/boxPlots/MIvsPageSizeLogtop1000-eps-converted-to.pdf, id=16, 1031.8
+55pt x 433.62pt>
+File: data/plots/boxPlots/MIvsPageSizeLogtop1000-eps-converted-to.pdf Graphic f
+ile (type pdf)
+
+<use data/plots/boxPlots/MIvsPageSizeLogtop1000-eps-converted-to.pdf>
+Package epstopdf Info: Source file: <data/plots/boxPlots/MIvsFavSizeLogtop800.e
+ps>
+(epstopdf)                    date: 2013-02-08 12:28:33
+(epstopdf)                    size: 28253 bytes
+(epstopdf)             Output file: <data/plots/boxPlots/MIvsFavSizeLogtop800-e
+ps-converted-to.pdf>
+(epstopdf)                    date: 2013-02-08 12:29:51
+(epstopdf)                    size: 18330 bytes
+(epstopdf)             Command: <epstopdf --outfile=data/plots/boxPlots/MIvsFav
+SizeLogtop800-eps-converted-to.pdf data/plots/boxPlots/MIvsFavSizeLogtop800.eps
 >
-File: data/MIvsFavouritesSizeBox-eps-converted-to.pdf Graphic file (type pdf)
- <use data/MIvsFavouritesSizeBox-eps-converted-to.pdf>
-Package epstopdf Info: Source file: <data/CEvsSize.eps>
-(epstopdf)                    date: 2013-01-31 10:36:19
-(epstopdf)                    size: 845147 bytes
-(epstopdf)             Output file: <data/CEvsSize-eps-converted-to.pdf>
-(epstopdf)                    date: 2013-01-31 11:06:58
-(epstopdf)                    size: 168873 bytes
-(epstopdf)             Command: <epstopdf --outfile=data/CEvsSize-eps-converted
--to.pdf data/CEvsSize.eps>
-(epstopdf)             \includegraphics on input line 41.
+(epstopdf)             \includegraphics on input line 50.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/CEvsSize-eps-converted-to.pdf, id=12, 1672.2475pt x 466.74374pt>
-File: data/CEvsSize-eps-converted-to.pdf Graphic file (type pdf)
+<data/plots/boxPlots/MIvsFavSizeLogtop800-eps-converted-to.pdf, id=17, 805.0075
+pt x 433.62pt>
+File: data/plots/boxPlots/MIvsFavSizeLogtop800-eps-converted-to.pdf Graphic fil
+e (type pdf)
 
-<use data/CEvsSize-eps-converted-to.pdf>
-Overfull \hbox (45.11359pt too wide) in paragraph at lines 41--42
- [][][] 
- []
-
-Package epstopdf Info: Source file: <data/CEvsSizeLog.eps>
-(epstopdf)                    date: 2013-01-31 10:36:19
-(epstopdf)                    size: 877977 bytes
-(epstopdf)             Output file: <data/CEvsSizeLog-eps-converted-to.pdf>
-(epstopdf)                    date: 2013-01-31 11:06:59
-(epstopdf)                    size: 207454 bytes
-(epstopdf)             Command: <epstopdf --outfile=data/CEvsSizeLog-eps-conver
-ted-to.pdf data/CEvsSizeLog.eps>
-(epstopdf)             \includegraphics on input line 48.
-Package epstopdf Info: Output file is already uptodate.
-<data/CEvsSizeLog-eps-converted-to.pdf, id=13, 1664.2175pt x 516.93124pt>
-File: data/CEvsSizeLog-eps-converted-to.pdf Graphic file (type pdf)
-
-<use data/CEvsSizeLog-eps-converted-to.pdf>
-Overfull \hbox (45.11867pt too wide) in paragraph at lines 48--49
- [][][] 
- []
-
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-Package epstopdf Info: Source file: <data/MIvsSize.eps>
-(epstopdf)                    date: 2013-01-31 10:36:20
-(epstopdf)                    size: 853235 bytes
-(epstopdf)             Output file: <data/MIvsSize-eps-converted-to.pdf>
-(epstopdf)                    date: 2013-01-31 11:06:59
-(epstopdf)                    size: 179016 bytes
-(epstopdf)             Command: <epstopdf --outfile=data/MIvsSize-eps-converted
--to.pdf data/MIvsSize.eps>
-(epstopdf)             \includegraphics on input line 58.
+<use data/plots/boxPlots/MIvsFavSizeLogtop800-eps-converted-to.pdf>
+Package epstopdf Info: Source file: <data/plots/boxPlots/CEvsFavTypes.eps>
+(epstopdf)                    date: 2013-02-07 14:05:33
+(epstopdf)                    size: 31638 bytes
+(epstopdf)             Output file: <data/plots/boxPlots/CEvsFavTypes-eps-conve
+rted-to.pdf>
+(epstopdf)                    date: 2013-02-08 13:21:36
+(epstopdf)                    size: 19448 bytes
+(epstopdf)             Command: <epstopdf --outfile=data/plots/boxPlots/CEvsFav
+Types-eps-converted-to.pdf data/plots/boxPlots/CEvsFavTypes.eps>
+(epstopdf)             \includegraphics on input line 59.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/MIvsSize-eps-converted-to.pdf, id=14, 1672.2475pt x 496.85625pt>
-File: data/MIvsSize-eps-converted-to.pdf Graphic file (type pdf)
-
-<use data/MIvsSize-eps-converted-to.pdf>
-Overfull \hbox (45.11359pt too wide) in paragraph at lines 58--59
- [][][] 
- []
-
-Package epstopdf Info: Source file: <data/MIvsSizelog.eps>
-(epstopdf)                    date: 2013-01-31 10:36:20
-(epstopdf)                    size: 893416 bytes
-(epstopdf)             Output file: <data/MIvsSizelog-eps-converted-to.pdf>
-(epstopdf)                    date: 2013-01-31 11:07:00
-(epstopdf)                    size: 215143 bytes
-(epstopdf)             Command: <epstopdf --outfile=data/MIvsSizelog-eps-conver
-ted-to.pdf data/MIvsSizelog.eps>
-(epstopdf)             \includegraphics on input line 65.
+<data/plots/boxPlots/CEvsFavTypes-eps-converted-to.pdf, id=18, 1597.97pt x 434.
+62375pt>
+File: data/plots/boxPlots/CEvsFavTypes-eps-converted-to.pdf Graphic file (type 
+pdf)
+ <use data/plots/boxPlots/CEvsFavTypes-eps-converted-to.pdf>
+Package epstopdf Info: Source file: <data/plots/boxPlots/MIvsFavTypes.eps>
+(epstopdf)                    date: 2013-02-07 14:02:33
+(epstopdf)                    size: 29416 bytes
+(epstopdf)             Output file: <data/plots/boxPlots/MIvsFavTypes-eps-conve
+rted-to.pdf>
+(epstopdf)                    date: 2013-02-08 13:21:36
+(epstopdf)                    size: 17629 bytes
+(epstopdf)             Command: <epstopdf --outfile=data/plots/boxPlots/MIvsFav
+Types-eps-converted-to.pdf data/plots/boxPlots/MIvsFavTypes.eps>
+(epstopdf)             \includegraphics on input line 60.
 Package epstopdf Info: Output file is already uptodate.
-<data/MIvsSizelog-eps-converted-to.pdf, id=15, 1670.24pt x 484.81125pt>
-File: data/MIvsSizelog-eps-converted-to.pdf Graphic file (type pdf)
 
-<use data/MIvsSizelog-eps-converted-to.pdf>
-Overfull \hbox (45.12885pt too wide) in paragraph at lines 65--66
+<data/plots/boxPlots/MIvsFavTypes-eps-converted-to.pdf, id=19, 1260.71pt x 452.
+69125pt>
+File: data/plots/boxPlots/MIvsFavTypes-eps-converted-to.pdf Graphic file (type 
+pdf)
+ <use data/plots/boxPlots/MIvsFavTypes-eps-converted-to.pdf>
+Package epstopdf Info: Source file: <data/plots/scatterplots/vssize/CEvsGroupSi
+zeEgo.eps>
+(epstopdf)                    date: 2013-02-07 14:25:45
+(epstopdf)                    size: 198077 bytes
+(epstopdf)             Output file: <data/plots/scatterplots/vssize/CEvsGroupSi
+zeEgo-eps-converted-to.pdf>
+(epstopdf)                    date: 2013-02-08 12:22:00
+(epstopdf)                    size: 176654 bytes
+(epstopdf)             Command: <epstopdf --outfile=data/plots/scatterplots/vss
+ize/CEvsGroupSizeEgo-eps-converted-to.pdf data/plots/scatterplots/vssize/CEvsGr
+oupSizeEgo.eps>
+(epstopdf)             \includegraphics on input line 70.
+Package epstopdf Info: Output file is already uptodate.
+
+<data/plots/scatterplots/vssize/CEvsGroupSizeEgo-eps-converted-to.pdf, id=20, 5
+78.16pt x 433.62pt>
+File: data/plots/scatterplots/vssize/CEvsGroupSizeEgo-eps-converted-to.pdf Grap
+hic file (type pdf)
+
+<use data/plots/scatterplots/vssize/CEvsGroupSizeEgo-eps-converted-to.pdf>
+Package epstopdf Info: Source file: <data/plots/scatterplots/vssize/CEvsPageSiz
+e.eps>
+(epstopdf)                    date: 2013-02-07 14:37:23
+(epstopdf)                    size: 599564 bytes
+(epstopdf)             Output file: <data/plots/scatterplots/vssize/CEvsPageSiz
+e-eps-converted-to.pdf>
+(epstopdf)                    date: 2013-02-08 12:22:01
+(epstopdf)                    size: 607682 bytes
+(epstopdf)             Command: <epstopdf --outfile=data/plots/scatterplots/vss
+ize/CEvsPageSize-eps-converted-to.pdf data/plots/scatterplots/vssize/CEvsPageSi
+ze.eps>
+(epstopdf)             \includegraphics on input line 71.
+Package epstopdf Info: Output file is already uptodate.
+
+<data/plots/scatterplots/vssize/CEvsPageSize-eps-converted-to.pdf, id=21, 578.1
+6pt x 433.62pt>
+File: data/plots/scatterplots/vssize/CEvsPageSize-eps-converted-to.pdf Graphic 
+file (type pdf)
+
+<use data/plots/scatterplots/vssize/CEvsPageSize-eps-converted-to.pdf>
+Package epstopdf Info: Source file: <data/plots/scatterplots/vssize/CEvsFavSize
+.eps>
+(epstopdf)                    date: 2013-02-07 14:46:16
+(epstopdf)                    size: 240430 bytes
+(epstopdf)             Output file: <data/plots/scatterplots/vssize/CEvsFavSize
+-eps-converted-to.pdf>
+(epstopdf)                    date: 2013-02-08 12:22:01
+(epstopdf)                    size: 240007 bytes
+(epstopdf)             Command: <epstopdf --outfile=data/plots/scatterplots/vss
+ize/CEvsFavSize-eps-converted-to.pdf data/plots/scatterplots/vssize/CEvsFavSize
+.eps>
+(epstopdf)             \includegraphics on input line 72.
+Package epstopdf Info: Output file is already uptodate.
+
+<data/plots/scatterplots/vssize/CEvsFavSize-eps-converted-to.pdf, id=22, 578.16
+pt x 433.62pt>
+File: data/plots/scatterplots/vssize/CEvsFavSize-eps-converted-to.pdf Graphic f
+ile (type pdf)
+
+<use data/plots/scatterplots/vssize/CEvsFavSize-eps-converted-to.pdf>
+Package epstopdf Info: Source file: <data/plots/scatterplots/vssize/CEvsGroupSi
+zeLog.eps>
+(epstopdf)                    date: 2013-02-08 12:37:23
+(epstopdf)                    size: 206017 bytes
+(epstopdf)             Output file: <data/plots/scatterplots/vssize/CEvsGroupSi
+zeLog-eps-converted-to.pdf>
+(epstopdf)                    date: 2013-02-08 12:38:21
+(epstopdf)                    size: 175032 bytes
+(epstopdf)             Command: <epstopdf --outfile=data/plots/scatterplots/vss
+ize/CEvsGroupSizeLog-eps-converted-to.pdf data/plots/scatterplots/vssize/CEvsGr
+oupSizeLog.eps>
+(epstopdf)             \includegraphics on input line 73.
+Package epstopdf Info: Output file is already uptodate.
+
+<data/plots/scatterplots/vssize/CEvsGroupSizeLog-eps-converted-to.pdf, id=23, 5
+78.16pt x 433.62pt>
+File: data/plots/scatterplots/vssize/CEvsGroupSizeLog-eps-converted-to.pdf Grap
+hic file (type pdf)
+
+<use data/plots/scatterplots/vssize/CEvsGroupSizeLog-eps-converted-to.pdf>
+Package epstopdf Info: Source file: <data/plots/scatterplots/vssize/CEvsPageSiz
+eLog.eps>
+(epstopdf)                    date: 2013-02-08 12:36:36
+(epstopdf)                    size: 624658 bytes
+(epstopdf)             Output file: <data/plots/scatterplots/vssize/CEvsPageSiz
+eLog-eps-converted-to.pdf>
+(epstopdf)                    date: 2013-02-08 12:38:02
+(epstopdf)                    size: 616083 bytes
+(epstopdf)             Command: <epstopdf --outfile=data/plots/scatterplots/vss
+ize/CEvsPageSizeLog-eps-converted-to.pdf data/plots/scatterplots/vssize/CEvsPag
+eSizeLog.eps>
+(epstopdf)             \includegraphics on input line 74.
+Package epstopdf Info: Output file is already uptodate.
+
+<data/plots/scatterplots/vssize/CEvsPageSizeLog-eps-converted-to.pdf, id=24, 57
+8.16pt x 433.62pt>
+File: data/plots/scatterplots/vssize/CEvsPageSizeLog-eps-converted-to.pdf Graph
+ic file (type pdf)
+
+<use data/plots/scatterplots/vssize/CEvsPageSizeLog-eps-converted-to.pdf>
+Package epstopdf Info: Source file: <data/plots/scatterplots/vssize/CEvsFavSize
+Log.eps>
+(epstopdf)                    date: 2013-02-07 14:47:52
+(epstopdf)                    size: 264707 bytes
+(epstopdf)             Output file: <data/plots/scatterplots/vssize/CEvsFavSize
+Log-eps-converted-to.pdf>
+(epstopdf)                    date: 2013-02-08 12:32:12
+(epstopdf)                    size: 245843 bytes
+(epstopdf)             Command: <epstopdf --outfile=data/plots/scatterplots/vss
+ize/CEvsFavSizeLog-eps-converted-to.pdf data/plots/scatterplots/vssize/CEvsFavS
+izeLog.eps>
+(epstopdf)             \includegraphics on input line 75.
+Package epstopdf Info: Output file is already uptodate.
+
+<data/plots/scatterplots/vssize/CEvsFavSizeLog-eps-converted-to.pdf, id=25, 578
+.16pt x 433.62pt>
+File: data/plots/scatterplots/vssize/CEvsFavSizeLog-eps-converted-to.pdf Graphi
+c file (type pdf)
+
+<use data/plots/scatterplots/vssize/CEvsFavSizeLog-eps-converted-to.pdf>
+Package epstopdf Info: Source file: <data/plots/scatterplots/vssize/CEvsGroupSi
+zeEgo.eps>
+(epstopdf)                    date: 2013-02-07 14:25:45
+(epstopdf)                    size: 198077 bytes
+(epstopdf)             Output file: <data/plots/scatterplots/vssize/CEvsGroupSi
+zeEgo-eps-converted-to.pdf>
+(epstopdf)                    date: 2013-02-08 12:22:00
+(epstopdf)                    size: 176654 bytes
+(epstopdf)             Command: <epstopdf --outfile=data/plots/scatterplots/vss
+ize/CEvsGroupSizeEgo-eps-converted-to.pdf data/plots/scatterplots/vssize/CEvsGr
+oupSizeEgo.eps>
+(epstopdf)             \includegraphics on input line 76.
+Package epstopdf Info: Output file is already uptodate.
+File: data/plots/scatterplots/vssize/CEvsGroupSizeEgo-eps-converted-to.pdf Grap
+hic file (type pdf)
+
+<use data/plots/scatterplots/vssize/CEvsGroupSizeEgo-eps-converted-to.pdf>
+Package epstopdf Info: Source file: <data/plots/scatterplots/vssize/CEvsPageSiz
+eEgo.eps>
+(epstopdf)                    date: 2013-02-07 14:36:17
+(epstopdf)                    size: 599855 bytes
+(epstopdf)             Output file: <data/plots/scatterplots/vssize/CEvsPageSiz
+eEgo-eps-converted-to.pdf>
+(epstopdf)                    date: 2013-02-08 12:40:03
+(epstopdf)                    size: 483251 bytes
+(epstopdf)             Command: <epstopdf --outfile=data/plots/scatterplots/vss
+ize/CEvsPageSizeEgo-eps-converted-to.pdf data/plots/scatterplots/vssize/CEvsPag
+eSizeEgo.eps>
+(epstopdf)             \includegraphics on input line 77.
+Package epstopdf Info: Output file is already uptodate.
+
+<data/plots/scatterplots/vssize/CEvsPageSizeEgo-eps-converted-to.pdf, id=26, 57
+8.16pt x 433.62pt>
+File: data/plots/scatterplots/vssize/CEvsPageSizeEgo-eps-converted-to.pdf Graph
+ic file (type pdf)
+
+<use data/plots/scatterplots/vssize/CEvsPageSizeEgo-eps-converted-to.pdf>
+Package epstopdf Info: Source file: <data/plots/scatterplots/vssize/CEvsFavSize
+Ego.eps>
+(epstopdf)                    date: 2013-02-08 12:44:37
+(epstopdf)                    size: 240595 bytes
+(epstopdf)             Output file: <data/plots/scatterplots/vssize/CEvsFavSize
+Ego-eps-converted-to.pdf>
+(epstopdf)                    date: 2013-02-08 12:44:41
+(epstopdf)                    size: 198827 bytes
+(epstopdf)             Command: <epstopdf --outfile=data/plots/scatterplots/vss
+ize/CEvsFavSizeEgo-eps-converted-to.pdf data/plots/scatterplots/vssize/CEvsFavS
+izeEgo.eps>
+(epstopdf)             \includegraphics on input line 78.
+Package epstopdf Info: Output file is already uptodate.
+
+<data/plots/scatterplots/vssize/CEvsFavSizeEgo-eps-converted-to.pdf, id=27, 578
+.16pt x 433.62pt>
+File: data/plots/scatterplots/vssize/CEvsFavSizeEgo-eps-converted-to.pdf Graphi
+c file (type pdf)
+
+<use data/plots/scatterplots/vssize/CEvsFavSizeEgo-eps-converted-to.pdf>
+Package epstopdf Info: Source file: <data/plots/scatterplots/vssize/MIvsGroupSi
+zeEgo.eps>
+(epstopdf)                    date: 2013-02-07 14:27:31
+(epstopdf)                    size: 198581 bytes
+(epstopdf)             Output file: <data/plots/scatterplots/vssize/MIvsGroupSi
+zeEgo-eps-converted-to.pdf>
+(epstopdf)                    date: 2013-02-08 12:54:05
+(epstopdf)                    size: 186195 bytes
+(epstopdf)             Command: <epstopdf --outfile=data/plots/scatterplots/vss
+ize/MIvsGroupSizeEgo-eps-converted-to.pdf data/plots/scatterplots/vssize/MIvsGr
+oupSizeEgo.eps>
+(epstopdf)             \includegraphics on input line 87.
+Package epstopdf Info: Output file is already uptodate.
+
+<data/plots/scatterplots/vssize/MIvsGroupSizeEgo-eps-converted-to.pdf, id=28, 5
+78.16pt x 433.62pt>
+File: data/plots/scatterplots/vssize/MIvsGroupSizeEgo-eps-converted-to.pdf Grap
+hic file (type pdf)
+
+<use data/plots/scatterplots/vssize/MIvsGroupSizeEgo-eps-converted-to.pdf>
+Package epstopdf Info: Source file: <data/plots/scatterplots/vssize/MIvsPageSiz
+e.eps>
+(epstopdf)                    date: 2013-02-07 14:42:21
+(epstopdf)                    size: 598239 bytes
+(epstopdf)             Output file: <data/plots/scatterplots/vssize/MIvsPageSiz
+e-eps-converted-to.pdf>
+(epstopdf)                    date: 2013-02-08 12:54:06
+(epstopdf)                    size: 621097 bytes
+(epstopdf)             Command: <epstopdf --outfile=data/plots/scatterplots/vss
+ize/MIvsPageSize-eps-converted-to.pdf data/plots/scatterplots/vssize/MIvsPageSi
+ze.eps>
+(epstopdf)             \includegraphics on input line 88.
+Package epstopdf Info: Output file is already uptodate.
+
+<data/plots/scatterplots/vssize/MIvsPageSize-eps-converted-to.pdf, id=29, 578.1
+6pt x 433.62pt>
+File: data/plots/scatterplots/vssize/MIvsPageSize-eps-converted-to.pdf Graphic 
+file (type pdf)
+
+<use data/plots/scatterplots/vssize/MIvsPageSize-eps-converted-to.pdf>
+Package epstopdf Info: Source file: <data/plots/scatterplots/vssize/MIvsFavSize
+.eps>
+(epstopdf)                    date: 2013-02-07 14:51:50
+(epstopdf)                    size: 238839 bytes
+(epstopdf)             Output file: <data/plots/scatterplots/vssize/MIvsFavSize
+-eps-converted-to.pdf>
+(epstopdf)                    date: 2013-02-08 12:54:06
+(epstopdf)                    size: 244437 bytes
+(epstopdf)             Command: <epstopdf --outfile=data/plots/scatterplots/vss
+ize/MIvsFavSize-eps-converted-to.pdf data/plots/scatterplots/vssize/MIvsFavSize
+.eps>
+(epstopdf)             \includegraphics on input line 89.
+Package epstopdf Info: Output file is already uptodate.
+
+<data/plots/scatterplots/vssize/MIvsFavSize-eps-converted-to.pdf, id=30, 578.16
+pt x 433.62pt>
+File: data/plots/scatterplots/vssize/MIvsFavSize-eps-converted-to.pdf Graphic f
+ile (type pdf)
+
+<use data/plots/scatterplots/vssize/MIvsFavSize-eps-converted-to.pdf>
+Package epstopdf Info: Source file: <data/plots/scatterplots/vssize/MIvsGroupSi
+zeLog.eps>
+(epstopdf)                    date: 2013-02-08 12:51:35
+(epstopdf)                    size: 205264 bytes
+(epstopdf)             Output file: <data/plots/scatterplots/vssize/MIvsGroupSi
+zeLog-eps-converted-to.pdf>
+(epstopdf)                    date: 2013-02-08 12:54:07
+(epstopdf)                    size: 180547 bytes
+(epstopdf)             Command: <epstopdf --outfile=data/plots/scatterplots/vss
+ize/MIvsGroupSizeLog-eps-converted-to.pdf data/plots/scatterplots/vssize/MIvsGr
+oupSizeLog.eps>
+(epstopdf)             \includegraphics on input line 90.
+Package epstopdf Info: Output file is already uptodate.
+
+<data/plots/scatterplots/vssize/MIvsGroupSizeLog-eps-converted-to.pdf, id=31, 5
+78.16pt x 433.62pt>
+File: data/plots/scatterplots/vssize/MIvsGroupSizeLog-eps-converted-to.pdf Grap
+hic file (type pdf)
+
+<use data/plots/scatterplots/vssize/MIvsGroupSizeLog-eps-converted-to.pdf>
+Package epstopdf Info: Source file: <data/plots/scatterplots/vssize/MIvsPageSiz
+eLog.eps>
+(epstopdf)                    date: 2013-02-07 14:43:39
+(epstopdf)                    size: 622910 bytes
+(epstopdf)             Output file: <data/plots/scatterplots/vssize/MIvsPageSiz
+eLog-eps-converted-to.pdf>
+(epstopdf)                    date: 2013-02-08 12:54:07
+(epstopdf)                    size: 637071 bytes
+(epstopdf)             Command: <epstopdf --outfile=data/plots/scatterplots/vss
+ize/MIvsPageSizeLog-eps-converted-to.pdf data/plots/scatterplots/vssize/MIvsPag
+eSizeLog.eps>
+(epstopdf)             \includegraphics on input line 91.
+Package epstopdf Info: Output file is already uptodate.
+
+<data/plots/scatterplots/vssize/MIvsPageSizeLog-eps-converted-to.pdf, id=32, 57
+8.16pt x 433.62pt>
+File: data/plots/scatterplots/vssize/MIvsPageSizeLog-eps-converted-to.pdf Graph
+ic file (type pdf)
+
+<use data/plots/scatterplots/vssize/MIvsPageSizeLog-eps-converted-to.pdf>
+Package epstopdf Info: Source file: <data/plots/scatterplots/vssize/MIvsFavSize
+Log.eps>
+(epstopdf)                    date: 2013-02-07 14:52:35
+(epstopdf)                    size: 263626 bytes
+(epstopdf)             Output file: <data/plots/scatterplots/vssize/MIvsFavSize
+Log-eps-converted-to.pdf>
+(epstopdf)                    date: 2013-02-08 12:54:08
+(epstopdf)                    size: 251622 bytes
+(epstopdf)             Command: <epstopdf --outfile=data/plots/scatterplots/vss
+ize/MIvsFavSizeLog-eps-converted-to.pdf data/plots/scatterplots/vssize/MIvsFavS
+izeLog.eps>
+(epstopdf)             \includegraphics on input line 92.
+Package epstopdf Info: Output file is already uptodate.
+
+<data/plots/scatterplots/vssize/MIvsFavSizeLog-eps-converted-to.pdf, id=33, 578
+.16pt x 433.62pt>
+File: data/plots/scatterplots/vssize/MIvsFavSizeLog-eps-converted-to.pdf Graphi
+c file (type pdf)
+
+<use data/plots/scatterplots/vssize/MIvsFavSizeLog-eps-converted-to.pdf>
+Package epstopdf Info: Source file: <data/plots/scatterplots/vssize/MIvsGroupSi
+zeEgo.eps>
+(epstopdf)                    date: 2013-02-07 14:27:31
+(epstopdf)                    size: 198581 bytes
+(epstopdf)             Output file: <data/plots/scatterplots/vssize/MIvsGroupSi
+zeEgo-eps-converted-to.pdf>
+(epstopdf)                    date: 2013-02-08 12:54:05
+(epstopdf)                    size: 186195 bytes
+(epstopdf)             Command: <epstopdf --outfile=data/plots/scatterplots/vss
+ize/MIvsGroupSizeEgo-eps-converted-to.pdf data/plots/scatterplots/vssize/MIvsGr
+oupSizeEgo.eps>
+(epstopdf)             \includegraphics on input line 93.
+Package epstopdf Info: Output file is already uptodate.
+File: data/plots/scatterplots/vssize/MIvsGroupSizeEgo-eps-converted-to.pdf Grap
+hic file (type pdf)
+
+<use data/plots/scatterplots/vssize/MIvsGroupSizeEgo-eps-converted-to.pdf>
+Package epstopdf Info: Source file: <data/plots/scatterplots/vssize/MIvsPageSiz
+eEgo.eps>
+(epstopdf)                    date: 2013-02-07 14:35:34
+(epstopdf)                    size: 592475 bytes
+(epstopdf)             Output file: <data/plots/scatterplots/vssize/MIvsPageSiz
+eEgo-eps-converted-to.pdf>
+(epstopdf)                    date: 2013-02-08 12:54:09
+(epstopdf)                    size: 501248 bytes
+(epstopdf)             Command: <epstopdf --outfile=data/plots/scatterplots/vss
+ize/MIvsPageSizeEgo-eps-converted-to.pdf data/plots/scatterplots/vssize/MIvsPag
+eSizeEgo.eps>
+(epstopdf)             \includegraphics on input line 94.
+Package epstopdf Info: Output file is already uptodate.
+
+<data/plots/scatterplots/vssize/MIvsPageSizeEgo-eps-converted-to.pdf, id=34, 57
+8.16pt x 433.62pt>
+File: data/plots/scatterplots/vssize/MIvsPageSizeEgo-eps-converted-to.pdf Graph
+ic file (type pdf)
+
+<use data/plots/scatterplots/vssize/MIvsPageSizeEgo-eps-converted-to.pdf>
+Package epstopdf Info: Source file: <data/plots/scatterplots/vssize/MIvsFavSize
+Ego.eps>
+(epstopdf)                    date: 2013-02-07 14:49:54
+(epstopdf)                    size: 240903 bytes
+(epstopdf)             Output file: <data/plots/scatterplots/vssize/MIvsFavSize
+Ego-eps-converted-to.pdf>
+(epstopdf)                    date: 2013-02-08 12:54:09
+(epstopdf)                    size: 206019 bytes
+(epstopdf)             Command: <epstopdf --outfile=data/plots/scatterplots/vss
+ize/MIvsFavSizeEgo-eps-converted-to.pdf data/plots/scatterplots/vssize/MIvsFavS
+izeEgo.eps>
+(epstopdf)             \includegraphics on input line 95.
+Package epstopdf Info: Output file is already uptodate.
+
+<data/plots/scatterplots/vssize/MIvsFavSizeEgo-eps-converted-to.pdf, id=35, 578
+.16pt x 433.62pt>
+File: data/plots/scatterplots/vssize/MIvsFavSizeEgo-eps-converted-to.pdf Graphi
+c file (type pdf)
+
+<use data/plots/scatterplots/vssize/MIvsFavSizeEgo-eps-converted-to.pdf>
+Package epstopdf Info: Source file: <data/plots/scatterplots/LRweights/LRweight
+vsGroupSize.eps>
+(epstopdf)                    date: 2013-02-04 15:45:30
+(epstopdf)                    size: 200825 bytes
+(epstopdf)             Output file: <data/plots/scatterplots/LRweights/LRweight
+vsGroupSize-eps-converted-to.pdf>
+(epstopdf)                    date: 2013-02-08 13:01:17
+(epstopdf)                    size: 188590 bytes
+(epstopdf)             Command: <epstopdf --outfile=data/plots/scatterplots/LRw
+eights/LRweightvsGroupSize-eps-converted-to.pdf data/plots/scatterplots/LRweigh
+ts/LRweightvsGroupSize.eps>
+(epstopdf)             \includegraphics on input line 105.
+Package epstopdf Info: Output file is already uptodate.
+
+<data/plots/scatterplots/LRweights/LRweightvsGroupSize-eps-converted-to.pdf, id
+=36, 578.16pt x 433.62pt>
+File: data/plots/scatterplots/LRweights/LRweightvsGroupSize-eps-converted-to.pd
+f Graphic file (type pdf)
+
+<use data/plots/scatterplots/LRweights/LRweightvsGroupSize-eps-converted-to.pdf
+>
+Package epstopdf Info: Source file: <data/plots/scatterplots/LRweights/LRweight
+vsPageSize.eps>
+(epstopdf)                    date: 2013-02-04 15:46:35
+(epstopdf)                    size: 601177 bytes
+(epstopdf)             Output file: <data/plots/scatterplots/LRweights/LRweight
+vsPageSize-eps-converted-to.pdf>
+(epstopdf)                    date: 2013-02-08 13:01:18
+(epstopdf)                    size: 622740 bytes
+(epstopdf)             Command: <epstopdf --outfile=data/plots/scatterplots/LRw
+eights/LRweightvsPageSize-eps-converted-to.pdf data/plots/scatterplots/LRweight
+s/LRweightvsPageSize.eps>
+(epstopdf)             \includegraphics on input line 106.
+Package epstopdf Info: Output file is already uptodate.
+
+<data/plots/scatterplots/LRweights/LRweightvsPageSize-eps-converted-to.pdf, id=
+37, 578.16pt x 433.62pt>
+File: data/plots/scatterplots/LRweights/LRweightvsPageSize-eps-converted-to.pdf
+ Graphic file (type pdf)
+
+<use data/plots/scatterplots/LRweights/LRweightvsPageSize-eps-converted-to.pdf>
+Package epstopdf Info: Source file: <data/plots/scatterplots/LRweights/LRweight
+vsFavouriteSize.eps>
+(epstopdf)                    date: 2013-02-04 15:47:35
+(epstopdf)                    size: 240490 bytes
+(epstopdf)             Output file: <data/plots/scatterplots/LRweights/LRweight
+vsFavouriteSize-eps-converted-to.pdf>
+(epstopdf)                    date: 2013-02-08 13:01:18
+(epstopdf)                    size: 249738 bytes
+(epstopdf)             Command: <epstopdf --outfile=data/plots/scatterplots/LRw
+eights/LRweightvsFavouriteSize-eps-converted-to.pdf data/plots/scatterplots/LRw
+eights/LRweightvsFavouriteSize.eps>
+(epstopdf)             \includegraphics on input line 107.
+Package epstopdf Info: Output file is already uptodate.
+
+<data/plots/scatterplots/LRweights/LRweightvsFavouriteSize-eps-converted-to.pdf
+, id=38, 578.16pt x 433.62pt>
+File: data/plots/scatterplots/LRweights/LRweightvsFavouriteSize-eps-converted-t
+o.pdf Graphic file (type pdf)
+
+<use data/plots/scatterplots/LRweights/LRweightvsFavouriteSize-eps-converted-to
+.pdf>
+Package epstopdf Info: Source file: <data/plots/scatterplots/LRweights/LRweight
+vsGroupEgoSize.eps>
+(epstopdf)                    date: 2013-02-04 14:53:04
+(epstopdf)                    size: 198818 bytes
+(epstopdf)             Output file: <data/plots/scatterplots/LRweights/LRweight
+vsGroupEgoSize-eps-converted-to.pdf>
+(epstopdf)                    date: 2013-02-08 13:01:19
+(epstopdf)                    size: 187805 bytes
+(epstopdf)             Command: <epstopdf --outfile=data/plots/scatterplots/LRw
+eights/LRweightvsGroupEgoSize-eps-converted-to.pdf data/plots/scatterplots/LRwe
+ights/LRweightvsGroupEgoSize.eps>
+(epstopdf)             \includegraphics on input line 108.
+Package epstopdf Info: Output file is already uptodate.
+
+<data/plots/scatterplots/LRweights/LRweightvsGroupEgoSize-eps-converted-to.pdf,
+ id=39, 578.16pt x 433.62pt>
+File: data/plots/scatterplots/LRweights/LRweightvsGroupEgoSize-eps-converted-to
+.pdf Graphic file (type pdf)
+
+<use data/plots/scatterplots/LRweights/LRweightvsGroupEgoSize-eps-converted-to.
+pdf>
+Underfull \hbox (badness 10000) in paragraph at lines 108--108
+[]\OT1/ptm/m/n/9 (d) |LR co-ef-fi-cient vs
+ []
+
+Package epstopdf Info: Source file: <data/plots/scatterplots/LRweights/LRweight
+vsPageEgoSize.eps>
+(epstopdf)                    date: 2013-02-04 14:53:51
+(epstopdf)                    size: 599627 bytes
+(epstopdf)             Output file: <data/plots/scatterplots/LRweights/LRweight
+vsPageEgoSize-eps-converted-to.pdf>
+(epstopdf)                    date: 2013-02-08 13:01:19
+(epstopdf)                    size: 513341 bytes
+(epstopdf)             Command: <epstopdf --outfile=data/plots/scatterplots/LRw
+eights/LRweightvsPageEgoSize-eps-converted-to.pdf data/plots/scatterplots/LRwei
+ghts/LRweightvsPageEgoSize.eps>
+(epstopdf)             \includegraphics on input line 109.
+Package epstopdf Info: Output file is already uptodate.
+
+<data/plots/scatterplots/LRweights/LRweightvsPageEgoSize-eps-converted-to.pdf, 
+id=40, 578.16pt x 433.62pt>
+File: data/plots/scatterplots/LRweights/LRweightvsPageEgoSize-eps-converted-to.
+pdf Graphic file (type pdf)
+
+<use data/plots/scatterplots/LRweights/LRweightvsPageEgoSize-eps-converted-to.p
+df>
+Package epstopdf Info: Source file: <data/plots/scatterplots/LRweights/LRweight
+vsFavouriteEgoSize.eps>
+(epstopdf)                    date: 2013-02-04 14:52:00
+(epstopdf)                    size: 239035 bytes
+(epstopdf)             Output file: <data/plots/scatterplots/LRweights/LRweight
+vsFavouriteEgoSize-eps-converted-to.pdf>
+(epstopdf)                    date: 2013-02-08 13:01:20
+(epstopdf)                    size: 213039 bytes
+(epstopdf)             Command: <epstopdf --outfile=data/plots/scatterplots/LRw
+eights/LRweightvsFavouriteEgoSize-eps-converted-to.pdf data/plots/scatterplots/
+LRweights/LRweightvsFavouriteEgoSize.eps>
+(epstopdf)             \includegraphics on input line 110.
+Package epstopdf Info: Output file is already uptodate.
+
+<data/plots/scatterplots/LRweights/LRweightvsFavouriteEgoSize-eps-converted-to.
+pdf, id=41, 578.16pt x 433.62pt>
+File: data/plots/scatterplots/LRweights/LRweightvsFavouriteEgoSize-eps-converte
+d-to.pdf Graphic file (type pdf)
+
+<use data/plots/scatterplots/LRweights/LRweightvsFavouriteEgoSize-eps-converted
+-to.pdf>
+Underfull \hbox (badness 10000) in paragraph at lines 110--110
+[]\OT1/ptm/m/n/9 (f) |LR co-ef-fi-cient vs
+ []
+
+Package epstopdf Info: Source file: <data/plots/scatterplots/sortedBySE/CEvsGro
+upSize.eps>
+(epstopdf)                    date: 2013-02-08 09:55:01
+(epstopdf)                    size: 71977 bytes
+(epstopdf)             Output file: <data/plots/scatterplots/sortedBySE/CEvsGro
+upSize-eps-converted-to.pdf>
+(epstopdf)                    date: 2013-02-08 13:13:54
+(epstopdf)                    size: 64715 bytes
+(epstopdf)             Command: <epstopdf --outfile=data/plots/scatterplots/sor
+tedBySE/CEvsGroupSize-eps-converted-to.pdf data/plots/scatterplots/sortedBySE/C
+EvsGroupSize.eps>
+(epstopdf)             \includegraphics on input line 120.
+Package epstopdf Info: Output file is already uptodate.
+
+<data/plots/scatterplots/sortedBySE/CEvsGroupSize-eps-converted-to.pdf, id=42, 
+578.16pt x 433.62pt>
+File: data/plots/scatterplots/sortedBySE/CEvsGroupSize-eps-converted-to.pdf Gra
+phic file (type pdf)
+
+<use data/plots/scatterplots/sortedBySE/CEvsGroupSize-eps-converted-to.pdf>
+Package epstopdf Info: Source file: <data/plots/scatterplots/sortedBySE/CEvsPag
+eSize.eps>
+(epstopdf)                    date: 2013-02-08 09:58:10
+(epstopdf)                    size: 83173 bytes
+(epstopdf)             Output file: <data/plots/scatterplots/sortedBySE/CEvsPag
+eSize-eps-converted-to.pdf>
+(epstopdf)                    date: 2013-02-08 13:13:54
+(epstopdf)                    size: 83743 bytes
+(epstopdf)             Command: <epstopdf --outfile=data/plots/scatterplots/sor
+tedBySE/CEvsPageSize-eps-converted-to.pdf data/plots/scatterplots/sortedBySE/CE
+vsPageSize.eps>
+(epstopdf)             \includegraphics on input line 121.
+Package epstopdf Info: Output file is already uptodate.
+
+<data/plots/scatterplots/sortedBySE/CEvsPageSize-eps-converted-to.pdf, id=43, 5
+78.16pt x 433.62pt>
+File: data/plots/scatterplots/sortedBySE/CEvsPageSize-eps-converted-to.pdf Grap
+hic file (type pdf)
+
+<use data/plots/scatterplots/sortedBySE/CEvsPageSize-eps-converted-to.pdf>
+Package epstopdf Info: Source file: <data/plots/scatterplots/sortedBySE/CEvsfav
+Size.eps>
+(epstopdf)                    date: 2013-02-08 10:01:08
+(epstopdf)                    size: 85334 bytes
+(epstopdf)             Output file: <data/plots/scatterplots/sortedBySE/CEvsfav
+Size-eps-converted-to.pdf>
+(epstopdf)                    date: 2013-02-08 13:13:54
+(epstopdf)                    size: 83462 bytes
+(epstopdf)             Command: <epstopdf --outfile=data/plots/scatterplots/sor
+tedBySE/CEvsfavSize-eps-converted-to.pdf data/plots/scatterplots/sortedBySE/CEv
+sfavSize.eps>
+(epstopdf)             \includegraphics on input line 122.
+Package epstopdf Info: Output file is already uptodate.
+
+<data/plots/scatterplots/sortedBySE/CEvsfavSize-eps-converted-to.pdf, id=44, 57
+8.16pt x 433.62pt>
+File: data/plots/scatterplots/sortedBySE/CEvsfavSize-eps-converted-to.pdf Graph
+ic file (type pdf)
+
+<use data/plots/scatterplots/sortedBySE/CEvsfavSize-eps-converted-to.pdf>
+Package epstopdf Info: Source file: <data/plots/scatterplots/sortedBySE/MIvsGro
+upSize.eps>
+(epstopdf)                    date: 2013-02-08 13:10:29
+(epstopdf)                    size: 78286 bytes
+(epstopdf)             Output file: <data/plots/scatterplots/sortedBySE/MIvsGro
+upSize-eps-converted-to.pdf>
+(epstopdf)                    date: 2013-02-08 13:13:55
+(epstopdf)                    size: 75596 bytes
+(epstopdf)             Command: <epstopdf --outfile=data/plots/scatterplots/sor
+tedBySE/MIvsGroupSize-eps-converted-to.pdf data/plots/scatterplots/sortedBySE/M
+IvsGroupSize.eps>
+(epstopdf)             \includegraphics on input line 123.
+Package epstopdf Info: Output file is already uptodate.
+
+<data/plots/scatterplots/sortedBySE/MIvsGroupSize-eps-converted-to.pdf, id=45, 
+578.16pt x 433.62pt>
+File: data/plots/scatterplots/sortedBySE/MIvsGroupSize-eps-converted-to.pdf Gra
+phic file (type pdf)
+
+<use data/plots/scatterplots/sortedBySE/MIvsGroupSize-eps-converted-to.pdf>
+Package epstopdf Info: Source file: <data/plots/scatterplots/sortedBySE/MIvsPag
+eSize.eps>
+(epstopdf)                    date: 2013-02-08 13:11:39
+(epstopdf)                    size: 139997 bytes
+(epstopdf)             Output file: <data/plots/scatterplots/sortedBySE/MIvsPag
+eSize-eps-converted-to.pdf>
+(epstopdf)                    date: 2013-02-08 13:13:55
+(epstopdf)                    size: 141404 bytes
+(epstopdf)             Command: <epstopdf --outfile=data/plots/scatterplots/sor
+tedBySE/MIvsPageSize-eps-converted-to.pdf data/plots/scatterplots/sortedBySE/MI
+vsPageSize.eps>
+(epstopdf)             \includegraphics on input line 124.
+Package epstopdf Info: Output file is already uptodate.
+
+<data/plots/scatterplots/sortedBySE/MIvsPageSize-eps-converted-to.pdf, id=46, 5
+78.16pt x 433.62pt>
+File: data/plots/scatterplots/sortedBySE/MIvsPageSize-eps-converted-to.pdf Grap
+hic file (type pdf)
+
+<use data/plots/scatterplots/sortedBySE/MIvsPageSize-eps-converted-to.pdf>
+Package epstopdf Info: Source file: <data/plots/scatterplots/sortedBySE/MIvsfav
+Size.eps>
+(epstopdf)                    date: 2013-02-08 13:12:42
+(epstopdf)                    size: 81415 bytes
+(epstopdf)             Output file: <data/plots/scatterplots/sortedBySE/MIvsfav
+Size-eps-converted-to.pdf>
+(epstopdf)                    date: 2013-02-08 13:13:55
+(epstopdf)                    size: 82144 bytes
+(epstopdf)             Command: <epstopdf --outfile=data/plots/scatterplots/sor
+tedBySE/MIvsfavSize-eps-converted-to.pdf data/plots/scatterplots/sortedBySE/MIv
+sfavSize.eps>
+(epstopdf)             \includegraphics on input line 125.
+Package epstopdf Info: Output file is already uptodate.
+
+<data/plots/scatterplots/sortedBySE/MIvsfavSize-eps-converted-to.pdf, id=47, 57
+8.16pt x 433.62pt>
+File: data/plots/scatterplots/sortedBySE/MIvsfavSize-eps-converted-to.pdf Graph
+ic file (type pdf)
+
+<use data/plots/scatterplots/sortedBySE/MIvsfavSize-eps-converted-to.pdf>
+Package epstopdf Info: Source file: <data/plots/vsk/CEvsK.eps>
+(epstopdf)                    date: 2013-02-05 15:27:27
+(epstopdf)                    size: 22806 bytes
+(epstopdf)             Output file: <data/plots/vsk/CEvsK-eps-converted-to.pdf>
+
+(epstopdf)                    date: 2013-02-08 15:46:07
+(epstopdf)                    size: 54239 bytes
+(epstopdf)             Command: <epstopdf --outfile=data/plots/vsk/CEvsK-eps-co
+nverted-to.pdf data/plots/vsk/CEvsK.eps>
+(epstopdf)             \includegraphics on input line 133.
+Package epstopdf Info: Output file is already uptodate.
+
+<data/plots/vsk/CEvsK-eps-converted-to.pdf, id=48, 1672.14716pt x 589.90388pt>
+File: data/plots/vsk/CEvsK-eps-converted-to.pdf Graphic file (type pdf)
+
+<use data/plots/vsk/CEvsK-eps-converted-to.pdf> [2
+
+] [3 <./data/plots/accuracy/accuracy-eps-converted-to.pdf> <./data/plots/accura
+cy/friendRecommendation-eps-converted-to.pdf> <./data/plots/boxPlots/CEvsGroupS
+ize-eps-converted-to.pdf> <./data/plots/boxPlots/CEvsPageSize-eps-converted-to.
+pdf> <./data/plots/boxPlots/CEvsFavouriteSize-eps-converted-to.pdf>] [4 <./data
+/plots/boxPlots/MIvsGroupSizeTop500-eps-converted-to.pdf> <./data/plots/boxPlot
+s/MIvsPageSizeTop1000-eps-converted-to.pdf> <./data/plots/boxPlots/MIvsFavSizeT
+op800-eps-converted-to.pdf>]
+[5 <./data/plots/boxPlots/MIvsPageSizeLogtop1000-eps-converted-to.pdf> <./data/
+plots/boxPlots/MIvsFavSizeLogtop800-eps-converted-to.pdf> <./data/plots/boxPlot
+s/CEvsFavTypes-eps-converted-to.pdf> <./data/plots/boxPlots/MIvsFavTypes-eps-co
+nverted-to.pdf>] [6 <./data/plots/scatterplots/vssize/CEvsGroupSizeEgo-eps-conv
+erted-to.pdf> <./data/plots/scatterplots/vssize/CEvsPageSize-eps-converted-to.p
+df> <./data/plots/scatterplots/vssize/CEvsFavSize-eps-converted-to.pdf> <./data
+/plots/scatterplots/vssize/CEvsGroupSizeLog-eps-converted-to.pdf> <./data/plots
+/scatterplots/vssize/CEvsPageSizeLog-eps-converted-to.pdf> <./data/plots/scatte
+rplots/vssize/CEvsFavSizeLog-eps-converted-to.pdf> <./data/plots/scatterplots/v
+ssize/CEvsPageSizeEgo-eps-converted-to.pdf> <./data/plots/scatterplots/vssize/C
+EvsFavSizeEgo-eps-converted-to.pdf>] [7 <./data/plots/scatterplots/vssize/MIvsG
+roupSizeEgo-eps-converted-to.pdf> <./data/plots/scatterplots/vssize/MIvsPageSiz
+e-eps-converted-to.pdf> <./data/plots/scatterplots/vssize/MIvsFavSize-eps-conve
+rted-to.pdf> <./data/plots/scatterplots/vssize/MIvsGroupSizeLog-eps-converted-t
+o.pdf> <./data/plots/scatterplots/vssize/MIvsPageSizeLog-eps-converted-to.pdf> 
+<./data/plots/scatterplots/vssize/MIvsFavSizeLog-eps-converted-to.pdf> <./data/
+plots/scatterplots/vssize/MIvsPageSizeEgo-eps-converted-to.pdf> <./data/plots/s
+catterplots/vssize/MIvsFavSizeEgo-eps-converted-to.pdf> <./data/plots/scatterpl
+ots/LRweights/LRweightvsGroupSize-eps-converted-to.pdf> <./data/plots/scatterpl
+ots/LRweights/LRweightvsPageSize-eps-converted-to.pdf> <./data/plots/scatterplo
+ts/LRweights/LRweightvsFavouriteSize-eps-converted-to.pdf> <./data/plots/scatte
+rplots/LRweights/LRweightvsGroupEgoSize-eps-converted-to.pdf> <./data/plots/sca
+tterplots/LRweights/LRweightvsPageEgoSize-eps-converted-to.pdf> <./data/plots/s
+catterplots/LRweights/LRweightvsFavouriteEgoSize-eps-converted-to.pdf>]
+[8 <./data/plots/scatterplots/sortedBySE/CEvsGroupSize-eps-converted-to.pdf> <.
+/data/plots/scatterplots/sortedBySE/CEvsPageSize-eps-converted-to.pdf> <./data/
+plots/scatterplots/sortedBySE/CEvsfavSize-eps-converted-to.pdf> <./data/plots/s
+catterplots/sortedBySE/MIvsGroupSize-eps-converted-to.pdf> <./data/plots/scatte
+rplots/sortedBySE/MIvsPageSize-eps-converted-to.pdf> <./data/plots/scatterplots
+/sortedBySE/MIvsfavSize-eps-converted-to.pdf> <./data/plots/vsk/CEvsK-eps-conve
+rted-to.pdf>]
+Overfull \hbox (201.73584pt too wide) in paragraph at lines 140--196
  [][][] 
  []
 
-[2 <./data/CEvsSize-eps-converted-to.pdf> <./data/CEvsSizeLog-eps-converted-to.
-pdf> <./data/MIvsSize-eps-converted-to.pdf> <./data/MIvsSizelog-eps-converted-t
-o.pdf>] [3 <./data/accuracy-eps-converted-to.pdf> <./data/MIvsGroupSizeBox-eps-
-converted-to.pdf> <./data/MIvsPageSizeBox-eps-converted-to.pdf> <./data/MIvsFav
-ouritesSizeBox-eps-converted-to.pdf>]
-Overfull \hbox (201.73584pt too wide) in paragraph at lines 74--130
- [][][] 
- []
-
-[4
+[9
 
 
 ]
-Overfull \hbox (261.97253pt too wide) in paragraph at lines 136--182
+Overfull \hbox (261.97253pt too wide) in paragraph at lines 202--249
  [][][] 
  []
 
 
-Overfull \hbox (303.2189pt too wide) in paragraph at lines 186--237
+Overfull \hbox (303.2189pt too wide) in paragraph at lines 253--304
  [][][] 
  []
 
-[5
+[10
 
 
 ]
-Overfull \hbox (301.79745pt too wide) in paragraph at lines 243--294
+Overfull \hbox (301.79745pt too wide) in paragraph at lines 310--361
  [][][] 
  []
 
-[6
-
-
-]
-Overfull \hbox (196.8059pt too wide) in paragraph at lines 299--325
-[][][] 
- []
-
-[7
+[11
 
 
 ]
@@ -453,38 +1229,77 @@ Missing character: There is no â in font ptmr7t!
 Missing character: There is no ˜ in font ptmr7t!
 Missing character: There is no   in font ptmr7t!
 
-Overfull \hbox (298.28859pt too wide) in paragraph at lines 333--359
+Overfull \hbox (298.28859pt too wide) in paragraph at lines 368--394
 [][][] 
  []
 
-[8
+[12
 
 
 ]
-Overfull \hbox (312.04039pt too wide) in paragraph at lines 366--392
+Overfull \hbox (312.04039pt too wide) in paragraph at lines 401--427
 [][][] 
  []
 
-) [9
+[13
 
 
-] (./document.aux) ) 
+]
+Overfull \hbox (182.80182pt too wide) in paragraph at lines 434--460
+[][][] 
+ []
+
+[14
+
+
+]
+Missing character: There is no â in font ptmr7t!
+Missing character: There is no ˜ in font ptmr7t!
+Missing character: There is no   in font ptmr7t!
+
+Overfull \hbox (300.79904pt too wide) in paragraph at lines 467--493
+[][][] 
+ []
+
+[15
+
+
+]
+Overfull \hbox (212.32112pt too wide) in paragraph at lines 499--525
+[][][] 
+ []
+
+[16
+
+
+]
+Overfull \hbox (231.3833pt too wide) in paragraph at lines 530--556
+[][][] 
+ []
+
+) [17
+
+
+] (./document.aux)
+
+LaTeX Warning: There were multiply-defined labels.
+
+ ) 
 Here is how much of TeX's memory you used:
- 2424 strings out of 495061
- 32197 string characters out of 1182622
- 101558 words of memory out of 3000000
- 5534 multiletter control sequences out of 15000+50000
+ 3674 strings out of 495061
+ 62246 string characters out of 1182622
+ 125213 words of memory out of 3000000
+ 6740 multiletter control sequences out of 15000+50000
  20166 words of font info for 49 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
- 41i,8n,23p,434b,229s stack positions out of 5000i,500n,10000p,200000b,50000s
-{/usr/share/texmf-texlive/fonts/enc/dvips/base/8r.enc}</usr
-/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texm
-f-texlive/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-texlive/f
-onts/type1/urw/times/utmb8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/times
-/utmr8a.pfb>
-Output written on document.pdf (9 pages, 935644 bytes).
+ 44i,15n,45p,434b,397s stack positions out of 5000i,500n,10000p,200000b,50000s
+{/usr/share/texmf-texlive/fonts/enc/dvips/base/8r.enc}</usr/share/texmf-texli
+ve/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-texlive/fonts/ty
+pe1/urw/times/utmb8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/times/utmr8a
+.pfb>
+Output written on document.pdf (17 pages, 8383585 bytes).
 PDF statistics:
- 352 PDF objects out of 1000 (max. 8388607)
+ 1479 PDF objects out of 1728 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 41 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 206 words of extra memory for PDF output out of 10000 (max. 10000000)
 
