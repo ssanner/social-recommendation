@@ -6,143 +6,50 @@
 
 \begin{figure*}
 \centering
-\begin{tabular}{cc}
-\subfloat[Fig: Friend and NonFriend Recommended Data][Friend and NonFriend Recommended Links]{\includegraphics[scale=0.25]{data/plots/accuracy/accuracy.eps}}
-\subfloat[Fig: Friend Recommended Data][Friend Recommended Links]{\includegraphics[height=38mm, width=28mm]{data/plots/accuracy/friendRecommendation.eps}}
-\end{tabular}
-\caption{Accuracy of predictors (constant, social matchbox, naive bayes, logistic regression, SVM) for interation, group, page, favourite features}
-\label{Fig: Accuracy}
-\end{figure*}
-
-%\begin{figure*}
-%\centering
-%\includegraphics[height=45mm, width=30mm]{data/plots/accuracy/friendRecommendation.eps}
-%\caption{Accuracy of predictors (constant, social matchbox, naive bayes, logistic regression, SVM) based on interaction features for friend recommended links}
-%\label{Fig: Accuracy}
-%\end{figure*}
-
-\begin{figure*}
-\centering
-\begin{tabular}{c}
-\subfloat[Fig: Conditional Entropy vs Group Size][conditional entropy vs group size (top 500)]{\includegraphics[height=40mm,width=150mm]{data/plots/boxPlots/CEvsGroupSize.eps}}\\
-\subfloat[Fig: Conditional Entropy vs Page Size][conditional entropy vs page size (top 1000)]{\includegraphics[height=40mm,width=150mm]{data/plots/boxPlots/CEvsPageSize.eps}}\\
-\subfloat[Fig: Conditional Entropy vs Favourites Size][conditional entropy vs favourites size (top 800)]{\includegraphics[height=40mm,width=150mm]{data/plots/boxPlots/CEvsFavouriteSize.eps}}
-\end{tabular}
-\caption{conditional entropy vs size (top k)}
-\label{Fig: conditional entropy vs size(top k) Box plots}
+\includegraphics[width=200mm, height=50mm]{data/plots/accuracy/accuracy.eps}
+\caption{ Accuracy of predictors (constant, social matchbox, naive bayes, logistic regression, SVM) for interaction and activity (groups, pages and favourites) features }
+\label{Fig:1}
 \end{figure*}
 
 \begin{figure*}
 \centering
-\begin{tabular}{c}
-\subfloat[Fig: mutual information vs Group Size][mutual information vs group size (top 500)]{\includegraphics[height=40mm,width=150mm]{data/plots/boxPlots/MIvsGroupSizeTop500.eps}}\\
-\subfloat[Fig: mutual information vs Page Size][mutual information vs page size (top 1000)]{\includegraphics[height=40mm,width=150mm]{data/plots/boxPlots/MIvsPageSizeTop1000.eps}}\\
-\subfloat[Fig:  mutual information vs Favourites Size][mutual information vs favourites size (top 800)]{\includegraphics[height=40mm,width=150mm]{data/plots/boxPlots/MIvsFavSizeTop800.eps}}
-\end{tabular}
-\caption{ mutual information  vs size (top k)}
-\label{Fig: mutual information  vs size(top k) Box plots}
-\end{figure*}
-
-\begin{figure*}
-\centering
-\begin{tabular}{c}
-\subfloat[Fig: mutual information vs Page Size][mutual information vs page size (top 1000)]{\includegraphics[height=40mm,width=150mm]{data/plots/boxPlots/MIvsPageSizeLogtop1000.eps}}\\
-\subfloat[Fig:  mutual information vs Favourites Size][mutual information vs favourites size (top 800)]{\includegraphics[height=40mm,width=150mm]{data/plots/boxPlots/MIvsFavSizeLogtop800.eps}}
-\end{tabular}
-\caption{ mutual information  vs size (top k) \\ Sizes are binned in log scale  }
-\label{Fig: mutual information  vs size(top k) Box plots}
-\end{figure*}
-
-\begin{figure*}
-\centering
-\begin{tabular}{c}
-\subfloat[Fig:  conditional entropy vs favourite categories][ conditional entropy vs favourite categories]{\includegraphics[height=40mm,width=150mm]{data/plots/boxPlots/CEvsFavTypes.eps}}\\
-\subfloat[Fig:  mutual information vs favourite categories][mutual information vs favourite categories]{\includegraphics[height=40mm,width=150mm]{data/plots/boxPlots/MIvsFavTypes.eps}}
-\end{tabular}
-\caption{ mutual information  vs favourite categories}
-\label{Fig: mutual information  vs favourite categories}
-\end{figure*}
-
-
-\begin{figure*}[h]
-\centering
-\begin{tabular}{ccc}
-\subfloat[Fig: conditional entropy vs group size ][CE vs group size]{\includegraphics[width=40mm, height=30mm]{data/plots/scatterplots/vssize/CEvsGroupSizeEgo.eps}}
-\subfloat[Fig: conditional entropy vs page size ][CE vs page size]{\includegraphics[width=40mm, height=30mm]{data/plots/scatterplots/vssize/CEvsPageSize.eps}}
-\subfloat[Fig: conditional entropy vs favourite size ][CE vs favourite size]{\includegraphics[width=40mm, height=30mm]{data/plots/scatterplots/vssize/CEvsFavSize.eps}} \\
-\subfloat[Fig: conditional entropy vs group size(log) ][CE vs group size]{\includegraphics[width=40mm, height=30mm]{data/plots/scatterplots/vssize/CEvsGroupSizeLog.eps}}
-\subfloat[Fig: conditional entropy vs page size(log) ][CE vs page size]{\includegraphics[width=40mm, height=30mm]{data/plots/scatterplots/vssize/CEvsPageSizeLog.eps}}
-\subfloat[Fig: conditional entropy vs favourite size(log) ][CE vs favourite size]{\includegraphics[width=40mm, height=30mm]{data/plots/scatterplots/vssize/CEvsFavSizeLog.eps}}\\
-\subfloat[Fig: conditional entropy vs group size(ego) ][CE vs group size(ego)]{\includegraphics[width=40mm, height=30mm]{data/plots/scatterplots/vssize/CEvsGroupSizeEgo.eps}}
-\subfloat[Fig: conditional entropy vs page size ][CE vs page size(ego)]{\includegraphics[width=40mm, height=30mm]{data/plots/scatterplots/vssize/CEvsPageSizeEgo.eps}}
-\subfloat[Fig: conditional entropy vs favourite size(ego) ][CE vs favourite size(ego)]{\includegraphics[width=40mm, height=30mm]{data/plots/scatterplots/vssize/CEvsFavSizeEgo.eps}}
-\end{tabular}
-\caption{conditional entropy vs size}
-\label{Fig: conditional entropy vs size}
+\includegraphics[width=180mm, height=40mm]{data/plots/boxPlots/CEvsFavTypes.eps}
+\caption{Conditional entropy breakdown by favourites categories}
+\label{Fig:2}
 \end{figure*}
 
 \begin{figure*}[h]
 \centering
 \begin{tabular}{ccc}
-\subfloat[Fig: mutual information vs group size ][MI vs group size]{\includegraphics[width=40mm, height=30mm]{data/plots/scatterplots/vssize/MIvsGroupSizeEgo.eps}}
-\subfloat[Fig: mutual information vs page size ][MI vs page size]{\includegraphics[width=40mm, height=30mm]{data/plots/scatterplots/vssize/MIvsPageSize.eps}}
-\subfloat[Fig: mutual information vs favourite size ][MI vs favourite size]{\includegraphics[width=40mm, height=30mm]{data/plots/scatterplots/vssize/MIvsFavSize.eps}} \\
-\subfloat[Fig: mutual information vs group size(log) ][MI vs group size]{\includegraphics[width=40mm, height=30mm]{data/plots/scatterplots/vssize/MIvsGroupSizeLog.eps}}
-\subfloat[Fig: mutual information vs page size(log) ][MI vs page size]{\includegraphics[width=40mm, height=30mm]{data/plots/scatterplots/vssize/MIvsPageSizeLog.eps}}
-\subfloat[Fig: mutual information vs favourite size(log) ][MI vs favourite size]{\includegraphics[width=40mm, height=30mm]{data/plots/scatterplots/vssize/MIvsFavSizeLog.eps}}\\
-\subfloat[Fig: mutual information vs group size(ego) ][MI vs group size(ego)]{\includegraphics[width=40mm, height=30mm]{data/plots/scatterplots/vssize/MIvsGroupSizeEgo.eps}}
-\subfloat[Fig: mutual information vs page size ][MI vs page size(ego)]{\includegraphics[width=40mm, height=30mm]{data/plots/scatterplots/vssize/MIvsPageSizeEgo.eps}}
-\subfloat[Fig: mutual information vs favourite size(ego) ][MI vs favourite size(ego)]{\includegraphics[width=40mm, height=30mm]{data/plots/scatterplots/vssize/MIvsFavSizeEgo.eps}}
+\subfloat[Fig:][]{\includegraphics[width=40mm, height=30mm]{data/plots/scatterplots/vssize/CEvsGroupSizeEgo.eps}}
+\subfloat[Fig:][]{\includegraphics[width=40mm, height=30mm]{data/plots/scatterplots/vssize/CEvsPageSize.eps}}
+\subfloat[Fig:][]{\includegraphics[width=40mm, height=30mm]{data/plots/scatterplots/vssize/CEvsFavSize.eps}} \\
+\subfloat[Fig:][]{\includegraphics[width=40mm, height=30mm]{data/plots/scatterplots/LRweights/LRweightvsGroupSize.eps}}
+\subfloat[Fig:][]{\includegraphics[width=40mm, height=30mm]{data/plots/scatterplots/LRweights/LRweightvsPageSize.eps}}
+\subfloat[Fig:][]{\includegraphics[width=40mm, height=30mm]{data/plots/scatterplots/LRweights/LRweightvsFavouriteSize.eps}} \\
 \end{tabular}
-\caption{ mutual information  vs size}
-\label{Fig: mutual information  vs size}
+\caption {fig a-c: conditional entropy vs size, fig d-f: logistic regression feature weights vs size }
+\label{Fig:3}
 \end{figure*}
-
 
 \begin{figure*}[h]
 \centering
 \begin{tabular}{ccc}
-\subfloat[Fig: logistic regression coefficients vs group size ][LR weight vs group size]{\includegraphics[width=40mm, height=30mm]{data/plots/scatterplots/LRweights/LRweightvsGroupSize.eps}}
-\subfloat[Fig: logistic regression coefficients vs page size ][LR weight vs page size]{\includegraphics[width=40mm, height=30mm]{data/plots/scatterplots/LRweights/LRweightvsPageSize.eps}}
-\subfloat[Fig: logistic regression coefficients vs favourite size ][LR weight vs favourite size]{\includegraphics[width=40mm, height=30mm]{data/plots/scatterplots/LRweights/LRweightvsFavouriteSize.eps}} \\
-\subfloat[Fig: logistic regression coefficients vs group size(ego) ][LR weight vs group size (ego)]{\includegraphics[width=40mm, height=30mm]{data/plots/scatterplots/LRweights/LRweightvsGroupEgoSize.eps}}
-\subfloat[Fig: logistic regression coefficients vs page size ][LR weight vs page size(ego)]{\includegraphics[width=40mm, height=30mm]{data/plots/scatterplots/LRweights/LRweightvsPageEgoSize.eps}}
-\subfloat[Fig: logistic regression coefficients vs favourite size(ego) ][LR weight vs favourite size(ego)]{\includegraphics[width=40mm, height=30mm]{data/plots/scatterplots/LRweights/LRweightvsFavouriteEgoSize.eps}}
+\subfloat[Fig: Cumulative Conditional Entropy vs Group size][Cumulative conditional entropy\\ vs group size \\(30 bins top 300)]{\includegraphics[scale=0.25]{data/plots/cumulativeEntropy/CEvsGroupSize_Top300Features_30bins.eps}}
+\subfloat[Fig: Cumulative Conditional Entropy vs Page size][Cumulative conditional entropy\\ vs page size \\(3000 bins top 800)]{\includegraphics[scale=0.25]{data/plots/cumulativeEntropy/CEvsPageSize_Top800Features_3000bins.eps}}
+\subfloat[Fig: Cumulative Conditional Entropy vs Favourite size][Cumulative Conditional entropy\\ vs favourite size \\(5000 bins top 800)]{\includegraphics[scale=0.25]{data/plots/cumulativeEntropy/CEvsFavSize_Top800Features_5000bins.eps}}
 \end{tabular}
-\caption{ logistic regression feature weights vs size}
-\label{Fig: logistic regression feature weight vs size}
+\label{Fig:4}
 \end{figure*}
 
 
-\begin{figure*}[h]
+\begin{figure*}
 \centering
-\begin{tabular}{ccc}
-\subfloat[Fig: conditional entropy vs size][CE vs group size(top 500)]{\includegraphics[width=40mm, height=30mm]{data/plots/scatterplots/sortedBySE/CEvsGroupSize.eps}}
-\subfloat[Fig: conditional entropy vs size][CE vs page size(top 1000)]{\includegraphics[width=40mm, height=30mm]{data/plots/scatterplots/sortedBySE/CEvsPageSize.eps}}
-\subfloat[Fig: conditional entropy vs size][CE vs favourite size(top 800)]{\includegraphics[width=40mm, height=30mm]{data/plots/scatterplots/sortedBySE/CEvsfavSize.eps}} \\
-\subfloat[Fig: mutual information vs size][MI vs group size(top 500)]{\includegraphics[width=40mm, height=30mm]{data/plots/scatterplots/sortedBySE/MIvsGroupSize.eps}}
-\subfloat[Fig: mutual information vs size][MI vs page size(top 1000)]{\includegraphics[width=40mm, height=30mm]{data/plots/scatterplots/sortedBySE/MIvsPageSize.eps}}
-\subfloat[Fig: mutual information vs size][MI vs favourite size(top 800)]{\includegraphics[width=40mm, height=30mm]{data/plots/scatterplots/sortedBySE/MIvsfavSize.eps}}
-\end{tabular}
-\caption{ conditional entropy/mutual information vs size (top k sorted by standard error)}
-\label{Fig:  conditional entropy/mutual information vs size (top k sorted by standard error)}
+\includegraphics[width=180mm, height=40mm]{data/plots/vsk/ModalityActionsvsKFriends.eps}
+\caption{Conditional entropy breakdown by favourites categories}
+\label{Fig:5}
+\caption{Conditional Entropy of liking an item given Modalities/Activities constrained to the item liked by atleast k friends}
 \end{figure*}
-
-\begin{figure*}[h]
-\centering
-\includegraphics[scale=0.25]{data/plots/vsk/CEvsK.eps}
-\caption{All graph plots Conditional Entropy for Interaction actions vs Interaction modalities by restricting dataset to links liked by atleast K friends. Each graph analyzes different Interaction Directionality  }
-\end{figure*}
-
-
-\begin{figure*}[h]
-\centering
-\begin{tabular}{c}
-\subfloat[Fig: Conditional Entropy vs K friends liked link(Incoming)][Conditional Entropy vs atleast K friends likes link for incoming interactions ]{\includegraphics[width=150mm]{data/plots/vsk/IncomingVsK.eps}}\\
-\subfloat[Fig: Conditional Entropy vs K friends liked link(Outgoing)][Conditional Entropy vs atleast K friends likes link for outgoing interactions ]{\includegraphics[width=150mm]{data/plots/vsk/OutgoingVsK.eps}}
-\end{tabular}
-\end{figure*}
-
 
 
 \cleardoublepage
