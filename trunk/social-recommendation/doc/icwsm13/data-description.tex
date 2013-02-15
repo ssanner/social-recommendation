@@ -28,16 +28,15 @@ Our App tracks app user's (and their friends') details and interactions
 on Facebook.  Interactions that occur through wall posts provide a
 rich variety of content and interaction data.  We distinguish four
 Facebook items from wall posts: general posts (e.g., status updates,
-activity updates such as new friends, and interactions such as the
-user liked these pages), links, photos and videos. Four main
+activity updates such as new friends), links, photos and videos. Four main
 interactions on these items are permitted by Facebook: posting an item
 to a friend's wall, commenting, liking, and tagging\footnote{Some
 Facebook interaction features such as liking comments were introduced
-after App user studies began and so are not tracked.}.  The App does
-not track deletions of these items and interactions (e.g., unlike) for
+after App user studies began and so are not tracked.}.Furthermore, Facebook allows user to interact with
+entities(groups, pages and favourites) via membership and liking.
+The App does not track deletions of these items, interactions (e.g., unlike) and memberships for
 performance reasons and we found very few deletions during an initial
 testing stage.
-
 We summarize relevant basic statistics of the data in Table~\ref{tab:interactions}-\ref{tab:interests} below.
 The tables distinguish the data from the App users and from
 all App users and friends. Table~\ref{tab:interactions}
@@ -45,10 +44,10 @@ summarizes the number of records for each item (row) and interaction (column)
 combination. Table~\ref{tab:demographics} shows 
 some demographics from user profiles.
 
-We categorize facebook user-user and user-entities relationship into two broad categories ie \textbf{Interactions} and \textbf{Activities}.
+We categorize facebook user-to-user and user-to-entities relationship into two broad categories ie \textbf{Interactions} and \textbf{Activities}.
 
 \subsection{Interactions}
-Interactions describe the communication between Facebook users based on modality, action and direction.
+Interactions describes the communication between Facebook users based on modality, action and direction.
 \begin{itemize}
 \item \textbf{Interaction Modality :}  User can interact with other users via
 									 \textit{links, posts, photos} and \textit{videos}.
@@ -65,7 +64,7 @@ Interactions describe the communication between Facebook users based on modality
 \end{itemize}								
 
 \subsection{Activities}
-Activities describe the user interactions with non-user Facebook entities like groups, poges, favourite movies, favourite music etc.
+Activities describes the user interactions with Facebook entities like groups, pages, favourite movies, favourite music etc.
 \begin{itemize}
   %@SCOTT/LEXING following defination are taken from facebook blog. I am confused how to cite it %
   \item \textbf{Groups :} Facebook Groups are the place for small group communication and for people to share their common interests 
@@ -74,8 +73,8 @@ Activities describe the user interactions with non-user Facebook entities like g
   \item \textbf{Pages :}  Facebook Pages enable public figures, businesses, organizations and other entities to create an authentic 
   						and public presence on Facebook. Facebook Pages are visible to everyone on the internet 
   						by default. Facebook user can connect with these Pages by becoming a fan and then receive their updates and interact with them.
-  \item \textbf{Favourites :} Facebook facilitates a wide variety of user selected favourites (Activities, Favorite Athletes, Books, Interests, Movies, Music, Sports, Favorite Teams, Television ). 
-  							These favourites allow a user to associate themselves with other people who share their same favourite tendencies.
+  \item \textbf{Favourites :} Facebook facilitates a wide variety of user selected favourites (Activities, Favorite Athletes, Books, 
+  							Interests, Movies, Music, Sports, Favorite Teams, Television ). These favourites allow a user to associate themselves with other people who share their same favourite tendencies.
 \end{itemize} 
  
       							
