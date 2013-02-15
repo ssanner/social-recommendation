@@ -15,11 +15,14 @@ namely \textit{Interaction  Social Affinity Groups(ISAG)} and \textit{Activity S
   %Additionally, we add friendship interaction affinity class. \\
   We define 
   \begin{quote}
-  \textit{ISAG(u, i)} : set of the users who have interaction $i$ with user $u$.\\
-   For example,\\
+  \textit{ISAG(u, i)} : set of the users who have interaction $i$ with user $u$.
+  \end{quote}
+   For example,
+   \begin{quote}
+   
    \textit{ISAG(u, link-like-incoming)} : set of all users who have liked link posted by user $u$. \\
    \textit{ISAG(u, link-like-outgoing)} : set of all users whose link is liked by user $u$. \\
-  \end{quote}
+   \end{quote}
 \item \textbf{Activity Social Affinity Groups}: We define activity affinity groups based on group membership, page likes and user favourites.
 	\begin{quote}
 	\textit{ASAG(u, i)} : set of the users who share entity $i$ (group, page, favourite) with user $u$.   
@@ -36,7 +39,7 @@ likes(u,i) =  \begin{Bmatrix}
 \end{quote}
 \subsection{Social Affinity Features}
 \begin{itemize}
-  \item \textbf{Interaction Social Affinity Features} : We define Interaction affinity features for target user $u$ and item $i$ for 22 ISAG's classes 
+  \item \textbf{Interaction Social Affinity Features} : We define Interaction affinity features for target user $u$ and item $i$ for ISAG's classes 
   $ \langle X_{1},X_{2}\ldots,X_{k}\rangle$ as
   \begin{quote}
   \begin{math}
@@ -58,21 +61,21 @@ likes(u,i) =  \begin{Bmatrix}
 	In our analysis we use only those features(groups, pages and favourites) that is joined/liked by atleast one of our app user.
 \end{itemize}
 
-With Affinity features defined, we use naive bayes, Logistic regression and Support Vector Machine (SVM) model to predict whether 
-user likes the link or not. Logistic Regression and Support Vector Machine algorithm is implemented using LIBLINER \cite{liblinear}.
+We use defined Affinity features to train naive bayes, Logistic regression and Support Vector Machine (SVM) model to predict whether 
+user likes the link or not. Logistic Regression and Support Vector Machine algorithm is implemented using LIBLINER \cite{liblinear} package.
+We compare result of Social Affinity filtering with , the state of the art social collaborative filtering technique, Social MatchBox.
+Furthermore, we define Constant predictor as baseline predictor. Constant predictor predicts the most likely outcome in our dataset ie dislike.
 
-Acknowledging the fact that, in real world social recommendation task, activitiy features grows very quickly as number of user in social 
-networks increase we explore informativeness of social affinity features from the recommender system standpoint. Furthermore, its compelling
-to understand informativeness of the interaction features. For fine grained analysis of activities and interactions we rank the features using
-\textit{Conditional Entropy} H(Y$|$X=true).
-
+In real world social networks activity features grows very quickly as number of user in social network increases. This motivates the fine grained
+analysis of informativeness of social affinity features. Furthermore, fine grained analysis of interactions helps to understand nature of user-user 
+interaction and its predictiveness in social recommender system. Hence, for the analysis of activities and interactions we rank the features using
+\textit{Conditional Entropy}. 
 \textit{Conditional Entropy} is defined as
 \begin{quote}
 \begin{math}
 H(Y|X=True) = \\-\sum_{y\in{(like,dislike)}} p(y|X$=$true)$ $log( p(y|X$=$true))
 \end{math}
 \end{quote}
- Conditional Entropy measures the extent of discriminitiveness of the features.\\
 
 With the data and methodology now defined including all dimensions of our analysis, we now proceed to an in-depth discussion of our findings.
 
