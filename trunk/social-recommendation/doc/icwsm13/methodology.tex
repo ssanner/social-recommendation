@@ -44,7 +44,7 @@ likes(u,i) =  \begin{Bmatrix}
   \begin{quote}
   \begin{math}
    X_{k,u,i} = \begin{Bmatrix}
-   		True & if\ \exists\ v\in \ \ ISAG(u,k) \wedge likes(v,i)\\ \\
+   		True & if\ \exists v\in ISAG(u,k) \wedge likes(v,i)\\ \\
    		False & otherwise
    \end{Bmatrix}
   \end{math}
@@ -61,14 +61,15 @@ likes(u,i) =  \begin{Bmatrix}
 	In our analysis we use only those features(groups, pages and favourites) that is joined/liked by atleast one of our app user.
 \end{itemize}
 
-We use defined Affinity features to train naive bayes, Logistic regression and Support Vector Machine (SVM) model to predict whether 
-user likes the link or not. Logistic Regression and Support Vector Machine algorithm is implemented using LIBLINER \cite{liblinear} package.
-We compare result of Social Affinity filtering with , the state of the art social collaborative filtering technique, Social MatchBox.
-Furthermore, we define Constant predictor as baseline predictor. Constant predictor predicts the most likely outcome in our dataset ie dislike.
+We use described affinity features to train naive bayes, Logistic regression(LR) and Support Vector Machine (SVM) model to predict whether 
+user likes the link or not. Logistic Regression and SVM algorithm is implemented using LIBLINER \cite{liblinear} package. 
+We define Constant predictor as baseline predictor. Constant predictor predicts the most common outcome in our datase ie disliket.
+To verify the performance of Social Affinity Filtering, we compare its accuracy with, the state of the art social collaborative filtering technique, 
+Social MatchBox(SMB)\cite{SMB}.
 
 In real world social networks activity features grows very quickly as number of user in social network increases. This motivates the fine grained
-analysis of informativeness of social affinity features. Furthermore, fine grained analysis of interactions helps to understand nature of user-user 
-interaction and its predictiveness in social recommender system. Hence, for the analysis of activities and interactions we rank the features using
+analysis of informativeness of social affinity features. Furthermore, fine grained analysis of interactions helps to understand the nature of user-user 
+interactions and its predictiveness. Hence, for the analysis of activities and interactions we rank the features using
 \textit{Conditional Entropy}. 
 \textit{Conditional Entropy} is defined as
 \begin{quote}
