@@ -1,7 +1,87 @@
 
-Membership feature\\\\
-X_{uij} = \begin{Bmatrix}
-True & \ u\ $\epsilon$ \ Member(group_{j})\ \wedge \\ 
-& \exists v \ $\epsilon$ \ Member(group_{j}) \wedge \ likes(v,i) \\  
-False & Otherwise
-\end{Bmatrix}
+The major objective of this paper is to evaluate the effectiveness of \textit{Social Affinity Filtering(SAF)} and fine grained 
+analysis of the informativeness of Interactions and Activities.We divide our recommendation algorithm into two categories based 
+on Interactions and Activities of target user's \textit{ Social Affinity Groups(SAG)} with target item, 
+namely \textit{Interaction  Social Affinity Groups(ISAG)} and \textit{Activity Social Affinity Groups(ASAG)}.
+
+\begin{itemize}
+  \item \textbf{Interaction  Social Affinity Groups}: We define the set of interaction affinity classes based on 
+  Interaction modality, action and direction as
+  \begin{quote}
+  \begin{math}
+  	\textit{Interaction Affinity Classes} = \{link, post, photo, video\} \times \{like, tag, comment\} \times \{incoming, outgoing\}
+  \end{math}
+  \end{quote}
+  %Additionally, we add friendship interaction affinity class. \\
+  We define 
+  \begin{quote}
+  \textit{ISAG(u, i)} : set of the users who have interaction $i$ with user $u$.\\
+   For example,\\
+   \textit{ISAG(u, link-like-incoming)} : set of all users who have liked link posted by user $u$. \\
+   \textit{ISAG(u, link-like-outgoing)} : set of all users whose link is liked by user $u$. \\
+  \end{quote}
+\item \textbf{Activity Social Affinity Groups}: We define activity affinity groups based on group membership, page likes and user favourites.
+	\begin{quote}
+	\textit{ASAG(u, i)} : set of the users who share entity $i$ (group, page, favourite) with user $u$.   
+	\end{quote}
+\end{itemize}
+Finally, we define
+\begin{quote}
+\begin{math}
+likes(u,i) =  \begin{Bmatrix}
+	  True & \text{if user $u$ likes item $i$}\\
+	  False & \text{otherwise}
+	  \end{Bmatrix}
+\end{math}
+\end{quote}
+\subsection{Social Affinity Features}
+\begin{itemize}
+  \item \textbf{Interaction Social Affinity Features} : We define Interaction affinity features for target user $u$ and item $i$ for 22 ISAG's classes 
+  $ \langle X_{1},X_{2}\ldots,X_{k}\rangle$ as
+  \begin{quote}
+  \begin{math}
+   X_{k,u,i} = \begin{Bmatrix}
+   		True & if\ \exists\ v\in \ \ ISAG(u,k) \wedge likes(v,i)\\ \\
+   		False & otherwise
+   \end{Bmatrix}
+  \end{math}
+  \end{quote}
+  Additionally we add friend feature which encodes whether the target item $i$ is liked by friend or not.
+  \item \textbf{Activity Social Affinity Features} : We define activity affinity features for target user $u$ and item $i$   \
+  $ \langle X_{1},X_{2}\ldots,X_{k}\rangle$ as\\ \\
+  \begin{math}
+   X_{k,u,i} = \begin{Bmatrix}
+   		True & if\ \exists\ v\in \ ASAG(u,k) \wedge likes(v,i)\\ \\
+   		False & otherwise
+   \end{Bmatrix}
+  \end{math}
+	In our analysis we use only those features(groups, pages and favourites) that is joined/liked by atleast one of our app user.
+\end{itemize}
+
+With Affinity features defined, we use naive bayes, Logistic regression and Support Vector Machine (SVM) model to predict whether 
+user likes the link or not. Logistic Regression and Support Vector Machine algorithm is implemented using LIBLINER \cite{liblinear}.
+
+Acknowledging the fact that, in real world social recommendation task, activitiy features grows very quickly as number of user in social 
+networks increase we explore informativeness of social affinity features from the recommender system standpoint. Furthermore, its compelling
+to understand informativeness of the interaction features. For fine grained analysis of activities and interactions we rank the features using
+\textit{Conditional Entropy} H(Y$|$X=true).
+
+\textit{Conditional Entropy} is defined as
+\begin{quote}
+\begin{math}
+H(Y|X=True) = \\-\sum_{y\in{(like,dislike)}} p(y|X$=$true)$ $log( p(y|X$=$true))
+\end{math}
+\end{quote}
+ Conditional Entropy measures the extent of discriminitiveness of the features.\\
+
+With the data and methodology now defined including all dimensions of our analysis, we now proceed to an in-depth discussion of our findings.
+
+
+
+
+
+ 
+
+
+
+
