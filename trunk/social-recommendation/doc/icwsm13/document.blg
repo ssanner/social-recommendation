@@ -3,48 +3,49 @@ Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: document.aux
 The style file: aaai.bst
 Database file #1: bibliography.bib
-Warning--I didn't find a database entry for "liblinear"
+Warning--I didn't find a database entry for "anonymous"
+Warning--I didn't find a database entry for "Wilson2012BSG"
 Warning--I didn't find a database entry for "SMB"
 Warning--empty booktitle in Romero2011hashtag
-You've used 8 entries,
+You've used 13 entries,
             2568 wiz_defined-function locations,
-            625 strings with 6075 characters,
-and the built_in function-call counts, 3662 in all, are:
-= -- 386
-> -- 169
-< -- 3
-+ -- 60
-- -- 58
-* -- 277
-:= -- 587
-add.period$ -- 43
-call.type$ -- 8
-change.case$ -- 61
-chr.to.int$ -- 8
-cite$ -- 9
-duplicate$ -- 151
-empty$ -- 256
-format.name$ -- 76
-if$ -- 775
+            651 strings with 7009 characters,
+and the built_in function-call counts, 6169 in all, are:
+= -- 642
+> -- 309
+< -- 5
++ -- 110
+- -- 108
+* -- 473
+:= -- 988
+add.period$ -- 69
+call.type$ -- 13
+change.case$ -- 106
+chr.to.int$ -- 13
+cite$ -- 14
+duplicate$ -- 249
+empty$ -- 419
+format.name$ -- 132
+if$ -- 1304
 int.to.chr$ -- 1
 int.to.str$ -- 0
-missing$ -- 8
-newline$ -- 54
-num.names$ -- 24
-pop$ -- 61
+missing$ -- 13
+newline$ -- 85
+num.names$ -- 39
+pop$ -- 109
 preamble$ -- 1
-purify$ -- 69
+purify$ -- 119
 quote$ -- 0
-skip$ -- 116
+skip$ -- 192
 stack$ -- 0
-substring$ -- 138
-swap$ -- 42
-text.length$ -- 3
+substring$ -- 231
+swap$ -- 72
+text.length$ -- 5
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 64
+type$ -- 104
 warning$ -- 1
-while$ -- 25
-width$ -- 10
-write$ -- 118
-(There were 3 warnings)
+while$ -- 40
+width$ -- 15
+write$ -- 188
+(There were 4 warnings)

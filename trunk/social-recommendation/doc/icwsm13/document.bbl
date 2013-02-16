@@ -7,6 +7,21 @@ Bakshy, E.; Rosenn, I.; Marlow, C.; and Adamic, L.
 \newblock The role of social networks in information diffusion.
 \newblock {\em Facebook report, http://www.scribd.com/facebook}.
 
+\bibitem[\protect\citeauthoryear{Cui \bgroup et al\mbox.\egroup
+  }{2011}]{socinf}
+Cui, P.; Wang, F.; Liu, S.; Ou, M.; and Yang, S.
+\newblock 2011.
+\newblock Who should share what? item-level social influence prediction for
+  users and posts ranking.
+\newblock In {\em International ACM SIGIR Conference (SIGIR)}.
+
+\bibitem[\protect\citeauthoryear{Fan \bgroup et al\mbox.\egroup
+  }{2008}]{liblinear}
+Fan, R.-E.; Chang, K.-W.; Hsieh, C.-J.; Wang, X.-R.; and Lin, C.-J.
+\newblock 2008.
+\newblock Liblinear: A library for large linear classification.
+\newblock {\em Journal of Machine Learning Research}  1871--1874.
+
 \bibitem[\protect\citeauthoryear{Goel, Watts, and
   Goldstein}{2012}]{Goel2012structure}
 Goel, S.; Watts, D.~J.; and Goldstein, D.~G.
@@ -16,6 +31,12 @@ Goel, S.; Watts, D.~J.; and Goldstein, D.~G.
   Commerce}, EC '12,  623--638.
 \newblock New York, NY, USA: ACM.
 
+\bibitem[\protect\citeauthoryear{Li and Yeung}{2009}]{rrmf}
+Li, W.-J., and Yeung, D.-Y.
+\newblock 2009.
+\newblock Relation regularized matrix factorization.
+\newblock In {\em IJCAI-09}.
+
 \bibitem[\protect\citeauthoryear{Ma \bgroup et al\mbox.\egroup }{2008}]{sorec}
 Ma, H.; Yang, H.; Lyu, M.~R.; and King, I.
 \newblock 2008.
@@ -23,11 +44,27 @@ Ma, H.; Yang, H.; Lyu, M.~R.; and King, I.
   factorization.
 \newblock In {\em CIKM-08}.
 
+\bibitem[\protect\citeauthoryear{Ma \bgroup et al\mbox.\egroup }{2011}]{sr}
+Ma, H.; Zhou, D.; Liu, C.; Lyu, M.~R.; and King, I.
+\newblock 2011.
+\newblock Recommender systems with social regularization.
+\newblock In {\em WSDM-11}.
+
 \bibitem[\protect\citeauthoryear{Ma, King, and Lyu}{2009}]{ste}
 Ma; King; and Lyu.
 \newblock 2009.
 \newblock Learning to recommend with social trust ensemble.
 \newblock In {\em SIGIR-09}.
+
+\bibitem[\protect\citeauthoryear{Noel \bgroup et al\mbox.\egroup
+  }{2012}]{Noel2012NOF}
+Noel, J.; Sanner, S.; Tran, K.-N.; Christen, P.; Xie, L.; Bonilla, E.~V.;
+  Abbasnejad, E.; and Della~Penna, N.
+\newblock 2012.
+\newblock New objective functions for social collaborative filtering.
+\newblock In {\em Proceedings of the 21st international conference on World
+  Wide Web}, WWW '12,  859--868.
+\newblock New York, NY, USA: ACM.
 
 \bibitem[\protect\citeauthoryear{Panigrahy, Najork, and
   Xie}{2012}]{Panigrahy2012ubr}

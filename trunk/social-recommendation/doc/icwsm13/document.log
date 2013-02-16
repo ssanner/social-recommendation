@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011/Cygwin) (format=pdflatex 2012.5.9)  16 FEB 2013 15:58
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011/Cygwin) (format=pdflatex 2012.5.9)  16 FEB 2013 16:17
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -246,23 +246,31 @@ G,.JBIG2,.JB2,.eps]
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 )))
-(./document.aux)
+(/usr/share/texmf-dist/tex/latex/graphics/color.sty
+Package: color 2005/11/14 v1.0j Standard LaTeX Color (DPC)
+
+(/usr/share/texmf-dist/tex/latex/latexconfig/color.cfg
+File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
+)
+Package color Info: Driver file: pdftex.def on input line 130.
+) (./document.aux)
 \openout1 = `document.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 50.
-LaTeX Font Info:    ... okay on input line 50.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 50.
-LaTeX Font Info:    ... okay on input line 50.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 50.
-LaTeX Font Info:    ... okay on input line 50.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 50.
-LaTeX Font Info:    ... okay on input line 50.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 50.
-LaTeX Font Info:    ... okay on input line 50.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 50.
-LaTeX Font Info:    ... okay on input line 50.
-LaTeX Font Info:    Try loading font information for OT1+ptm on input line 50.
- (/usr/share/texmf-dist/tex/latex/psnfss/ot1ptm.fd
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 51.
+LaTeX Font Info:    ... okay on input line 51.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 51.
+LaTeX Font Info:    ... okay on input line 51.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 51.
+LaTeX Font Info:    ... okay on input line 51.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 51.
+LaTeX Font Info:    ... okay on input line 51.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 51.
+LaTeX Font Info:    ... okay on input line 51.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 51.
+LaTeX Font Info:    ... okay on input line 51.
+LaTeX Font Info:    Try loading font information for OT1+ptm on input line 51.
+
+(/usr/share/texmf-dist/tex/latex/psnfss/ot1ptm.fd
 File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
 )
 Package caption Info: Begin \AtBeginDocument code.
@@ -284,211 +292,115 @@ Package caption Info: End \AtBeginDocument code.
 \everyMPtoPDFconversion=\toks28
 )
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <14.4> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 55.
-LaTeX Font Info:    Try loading font information for U+msa on input line 55.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 56.
+LaTeX Font Info:    Try loading font information for U+msa on input line 56.
  (/usr/share/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2009/06/22 v3.00 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 55.
+LaTeX Font Info:    Try loading font information for U+msb on input line 56.
 
 (/usr/share/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2009/06/22 v3.00 AMS symbols B
 )
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 55.
-LaTeX Font Info:    Try loading font information for OMS+ptm on input line 55.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 56.
+LaTeX Font Info:    Try loading font information for OMS+ptm on input line 56.
 
 (/usr/share/texmf-dist/tex/latex/psnfss/omsptm.fd
 File: omsptm.fd 
 )
 LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <9> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 55.
-LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 57.
- (./abstract.tex)
-(./intro.tex
-
-LaTeX Warning: Citation `sorec' on page 1 undefined on input line 10.
-
-
-LaTeX Warning: Citation `ste' on page 1 undefined on input line 10.
-
-
-LaTeX Warning: Citation `lla' on page 1 undefined on input line 10.
-
-
-LaTeX Warning: Citation `Goel2012structure' on page 1 undefined on input line 1
-2.
-
-
-LaTeX Warning: Citation `Romero2011hashtag' on page 1 undefined on input line 1
-2.
-
-
-LaTeX Warning: Citation `Bakshy2012chamber' on page 1 undefined on input line 1
-2.
-
-
-LaTeX Warning: Citation `anonymous' on page 1 undefined on input line 23.
-
-! Undefined control sequence.
-\TODO #1-> {\color 
-                   {blue}{\bf TODO:~{#1}}} 
-l.45 \TODO{add table-of-content?}
-                                 
-? 
-) (./data-description.tex [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
-
-
-
-]
-
-LaTeX Warning: Reference `tab:interactions' on page 2 undefined on input line 4
-1.
-
-
-LaTeX Warning: Reference `tab:likeinfo' on page 2 undefined on input line 41.
-
-
-LaTeX Warning: Reference `tab:interactions' on page 2 undefined on input line 4
-2.
-
-
-LaTeX Warning: Reference `tab:demographics' on page 2 undefined on input line 4
-4.
-
-
-LaTeX Warning: Reference `tab:interests' on page 2 undefined on input line 45.
-
-
-LaTeX Warning: Reference `tab:likeinfo' on page 2 undefined on input line 49.
-
-LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10.95> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 53.
-LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <10> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 56.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 58.
+ (./abstract.tex)
+(./intro.tex)
+Underfull \vbox (badness 1400) has occurred while \output is active []
 
-LaTeX Warning: Citation `saez2011high' on page 2 undefined on input line 62.
-
-LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <9> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 91.
-
-Overfull \hbox (18.75471pt too wide) in paragraph at lines 89--114
- [][] 
- []
-
-
-Underfull \hbox (badness 2744) in paragraph at lines 166--166
-[]\OT1/ptm/m/n/10 Table 4: |Dataset break-down by friend/non-friend and
- []
-
-) (./methodology.tex
-
-LaTeX Warning: Citation `Panigrahy2012ubr' on page 2 undefined on input line 3.
+ [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
 
 
 
-LaTeX Warning: Citation `Goel2012structure' on page 2 undefined on input line 4
-.
+] (./methodology.tex
+<data/overview.pdf, id=10, 687.56876pt x 468.75125pt>
+File: data/overview.pdf Graphic file (type pdf)
+ <use data/overview.pdf>
+Package pdftex.def Info: data/overview.pdf used on input line 9.
+(pdftex.def)             Requested size: 227.42392pt x 155.046pt.
+LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <10> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 19.
 
 
-LaTeX Warning: Citation `Wilson2012BSG' on page 2 undefined on input line 5.
+LaTeX Warning: Citation `Wilson2012BSG' on page 2 undefined on input line 52.
 
-[2]
-Underfull \hbox (badness 10000) in paragraph at lines 16--19
+
+Underfull \hbox (badness 10000) in paragraph at lines 65--68
 []$[] \OT1/cmr/m/n/10 =
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 16--19
+Underfull \hbox (badness 10000) in paragraph at lines 65--68
 \OMS/cmsy/m/n/10 f\OML/cmm/m/it/10 link; post; photo; video\OMS/cmsy/m/n/10 g ^
 ^B
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 28--30
+Underfull \hbox (badness 10000) in paragraph at lines 77--79
 
  []
 
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10.95> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 94.
 
-Overfull \hbox (20.2867pt too wide) in paragraph at lines 50--56
+Overfull \hbox (20.2867pt too wide) in paragraph at lines 99--105
 []$\OML/cmm/m/it/10 X[] \OT1/cmr/m/n/10 = []$ 
  []
 
 
-Underfull \hbox (badness 3492) in paragraph at lines 57--58
+Underfull \hbox (badness 3492) in paragraph at lines 106--107
 \OT1/ptm/m/n/10 Additionally we add friend fea-ture which en-codes
  []
 
 
-Underfull \hbox (badness 2435) in paragraph at lines 58--67
+Underfull \hbox (badness 2435) in paragraph at lines 107--116
 []\OT1/ptm/b/n/10 Activity So-cial Affin-ity Fea-tures \OT1/ptm/m/n/10 : We de-
 fine ac-
  []
 
 
-Underfull \hbox (badness 1515) in paragraph at lines 58--67
+Underfull \hbox (badness 1515) in paragraph at lines 107--116
 \OT1/ptm/m/n/10 tiv-ity affin-ity fea-tures for tar-get user $\OML/cmm/m/it/10 
 u$ \OT1/ptm/m/n/10 and item $\OML/cmm/m/it/10 i$
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 58--67
+Underfull \hbox (badness 10000) in paragraph at lines 107--116
 
  []
 
 
-Overfull \hbox (7.60617pt too wide) in paragraph at lines 58--67
+Overfull \hbox (7.60617pt too wide) in paragraph at lines 107--116
 \OML/cmm/m/it/10 X[] \OT1/cmr/m/n/10 = []$
  []
 
+[2 <./data/overview.pdf>]
 
-LaTeX Warning: Citation `liblinear' on page 3 undefined on input line 70.
+LaTeX Warning: Citation `SMB' on page 3 undefined on input line 122.
+
+) (./data-description.tex
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <9> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 57.
+
+Overfull \hbox (18.75471pt too wide) in paragraph at lines 55--80
+ [][] 
+ []
 
 
-LaTeX Warning: Citation `SMB' on page 3 undefined on input line 73.
+Underfull \hbox (badness 2744) in paragraph at lines 132--132
+[]\OT1/ptm/m/n/10 Table 4: |Dataset break-down by friend/non-friend and
+ []
 
 ) (./affinity_filtering.tex
-
-LaTeX Warning: Reference `***' on page 3 undefined on input line 21.
-
-[3]
-
-LaTeX Warning: Reference `Fig1' on page 4 undefined on input line 28.
-
-
-LaTeX Warning: Reference `Fig1' on page 4 undefined on input line 37.
-
-
-LaTeX Warning: Reference `Fig1' on page 4 undefined on input line 47.
-
-
-LaTeX Warning: Reference `tab:interests' on page 4 undefined on input line 51.
-
-
-LaTeX Warning: Citation `Noel2012NOF' on page 4 undefined on input line 59.
-
-
-LaTeX Warning: Citation `lla' on page 4 undefined on input line 63.
-
-
-LaTeX Warning: Citation `socinf' on page 4 undefined on input line 63.
-
-
-LaTeX Warning: Citation `sr' on page 4 undefined on input line 63.
-
-
-LaTeX Warning: Citation `rrmf' on page 4 undefined on input line 63.
-
-
-LaTeX Warning: Citation `spectral' on page 4 undefined on input line 63.
-
-
-LaTeX Warning: Citation `sorec' on page 4 undefined on input line 63.
-
-
-LaTeX Warning: Citation `ste' on page 4 undefined on input line 63.
-
 Package epstopdf Info: Source file: <data/plots/accuracy/accuracy.eps>
 (epstopdf)                    date: 2013-02-16 12:56:09
 (epstopdf)                    size: 55673 bytes
@@ -498,32 +410,24 @@ Package epstopdf Info: Source file: <data/plots/accuracy/accuracy.eps>
 (epstopdf)                    size: 21862 bytes
 (epstopdf)             Command: <repstopdf --outfile=data/plots/accuracy/accura
 cy-eps-converted-to.pdf data/plots/accuracy/accuracy.eps>
-(epstopdf)             \includegraphics on input line 95.
+(epstopdf)             \includegraphics on input line 4.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/accuracy/accuracy-eps-converted-to.pdf, id=25, 1601.985pt x 436.631
+<data/plots/accuracy/accuracy-eps-converted-to.pdf, id=75, 1601.985pt x 436.631
 26pt>
 File: data/plots/accuracy/accuracy-eps-converted-to.pdf Graphic file (type pdf)
 
  <use data/plots/accuracy/accuracy-eps-converted-to.pdf>
 Package pdftex.def Info: data/plots/accuracy/accuracy-eps-converted-to.pdf used
- on input line 95.
-(pdftex.def)             Requested size: 654.42258pt x 142.26324pt.
+ on input line 4.
+(pdftex.def)             Requested size: 654.41338pt x 178.36705pt.
 
-Overfull \hbox (148.53258pt too wide) in paragraph at lines 95--96
- [][] 
+Overfull \hbox (125.76118pt too wide) in paragraph at lines 4--5
+[] [] 
  []
 
-) (./interaction_analysis.tex
-
-LaTeX Warning: Reference `Fig2' on page 4 undefined on input line 3.
-
-
-LaTeX Warning: Reference `Fig2' on page 4 undefined on input line 5.
-
-
-LaTeX Warning: Citation `saez2011high' on page 4 undefined on input line 12.
-
+[3] [4 <./data/plots/accuracy/accuracy-eps-converted-to.pdf>])
+(./interaction_analysis.tex
 Package epstopdf Info: Source file: <data/plots/vsk/ModalityActionsvsKFriends.e
 ps>
 (epstopdf)                    date: 2013-02-16 12:55:06
@@ -538,8 +442,8 @@ s>
 (epstopdf)             \includegraphics on input line 27.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/vsk/ModalityActionsvsKFriends-eps-converted-to.pdf, id=26, 1483.542
-5pt x 456.70625pt>
+<data/plots/vsk/ModalityActionsvsKFriends-eps-converted-to.pdf, id=123, 1483.54
+25pt x 456.70625pt>
 File: data/plots/vsk/ModalityActionsvsKFriends-eps-converted-to.pdf Graphic fil
 e (type pdf)
 
@@ -549,22 +453,9 @@ Package pdftex.def Info: data/plots/vsk/ModalityActionsvsKFriends-eps-converted
 (pdftex.def)             Requested size: 455.23021pt x 113.80693pt.
 )
 (./activity_analysis.tex
-
-LaTeX Warning: Reference `Fig3' on page 4 undefined on input line 8.
-
-
 Underfull \hbox (badness 1270) in paragraph at lines 8--12
 \OT1/ptm/m/n/10 tropy/logistic re-gres-sion weights and size of ac-tiv-ity
  []
-
-
-LaTeX Warning: Reference `Fig4' on page 4 undefined on input line 12.
-
-
-LaTeX Warning: Reference `Fig4' on page 4 undefined on input line 17.
-
-
-LaTeX Warning: Reference `Fig5' on page 4 undefined on input line 20.
 
 Package epstopdf Info: Source file: <data/plots/scatterplots/vssize/CEvsGroupSi
 ze.eps>
@@ -580,8 +471,8 @@ pSize.eps>
 (epstopdf)             \includegraphics on input line 30.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/scatterplots/vssize/CEvsGroupSize-eps-converted-to.pdf, id=27, 578.
-16pt x 433.62pt>
+<data/plots/scatterplots/vssize/CEvsGroupSize-eps-converted-to.pdf, id=124, 578
+.16pt x 433.62pt>
 File: data/plots/scatterplots/vssize/CEvsGroupSize-eps-converted-to.pdf Graphic
  file (type pdf)
 
@@ -603,8 +494,8 @@ ize.eps>
 (epstopdf)             \includegraphics on input line 31.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/scatterplots/vssize/CEvsPageSize-eps-converted-to.pdf, id=28, 578.1
-6pt x 433.62pt>
+<data/plots/scatterplots/vssize/CEvsPageSize-eps-converted-to.pdf, id=125, 578.
+16pt x 433.62pt>
 File: data/plots/scatterplots/vssize/CEvsPageSize-eps-converted-to.pdf Graphic 
 file (type pdf)
 
@@ -626,8 +517,8 @@ e.eps>
 (epstopdf)             \includegraphics on input line 32.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/scatterplots/vssize/CEvsFavSize-eps-converted-to.pdf, id=29, 578.16
-pt x 433.62pt>
+<data/plots/scatterplots/vssize/CEvsFavSize-eps-converted-to.pdf, id=126, 578.1
+6pt x 433.62pt>
 File: data/plots/scatterplots/vssize/CEvsFavSize-eps-converted-to.pdf Graphic f
 ile (type pdf)
 
@@ -650,7 +541,7 @@ hts/LRweightvsGroupSize.eps>
 Package epstopdf Info: Output file is already uptodate.
 
 <data/plots/scatterplots/LRweights/LRweightvsGroupSize-eps-converted-to.pdf, id
-=30, 578.16pt x 433.62pt>
+=127, 578.16pt x 433.62pt>
 File: data/plots/scatterplots/LRweights/LRweightvsGroupSize-eps-converted-to.pd
 f Graphic file (type pdf)
 
@@ -674,7 +565,7 @@ ts/LRweightvsPageSize.eps>
 Package epstopdf Info: Output file is already uptodate.
 
 <data/plots/scatterplots/LRweights/LRweightvsPageSize-eps-converted-to.pdf, id=
-31, 578.16pt x 433.62pt>
+128, 578.16pt x 433.62pt>
 File: data/plots/scatterplots/LRweights/LRweightvsPageSize-eps-converted-to.pdf
  Graphic file (type pdf)
 
@@ -697,7 +588,7 @@ weights/LRweightvsFavouriteSize.eps>
 Package epstopdf Info: Output file is already uptodate.
 
 <data/plots/scatterplots/LRweights/LRweightvsFavouriteSize-eps-converted-to.pdf
-, id=32, 578.16pt x 433.62pt>
+, id=129, 578.16pt x 433.62pt>
 File: data/plots/scatterplots/LRweights/LRweightvsFavouriteSize-eps-converted-t
 o.pdf Graphic file (type pdf)
 
@@ -721,7 +612,7 @@ veEntropy/CEvsGroupSize_Top300Features_30bins.eps>
 Package epstopdf Info: Output file is already uptodate.
 
 <data/plots/cumulativeEntropy/CEvsGroupSize_Top300Features_30bins-eps-converted
--to.pdf, id=33, 578.16pt x 433.62pt>
+-to.pdf, id=130, 578.16pt x 433.62pt>
 File: data/plots/cumulativeEntropy/CEvsGroupSize_Top300Features_30bins-eps-conv
 erted-to.pdf Graphic file (type pdf)
 
@@ -745,7 +636,7 @@ iveEntropy/CEvsPageSize_Top800Features_3000bins.eps>
 Package epstopdf Info: Output file is already uptodate.
 
 <data/plots/cumulativeEntropy/CEvsPageSize_Top800Features_3000bins-eps-converte
-d-to.pdf, id=34, 578.16pt x 433.62pt>
+d-to.pdf, id=131, 578.16pt x 433.62pt>
 File: data/plots/cumulativeEntropy/CEvsPageSize_Top800Features_3000bins-eps-con
 verted-to.pdf Graphic file (type pdf)
 
@@ -769,7 +660,7 @@ veEntropy/CEvsFavSize_Top800Features_5000bins.eps>
 Package epstopdf Info: Output file is already uptodate.
 
 <data/plots/cumulativeEntropy/CEvsFavSize_Top800Features_5000bins-eps-converted
--to.pdf, id=35, 578.16pt x 433.62pt>
+-to.pdf, id=132, 578.16pt x 433.62pt>
 File: data/plots/cumulativeEntropy/CEvsFavSize_Top800Features_5000bins-eps-conv
 erted-to.pdf Graphic file (type pdf)
 
@@ -790,8 +681,8 @@ vTypes-eps-converted-to.pdf data/plots/boxPlots/CEvsFavTypes.eps>
 (epstopdf)             \includegraphics on input line 58.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/boxPlots/CEvsFavTypes-eps-converted-to.pdf, id=36, 1597.97pt x 434.
-62375pt>
+<data/plots/boxPlots/CEvsFavTypes-eps-converted-to.pdf, id=133, 1597.97pt x 434
+.62375pt>
 File: data/plots/boxPlots/CEvsFavTypes-eps-converted-to.pdf Graphic file (type 
 pdf)
  <use data/plots/boxPlots/CEvsFavTypes-eps-converted-to.pdf>
@@ -803,50 +694,119 @@ Overfull \hbox (6.25111pt too wide) in paragraph at lines 58--59
  [][] 
  []
 
-) (./document.bbl [4]) [5
+) (./relatedWork.tex
 
- <./data/plots/accuracy/accuracy-eps-converted-to.pdf> <./data/plots/vsk/Modali
-tyActionsvsKFriends-eps-converted-to.pdf>] [6 <./data/plots/scatterplots/vssize
-/CEvsGroupSize-eps-converted-to.pdf> <./data/plots/scatterplots/vssize/CEvsPage
-Size-eps-converted-to.pdf> <./data/plots/scatterplots/vssize/CEvsFavSize-eps-co
-nverted-to.pdf> <./data/plots/scatterplots/LRweights/LRweightvsGroupSize-eps-co
-nverted-to.pdf> <./data/plots/scatterplots/LRweights/LRweightvsPageSize-eps-con
-verted-to.pdf> <./data/plots/scatterplots/LRweights/LRweightvsFavouriteSize-eps
--converted-to.pdf> <./data/plots/cumulativeEntropy/CEvsGroupSize_Top300Features
-_30bins-eps-converted-to.pdf> <./data/plots/cumulativeEntropy/CEvsPageSize_Top8
-00Features_3000bins-eps-converted-to.pdf> <./data/plots/cumulativeEntropy/CEvsF
-avSize_Top800Features_5000bins-eps-converted-to.pdf> <./data/plots/boxPlots/CEv
-sFavTypes-eps-converted-to.pdf>] (./document.aux)
-
-LaTeX Warning: There were undefined references.
+LaTeX Warning: Citation `Chang2010ethnicity' on page 5 undefined on input line 
+15.
 
 
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+LaTeX Warning: Citation `backstrom2011center' on page 5 undefined on input line
+ 17.
 
- ) 
+
+LaTeX Warning: Citation `wilson2009user' on page 5 undefined on input line 18.
+
+
+LaTeX Warning: Citation `backstrom2011center' on page 5 undefined on input line
+ 18.
+
+
+LaTeX Warning: Citation `hill2003social' on page 5 undefined on input line 18.
+
+
+LaTeX Warning: Citation `backstrom2011center' on page 5 undefined on input line
+ 18.
+
+Missing character: There is no Ð in font ptmr7t!
+
+LaTeX Warning: Citation `Golub2010selectionbiase' on page 5 undefined on input 
+line 25.
+
+
+LaTeX Warning: Citation `ver2011stops' on page 5 undefined on input line 27.
+
+
+LaTeX Warning: Citation `asur2011trends' on page 5 undefined on input line 35.
+
+
+LaTeX Warning: Citation `Bakshy2011everyone' on page 5 undefined on input line 
+35.
+
+
+LaTeX Warning: Citation `Bakshy2011everyone' on page 5 undefined on input line 
+35.
+
+
+LaTeX Warning: Citation `asur2011trends' on page 5 undefined on input line 35.
+
+
+LaTeX Warning: Citation `Bakshy2011everyone' on page 5 undefined on input line 
+35.
+
+
+LaTeX Warning: Citation `influence' on page 5 undefined on input line 35.
+
+[5] [6 <./data/plots/vsk/ModalityActionsvsKFriends-eps-converted-to.pdf> <./dat
+a/plots/scatterplots/vssize/CEvsGroupSize-eps-converted-to.pdf> <./data/plots/s
+catterplots/vssize/CEvsPageSize-eps-converted-to.pdf> <./data/plots/scatterplot
+s/vssize/CEvsFavSize-eps-converted-to.pdf> <./data/plots/scatterplots/LRweights
+/LRweightvsGroupSize-eps-converted-to.pdf> <./data/plots/scatterplots/LRweights
+/LRweightvsPageSize-eps-converted-to.pdf> <./data/plots/scatterplots/LRweights/
+LRweightvsFavouriteSize-eps-converted-to.pdf> <./data/plots/cumulativeEntropy/C
+EvsGroupSize_Top300Features_30bins-eps-converted-to.pdf> <./data/plots/cumulati
+veEntropy/CEvsPageSize_Top800Features_3000bins-eps-converted-to.pdf> <./data/pl
+ots/cumulativeEntropy/CEvsFavSize_Top800Features_5000bins-eps-converted-to.pdf>
+]
+
+LaTeX Warning: Citation `singla2008yes' on page 7 undefined on input line 42.
+
+
+LaTeX Warning: Citation `Anderson2012' on page 7 undefined on input line 43.
+
+
+LaTeX Warning: Citation `brandtzag2011facebook' on page 7 undefined on input li
+ne 43.
+
+
+LaTeX Warning: Citation `gilbert2009predicting' on page 7 undefined on input li
+ne 44.
+
+
+LaTeX Warning: Citation `nori2011exploiting' on page 7 undefined on input line 
+45.
+
+
+LaTeX Warning: Citation `gomes2011social' on page 7 undefined on input line 45.
+
+
+) (./document.bbl [7 <./data/plots/boxPlots/CEvsFavTypes-eps-converted-to.pdf>]
+) [8
+
+] (./document.aux) ) 
 Here is how much of TeX's memory you used:
- 3877 strings out of 493629
- 58690 string characters out of 3148772
- 122247 words of memory out of 3000000
- 7064 multiletter control sequences out of 15000+200000
+ 3943 strings out of 493629
+ 59761 string characters out of 3148772
+ 124018 words of memory out of 3000000
+ 7120 multiletter control sequences out of 15000+200000
  29690 words of font info for 66 fonts, out of 3000000 for 9000
  831 hyphenation exceptions out of 8191
- 44i,15n,46p,302b,404s stack positions out of 5000i,500n,10000p,200000b,50000s
-{/usr/share/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texmf-dist/fon
-ts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texmf-dist/fonts/type1/publi
-c/amsfonts/cm/cmex10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/
-cmmi10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></us
-r/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-d
-ist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texmf-dist/fonts/type1/
-public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfont
-s/cm/cmsy7.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb>
-</usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/te
-xmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texmf-dist/fonts/type1/ur
-w/times/utmr8a.pfb></usr/share/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on document.pdf (6 pages, 2336928 bytes).
+ 44i,16n,46p,1057b,416s stack positions out of 5000i,500n,10000p,200000b,50000s
+{/usr/share/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/sh
+are/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texmf-dist
+/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texmf-dist/fonts/type1/p
+ublic/amsfonts/cm/cmmi10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts
+/cm/cmmi7.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><
+/usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texmf
+-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-dist/fonts/ty
+pe1/public/amsfonts/cm/cmsy7.pfb></usr/share/texmf-dist/fonts/type1/public/amsf
+onts/cm/cmsy9.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.
+pfb></usr/share/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texmf-d
+ist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texmf-dist/fonts/type1/urw/tim
+es/utmri8a.pfb>
+Output written on document.pdf (8 pages, 3508512 bytes).
 PDF statistics:
- 511 PDF objects out of 1000 (max. 8388607)
- 102 compressed objects within 2 object streams
+ 575 PDF objects out of 1000 (max. 8388607)
+ 145 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
- 61 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 66 words of extra memory for PDF output out of 10000 (max. 10000000)
 
