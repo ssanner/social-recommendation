@@ -10,6 +10,12 @@
 
 We define the social affinity between two users via their direct {\em interactions}
 on various digital items, and their shared {\em activities} in different communities of the social network. 
+As illustrated in Fig~\ref{fig:overview}, the high-level objective of this paper is to use 
+such social affinity to help decide whether or not a user $u$ will like a digital item $i$ (in our test case, a link). 
+We call this recommendation algorithm \textit{Social Affinity Filtering (SAF)}, it infers 
+target user $u$'s preference for link $i$ through the preference of their 
+\textit{ Social Affinity Groups (SAG)}, i.e. a set of users with known preferences to link $i$, and who has at least one interaction or activity in common with $u$. 
+
 
 \subsection{Action types on Facebook}
 On Facebook, We use the term {\em Interactions} and {\em Activities} to refer to the range of user-user and user-community actions, respectively.
@@ -71,14 +77,20 @@ happens within one step from the source node.
 
 \subsection{Social Affinity Groups}
 
-The major objective of this paper is to evaluate the effectiveness of \textit{Social Affinity Filtering(SAF)} and fine grained 
+\eat{
+The major objective of this paper is to evaluate the effectiveness of \textit{Social Affinity Filtering (SAF)} and fine grained 
 analysis of the informativeness of Interactions and Activities.We divide our recommendation algorithm into two categories based 
-on Interactions and Activities of target user's \textit{ Social Affinity Groups(SAG)} with target item, 
-namely \textit{Interaction  Social Affinity Groups(ISAG)} and \textit{Activity Social Affinity Groups(ASAG)}.
+on Interactions and Activities of 
+}
+
+Based on the definitions of {\em interaction}  and {\em activities} above, 
+%\textit{ Social Affinity Groups (SAG)} with target item, 
+we define two types of {\em social affinity groups} of a user with a target item,
+namely \textit{Interaction  Social Affinity Groups (ISAG)} and \textit{Activity Social Affinity Groups (ASAG)}.
 
 \begin{itemize}
-  \item \textbf{Interaction  Social Affinity Groups}: We define the set of interaction affinity classes based on 
-  Interaction modality, action and direction as
+  \item \textbf{Interaction  Social Affinity Groups}. Let the set of interaction affinity classes be the cross-product of 
+  Interaction modality, action and direction:
   \begin{quote}
   \begin{math}
   	\textit{Interaction Affinity Classes} = \{link, post, photo, video\} \times \{like, tag, comment\} \times \{incoming, outgoing\}
@@ -87,13 +99,13 @@ namely \textit{Interaction  Social Affinity Groups(ISAG)} and \textit{Activity S
   %Additionally, we add friendship interaction affinity class. \\
   We define 
   \begin{quote}
-  \textit{ISAG(u, i)} : set of the users who have interaction $i$ with user $u$.
+  \textit{ISAG(u, j)} $:=$ the set of the users who have interaction $j$ with user $u$.
   \end{quote}
    For example,
    \begin{quote}
    
-   \textit{ISAG(u, link-like-incoming)} : set of all users who have liked link posted by user $u$. \\
-   \textit{ISAG(u, link-like-outgoing)} : set of all users whose link is liked by user $u$. \\
+   \textit{ISAG(u, link-like-incoming)}  is the set of all users who have liked link posted by user $u$. \\
+   \textit{ISAG(u, photo-comment-outgoing)} is the set of all users whose photos received at least one comment from $u$. \\
    \end{quote}
 \item \textbf{Activity Social Affinity Groups}: We define activity affinity groups based on group membership, page likes and user favourites.
 	\begin{quote}
