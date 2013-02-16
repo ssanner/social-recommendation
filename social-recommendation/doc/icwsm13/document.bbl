@@ -1,3 +1,66 @@
 \begin{thebibliography}{}
 
+\bibitem[\protect\citeauthoryear{Bakshy \bgroup et al\mbox.\egroup
+  }{2012}]{Bakshy2012chamber}
+Bakshy, E.; Rosenn, I.; Marlow, C.; and Adamic, L.
+\newblock 2012.
+\newblock The role of social networks in information diffusion.
+\newblock {\em Facebook report, http://www.scribd.com/facebook}.
+
+\bibitem[\protect\citeauthoryear{Goel, Watts, and
+  Goldstein}{2012}]{Goel2012structure}
+Goel, S.; Watts, D.~J.; and Goldstein, D.~G.
+\newblock 2012.
+\newblock The structure of online diffusion networks.
+\newblock In {\em Proceedings of the 13th ACM Conference on Electronic
+  Commerce}, EC '12,  623--638.
+\newblock New York, NY, USA: ACM.
+
+\bibitem[\protect\citeauthoryear{Ma \bgroup et al\mbox.\egroup }{2008}]{sorec}
+Ma, H.; Yang, H.; Lyu, M.~R.; and King, I.
+\newblock 2008.
+\newblock Sorec: Social recommendation using probabilistic matrix
+  factorization.
+\newblock In {\em CIKM-08}.
+
+\bibitem[\protect\citeauthoryear{Ma, King, and Lyu}{2009}]{ste}
+Ma; King; and Lyu.
+\newblock 2009.
+\newblock Learning to recommend with social trust ensemble.
+\newblock In {\em SIGIR-09}.
+
+\bibitem[\protect\citeauthoryear{Panigrahy, Najork, and
+  Xie}{2012}]{Panigrahy2012ubr}
+Panigrahy, R.; Najork, M.; and Xie, Y.
+\newblock 2012.
+\newblock How user behavior is related to social affinity.
+\newblock In {\em Proceedings of the fifth ACM international conference on Web
+  search and data mining}, WSDM '12,  713--722.
+\newblock New York, NY, USA: ACM.
+
+\bibitem[\protect\citeauthoryear{Romero, Meeder, and
+  Kleinberg}{2011}]{Romero2011hashtag}
+Romero, D.~M.; Meeder, B.; and Kleinberg, J.
+\newblock 2011.
+\newblock Differences in the mechanics of information diffusion across topics:
+  idioms, political hashtags, and complex contagion on twitter.
+\newblock WWW '11,  695--704.
+\newblock ACM.
+
+\bibitem[\protect\citeauthoryear{Saez-Trumper, Nettleton, and
+  Baeza-Yates}{2011}]{saez2011high}
+Saez-Trumper, D.; Nettleton, D.; and Baeza-Yates, R.
+\newblock 2011.
+\newblock High correlation between incoming and outgoing activity: A
+  distinctive property of online social networks?
+\newblock In {\em Fifth International AAAI Conference on Weblogs and Social
+  Media}, ICWSM '11.
+
+\bibitem[\protect\citeauthoryear{Yang \bgroup et al\mbox.\egroup }{2011}]{lla}
+Yang; Long; Smola; Sadagopan; Zheng; and Zha.
+\newblock 2011.
+\newblock Like like alike: Joint friendship and interest propagation in social
+  networks.
+\newblock In {\em WWW-11}.
+
 \end{thebibliography}
