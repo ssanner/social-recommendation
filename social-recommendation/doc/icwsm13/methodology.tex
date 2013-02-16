@@ -133,6 +133,8 @@ likes(u,i) =  \begin{Bmatrix}
 	In our analysis we use only those features(groups, pages and favourites) that is joined/liked by atleast one of our app user.
 \end{itemize}
 
+\eat{
+%% SCOTT already covered these elsewhere
 We train naive bayes, Logistic Regression(LR) and Support Vector Machine(SVM) model with affinity features.
 Logistic Regression and SVM algorithm was implemented using \textit{LIBLINER} \cite{liblinear} package. 
 We define Constant predictor as baseline predictor. Constant predictor predicts the most common outcome in our datase ie disliket.
@@ -151,7 +153,7 @@ H(Y|X=True) = \\-\sum_{y\in{(like,dislike)}} p(y|X$=$true)$ $log( p(y|X$=$true))
 \end{quote}
 
 With the data and methodology now defined including all dimensions of our analysis, we now proceed to an in-depth discussion of our findings.
-
+}
 
 
 
