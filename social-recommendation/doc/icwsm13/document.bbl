@@ -1,11 +1,57 @@
 \begin{thebibliography}{}
 
+\bibitem[\protect\citeauthoryear{Anderson \bgroup et al\mbox.\egroup
+  }{2012}]{Anderson2012}
+Anderson, A.; Huttenlocher, D.; Kleinberg, J.; and Leskovec, J.
+\newblock 2012.
+\newblock {Effects of User Similarity in Social Media}.
+\newblock In {\em ACM International Conference on Web Search and Data Mining
+  (WSDM)}.
+
+\bibitem[\protect\citeauthoryear{Asur \bgroup et al\mbox.\egroup
+  }{2011}]{asur2011trends}
+Asur, S.; Huberman, B.~A.; Szabo, G.; and Wang, C.
+\newblock 2011.
+\newblock Trends in social media: Persistence and decay.
+\newblock In {\em International AAAI Conference on Weblogs and Social Media}.
+
+\bibitem[\protect\citeauthoryear{Backstrom \bgroup et al\mbox.\egroup
+  }{2011}]{backstrom2011center}
+Backstrom, L.; Bakshy, E.; Kleinberg, J.; Lento, T.; and Rosenn, I.
+\newblock 2011.
+\newblock Center of attention: How facebook users allocate attention across
+  friends.
+\newblock In {\em Proc. 5th International Conference on Weblogs and Social
+  Media (ICWSM)}.
+
+\bibitem[\protect\citeauthoryear{Bakshy \bgroup et al\mbox.\egroup
+  }{2011}]{Bakshy2011everyone}
+Bakshy, E.; Hofman, J.~M.; Mason, W.~A.; and Watts, D.~J.
+\newblock 2011.
+\newblock Everyone's an influencer: quantifying influence on twitter.
+\newblock WSDM '11,  65--74.
+\newblock New York, NY, USA: ACM.
+
 \bibitem[\protect\citeauthoryear{Bakshy \bgroup et al\mbox.\egroup
   }{2012}]{Bakshy2012chamber}
 Bakshy, E.; Rosenn, I.; Marlow, C.; and Adamic, L.
 \newblock 2012.
 \newblock The role of social networks in information diffusion.
 \newblock {\em Facebook report, http://www.scribd.com/facebook}.
+
+\bibitem[\protect\citeauthoryear{Brandtz¾g and
+  Nov}{2011}]{brandtzag2011facebook}
+Brandtz¾g, P.~B., and Nov, O.
+\newblock 2011.
+\newblock Facebook use and social capital --- a longitudinal study.
+\newblock ICWSM'11.
+
+\bibitem[\protect\citeauthoryear{Chang \bgroup et al\mbox.\egroup
+  }{2010}]{Chang2010ethnicity}
+Chang, J.; Rosenn, I.; Backstrom, L.; and Marlow, C.
+\newblock 2010.
+\newblock epluribus : Ethnicity on social networks.
+\newblock In {\em ICWSM '10},  18--25.
 
 \bibitem[\protect\citeauthoryear{Cui \bgroup et al\mbox.\egroup
   }{2011}]{socinf}
@@ -22,6 +68,14 @@ Fan, R.-E.; Chang, K.-W.; Hsieh, C.-J.; Wang, X.-R.; and Lin, C.-J.
 \newblock Liblinear: A library for large linear classification.
 \newblock {\em Journal of Machine Learning Research}  1871--1874.
 
+\bibitem[\protect\citeauthoryear{Gilbert and
+  Karahalios}{2009}]{gilbert2009predicting}
+Gilbert, E., and Karahalios, K.
+\newblock 2009.
+\newblock Predicting tie strength with social media.
+\newblock In {\em Proc. CHI},  211--220.
+\newblock ACM.
+
 \bibitem[\protect\citeauthoryear{Goel, Watts, and
   Goldstein}{2012}]{Goel2012structure}
 Goel, S.; Watts, D.~J.; and Goldstein, D.~G.
@@ -30,6 +84,30 @@ Goel, S.; Watts, D.~J.; and Goldstein, D.~G.
 \newblock In {\em Proceedings of the 13th ACM Conference on Electronic
   Commerce}, EC '12,  623--638.
 \newblock New York, NY, USA: ACM.
+
+\bibitem[\protect\citeauthoryear{Golub and
+  Jackson}{2010}]{Golub2010selectionbiase}
+Golub, B., and Jackson, M.~O.
+\newblock 2010.
+\newblock Using selection bias to explain the observed structure of internet
+  diffusions.
+\newblock {\em Proc. Nat. Academy Sci.} 107(24):10833--10836.
+
+\bibitem[\protect\citeauthoryear{Gomes and da Graca
+  C~Pimentel}{2011}]{gomes2011social}
+Gomes, A., and da~Graca C~Pimentel, M.
+\newblock 2011.
+\newblock Social interactions representation as users behavioral contingencies
+  and evaluation in social networks.
+\newblock In {\em Semantic Computing (ICSC), 2011 Fifth IEEE International
+  Conference on},  275--278.
+\newblock IEEE.
+
+\bibitem[\protect\citeauthoryear{Hill and Dunbar}{2003}]{hill2003social}
+Hill, R., and Dunbar, R.
+\newblock 2003.
+\newblock Social network size in humans.
+\newblock {\em Human Nature} 14(1):53--72.
 
 \bibitem[\protect\citeauthoryear{Li and Yeung}{2009}]{rrmf}
 Li, W.-J., and Yeung, D.-Y.
@@ -66,6 +144,14 @@ Noel, J.; Sanner, S.; Tran, K.-N.; Christen, P.; Xie, L.; Bonilla, E.~V.;
   Wide Web}, WWW '12,  859--868.
 \newblock New York, NY, USA: ACM.
 
+\bibitem[\protect\citeauthoryear{Nori, Bollegala, and
+  Ishizuka}{2011}]{nori2011exploiting}
+Nori, N.; Bollegala, D.; and Ishizuka, M.
+\newblock 2011.
+\newblock Exploiting user interest on social media for aggregating diverse data
+  and predicting interest.
+\newblock ICWSM '11.
+
 \bibitem[\protect\citeauthoryear{Panigrahy, Najork, and
   Xie}{2012}]{Panigrahy2012ubr}
 Panigrahy, R.; Najork, M.; and Xie, Y.
@@ -92,6 +178,42 @@ Saez-Trumper, D.; Nettleton, D.; and Baeza-Yates, R.
   distinctive property of online social networks?
 \newblock In {\em Fifth International AAAI Conference on Weblogs and Social
   Media}, ICWSM '11.
+
+\bibitem[\protect\citeauthoryear{Singla and Richardson}{2008}]{singla2008yes}
+Singla, P., and Richardson, M.
+\newblock 2008.
+\newblock Yes, there is a correlation: - from social networks to personal
+  behavior on the web.
+\newblock WWW '08,  655--664.
+\newblock New York, NY, USA: ACM.
+
+\bibitem[\protect\citeauthoryear{Ver~Steeg, Ghosh, and
+  Lerman}{2011}]{ver2011stops}
+Ver~Steeg, G.; Ghosh, R.; and Lerman, K.
+\newblock 2011.
+\newblock What stops social epidemics?
+\newblock ICWSM '11.
+
+\bibitem[\protect\citeauthoryear{Watts and Dodds}{2007}]{influence}
+Watts, D.~J., and Dodds, P.~S.
+\newblock 2007.
+\newblock Influentials, networks, and public opinion formation.
+\newblock {\em Journal of Consumer Research} 34(4):441--458.
+
+\bibitem[\protect\citeauthoryear{Wilson \bgroup et al\mbox.\egroup
+  }{2009}]{wilson2009user}
+Wilson, C.; Boe, B.; Sala, A.; Puttaswamy, K.; and Zhao, B.
+\newblock 2009.
+\newblock User interactions in social networks and their implications.
+\newblock EuroSys'09,  205--218.
+
+\bibitem[\protect\citeauthoryear{Wilson \bgroup et al\mbox.\egroup
+  }{2012}]{Wilson2012BSG}
+Wilson, C.; Sala, A.; Puttaswamy, K. P.~N.; and Zhao, B.~Y.
+\newblock 2012.
+\newblock Beyond social graphs: User interactions in online social networks and
+  their implications.
+\newblock {\em ACM Trans. Web} 6(4):17:1--17:31.
 
 \bibitem[\protect\citeauthoryear{Yang \bgroup et al\mbox.\egroup }{2011}]{lla}
 Yang; Long; Smola; Sadagopan; Zheng; and Zha.

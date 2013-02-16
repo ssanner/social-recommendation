@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011/Cygwin) (format=pdflatex 2012.5.9)  16 FEB 2013 16:17
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011/Cygwin) (format=pdflatex 2012.5.9)  16 FEB 2013 17:40
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -325,67 +325,65 @@ Underfull \vbox (badness 1400) has occurred while \output is active []
 <data/overview.pdf, id=10, 687.56876pt x 468.75125pt>
 File: data/overview.pdf Graphic file (type pdf)
  <use data/overview.pdf>
-Package pdftex.def Info: data/overview.pdf used on input line 9.
+Package pdftex.def Info: data/overview.pdf used on input line 5.
 (pdftex.def)             Requested size: 227.42392pt x 155.046pt.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10.95> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 14.
 LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <10> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 19.
+LaTeX Font Info:    Font shape `OMS/ptm/m/it' in size <10> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 39.
+Missing character: There is no Õ in font ptmr7t!
 
-
-LaTeX Warning: Citation `Wilson2012BSG' on page 2 undefined on input line 52.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 65--68
+Underfull \hbox (badness 10000) in paragraph at lines 77--80
 []$[] \OT1/cmr/m/n/10 =
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 65--68
+Underfull \hbox (badness 10000) in paragraph at lines 77--80
 \OMS/cmsy/m/n/10 f\OML/cmm/m/it/10 link; post; photo; video\OMS/cmsy/m/n/10 g ^
 ^B
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 77--79
+Underfull \hbox (badness 10000) in paragraph at lines 89--91
 
  []
 
-LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10.95> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 94.
-
-Overfull \hbox (20.2867pt too wide) in paragraph at lines 99--105
+[2 <./data/overview.pdf>]
+Overfull \hbox (20.2867pt too wide) in paragraph at lines 111--117
 []$\OML/cmm/m/it/10 X[] \OT1/cmr/m/n/10 = []$ 
  []
 
 
-Underfull \hbox (badness 3492) in paragraph at lines 106--107
+Underfull \hbox (badness 3492) in paragraph at lines 118--119
 \OT1/ptm/m/n/10 Additionally we add friend fea-ture which en-codes
  []
 
 
-Underfull \hbox (badness 2435) in paragraph at lines 107--116
+Underfull \hbox (badness 2435) in paragraph at lines 119--128
 []\OT1/ptm/b/n/10 Activity So-cial Affin-ity Fea-tures \OT1/ptm/m/n/10 : We de-
 fine ac-
  []
 
 
-Underfull \hbox (badness 1515) in paragraph at lines 107--116
+Underfull \hbox (badness 1515) in paragraph at lines 119--128
 \OT1/ptm/m/n/10 tiv-ity affin-ity fea-tures for tar-get user $\OML/cmm/m/it/10 
 u$ \OT1/ptm/m/n/10 and item $\OML/cmm/m/it/10 i$
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 107--116
+Underfull \hbox (badness 10000) in paragraph at lines 119--128
 
  []
 
 
-Overfull \hbox (7.60617pt too wide) in paragraph at lines 107--116
+Overfull \hbox (7.60617pt too wide) in paragraph at lines 119--128
 \OML/cmm/m/it/10 X[] \OT1/cmr/m/n/10 = []$
  []
 
-[2 <./data/overview.pdf>]
 
-LaTeX Warning: Citation `SMB' on page 3 undefined on input line 122.
+LaTeX Warning: Citation `SMB' on page 3 undefined on input line 134.
 
 ) (./data-description.tex
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <9> not available
@@ -413,7 +411,7 @@ cy-eps-converted-to.pdf data/plots/accuracy/accuracy.eps>
 (epstopdf)             \includegraphics on input line 4.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/accuracy/accuracy-eps-converted-to.pdf, id=75, 1601.985pt x 436.631
+<data/plots/accuracy/accuracy-eps-converted-to.pdf, id=80, 1601.985pt x 436.631
 26pt>
 File: data/plots/accuracy/accuracy-eps-converted-to.pdf Graphic file (type pdf)
 
@@ -439,24 +437,28 @@ ps-converted-to.pdf>
 (epstopdf)             Command: <repstopdf --outfile=data/plots/vsk/ModalityAct
 ionsvsKFriends-eps-converted-to.pdf data/plots/vsk/ModalityActionsvsKFriends.ep
 s>
-(epstopdf)             \includegraphics on input line 27.
+(epstopdf)             \includegraphics on input line 79.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/vsk/ModalityActionsvsKFriends-eps-converted-to.pdf, id=123, 1483.54
+<data/plots/vsk/ModalityActionsvsKFriends-eps-converted-to.pdf, id=131, 1483.54
 25pt x 456.70625pt>
 File: data/plots/vsk/ModalityActionsvsKFriends-eps-converted-to.pdf Graphic fil
 e (type pdf)
 
 <use data/plots/vsk/ModalityActionsvsKFriends-eps-converted-to.pdf>
 Package pdftex.def Info: data/plots/vsk/ModalityActionsvsKFriends-eps-converted
--to.pdf used on input line 27.
+-to.pdf used on input line 79.
 (pdftex.def)             Requested size: 455.23021pt x 113.80693pt.
-)
-(./activity_analysis.tex
+
+
+LaTeX Warning: Citation `***' on page 5 undefined on input line 101.
+
+) (./activity_analysis.tex
 Underfull \hbox (badness 1270) in paragraph at lines 8--12
 \OT1/ptm/m/n/10 tropy/logistic re-gres-sion weights and size of ac-tiv-ity
  []
 
+[5]
 Package epstopdf Info: Source file: <data/plots/scatterplots/vssize/CEvsGroupSi
 ze.eps>
 (epstopdf)                    date: 2013-02-16 12:55:45
@@ -471,7 +473,7 @@ pSize.eps>
 (epstopdf)             \includegraphics on input line 30.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/scatterplots/vssize/CEvsGroupSize-eps-converted-to.pdf, id=124, 578
+<data/plots/scatterplots/vssize/CEvsGroupSize-eps-converted-to.pdf, id=137, 578
 .16pt x 433.62pt>
 File: data/plots/scatterplots/vssize/CEvsGroupSize-eps-converted-to.pdf Graphic
  file (type pdf)
@@ -494,7 +496,7 @@ ize.eps>
 (epstopdf)             \includegraphics on input line 31.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/scatterplots/vssize/CEvsPageSize-eps-converted-to.pdf, id=125, 578.
+<data/plots/scatterplots/vssize/CEvsPageSize-eps-converted-to.pdf, id=138, 578.
 16pt x 433.62pt>
 File: data/plots/scatterplots/vssize/CEvsPageSize-eps-converted-to.pdf Graphic 
 file (type pdf)
@@ -517,7 +519,7 @@ e.eps>
 (epstopdf)             \includegraphics on input line 32.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/scatterplots/vssize/CEvsFavSize-eps-converted-to.pdf, id=126, 578.1
+<data/plots/scatterplots/vssize/CEvsFavSize-eps-converted-to.pdf, id=139, 578.1
 6pt x 433.62pt>
 File: data/plots/scatterplots/vssize/CEvsFavSize-eps-converted-to.pdf Graphic f
 ile (type pdf)
@@ -541,7 +543,7 @@ hts/LRweightvsGroupSize.eps>
 Package epstopdf Info: Output file is already uptodate.
 
 <data/plots/scatterplots/LRweights/LRweightvsGroupSize-eps-converted-to.pdf, id
-=127, 578.16pt x 433.62pt>
+=140, 578.16pt x 433.62pt>
 File: data/plots/scatterplots/LRweights/LRweightvsGroupSize-eps-converted-to.pd
 f Graphic file (type pdf)
 
@@ -565,7 +567,7 @@ ts/LRweightvsPageSize.eps>
 Package epstopdf Info: Output file is already uptodate.
 
 <data/plots/scatterplots/LRweights/LRweightvsPageSize-eps-converted-to.pdf, id=
-128, 578.16pt x 433.62pt>
+141, 578.16pt x 433.62pt>
 File: data/plots/scatterplots/LRweights/LRweightvsPageSize-eps-converted-to.pdf
  Graphic file (type pdf)
 
@@ -588,7 +590,7 @@ weights/LRweightvsFavouriteSize.eps>
 Package epstopdf Info: Output file is already uptodate.
 
 <data/plots/scatterplots/LRweights/LRweightvsFavouriteSize-eps-converted-to.pdf
-, id=129, 578.16pt x 433.62pt>
+, id=142, 578.16pt x 433.62pt>
 File: data/plots/scatterplots/LRweights/LRweightvsFavouriteSize-eps-converted-t
 o.pdf Graphic file (type pdf)
 
@@ -612,7 +614,7 @@ veEntropy/CEvsGroupSize_Top300Features_30bins.eps>
 Package epstopdf Info: Output file is already uptodate.
 
 <data/plots/cumulativeEntropy/CEvsGroupSize_Top300Features_30bins-eps-converted
--to.pdf, id=130, 578.16pt x 433.62pt>
+-to.pdf, id=143, 578.16pt x 433.62pt>
 File: data/plots/cumulativeEntropy/CEvsGroupSize_Top300Features_30bins-eps-conv
 erted-to.pdf Graphic file (type pdf)
 
@@ -636,7 +638,7 @@ iveEntropy/CEvsPageSize_Top800Features_3000bins.eps>
 Package epstopdf Info: Output file is already uptodate.
 
 <data/plots/cumulativeEntropy/CEvsPageSize_Top800Features_3000bins-eps-converte
-d-to.pdf, id=131, 578.16pt x 433.62pt>
+d-to.pdf, id=144, 578.16pt x 433.62pt>
 File: data/plots/cumulativeEntropy/CEvsPageSize_Top800Features_3000bins-eps-con
 verted-to.pdf Graphic file (type pdf)
 
@@ -660,7 +662,7 @@ veEntropy/CEvsFavSize_Top800Features_5000bins.eps>
 Package epstopdf Info: Output file is already uptodate.
 
 <data/plots/cumulativeEntropy/CEvsFavSize_Top800Features_5000bins-eps-converted
--to.pdf, id=132, 578.16pt x 433.62pt>
+-to.pdf, id=145, 578.16pt x 433.62pt>
 File: data/plots/cumulativeEntropy/CEvsFavSize_Top800Features_5000bins-eps-conv
 erted-to.pdf Graphic file (type pdf)
 
@@ -681,7 +683,7 @@ vTypes-eps-converted-to.pdf data/plots/boxPlots/CEvsFavTypes.eps>
 (epstopdf)             \includegraphics on input line 58.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/boxPlots/CEvsFavTypes-eps-converted-to.pdf, id=133, 1597.97pt x 434
+<data/plots/boxPlots/CEvsFavTypes-eps-converted-to.pdf, id=146, 1597.97pt x 434
 .62375pt>
 File: data/plots/boxPlots/CEvsFavTypes-eps-converted-to.pdf Graphic file (type 
 pdf)
@@ -695,118 +697,54 @@ Overfull \hbox (6.25111pt too wide) in paragraph at lines 58--59
  []
 
 ) (./relatedWork.tex
-
-LaTeX Warning: Citation `Chang2010ethnicity' on page 5 undefined on input line 
-15.
-
-
-LaTeX Warning: Citation `backstrom2011center' on page 5 undefined on input line
- 17.
-
-
-LaTeX Warning: Citation `wilson2009user' on page 5 undefined on input line 18.
-
-
-LaTeX Warning: Citation `backstrom2011center' on page 5 undefined on input line
- 18.
-
-
-LaTeX Warning: Citation `hill2003social' on page 5 undefined on input line 18.
-
-
-LaTeX Warning: Citation `backstrom2011center' on page 5 undefined on input line
- 18.
-
 Missing character: There is no Ð in font ptmr7t!
+Missing character: There is no Â in font ptmr7t!
+Missing character: There is no ¾ in font ptmr7t!
+ [6 <./data/plots/vsk/ModalityActionsvsKFriends-eps-converted-to.pdf>] [7 <./da
+ta/plots/scatterplots/vssize/CEvsGroupSize-eps-converted-to.pdf> <./data/plots/
+scatterplots/vssize/CEvsPageSize-eps-converted-to.pdf> <./data/plots/scatterplo
+ts/vssize/CEvsFavSize-eps-converted-to.pdf> <./data/plots/scatterplots/LRweight
+s/LRweightvsGroupSize-eps-converted-to.pdf> <./data/plots/scatterplots/LRweight
+s/LRweightvsPageSize-eps-converted-to.pdf> <./data/plots/scatterplots/LRweights
+/LRweightvsFavouriteSize-eps-converted-to.pdf> <./data/plots/cumulativeEntropy/
+CEvsGroupSize_Top300Features_30bins-eps-converted-to.pdf> <./data/plots/cumulat
+iveEntropy/CEvsPageSize_Top800Features_3000bins-eps-converted-to.pdf> <./data/p
+lots/cumulativeEntropy/CEvsFavSize_Top800Features_5000bins-eps-converted-to.pdf
+> <./data/plots/boxPlots/CEvsFavTypes-eps-converted-to.pdf>]) (./document.bbl
+Underfull \hbox (badness 7362) in paragraph at lines 5--10
+[]\OT1/ptm/m/n/10 Anderson, A.; Hut-ten-locher, D.; Klein-berg, J.; and
+ []
 
-LaTeX Warning: Citation `Golub2010selectionbiase' on page 5 undefined on input 
-line 25.
-
-
-LaTeX Warning: Citation `ver2011stops' on page 5 undefined on input line 27.
-
-
-LaTeX Warning: Citation `asur2011trends' on page 5 undefined on input line 35.
-
-
-LaTeX Warning: Citation `Bakshy2011everyone' on page 5 undefined on input line 
-35.
-
-
-LaTeX Warning: Citation `Bakshy2011everyone' on page 5 undefined on input line 
-35.
-
-
-LaTeX Warning: Citation `asur2011trends' on page 5 undefined on input line 35.
-
-
-LaTeX Warning: Citation `Bakshy2011everyone' on page 5 undefined on input line 
-35.
-
-
-LaTeX Warning: Citation `influence' on page 5 undefined on input line 35.
-
-[5] [6 <./data/plots/vsk/ModalityActionsvsKFriends-eps-converted-to.pdf> <./dat
-a/plots/scatterplots/vssize/CEvsGroupSize-eps-converted-to.pdf> <./data/plots/s
-catterplots/vssize/CEvsPageSize-eps-converted-to.pdf> <./data/plots/scatterplot
-s/vssize/CEvsFavSize-eps-converted-to.pdf> <./data/plots/scatterplots/LRweights
-/LRweightvsGroupSize-eps-converted-to.pdf> <./data/plots/scatterplots/LRweights
-/LRweightvsPageSize-eps-converted-to.pdf> <./data/plots/scatterplots/LRweights/
-LRweightvsFavouriteSize-eps-converted-to.pdf> <./data/plots/cumulativeEntropy/C
-EvsGroupSize_Top300Features_30bins-eps-converted-to.pdf> <./data/plots/cumulati
-veEntropy/CEvsPageSize_Top800Features_3000bins-eps-converted-to.pdf> <./data/pl
-ots/cumulativeEntropy/CEvsFavSize_Top800Features_5000bins-eps-converted-to.pdf>
-]
-
-LaTeX Warning: Citation `singla2008yes' on page 7 undefined on input line 42.
-
-
-LaTeX Warning: Citation `Anderson2012' on page 7 undefined on input line 43.
-
-
-LaTeX Warning: Citation `brandtzag2011facebook' on page 7 undefined on input li
-ne 43.
-
-
-LaTeX Warning: Citation `gilbert2009predicting' on page 7 undefined on input li
-ne 44.
-
-
-LaTeX Warning: Citation `nori2011exploiting' on page 7 undefined on input line 
-45.
-
-
-LaTeX Warning: Citation `gomes2011social' on page 7 undefined on input line 45.
-
-
-) (./document.bbl [7 <./data/plots/boxPlots/CEvsFavTypes-eps-converted-to.pdf>]
-) [8
+Missing character: There is no Â in font ptmr7t!
+Missing character: There is no ¾ in font ptmr7t!
+[8]) [9
 
 ] (./document.aux) ) 
 Here is how much of TeX's memory you used:
- 3943 strings out of 493629
- 59761 string characters out of 3148772
- 124018 words of memory out of 3000000
- 7120 multiletter control sequences out of 15000+200000
- 29690 words of font info for 66 fonts, out of 3000000 for 9000
+ 3955 strings out of 493629
+ 59909 string characters out of 3148772
+ 127018 words of memory out of 3000000
+ 7129 multiletter control sequences out of 15000+200000
+ 31004 words of font info for 70 fonts, out of 3000000 for 9000
  831 hyphenation exceptions out of 8191
  44i,16n,46p,1057b,416s stack positions out of 5000i,500n,10000p,200000b,50000s
 {/usr/share/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/sh
 are/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texmf-dist
 /fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texmf-dist/fonts/type1/p
 ublic/amsfonts/cm/cmmi10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts
-/cm/cmmi7.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><
-/usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texmf
--dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-dist/fonts/ty
-pe1/public/amsfonts/cm/cmsy7.pfb></usr/share/texmf-dist/fonts/type1/public/amsf
-onts/cm/cmsy9.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.
-pfb></usr/share/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texmf-d
-ist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texmf-dist/fonts/type1/urw/tim
-es/utmri8a.pfb>
-Output written on document.pdf (8 pages, 3508512 bytes).
+/cm/cmmi7.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb><
+/usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texmf-dist/fonts/typ
+e1/public/amsfonts/cm/cmr9.pfb></usr/share/texmf-dist/fonts/type1/public/amsfon
+ts/cm/cmsy10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pf
+b></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/share/t
+exmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texmf-dist/font
+s/type1/urw/times/utmb8a.pfb></usr/share/texmf-dist/fonts/type1/urw/times/utmr8
+a.pfb></usr/share/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on document.pdf (9 pages, 3552121 bytes).
 PDF statistics:
- 575 PDF objects out of 1000 (max. 8388607)
- 145 compressed objects within 2 object streams
+ 594 PDF objects out of 1000 (max. 8388607)
+ 157 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
  66 words of extra memory for PDF output out of 10000 (max. 10000000)
 
