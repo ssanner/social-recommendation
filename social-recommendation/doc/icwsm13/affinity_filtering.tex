@@ -22,7 +22,7 @@ liking the ``re-elect Obama'' Facebook page.  Then knowing whether
 anyone in each SAG $k$ for user $u$ likes item $i$ provides a rich set
 of fine-grained features for prediction.  It is up to SAF to learn how
 to weight each SAG to aggregate their preferences into one final
-prediction, but this can be trained on historical data.
+prediction, which can be done by training on historical data.
 
 Formally, given a user $u$ and item $i$, a SAF classifier is a
 function: $f: \x \to y$ where $y \in \{ \like, \dislike \}$ and $\x =
@@ -34,7 +34,7 @@ SVM, logistic regression, or na\"{i}ve Bayes.  Then for future
 predictions, we simply are given $\x$ and we ask the SAF classifier to
 predict $y = f(\x)$.
 
-Figure \ref{Fig1} compares the accuracies of constant predictor and
+Fig \ref{Fig1} compares the accuracies of constant predictor and
 social matchbox with SAF based on na\"{i}ve Bayes, logistic regression
 and SVM classification for a range of interaction and activity (group,
 page, favourite) SAGs.  In all of our experiments SAF variants
@@ -43,17 +43,16 @@ predictor except for na\"{i}ve Bayes, we conjecture this is due to the
 correlations between SAGs that cause na\"{i}ve Bayes to over- or
 under-estimate the true probability of likes.
 
-In general we note in Figure \ref{Fig1} that activities appear to be
+In general we note in Fig \ref{Fig1} that activities appear to be
 more predictive than interactions, but we believe the reasons for this
-are quite simple: interaction SAGs can only evaluate the friends of
-user $u$ whereas activity SAGs are able to look at all users,
-independent of $u$'s friends (i.e., only $u$'s friends can interact
-with $u$, but $u$ can join a group with any non-friend on Facebook).
-Hence, given the general sparsity of ``likes'' in Facebook, the wider
-net of activity SAGs appears to draw on a much larger group of SAGs
-with much larger memberships.
+are quite simple: Interaction SAGs can only evaluate the friends of
+user $u$ whereas Activity SAGs are able to look at all users,
+independent of $u$'s friends.
+Hence, given the general sparsity of ``likes'' data in Facebook, 
+Activity SAGs appear to draw on a much larger group of SAGs
+with much more activity.
 
-Among activities, Figure \ref{Fig1} shows that activities are more
+Among activities, Fig \ref{Fig1} shows that activities are more
 predictive than interactions. Among the activities, page likes are the
 most predictive followed by group membership and favourites.
 Returning to our conjecture that data sparsity can hurt SAF, we note

@@ -61,13 +61,6 @@ Cui, P.; Wang, F.; Liu, S.; Ou, M.; and Yang, S.
   users and posts ranking.
 \newblock In {\em International ACM SIGIR Conference (SIGIR)}.
 
-\bibitem[\protect\citeauthoryear{Fan \bgroup et al\mbox.\egroup
-  }{2008}]{liblinear}
-Fan, R.-E.; Chang, K.-W.; Hsieh, C.-J.; Wang, X.-R.; and Lin, C.-J.
-\newblock 2008.
-\newblock Liblinear: A library for large linear classification.
-\newblock {\em Journal of Machine Learning Research}  1871--1874.
-
 \bibitem[\protect\citeauthoryear{Gilbert and
   Karahalios}{2009}]{gilbert2009predicting}
 Gilbert, E., and Karahalios, K.
@@ -206,14 +199,6 @@ Wilson, C.; Boe, B.; Sala, A.; Puttaswamy, K.; and Zhao, B.
 \newblock 2009.
 \newblock User interactions in social networks and their implications.
 \newblock EuroSys'09,  205--218.
-
-\bibitem[\protect\citeauthoryear{Wilson \bgroup et al\mbox.\egroup
-  }{2012}]{Wilson2012BSG}
-Wilson, C.; Sala, A.; Puttaswamy, K. P.~N.; and Zhao, B.~Y.
-\newblock 2012.
-\newblock Beyond social graphs: User interactions in online social networks and
-  their implications.
-\newblock {\em ACM Trans. Web} 6(4):17:1--17:31.
 
 \bibitem[\protect\citeauthoryear{Yang \bgroup et al\mbox.\egroup }{2011}]{lla}
 Yang; Long; Smola; Sadagopan; Zheng; and Zha.
