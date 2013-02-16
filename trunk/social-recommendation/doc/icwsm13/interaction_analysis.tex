@@ -1,6 +1,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{table}
-\caption{Conditional entropy of various interactions.}
+\caption{Conditional entropy of various interactions (lower conditional
+entropies are more informative).}
 \label{table:ce_interaction}
 \vspace{-2mm}
 \centering
@@ -42,19 +43,19 @@
 %	
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\begin{table*}
-%%	\begin{tabular}{| >{\small}l | >{\small}r |}
-%		\hline
-%		\textbf{Modality-Direction} ($X$) & $H(Y|X=true)$ \\
-%		\hline
-%		tags-outgoing & 0.885 \\
-%		likes-outgoing & 0.885 \\
-%		tags-incoming & 0.900 \\
-%		likes-incoming & 0.902 \\
-%		comments-outgoing & 0.908 \\
-%		comments-incoming & 0.912 \\
-%		\hline
+%	\begin{tabular}{| >{\small}l | >{\small}r |}
+		\hline
+		\textbf{Modality-Direction} ($X$) & $H(Y|X=true)$ \\
+		\hline
+		tags-outgoing & 0.885 \\
+		likes-outgoing & 0.885 \\
+		tags-incoming & 0.900 \\
+		likes-incoming & 0.902 \\
+		comments-outgoing & 0.908 \\
+		comments-incoming & 0.912 \\
+		\hline
 %	\end{tabular}
-%%\multicolumn{2}{c}{}\\
+\multicolumn{2}{c}{}\\
 %	\begin{tabular}{| >{\small}l | >{\small}r |}
                 \hline	
 		\textbf{Action-Direction} ($X$) & $H(Y|X=true)$ \\
@@ -84,13 +85,14 @@
 
 \section{Interaction Analysis}
 
-In this section we analyze Interaction SAGS, namely those SAGs that
-are built w.r.t. a user $u$'s interactions.  Recalling our Methodology,
-we have three distinctions for user interactions: modality, action,
-and directionality.  First we analyze various interactions individually
-and jointly to understand what interactions define SAGs with a high
-social affinity for a user $u$'s preferences.  To this end, we make a few
-observations from Table~\ref{table:ce_interaction}: 
+In this section we analyze the informativeness of Interaction SAGS,
+namely those SAGs that are built w.r.t. a user $u$'s interactions.
+Recalling our Methodology, we have three distinctions for user
+interactions: modality, action, and directionality.  First we analyze
+various interactions individually and jointly to understand what
+interactions define SAGs with a high social affinity for a user $u$'s
+preferences.  To this end, we make a few observations from
+Table~\ref{table:ce_interaction}:
 \begin{itemize}
 \item Users seem to have a stronger preferential affinity with
 those they interact with on videos vs. other modalities.  This could
@@ -98,7 +100,7 @@ be due to the fact that video viewing is time-consuming and users
 inherently only watch the videos of those whose preferences they
 often share.
 \item Tagging has a slightly better conditional entropy than commenting
-and liking indicating that tagging is a sign of a strong social tie.~\cite{***}
+and liking.% indicating that tagging.
 \item A user is more likely to share preferences with someone who she
 initiates the interaction with (outgoing) vs. with someone who initiates
 the interaction with her (incoming).~\cite{saez2011high}
