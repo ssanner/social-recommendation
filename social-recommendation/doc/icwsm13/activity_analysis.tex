@@ -2,43 +2,53 @@
 
 % Note: activity SAGs can go beyond friends.
 
-In this section we evaluate the correlation between the
-informativeness (via conditional entropy) and SAG properties such as
-size of membership and we drill down into specific favourite types to
-determine whether certain classes of favourites are more predictive
-than others (e.g., are favourite television shows more predictive than
-shared favourite movies).
-\begin{itemize}
-  \item Fig \ref{Fig3} shows the relationship between conditional
+In this section we evaluate the correlation between the conditional
+entropy and size of groups, pages and favourites.
+
+Fig \ref{Fig3} shows the relationship between conditional
     entropy/logistic regression weights and size of activity
     groups. It shows that the activity groups of small size can be
     highly predictive (low conditional entropy or weights that deviate
     extremely from zero) whereas large groups are rarely predictive.
-  \item In \ref{Fig4} we plot the average conditional entropy of the top
-    10\% of features cumulative up to the size of the activity group given on the
-    x-axis; this allows us to determine the marginal contribution of
-    larger groups to the average conditional entropy as larger groups
-    are incrementally added in.  This graph 
-    distinctly shows that the small sizes of groups, pages and favourites
-    have low average conditional entropy that transitions sharply to a
-    higher average once a size threshold has been met.  From 
-    Fig~\ref{Fig4} we can infer that the group sizes up to 50 and
-    page/favourite sizes up to $10^{5}$ are most predictive.
-  \item We also analyze predictiveness of favourites by categories in
-    Fig~\ref{Fig5}. It shows that SAGs consisting of shared interests,
-    activity, television, and books are on average most predictive, while 
-    music, movies, favourite teams, sports and athletes are on average
-    least predictive.  While favourite teams, sports and athletes may be
-    too focused to offer much predictiveness vs. the other more diverse
-    categories, it is interesting that movies and music favourites
-    are not very predictive on average.  This may have to do with the fact that
-    these are typically ephemeral favourites that may be heavily influenced
-    by popularity as opposed to true personal preference.
-\end{itemize}
+%  \item In \ref{Fig4} we plot the average conditional entropy of the top
+%    10\% of features cumulative up to the size of the activity group given on the
+%    x-axis; this allows us to determine the marginal contribution of
+%    larger groups to the average conditional entropy as larger groups
+%    are incrementally added in.  This graph 
+%    distinctly shows that the small sizes of groups, pages and favourites
+%    have low average conditional entropy that transitions sharply to a
+%    higher average once a size threshold has been met.  From 
+%    Fig~\ref{Fig4} we can infer that the group sizes up to 50 and
+%    page/favourite sizes up to $10^{5}$ are most predictive.
+%  \item We also analyze predictiveness of favourites by categories in
+%    Fig~\ref{Fig5}. It shows that SAGs consisting of shared interests,
+%    activity, television, and books are on average most predictive, while 
+%    music, movies, favourite teams, sports and athletes are on average
+%    least predictive.  While favourite teams, sports and athletes may be
+%    too focused to offer much predictiveness vs. the other more diverse
+%    categories, it is interesting that movies and music favourites
+%    are not very predictive on average.  This may have to do with the fact that
+%    these are typically ephemeral favourites that may be heavily influenced
+%    by popularity as opposed to true personal preference.
+%\end{itemize}
+
+In Fig~\ref{Fig4} we plot the average conditional entropy of top
+    10\% features cumulative over the size of activity group. It
+    distinctly shows that the small sized group, pages and favourites
+    have low average conditional entropy. Furthermore, it explains
+    average conditional entropy decreases as size increases. From the
+    figure \ref{Fig4} we can infer that the group size upto 50 and
+    page/favourite size upto $10^{5}$ can be highly predictive.
+
+We also analyze predictiveness of favourites by categories in
+    Fig \ref{Fig5}. It shows that television, books, music and movies
+    are predictive whereas favourite teams, sports and athletes are
+    less predictive.
+%\end{itemize}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure*}[t!]
+\begin{figure*}[tbp!]
 \centering
 \begin{tabular}{ccc}
 \begin{tabular}{ccc}
@@ -56,7 +66,7 @@ shared favourite movies).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure*}[t!]
+\begin{figure*}[tbp!]
 \centering
 \includegraphics[scale=0.28]{data/plots/cumulativeEntropy/cumulative.eps}
 \caption{Average conditional entropy of top 10\% groups, pages and favourites features cumulative over the size }
@@ -65,7 +75,7 @@ shared favourite movies).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure*}[t!]
+\begin{figure*}[tbp!]
 \centering
 \includegraphics[width=180mm, height=40mm]{data/plots/boxPlots/CEvsFavTypes.eps}
 \caption{Conditional entropy for top 1000 favourites breakdown by categories}

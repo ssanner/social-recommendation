@@ -1,3 +1,5 @@
+%!TEX root = document.tex
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure*}[tbp!]
 %\centering
@@ -9,20 +11,23 @@
 
 \section{Social Affinity filtering}
 
-Social affinity filtering (SAF) is based on the idea that affinity
-between users expressed in social networks via interactions and
-activities is predictive of user preferences.  The key idea of SAF is
-simple: a classifier takes a user $u$ and item $i$ and must predict
-whether $\likes(u,i)$ given features that can be derived from the
-social network.  In SAF, these features are precisely the boolean
+%Social affinity filtering (SAF) is based on the idea that affinity
+%between users expressed in social networks via interactions and
+%activities is predictive of user preferences.  
+Social affinity group and the associated features defined in Sec~\ref{ssec:SAfeature} 
+are used to build predictors for $\likes(u,i)$ given features $X$.
+%as follows: a classifier takes a user $u$ and item $i$ and must predict
+%whether $\likes(u,i)$ given features that can be derived from the
+%social network.  
+In SAF, these features are the boolean
 variables $X_{k,u,i}$ indicating whether any users in the $k$th SAG of
 user $u$ also liked $i$.  For example, $k$ could be the SAG of $u$ for
 the interaction of $\textit{link-like-incoming}$ or the activity of
-liking the ``re-elect Obama'' Facebook page.  Then knowing whether
+liking the {\em Obama Re-Election Headquarters} Facebook page.  Then knowing whether
 anyone in each SAG $k$ for user $u$ likes item $i$ provides a rich set
 of fine-grained features for prediction.  It is up to SAF to learn how
 to weight each SAG to aggregate their preferences into one final
-prediction, which can be done by training on historical data.
+prediction, which is done by training on historical data.
 
 Formally, given a user $u$ and item $i$, a SAF classifier is a
 function: $f: \x \to y$ where $y \in \{ \like, \dislike \}$ and $\x =
@@ -62,10 +67,10 @@ there is more social affinity between co-members of inherently social
 activities like groups and pages than between users who simply have
 favourites in common.
 
-Shifting now to compare SAF to the state-of-the-art in social
+Comparing SAF to the state-of-the-art in social
 collaborative filtering (SCF) as represented by Social
 Matchbox~\cite{Noel2012NOF}, we observe that SAF consistently
-outperforms it.  We remark that the key difference of SAF vs. SCF is
+outperforms it.  We note that the key difference of SAF vs. SCF is
 that SAF exploits the predictiveness of fine-grained interactions ---
 it breaks down into groups, whereas most SCF
 approaches~\cite{Noel2012NOF,lla,socinf,sr,rrmf,sorec,ste} is that
@@ -81,7 +86,7 @@ features.
 
 On two final notes, we remark that SAF yields a computational and
 optimization advantage over SCF in that it is straightforward and
-efficient to find a globally optimal classifier w.r.t. some training
+efficient to find a globally optimal classifier with respect to certain training
 criteria (e.g., optimising log loss in logistic regression or hinge
 loss in SVMs) unlike SCF approaches that generally rely on
 computationally expensive matrix factorization techniques that lack
