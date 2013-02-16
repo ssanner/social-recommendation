@@ -76,8 +76,7 @@ entropies are more informative).}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure*}[tbp!]
-\hspace{-10mm}
-\includegraphics[width=200mm]{data/plots/vsk/ModalityActionsvsKFriends.eps}
+\hspace{-15mm}\includegraphics[width=210mm]{data/plots/vsk/ModalityActionsvsKFriends.eps}
 \caption{Conditional Entropy  of modalities/activities for incoming/outgoing interactions vs item liked by atleast k friends}
 \label{Fig2}
 \end{figure*}
@@ -94,22 +93,25 @@ interactions define SAGs with a high social affinity for a user $u$'s
 preferences.  To this end, we make a few observations from
 Table~\ref{table:ce_interaction}:
 \begin{itemize}
-\item Users seem to have a stronger preferential affinity with
-those they interact with on videos vs. other modalities.  This could
-be due to the fact that video viewing is time-consuming and users
-inherently only watch the videos of those whose preferences they
-often share.
-\item Tagging has a slightly better conditional entropy than commenting
-and liking.% indicating that tagging.
+\item Users seem to have a stronger preferential affinity with those
+  they interact with on videos vs. other modalities.  This could be
+  due to the fact that video viewing is time-consuming and users
+  inherently only watch the videos of those whose preferences they
+  often share.
+\item Tagging has a slightly better conditional entropy than
+  commenting and liking.% indicating that tagging.
 \item A user is more likely to share preferences with someone who she
-initiates the interaction with (outgoing) vs. with someone who initiates
-the interaction with her (incoming).~\cite{saez2011high}
+  initiates the interaction with (outgoing) vs. with someone who
+  initiates the interaction with her (incoming).  As an extreme
+  instance of this, we note that while outgoing photo and video
+  interactions are most informative, it appears that incoming photo
+  and video interactions are least informative.
 \end{itemize}
 
 In figure \ref{Fig2} we plot conditional entropy of modality and
 action for incoming/outgoing interactions constrained to links
 liked by at least $k$ friends in the SAG.  Figure \ref{Fig2} reiterates
-many comments made above for various $k$.  In addition, we note that
+many observations made above for various $k$.  In addition, we note that
 %\begin{itemize}
 %% NOTED ABOVE NOW
 %  \item Some interactions are more predictive than other. For

@@ -1,8 +1,8 @@
-This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011/Cygwin) (format=pdflatex 2012.5.9)  16 FEB 2013 19:18
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011/Cygwin) (format=pdflatex 2012.5.9)  16 FEB 2013 19:29
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**document.tex
+**document
 (./document.tex
 LaTeX2e <2011/06/27>
 Babel <v3.8m> and hyphenation patterns for english, dumylang, nohyphenation, ge
@@ -541,7 +541,7 @@ ps-converted-to.pdf>
 (epstopdf)             Command: <repstopdf --outfile=data/plots/vsk/ModalityAct
 ionsvsKFriends-eps-converted-to.pdf data/plots/vsk/ModalityActionsvsKFriends.ep
 s>
-(epstopdf)             \includegraphics on input line 80.
+(epstopdf)             \includegraphics on input line 79.
 Package epstopdf Info: Output file is already uptodate.
 
 <data/plots/vsk/ModalityActionsvsKFriends-eps-converted-to.pdf, id=221, 1483.54
@@ -551,11 +551,11 @@ e (type pdf)
 
 <use data/plots/vsk/ModalityActionsvsKFriends-eps-converted-to.pdf>
 Package pdftex.def Info: data/plots/vsk/ModalityActionsvsKFriends-eps-converted
--to.pdf used on input line 80.
-(pdftex.def)             Requested size: 569.05511pt x 175.18086pt.
+-to.pdf used on input line 79.
+(pdftex.def)             Requested size: 597.50787pt x 183.9406pt.
 
-Overfull \hbox (36.6124pt too wide) in paragraph at lines 79--81
-[]  [] 
+Overfull \hbox (48.93875pt too wide) in paragraph at lines 79--80
+[] [] 
  []
 
 [5 <./data/plots/accuracy/accuracy-eps-converted-to.pdf>])
@@ -581,7 +581,7 @@ ze-eps-converted-to.pdf data/plots/new/CEvsGroupSize.eps>
 (epstopdf)             \includegraphics on input line 45.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/new/CEvsGroupSize-eps-converted-to.pdf, id=276, 578.16pt x 433.62pt
+<data/plots/new/CEvsGroupSize-eps-converted-to.pdf, id=275, 578.16pt x 433.62pt
 >
 File: data/plots/new/CEvsGroupSize-eps-converted-to.pdf Graphic file (type pdf)
 
@@ -601,7 +601,7 @@ e-eps-converted-to.pdf data/plots/new/CEvsPageSize.eps>
 (epstopdf)             \includegraphics on input line 46.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/new/CEvsPageSize-eps-converted-to.pdf, id=277, 578.16pt x 433.62pt>
+<data/plots/new/CEvsPageSize-eps-converted-to.pdf, id=276, 578.16pt x 433.62pt>
 File: data/plots/new/CEvsPageSize-eps-converted-to.pdf Graphic file (type pdf)
 <use data/plots/new/CEvsPageSize-eps-converted-to.pdf>
 Package pdftex.def Info: data/plots/new/CEvsPageSize-eps-converted-to.pdf used 
@@ -619,7 +619,7 @@ o.pdf>
 (epstopdf)             \includegraphics on input line 47.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/new/CEvsFavSize-eps-converted-to.pdf, id=278, 578.16pt x 433.62pt>
+<data/plots/new/CEvsFavSize-eps-converted-to.pdf, id=277, 578.16pt x 433.62pt>
 File: data/plots/new/CEvsFavSize-eps-converted-to.pdf Graphic file (type pdf)
 
 <use data/plots/new/CEvsFavSize-eps-converted-to.pdf>
@@ -638,7 +638,7 @@ roupSize-eps-converted-to.pdf data/plots/new/LRweightvsGroupSize.eps>
 (epstopdf)             \includegraphics on input line 48.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/new/LRweightvsGroupSize-eps-converted-to.pdf, id=279, 578.16pt x 43
+<data/plots/new/LRweightvsGroupSize-eps-converted-to.pdf, id=278, 578.16pt x 43
 3.62pt>
 File: data/plots/new/LRweightvsGroupSize-eps-converted-to.pdf Graphic file (typ
 e pdf)
@@ -658,7 +658,7 @@ ageSize-eps-converted-to.pdf data/plots/new/LRweightvsPageSize.eps>
 (epstopdf)             \includegraphics on input line 49.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/new/LRweightvsPageSize-eps-converted-to.pdf, id=280, 578.16pt x 433
+<data/plots/new/LRweightvsPageSize-eps-converted-to.pdf, id=279, 578.16pt x 433
 .62pt>
 File: data/plots/new/LRweightvsPageSize-eps-converted-to.pdf Graphic file (type
  pdf)
@@ -678,7 +678,7 @@ avSize-eps-converted-to.pdf data/plots/new/LRweightvsFavSize.eps>
 (epstopdf)             \includegraphics on input line 50.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/new/LRweightvsFavSize-eps-converted-to.pdf, id=281, 578.16pt x 433.
+<data/plots/new/LRweightvsFavSize-eps-converted-to.pdf, id=280, 578.16pt x 433.
 62pt>
 File: data/plots/new/LRweightvsFavSize-eps-converted-to.pdf Graphic file (type 
 pdf)
@@ -700,7 +700,7 @@ py/cumulative-eps-converted-to.pdf data/plots/cumulativeEntropy/cumulative.eps>
 (epstopdf)             \includegraphics on input line 61.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/cumulativeEntropy/cumulative-eps-converted-to.pdf, id=282, 1630.09p
+<data/plots/cumulativeEntropy/cumulative-eps-converted-to.pdf, id=281, 1630.09p
 t x 514.92375pt>
 File: data/plots/cumulativeEntropy/cumulative-eps-converted-to.pdf Graphic file
  (type pdf)
@@ -721,7 +721,7 @@ vTypes-eps-converted-to.pdf data/plots/boxPlots/CEvsFavTypes.eps>
 (epstopdf)             \includegraphics on input line 70.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/boxPlots/CEvsFavTypes-eps-converted-to.pdf, id=283, 1597.97pt x 434
+<data/plots/boxPlots/CEvsFavTypes-eps-converted-to.pdf, id=282, 1597.97pt x 434
 .62375pt>
 File: data/plots/boxPlots/CEvsFavTypes-eps-converted-to.pdf Graphic file (type 
 pdf)
@@ -756,12 +756,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 5--10
 []\OT1/ptm/m/n/10 Anderson, A.; Hut-ten-locher, D.;
  []
 
-
+[8]
 Underfull \hbox (badness 1178) in paragraph at lines 29--34
 []\OT1/ptm/m/n/10 Bakshy, E.; Hof-man, J. M.; Ma-son,
  []
 
-[8]
+
 Underfull \hbox (badness 1028) in paragraph at lines 37--41
 []\OT1/ptm/m/n/10 Bakshy, E.; Rosenn, I.; Mar-low, C.;
  []
@@ -834,7 +834,7 @@ Here is how much of TeX's memory you used:
  10488 multiletter control sequences out of 15000+200000
  31004 words of font info for 70 fonts, out of 3000000 for 9000
  831 hyphenation exceptions out of 8191
- 44i,22n,46p,1057b,480s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 44i,22n,46p,1053b,480s stack positions out of 5000i,500n,10000p,200000b,50000s
 {/usr/share/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texmf-dist/fon
 ts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texmf-dist/fonts/type1/publi
 c/amsfonts/cm/cmex10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/
@@ -847,10 +847,10 @@ ist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-dist/fonts/type1
 f-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texmf-dist/fonts/t
 ype1/urw/times/utmb8a.pfb></usr/share/texmf-dist/fonts/type1/urw/times/utmr8a.p
 fb></usr/share/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on document.pdf (9 pages, 3523927 bytes).
+Output written on document.pdf (9 pages, 3524002 bytes).
 PDF statistics:
- 743 PDF objects out of 1000 (max. 8388607)
- 362 compressed objects within 4 object streams
+ 742 PDF objects out of 1000 (max. 8388607)
+ 361 compressed objects within 4 object streams
  72 named destinations out of 1000 (max. 500000)
  144 words of extra memory for PDF output out of 10000 (max. 10000000)
 
