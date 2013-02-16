@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011/Cygwin) (format=pdflatex 2012.5.9)  16 FEB 2013 19:29
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011/Cygwin) (format=pdflatex 2012.5.9)  16 FEB 2013 19:35
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -558,6 +558,11 @@ Overfull \hbox (48.93875pt too wide) in paragraph at lines 79--80
 [] [] 
  []
 
+
+Overfull \hbox (2.20921pt too wide) in paragraph at lines 95--95
+[] 
+ []
+
 [5 <./data/plots/accuracy/accuracy-eps-converted-to.pdf>])
 (./activity_analysis.tex
 Underfull \hbox (badness 1152) in paragraph at lines 5--11
@@ -581,7 +586,7 @@ ze-eps-converted-to.pdf data/plots/new/CEvsGroupSize.eps>
 (epstopdf)             \includegraphics on input line 45.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/new/CEvsGroupSize-eps-converted-to.pdf, id=275, 578.16pt x 433.62pt
+<data/plots/new/CEvsGroupSize-eps-converted-to.pdf, id=277, 578.16pt x 433.62pt
 >
 File: data/plots/new/CEvsGroupSize-eps-converted-to.pdf Graphic file (type pdf)
 
@@ -601,7 +606,7 @@ e-eps-converted-to.pdf data/plots/new/CEvsPageSize.eps>
 (epstopdf)             \includegraphics on input line 46.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/new/CEvsPageSize-eps-converted-to.pdf, id=276, 578.16pt x 433.62pt>
+<data/plots/new/CEvsPageSize-eps-converted-to.pdf, id=278, 578.16pt x 433.62pt>
 File: data/plots/new/CEvsPageSize-eps-converted-to.pdf Graphic file (type pdf)
 <use data/plots/new/CEvsPageSize-eps-converted-to.pdf>
 Package pdftex.def Info: data/plots/new/CEvsPageSize-eps-converted-to.pdf used 
@@ -619,7 +624,7 @@ o.pdf>
 (epstopdf)             \includegraphics on input line 47.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/new/CEvsFavSize-eps-converted-to.pdf, id=277, 578.16pt x 433.62pt>
+<data/plots/new/CEvsFavSize-eps-converted-to.pdf, id=279, 578.16pt x 433.62pt>
 File: data/plots/new/CEvsFavSize-eps-converted-to.pdf Graphic file (type pdf)
 
 <use data/plots/new/CEvsFavSize-eps-converted-to.pdf>
@@ -638,7 +643,7 @@ roupSize-eps-converted-to.pdf data/plots/new/LRweightvsGroupSize.eps>
 (epstopdf)             \includegraphics on input line 48.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/new/LRweightvsGroupSize-eps-converted-to.pdf, id=278, 578.16pt x 43
+<data/plots/new/LRweightvsGroupSize-eps-converted-to.pdf, id=280, 578.16pt x 43
 3.62pt>
 File: data/plots/new/LRweightvsGroupSize-eps-converted-to.pdf Graphic file (typ
 e pdf)
@@ -658,7 +663,7 @@ ageSize-eps-converted-to.pdf data/plots/new/LRweightvsPageSize.eps>
 (epstopdf)             \includegraphics on input line 49.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/new/LRweightvsPageSize-eps-converted-to.pdf, id=279, 578.16pt x 433
+<data/plots/new/LRweightvsPageSize-eps-converted-to.pdf, id=281, 578.16pt x 433
 .62pt>
 File: data/plots/new/LRweightvsPageSize-eps-converted-to.pdf Graphic file (type
  pdf)
@@ -678,7 +683,7 @@ avSize-eps-converted-to.pdf data/plots/new/LRweightvsFavSize.eps>
 (epstopdf)             \includegraphics on input line 50.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/new/LRweightvsFavSize-eps-converted-to.pdf, id=280, 578.16pt x 433.
+<data/plots/new/LRweightvsFavSize-eps-converted-to.pdf, id=282, 578.16pt x 433.
 62pt>
 File: data/plots/new/LRweightvsFavSize-eps-converted-to.pdf Graphic file (type 
 pdf)
@@ -700,7 +705,7 @@ py/cumulative-eps-converted-to.pdf data/plots/cumulativeEntropy/cumulative.eps>
 (epstopdf)             \includegraphics on input line 61.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/cumulativeEntropy/cumulative-eps-converted-to.pdf, id=281, 1630.09p
+<data/plots/cumulativeEntropy/cumulative-eps-converted-to.pdf, id=283, 1630.09p
 t x 514.92375pt>
 File: data/plots/cumulativeEntropy/cumulative-eps-converted-to.pdf Graphic file
  (type pdf)
@@ -721,7 +726,7 @@ vTypes-eps-converted-to.pdf data/plots/boxPlots/CEvsFavTypes.eps>
 (epstopdf)             \includegraphics on input line 70.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/boxPlots/CEvsFavTypes-eps-converted-to.pdf, id=282, 1597.97pt x 434
+<data/plots/boxPlots/CEvsFavTypes-eps-converted-to.pdf, id=284, 1597.97pt x 434
 .62375pt>
 File: data/plots/boxPlots/CEvsFavTypes-eps-converted-to.pdf Graphic file (type 
 pdf)
@@ -756,7 +761,10 @@ Underfull \hbox (badness 10000) in paragraph at lines 5--10
 []\OT1/ptm/m/n/10 Anderson, A.; Hut-ten-locher, D.;
  []
 
-[8]
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [8]
 Underfull \hbox (badness 1178) in paragraph at lines 29--34
 []\OT1/ptm/m/n/10 Bakshy, E.; Hof-man, J. M.; Ma-son,
  []
@@ -830,7 +838,7 @@ Package rerunfilecheck Info: File `document.out' has not changed.
 Here is how much of TeX's memory you used:
  7425 strings out of 493629
  111289 string characters out of 3148772
- 210734 words of memory out of 3000000
+ 210735 words of memory out of 3000000
  10488 multiletter control sequences out of 15000+200000
  31004 words of font info for 70 fonts, out of 3000000 for 9000
  831 hyphenation exceptions out of 8191
@@ -843,14 +851,16 @@ r/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/share/texmf-d
 ist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-dist/fonts/type1
 /public/amsfonts/cm/cmr7.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts
 /cm/cmr9.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><
-/usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/share/texm
-f-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texmf-dist/fonts/t
-ype1/urw/times/utmb8a.pfb></usr/share/texmf-dist/fonts/type1/urw/times/utmr8a.p
-fb></usr/share/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on document.pdf (9 pages, 3524002 bytes).
+/usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/share/texmf-dist/fonts/ty
+pe1/public/amsfonts/cm/cmti10.pfb></usr/share/texmf-dist/fonts/type1/public/ams
+fonts/cm/cmti7.pfb></usr/share/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></us
+r/share/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texmf-dist/font
+s/type1/urw/times/utmri8a.pfb>
+Output written on document.pdf (9 pages, 3542146 bytes).
 PDF statistics:
- 742 PDF objects out of 1000 (max. 8388607)
- 361 compressed objects within 4 object streams
+ 750 PDF objects out of 1000 (max. 8388607)
+ 367 compressed objects within 4 object streams
  72 named destinations out of 1000 (max. 500000)
  144 words of extra memory for PDF output out of 10000 (max. 10000000)
 
