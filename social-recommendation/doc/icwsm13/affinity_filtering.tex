@@ -1,3 +1,12 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure*}[tbp!]
+%\centering
+\hspace{-8mm}\includegraphics[width=230mm]{data/plots/accuracy/accuracy.eps}
+\caption{ Accuracy of predictors (constant, social matchbox, naive bayes, logistic regression, SVM) for Interaction and Activity  features }
+\label{Fig1}
+\end{figure*}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \section{Social Affinity filtering}
 
 Social affinity filtering (SAF) is based on the idea that affinity
@@ -18,7 +27,7 @@ prediction, but this can be trained on historical data.
 Formally, given a user $u$ and item $i$, a SAF classifier is a
 function: $f: \x \to y$ where $y \in \{ \like, \dislike \}$ and $\x =
 \langle u,i,x_1,\ldots,x_k \rangle$ where $x_j \in X_j$ ($1 \leq j
-\leq k$) as formally defined in Section~\ref{***}.  To train $f$, one
+\leq k$) as previously formally defined in the Methodology.  To train $f$, one
 simply provides a dataset of historical observations $D = \{ \langle
 \x,y \rangle \}$, e.g., $f$ could be a linear classifier trained by an
 SVM, logistic regression, or na\"{i}ve Bayes.  Then for future
@@ -60,7 +69,7 @@ Matchbox~\cite{Noel2012NOF}, we observe that SAF consistently
 outperforms it.  We remark that the key difference of SAF vs. SCF is
 that SAF exploits the predictiveness of fine-grained interactions ---
 it breaks down into groups, whereas most SCF
-approaches~\cite{lla,socinf,sr,rrmf,spectral,sorec,ste} is that
+approaches~\cite{Noel2012NOF,lla,socinf,sr,rrmf,sorec,ste} is that
 instead of collapsing a diverse set of interactions into aggregate
 statistics such as the number of interactions between user $u_1$ and
 user $u_2$, regardless of whether $u_1$ tagged $u_2$ in a photo or
@@ -88,12 +97,3 @@ next two sections to analyse the two primary types of SAG features
 (interactions and activities) to better understand characteristics of
 both informative and uninformative SAGs in each context and the social
 phenomena that may be responsible for these characteristics.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure*}[t!]
-\centering
-\includegraphics[width=230mm, height=50mm]{data/plots/accuracy/accuracy.eps}
-\caption{ Accuracy of predictors (constant, social matchbox, naive bayes, logistic regression, SVM) for Interaction and Activity  features }
-\label{Fig1}
-\end{figure*}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
