@@ -11,6 +11,7 @@
 \usepackage{graphicx}
 \usepackage{epstopdf}
 \usepackage{color}
+\usepackage[pdftex]{hyperref}
 
 %\usepackage{hyperref}
 \frenchspacing
@@ -35,6 +36,7 @@
 % hold but hide chunks of text
 \newcommand{\eat}[1]{}
 \newcommand{\TODO}[1]{ {\color{blue}{\bf TODO:~{#1}}} }
+\newcommand{\surl}[1]{\urlstyle{same}\url{#1}}
 
 %\newcommand{}{\mathit{}}
 \newcommand{\x}{\mathbf{x}}
@@ -68,6 +70,7 @@
 \input{methodology}
 
 \section{Data Description}
+\label{sec:datadesc}
 
 \input{data-description}
 
