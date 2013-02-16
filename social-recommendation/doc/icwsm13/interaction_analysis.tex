@@ -77,7 +77,7 @@ entropies are more informative).}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure*}[tbp!]
 \hspace{-15mm}\includegraphics[width=210mm]{data/plots/vsk/ModalityActionsvsKFriends.eps}
-\caption{Conditional Entropy  of modalities/activities for incoming/outgoing interactions vs item liked by atleast k friends}
+\caption{Conditional Entropy  of modalities/activities for incoming/outgoing interactions vs item liked by at least k friends}
 \label{Fig2}
 \end{figure*}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -86,12 +86,22 @@ entropies are more informative).}
 
 In this section we analyze the informativeness of Interaction SAGS,
 namely those SAGs that are built w.r.t. a user $u$'s interactions.
+A general method for measuring the amount of information that a 
+feature $X$ provides w.r.t. predicting another variable $Y$ (in this
+case likes or dislikes) is to calculate its conditional entropy:
+\begin{align*}
+H(Y&|X=True)\\
+& = -\sum_{y\in{(\like,\dislike)}} p(y|X=true) \ln( p(y|X=true))
+\end{align*}
+In general, a lower conditional entropy indicates a more informative
+feature.
+
 Recalling our Methodology, we have three distinctions for user
 interactions: modality, action, and directionality.  First we analyze
 various interactions individually and jointly to understand what
 interactions define SAGs with a high social affinity for a user $u$'s
-preferences.  To this end, we make a few observations from
-Table~\ref{table:ce_interaction}:
+preferences.  To this end, we make a few observations from the
+conditional entropy analysis of Table~\ref{table:ce_interaction}:
 \begin{itemize}
 \item Users seem to have a stronger preferential affinity with those
   they interact with on videos vs. other modalities.  This could be
