@@ -1,8 +1,53 @@
+%!TEX root = document.tex
 
+
+cite these to define social affinity
 % interactions
+Our affinity
 \cite{Panigrahy2012ubr}
 \cite{Goel2012structure}
 \cite{Wilson2012BSG}
+
+\begin{figure}[t!]
+\centering
+\includegraphics[width=.95\linewidth]{data/overview}
+\caption{Overview of social affinity for link recommendation.}
+\label{fig:overview}
+\end{figure}
+
+
+We categorize facebook user-user and user-entities relationship into two broad categories ie \textbf{Interactions} and \textbf{Activities}.
+
+{\bf Interactions} describes the communication between Facebook users based on modality, action and direction.
+\begin{itemize}
+\item \textbf{Modality :}  User can interact with other users via
+									 \textit{links, posts, photos} and \textit{videos}.
+\item \textbf{Action :}  A user $u$ can \textit{comment} or \textit{like} 
+									user $v$'s item or \textit{tag} user $v$ on an 
+									item(with one exception in Facebook that $u$ cannot tag a 
+									link with users $v$ for the obvious reason) .
+\item \textbf{Directionality :} Motivated by~\cite{saez2011high}, we can look
+      								at \textit{incoming} and \textit{outgoing} interactions, i.e.,
+      								if user $u$ comments on, tags, or likes user $v$'s item,
+      								then $u$ is in the set of incoming interactions for $v$
+      								and $v$ is in the set of outgoing interactions for $u$.
+      								
+\end{itemize}								
+
+%\subsection{Activities}
+{\bf Activities} describes the user interactions with Facebook entities like groups, pages, favourite movies, favourite music etc.
+\begin{itemize}
+  %@SCOTT/LEXING following defination are taken from facebook blog. I am confused how to cite it %
+  \item \textbf{Groups :} Facebook Groups are the place for small group communication and for people to share their common interests 
+  						and express their opinion. Groups allow people to come together around a common cause, issue or activity to
+  						organize, express objectives, discuss issues, post photos and share related content.
+  \item \textbf{Pages :}  Facebook Pages enable public figures, businesses, organizations and other entities to create an authentic 
+  						and public presence on Facebook. Facebook Pages are visible to everyone on the internet 
+  						by default. Facebook user can connect with these Pages by becoming a fan and then receive their updates and interact with them.
+  \item \textbf{Favourites :} Facebook facilitates a wide variety of user selected favourites (Activities, Favorite Athletes, Books, 
+  							Interests, Movies, Music, Sports, Favorite Teams, Television ). These favourites allow a user to associate themselves with other people who share their same favourite tendencies.
+\end{itemize} 
+
 
 The major objective of this paper is to evaluate the effectiveness of \textit{Social Affinity Filtering(SAF)} and fine grained 
 analysis of the informativeness of Interactions and Activities.We divide our recommendation algorithm into two categories based 

@@ -7,11 +7,27 @@ Online social networks such as Facebook record an very rich set of user
 preferences  (likes of links, posts, photos, videos), user traits
 and interactions (conversation streams, tagging, group memberships,
 interests, personal history and demographic data).  In the context of
-both recent work on social recommendation~\cite{sorec,ste,lla} and
-information diffusion in social network analysis
+ recent work on social recommendation~\cite{sorec,ste,lla}, and those on 
+information diffusion %in social network analysis
 ~\cite{Goel2012structure,Romero2011hashtag,Bakshy2012chamber}, 
 it is important to know which of these interactions or common traits
 are actually reflective of common preferences.
+
+Many recommendation method for social networks 
+use the {\em ensemble} approach to represent 
+user interactions, such as performing 
+low-rank factorization of the social relationships matrix\cite{sorec} 
+using trust ensemble~\cite{ste},
+or collapsing co-preferences and interactions as 
+one indication of friend similarity~\cite{Noel2012NOF}.
+The point of departure for this work, is the hypothesis that
+fine-grained {\em affinities}, such as
+different modalities of interaction (e.g. commenting vs tagging) 
+and that different items relating to social preference 
+(e.g. a university alumni group vs fans of a TV series) 
+are of different importance for preference prediction. 
+Moreover, effectively use these information, i.e., {\em filtering}, 
+will lead to better results in social recommendation.
 
 To obtain quantitative answers to this question, 
 we have built a Facebook App to collect a set of 
@@ -20,12 +36,12 @@ available through the Facebook Graph API.
 We recommend links to each App user from the timeline of their 
 friends and non-friends, and we record users' explicit likes 
 and dislikes for the links being recommended to them. 
-Our recent work~\cite{anonymous} designed new objective functions
-for social recommendation that out-perform state-of-the-art, 
 In this work, we further explore the role of detailed user preferences 
 and interactions for recommendation, called {\em social affinity filtering}.
+% Our recent work~\cite{anonymous} designed new objective functions
+%for social recommendation that out-perform state-of-the-art, 
 
-In the 4-months interaction trace from 119 app users and their 38,000+ friends, 
+In our 4-month interaction trace from 119 app users and their 38,000+ friends, 
 we use detailed history of 23 different interaction types on users' timeline, 
 along with their preferences on 3000+ groups, 4000+ favorites, and 10,000+ pages. 
 %Do fine-grained social interactions help predict user preferences?
