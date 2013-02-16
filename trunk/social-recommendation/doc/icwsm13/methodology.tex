@@ -25,7 +25,7 @@ namely \textit{Interaction  Social Affinity Groups(ISAG)} and \textit{Activity S
    \end{quote}
 \item \textbf{Activity Social Affinity Groups}: We define activity affinity groups based on group membership, page likes and user favourites.
 	\begin{quote}
-	\textit{ASAG(u, i)} : set of the users who share entity $i$ (group, page, favourite) with user $u$.   
+	\textit{ASAG(u, i)} : set of the users who share the entity $i$ (group, page, favourite) with user $u$.   
 	\end{quote}
 \end{itemize}
 Finally, we define
@@ -61,15 +61,15 @@ likes(u,i) =  \begin{Bmatrix}
 	In our analysis we use only those features(groups, pages and favourites) that is joined/liked by atleast one of our app user.
 \end{itemize}
 
-We use described affinity features to train naive bayes, Logistic regression(LR) and Support Vector Machine (SVM) model to predict whether 
-user likes the link or not. Logistic Regression and SVM algorithm is implemented using LIBLINER \cite{liblinear} package. 
+We train naive bayes, Logistic Regression(LR) and Support Vector Machine(SVM) model with affinity features.
+Logistic Regression and SVM algorithm is implemented using LIBLINER \cite{liblinear} package. 
 We define Constant predictor as baseline predictor. Constant predictor predicts the most common outcome in our datase ie disliket.
-To verify the performance of Social Affinity Filtering, we compare its accuracy with, the state of the art social collaborative filtering technique, 
+We compare the performance of Social Affinity Filtering with the state of the art social collaborative filtering technique 
 Social MatchBox(SMB)\cite{SMB}.
 
 In real world social networks activity features grows very quickly as number of user in social network increases. This motivates the fine grained
 analysis of informativeness of social affinity features. Furthermore, fine grained analysis of interactions helps to understand the nature of user-user 
-interactions and its predictiveness. Hence, for the analysis of activities and interactions we rank the features using
+interactions and its predictiveness in greater detail. Hence, for the analysis of activities and interactions we rank the features using
 \textit{Conditional Entropy}. 
 \textit{Conditional Entropy} is defined as
 \begin{quote}
