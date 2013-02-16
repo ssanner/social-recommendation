@@ -1,9 +1,5 @@
 %!TEX root = document.tex
 
-
-We define the social affinity between two users $u$ and $v$ via their direct {\em interactions}
-on various digital items, and their {\em activities} in the different communities in the social network. 
-
 \begin{figure}[t!]
 \centering
 \includegraphics[width=.95\linewidth]{data/overview}
@@ -12,26 +8,38 @@ on various digital items, and their {\em activities} in the different communitie
 \end{figure}
 
 
-We categorize facebook user-user and user-entities relationship into two broad categories ie \textbf{Interactions} and \textbf{Activities}.
+We define the social affinity between two users via their direct {\em interactions}
+on various digital items, and their shared {\em activities} in different communities of the social network. 
 
-{\bf Interactions} describes the communication between Facebook users based on modality, action and direction.
+\subsection{Action types on Facebook}
+On Facebook, We use the term {\em Interactions} and {\em Activities} to refer to the range of user-user and user-community actions, respectively.
+
+\noindent {\bf Interactions} describes the communication between Facebook users. There are a few dozen different interaction types that have distinct item modality, action and direction.
 \begin{itemize}
-\item \textbf{Modality :}  User can interact with other users via
-									 \textit{links, posts, photos} and \textit{videos}.
-\item \textbf{Action :}  A user $u$ can \textit{comment} or \textit{like} 
-									user $v$'s item or \textit{tag} user $v$ on an 
-									item(with one exception in Facebook that $u$ cannot tag a 
-									link with users $v$ for the obvious reason) .
-\item \textbf{Directionality :} Motivated by~\cite{saez2011high}, we can look
-      								at \textit{incoming} and \textit{outgoing} interactions, i.e.,
-      								if user $u$ comments on, tags, or likes user $v$'s item,
-      								then $u$ is in the set of incoming interactions for $v$
-      								and $v$ is in the set of outgoing interactions for $u$.
+\item \textbf{Modality:} (4 possibilities)
+User $u$ can interact with another user $v$ via \textit{links, posts, photos} and \textit{videos} that appear in either user's timeline.
+
+\item \textbf{Action:} (3 possibilities)
+A user $u$ can \textit{comment} or \textit{like} 
+user $v$'s item. He/she can also \textit{tag} user $v$ on an 
+item, often indicating that user $v$ is present when the content is created (for photo/video/post), 
+or to explicitly raise user $v$'s attention for a post -- with one exception in Facebook that $u$ cannot tag a link with users $v$ since the link is created by third parties and merely shared on Facebook.
+
+\item \textbf{Directionality:} (2 possibilities)
+We look at \textit{incoming} and \textit{outgoing} interactions, i.e.,
+if user $u$ comments on, tags, or likes user $v$'s item,
+then this is an outgoing interactions for $u$, and an incoming interactions for $v$.
+Although high correlation between \textit{incoming} and \textit{outgoing}
+is recently observed~\cite{saez2011high}, but whether or not interaction direction 
+affect user preference differently is still an open question. 
+%then $u$ is in the set of incoming interactions for $v$
+%and $v$ is in the set of outgoing interactions for $u$.
       								
-\end{itemize}								
+\end{itemize}
+There are a total of 22 interaction types. Namely the cross-product of modalities, actions and directions, minus {\em link-tag-\{incoming, outgoing\}}. 
 
 %\subsection{Activities}
-{\bf Activities} describes the user interactions with Facebook entities like groups, pages, favourite movies, favourite music etc.
+\noindent{\bf Activities} describes the user interactions with Facebook communities like groups, pages, favourite movies, favourite music etc.
 \begin{itemize}
   %@SCOTT/LEXING following defination are taken from facebook blog. I am confused how to cite it %
   \item \textbf{Groups :} Facebook Groups are the place for small group communication and for people to share their common interests 
@@ -55,6 +63,7 @@ Our affinity
 \cite{Wilson2012BSG}
 
 
+\subsection{Social Affinity Groups}
 
 The major objective of this paper is to evaluate the effectiveness of \textit{Social Affinity Filtering(SAF)} and fine grained 
 analysis of the informativeness of Interactions and Activities.We divide our recommendation algorithm into two categories based 
