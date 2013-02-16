@@ -1,3 +1,4 @@
+%!TEX root = document.tex
 
 We built a Facebook App\footnote{Name and link omitted
 for anonymity.} to collect information about users, 
@@ -48,8 +49,91 @@ Our app recommends links to users every day, where the users may give their feed
 links that are collected either from friends or non friends. Throughout this paper, app user rated link data is used to evaluate the recommendation algorithms. 
 Table \ref{tab:likeinfo} shows the statistics of the app user rating for friend and non-friend recommendations.
       							
- 
+\begin{table}
+\centering
+\begin{tabular}{|>{\small}l|>{\small}r|>{\small}r|}
+\hline
+& \textbf{App Users} & \textbf{Ego network} \\
+& & \textbf{of App Users} \\
+\hline
+Users & 119 & 38,378 \\
+\hline
+Male & 85 & 20,840 \\
+\hline
+Female & 33 & 17,032 \\
+\hline
+\end{tabular}
+\caption{App user demographics}
+\label{tab:demographics}
+\end{table}
 
+\begin{table}
+\centering
+\begin{tabular}{|>{\small}l|>{\small}r|>{\small}r|>{\small}r|}
+\hline
+\textbf{App Users} & \textbf{Tags} & \textbf{Comments} & \textbf{Likes} \\
+\hline
+\textbf{Post} & 7,711 & 22,388 & 15,999 \\
+\hline
+\textbf{Link}  & --- & 7,483 & 6,566 \\
+\hline
+\textbf{Photo} & 28,341 & 10,976 & 8,612 \\
+\hline
+\textbf{Video} & 2,525 & 1,970 & 843 \\
+\hline
+\hline
+\textbf{Ego network} & \textbf{Tags} & \textbf{Comments} & \textbf{Likes} \\
+\textbf{of App Users}  & & & \\
+\hline
+\textbf{Post} & 1,215,382 & 3,122,019 & 1,887,497 \\
+\hline
+\textbf{Link} & --- & 891,986 & 995,214 \\
+\hline
+\textbf{Photo} & 9,620,708 & 3,431,321 & 2,469,859 \\
+\hline
+\textbf{Video} & 904,604 & 486,677 & 332,619 \\
+\hline
+\end{tabular}
+\caption{Statistics on user {\em Interactions}, grouped by item {\em Modality} and {\em Action type}.}
+\label{tab:interactions}
+\end{table}
+
+
+\begin{table}
+\centering
+\begin{tabular}{|>{\small}l|>{\small}r|>{\small}r|}
+\hline
+& \textbf{App Users} & \textbf{Ego Network} \\
+& & \textbf{of App Users} \\
+\hline
+Groups & 3,469 & 373,608 \\
+\hline
+Page Likes & 10,771 & 825,452 \\
+\hline
+Favourites & 4,284 & 892,820\\
+\hline
+\end{tabular}
+\caption{Statistics on user {\em Actions}, counted for {\em groups, pages} and {\em favorites} over the App users and their ego network.}
+\label{tab:interests}
+\end{table}
+
+\begin{table}
+\centering
+\begin{tabular}{|>{\small}l|>{\small}r|>{\small}r|}\hline
+&\textbf{Friend}  & \textbf{Non-Friend} \\
+&\textbf{recommendation}  & \textbf{recommendation} \\
+\hline
+Like& 1392 & 1127 \\
+\hline
+Dislike& 895 & 2111\\
+\hline
+\end{tabular}
+\caption{Dataset breakdown of prediction target $like(u,i)$, by the source of the link (friend/non-friend) and value (true/false).}
+\label{tab:likeinfo}
+\end{table}
+
+
+\eat{ %% suvash's original table
 \begin{table}
 \centering
 \begin{tabular}{|>{\small}l|>{\small}r|>{\small}r|>{\small}r|>{\small}r|}
@@ -77,59 +161,7 @@ Table \ref{tab:likeinfo} shows the statistics of the app user rating for friend 
 \textbf{Video} & 59,244 & 904,604 & 486,677 & 332,619 \\
 \hline
 \end{tabular}
-\caption{Number of records in Items and Interactions Tables. Rows are type of Facebook item and columns are type of Facebook interaction.}
+\caption{The number of interactions Tables. Rows are type of Facebook item and columns are type of Facebook interaction.}
 \label{tab:interactions}
 \end{table}
-
-
-\begin{table}
-\centering
-\begin{tabular}{|>{\small}l|>{\small}r|>{\small}r|}
-\hline
-& \textbf{App Users} & \textbf{App User} \\
-& & \textbf{and Friends} \\
-\hline
-Users & 119 & 38,378 \\
-\hline
-Male & 85 & 20,840 \\
-\hline
-Female & 33 & 17,032 \\
-\hline
-\end{tabular}
-\caption{App user demographics}
-\label{tab:demographics}
-\end{table}
-
-\begin{table}
-\centering
-\begin{tabular}{|>{\small}l|>{\small}r|>{\small}r|}
-\hline
-& \textbf{App Users} & \textbf{App User} \\
-& & \textbf{and Friends} \\
-\hline
-Groups & 3,469 & 373,608 \\
-\hline
-Page Likes & 10,771 & 825,452 \\
-\hline
-Favourites & 4,284 & 892,820\\
-\hline
-\end{tabular}
-\caption{App user and friends activity statistics }
-\label{tab:interests}
-\end{table}
-
-\begin{table}
-\centering
-\begin{tabular}{|>{\small}l|>{\small}r|>{\small}r|}\hline
-&\textbf{Friend}  & \textbf{Non-Friend} \\
-&\textbf{recommendation}  & \textbf{recommendation} \\
-\hline
-Like& 1392 & 1127 \\
-\hline
-Dislike& 895 & 2111\\
-\hline
-\end{tabular}
-\caption{Dataset breakdown by friend/non-friend and like/dislike}
-\label{tab:likeinfo}
-\end{table}
-
+}
