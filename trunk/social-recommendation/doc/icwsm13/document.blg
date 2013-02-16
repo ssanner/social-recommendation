@@ -3,49 +3,54 @@ Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: document.aux
 The style file: aaai.bst
 Database file #1: bibliography.bib
-Warning--I didn't find a database entry for "anonymous"
-Warning--I didn't find a database entry for "Wilson2012BSG"
 Warning--I didn't find a database entry for "SMB"
+Warning--I didn't find a database entry for "***"
+Warning--empty booktitle in Bakshy2011everyone
+Warning--empty booktitle in brandtzag2011facebook
+Warning--empty booktitle in nori2011exploiting
 Warning--empty booktitle in Romero2011hashtag
-You've used 13 entries,
+Warning--empty booktitle in singla2008yes
+Warning--empty booktitle in ver2011stops
+Warning--empty booktitle in wilson2009user
+You've used 29 entries,
             2568 wiz_defined-function locations,
-            651 strings with 7009 characters,
-and the built_in function-call counts, 6169 in all, are:
-= -- 642
-> -- 309
-< -- 5
-+ -- 110
-- -- 108
-* -- 473
-:= -- 988
-add.period$ -- 69
-call.type$ -- 13
-change.case$ -- 106
-chr.to.int$ -- 13
-cite$ -- 14
-duplicate$ -- 249
-empty$ -- 419
-format.name$ -- 132
-if$ -- 1304
+            737 strings with 9678 characters,
+and the built_in function-call counts, 13384 in all, are:
+= -- 1422
+> -- 607
+< -- 11
++ -- 210
+- -- 208
+* -- 1031
+:= -- 2117
+add.period$ -- 153
+call.type$ -- 29
+change.case$ -- 220
+chr.to.int$ -- 29
+cite$ -- 36
+duplicate$ -- 541
+empty$ -- 940
+format.name$ -- 259
+if$ -- 2835
 int.to.chr$ -- 1
 int.to.str$ -- 0
-missing$ -- 13
-newline$ -- 85
-num.names$ -- 39
-pop$ -- 109
+missing$ -- 29
+newline$ -- 185
+num.names$ -- 87
+pop$ -- 219
 preamble$ -- 1
-purify$ -- 119
+purify$ -- 249
 quote$ -- 0
-skip$ -- 192
+skip$ -- 421
 stack$ -- 0
-substring$ -- 231
-swap$ -- 72
-text.length$ -- 5
+substring$ -- 602
+swap$ -- 148
+text.length$ -- 11
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 104
-warning$ -- 1
-while$ -- 40
-width$ -- 15
-write$ -- 188
-(There were 4 warnings)
+type$ -- 232
+warning$ -- 7
+while$ -- 98
+width$ -- 32
+write$ -- 414
+(There were 9 warnings)
