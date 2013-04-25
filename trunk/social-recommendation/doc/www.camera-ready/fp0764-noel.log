@@ -1,38 +1,52 @@
-This is pdfeTeXk, Version 3.141592-1.21a-2.2 (Web2C 7.5.4) (format=latex 2008.12.23)  26 FEB 2012 20:10
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011/Cygwin) (format=pdflatex 2012.5.9)  25 APR 2013 21:56
 entering extended mode
- file:line:error style messages enabled.
+ restricted \write18 enabled.
  %&-line parsing enabled.
 **fp0764-noel.tex
 (./fp0764-noel.tex
-LaTeX2e <2003/12/01>
-Babel <v3.8d> and hyphenation patterns for american, french, german, ngerman, b
-ahasa, basque, bulgarian, catalan, croatian, czech, danish, dutch, esperanto, e
-stonian, finnish, greek, icelandic, irish, italian, latin, magyar, norsk, polis
-h, portuges, romanian, russian, serbian, slovak, slovene, spanish, swedish, tur
-kish, ukrainian, nohyphenation, loaded.
-(./www2012-accepted.cls (/usr/share/texmf/tex/latex/graphics/epsfig.sty
+LaTeX2e <2011/06/27>
+Babel <v3.8m> and hyphenation patterns for english, dumylang, nohyphenation, ge
+rman-x-2011-07-01, ngerman-x-2011-07-01, afrikaans, ancientgreek, ibycus, arabi
+c, armenian, basque, bulgarian, catalan, pinyin, coptic, croatian, czech, danis
+h, dutch, ukenglish, usenglishmax, esperanto, estonian, ethiopic, farsi, finnis
+h, french, galician, german, ngerman, swissgerman, monogreek, greek, hungarian,
+ icelandic, assamese, bengali, gujarati, hindi, kannada, malayalam, marathi, or
+iya, panjabi, tamil, telugu, indonesian, interlingua, irish, italian, kurmanji,
+ lao, latin, latvian, lithuanian, mongolian, mongolianlmc, bokmal, nynorsk, pol
+ish, portuguese, romanian, russian, sanskrit, serbian, serbianc, slovak, sloven
+ian, spanish, swedish, turkish, turkmen, ukrainian, uppersorbian, welsh, loaded
+.
+(./www2012-accepted.cls (/usr/share/texmf-dist/tex/latex/graphics/epsfig.sty
 Package: epsfig 1999/02/16 v1.7a (e)psfig emulation (SPQR)
 
-(/usr/share/texmf/tex/latex/graphics/graphicx.sty
+(/usr/share/texmf-dist/tex/latex/graphics/graphicx.sty
 Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
 
-(/usr/share/texmf/tex/latex/graphics/keyval.sty
+(/usr/share/texmf-dist/tex/latex/graphics/keyval.sty
 Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
 \KV@toks@=\toks14
 )
-(/usr/share/texmf/tex/latex/graphics/graphics.sty
-Package: graphics 2001/07/07 v1.0n Standard LaTeX Graphics (DPC,SPQR)
+(/usr/share/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
 
-(/usr/share/texmf/tex/latex/graphics/trig.sty
+(/usr/share/texmf-dist/tex/latex/graphics/trig.sty
 Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
 )
-(/usr/share/texmf/tex/latex/graphics/graphics.cfg
-File: graphics.cfg 2005/02/03 v1.3 graphics configuration of teTeX/TeXLive
+(/usr/share/texmf-dist/tex/latex/latexconfig/graphics.cfg
+File: graphics.cfg 2010/04/23 v1.9 graphics configuration of TeX Live
 )
-Package graphics Info: Driver file: dvips.def on input line 80.
+Package graphics Info: Driver file: pdftex.def on input line 91.
 
-(/usr/share/texmf/tex/latex/graphics/dvips.def
-File: dvips.def 1999/02/16 v3.0i Driver-dependant file (DPC,SPQR)
+(/usr/share/texmf-dist/tex/latex/pdftex-def/pdftex.def
+File: pdftex.def 2011/05/27 v0.06d Graphics/color for pdfTeX
+
+(/usr/share/texmf-dist/tex/generic/oberdiek/infwarerr.sty
+Package: infwarerr 2010/04/08 v1.3 Providing info/warning/message (HO)
+)
+(/usr/share/texmf-dist/tex/generic/oberdiek/ltxcmds.sty
+Package: ltxcmds 2011/04/18 v1.20 LaTeX kernel commands for general use (HO)
+)
+\Gread@gobject=\count79
 ))
 \Gin@req@height=\dimen102
 \Gin@req@width=\dimen103
@@ -40,44 +54,44 @@ File: dvips.def 1999/02/16 v3.0i Driver-dependant file (DPC,SPQR)
 \epsfxsize=\dimen104
 \epsfysize=\dimen105
 )
-(/usr/share/texmf/tex/latex/amsfonts/amssymb.sty
-Package: amssymb 2002/01/22 v2.2d
+(/usr/share/texmf-dist/tex/latex/amsfonts/amssymb.sty
+Package: amssymb 2009/06/22 v3.00
 
-(/usr/share/texmf/tex/latex/amsfonts/amsfonts.sty
-Package: amsfonts 2001/10/25 v2.2f
+(/usr/share/texmf-dist/tex/latex/amsfonts/amsfonts.sty
+Package: amsfonts 2009/06/22 v3.00 Basic AMSFonts support
 \@emptytoks=\toks15
 \symAMSa=\mathgroup4
 \symAMSb=\mathgroup5
 LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
-(Font)                  U/euf/m/n --> U/euf/b/n on input line 132.
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 96.
 ))
-(/usr/share/texmf/tex/latex/amsmath/amsmath.sty
+(/usr/share/texmf-dist/tex/latex/amsmath/amsmath.sty
 Package: amsmath 2000/07/18 v2.13 AMS math features
 \@mathmargin=\skip41
 
 For additional information on amsmath, use the `?' option.
-(/usr/share/texmf/tex/latex/amsmath/amstext.sty
+(/usr/share/texmf-dist/tex/latex/amsmath/amstext.sty
 Package: amstext 2000/06/29 v2.01
 
-(/usr/share/texmf/tex/latex/amsmath/amsgen.sty
+(/usr/share/texmf-dist/tex/latex/amsmath/amsgen.sty
 File: amsgen.sty 1999/11/30 v2.0
 \@emptytoks=\toks16
 \ex@=\dimen106
 ))
-(/usr/share/texmf/tex/latex/amsmath/amsbsy.sty
+(/usr/share/texmf-dist/tex/latex/amsmath/amsbsy.sty
 Package: amsbsy 1999/11/29 v1.2d
 \pmbraise@=\dimen107
 )
-(/usr/share/texmf/tex/latex/amsmath/amsopn.sty
+(/usr/share/texmf-dist/tex/latex/amsmath/amsopn.sty
 Package: amsopn 1999/12/14 v2.01 operator names
 )
-\inf@bad=\count79
+\inf@bad=\count80
 LaTeX Info: Redefining \frac on input line 211.
-\uproot@=\count80
-\leftroot@=\count81
+\uproot@=\count81
+\leftroot@=\count82
 LaTeX Info: Redefining \overline on input line 307.
-\classnum@=\count82
-\DOTSCASE@=\count83
+\classnum@=\count83
+\DOTSCASE@=\count84
 LaTeX Info: Redefining \ldots on input line 379.
 LaTeX Info: Redefining \dots on input line 382.
 LaTeX Info: Redefining \cdots on input line 467.
@@ -86,15 +100,15 @@ LaTeX Info: Redefining \cdots on input line 467.
 \big@size=\dimen108
 LaTeX Font Info:    Redeclaring font encoding OML on input line 567.
 LaTeX Font Info:    Redeclaring font encoding OMS on input line 568.
-\macc@depth=\count84
-\c@MaxMatrixCols=\count85
+\macc@depth=\count85
+\c@MaxMatrixCols=\count86
 \dotsspace@=\muskip10
-\c@parentequation=\count86
-\dspbrk@lvl=\count87
+\c@parentequation=\count87
+\dspbrk@lvl=\count88
 \tag@help=\toks17
-\row@=\count88
-\column@=\count89
-\maxfields@=\count90
+\row@=\count89
+\column@=\count90
+\maxfields@=\count91
 \andhelp@=\toks18
 \eqnshift@=\dimen109
 \alignsep@=\dimen110
@@ -120,130 +134,134 @@ ienne Griscti griscti@acm.org
 \footheight=\dimen115
 \@maxsep=\dimen116
 \@dblmaxsep=\dimen117
-\aucount=\count91
-\originalaucount=\count92
+\aucount=\count92
+\originalaucount=\count93
 \auwidth=\dimen118
 \auskip=\dimen119
-\auskipcount=\count93
+\auskipcount=\count94
 \auskip=\dimen120
 \allauboxes=\dimen121
 \addauthors=\toks21
-\addauflag=\count94
+\addauflag=\count95
 \subtitletext=\toks22
-\savesection=\count95
-\sectioncntr=\count96
-\c@figure=\count97
-\c@table=\count98
+\savesection=\count96
+\sectioncntr=\count97
+\c@figure=\count98
+\c@table=\count99
 \titleboxnotes=\toks23
-\titleboxnoteflag=\count99
+\titleboxnoteflag=\count100
 Document Class: www2012-accepted 2012/01/26 V2.0 based on sig-alt-release.cls
-(/usr/share/texmf/tex/latex/base/latexsym.sty
+(/usr/share/texmf-dist/tex/latex/base/latexsym.sty
 Package: latexsym 1998/08/17 v2.2e Standard LaTeX package (lasy symbols)
 \symlasy=\mathgroup6
 LaTeX Font Info:    Overwriting symbol font `lasy' in version `bold'
 (Font)                  U/lasy/m/n --> U/lasy/b/n on input line 47.
 )
 \@acmtitlebox=\box28
-\titlenotecount=\count100
+\titlenotecount=\count101
 \tntoks=\toks24
 \tntokstwo=\toks25
 \tntoksthree=\toks26
 \tntoksfour=\toks27
 \tntoksfive=\toks28
-\catcount=\count101
+\catcount=\count102
 \copyrightnotice=\toks29
 \conf=\toks30
 \confinfo=\toks31
-\c@part=\count102
-\c@section=\count103
-\c@subsection=\count104
-\c@subsubsection=\count105
-\c@paragraph=\count106
+\c@part=\count103
+\c@section=\count104
+\c@subsection=\count105
+\c@subsubsection=\count106
+\c@paragraph=\count107
 
 Using 'Abbrev' bibliography style
 LaTeX Info: Redefining \cite on input line 1205.
 \bibindent=\dimen122
-\colcntr=\count107
+\colcntr=\count108
 \saveb@x=\box29
 \copyrtyr=\toks32
 \acmcopyr=\toks33
 \boilerplate=\toks34
 \copyrightetc=\toks35
-(/usr/share/texmf/tex/latex/base/fontenc.sty
-Package: fontenc 2004/02/22 v1.99f Standard LaTeX package
+(/usr/share/texmf-dist/tex/latex/base/fontenc.sty
+Package: fontenc 2005/09/27 v1.99g Standard LaTeX package
 
-(/usr/share/texmf/tex/latex/base/t1enc.def
-File: t1enc.def 2004/02/22 v1.99f Standard LaTeX file
+(/usr/share/texmf-dist/tex/latex/base/t1enc.def
+File: t1enc.def 2005/09/27 v1.99g Standard LaTeX file
 LaTeX Font Info:    Redeclaring font encoding T1 on input line 43.
 )
 LaTeX Font Info:    Try loading font information for T1+aer on input line 100.
 
-(/usr/share/texmf/tex/latex/ae/t1aer.fd
+(/usr/share/texmf-dist/tex/latex/ae/t1aer.fd
 File: t1aer.fd 1997/11/16 Font definitions for T1/aer.
 )))
-(/usr/share/texmf/tex/latex/base/makeidx.sty
+(/usr/share/texmf-dist/tex/latex/base/makeidx.sty
 Package: makeidx 2000/03/29 v1.0m Standard LaTeX package
 )
-(/usr/share/texmf/tex/latex/tools/verbatim.sty
+(/usr/share/texmf-dist/tex/latex/tools/verbatim.sty
 Package: verbatim 2003/08/22 v1.5q LaTeX2e package for verbatim enhancements
 \every@verbatim=\toks36
 \verbatim@line=\toks37
 \verbatim@in@stream=\read1
 )
-(/usr/share/texmf/tex/latex/subfigure/subfigure.sty
-Package: subfigure 2002/07/30 v2.1.4 subfigure package
+(/usr/share/texmf-dist/tex/latex/subfigure/subfigure.sty
+Package: subfigure 2002/03/15 v2.1.5 subfigure package
 \subfigtopskip=\skip44
 \subfigcapskip=\skip45
 \subfigcaptopadj=\dimen123
 \subfigbottomskip=\skip46
 \subfigcapmargin=\dimen124
 \subfiglabelskip=\skip47
-\c@subfigure=\count108
-\c@lofdepth=\count109
-\c@subtable=\count110
-\c@lotdepth=\count111
+\c@subfigure=\count109
+\c@lofdepth=\count110
+\c@subtable=\count111
+\c@lotdepth=\count112
 
 ****************************************
 * Local config file subfigure.cfg used *
 ****************************************
-(/usr/share/texmf/tex/latex/subfigure/subfigure.cfg)
+(/usr/share/texmf-dist/tex/latex/subfigure/subfigure.cfg)
 \subfig@top=\skip48
 \subfig@bottom=\skip49
 )
-(/usr/share/texmf/tex/latex/tools/array.sty
-Package: array 2003/12/17 v2.4a Tabular extension package (FMi)
+(/usr/share/texmf-dist/tex/latex/tools/array.sty
+Package: array 2008/09/09 v2.4c Tabular extension package (FMi)
 \col@sep=\dimen125
 \extrarowheight=\dimen126
 \NC@list=\toks38
 \extratabsurround=\skip50
 \backup@length=\skip51
 )
-(/usr/share/texmf/tex/latex/mh/mathtools.sty
-Package: mathtools 2004/10/10 v1.01a mathematical typesetting tools (MH)
+(/usr/share/texmf-dist/tex/latex/mh/mathtools.sty
+Package: mathtools 2011/04/06 v1.11 mathematical typesetting tools
 
-(/usr/share/texmf/tex/latex/tools/calc.sty
-Package: calc 1998/07/07 v4.1b Infix arithmetic (KKT,FJ)
-\calc@Acount=\count112
-\calc@Bcount=\count113
+(/usr/share/texmf-dist/tex/latex/tools/calc.sty
+Package: calc 2007/08/22 v4.3 Infix arithmetic (KKT,FJ)
+\calc@Acount=\count113
+\calc@Bcount=\count114
 \calc@Adimen=\dimen127
 \calc@Bdimen=\dimen128
 \calc@Askip=\skip52
 \calc@Bskip=\skip53
-LaTeX Info: Redefining \setlength on input line 59.
-LaTeX Info: Redefining \addtolength on input line 60.
-\calc@denominator=\count114
+LaTeX Info: Redefining \setlength on input line 76.
+LaTeX Info: Redefining \addtolength on input line 77.
+\calc@Ccount=\count115
+\calc@Cskip=\skip54
 )
-(/usr/share/texmf/tex/latex/mh/mhsetup.sty
-Package: mhsetup 2004/10/10 v1.0b programming setup (MH)
+(/usr/share/texmf-dist/tex/latex/mh/mhsetup.sty
+Package: mhsetup 2010/01/21 v1.2a programming setup (MH)
 )
-\g_MT_multlinerow_int=\count115
+\g_MT_multlinerow_int=\count116
 \l_MT_multwidth_dim=\dimen129
+\origjot=\skip55
+\l_MT_shortvdotswithinadjustabove_dim=\dimen130
+\l_MT_shortvdotswithinadjustbelow_dim=\dimen131
 )
-(/usr/share/texmf/tex/latex/url/url.sty
+(/usr/share/texmf-dist/tex/latex/url/url.sty
 \Urlmuskip=\muskip11
-Package: url 2004/03/15  ver 3.1  Verb mode for urls, etc.
+Package: url 2006/04/12  ver 3.3  Verb mode for urls, etc.
 )
-\c@lemma=\count116
+\c@lemma=\count117
  (./fp0764-noel.aux)
 \openout1 = `fp0764-noel.aux'.
 
@@ -259,21 +277,82 @@ LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 126.
 LaTeX Font Info:    ... okay on input line 126.
 LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 126.
 LaTeX Font Info:    ... okay on input line 126.
+
+(/usr/share/texmf-dist/tex/context/base/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count118
+\scratchdimen=\dimen132
+\scratchbox=\box30
+\nofMPsegments=\count119
+\nofMParguments=\count120
+\everyMPshowfont=\toks39
+\MPscratchCnt=\count121
+\MPscratchDim=\dimen133
+\MPnumerator=\count122
+\makeMPintoPDFobject=\count123
+\everyMPtoPDFconversion=\toks40
+) (/usr/share/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
+Package: pdftexcmds 2011/04/22 v0.16 Utilities of pdfTeX for LuaTeX (HO)
+
+(/usr/share/texmf-dist/tex/generic/oberdiek/ifluatex.sty
+Package: ifluatex 2010/03/01 v1.3 Provides the ifluatex switch (HO)
+Package ifluatex Info: LuaTeX not detected.
+)
+(/usr/share/texmf-dist/tex/generic/oberdiek/ifpdf.sty
+Package: ifpdf 2011/01/30 v2.3 Provides the ifpdf switch (HO)
+Package ifpdf Info: pdfTeX in PDF mode is detected.
+)
+Package pdftexcmds Info: LuaTeX not detected.
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+)
+(/usr/share/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
+Package: epstopdf-base 2010/02/09 v2.5 Base part for package epstopdf
+
+(/usr/share/texmf-dist/tex/latex/oberdiek/grfext.sty
+Package: grfext 2010/08/19 v1.1 Managing graphics extensions (HO)
+
+(/usr/share/texmf-dist/tex/generic/oberdiek/kvdefinekeys.sty
+Package: kvdefinekeys 2011/04/07 v1.3 Defining keys (HO)
+))
+(/usr/share/texmf-dist/tex/latex/oberdiek/kvoptions.sty
+Package: kvoptions 2010/12/23 v3.10 Keyval support for LaTeX options (HO)
+
+(/usr/share/texmf-dist/tex/generic/oberdiek/kvsetkeys.sty
+Package: kvsetkeys 2011/04/07 v1.13 Key value parser (HO)
+
+(/usr/share/texmf-dist/tex/generic/oberdiek/etexcmds.sty
+Package: etexcmds 2011/02/16 v1.5 Prefix for e-TeX command names (HO)
+Package etexcmds Info: Could not find \expanded.
+(etexcmds)             That can mean that you are not using pdfTeX 1.50 or
+(etexcmds)             that some package has redefined \expanded.
+(etexcmds)             In the latter case, load this package earlier.
+)))
+Package grfext Info: Graphics extension search list:
+(grfext)             [.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPE
+G,.JBIG2,.JB2,.eps]
+(grfext)             \AppendGraphicsExtensions on input line 452.
+
+(/usr/share/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
+e
+))
 LaTeX Font Info:    Try loading font information for U+msa on input line 204.
 
-(/usr/share/texmf/tex/latex/amsfonts/umsa.fd
-File: umsa.fd 2002/01/19 v2.2g AMS font definitions
+(/usr/share/texmf-dist/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2009/06/22 v3.00 AMS symbols A
 )
 LaTeX Font Info:    Try loading font information for U+msb on input line 204.
 
-(/usr/share/texmf/tex/latex/amsfonts/umsb.fd
-File: umsb.fd 2002/01/19 v2.2g AMS font definitions
+(/usr/share/texmf-dist/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2009/06/22 v3.00 AMS symbols B
 )
 LaTeX Font Info:    Try loading font information for U+lasy on input line 204.
 
-(/usr/share/texmf/tex/latex/base/ulasy.fd
+(/usr/share/texmf-dist/tex/latex/base/ulasy.fd
 File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
-) (./intro.tex [1
+) (./intro.tex [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
 
 
 ]) (./background.tex
@@ -310,15 +389,33 @@ er/m/it/9 all \T1/aer/m/n/9 users.
  []
 
 ) (./eval.tex
-File: img_new/linkr2.eps Graphic file (type eps)
- <img_new/linkr2.eps>
-Overfull \hbox (2.37637pt too wide) in paragraph at lines 15--27
+Package epstopdf Info: Source file: <img_new/linkr2.eps>
+(epstopdf)                    date: 2012-09-13 17:28:15
+(epstopdf)                    size: 1844165 bytes
+(epstopdf)             Output file: <img_new/linkr2-eps-converted-to.pdf>
+(epstopdf)                    date: 2013-04-25 21:55:54
+(epstopdf)                    size: 134370 bytes
+(epstopdf)             Command: <repstopdf --outfile=img_new/linkr2-eps-convert
+ed-to.pdf img_new/linkr2.eps>
+(epstopdf)             \includegraphics on input line 15.
+Package epstopdf Info: Output file is already uptodate.
+
+<img_new/linkr2-eps-converted-to.pdf, id=35, 572.1375pt x 525.965pt>
+File: img_new/linkr2-eps-converted-to.pdf Graphic file (type pdf)
+
+<use img_new/linkr2-eps-converted-to.pdf>
+Package pdftex.def Info: img_new/linkr2-eps-converted-to.pdf used on input line
+ 15.
+(pdftex.def)             Requested size: 246.01433pt x 226.16054pt.
+
+Overfull \hbox (2.37578pt too wide) in paragraph at lines 15--27
 []  []
  []
 
-[5]) (./empirical_results.tex
+[5 <./img_new/linkr2-eps-converted-to.pdf>]) (./empirical_results.tex
 LaTeX Font Info:    Try loading font information for T1+aett on input line 10.
- (/usr/share/texmf/tex/latex/ae/t1aett.fd
+
+(/usr/share/texmf-dist/tex/latex/ae/t1aett.fd
 File: t1aett.fd 1997/11/16 Font definitions for T1/aett.
 )
 Overfull \hbox (1.06732pt too wide) in paragraph at lines 42--68
@@ -326,21 +423,125 @@ Overfull \hbox (1.06732pt too wide) in paragraph at lines 42--68
  []
 
 [6]
-File: img_new/live-likes1-orig.eps Graphic file (type eps)
- <img_new/live-likes1-orig.eps>
-File: img_new/live-friend-likes1-orig.eps Graphic file (type eps)
- <img_new/live-friend-likes1-orig.eps>
-File: img_new/live-nonfriend-likes1-orig.eps Graphic file (type eps)
+Package epstopdf Info: Source file: <img_new/live-likes1-orig.eps>
+(epstopdf)                    date: 2012-09-13 17:28:15
+(epstopdf)                    size: 32719 bytes
+(epstopdf)             Output file: <img_new/live-likes1-orig-eps-converted-to.
+pdf>
+(epstopdf)                    date: 2013-04-25 21:55:56
+(epstopdf)                    size: 21178 bytes
+(epstopdf)             Command: <repstopdf --outfile=img_new/live-likes1-orig-e
+ps-converted-to.pdf img_new/live-likes1-orig.eps>
+(epstopdf)             \includegraphics on input line 100.
+Package epstopdf Info: Output file is already uptodate.
 
-<img_new/live-nonfriend-likes1-orig.eps>
-File: img_new/live-likes2-Feb10.eps Graphic file (type eps)
- <img_new/live-likes2-Feb10.eps>
-File: img_new/live-friend-likes2-Feb10.eps Graphic file (type eps)
+<img_new/live-likes1-orig-eps-converted-to.pdf, id=46, 578.16pt x 433.62pt>
+File: img_new/live-likes1-orig-eps-converted-to.pdf Graphic file (type pdf)
 
-<img_new/live-friend-likes2-Feb10.eps>
-File: img_new/live-nonfriend-likes2-Feb10.eps Graphic file (type eps)
+<use img_new/live-likes1-orig-eps-converted-to.pdf>
+Package pdftex.def Info: img_new/live-likes1-orig-eps-converted-to.pdf used on 
+input line 100.
+(pdftex.def)             Requested size: 161.8837pt x 121.41277pt.
+Package epstopdf Info: Source file: <img_new/live-friend-likes1-orig.eps>
+(epstopdf)                    date: 2012-09-13 17:28:15
+(epstopdf)                    size: 32478 bytes
+(epstopdf)             Output file: <img_new/live-friend-likes1-orig-eps-conver
+ted-to.pdf>
+(epstopdf)                    date: 2013-04-25 21:55:58
+(epstopdf)                    size: 21048 bytes
+(epstopdf)             Command: <repstopdf --outfile=img_new/live-friend-likes1
+-orig-eps-converted-to.pdf img_new/live-friend-likes1-orig.eps>
+(epstopdf)             \includegraphics on input line 101.
+Package epstopdf Info: Output file is already uptodate.
 
-<img_new/live-nonfriend-likes2-Feb10.eps>
+<img_new/live-friend-likes1-orig-eps-converted-to.pdf, id=47, 578.16pt x 433.62
+pt>
+File: img_new/live-friend-likes1-orig-eps-converted-to.pdf Graphic file (type p
+df)
+ <use img_new/live-friend-likes1-orig-eps-converted-to.pdf>
+Package pdftex.def Info: img_new/live-friend-likes1-orig-eps-converted-to.pdf u
+sed on input line 101.
+(pdftex.def)             Requested size: 161.8837pt x 121.41277pt.
+Package epstopdf Info: Source file: <img_new/live-nonfriend-likes1-orig.eps>
+(epstopdf)                    date: 2012-09-13 17:28:15
+(epstopdf)                    size: 32741 bytes
+(epstopdf)             Output file: <img_new/live-nonfriend-likes1-orig-eps-con
+verted-to.pdf>
+(epstopdf)                    date: 2013-04-25 21:56:01
+(epstopdf)                    size: 21277 bytes
+(epstopdf)             Command: <repstopdf --outfile=img_new/live-nonfriend-lik
+es1-orig-eps-converted-to.pdf img_new/live-nonfriend-likes1-orig.eps>
+(epstopdf)             \includegraphics on input line 102.
+Package epstopdf Info: Output file is already uptodate.
+
+<img_new/live-nonfriend-likes1-orig-eps-converted-to.pdf, id=48, 578.16pt x 433
+.62pt>
+File: img_new/live-nonfriend-likes1-orig-eps-converted-to.pdf Graphic file (typ
+e pdf)
+ <use img_new/live-nonfriend-likes1-orig-eps-converted-to.pdf>
+Package pdftex.def Info: img_new/live-nonfriend-likes1-orig-eps-converted-to.pd
+f used on input line 102.
+(pdftex.def)             Requested size: 161.8837pt x 121.41277pt.
+Package epstopdf Info: Source file: <img_new/live-likes2-Feb10.eps>
+(epstopdf)                    date: 2012-09-13 17:28:15
+(epstopdf)                    size: 34513 bytes
+(epstopdf)             Output file: <img_new/live-likes2-Feb10-eps-converted-to
+.pdf>
+(epstopdf)                    date: 2013-04-25 21:56:03
+(epstopdf)                    size: 22113 bytes
+(epstopdf)             Command: <repstopdf --outfile=img_new/live-likes2-Feb10-
+eps-converted-to.pdf img_new/live-likes2-Feb10.eps>
+(epstopdf)             \includegraphics on input line 103.
+Package epstopdf Info: Output file is already uptodate.
+
+<img_new/live-likes2-Feb10-eps-converted-to.pdf, id=49, 578.16pt x 433.62pt>
+File: img_new/live-likes2-Feb10-eps-converted-to.pdf Graphic file (type pdf)
+
+<use img_new/live-likes2-Feb10-eps-converted-to.pdf>
+Package pdftex.def Info: img_new/live-likes2-Feb10-eps-converted-to.pdf used on
+ input line 103.
+(pdftex.def)             Requested size: 161.8837pt x 121.41277pt.
+Package epstopdf Info: Source file: <img_new/live-friend-likes2-Feb10.eps>
+(epstopdf)                    date: 2012-09-13 17:28:15
+(epstopdf)                    size: 34645 bytes
+(epstopdf)             Output file: <img_new/live-friend-likes2-Feb10-eps-conve
+rted-to.pdf>
+(epstopdf)                    date: 2013-04-25 21:56:05
+(epstopdf)                    size: 22362 bytes
+(epstopdf)             Command: <repstopdf --outfile=img_new/live-friend-likes2
+-Feb10-eps-converted-to.pdf img_new/live-friend-likes2-Feb10.eps>
+(epstopdf)             \includegraphics on input line 104.
+Package epstopdf Info: Output file is already uptodate.
+
+<img_new/live-friend-likes2-Feb10-eps-converted-to.pdf, id=50, 578.16pt x 433.6
+2pt>
+File: img_new/live-friend-likes2-Feb10-eps-converted-to.pdf Graphic file (type 
+pdf)
+ <use img_new/live-friend-likes2-Feb10-eps-converted-to.pdf>
+Package pdftex.def Info: img_new/live-friend-likes2-Feb10-eps-converted-to.pdf 
+used on input line 104.
+(pdftex.def)             Requested size: 161.8837pt x 121.41277pt.
+Package epstopdf Info: Source file: <img_new/live-nonfriend-likes2-Feb10.eps>
+(epstopdf)                    date: 2012-09-13 17:28:15
+(epstopdf)                    size: 35061 bytes
+(epstopdf)             Output file: <img_new/live-nonfriend-likes2-Feb10-eps-co
+nverted-to.pdf>
+(epstopdf)                    date: 2013-04-25 21:56:08
+(epstopdf)                    size: 22824 bytes
+(epstopdf)             Command: <repstopdf --outfile=img_new/live-nonfriend-lik
+es2-Feb10-eps-converted-to.pdf img_new/live-nonfriend-likes2-Feb10.eps>
+(epstopdf)             \includegraphics on input line 105.
+Package epstopdf Info: Output file is already uptodate.
+
+<img_new/live-nonfriend-likes2-Feb10-eps-converted-to.pdf, id=51, 578.16pt x 43
+3.62pt>
+File: img_new/live-nonfriend-likes2-Feb10-eps-converted-to.pdf Graphic file (ty
+pe pdf)
+ <use img_new/live-nonfriend-likes2-Feb10-eps-converted-to.pdf>
+Package pdftex.def Info: img_new/live-nonfriend-likes2-Feb10-eps-converted-to.p
+df used on input line 105.
+(pdftex.def)             Requested size: 161.8837pt x 121.41277pt.
+
 Underfull \hbox (badness 10000) in paragraph at lines 162--180
 
  []
@@ -356,23 +557,114 @@ Underfull \hbox (badness 10000) in paragraph at lines 162--180
  []
 
 [7]
-File: img_new/clicked-likes.eps Graphic file (type eps)
- <img_new/clicked-likes.eps>
-File: img_new/description-clicked.eps Graphic file (type eps)
- <img_new/description-clicked.eps>
-File: img_new/description-liked.eps Graphic file (type eps)
+Package epstopdf Info: Source file: <img_new/clicked-likes.eps>
+(epstopdf)                    date: 2012-09-13 17:28:15
+(epstopdf)                    size: 29235 bytes
+(epstopdf)             Output file: <img_new/clicked-likes-eps-converted-to.pdf
+>
+(epstopdf)                    date: 2013-04-25 21:56:10
+(epstopdf)                    size: 18787 bytes
+(epstopdf)             Command: <repstopdf --outfile=img_new/clicked-likes-eps-
+converted-to.pdf img_new/clicked-likes.eps>
+(epstopdf)             \includegraphics on input line 278.
+Package epstopdf Info: Output file is already uptodate.
 
-<img_new/description-liked.eps>
-File: img_new/friend-popularity.eps Graphic file (type eps)
- <img_new/friend-popularity.eps>
-File: img_new/non-friend-popularity.eps Graphic file (type eps)
+<img_new/clicked-likes-eps-converted-to.pdf, id=56, 340.27126pt x 433.62pt>
+File: img_new/clicked-likes-eps-converted-to.pdf Graphic file (type pdf)
 
-<img_new/non-friend-popularity.eps>
+<use img_new/clicked-likes-eps-converted-to.pdf>
+Package pdftex.def Info: img_new/clicked-likes-eps-converted-to.pdf used on inp
+ut line 278.
+(pdftex.def)             Requested size: 105.48299pt x 134.4208pt.
+Package epstopdf Info: Source file: <img_new/description-clicked.eps>
+(epstopdf)                    date: 2012-09-13 17:28:15
+(epstopdf)                    size: 28864 bytes
+(epstopdf)             Output file: <img_new/description-clicked-eps-converted-
+to.pdf>
+(epstopdf)                    date: 2013-04-25 21:56:12
+(epstopdf)                    size: 19163 bytes
+(epstopdf)             Command: <repstopdf --outfile=img_new/description-clicke
+d-eps-converted-to.pdf img_new/description-clicked.eps>
+(epstopdf)             \includegraphics on input line 280.
+Package epstopdf Info: Output file is already uptodate.
+
+<img_new/description-clicked-eps-converted-to.pdf, id=57, 340.27126pt x 433.62p
+t>
+File: img_new/description-clicked-eps-converted-to.pdf Graphic file (type pdf)
+ <use img_new/description-clicked-eps-converted-to.pdf>
+Package pdftex.def Info: img_new/description-clicked-eps-converted-to.pdf used 
+on input line 280.
+(pdftex.def)             Requested size: 105.48299pt x 134.4208pt.
+Package epstopdf Info: Source file: <img_new/description-liked.eps>
+(epstopdf)                    date: 2012-09-13 17:28:15
+(epstopdf)                    size: 28962 bytes
+(epstopdf)             Output file: <img_new/description-liked-eps-converted-to
+.pdf>
+(epstopdf)                    date: 2013-04-25 21:56:14
+(epstopdf)                    size: 19088 bytes
+(epstopdf)             Command: <repstopdf --outfile=img_new/description-liked-
+eps-converted-to.pdf img_new/description-liked.eps>
+(epstopdf)             \includegraphics on input line 282.
+Package epstopdf Info: Output file is already uptodate.
+
+<img_new/description-liked-eps-converted-to.pdf, id=58, 340.27126pt x 433.62pt>
+File: img_new/description-liked-eps-converted-to.pdf Graphic file (type pdf)
+<use img_new/description-liked-eps-converted-to.pdf>
+Package pdftex.def Info: img_new/description-liked-eps-converted-to.pdf used on
+ input line 282.
+(pdftex.def)             Requested size: 105.48299pt x 134.4208pt.
+Package epstopdf Info: Source file: <img_new/friend-popularity.eps>
+(epstopdf)                    date: 2012-09-13 17:28:15
+(epstopdf)                    size: 30266 bytes
+(epstopdf)             Output file: <img_new/friend-popularity-eps-converted-to
+.pdf>
+(epstopdf)                    date: 2013-04-25 21:56:17
+(epstopdf)                    size: 20599 bytes
+(epstopdf)             Command: <repstopdf --outfile=img_new/friend-popularity-
+eps-converted-to.pdf img_new/friend-popularity.eps>
+(epstopdf)             \includegraphics on input line 284.
+Package epstopdf Info: Output file is already uptodate.
+
+<img_new/friend-popularity-eps-converted-to.pdf, id=59, 340.27126pt x 433.62pt>
+File: img_new/friend-popularity-eps-converted-to.pdf Graphic file (type pdf)
+<use img_new/friend-popularity-eps-converted-to.pdf>
+Package pdftex.def Info: img_new/friend-popularity-eps-converted-to.pdf used on
+ input line 284.
+(pdftex.def)             Requested size: 105.48299pt x 134.4208pt.
+Package epstopdf Info: Source file: <img_new/non-friend-popularity.eps>
+(epstopdf)                    date: 2012-09-13 17:28:15
+(epstopdf)                    size: 30563 bytes
+(epstopdf)             Output file: <img_new/non-friend-popularity-eps-converte
+d-to.pdf>
+(epstopdf)                    date: 2013-04-25 21:56:19
+(epstopdf)                    size: 20850 bytes
+(epstopdf)             Command: <repstopdf --outfile=img_new/non-friend-popular
+ity-eps-converted-to.pdf img_new/non-friend-popularity.eps>
+(epstopdf)             \includegraphics on input line 286.
+Package epstopdf Info: Output file is already uptodate.
+
+<img_new/non-friend-popularity-eps-converted-to.pdf, id=60, 340.27126pt x 433.6
+2pt>
+File: img_new/non-friend-popularity-eps-converted-to.pdf Graphic file (type pdf
+)
+ <use img_new/non-friend-popularity-eps-converted-to.pdf>
+Package pdftex.def Info: img_new/non-friend-popularity-eps-converted-to.pdf use
+d on input line 286.
+(pdftex.def)             Requested size: 105.48299pt x 134.4208pt.
+
 Overfull \hbox (8.43088pt too wide) in paragraph at lines 317--345
  [][] 
  []
 
-[8]) (./conclusions.tex) [9] (./derivatives.tex
+[8 <./img_new/live-likes1-orig-eps-converted-to.pdf> <./img_new/live-friend-lik
+es1-orig-eps-converted-to.pdf> <./img_new/live-nonfriend-likes1-orig-eps-conver
+ted-to.pdf> <./img_new/live-likes2-Feb10-eps-converted-to.pdf> <./img_new/live-
+friend-likes2-Feb10-eps-converted-to.pdf> <./img_new/live-nonfriend-likes2-Feb1
+0-eps-converted-to.pdf>]) (./conclusions.tex) [9 <./img_new/clicked-likes-eps-c
+onverted-to.pdf> <./img_new/description-clicked-eps-converted-to.pdf> <./img_ne
+w/description-liked-eps-converted-to.pdf> <./img_new/friend-popularity-eps-conv
+erted-to.pdf> <./img_new/non-friend-popularity-eps-converted-to.pdf>]
+(./derivatives.tex
 Overfull \hbox (19.10612pt too wide) in paragraph at lines 74--74
 [] 
  []
@@ -394,12 +686,36 @@ Overfull \hbox (1.84473pt too wide) in paragraph at lines 100--100
 
 ) [10] (./fp0764-noel.aux) ) 
 Here is how much of TeX's memory you used:
- 2680 strings out of 94501
- 32250 string characters out of 1176788
- 93389 words of memory out of 1000000
- 5771 multiletter control sequences out of 10000+50000
- 45111 words of font info for 60 fonts, out of 500000 for 2000
- 580 hyphenation exceptions out of 1000
- 39i,24n,26p,798b,306s stack positions out of 1500i,500n,5000p,200000b,5000s
+ 3760 strings out of 493629
+ 50435 string characters out of 3148772
+ 124089 words of memory out of 3000000
+ 6924 multiletter control sequences out of 15000+200000
+ 56116 words of font info for 77 fonts, out of 3000000 for 9000
+ 831 hyphenation exceptions out of 8191
+ 41i,24n,26p,798b,267s stack positions out of 5000i,500n,10000p,200000b,50000s
+{/usr/share/texmf-dist/fonts/enc/dvips/base/8r.enc}
+</usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx5.pfb></usr/share/tex
+mf-dist/fonts/type1/public/amsfonts/cm/cmbx6.pfb></usr/share/texmf-dist/fonts/t
+ype1/public/amsfonts/cm/cmbx9.pfb></usr/share/texmf-dist/fonts/type1/public/ams
+fonts/cmextra/cmex9.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/c
+mmi5.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/
+share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/share/texmf-dis
+t/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/share/texmf-dist/fonts/type1/pu
+blic/amsfonts/cm/cmr6.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm
+/cmr9.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr
+/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/share/texmf-di
+st/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/share/texmf-dist/fonts/type1/
+public/amsfonts/cm/cmti7.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts
+/cm/cmti9.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb><
+/usr/share/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/shar
+e/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/share/texmf-dist/fonts/t
+ype1/urw/helvetic/uhvr8a.pfb></usr/share/texmf-dist/fonts/type1/urw/times/utmb8
+a.pfb></usr/share/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texmf
+-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on fp0764-noel.pdf (10 pages, 639401 bytes).
+PDF statistics:
+ 620 PDF objects out of 1000 (max. 8388607)
+ 137 compressed objects within 2 object streams
+ 0 named destinations out of 1000 (max. 500000)
+ 61 words of extra memory for PDF output out of 10000 (max. 10000000)
 
-Output written on fp0764-noel.dvi (10 pages, 93508 bytes).

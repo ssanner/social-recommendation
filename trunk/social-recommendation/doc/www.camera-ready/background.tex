@@ -376,7 +376,7 @@ objective below):
 %\begin{itemize}
 %\item {\bf Social Trust Ensemble (STE)~\cite{ste}}:
 \begin{align}
-\sum_{(\x,\y) \in D} \frac{1}{2} (R_{\x,\y} - \sigma (\alpha U_\x^T V_\y + (1 - \alpha) \sum_{\z \in \mathit{friends}_\x} U_\x^T V_\z))^2 
+\sum_{(\x,\y) \in D} \frac{1}{2} (R_{\x,\y} - \sigma (\alpha U_\x^T V_\y + (1 - \alpha) \sum_{\z \in \mathit{friends}_\x} U_\z^T V_\y))^2 
 \end{align}
 %\end{itemize}
 As for the MF CF methods, all MF SCF methods can be optimized by alternating
