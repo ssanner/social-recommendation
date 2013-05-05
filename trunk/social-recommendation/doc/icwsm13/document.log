@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011/Cygwin) (format=pdflatex 2012.5.9)  16 FEB 2013 19:40
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011/Cygwin) (format=pdflatex 2012.5.9)  16 FEB 2013 20:00
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -438,65 +438,65 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
 File: data/overview.pdf Graphic file (type pdf)
 
 <use data/overview.pdf>
-Package pdftex.def Info: data/overview.pdf used on input line 5.
+Package pdftex.def Info: data/overview.pdf used on input line 7.
 (pdftex.def)             Requested size: 227.42392pt x 155.046pt.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10.95> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 28.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 30.
 LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 33.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 35.
 LaTeX Font Info:    Font shape `OMS/ptm/m/it' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 54.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 56.
 
-Underfull \hbox (badness 1946) in paragraph at lines 62--62
+Underfull \hbox (badness 1946) in paragraph at lines 64--64
 [][][]\OT1/ptm/m/n/9 According to Face-book Blog ([]$https : / / www . facebook
  . com /
  []
 
 [2 <./data/overview.pdf>]
-Underfull \hbox (badness 10000) in paragraph at lines 104--107
+Underfull \hbox (badness 10000) in paragraph at lines 107--110
 []$[] \OT1/cmr/m/n/10 =
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 104--107
+Underfull \hbox (badness 10000) in paragraph at lines 107--110
 \OMS/cmsy/m/n/10 f\OML/cmm/m/it/10 link; post; photo; video\OMS/cmsy/m/n/10 g ^
 ^B
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 116--118
+Underfull \hbox (badness 10000) in paragraph at lines 119--121
 
  []
 
 
-Overfull \hbox (20.2867pt too wide) in paragraph at lines 131--137
+Overfull \hbox (20.2867pt too wide) in paragraph at lines 136--142
 []$\OML/cmm/m/it/10 X[] \OT1/cmr/m/n/10 = []$ 
  []
 
 
-Underfull \hbox (badness 3492) in paragraph at lines 138--139
+Underfull \hbox (badness 3492) in paragraph at lines 143--144
 \OT1/ptm/m/n/10 Additionally we add friend fea-ture which en-codes
  []
 
 
-Underfull \hbox (badness 2435) in paragraph at lines 139--148
+Underfull \hbox (badness 2435) in paragraph at lines 144--153
 []\OT1/ptm/b/n/10 Activity So-cial Affin-ity Fea-tures \OT1/ptm/m/n/10 : We de-
 fine ac-
  []
 
 
-Underfull \hbox (badness 1515) in paragraph at lines 139--148
+Underfull \hbox (badness 1515) in paragraph at lines 144--153
 \OT1/ptm/m/n/10 tiv-ity affin-ity fea-tures for tar-get user $\OML/cmm/m/it/10 
 u$ \OT1/ptm/m/n/10 and item $\OML/cmm/m/it/10 i$
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 139--148
+Underfull \hbox (badness 10000) in paragraph at lines 144--153
 
  []
 
 
-Overfull \hbox (7.60617pt too wide) in paragraph at lines 139--148
+Overfull \hbox (7.60617pt too wide) in paragraph at lines 144--153
 \OML/cmm/m/it/10 X[] \OT1/cmr/m/n/10 = []$
  []
 
@@ -513,7 +513,7 @@ Package epstopdf Info: Source file: <data/plots/accuracy/accuracy.eps>
 (epstopdf)                    size: 21862 bytes
 (epstopdf)             Command: <repstopdf --outfile=data/plots/accuracy/accura
 cy-eps-converted-to.pdf data/plots/accuracy/accuracy.eps>
-(epstopdf)             \includegraphics on input line 4.
+(epstopdf)             \includegraphics on input line 6.
 Package epstopdf Info: Output file is already uptodate.
 
 <data/plots/accuracy/accuracy-eps-converted-to.pdf, id=198, 1601.985pt x 436.63
@@ -522,10 +522,10 @@ File: data/plots/accuracy/accuracy-eps-converted-to.pdf Graphic file (type pdf)
 
  <use data/plots/accuracy/accuracy-eps-converted-to.pdf>
 Package pdftex.def Info: data/plots/accuracy/accuracy-eps-converted-to.pdf used
- on input line 4.
+ on input line 6.
 (pdftex.def)             Requested size: 654.41338pt x 178.36705pt.
 
-Overfull \hbox (125.76118pt too wide) in paragraph at lines 4--5
+Overfull \hbox (125.76118pt too wide) in paragraph at lines 6--7
 [] [] 
  []
 
@@ -541,39 +541,30 @@ ps-converted-to.pdf>
 (epstopdf)             Command: <repstopdf --outfile=data/plots/vsk/ModalityAct
 ionsvsKFriends-eps-converted-to.pdf data/plots/vsk/ModalityActionsvsKFriends.ep
 s>
-(epstopdf)             \includegraphics on input line 79.
+(epstopdf)             \includegraphics on input line 81.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/vsk/ModalityActionsvsKFriends-eps-converted-to.pdf, id=221, 1483.54
+<data/plots/vsk/ModalityActionsvsKFriends-eps-converted-to.pdf, id=223, 1483.54
 25pt x 456.70625pt>
 File: data/plots/vsk/ModalityActionsvsKFriends-eps-converted-to.pdf Graphic fil
 e (type pdf)
 
 <use data/plots/vsk/ModalityActionsvsKFriends-eps-converted-to.pdf>
 Package pdftex.def Info: data/plots/vsk/ModalityActionsvsKFriends-eps-converted
--to.pdf used on input line 79.
+-to.pdf used on input line 81.
 (pdftex.def)             Requested size: 597.50787pt x 183.9406pt.
 
-Overfull \hbox (48.93875pt too wide) in paragraph at lines 79--80
+Overfull \hbox (48.93875pt too wide) in paragraph at lines 81--82
 [] [] 
  []
 
 
-Overfull \hbox (2.20921pt too wide) in paragraph at lines 95--95
+Overfull \hbox (2.20921pt too wide) in paragraph at lines 97--97
 [] 
  []
 
 [5 <./data/plots/accuracy/accuracy-eps-converted-to.pdf>])
 (./activity_analysis.tex
-Underfull \hbox (badness 1152) in paragraph at lines 5--11
-\OT1/ptm/m/n/10 er-ties such as size of mem-ber-ship and we drill down
- []
-
-
-Underfull \hbox (badness 1270) in paragraph at lines 12--17
-\OT1/ptm/m/n/10 tropy/logistic re-gres-sion weights and size of ac-tiv-ity
- []
-
 Package epstopdf Info: Source file: <data/plots/new/CEvsGroupSize.eps>
 (epstopdf)                    date: 2013-02-16 19:05:44
 (epstopdf)                    size: 202237 bytes
@@ -583,16 +574,16 @@ Package epstopdf Info: Source file: <data/plots/new/CEvsGroupSize.eps>
 (epstopdf)                    size: 178111 bytes
 (epstopdf)             Command: <repstopdf --outfile=data/plots/new/CEvsGroupSi
 ze-eps-converted-to.pdf data/plots/new/CEvsGroupSize.eps>
-(epstopdf)             \includegraphics on input line 45.
+(epstopdf)             \includegraphics on input line 64.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/new/CEvsGroupSize-eps-converted-to.pdf, id=277, 578.16pt x 433.62pt
+<data/plots/new/CEvsGroupSize-eps-converted-to.pdf, id=280, 578.16pt x 433.62pt
 >
 File: data/plots/new/CEvsGroupSize-eps-converted-to.pdf Graphic file (type pdf)
 
  <use data/plots/new/CEvsGroupSize-eps-converted-to.pdf>
 Package pdftex.def Info: data/plots/new/CEvsGroupSize-eps-converted-to.pdf used
- on input line 45.
+ on input line 64.
 (pdftex.def)             Requested size: 128.03368pt x 99.58493pt.
 Package epstopdf Info: Source file: <data/plots/new/CEvsPageSize.eps>
 (epstopdf)                    date: 2013-02-16 19:05:44
@@ -603,14 +594,14 @@ to.pdf>
 (epstopdf)                    size: 602041 bytes
 (epstopdf)             Command: <repstopdf --outfile=data/plots/new/CEvsPageSiz
 e-eps-converted-to.pdf data/plots/new/CEvsPageSize.eps>
-(epstopdf)             \includegraphics on input line 46.
+(epstopdf)             \includegraphics on input line 65.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/new/CEvsPageSize-eps-converted-to.pdf, id=278, 578.16pt x 433.62pt>
+<data/plots/new/CEvsPageSize-eps-converted-to.pdf, id=281, 578.16pt x 433.62pt>
 File: data/plots/new/CEvsPageSize-eps-converted-to.pdf Graphic file (type pdf)
 <use data/plots/new/CEvsPageSize-eps-converted-to.pdf>
 Package pdftex.def Info: data/plots/new/CEvsPageSize-eps-converted-to.pdf used 
-on input line 46.
+on input line 65.
 (pdftex.def)             Requested size: 128.03368pt x 99.58493pt.
 Package epstopdf Info: Source file: <data/plots/new/CEvsFavSize.eps>
 (epstopdf)                    date: 2013-02-16 19:05:44
@@ -621,15 +612,15 @@ o.pdf>
 (epstopdf)                    size: 239312 bytes
 (epstopdf)             Command: <repstopdf --outfile=data/plots/new/CEvsFavSize
 -eps-converted-to.pdf data/plots/new/CEvsFavSize.eps>
-(epstopdf)             \includegraphics on input line 47.
+(epstopdf)             \includegraphics on input line 66.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/new/CEvsFavSize-eps-converted-to.pdf, id=279, 578.16pt x 433.62pt>
+<data/plots/new/CEvsFavSize-eps-converted-to.pdf, id=282, 578.16pt x 433.62pt>
 File: data/plots/new/CEvsFavSize-eps-converted-to.pdf Graphic file (type pdf)
 
 <use data/plots/new/CEvsFavSize-eps-converted-to.pdf>
 Package pdftex.def Info: data/plots/new/CEvsFavSize-eps-converted-to.pdf used o
-n input line 47.
+n input line 66.
 (pdftex.def)             Requested size: 128.03368pt x 99.58493pt.
 Package epstopdf Info: Source file: <data/plots/new/LRweightvsGroupSize.eps>
 (epstopdf)                    date: 2013-02-16 19:05:44
@@ -640,16 +631,16 @@ verted-to.pdf>
 (epstopdf)                    size: 187584 bytes
 (epstopdf)             Command: <repstopdf --outfile=data/plots/new/LRweightvsG
 roupSize-eps-converted-to.pdf data/plots/new/LRweightvsGroupSize.eps>
-(epstopdf)             \includegraphics on input line 48.
+(epstopdf)             \includegraphics on input line 67.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/new/LRweightvsGroupSize-eps-converted-to.pdf, id=280, 578.16pt x 43
+<data/plots/new/LRweightvsGroupSize-eps-converted-to.pdf, id=283, 578.16pt x 43
 3.62pt>
 File: data/plots/new/LRweightvsGroupSize-eps-converted-to.pdf Graphic file (typ
 e pdf)
  <use data/plots/new/LRweightvsGroupSize-eps-converted-to.pdf>
 Package pdftex.def Info: data/plots/new/LRweightvsGroupSize-eps-converted-to.pd
-f used on input line 48.
+f used on input line 67.
 (pdftex.def)             Requested size: 128.03368pt x 99.58493pt.
 Package epstopdf Info: Source file: <data/plots/new/LRweightvsPageSize.eps>
 (epstopdf)                    date: 2013-02-16 19:05:44
@@ -660,16 +651,16 @@ erted-to.pdf>
 (epstopdf)                    size: 625942 bytes
 (epstopdf)             Command: <repstopdf --outfile=data/plots/new/LRweightvsP
 ageSize-eps-converted-to.pdf data/plots/new/LRweightvsPageSize.eps>
-(epstopdf)             \includegraphics on input line 49.
+(epstopdf)             \includegraphics on input line 68.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/new/LRweightvsPageSize-eps-converted-to.pdf, id=281, 578.16pt x 433
+<data/plots/new/LRweightvsPageSize-eps-converted-to.pdf, id=284, 578.16pt x 433
 .62pt>
 File: data/plots/new/LRweightvsPageSize-eps-converted-to.pdf Graphic file (type
  pdf)
  <use data/plots/new/LRweightvsPageSize-eps-converted-to.pdf>
 Package pdftex.def Info: data/plots/new/LRweightvsPageSize-eps-converted-to.pdf
- used on input line 49.
+ used on input line 68.
 (pdftex.def)             Requested size: 128.03368pt x 99.58493pt.
 Package epstopdf Info: Source file: <data/plots/new/LRweightvsFavSize.eps>
 (epstopdf)                    date: 2013-02-16 19:05:44
@@ -680,16 +671,16 @@ rted-to.pdf>
 (epstopdf)                    size: 248763 bytes
 (epstopdf)             Command: <repstopdf --outfile=data/plots/new/LRweightvsF
 avSize-eps-converted-to.pdf data/plots/new/LRweightvsFavSize.eps>
-(epstopdf)             \includegraphics on input line 50.
+(epstopdf)             \includegraphics on input line 69.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/new/LRweightvsFavSize-eps-converted-to.pdf, id=282, 578.16pt x 433.
+<data/plots/new/LRweightvsFavSize-eps-converted-to.pdf, id=285, 578.16pt x 433.
 62pt>
 File: data/plots/new/LRweightvsFavSize-eps-converted-to.pdf Graphic file (type 
 pdf)
  <use data/plots/new/LRweightvsFavSize-eps-converted-to.pdf>
 Package pdftex.def Info: data/plots/new/LRweightvsFavSize-eps-converted-to.pdf 
-used on input line 50.
+used on input line 69.
 (pdftex.def)             Requested size: 128.03368pt x 99.58493pt.
 Package epstopdf Info: Source file: <data/plots/cumulativeEntropy/cumulative.ep
 s>
@@ -702,17 +693,17 @@ s-converted-to.pdf>
 (epstopdf)             Command: <repstopdf --outfile=data/plots/cumulativeEntro
 py/cumulative-eps-converted-to.pdf data/plots/cumulativeEntropy/cumulative.eps>
 
-(epstopdf)             \includegraphics on input line 61.
+(epstopdf)             \includegraphics on input line 80.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/cumulativeEntropy/cumulative-eps-converted-to.pdf, id=283, 1630.09p
+<data/plots/cumulativeEntropy/cumulative-eps-converted-to.pdf, id=286, 1630.09p
 t x 514.92375pt>
 File: data/plots/cumulativeEntropy/cumulative-eps-converted-to.pdf Graphic file
  (type pdf)
 
 <use data/plots/cumulativeEntropy/cumulative-eps-converted-to.pdf>
 Package pdftex.def Info: data/plots/cumulativeEntropy/cumulative-eps-converted-
-to.pdf used on input line 61.
+to.pdf used on input line 80.
 (pdftex.def)             Requested size: 456.42209pt x 144.17766pt.
 Package epstopdf Info: Source file: <data/plots/boxPlots/CEvsFavTypes.eps>
 (epstopdf)                    date: 2013-02-16 12:56:11
@@ -723,45 +714,38 @@ rted-to.pdf>
 (epstopdf)                    size: 19448 bytes
 (epstopdf)             Command: <repstopdf --outfile=data/plots/boxPlots/CEvsFa
 vTypes-eps-converted-to.pdf data/plots/boxPlots/CEvsFavTypes.eps>
-(epstopdf)             \includegraphics on input line 70.
+(epstopdf)             \includegraphics on input line 89.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/boxPlots/CEvsFavTypes-eps-converted-to.pdf, id=284, 1597.97pt x 434
+<data/plots/boxPlots/CEvsFavTypes-eps-converted-to.pdf, id=287, 1597.97pt x 434
 .62375pt>
 File: data/plots/boxPlots/CEvsFavTypes-eps-converted-to.pdf Graphic file (type 
 pdf)
  <use data/plots/boxPlots/CEvsFavTypes-eps-converted-to.pdf>
 Package pdftex.def Info: data/plots/boxPlots/CEvsFavTypes-eps-converted-to.pdf 
-used on input line 70.
+used on input line 89.
 (pdftex.def)             Requested size: 512.14111pt x 113.80858pt.
 
-Overfull \hbox (6.25111pt too wide) in paragraph at lines 70--71
+Overfull \hbox (6.25111pt too wide) in paragraph at lines 89--90
  [][] 
  []
 
 ) (./relatedWork.tex [6 <./data/plots/vsk/ModalityActionsvsKFriends-eps-convert
-ed-to.pdf>]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [7 <./data/plots/new/CEvsGroupSize-eps-converted-to.pdf> <./data/plots/new/CEv
-sPageSize-eps-converted-to.pdf> <./data/plots/new/CEvsFavSize-eps-converted-to.
-pdf> <./data/plots/new/LRweightvsGroupSize-eps-converted-to.pdf> <./data/plots/
-new/LRweightvsPageSize-eps-converted-to.pdf> <./data/plots/new/LRweightvsFavSiz
-e-eps-converted-to.pdf> <./data/plots/cumulativeEntropy/cumulative-eps-converte
-d-to.pdf> <./data/plots/boxPlots/CEvsFavTypes-eps-converted-to.pdf>]
+ed-to.pdf>] [7 <./data/plots/new/CEvsGroupSize-eps-converted-to.pdf> <./data/pl
+ots/new/CEvsPageSize-eps-converted-to.pdf> <./data/plots/new/CEvsFavSize-eps-co
+nverted-to.pdf> <./data/plots/new/LRweightvsGroupSize-eps-converted-to.pdf> <./
+data/plots/new/LRweightvsPageSize-eps-converted-to.pdf> <./data/plots/new/LRwei
+ghtvsFavSize-eps-converted-to.pdf> <./data/plots/cumulativeEntropy/cumulative-e
+ps-converted-to.pdf> <./data/plots/boxPlots/CEvsFavTypes-eps-converted-to.pdf>]
 Missing character: There is no Ð in font ptmr7t!
 Missing character: There is no Â in font ptmr7t!
 Missing character: There is no ¾ in font ptmr7t!
-) (./conclusion.tex)
-(./document.bbl
+) (./conclusion.tex) (./document.bbl [8]
 Underfull \hbox (badness 10000) in paragraph at lines 5--10
 []\OT1/ptm/m/n/10 Anderson, A.; Hut-ten-locher, D.;
  []
 
-[8]
+
 Underfull \hbox (badness 1178) in paragraph at lines 29--34
 []\OT1/ptm/m/n/10 Bakshy, E.; Hof-man, J. M.; Ma-son,
  []
@@ -833,10 +817,10 @@ Package rerunfilecheck Info: File `document.out' has not changed.
 (rerunfilecheck)             Checksum: B624F539941B0C7CC23A41636D77DDEE;636.
  ) 
 Here is how much of TeX's memory you used:
- 7425 strings out of 493629
- 111289 string characters out of 3148772
- 210735 words of memory out of 3000000
- 10488 multiletter control sequences out of 15000+200000
+ 7428 strings out of 493629
+ 111332 string characters out of 3148772
+ 209891 words of memory out of 3000000
+ 10491 multiletter control sequences out of 15000+200000
  31004 words of font info for 70 fonts, out of 3000000 for 9000
  831 hyphenation exceptions out of 8191
  44i,22n,46p,1053b,480s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -854,10 +838,10 @@ pe1/public/amsfonts/cm/cmti10.pfb></usr/share/texmf-dist/fonts/type1/public/ams
 fonts/cm/cmti7.pfb></usr/share/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></us
 r/share/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texmf-dist/font
 s/type1/urw/times/utmri8a.pfb>
-Output written on document.pdf (9 pages, 3542318 bytes).
+Output written on document.pdf (9 pages, 3542706 bytes).
 PDF statistics:
- 750 PDF objects out of 1000 (max. 8388607)
- 367 compressed objects within 4 object streams
+ 753 PDF objects out of 1000 (max. 8388607)
+ 370 compressed objects within 4 object streams
  72 named destinations out of 1000 (max. 500000)
  144 words of extra memory for PDF output out of 10000 (max. 10000000)
 
