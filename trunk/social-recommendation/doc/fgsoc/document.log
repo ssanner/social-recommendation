@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011/Cygwin) (format=pdflatex 2012.5.9)  18 MAY 2013 06:57
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011/Cygwin) (format=pdflatex 2012.5.9)  18 MAY 2013 08:17
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -412,25 +412,35 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 82.
 )
 \Hy@SectionHShift=\skip53
-) (./document.aux)
+) (./document.aux
+
+LaTeX Warning: Label `sec:datadesc' multiply defined.
+
+
+LaTeX Warning: Label `sec:datadesc' multiply defined.
+
+
+LaTeX Warning: Label `sec:datadesc' multiply defined.
+
+)
 \openout1 = `document.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 99.
-LaTeX Font Info:    ... okay on input line 99.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 99.
-LaTeX Font Info:    ... okay on input line 99.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 99.
-LaTeX Font Info:    ... okay on input line 99.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 99.
-LaTeX Font Info:    ... okay on input line 99.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 99.
-LaTeX Font Info:    ... okay on input line 99.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 99.
-LaTeX Font Info:    ... okay on input line 99.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 99.
-LaTeX Font Info:    ... okay on input line 99.
-LaTeX Font Info:    Try loading font information for T1+ptm on input line 99.
-(/usr/share/texmf-dist/tex/latex/psnfss/t1ptm.fd
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 103.
+LaTeX Font Info:    ... okay on input line 103.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 103.
+LaTeX Font Info:    ... okay on input line 103.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 103.
+LaTeX Font Info:    ... okay on input line 103.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 103.
+LaTeX Font Info:    ... okay on input line 103.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 103.
+LaTeX Font Info:    ... okay on input line 103.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 103.
+LaTeX Font Info:    ... okay on input line 103.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 103.
+LaTeX Font Info:    ... okay on input line 103.
+LaTeX Font Info:    Try loading font information for T1+ptm on input line 103.
+ (/usr/share/texmf-dist/tex/latex/psnfss/t1ptm.fd
 File: t1ptm.fd 2001/06/04 font definitions for T1/ptm.
 )
 (/usr/share/texmf-dist/tex/context/base/supp-pdf.mkii
@@ -457,7 +467,7 @@ Package caption Info: End \AtBeginDocument code.
 Package hyperref Warning: Height of page (\paperheight) is invalid (0.0pt),
 (hyperref)                using 11in.
 
-Package hyperref Info: Link coloring OFF on input line 99.
+Package hyperref Info: Link coloring OFF on input line 103.
 (/usr/share/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2010/04/30 v2.40 Cross-referencing by name of section
 
@@ -466,25 +476,25 @@ Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 )
 \c@section@level=\count132
 )
-LaTeX Info: Redefining \ref on input line 99.
-LaTeX Info: Redefining \pageref on input line 99.
-LaTeX Info: Redefining \nameref on input line 99.
+LaTeX Info: Redefining \ref on input line 103.
+LaTeX Info: Redefining \pageref on input line 103.
+LaTeX Info: Redefining \nameref on input line 103.
 
 (./document.out) (./document.out)
 \@outlinefile=\write3
 \openout3 = `document.out'.
 
-LaTeX Font Info:    Try loading font information for U+msa on input line 169.
+LaTeX Font Info:    Try loading font information for U+msa on input line 173.
 
 (/usr/share/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2009/06/22 v3.00 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 169.
+LaTeX Font Info:    Try loading font information for U+msb on input line 173.
 
 (/usr/share/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2009/06/22 v3.00 AMS symbols B
 )
-LaTeX Font Info:    Try loading font information for U+lasy on input line 169.
+LaTeX Font Info:    Try loading font information for U+lasy on input line 173.
 
 (/usr/share/texmf-dist/tex/latex/base/ulasy.fd
 File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
@@ -496,7 +506,7 @@ x prob-
 
 )
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <9> not available
-(Font)              Font shape `T1/ptm/b/n' tried instead on input line 177.
+(Font)              Font shape `T1/ptm/b/n' tried instead on input line 181.
  (./intro.tex [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
 
 
@@ -512,7 +522,7 @@ Overfull \hbox (2.82642pt too wide) in paragraph at lines 25--26
 een Face-book users.
  []
 
-<data/overview.pdf, id=83, 687.56876pt x 468.75125pt>
+<data/overview.pdf, id=91, 687.56876pt x 468.75125pt>
 File: data/overview.pdf Graphic file (type pdf)
  <use data/overview.pdf>
 Package pdftex.def Info: data/overview.pdf used on input line 52.
@@ -533,38 +543,55 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
 een already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.85 
+l.84 
       [2 <./data/overview.pdf>]
-Overfull \hbox (1.4135pt too wide) in paragraph at lines 118--121
+Overfull \hbox (1.4135pt too wide) in paragraph at lines 117--120
 \T1/ptm/m/n/9 tion affin-ity classes be the cross-product of In-ter-ac-tion mod
 al-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 135--138
+Underfull \hbox (badness 10000) in paragraph at lines 134--137
 
  []
 
 
-Overfull \hbox (4.64166pt too wide) in paragraph at lines 141--142
+Overfull \hbox (4.64166pt too wide) in paragraph at lines 140--141
 \T1/ptm/m/n/9 mon pref-er-ence for en-tity $\OML/cmm/m/it/9 k$ \T1/ptm/m/n/9 (g
 roup, page, favourite)
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 161--163
+Underfull \hbox (badness 10000) in paragraph at lines 160--162
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 161--163
+Underfull \hbox (badness 10000) in paragraph at lines 160--162
 
  []
 
-) (./data-description.tex
-LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <8> not available
-(Font)              Font shape `T1/ptm/b/n' tried instead on input line 56.
 ) (./affinity_filtering.tex
+Overfull \hbox (2.58374pt too wide) in paragraph at lines 10--24
+[]\T1/ptm/m/n/9 Social affin-ity group and the as-so-ci-ated fea-tures de-fined
+ in Sec []2.3[]
+ []
+
+
+Overfull \hbox (12.02211pt too wide) in paragraph at lines 10--24
+\T1/ptm/m/n/9 SAF, these fea-tures are the boolean vari-ables $\OML/cmm/m/it/9 
+X[]$ \T1/ptm/m/n/9 in-di-cat-ing whether
+ []
+
+) (./data-description.texpdfTeX warning (ext4): destination with the same ident
+ifier (name{page.}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.58 
+      [3]
+LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <8> not available
+(Font)              Font shape `T1/ptm/b/n' tried instead on input line 71.
+) (./saf_analysis.tex
 Package epstopdf Info: Source file: <data/plots/accuracy/accuracyNew.eps>
 (epstopdf)                    date: 2013-05-18 02:28:12
 (epstopdf)                    size: 66252 bytes
@@ -574,55 +601,35 @@ ted-to.pdf>
 (epstopdf)                    size: 24915 bytes
 (epstopdf)             Command: <repstopdf --outfile=data/plots/accuracy/accura
 cyNew-eps-converted-to.pdf data/plots/accuracy/accuracyNew.eps>
-(epstopdf)             \includegraphics on input line 6.
+(epstopdf)             \includegraphics on input line 4.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/accuracy/accuracyNew-eps-converted-to.pdf, id=175, 1674.255pt x 895
+<data/plots/accuracy/accuracyNew-eps-converted-to.pdf, id=195, 1674.255pt x 895
 .345pt>
 File: data/plots/accuracy/accuracyNew-eps-converted-to.pdf Graphic file (type p
 df)
  <use data/plots/accuracy/accuracyNew-eps-converted-to.pdf>
 Package pdftex.def Info: data/plots/accuracy/accuracyNew-eps-converted-to.pdf u
-sed on input line 6.
+sed on input line 4.
 (pdftex.def)             Requested size: 540.60236pt x 289.09834pt.
 
-Overfull \hbox (19.53072pt too wide) in paragraph at lines 6--7
+Overfull \hbox (19.53072pt too wide) in paragraph at lines 4--5
 [] [] 
  []
 
 
-Overfull \hbox (2.58374pt too wide) in paragraph at lines 17--31
-[]\T1/ptm/m/n/9 Social affin-ity group and the as-so-ci-ated fea-tures de-fined
- in Sec []2.3[]
+Overfull \hbox (4.37431pt too wide) in paragraph at lines 14--16
+\T1/ptm/b/n/9 MF), some are so-cial CF -- also ex-plain briefly what so-cial Ma
+tch-
  []
 
 
-Overfull \hbox (12.02211pt too wide) in paragraph at lines 17--31
-\T1/ptm/m/n/9 SAF, these fea-tures are the boolean vari-ables $\OML/cmm/m/it/9 
-X[]$ \T1/ptm/m/n/9 in-di-cat-ing whether
- []
-
-pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
-een already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.31 
-      [3]
-Overfull \hbox (1.90906pt too wide) in paragraph at lines 42--50
+Overfull \hbox (1.90906pt too wide) in paragraph at lines 20--28
 \T1/ptm/m/n/9 cor-re-la-tions be-tween SAGs that cause naïve Bayes to over- or 
 under-
  []
 
-
-Underfull \vbox (badness 1062) has occurred while \output is active []
-
-pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
-een already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.59 
-      [4 <./data/plots/accuracy/accuracyNew-eps-converted-to.pdf>])
-(./interaction_analysis.tex
+) (./interaction_analysis.tex
 Package epstopdf Info: Source file: <data/plots/vsk/ModalityActionsvsKFriends.e
 ps>
 (epstopdf)                    date: 2013-05-13 18:44:53
@@ -637,7 +644,7 @@ s>
 (epstopdf)             \includegraphics on input line 81.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/vsk/ModalityActionsvsKFriends-eps-converted-to.pdf, id=253, 1483.54
+<data/plots/vsk/ModalityActionsvsKFriends-eps-converted-to.pdf, id=208, 1483.54
 25pt x 456.70625pt>
 File: data/plots/vsk/ModalityActionsvsKFriends-eps-converted-to.pdf Graphic fil
 e (type pdf)
@@ -652,17 +659,27 @@ Overfull \hbox (50.82875pt too wide) in paragraph at lines 81--82
  []
 
 
-Overfull \hbox (7.87549pt too wide) in paragraph at lines 89--94
+Overfull \hbox (7.87549pt too wide) in paragraph at lines 87--92
 []\T1/ptm/m/n/9 In this sec-tion we an-a-lyze the in-for-ma-tive-ness of In-ter
 -ac-tion SAGS,
  []
 
-) (./activity_analysis.texpdfTeX warning (ext4): destination with the same iden
-tifier (name{page.}) has been already used, duplicate ignored
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
+een already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.20 
-      [5]
+l.95 \end{align*}
+                  [4]pdfTeX warning (ext4): destination with the same identifie
+r (name{page.}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.95 \end{align*}
+                  [5 <./data/plots/accuracy/accuracyNew-eps-converted-to.pdf> <
+./data/plots/vsk/ModalityActionsvsKFriends-eps-converted-to.pdf>])
+(./activity_analysis.tex
 Package epstopdf Info: Source file: <data/plots/new/CEvsGroupSize.eps>
 (epstopdf)                    date: 2013-05-13 18:44:52
 (epstopdf)                    size: 202237 bytes
@@ -672,16 +689,16 @@ Package epstopdf Info: Source file: <data/plots/new/CEvsGroupSize.eps>
 (epstopdf)                    size: 178111 bytes
 (epstopdf)             Command: <repstopdf --outfile=data/plots/new/CEvsGroupSi
 ze-eps-converted-to.pdf data/plots/new/CEvsGroupSize.eps>
-(epstopdf)             \includegraphics on input line 64.
+(epstopdf)             \includegraphics on input line 65.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/new/CEvsGroupSize-eps-converted-to.pdf, id=275, 578.16pt x 433.62pt
+<data/plots/new/CEvsGroupSize-eps-converted-to.pdf, id=320, 578.16pt x 433.62pt
 >
 File: data/plots/new/CEvsGroupSize-eps-converted-to.pdf Graphic file (type pdf)
 
  <use data/plots/new/CEvsGroupSize-eps-converted-to.pdf>
 Package pdftex.def Info: data/plots/new/CEvsGroupSize-eps-converted-to.pdf used
- on input line 64.
+ on input line 65.
 (pdftex.def)             Requested size: 128.03368pt x 99.58493pt.
 Package epstopdf Info: Source file: <data/plots/new/CEvsPageSize.eps>
 (epstopdf)                    date: 2013-05-13 18:44:52
@@ -692,14 +709,14 @@ to.pdf>
 (epstopdf)                    size: 602041 bytes
 (epstopdf)             Command: <repstopdf --outfile=data/plots/new/CEvsPageSiz
 e-eps-converted-to.pdf data/plots/new/CEvsPageSize.eps>
-(epstopdf)             \includegraphics on input line 65.
+(epstopdf)             \includegraphics on input line 66.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/new/CEvsPageSize-eps-converted-to.pdf, id=276, 578.16pt x 433.62pt>
+<data/plots/new/CEvsPageSize-eps-converted-to.pdf, id=321, 578.16pt x 433.62pt>
 File: data/plots/new/CEvsPageSize-eps-converted-to.pdf Graphic file (type pdf)
 <use data/plots/new/CEvsPageSize-eps-converted-to.pdf>
 Package pdftex.def Info: data/plots/new/CEvsPageSize-eps-converted-to.pdf used 
-on input line 65.
+on input line 66.
 (pdftex.def)             Requested size: 128.03368pt x 99.58493pt.
 Package epstopdf Info: Source file: <data/plots/new/CEvsFavSize.eps>
 (epstopdf)                    date: 2013-05-13 18:44:52
@@ -710,15 +727,15 @@ o.pdf>
 (epstopdf)                    size: 239312 bytes
 (epstopdf)             Command: <repstopdf --outfile=data/plots/new/CEvsFavSize
 -eps-converted-to.pdf data/plots/new/CEvsFavSize.eps>
-(epstopdf)             \includegraphics on input line 66.
+(epstopdf)             \includegraphics on input line 67.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/new/CEvsFavSize-eps-converted-to.pdf, id=277, 578.16pt x 433.62pt>
+<data/plots/new/CEvsFavSize-eps-converted-to.pdf, id=322, 578.16pt x 433.62pt>
 File: data/plots/new/CEvsFavSize-eps-converted-to.pdf Graphic file (type pdf)
 
 <use data/plots/new/CEvsFavSize-eps-converted-to.pdf>
 Package pdftex.def Info: data/plots/new/CEvsFavSize-eps-converted-to.pdf used o
-n input line 66.
+n input line 67.
 (pdftex.def)             Requested size: 128.03368pt x 99.58493pt.
 Package epstopdf Info: Source file: <data/plots/new/LRweightvsGroupSize.eps>
 (epstopdf)                    date: 2013-05-13 18:44:52
@@ -729,16 +746,16 @@ verted-to.pdf>
 (epstopdf)                    size: 187584 bytes
 (epstopdf)             Command: <repstopdf --outfile=data/plots/new/LRweightvsG
 roupSize-eps-converted-to.pdf data/plots/new/LRweightvsGroupSize.eps>
-(epstopdf)             \includegraphics on input line 67.
+(epstopdf)             \includegraphics on input line 68.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/new/LRweightvsGroupSize-eps-converted-to.pdf, id=278, 578.16pt x 43
+<data/plots/new/LRweightvsGroupSize-eps-converted-to.pdf, id=323, 578.16pt x 43
 3.62pt>
 File: data/plots/new/LRweightvsGroupSize-eps-converted-to.pdf Graphic file (typ
 e pdf)
  <use data/plots/new/LRweightvsGroupSize-eps-converted-to.pdf>
 Package pdftex.def Info: data/plots/new/LRweightvsGroupSize-eps-converted-to.pd
-f used on input line 67.
+f used on input line 68.
 (pdftex.def)             Requested size: 128.03368pt x 99.58493pt.
 Package epstopdf Info: Source file: <data/plots/new/LRweightvsPageSize.eps>
 (epstopdf)                    date: 2013-05-13 18:44:52
@@ -749,16 +766,16 @@ erted-to.pdf>
 (epstopdf)                    size: 625942 bytes
 (epstopdf)             Command: <repstopdf --outfile=data/plots/new/LRweightvsP
 ageSize-eps-converted-to.pdf data/plots/new/LRweightvsPageSize.eps>
-(epstopdf)             \includegraphics on input line 68.
+(epstopdf)             \includegraphics on input line 69.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/new/LRweightvsPageSize-eps-converted-to.pdf, id=279, 578.16pt x 433
+<data/plots/new/LRweightvsPageSize-eps-converted-to.pdf, id=324, 578.16pt x 433
 .62pt>
 File: data/plots/new/LRweightvsPageSize-eps-converted-to.pdf Graphic file (type
  pdf)
  <use data/plots/new/LRweightvsPageSize-eps-converted-to.pdf>
 Package pdftex.def Info: data/plots/new/LRweightvsPageSize-eps-converted-to.pdf
- used on input line 68.
+ used on input line 69.
 (pdftex.def)             Requested size: 128.03368pt x 99.58493pt.
 Package epstopdf Info: Source file: <data/plots/new/LRweightvsFavSize.eps>
 (epstopdf)                    date: 2013-05-13 18:44:52
@@ -769,16 +786,16 @@ rted-to.pdf>
 (epstopdf)                    size: 248763 bytes
 (epstopdf)             Command: <repstopdf --outfile=data/plots/new/LRweightvsF
 avSize-eps-converted-to.pdf data/plots/new/LRweightvsFavSize.eps>
-(epstopdf)             \includegraphics on input line 69.
+(epstopdf)             \includegraphics on input line 70.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/new/LRweightvsFavSize-eps-converted-to.pdf, id=280, 578.16pt x 433.
+<data/plots/new/LRweightvsFavSize-eps-converted-to.pdf, id=325, 578.16pt x 433.
 62pt>
 File: data/plots/new/LRweightvsFavSize-eps-converted-to.pdf Graphic file (type 
 pdf)
  <use data/plots/new/LRweightvsFavSize-eps-converted-to.pdf>
 Package pdftex.def Info: data/plots/new/LRweightvsFavSize-eps-converted-to.pdf 
-used on input line 69.
+used on input line 70.
 (pdftex.def)             Requested size: 128.03368pt x 99.58493pt.
 Package epstopdf Info: Source file: <data/plots/cumulativeEntropy/cumulative.ep
 s>
@@ -791,17 +808,17 @@ s-converted-to.pdf>
 (epstopdf)             Command: <repstopdf --outfile=data/plots/cumulativeEntro
 py/cumulative-eps-converted-to.pdf data/plots/cumulativeEntropy/cumulative.eps>
 
-(epstopdf)             \includegraphics on input line 80.
+(epstopdf)             \includegraphics on input line 81.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/cumulativeEntropy/cumulative-eps-converted-to.pdf, id=281, 1630.09p
+<data/plots/cumulativeEntropy/cumulative-eps-converted-to.pdf, id=326, 1630.09p
 t x 514.92375pt>
 File: data/plots/cumulativeEntropy/cumulative-eps-converted-to.pdf Graphic file
  (type pdf)
 
 <use data/plots/cumulativeEntropy/cumulative-eps-converted-to.pdf>
 Package pdftex.def Info: data/plots/cumulativeEntropy/cumulative-eps-converted-
-to.pdf used on input line 80.
+to.pdf used on input line 81.
 (pdftex.def)             Requested size: 456.42209pt x 144.17766pt.
 Package epstopdf Info: Source file: <data/plots/boxPlots/CEvsFavTypes.eps>
 (epstopdf)                    date: 2013-05-13 18:44:52
@@ -812,24 +829,45 @@ rted-to.pdf>
 (epstopdf)                    size: 19448 bytes
 (epstopdf)             Command: <repstopdf --outfile=data/plots/boxPlots/CEvsFa
 vTypes-eps-converted-to.pdf data/plots/boxPlots/CEvsFavTypes.eps>
-(epstopdf)             \includegraphics on input line 89.
+(epstopdf)             \includegraphics on input line 90.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/boxPlots/CEvsFavTypes-eps-converted-to.pdf, id=282, 1597.97pt x 434
+<data/plots/boxPlots/CEvsFavTypes-eps-converted-to.pdf, id=327, 1597.97pt x 434
 .62375pt>
 File: data/plots/boxPlots/CEvsFavTypes-eps-converted-to.pdf Graphic file (type 
 pdf)
  <use data/plots/boxPlots/CEvsFavTypes-eps-converted-to.pdf>
 Package pdftex.def Info: data/plots/boxPlots/CEvsFavTypes-eps-converted-to.pdf 
-used on input line 89.
+used on input line 90.
 (pdftex.def)             Requested size: 512.14111pt x 113.80858pt.
 
-Overfull \hbox (8.14111pt too wide) in paragraph at lines 89--90
+Overfull \hbox (8.14111pt too wide) in paragraph at lines 90--91
  [][] 
  []
 
 ) (./relatedWork.tex
-Overfull \hbox (2.08879pt too wide) in paragraph at lines 37--48
+Overfull \hbox (2.00797pt too wide) in paragraph at lines 1--2
+[]\T1/ptm/b/n/9 TODO: some re-lated work is ``eaten'' in the in-tro and method-
+
+ []
+
+pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
+een already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.21 
+      [6]pdfTeX warning (ext4): destination with the same identifier (name{page
+.}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.21 
+      [7 <./data/plots/new/CEvsGroupSize-eps-converted-to.pdf> <./data/plots/ne
+w/CEvsPageSize-eps-converted-to.pdf> <./data/plots/new/CEvsFavSize-eps-converte
+d-to.pdf> <./data/plots/new/LRweightvsGroupSize-eps-converted-to.pdf> <./data/p
+lots/new/LRweightvsPageSize-eps-converted-to.pdf> <./data/plots/new/LRweightvsF
+avSize-eps-converted-to.pdf> <./data/plots/cumulativeEntropy/cumulative-eps-con
+verted-to.pdf> <./data/plots/boxPlots/CEvsFavTypes-eps-converted-to.pdf>]
+Overfull \hbox (2.08879pt too wide) in paragraph at lines 38--49
 \T1/ptm/m/n/9 interaction-to-preference op-er-a-tional, [[]19[]] ex-am-ines the
  pre-dictabil-
  []
@@ -837,53 +875,39 @@ Overfull \hbox (2.08879pt too wide) in paragraph at lines 37--48
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
-een already used, duplicate ignored
+)
+(./conclusion.tex) (./document.bblpdfTeX warning (ext4): destination with the s
+ame identifier (name{page.}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.48 
-      [6 <./data/plots/vsk/ModalityActionsvsKFriends-eps-converted-to.pdf>]pdfT
-eX warning (ext4): destination with the same identifier (name{page.}) has been 
-already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.48 
-      [7 <./data/plots/new/CEvsGroupSize-eps-converted-to.pdf> <./data/plots/ne
-w/CEvsPageSize-eps-converted-to.pdf> <./data/plots/new/CEvsFavSize-eps-converte
-d-to.pdf> <./data/plots/new/LRweightvsGroupSize-eps-converted-to.pdf> <./data/p
-lots/new/LRweightvsPageSize-eps-converted-to.pdf> <./data/plots/new/LRweightvsF
-avSize-eps-converted-to.pdf> <./data/plots/cumulativeEntropy/cumulative-eps-con
-verted-to.pdf> <./data/plots/boxPlots/CEvsFavTypes-eps-converted-to.pdf>])
-(./conclusion.tex) (./document.bbl
+l.52 
+      [8]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
+)
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 229.
 pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
 een already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.117 
-       [8])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 216.
-pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
-een already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.216 \end{document}
-                     [9
-
-]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 216.
+l.229 \end{document}
+                     [9]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 229.
  (./document.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 216.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 216.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 229.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 229.
 Package rerunfilecheck Info: File `document.out' has not changed.
-(rerunfilecheck)             Checksum: E0B88853E71AD21D72F53C9A00014B0C;680.
+(rerunfilecheck)             Checksum: A60B13263C07DCE46A5532B252C826EB;830.
+
+
+LaTeX Warning: There were multiply-defined labels.
+
  ) 
 Here is how much of TeX's memory you used:
- 7659 strings out of 493629
- 113125 string characters out of 3148772
- 217690 words of memory out of 3000000
- 10709 multiletter control sequences out of 15000+200000
+ 7669 strings out of 493629
+ 113267 string characters out of 3148772
+ 220964 words of memory out of 3000000
+ 10715 multiletter control sequences out of 15000+200000
  63695 words of font info for 81 fonts, out of 3000000 for 9000
  831 hyphenation exceptions out of 8191
  44i,22n,46p,1057b,499s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -902,10 +926,10 @@ onts/cm/cmti9.pfb></usr/share/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></
 usr/share/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/share/texmf-dist
 /fonts/type1/urw/times/utmb8a.pfb></usr/share/texmf-dist/fonts/type1/urw/times/
 utmr8a.pfb></usr/share/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on document.pdf (9 pages, 3557803 bytes).
+Output written on document.pdf (9 pages, 3560447 bytes).
 PDF statistics:
- 744 PDF objects out of 1000 (max. 8388607)
- 352 compressed objects within 4 object streams
- 68 named destinations out of 1000 (max. 500000)
- 152 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 750 PDF objects out of 1000 (max. 8388607)
+ 358 compressed objects within 4 object streams
+ 69 named destinations out of 1000 (max. 500000)
+ 168 words of extra memory for PDF output out of 10000 (max. 10000000)
 

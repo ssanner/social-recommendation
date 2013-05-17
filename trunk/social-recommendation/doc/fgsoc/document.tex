@@ -67,6 +67,11 @@
 \newcommand{\post}{\mathit{post}}
 \newcommand{\photo}{\mathit{photo}}
 \newcommand{\video}{\mathit{video}}
+\newcommand{\like}{\mathit{like}}
+\newcommand{\ttag}{\mathit{tag}}
+\newcommand{\comment}{\mathit{comment}}
+\newcommand{\incoming}{\mathit{incoming}}
+\newcommand{\outgoing}{\mathit{outgoing}}
 \newcommand{\all}{\mathit{all}}
 \newcommand{\app}{\mathit{app}}
 
@@ -89,7 +94,6 @@
 %\newcommand{}{\mathit{}}
 \newcommand{\x}{\mathbf{x}}
 \newcommand{\dislike}{\mathit{dislike}}
-\newcommand{\like}{\mathit{like}}
 \newcommand{\likes}{\mathit{likes}}
 \newcommand{\true}{\mathit{true}}
 \newcommand{\false}{\mathit{false}}
@@ -187,20 +191,29 @@ Anonymous
 
 \input{methodology}
 
-\section{Data Description}
+\input{affinity_filtering}
+
+\section{Evaluation}
+
+\subsection{Data Description}
 \label{sec:datadesc}
 
 \input{data-description}
 
-%\section{Evaluation}
+\subsection{SAF Analysis}
+\label{sec:datadesc}
 
-%\input{evaluation}
+\input{saf_analysis}
 
-\input affinity_filtering
+\subsection{Interaction Analysis}
+\label{sec:datadesc}
 
-\input interaction_analysis
+\input{interaction_analysis}
 
-\input activity_analysis
+\subsection{Activity Analysis}
+\label{sec:datadesc}
+
+\input{activity_analysis}
 
 \section{Related Work}
 
