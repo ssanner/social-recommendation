@@ -2,14 +2,6 @@
 
 \label{sec:methodology}
 
-\begin{figure}[t!]
-\centering
-\includegraphics[width=.95\linewidth]{data/overview}
-\caption{Overview of social affinity for link recommendation.}
-\label{fig:overview}
-\end{figure}
-
-
 As illustrated in Fig~\ref{fig:overview}, the high-level objective of this paper is to predict whether or not a user $u$ will like a digital item $i$ (in our test case, a link). 
 We define user $u$'s preference for link $i$ as $like(u,i)$, this will be our prediction target. 
 \begin{quote}
@@ -53,10 +45,25 @@ in this work.
 %and $v$ is in the set of outgoing interactions for $u$.
       								
 \end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[t!]
+\centering
+\includegraphics[width=.95\linewidth]{data/overview}
+\caption{Overview of social affinity for link recommendation.
+A \emph{social affinity group (SAG)} consists of users who have a
+certain interaction or activity membership with a user -- there
+is a SAG for every interaction and activity.}
+\label{fig:overview}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 There are a total of 22 interaction types. Namely the cross-product of modalities, actions and directions, minus {\em link-tag-\{incoming, outgoing\}}. 
 
 %\subsection{Activities}
-\noindent{\bf Activities} describes the user interactions with Facebook communities like groups, pages, favourites.
+%\noindent
+% Can we insert more specific links to Facebook blog?  -SPS
+{\bf Activities} describes the user interactions with Facebook communities like groups, pages, favourites.
 \begin{itemize}
   %@SCOTT/LEXING following defination are taken from facebook blog. I am confused how to cite it %
   \item \textbf{Groups} on Facebook 
@@ -72,15 +79,21 @@ are analogous to community organizations in the real-world. It allows users to d
   \footnote{According to Facebook Blog, ``Facebook facilitates a wide variety of user selected favourites (Activities, Favorite Athletes, Books, Interests, Movies, Music, Sports, Favorite Teams, Television). These favourites allow a user to associate themselves with other people who share their same favourite tendencies.}
 \end{itemize} 
 
-Our evaluation includes thousands of active {\em group}, {\em page} or {\em favourite} features, details of them can be found in Sec~\ref{sec:datadesc}.
+Our evaluation includes thousands of {\em group}, {\em page} and {\em favourite} 
+features as detailed in Sec~\ref{sec:datadesc}.
 
+%% This is good text, but probably better in related work.  We have CIKM reviewers here who are
+%% just skimming and trying to follow the technical setup in the initial sections... this
+%% serves as a bit of a digression that detracts from some of the more important quantitative
+%% points that we want to drive home with the reader as early as possible.  -SPS
+\eat{
 Note that the notion of affinity we adopt is based on direct user {\em actions}, rather than
 static profile information, or structural information of the social graph. 
 We believe this is a useful view into the social network, as it was recently pointed out
 that a user's attention (i.e., interactions) are divided among a small subset of Facebook friends~\cite{backstrom2011center}, and that ratings of real-world friendship strength seems to be more predictable from the intimacy, intensity, and duration of interactions, than from social distance and structural information~\cite{gilbert2009predicting}. Our affinity definition is based on direct interactions within a users' ego network, this is complementary to 
 a recent alternative~\cite{Panigrahy2012ubr} that uses number of paths between two users encodes the resilience of network structure, 
 as it was recently found~\cite{Goel2012structure} that the vast majority of information diffusion
-happens within one step from the source node. 
+happens within one step from the source node. }
 % interactions
 %Our affinity
 %\cite{Wilson2012BSG}
@@ -103,13 +116,15 @@ namely \textit{Interaction  Social Affinity Groups (ISAG)} and \textit{Activity 
 \begin{itemize}
   \item \textbf{Interaction  Social Affinity Groups}. Let the set of interaction affinity classes be the cross-product of 
   Interaction modality, action and direction:
-  \begin{quote}
-  \begin{math}
-  	\textit{Interaction Affinity Classes} = \{link, post, photo, video\} \times \{like, tag, comment\} \times \{incoming, outgoing\}
-  \end{math}
-  \end{quote}
+  %\begin{quote}
+  \begin{align*}
+  	\textit{Interaction Affinity Classes} := \, & \{link, post, photo, video\} \\
+                                                & \times \{like, tag, comment\} \\
+                                                & \times \{incoming, outgoing\}
+  \end{align*}
+  %\end{quote}
   %Additionally, we add friendship interaction affinity class. \\
-  We define 
+  Then we define 
   \begin{quote}
   \textit{ISAG(u, k)} $:=$ the set of the users who have interaction $k$ with user $u$.
   \end{quote}
@@ -117,7 +132,8 @@ namely \textit{Interaction  Social Affinity Groups (ISAG)} and \textit{Activity 
    \begin{quote}
    
    \textit{ISAG(u, link-like-incoming)}  is the set of all users who have liked link posted by user $u$. \\
-   \textit{ISAG(u, photo-comment-outgoing)} is the set of all users whose photos received at least one comment from $u$. \\
+   \\
+   \textit{ISAG(u, photo-comment-outgoing)} is the set of all users whose photos received at least one comment from $u$.
    \end{quote}
 \item \textbf{Activity Social Affinity Groups}: We define activity affinity groups based on group membership, page likes and user favourites.
 	\begin{quote}
@@ -132,28 +148,29 @@ namely \textit{Interaction  Social Affinity Groups (ISAG)} and \textit{Activity 
 \begin{itemize}
   \item \textbf{Interaction Social Affinity Features} : We define Interaction affinity features for target user $u$ and item $i$ for ISAG's classes 
   $ \langle X_{1},X_{2}\ldots,X_{k}\rangle$ as
-  \begin{quote}
-  \begin{math}
+  %\begin{quote}
+  \begin{equation*}
    X_{k,u,i} = \begin{Bmatrix}
-   		True & if\ \exists v\in ISAG(u,k) \wedge likes(v,i)\\ \\
-   		False & otherwise
+   		\mathit{true} & \text{if}\ \exists v\in ISAG(u,k) \wedge likes(v,i)\\ \\
+   		\mathit{false} & \text{otherwise}
    \end{Bmatrix}
-  \end{math}
-  \end{quote}
+  \end{equation*}
+  %\end{quote}
   Additionally we add friend feature which encodes whether the target item $i$ is liked by friend or not.
   \item \textbf{Activity Social Affinity Features} : We define activity affinity features for target user $u$ and item $i$   \
   $ \langle X_{1},X_{2}\ldots,X_{k}\rangle$ as\\ \\
-  \begin{math}
+  \begin{equation*}
    X_{k,u,i} = \begin{Bmatrix}
-   		True & if\ \exists\ v\in \ ASAG(u,k) \wedge likes(v,i)\\ \\
-   		False & otherwise
+   		\mathit{true} & if\ \exists\ v\in \ ASAG(u,k) \wedge likes(v,i)\\ \\
+   		\mathit{false} & otherwise
    \end{Bmatrix}
-  \end{math}
-	In our analysis we use only those features(groups, pages and favourites) that are joined/liked by at least one of our app users.
+  \end{equation*}
+	In our analysis we use only those features (groups, pages and favourites) that are joined/liked by at least one of our app users.
 \end{itemize}
 
 \eat{
 %% SCOTT already covered these elsewhere
+%% Hmmm... maybe I forgot to :)  -SPS
 We train naive bayes, Logistic Regression(LR) and Support Vector Machine(SVM) model with affinity features.
 Logistic Regression and SVM algorithm was implemented using \textit{LIBLINER} \cite{liblinear} package. 
 We define Constant predictor as baseline predictor. Constant predictor predicts the most common outcome in our datase ie disliket.
