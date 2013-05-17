@@ -1,0 +1,103 @@
+%!TEX root = document.tex
+
+\label{sec:introduction}
+
+% motivate socical recommendation 
+Online social networks such as Facebook record a very rich set of user
+preferences  (likes of links, posts, photos, videos), user traits,
+interactions and activities (conversation streams, tagging, group memberships,
+interests, personal history and demographic data).  In the context of
+ recent work on social recommendation~\cite{sorec,ste,lla}, and those on 
+information diffusion %in social network analysis
+~\cite{Goel2012structure,Romero2011hashtag,Bakshy2012chamber}, 
+it is important to know which of these interactions or common traits
+are actually reflective of common preferences.
+
+Many recommendation methods for social networks 
+use an aggregation approach to representing  
+user interactions, such as performing 
+low-rank factorization of the social relationships matrix~\cite{sorec} 
+using a trust ensemble~\cite{ste},
+or collapsing co-preferences and interactions as 
+one indication of friend similarity~\cite{Noel2012NOF}.
+The point of departure for this work, is the hypothesis that
+fine-grained {\em affinities}, such as
+different modalities of interaction (e.g. commenting vs tagging) 
+and that different items relating to social preference 
+(e.g. a university alumni group vs fans of a TV series) 
+are of different importance for preference prediction.
+Moreover, effective use of this information, i.e., {\em filtering}, 
+will lead to better results in social recommendation.
+
+To obtain quantitative answers to this question, 
+we have built a Facebook App to collect a set of 
+detailed user information and detailed interaction history 
+available through the Facebook Graph API. 
+We recommend links to each App user from the timeline of their 
+friends and non-friends, and we record users' explicit likes 
+and dislikes for the links being recommended to them. 
+In this work, we explore the role of detailed user preferences 
+and interactions for recommendation, called {\em social affinity filtering}.
+% Our recent work~\cite{anonymous} designed new objective functions
+%for social recommendation that out-perform state-of-the-art, 
+
+In our 4-month interaction trace from 119 app users and their 38,000+ friends, 
+we use detailed history of 22 different interaction types on users' timeline, 
+along with their preferences on 3000+ groups, 4000+ favourites, and 10,000+ pages. 
+%Do fine-grained social interactions help predict user preferences?
+We found that social affinity filtering significantly 
+outperforms state-of-the-art social recommendation, by up to 6\% in accuracy.
+We also found that groups, pages, and favourites, 
+as rich and active indications of user preference, outperforms interaction traces. 
+Among the interactions, we found that those on videos are more predictive than those on other content types (photos, post, link), and that outgoing interactions (performed by the ego) 
+is more predictive than incoming ones (performed by friends on the ego's timeline).
+Among {\em groups}, {\em pages} and {\em favourites}, we found that the most  
+predictive features have smaller membership size, and that favorite features corresponding to 
+persistent activities (such as TV, books, activities) are more predictive than generic or 
+temporally synchronized activities (such as interests, sports). 
+These findings points to new directions for improving social recommendation, 
+and open up interesting questions about the nature of interactions and social preferences. 
+
+%\TODO{add table-of-content?}
+
+%In this paper,
+%we provide empirical answers for questions such as the following:
+%\begin{itemize}
+%%%lexing: make it sound a bit less technical and maintain the specificity, this is icwsm, hem
+%%\item What is the probability that 
+%\item How likely will a random user $u$ like
+%photos that have been liked at least $k$ times by friends? 
+%Or friends whose posts $u$ has commented on?
+%%\item What is the probability that a random user $u$ will like any
+%\item How likely will a random user $u$ like a
+%link that is liked at least $k=2$ times by friends sharing common interests
+%(movies, television, etc.), or sharing life history (same school or employer)? 
+%What if the maximum number of friends sharing this interest is at most $n$?
+%%\item What is the probability that a random male user $u$ 
+%\item How likely will a male user $u$ like
+%items liked at least $k=1$ times by his female friends?
+%\end{itemize}
+
+%While many of these queries may seem very narrow, we note that subtle
+%changes in the query conditions and parameters above can lead to
+%drastic swings in predictive probability.  For example, in the above
+%queries, large variations in probability may be 
+%observed by changing photo likes to post likes, changing
+%wall comment interactions to photo comments, changing from $k=1$ to
+%$k=2$ or $n=2$ to $n=4$, and changing the group definition from common
+%school to common employer.
+
+\eat{
+To better understand these subtleties and to understand what
+social interactions and user traits reflect common preferences on
+Facebook, we proceed in the following sections to describe our data,
+our experimental methodology, and various analyses according to our
+methodology that shed light on the above questions. 
+On one hand our observations confirm certain observations made previous 
+on different networks, such as the diminishing returns of repeated exposures, 
+on the other we also see a few new clues such as 
+that very specific types of outgoing interactions are more predictive 
+than other interactions. 
+We then conclude with a summary of the key novel observations arising
+from this study.
+}

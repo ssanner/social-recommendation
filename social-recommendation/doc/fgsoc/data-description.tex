@@ -1,0 +1,167 @@
+%!TEX root = document.tex
+
+We built a Facebook App\footnote{Name and link omitted
+for anonymity.} to collect information about users, 
+their interactions and preferences.  
+%data about Facebook users and their Facebook friends
+%are collected through our Facebook App. 
+Our dataset contains information about each App user, along with a
+subset of information about their friends visible to the App.  The
+data collection is performed with full permission from the user and in
+accordance with an approved Ethics Protocol\footnote{Link omitted for
+anonymity.}.
+
+Over 119 users installed the Facebook App during the
+evaluation period. From these core App users, the App has access to their
+detailed Facebook profiles and their interactions with a total of
+38,259 friends.
+
+%interaction data.  
+While we have complete interaction data for the App
+users with their friends, and profile data (including
+wall post data) for the App users and friends, we do not have complete
+interactions for the App users' friends (unless they themselves are
+App users).  Hence in the forthcoming analysis, we limit our
+evaluation to App users for which we are assured to have full
+interaction data.
+
+Our App tracks app user's (and their friends') details and interactions
+on Facebook.  Interactions that occur through wall posts provide a
+rich variety of content and interaction data.  We distinguish four
+Facebook items from wall posts: general posts (e.g., status updates,
+activity updates such as new friends), links, photos and videos. Four main
+interactions on these items are permitted by Facebook: posting an item
+to a friend's wall, commenting, liking, and tagging\footnote{Some
+Facebook interaction features such as liking comments were introduced
+after App user studies began and so are not tracked.}. Furthermore, Facebook allows user to interact with
+entities (groups, pages and favourites) via membership and liking. The app also keep tracks of the information 
+of user's group membership, page likes and favourites.
+The App does not track deletions of these items, interactions (e.g., unlike) and memberships for
+performance reasons and we found very few deletions during an initial
+testing stage.
+We summarize relevant basic statistics of the data in Table~\ref{tab:interactions}-\ref{tab:likeinfo} below.
+Table~\ref{tab:interactions}
+summarizes the number of records for each item (row) and interaction (column)
+combination. Table~\ref{tab:demographics} shows 
+some demographics from user profiles. Table \ref{tab:interests} shows the group membership, page like and favourites counts for app users and  all users.
+
+Our app recommends links to users every day, where the users may give their feedback on the links indicating whether they liked it or disliked it. Users are recommended
+links that are collected either from friends or non-friends. Throughout this paper, app user rated link data is used to evaluate the recommendation algorithms. 
+Table \ref{tab:likeinfo} shows the statistics of the app user rating for friend and non-friend recommendations.
+      							
+\begin{table}
+\centering
+\begin{tabular}{|>{\small}l|>{\small}r|>{\small}r|}
+\hline
+& \textbf{App Users} & \textbf{Ego network} \\
+& & \textbf{of App Users} \\
+\hline
+Users & 119 & 38,378 \\
+\hline
+Male & 85 & 20,840 \\
+\hline
+Female & 33 & 17,032 \\
+\hline
+\end{tabular}
+\caption{App user demographics}
+\label{tab:demographics}
+\end{table}
+
+\begin{table}
+\centering
+\begin{tabular}{|>{\small}l|>{\small}r|>{\small}r|>{\small}r|}
+\hline
+\textbf{App Users} & \textbf{Tags} & \textbf{Comments} & \textbf{Likes} \\
+\hline
+\textbf{Post} & 7,711 & 22,388 & 15,999 \\
+\hline
+\textbf{Link}  & --- & 7,483 & 6,566 \\
+\hline
+\textbf{Photo} & 28,341 & 10,976 & 8,612 \\
+\hline
+\textbf{Video} & 2,525 & 1,970 & 843 \\
+\hline
+\hline
+\textbf{Ego network} & \textbf{Tags} & \textbf{Comments} & \textbf{Likes} \\
+\textbf{of App Users}  & & & \\
+\hline
+\textbf{Post} & 1,215,382 & 3,122,019 & 1,887,497 \\
+\hline
+\textbf{Link} & --- & 891,986 & 995,214 \\
+\hline
+\textbf{Photo} & 9,620,708 & 3,431,321 & 2,469,859 \\
+\hline
+\textbf{Video} & 904,604 & 486,677 & 332,619 \\
+\hline
+\end{tabular}
+\caption{Statistics on user {\em Interactions}, grouped by item {\em Modality} and {\em Action type}.}
+\label{tab:interactions}
+\end{table}
+
+
+\begin{table}[t!]
+\centering
+\begin{tabular}{|>{\small}l|>{\small}r|>{\small}r|}
+\hline
+& \textbf{App Users} & \textbf{Ego Network} \\
+& & \textbf{of App Users} \\
+\hline
+Groups & 3,469 & 373,608 \\
+\hline
+Page Likes & 10,771 & 825,452 \\
+\hline
+Favourites & 4,284 & 892,820\\
+\hline
+\end{tabular}
+\caption{Statistics on user {\em Actions}, counted for {\em groups, pages} and {\em favorites} over the App users and their ego network.}
+\label{tab:interests}
+\end{table}
+
+\begin{table}[t!]
+\centering
+\begin{tabular}{|>{\small}l|>{\small}r|>{\small}r|}\hline
+&\textbf{Friend}  & \textbf{Non-Friend} \\
+&\textbf{recommendation}  & \textbf{recommendation} \\
+\hline
+Like& 1392 & 1127 \\
+\hline
+Dislike& 895 & 2111\\
+\hline
+\end{tabular}
+\caption{Dataset breakdown of prediction target $like(u,i)$, by the source of the link (friend/non-friend) and value (true/false).}
+\label{tab:likeinfo}
+\end{table}
+
+
+\eat{ %% suvash's original table
+\begin{table}
+\centering
+\begin{tabular}{|>{\small}l|>{\small}r|>{\small}r|>{\small}r|>{\small}r|}
+\hline
+\textbf{App Users} & \textbf{Posts} & \textbf{Tags} & \textbf{Comments} & \textbf{Likes} \\
+\hline
+\textbf{Wall} & 36,359 & 7,711 & 22,388 & 15,999 \\
+\hline
+\textbf{Link} & 5,304 & --- & 7,483 & 6,566 \\
+\hline
+\textbf{Photo} & 4,933 & 28,341 & 10,976 & 8,612 \\
+\hline
+\textbf{Video} & 245 & 2,525 & 1,970 & 843 \\
+\hline
+\hline
+\textbf{App Users} & \textbf{Posts} & \textbf{Tags} & \textbf{Comments} & \textbf{Likes} \\
+\textbf{and Friends} & & & & \\
+\hline
+\textbf{Wall} & 4,301,306 & 1,215,382 & 3,122,019 & 1,887,497 \\
+\hline
+\textbf{Link} & 678,612 & --- & 891,986 & 995,214 \\
+\hline
+\textbf{Photo} & 1,268,816 & 9,620,708 & 3,431,321 & 2,469,859 \\
+\hline
+\textbf{Video} & 59,244 & 904,604 & 486,677 & 332,619 \\
+\hline
+\end{tabular}
+\caption{The number of interactions Tables. Rows are type of Facebook item and columns are type of Facebook interaction.}
+\label{tab:interactions}
+\end{table}
+}

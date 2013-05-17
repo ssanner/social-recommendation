@@ -1,0 +1,54 @@
+This is BibTeX, Version 0.99d (TeX Live 2011/Cygwin)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: document.aux
+The style file: aaai.bst
+Database file #1: bibliography.bib
+Warning--empty booktitle in Bakshy2011everyone
+Warning--empty booktitle in brandtzag2011facebook
+Warning--empty booktitle in nori2011exploiting
+Warning--empty booktitle in Romero2011hashtag
+Warning--empty booktitle in singla2008yes
+Warning--empty booktitle in ver2011stops
+Warning--empty booktitle in wilson2009user
+You've used 27 entries,
+            2568 wiz_defined-function locations,
+            722 strings with 9270 characters,
+and the built_in function-call counts, 12285 in all, are:
+= -- 1303
+> -- 556
+< -- 10
++ -- 192
+- -- 190
+* -- 940
+:= -- 1948
+add.period$ -- 143
+call.type$ -- 27
+change.case$ -- 203
+chr.to.int$ -- 27
+cite$ -- 34
+duplicate$ -- 502
+empty$ -- 871
+format.name$ -- 239
+if$ -- 2603
+int.to.chr$ -- 1
+int.to.str$ -- 0
+missing$ -- 27
+newline$ -- 173
+num.names$ -- 81
+pop$ -- 206
+preamble$ -- 1
+purify$ -- 230
+quote$ -- 0
+skip$ -- 384
+stack$ -- 0
+substring$ -- 522
+swap$ -- 133
+text.length$ -- 10
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 216
+warning$ -- 7
+while$ -- 90
+width$ -- 30
+write$ -- 386
+(There were 7 warnings)
