@@ -1,15 +1,8 @@
 %!TEX root = document.tex
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure*}[tbp!]
-%\centering
-\hspace{-6mm}\includegraphics[width=190mm]{data/plots/accuracy/accuracyNew.eps}
-\caption{ Accuracy of predictors (constant, social matchbox, naive bayes, logistic regression, SVM) for Interaction and Activity  features }
-\label{Fig1}
-\end{figure*}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \section{Social Affinity filtering}
+
+{\bf TODO: need to revise and describe features using uniform notation... Suvash used upper and I used lower case, need to follow Suvash's notation.}
 
 %Social affinity filtering (SAF) is based on the idea that affinity
 %between users expressed in social networks via interactions and
@@ -39,65 +32,3 @@ SVM, logistic regression, or na\"{i}ve Bayes.  Then for future
 predictions, we simply are given $\x$ and we ask the SAF classifier to
 predict $y = f(\x)$.
 
-Fig \ref{Fig1} compares the accuracies of constant predictor and
-social matchbox with SAF based on na\"{i}ve Bayes, logistic regression
-and SVM classification for a range of interaction and activity (group,
-page, favourite) SAGs.  In all of our experiments SAF variants
-performed significantly better than Social Matchbox and the constant
-predictor except for na\"{i}ve Bayes, we conjecture this is due to the
-correlations between SAGs that cause na\"{i}ve Bayes to over- or
-under-estimate the true probability of likes.
-
-In general we note in Fig \ref{Fig1} that activities appear to be
-more predictive than interactions, but we believe the reasons for this
-are quite simple: Interaction SAGs can only evaluate the friends of
-user $u$ whereas Activity SAGs are able to look at all users,
-independent of $u$'s friends.
-Hence, given the general sparsity of ``likes'' data in Facebook, 
-Activity SAGs appear to draw on a much larger group of SAGs
-with much more activity.
-
-Among activities, Fig \ref{Fig1} shows that activities are more
-predictive than interactions. Among the activities, page likes are the
-most predictive followed by group membership and favourites.
-Returning to our conjecture that data sparsity can hurt SAF, we note
-from Table~\ref{tab:interests} that page likes are more prevalent than
-groups and favourites.  Moreover, these results may indicate that
-there is more social affinity between co-members of inherently social
-activities like groups and pages than between users who simply have
-favourites in common.
-
-Comparing SAF to the state-of-the-art in social
-collaborative filtering (SCF) as represented by Social
-Matchbox~\cite{Noel2012NOF}, we observe that SAF consistently
-outperforms it.  We note that the key difference of SAF vs. SCF is
-that SAF exploits the predictiveness of fine-grained interactions ---
-it breaks down into groups, whereas most SCF
-approaches~\cite{Noel2012NOF,lla,socinf,sr,rrmf,sorec,ste} is that
-instead of collapsing a diverse set of interactions into aggregate
-statistics such as the number of interactions between user $u_1$ and
-user $u_2$, regardless of whether $u_1$ tagged $u_2$ in a photo or
-$u_1$ liked a photo on $u_2$'s wall.  Clearly there is a great deal of
-benefit deriving from the fine-grained interactions indicating why
-without modeling any latent space and using a simple linear
-classifier, SAF can outperform SCF methods based on matrix
-factorization approaches that attempt to learn latent user and item
-features.
-
-On two final notes, we remark that SAF yields a computational and
-optimization advantage over SCF in that it is straightforward and
-efficient to find a globally optimal classifier with respect to certain training
-criteria (e.g., optimising log loss in logistic regression or hinge
-loss in SVMs) unlike SCF approaches that generally rely on
-computationally expensive matrix factorization techniques that lack
-optimality guarantees.  Further, we also note quite surprisingly that
-SAF inherently scales to a large number of users and generalizes to
-completely new users without suffering from the cold-start problem:
-this is simply because nothing SAF learns is user dependent, it learns
-to weight SAGs independent of any particular user.
-
-Given the clearly demonstrated benefits of SAF, we now proceed in the
-next two sections to analyse the two primary types of SAG features
-(interactions and activities) to better understand characteristics of
-both informative and uninformative SAGs in each context and the social
-phenomena that may be responsible for these characteristics.
