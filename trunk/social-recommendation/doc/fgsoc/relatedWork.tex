@@ -1,0 +1,49 @@
+
+%There has been many recent work on inferring user preferences on information 
+ 
+This work relates to many others in inferring user preferences on social and information networks. 
+We structure the discussion into two parts: the first is concerned with the nature of user traits, interactions and diffusion, the second is concerned with relating these user traits and interactions to  user preferences, interests and the strength of social ties.
+
+%To structure the discussion, we categorize the observables into three types:
+%There are three main types of observables in such networks 
+%(1) {\em User profile} including friendship information, they change at a much slower rate than information propagation in the network; (2) a dynamic stream of {\em interactions}, between users or between a user and a digital object; (3) a global and networked view of interactions, i.e. {\em diffusion} cascades. There are two types of hidden information that are common targets of inference and prediction: (a) User {\em preference} and interest, sometimes expressed as positive and negative (e.g. likes, voting up or down) action; (b) the inherent strength of {\em social ties}. 
+%While the main objective of our study is to correlate 
+%interactions and profile to user preference, 
+
+The first group studies the nature of user profile, interactions, and diffusion.
+Profile information and demographics is correlated with user behavior
+patterns. \cite{Chang2010ethnicity} showed that the tendency to
+initiate a Facebook friendship differs quite widely across ethnical
+groups, while \cite{backstrom2011center} have additionally showed that female and male users have opposite tendencies for dispersing attention for within-gender and across-gender communication.
+Two particular measurement studies on Facebook attention~\cite{wilson2009user,backstrom2011center} have inspired our work.  Although the average number of friends for a Facebook user is close to the human psychological limit, known as the Dunbar number~\cite{hill2003social}, the findings concur that a user's attention (i.e., interactions) are divided among a much smaller subset of Facebook friends. \cite{backstrom2011center} studied two types of attention: communication interaction and viewing attention (e.g. looking at profiles or photos). Users' communication attention is focused on small numbers of friends, but viewing attention is dispersed across all friends.
+This finding supports our approach of looking at many types of user interactions across all of a user's contact network, as a user's interest is driven by where he or she focuses attention on.
+
+The mechanisms of diffusion invites interesting mathematical and empirical investigations. %of diffusion has generated many interesting observations. 
+The Galton–Watson epidemics model suits the basic setup of social
+message diffusion, and can explain real-world information cascade such as
+email chain-letters when adjusted with selection
+bias~\cite{Golub2010selectionbiase}. For social diffusions in a
+one-to-many setting, however, the epidemics model has been less
+accurate. \cite{ver2011stops} found that online message cascades (on
+Digg social reader) are often smaller than prescribed by the epidemics
+model, seemingly due to the diminishing returns of repeated
+exposure. \cite{Romero2011hashtag}, in an independent study, confirmed
+the effect of diminishing returns with Twitter hashtag cascades, and
+further found that cascade dynamics differ across broad topic
+categories such as politics, culture, or sports. Our observations on a number of Facebook interactions agrees with the effect of diminishing returns.
+
+The nature of social diffusion seem to be not only democratic~\cite{asur2011trends,Bakshy2011everyone}, but also broadening for users~\cite{Bakshy2012chamber}. While influential users are important for cascade generation~\cite{Bakshy2011everyone}, large active groups of users are needed to contribute for the cascade to sustain~\cite{asur2011trends}. Moreover, word-of-mouth diffusion can only be harnessed reliably by targeting large numbers of potential influencers, confirmed by observations on Twitter~\cite{Bakshy2011everyone} and online ads~\cite{influence}. In a study facilitated by A/B testing on Facebook links, \cite{Bakshy2012chamber} found that while people are more likely to share the information they were exposed to by their strong ties than by their weak ties, the bulk of information we consume and share comes from people with different perspectives (weak ties). Our Facebook App is intended to bridge this gap between insights from these observations and predicting user actions.
+
+The second group of related work tries to correlate from user interactions to preferences and tie strength. 
+~\cite{saez2011high} found that incoming and outgoing actives are
+highly correlated on broadcast platforms such as Facebook and Twitter,
+and such correlation does not hold in one-to-one mode of communication
+such as email. Multiple studies have found that online interactions
+tend to correlate more with interests than with user profile. \cite{singla2008yes} found that user who frequently interact (via MSN chat) tend to share (web search) interests. 
+\cite{Anderson2012} concluded that the level of user activities correlate with the positive ratings that they give each other, and it is less about what they say (content of posts) but more about who they interacted with. Such findings echo those by ~\cite{brandtzag2011facebook}
+that real-world interactions further strengthens friendship on Facebook, while virtual interactions reveal interests. Furthermore, ratings of real-world friendship strength and trust~\cite{gilbert2009predicting} seems to be more predictable from the intimacy, intensity, and duration of interactions, than from social distance and structural information. 
+In terms of making the interaction-to-preference operational, \cite{nori2011exploiting} examines the predictability of user actions on Twitter from actions in both Twitter and Del.icio.us. The study uses both linear regression and an bipartite graph model that outperformed state-of-the-art models. ~\cite{gomes2011social} derived rules for Facebook interactions using a psychology-inspired formal symbolic language. 
+These work are most closely related to ours, yet none has examined such a diverse set of user actions in the same context: one-on-one interactions (e.g. commenting), broadcast (e.g. posting, sharing), and co-preference (e.g. likes). 
+%From data mining these rules, ranking them on confidence and support, the study found users are more likely to `like' another user's post or comment than to actively comment on it, and that the action of a `like' or `comment' by one user does not affect the involvement of other users in social interactions.
+
+In summary, our study is motivated by overall utility of weak ties, diverse, and very specific interactions. To the best of our knowledge, this is the first work that look at all of various combinations of interactions and user traits outlined in our Methodology.  Our preliminary findings confirm many of the observations made in the literature while shedding new light on some of these effects (and new causes of these effects) for a rich set of Facebook user and interaction data.
