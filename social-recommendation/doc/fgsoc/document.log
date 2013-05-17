@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011/Cygwin) (format=pdflatex 2012.5.9)  18 MAY 2013 02:19
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011/Cygwin) (format=pdflatex 2012.5.9)  18 MAY 2013 06:57
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -196,10 +196,8 @@ LaTeX Font Info:    Try loading font information for T1+aer on input line 100.
 
 (/usr/share/texmf-dist/tex/latex/ae/t1aer.fd
 File: t1aer.fd 1997/11/16 Font definitions for T1/aer.
-))) (./aaai.sty
-Conference Style for AAAI for LaTeX 2e -- version of 1 December 2012
-\titlebox=\skip44
-) (/usr/share/texmf-dist/tex/latex/psnfss/times.sty
+)))
+(/usr/share/texmf-dist/tex/latex/psnfss/times.sty
 Package: times 2005/04/12 PSNFSS-v9.2a (SPQR) 
 )
 (/usr/share/texmf-dist/tex/latex/psnfss/helvet.sty
@@ -213,8 +211,8 @@ Package: array 2008/09/09 v2.4c Tabular extension package (FMi)
 \col@sep=\dimen123
 \extrarowheight=\dimen124
 \NC@list=\toks36
-\extratabsurround=\skip45
-\backup@length=\skip46
+\extratabsurround=\skip44
+\backup@length=\skip45
 )
 (/usr/share/texmf-dist/tex/latex/subfig/subfig.sty
 Package: subfig 2005/06/28 ver: 1.3 subfig package
@@ -230,8 +228,8 @@ Package: caption3 2011/11/01 v1.4a caption3 kernel (AR)
 \caption@indent=\dimen128
 \caption@parindent=\dimen129
 \caption@hangindent=\dimen130
-\abovecaptionskip=\skip47
-\belowcaptionskip=\skip48
+\abovecaptionskip=\skip46
+\belowcaptionskip=\skip47
 Package caption Info: Unknown document class (or package),
 (caption)             standard defaults will be used.
 )
@@ -246,18 +244,18 @@ tempboxa \hbox {\textbf {#1: #2}} \ifdim \wd \@tempboxa >\hsize \textbf {#1: #2
 \c@ContinuedFloat=\count109
 )
 \c@KVtest=\count110
-\sf@farskip=\skip49
+\sf@farskip=\skip48
 \sf@captopadj=\dimen131
-\sf@capskip=\skip50
-\sf@nearskip=\skip51
+\sf@capskip=\skip49
+\sf@nearskip=\skip50
 \c@subfigure=\count111
 \c@subfigure@save=\count112
 \c@lofdepth=\count113
 \c@subtable=\count114
 \c@subtable@save=\count115
 \c@lotdepth=\count116
-\sf@top=\skip52
-\sf@bottom=\skip53
+\sf@top=\skip51
+\sf@bottom=\skip52
 ) (/usr/share/texmf-dist/tex/latex/oberdiek/epstopdf.sty
 Package: epstopdf 2010/02/09 v2.5 Conversion with epstopdf on the fly (HO)
 
@@ -413,7 +411,7 @@ Package: rerunfilecheck 2011/04/15 v1.7 Rerun checks for auxiliary files (HO)
 Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 82.
 )
-\Hy@SectionHShift=\skip54
+\Hy@SectionHShift=\skip53
 ) (./document.aux)
 \openout1 = `document.aux'.
 
@@ -476,8 +474,6 @@ LaTeX Info: Redefining \nameref on input line 99.
 \@outlinefile=\write3
 \openout3 = `document.out'.
 
-LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <14.4> not available
-(Font)              Font shape `T1/ptm/b/n' tried instead on input line 169.
 LaTeX Font Info:    Try loading font information for U+msa on input line 169.
 
 (/usr/share/texmf-dist/tex/latex/amsfonts/umsa.fd
@@ -492,131 +488,141 @@ LaTeX Font Info:    Try loading font information for U+lasy on input line 169.
 
 (/usr/share/texmf-dist/tex/latex/base/ulasy.fd
 File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
+) (./abstract.tex
+Overfull \hbox (4.9237pt too wide) in paragraph at lines 1--31
+\T1/ptm/m/n/9 Content rec-om-men-da-tion in so-cial net-works poses the com-ple
+x prob-
+ []
+
 )
-LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <12> not available
-(Font)              Font shape `T1/ptm/b/n' tried instead on input line 169.
-LaTeX Font Info:    Try loading font information for OMS+ptm on input line 169.
+LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <9> not available
+(Font)              Font shape `T1/ptm/b/n' tried instead on input line 177.
+ (./intro.tex [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
 
 
-(/usr/share/texmf-dist/tex/latex/psnfss/omsptm.fd
-File: omsptm.fd 
-)
-LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <9> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 169.
-LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <10> not available
-(Font)              Font shape `T1/ptm/b/n' tried instead on input line 169.
- (./abstract.tex)
-(./intro.tex
-Underfull \vbox (badness 10000) has occurred while \output is active []
+]
+Overfull \hbox (7.33609pt too wide) in paragraph at lines 86--90
+\T1/ptm/m/n/9 As de-tailed in the sub-se-quent sec-tions, these find-ings not o
+nly demon-
+ []
 
- [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
+) (./methodology.tex
+Overfull \hbox (2.82642pt too wide) in paragraph at lines 25--26
+\T1/ptm/b/n/9 Interactions \T1/ptm/m/n/9 de-scribes the com-mu-ni-ca-tion be-tw
+een Face-book users.
+ []
 
-
-
-]) (./methodology.tex
-<data/overview.pdf, id=77, 687.56876pt x 468.75125pt>
+<data/overview.pdf, id=83, 687.56876pt x 468.75125pt>
 File: data/overview.pdf Graphic file (type pdf)
  <use data/overview.pdf>
-Package pdftex.def Info: data/overview.pdf used on input line 7.
-(pdftex.def)             Requested size: 227.42392pt x 155.046pt.
-LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <10.95> not available
-(Font)              Font shape `T1/ptm/b/n' tried instead on input line 30.
+Package pdftex.def Info: data/overview.pdf used on input line 52.
+(pdftex.def)             Requested size: 227.99927pt x 155.43939pt.
+
+Overfull \hbox (2.79385pt too wide) in paragraph at lines 61--62
+[]\T1/ptm/m/n/9 There are a to-tal of 22 in-ter-ac-tion types. Namely the cross
+-product
+ []
+
+
+Overfull \hbox (2.12599pt too wide) in paragraph at lines 61--62
+\T1/ptm/m/n/9 of modal-i-ties, ac-tions and di-rec-tions, mi-nus \T1/ptm/m/it/9
+ link-tag-{incoming, out-
+ []
+
 pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
 een already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.87 
+l.85 
       [2 <./data/overview.pdf>]
-Underfull \hbox (badness 10000) in paragraph at lines 107--110
-[]$[] \OT1/cmr/m/n/10 =
+Overfull \hbox (1.4135pt too wide) in paragraph at lines 118--121
+\T1/ptm/m/n/9 tion affin-ity classes be the cross-product of In-ter-ac-tion mod
+al-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 107--110
-\OMS/cmsy/m/n/10 f\OML/cmm/m/it/10 link; post; photo; video\OMS/cmsy/m/n/10 g ^
-^B
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 119--121
+Underfull \hbox (badness 10000) in paragraph at lines 135--138
 
  []
 
 
-Overfull \hbox (19.2867pt too wide) in paragraph at lines 136--142
-[]$\OML/cmm/m/it/10 X[] \OT1/cmr/m/n/10 = []$ 
+Overfull \hbox (4.64166pt too wide) in paragraph at lines 141--142
+\T1/ptm/m/n/9 mon pref-er-ence for en-tity $\OML/cmm/m/it/9 k$ \T1/ptm/m/n/9 (g
+roup, page, favourite)
  []
 
 
-Underfull \hbox (badness 3492) in paragraph at lines 143--144
-\T1/ptm/m/n/10 Additionally we add friend fea-ture which en-codes
- []
-
-
-Underfull \hbox (badness 2435) in paragraph at lines 144--153
-[]\T1/ptm/b/n/10 Activity So-cial Affin-ity Fea-tures \T1/ptm/m/n/10 : We de-fi
-ne ac-
- []
-
-
-Underfull \hbox (badness 1515) in paragraph at lines 144--153
-\T1/ptm/m/n/10 tiv-ity affin-ity fea-tures for tar-get user $\OML/cmm/m/it/10 u
-$ \T1/ptm/m/n/10 and item $\OML/cmm/m/it/10 i$
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 144--153
+Underfull \hbox (badness 10000) in paragraph at lines 161--163
 
  []
 
 
-Overfull \hbox (6.60617pt too wide) in paragraph at lines 144--153
-\OML/cmm/m/it/10 X[] \OT1/cmr/m/n/10 = []$
+Underfull \hbox (badness 10000) in paragraph at lines 161--163
+
  []
 
-) (./data-description.texpdfTeX warning (ext4): destination with the same ident
-ifier (name{page.}) has been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.51 
-      [3]
-LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <9> not available
+) (./data-description.tex
+LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <8> not available
 (Font)              Font shape `T1/ptm/b/n' tried instead on input line 56.
 ) (./affinity_filtering.tex
-Package epstopdf Info: Source file: <data/plots/accuracy/accuracy.eps>
-(epstopdf)                    date: 2013-05-13 18:44:52
-(epstopdf)                    size: 55673 bytes
-(epstopdf)             Output file: <data/plots/accuracy/accuracy-eps-converted
--to.pdf>
-(epstopdf)                    date: 2013-05-13 18:44:52
-(epstopdf)                    size: 21862 bytes
+Package epstopdf Info: Source file: <data/plots/accuracy/accuracyNew.eps>
+(epstopdf)                    date: 2013-05-18 02:28:12
+(epstopdf)                    size: 66252 bytes
+(epstopdf)             Output file: <data/plots/accuracy/accuracyNew-eps-conver
+ted-to.pdf>
+(epstopdf)                    date: 2013-05-18 03:14:29
+(epstopdf)                    size: 24915 bytes
 (epstopdf)             Command: <repstopdf --outfile=data/plots/accuracy/accura
-cy-eps-converted-to.pdf data/plots/accuracy/accuracy.eps>
+cyNew-eps-converted-to.pdf data/plots/accuracy/accuracyNew.eps>
 (epstopdf)             \includegraphics on input line 6.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/accuracy/accuracy-eps-converted-to.pdf, id=195, 1601.985pt x 436.63
-126pt>
-File: data/plots/accuracy/accuracy-eps-converted-to.pdf Graphic file (type pdf)
+<data/plots/accuracy/accuracyNew-eps-converted-to.pdf, id=175, 1674.255pt x 895
+.345pt>
+File: data/plots/accuracy/accuracyNew-eps-converted-to.pdf Graphic file (type p
+df)
+ <use data/plots/accuracy/accuracyNew-eps-converted-to.pdf>
+Package pdftex.def Info: data/plots/accuracy/accuracyNew-eps-converted-to.pdf u
+sed on input line 6.
+(pdftex.def)             Requested size: 540.60236pt x 289.09834pt.
 
- <use data/plots/accuracy/accuracy-eps-converted-to.pdf>
-Package pdftex.def Info: data/plots/accuracy/accuracy-eps-converted-to.pdf used
- on input line 6.
-(pdftex.def)             Requested size: 654.41338pt x 178.36705pt.
-
-Overfull \hbox (125.76118pt too wide) in paragraph at lines 6--7
+Overfull \hbox (19.53072pt too wide) in paragraph at lines 6--7
 [] [] 
  []
 
 
-Underfull \vbox (badness 10000) has occurred while \output is active []
+Overfull \hbox (2.58374pt too wide) in paragraph at lines 17--31
+[]\T1/ptm/m/n/9 Social affin-ity group and the as-so-ci-ated fea-tures de-fined
+ in Sec []2.3[]
+ []
+
+
+Overfull \hbox (12.02211pt too wide) in paragraph at lines 17--31
+\T1/ptm/m/n/9 SAF, these fea-tures are the boolean vari-ables $\OML/cmm/m/it/9 
+X[]$ \T1/ptm/m/n/9 in-di-cat-ing whether
+ []
 
 pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
 een already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.98 
-      [4]) (./interaction_analysis.tex
+l.31 
+      [3]
+Overfull \hbox (1.90906pt too wide) in paragraph at lines 42--50
+\T1/ptm/m/n/9 cor-re-la-tions be-tween SAGs that cause naïve Bayes to over- or 
+under-
+ []
+
+
+Underfull \vbox (badness 1062) has occurred while \output is active []
+
+pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
+een already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.59 
+      [4 <./data/plots/accuracy/accuracyNew-eps-converted-to.pdf>])
+(./interaction_analysis.tex
 Package epstopdf Info: Source file: <data/plots/vsk/ModalityActionsvsKFriends.e
 ps>
 (epstopdf)                    date: 2013-05-13 18:44:53
@@ -631,7 +637,7 @@ s>
 (epstopdf)             \includegraphics on input line 81.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/vsk/ModalityActionsvsKFriends-eps-converted-to.pdf, id=219, 1483.54
+<data/plots/vsk/ModalityActionsvsKFriends-eps-converted-to.pdf, id=253, 1483.54
 25pt x 456.70625pt>
 File: data/plots/vsk/ModalityActionsvsKFriends-eps-converted-to.pdf Graphic fil
 e (type pdf)
@@ -641,22 +647,22 @@ Package pdftex.def Info: data/plots/vsk/ModalityActionsvsKFriends-eps-converted
 -to.pdf used on input line 81.
 (pdftex.def)             Requested size: 597.50787pt x 183.9406pt.
 
-Overfull \hbox (48.93875pt too wide) in paragraph at lines 81--82
+Overfull \hbox (50.82875pt too wide) in paragraph at lines 81--82
 [] [] 
  []
 
 
-Overfull \hbox (2.20921pt too wide) in paragraph at lines 97--97
-[] 
+Overfull \hbox (7.87549pt too wide) in paragraph at lines 89--94
+[]\T1/ptm/m/n/9 In this sec-tion we an-a-lyze the in-for-ma-tive-ness of In-ter
+-ac-tion SAGS,
  []
 
-pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
-een already used, duplicate ignored
+) (./activity_analysis.texpdfTeX warning (ext4): destination with the same iden
+tifier (name{page.}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.113 \item T
-             agging has a slightly better conditional entropy than [5 <./data/p
-lots/accuracy/accuracy-eps-converted-to.pdf>]) (./activity_analysis.tex
+l.20 
+      [5]
 Package epstopdf Info: Source file: <data/plots/new/CEvsGroupSize.eps>
 (epstopdf)                    date: 2013-05-13 18:44:52
 (epstopdf)                    size: 202237 bytes
@@ -818,138 +824,88 @@ Package pdftex.def Info: data/plots/boxPlots/CEvsFavTypes-eps-converted-to.pdf
 used on input line 89.
 (pdftex.def)             Requested size: 512.14111pt x 113.80858pt.
 
-Overfull \hbox (6.25111pt too wide) in paragraph at lines 89--90
+Overfull \hbox (8.14111pt too wide) in paragraph at lines 89--90
  [][] 
  []
 
-) (./relatedWork.texpdfTeX warning (ext4): destination with the same identifier
- (name{page.}) has been already used, duplicate ignored
+) (./relatedWork.tex
+Overfull \hbox (2.08879pt too wide) in paragraph at lines 37--48
+\T1/ptm/m/n/9 interaction-to-preference op-er-a-tional, [[]19[]] ex-am-ines the
+ pre-dictabil-
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
+een already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.20 
+l.48 
       [6 <./data/plots/vsk/ModalityActionsvsKFriends-eps-converted-to.pdf>]pdfT
 eX warning (ext4): destination with the same identifier (name{page.}) has been 
 already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.20 
+l.48 
       [7 <./data/plots/new/CEvsGroupSize-eps-converted-to.pdf> <./data/plots/ne
 w/CEvsPageSize-eps-converted-to.pdf> <./data/plots/new/CEvsFavSize-eps-converte
 d-to.pdf> <./data/plots/new/LRweightvsGroupSize-eps-converted-to.pdf> <./data/p
 lots/new/LRweightvsPageSize-eps-converted-to.pdf> <./data/plots/new/LRweightvsF
 avSize-eps-converted-to.pdf> <./data/plots/cumulativeEntropy/cumulative-eps-con
-verted-to.pdf> <./data/plots/boxPlots/CEvsFavTypes-eps-converted-to.pdf>]
+verted-to.pdf> <./data/plots/boxPlots/CEvsFavTypes-eps-converted-to.pdf>])
+(./conclusion.tex) (./document.bbl
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-)
-(./conclusion.tex)pdfTeX warning (ext4): destination with the same identifier (
-name{page.}) has been already used, duplicate ignored
+pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
+een already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.212 
-       [8] (./document.bbl
-Underfull \hbox (badness 10000) in paragraph at lines 5--10
-[]\T1/ptm/m/n/10 Anderson, A.; Hut-ten-locher, D.;
- []
-
-
-Underfull \hbox (badness 1178) in paragraph at lines 29--34
-[]\T1/ptm/m/n/10 Bakshy, E.; Hof-man, J. M.; Ma-son,
- []
-
-
-Underfull \hbox (badness 1028) in paragraph at lines 37--41
-[]\T1/ptm/m/n/10 Bakshy, E.; Rosenn, I.; Mar-low, C.;
- []
-
-
-Underfull \hbox (badness 3209) in paragraph at lines 37--41
-\T1/ptm/m/n/10 and Adamic, L.  2012.  The role of so-cial net-
- []
-
-
-Underfull \hbox (badness 5985) in paragraph at lines 37--41
-\T1/ptm/m/n/10 works in in-for-ma-tion dif-fu-sion.  \T1/ptm/m/it/10 Face-book 
-re-port,
- []
-
-
-Underfull \hbox (badness 1533) in paragraph at lines 83--88
-\T1/ptm/m/n/10 ture of in-ter-net dif-fu-sions.  \T1/ptm/m/it/10 Proc. Nat. Aca
-demy Sci.
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 91--98
-[]\T1/ptm/m/n/10 Gomes, A., and
- []
-
-
-Underfull \hbox (badness 6300) in paragraph at lines 150--156
-[]\T1/ptm/m/n/10 Panigrahy, R.; Na-jork,
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 159--165
-[]\T1/ptm/m/n/10 Romero, D. M.;
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 168--174
-[]\T1/ptm/m/n/10 Saez-
- []
-
-
-Underfull \hbox (badness 1231) in paragraph at lines 168--174
-\T1/ptm/m/it/10 In-ter-na-tional AAAI Con-fer-ence on We-blogs and So-cial
- []
-
-
-Underfull \hbox (badness 1533) in paragraph at lines 198--202
-[]\T1/ptm/m/n/10 Wilson, C.; Boe, B.; Sala, A.; Put-
- []
-
-)
+l.117 
+       [8])
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 216.
 pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
 een already used, duplicate ignored
 <to be read again> 
                    \relax 
 l.216 \end{document}
-                     [9]
+                     [9
+
+]
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 216.
  (./document.aux)
 Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 216.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 216.
 Package rerunfilecheck Info: File `document.out' has not changed.
-(rerunfilecheck)             Checksum: 303A2B33F3B892F6AD92026929977BA8;652.
+(rerunfilecheck)             Checksum: E0B88853E71AD21D72F53C9A00014B0C;680.
  ) 
 Here is how much of TeX's memory you used:
- 7702 strings out of 493629
- 113696 string characters out of 3148772
- 215269 words of memory out of 3000000
- 10750 multiletter control sequences out of 15000+200000
- 75481 words of font info for 90 fonts, out of 3000000 for 9000
+ 7659 strings out of 493629
+ 113125 string characters out of 3148772
+ 217690 words of memory out of 3000000
+ 10709 multiletter control sequences out of 15000+200000
+ 63695 words of font info for 81 fonts, out of 3000000 for 9000
  831 hyphenation exceptions out of 8191
- 44i,22n,46p,1057b,477s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 44i,22n,46p,1057b,499s stack positions out of 5000i,500n,10000p,200000b,50000s
 {/usr/share/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texmf-dist/fon
-ts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texmf-dist/fonts/type1/publi
-c/amsfonts/cm/cmex10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/
-cmmi10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></us
-r/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/share/texmf-d
-ist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-dist/fonts/type1
-/public/amsfonts/cm/cmr7.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts
-/cm/cmr9.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><
-/usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texm
+ts/type1/public/amsfonts/cm/cmbx9.pfb></usr/share/texmf-dist/fonts/type1/public
+/amsfonts/cmextra/cmex9.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/
+cm/cmmi6.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></
+usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/share/texmf
+-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/share/texmf-dist/fonts/type
+1/public/amsfonts/cm/cmr8.pfb></usr/share/texmf-dist/fonts/type1/public/amsfont
+s/cm/cmr9.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb><
+/usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texm
 f-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/share/texmf-dist/fonts/ty
-pe1/public/amsfonts/cm/cmti10.pfb></usr/share/texmf-dist/fonts/type1/public/ams
-fonts/cm/cmti7.pfb></usr/share/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></us
-r/share/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texmf-dist/font
-s/type1/urw/times/utmri8a.pfb>
-Output written on document.pdf (9 pages, 3542899 bytes).
+pe1/public/amsfonts/cm/cmti7.pfb></usr/share/texmf-dist/fonts/type1/public/amsf
+onts/cm/cmti9.pfb></usr/share/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></
+usr/share/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/share/texmf-dist
+/fonts/type1/urw/times/utmb8a.pfb></usr/share/texmf-dist/fonts/type1/urw/times/
+utmr8a.pfb></usr/share/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on document.pdf (9 pages, 3557803 bytes).
 PDF statistics:
- 741 PDF objects out of 1000 (max. 8388607)
- 358 compressed objects within 4 object streams
- 66 named destinations out of 1000 (max. 500000)
- 144 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 744 PDF objects out of 1000 (max. 8388607)
+ 352 compressed objects within 4 object streams
+ 68 named destinations out of 1000 (max. 500000)
+ 152 words of extra memory for PDF output out of 10000 (max. 10000000)
 
