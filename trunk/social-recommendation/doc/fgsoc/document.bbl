@@ -153,11 +153,21 @@ D.~Saez-Trumper, D.~Nettleton, and R.~Baeza-Yates.
 \newblock In {\em Fifth International AAAI Conference on Weblogs and Social
   Media}, ICWSM '11, 2011.
 
+\bibitem{pmf}
+R.~Salkhunitdov and {\bf \Large ???}
+\newblock Probabilistic matrix factorization.
+\newblock In {\em ???}, ???
+
 \bibitem{singla2008yes}
 P.~Singla and M.~Richardson.
 \newblock Yes, there is a correlation: - from social networks to personal
   behavior on the web.
 \newblock WWW '08, pages 655--664, New York, NY, USA, 2008. ACM.
+
+\bibitem{matchbox}
+D.~H. Stern, R.~Herbrich, and T.~Graepel.
+\newblock Matchbox: large scale online bayesian recommendations.
+\newblock In {\em WWW-09}, pages 111--120, 2009.
 
 \bibitem{ver2011stops}
 G.~Ver~Steeg, R.~Ghosh, and K.~Lerman.
