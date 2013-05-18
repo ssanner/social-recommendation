@@ -1,21 +1,24 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure*}[tbp!]
 %\centering
-\hspace{-6mm}\includegraphics[width=190mm, height=100mm]{data/plots/accuracy/accuracyLargeNew.eps}
+\hspace{-6mm}\includegraphics[width=190mm,height=120mm]{data/plots/accuracy/accuracyLargeNew.eps}
 \caption{ {\bf TODO: update caption and make more verbose to explain major take-home points of figures -- reviewers will just skim among figures to get key points.  Likewise for later captions.}  Accuracy of predictors (constant, social matchbox, naive bayes, logistic regression, SVM) for Interaction and Activity  features }
 \label{Fig1}
 \end{figure*}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-{\bf TODO: first need to clearly outline and label all baseline algorithms
-           and all novel algorithms... see how this was done in experimental
-           section of WWW-12 paper.}
+
+Here, we comare our activity feature(ASAF) and interaction feature (ISAF) based model trained on na\"{i}ve Bayes (NN-ASAF/NN-ISAF), logistic regression(LR-ASAF/LR-ISAF) and SVM(SVM-ASAF/SVM-ISAF)  with the constant predictor (Const) and  standard collaborative filtering algorithms; Nearest Neighbor(NN),  Matrix Factorization(MF) and Social MathchBox (SMB). '
+We report the accuracy result on 10 fold cross validation set and the error bar corresponds to the 95 percent confidence interval.
 
 {\bf TODO: make clear some baselines are standard CF (NN, MF), some are social CF -- also explain
            briefly what social Matchbox is.}
 
 {\bf TODO: clarify what the error bars are showing and how
            cross-validation was performed.}
+
+
+
 
 Fig \ref{Fig1} compares the accuracies of constant predictor and
 social matchbox with SAF based on na\"{i}ve Bayes, logistic regression
