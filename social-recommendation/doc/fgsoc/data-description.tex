@@ -6,11 +6,7 @@ interaction and activity history available through the Facebook Graph
 API to build the SAG information as defined in Sec~\ref{ssec:sag}
 along with user $u$'s preferences on recommended links $i$ solicited by the App on a daily basis
 to build the $\likes(u,i)$ relation required in Sec~\ref{ssec:SAfeature}.
-Each day our App recommends three links to each App user 
-that are collected from the timeline of other users (both friends and
-non-friends) and we record users' explicit likes and dislikes of these
-recommended links.  The
-data collection is performed with full permission from the user and in
+The data collection is performed with full permission from the user and in
 accordance with an approved Ethics Protocol\footnote{Link omitted for
 anonymity.}.
 
@@ -41,23 +37,23 @@ keep tracks of the information of user's group membership, page likes
 and favourites.  The App does not track deletions of these items,
 interactions (e.g., unlike) and memberships for performance reasons
 and we found very few deletions during an initial testing stage.  We
-summarize relevant basic statistics of the data in
-Table~\ref{tab:interactions}-\ref{tab:likeinfo} below.
+summarise relevant basic statistics of the data in
+Tables~\ref{tab:interactions}--\ref{tab:likeinfo}.
 Table~\ref{tab:interactions} summarizes the number of records for each
 item (row) and interaction (column)
 combination. Table~\ref{tab:demographics} shows some demographics from
 user profiles. Table \ref{tab:interests} shows the group membership,
-page like and favourites counts for app users and all users.
+page like and favourites counts for users.
 
-Our app recommends links to users every day, where the users may give
+Our app recommends three links to users every day, where the users may give
 their feedback on the links indicating whether they liked it or
 disliked it. Users are recommended links that are collected either
-from friends or non-friends. Throughout this paper, app user rated
+from both friends and non-friends. Throughout this paper, App user rated
 link data is used to evaluate the recommendation algorithms.
-Table \ref{tab:likeinfo} shows the statistics of the app user rating
+Table~\ref{tab:likeinfo} shows the statistics of the app user rating
 for friend and non-friend recommendations.  We chose to only display
 three links per day in order to avoid rank-bias with preferences;
-furthermore each link could be independently rated and in general
+furthermore each link could be \emph{independently rated} and in general
 user's rated all three links on a given day that they viewed their
 recommendations.
 
