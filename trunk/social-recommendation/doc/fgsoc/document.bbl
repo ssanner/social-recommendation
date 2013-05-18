@@ -22,7 +22,7 @@ L.~Backstrom, E.~Bakshy, J.~Kleinberg, T.~Lento, and I.~Rosenn.
 \bibitem{Bakshy2011everyone}
 E.~Bakshy, J.~M. Hofman, W.~A. Mason, and D.~J. Watts.
 \newblock Everyone's an influencer: quantifying influence on twitter.
-\newblock WSDM '11, pages 65--74, New York, NY, USA, 2011. ACM.
+\newblock WSDM '11, 2011.
 
 \bibitem{Bakshy2012chamber}
 E.~Bakshy, I.~Rosenn, C.~Marlow, and L.~Adamic.
@@ -74,6 +74,21 @@ R.~Hill and R.~Dunbar.
 \newblock Social network size in humans.
 \newblock {\em Human Nature}, 14(1):53--72, 2003.
 
+\bibitem{Jiang2012SCR}
+M.~Jiang, P.~Cui, R.~Liu, Q.~Yang, F.~Wang, W.~Zhu, and S.~Yang.
+\newblock Social contextual recommendation.
+\newblock CIKM '12, pages 45--54, 2012.
+
+\bibitem{Jiang2012SRA}
+M.~Jiang, P.~Cui, F.~Wang, Q.~Yang, W.~Zhu, and S.~Yang.
+\newblock Social recommendation across multiple relational domains.
+\newblock CIKM '12, pages 1422--1431, 2012.
+
+\bibitem{koren2009matrix}
+Y.~Koren, R.~Bell, and C.~Volinsky.
+\newblock Matrix factorization techniques for recommender systems.
+\newblock {\em Computer}, 42(8):30--37, 2009.
+
 \bibitem{rrmf}
 W.-J. Li and D.-Y. Yeung.
 \newblock Relation regularized matrix factorization.
@@ -112,6 +127,12 @@ N.~Nori, D.~Bollegala, and M.~Ishizuka.
 R.~Panigrahy, M.~Najork, and Y.~Xie.
 \newblock How user behavior is related to social affinity.
 \newblock WSDM '12, pages 713--722, 2012.
+
+\bibitem{tf}
+S.~Rendle, L.~B. Marinho, A.~Nanopoulos, and L.~Schmidt-Thieme.
+\newblock Learning optimal ranking with tensor factorization for tag
+  recommendation.
+\newblock In {\em KDD-09}, 2009.
 
 \bibitem{Romero2011hashtag}
 D.~M. Romero, B.~Meeder, and J.~Kleinberg.
