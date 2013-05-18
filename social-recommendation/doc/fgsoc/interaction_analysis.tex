@@ -85,7 +85,10 @@ entropies are more informative).}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 In this section we analyze the informativeness of Interaction SAGS,
-namely those SAGs that are built w.r.t. a user $u$'s interactions.
+namely user interactions according to their modality, type, and direction, 
+as described in Section~\ref{sec:methodology}.
+
+%namely those SAGs that are built w.r.t. a user $u$'s interactions.
 A general method for measuring the amount of information that a 
 feature $X$ provides w.r.t. predicting another variable $Y$ (in this
 case likes or dislikes) is to calculate its conditional entropy:
@@ -94,11 +97,14 @@ H(Y&|X=True)\\
 & = -\sum_{y\in{(\like,\dislike)}} p(y|X=true) \ln( p(y|X=true))
 \end{align*}
 In general, a lower conditional entropy indicates a more informative
-feature.
+feature. Here we use entropy conditioned on sparse features $X=True$ 
+instead of just $H(Y~|~X)$ or mutual information $I(Y; X)$, as we found 
+that the alternatives are highly correlated with (or dominated by) the number of 
+occurrences of the feature (or $P(X=True)$), and give trivial results. 
 
-As defined in Sec~\ref{sec:methodology}, we have three distinctions for user
-interactions: modality, action, and directionality.  First we analyze
-various interactions individually and jointly to understand what
+%As defined in Sec~\ref{sec:methodology}, we have three distinctions for user
+%interactions: modality, action, and directionality.  
+First we analyze various interactions individually and jointly to understand what
 interactions define SAGs with a high social affinity for a user $u$'s
 preferences.  To this end, we make a few observations from the
 conditional entropy analysis of Table~\ref{table:ce_interaction}:
