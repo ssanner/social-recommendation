@@ -89,6 +89,12 @@ Y.~Koren, R.~Bell, and C.~Volinsky.
 \newblock Matrix factorization techniques for recommender systems.
 \newblock {\em Computer}, 42(8):30--37, 2009.
 
+\bibitem{newsweeder}
+K.~Lang.
+\newblock {NewsWeeder}: Learning to filter netnews.
+\newblock In {\em 12th International Conference on Machine Learning {ICML-95}},
+  pages 331--339, 1995.
+
 \bibitem{rrmf}
 W.-J. Li and D.-Y. Yeung.
 \newblock Relation regularized matrix factorization.
