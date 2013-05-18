@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011/Cygwin) (format=pdflatex 2012.5.9)  18 MAY 2013 08:17
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011/Cygwin) (format=pdflatex 2012.5.9)  18 MAY 2013 14:09
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -545,29 +545,29 @@ een already used, duplicate ignored
                    \relax 
 l.84 
       [2 <./data/overview.pdf>]
-Overfull \hbox (1.4135pt too wide) in paragraph at lines 117--120
+Overfull \hbox (1.4135pt too wide) in paragraph at lines 120--123
 \T1/ptm/m/n/9 tion affin-ity classes be the cross-product of In-ter-ac-tion mod
 al-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 134--137
+Underfull \hbox (badness 10000) in paragraph at lines 137--140
 
  []
 
 
-Overfull \hbox (4.64166pt too wide) in paragraph at lines 140--141
+Overfull \hbox (4.64166pt too wide) in paragraph at lines 143--144
 \T1/ptm/m/n/9 mon pref-er-ence for en-tity $\OML/cmm/m/it/9 k$ \T1/ptm/m/n/9 (g
 roup, page, favourite)
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 160--162
+Underfull \hbox (badness 10000) in paragraph at lines 163--165
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 160--162
+Underfull \hbox (badness 10000) in paragraph at lines 163--165
 
  []
 
@@ -926,7 +926,7 @@ onts/cm/cmti9.pfb></usr/share/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></
 usr/share/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/share/texmf-dist
 /fonts/type1/urw/times/utmb8a.pfb></usr/share/texmf-dist/fonts/type1/urw/times/
 utmr8a.pfb></usr/share/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on document.pdf (9 pages, 3560447 bytes).
+Output written on document.pdf (9 pages, 3560507 bytes).
 PDF statistics:
  750 PDF objects out of 1000 (max. 8388607)
  358 compressed objects within 4 object streams
