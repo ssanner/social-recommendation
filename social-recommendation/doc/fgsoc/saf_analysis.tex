@@ -7,11 +7,24 @@
 \end{figure*}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+In this section, we wish to compare novel SAF-based methods with a
+variety of (social) collaborative filtering baselines.  For baselines,
+we examine the most likely class constant predictor (Const), and
+state-of-the-art collaborative filtering algorithms: Nearest Neighbor
+(NN)~\cite{bellkor}, Matrix Factorization (MF)~\cite{pmf} and Social
+MatchBox (SMB)~\cite{Noel2012NOF} -- an extension of matrix
+factorization that encourages more homophily for pairs of users with
+more interactions.  For SAF methods, we analyse variants using
+interaction features (ISAF) and activity features (ASAF) for each
+activity class: group memberships, page likes, and favourites.  We
+prefix the SAF method (ISAF or ASAF) according to the classifier used
+for training: na\"{i}ve Bayes (NB-ISAF/NB-ASAF), support vector
+machine (SVM-ISAF,SVM-ASAF), and logistic regression
+(LR-ISAF,LR-ASAF).  We report the average accuracy result using 10-fold cross
+validation and show standard error bars corresponding to 95\% confidence
+intervals on the accuracy.
 
-Here, we comare the activity feature(ASAF) and interaction feature (ISAF) based model trained on na\"{i}ve Bayes (NN-ASAF/NN-ISAF), logistic regression(LR-ASAF/LR-ISAF) and SVM(SVM-ASAF/SVM-ISAF)  with the constant predictor (Const) and  standard collaborative filtering algorithms; Nearest Neighbor(NN),  Matrix Factorization(MF) ~\cite{pmf} and Social MatchBox ~\cite{matchbox} (SMB). 
-We report the accuracy result on 10 fold cross validation set and the error bar corresponds to the 95 \% confidence interval.
-
-Fig \ref{Fig1} compares the accuracies of constant predictor and
+Fig~\ref{Fig1} compares the accuracies of constant predictor and
 social matchbox with SAF based on na\"{i}ve Bayes, logistic regression
 and SVM classification for a range of interaction and activity (group,
 page, favourite) SAGs.  In all of our experiments SAF variants
@@ -20,7 +33,7 @@ predictor except for na\"{i}ve Bayes, we conjecture this is due to the
 correlations between SAGs that cause na\"{i}ve Bayes to over- or
 under-estimate the true probability of likes.
 
-In general we note in Fig \ref{Fig1} that activities appear to be
+In general we note in Fig~\ref{Fig1} that activities appear to be
 more predictive than interactions, but we believe the reasons for this
 are quite simple: Interaction SAGs can only evaluate the friends of
 user $u$ whereas Activity SAGs are able to look at all users,
