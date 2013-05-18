@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011/Cygwin) (format=pdflatex 2012.5.9)  18 MAY 2013 14:09
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011/Cygwin) (format=pdflatex 2012.5.9)  18 MAY 2013 14:32
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -511,7 +511,7 @@ LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <9> not available
 
 
 ]
-Overfull \hbox (7.33609pt too wide) in paragraph at lines 86--90
+Overfull \hbox (7.33609pt too wide) in paragraph at lines 89--93
 \T1/ptm/m/n/9 As de-tailed in the sub-se-quent sec-tions, these find-ings not o
 nly demon-
  []
@@ -539,12 +539,18 @@ Overfull \hbox (2.12599pt too wide) in paragraph at lines 61--62
  link-tag-{incoming, out-
  []
 
+
+Underfull \hbox (badness 1048) in paragraph at lines 74--74
+[][][]\T1/ptm/m/n/9 According to Face-book Blog ([]$http : / / www . facebook .
+ com / blog /
+ []
+
 pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
 een already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.84 
-      [2 <./data/overview.pdf>]
+l.83 \end{itemize}
+                   [2 <./data/overview.pdf>]
 Overfull \hbox (1.4135pt too wide) in paragraph at lines 120--123
 \T1/ptm/m/n/9 tion affin-ity classes be the cross-product of In-ter-ac-tion mod
 al-
@@ -604,7 +610,7 @@ cyNew-eps-converted-to.pdf data/plots/accuracy/accuracyNew.eps>
 (epstopdf)             \includegraphics on input line 4.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/accuracy/accuracyNew-eps-converted-to.pdf, id=195, 1674.255pt x 895
+<data/plots/accuracy/accuracyNew-eps-converted-to.pdf, id=194, 1674.255pt x 895
 .345pt>
 File: data/plots/accuracy/accuracyNew-eps-converted-to.pdf Graphic file (type p
 df)
@@ -644,7 +650,7 @@ s>
 (epstopdf)             \includegraphics on input line 81.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/vsk/ModalityActionsvsKFriends-eps-converted-to.pdf, id=208, 1483.54
+<data/plots/vsk/ModalityActionsvsKFriends-eps-converted-to.pdf, id=207, 1483.54
 25pt x 456.70625pt>
 File: data/plots/vsk/ModalityActionsvsKFriends-eps-converted-to.pdf Graphic fil
 e (type pdf)
@@ -665,20 +671,20 @@ Overfull \hbox (7.87549pt too wide) in paragraph at lines 87--92
  []
 
 
-Underfull \vbox (badness 10000) has occurred while \output is active []
+Underfull \vbox (badness 1558) has occurred while \output is active []
 
 pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
 een already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.95 \end{align*}
-                  [4]pdfTeX warning (ext4): destination with the same identifie
-r (name{page.}) has been already used, duplicate ignored
+l.92 \begin{align*}
+                    [4]pdfTeX warning (ext4): destination with the same identif
+ier (name{page.}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.95 \end{align*}
-                  [5 <./data/plots/accuracy/accuracyNew-eps-converted-to.pdf> <
-./data/plots/vsk/ModalityActionsvsKFriends-eps-converted-to.pdf>])
+l.92 \begin{align*}
+                    [5 <./data/plots/accuracy/accuracyNew-eps-converted-to.pdf>
+ <./data/plots/vsk/ModalityActionsvsKFriends-eps-converted-to.pdf>])
 (./activity_analysis.tex
 Package epstopdf Info: Source file: <data/plots/new/CEvsGroupSize.eps>
 (epstopdf)                    date: 2013-05-13 18:44:52
@@ -692,7 +698,7 @@ ze-eps-converted-to.pdf data/plots/new/CEvsGroupSize.eps>
 (epstopdf)             \includegraphics on input line 65.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/new/CEvsGroupSize-eps-converted-to.pdf, id=320, 578.16pt x 433.62pt
+<data/plots/new/CEvsGroupSize-eps-converted-to.pdf, id=321, 578.16pt x 433.62pt
 >
 File: data/plots/new/CEvsGroupSize-eps-converted-to.pdf Graphic file (type pdf)
 
@@ -712,7 +718,7 @@ e-eps-converted-to.pdf data/plots/new/CEvsPageSize.eps>
 (epstopdf)             \includegraphics on input line 66.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/new/CEvsPageSize-eps-converted-to.pdf, id=321, 578.16pt x 433.62pt>
+<data/plots/new/CEvsPageSize-eps-converted-to.pdf, id=322, 578.16pt x 433.62pt>
 File: data/plots/new/CEvsPageSize-eps-converted-to.pdf Graphic file (type pdf)
 <use data/plots/new/CEvsPageSize-eps-converted-to.pdf>
 Package pdftex.def Info: data/plots/new/CEvsPageSize-eps-converted-to.pdf used 
@@ -730,7 +736,7 @@ o.pdf>
 (epstopdf)             \includegraphics on input line 67.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/new/CEvsFavSize-eps-converted-to.pdf, id=322, 578.16pt x 433.62pt>
+<data/plots/new/CEvsFavSize-eps-converted-to.pdf, id=323, 578.16pt x 433.62pt>
 File: data/plots/new/CEvsFavSize-eps-converted-to.pdf Graphic file (type pdf)
 
 <use data/plots/new/CEvsFavSize-eps-converted-to.pdf>
@@ -749,7 +755,7 @@ roupSize-eps-converted-to.pdf data/plots/new/LRweightvsGroupSize.eps>
 (epstopdf)             \includegraphics on input line 68.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/new/LRweightvsGroupSize-eps-converted-to.pdf, id=323, 578.16pt x 43
+<data/plots/new/LRweightvsGroupSize-eps-converted-to.pdf, id=324, 578.16pt x 43
 3.62pt>
 File: data/plots/new/LRweightvsGroupSize-eps-converted-to.pdf Graphic file (typ
 e pdf)
@@ -769,7 +775,7 @@ ageSize-eps-converted-to.pdf data/plots/new/LRweightvsPageSize.eps>
 (epstopdf)             \includegraphics on input line 69.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/new/LRweightvsPageSize-eps-converted-to.pdf, id=324, 578.16pt x 433
+<data/plots/new/LRweightvsPageSize-eps-converted-to.pdf, id=325, 578.16pt x 433
 .62pt>
 File: data/plots/new/LRweightvsPageSize-eps-converted-to.pdf Graphic file (type
  pdf)
@@ -789,7 +795,7 @@ avSize-eps-converted-to.pdf data/plots/new/LRweightvsFavSize.eps>
 (epstopdf)             \includegraphics on input line 70.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/new/LRweightvsFavSize-eps-converted-to.pdf, id=325, 578.16pt x 433.
+<data/plots/new/LRweightvsFavSize-eps-converted-to.pdf, id=326, 578.16pt x 433.
 62pt>
 File: data/plots/new/LRweightvsFavSize-eps-converted-to.pdf Graphic file (type 
 pdf)
@@ -811,7 +817,7 @@ py/cumulative-eps-converted-to.pdf data/plots/cumulativeEntropy/cumulative.eps>
 (epstopdf)             \includegraphics on input line 81.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/cumulativeEntropy/cumulative-eps-converted-to.pdf, id=326, 1630.09p
+<data/plots/cumulativeEntropy/cumulative-eps-converted-to.pdf, id=327, 1630.09p
 t x 514.92375pt>
 File: data/plots/cumulativeEntropy/cumulative-eps-converted-to.pdf Graphic file
  (type pdf)
@@ -832,7 +838,7 @@ vTypes-eps-converted-to.pdf data/plots/boxPlots/CEvsFavTypes.eps>
 (epstopdf)             \includegraphics on input line 90.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/boxPlots/CEvsFavTypes-eps-converted-to.pdf, id=327, 1597.97pt x 434
+<data/plots/boxPlots/CEvsFavTypes-eps-converted-to.pdf, id=328, 1597.97pt x 434
 .62375pt>
 File: data/plots/boxPlots/CEvsFavTypes-eps-converted-to.pdf Graphic file (type 
 pdf)
@@ -880,7 +886,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 ame identifier (name{page.}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.52 
+l.47 
       [8]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
@@ -926,10 +932,10 @@ onts/cm/cmti9.pfb></usr/share/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></
 usr/share/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/share/texmf-dist
 /fonts/type1/urw/times/utmb8a.pfb></usr/share/texmf-dist/fonts/type1/urw/times/
 utmr8a.pfb></usr/share/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on document.pdf (9 pages, 3560507 bytes).
+Output written on document.pdf (9 pages, 3560817 bytes).
 PDF statistics:
- 750 PDF objects out of 1000 (max. 8388607)
- 358 compressed objects within 4 object streams
+ 751 PDF objects out of 1000 (max. 8388607)
+ 359 compressed objects within 4 object streams
  69 named destinations out of 1000 (max. 500000)
  168 words of extra memory for PDF output out of 10000 (max. 10000000)
 
