@@ -109,13 +109,15 @@ interactions define SAGs with a high social affinity for a user $u$'s
 preferences.  To this end, we make a few observations from the
 conditional entropy analysis of Table~\ref{table:ce_interaction}:
 \begin{itemize}
-\item Users seem to have a stronger preferential affinity with those
-  they interact with on videos vs. other modalities.  This could be
+\item Interaction on {\em videos} seem to have a stronger preferential affinity 
+than other modalities such as links, posts and photos.  This could be
   due to the fact that video viewing is time-consuming and users
   inherently only watch the videos of those whose preferences they
   often share.
-\item Tagging has a slightly better conditional entropy than
-  commenting and liking.% indicating that tagging.
+\item Tagging has a slightly lower conditional entropy than
+  commenting and liking, likely because the majority of tags contains 
+  person name(s) on Facebook, indicating a direct social interaction. 
+  % indicating that tagging.
 \item A user is more likely to share preferences with someone who she
   initiates the interaction with (outgoing) vs. with someone who
   initiates the interaction with her (incoming).  As an extreme
@@ -128,6 +130,20 @@ In figure \ref{Fig2} we plot conditional entropy of modality and
 action for incoming/outgoing interactions constrained to links
 liked by at least $k$ friends in the SAG.  Figure \ref{Fig2} reiterates
 many observations made above for various $k$.  In addition, we note that
+preference affinity with a SAG increases as more people in the SAG
+like the item --- then the more likely a user is to like an item.
+While incoming interactions were not as predictive as outgoing
+interactions for the same $k$, we note that higher $k$ for an incoming
+interaction can be more predictive than lower $k$ for an outgoing
+interaction.  Note that these graphs are cumulative in $k$, different from the 
+exposure curve on exactly $k$ friends~\cite{Romero2011hashtag}. 
+Our observations on user preference on items like by a number of Facebook friends 
+suggest large cumulative number of friend interactions is more predictive 
+-- this can be translated into recommender system design. 
+Further investigation is needed to pinpoint whether or not there is 
+diminishing returns on repeated exposures~\cite{ver2011stops,Romero2011hashtag} on $k$, 
+and how this could be leveraged to design recommendation algorithms.
+%We observed that 
 %\begin{itemize}
 %% NOTED ABOVE NOW
 %  \item Some interactions are more predictive than other. For
@@ -141,13 +157,9 @@ many observations made above for various $k$.  In addition, we note that
 %    predictiveness modalities and actions is more pronounced in
 %    outgoing interactions than in incoming interactions.
 %  \item 
-preference affinity with a SAG increases as more people in the SAG
-like the item --- then the more likely a user is to like an item.
-While incoming interactions were not as predictive as outgoing
-interactions for the same $k$, we note that higher $k$ for an incoming
-interaction can be more predictive than lower $k$ for an outgoing
-interaction.  This exhibits repeated exposure properties of epidemic
-models for social networks~\cite{Golub2010selectionbiase}.
+
+%This exhibits repeated exposure properties of epidemic
+%models for social networks~\cite{Golub2010selectionbiase}.
 %\end{itemize}
 
 
