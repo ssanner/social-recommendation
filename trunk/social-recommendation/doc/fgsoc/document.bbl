@@ -29,6 +29,12 @@ E.~Bakshy, I.~Rosenn, C.~Marlow, and L.~Adamic.
 \newblock The role of social networks in information diffusion.
 \newblock {\em Facebook report, http://www.scribd.com/facebook}, 2012.
 
+\bibitem{bellkor}
+R.~M. Bell and Y.~Koren.
+\newblock Scalable collaborative filtering with jointly derived neighborhood
+  interpolation weights.
+\newblock In {\em ICDM-07}, 2007.
+
 \bibitem{brandtzag2011facebook}
 P.~B. Brandtz¾g and O.~Nov.
 \newblock Facebook use and social capital --- a longitudinal study.
@@ -154,20 +160,15 @@ D.~Saez-Trumper, D.~Nettleton, and R.~Baeza-Yates.
   Media}, ICWSM '11, 2011.
 
 \bibitem{pmf}
-R.~Salkhunitdov and {\bf \Large ???}
+R.~Salakhutdinov and A.~Mnih.
 \newblock Probabilistic matrix factorization.
-\newblock In {\em ???}, ???
+\newblock In {\em {NIPS} 20}, 2008.
 
 \bibitem{singla2008yes}
 P.~Singla and M.~Richardson.
 \newblock Yes, there is a correlation: - from social networks to personal
   behavior on the web.
 \newblock WWW '08, pages 655--664, New York, NY, USA, 2008. ACM.
-
-\bibitem{matchbox}
-D.~H. Stern, R.~Herbrich, and T.~Graepel.
-\newblock Matchbox: large scale online bayesian recommendations.
-\newblock In {\em WWW-09}, pages 111--120, 2009.
 
 \bibitem{ver2011stops}
 G.~Ver~Steeg, R.~Ghosh, and K.~Lerman.
