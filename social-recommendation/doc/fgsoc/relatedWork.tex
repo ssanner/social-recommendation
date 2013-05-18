@@ -1,9 +1,34 @@
-{\bf TODO: some related work is ``eaten'' in the intro and methodology, should it be inserted here?}
+%!TEX root = document.tex
+
+%{\bf TODO: some related work is ``eaten'' in the intro and methodology, should it be inserted here?}
 
 %There has been many recent work on inferring user preferences on information 
  
 This work relates to many others in inferring user preferences on social and information networks. 
-We structure the discussion into two parts: the first is concerned with the nature of user traits, interactions and diffusion, the second is concerned with relating these user traits and interactions to  user preferences, interests and the strength of social ties.
+We structure the discussion into three parts: the first is concerned with the nature of user traits, interactions and diffusion, the second is concerned with relating these user traits and interactions to user preferences, interests and the strength of social ties.
+
+%% No longer fits cleanly in the intro, should be moved into related
+%% work is not already mentioned there.  -SPS
+\TODO{
+In the context of recent work on social
+recommendation~\cite{sorec,ste,lla} and information diffusion
+~\cite{Goel2012structure,Romero2011hashtag,Bakshy2012chamber}, it is
+important to know which of these interactions or common traits are
+actually reflective of common preferences.
+%% This is good text, but probably better in related work.  We have CIKM reviewers here who are
+%% just skimming and trying to follow the technical setup in the initial sections... this
+%% serves as a bit of a digression that detracts from some of the more important quantitative
+%% points that we want to drive home with the reader as early as possible.  -SPS
+
+
+Note that the notion of affinity we adopt is based on direct user {\em actions}, rather than
+static profile information, or structural information of the social graph. 
+We believe this is a useful view into the social network, as it was recently pointed out
+that a user's attention (i.e., interactions) are divided among a small subset of Facebook friends~\cite{backstrom2011center}, and that ratings of real-world friendship strength seems to be more predictable from the intimacy, intensity, and duration of interactions, than from social distance and structural information~\cite{gilbert2009predicting}. Our affinity definition is based on direct interactions within a users' ego network, this is complementary to 
+a recent alternative~\cite{Panigrahy2012ubr} that uses number of paths between two users encodes the resilience of network structure, 
+as it was recently found~\cite{Goel2012structure} that the vast majority of information diffusion
+happens within one step from the source node. 
+}
 
 %To structure the discussion, we categorize the observables into three types:
 %There are three main types of observables in such networks 
