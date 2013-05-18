@@ -6,11 +6,11 @@
 Online social networks such as Facebook record a rich set of user
 preferences (likes of links, posts, photos, videos), user traits,
 interactions and activities (conversation streams, tagging, group
-memberships, interests, personal history and demographic data).  
-This presents myriad new
-dimensions to the recommendation problem by making available a rich
-labeled graph structure of social content from which user preferences
-can be learned and new recommendations can be made.  
+memberships, interests, personal history and demographic data).  This
+presents myriad new dimensions to the recommendation problem by making
+available a rich labeled graph structure of social interactions and
+content from which user preferences can be learned and new
+recommendations can be made.
 
 Existing recommendation methods for social networks aggregate this
 rich social information into a simple measure of user-to-user interaction 
@@ -41,9 +41,9 @@ To quantitatively validate our hypotheses and evaluate the
 informativeness of different fine-grained features for social
 recommendation, we have built a Facebook App to collect detailed user
 interaction and activity history available through the Facebook Graph
-API along with preferences solicited from the App regarding recommendations.
-Specifically, our App recommends three daily links to each
-App user collected from the timeline of other users (both friends and
+API along with user preferences solicited by the App on a daily basis.
+Specifically, each day our App recommends three links to each App user 
+that are collected from the timeline of other users (both friends and
 non-friends) and we record users' explicit likes and dislikes of these
 recommended links.  Given this data, we define \emph{social affinity
 groups (SAGs)} of a target user by analysing their fine-grained
@@ -54,7 +54,7 @@ interest group that the target user has joined).  Given these SAGS, we
 of other SAGs who have also liked the item using a novel
 recommendation method we call {\em social affinity filtering (SAF)},
 and (2) analyse the relative informativeness of different SAGs based
-on various properties that we elaborate on next.
+on various properties such as type, size, and exposure.
 
 In our 4-month interaction trace, we were able to collect data for a set of 
 Facebook app users and their full interactions with 38,000+ friends along with 22
