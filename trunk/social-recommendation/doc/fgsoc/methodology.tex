@@ -7,8 +7,8 @@ We define user $u$'s preference for link $i$ as $like(u,i)$, this will be our pr
 \begin{quote}
 \begin{math}
 likes(u,i) =  \begin{Bmatrix}
-	  True & \text{if user $u$ likes item $i$}\\
-	  False & \text{otherwise}
+	  \true & \text{if user $u$ likes item $i$}\\
+	  \false & \text{otherwise}
 	  \end{Bmatrix}
 \end{math}
 \end{quote}
@@ -49,16 +49,19 @@ in this work.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[t!]
 \centering
-\includegraphics[width=.95\linewidth]{data/overview}
+\includegraphics[width=1\linewidth]{data/overview}
 \caption{Overview of social affinity for link recommendation.
-A \emph{social affinity group (SAG)} consists of users who have a
-certain interaction or activity membership with a user -- there
-is a SAG for every interaction and activity.}
+A \emph{social affinity group (SAG)} consists of the set of alters 
+of a user $u$ (ego) who have a
+certain interaction or share an activity membership with $u$.
+Alters defined by SAGs serve as proxies for an ego's interest with some
+SAGs showing stronger affinity with an ego as learned by \emph{social affinity filtering (SAF)}
+and analysed subsequently.}
 \label{fig:overview}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-There are a total of 22 interaction types. Namely the cross-product of modalities, actions and directions, minus {\em link-tag-\{incoming, outgoing\}}. 
+There are a total of 22 interaction types. Namely the cross-product of modalities, actions and directions, minus {\em link-tag-\{incoming, outgoing\}} since links cannot be tagged in Facebook.
 
 %\subsection{Activities}
 %\noindent
@@ -70,11 +73,12 @@ There are a total of 22 interaction types. Namely the cross-product of modalitie
   %@SCOTT/LEXING following defination are taken from facebook blog. I am confused how to cite it %
   \item \textbf{Groups} on Facebook 
 % I didnt find facebook favourites defination in facebook blog - Suvash
-\footnote{According to Facebook Blog (\surl{http://www.facebook.com/blog/blog.php?post=324706977130} {\bf FIXME}), ``Groups are the place for small group communication and for people to share their common interests and express their opinion. Groups allow people to come together around a common cause, issue or activity to organize, express objectives, discuss issues, post photos and share related content''. 
+\footnote{From Facebook Blog: 
+\surl{http://www.facebook.com/blog/blog.php?post=324706977130}, ``Groups are the place for small group communication and for people to share their common interests and express their opinion. Groups allow people to come together around a common cause, issue or activity to organize, express objectives, discuss issues, post photos and share related content''. 
 \label{fn:fbblog}}
 are analogous to community organizations in the real-world. It allows users to declare membership and supports people to organize activities, to post related content, and to have recurring discussions about them.  Examples of groups include {\em Stanford Thai} (Fig~\ref{fig:overview} bottom left), or {\em Harvard Debate Club}.
   \item \textbf{Pages} on Facebook
-  \footnote{According to Facebook Blog, 
+  \footnote{From Facebook Blog: 
 (\surl{http://www.facebook.com/blog/blog.php?post=324706977130} ``Facebook Pages enable public figures, businesses, organizations and other entities to create an authentic and public presence on Facebook. Facebook Pages are visible to everyone on the internet by default. Facebook user can connect with these Pages by becoming a fan and then receive their updates and interact with them.'' }
   %\footnotemark[\ref{fn:fbblog}] 
   are analogous to the homepages of people, organizations and events on the world-wide-web. They are publicly visible, and users can subscribe to the updates on the page, and also engage in discussions. Example pages include {\em DARPA} (an organization, Fig~\ref{fig:overview} bottom middle), or {\em Beyonce} (a singer).
@@ -188,7 +192,7 @@ interactions and its predictiveness in greater detail. Hence, for the analysis o
 \textit{Conditional Entropy} is defined as
 \begin{quote}
 \begin{math}
-H(Y|X=True) = \\-\sum_{y\in{(like,dislike)}} p(y|X$=$true)$ $log( p(y|X$=$true))
+H(Y|X=\true) = \\-\sum_{y\in{(like,dislike)}} p(y|X$=$true)$ $log( p(y|X$=$true))
 \end{math}
 \end{quote}
 
