@@ -28,19 +28,27 @@ In Fig~\ref{Fig4} we plot the average conditional entropy of the top
     Fig~\ref{Fig4} we can infer that the group sizes up to 50 and
     page/favourite sizes up to $10^{5}$ are most predictive.
 
-{\bf TODO: make this consistent with earlier discussion regarding persistence,
-temporally sychronized.}
+%{\bf TODO: make this consistent with earlier discussion regarding persistence,
+%temporally sychronized.}
 
  We also analyze predictiveness of favourites by categories in
-    Fig~\ref{Fig5}. It shows that SAGs consisting of shared interests,
-    activity, television, and books are on average most predictive, while 
-    music, movies, favourite teams, sports and athletes are on average
-    least predictive.  While favourite teams, sports and athletes may be
-    too focused to offer much predictiveness vs. the other more diverse
-    categories, it is interesting that movies and music favourites
-    are not very predictive on average.  This may have to do with the fact that
-    these are typically ephemeral favourites that may be heavily influenced
-    by popularity as opposed to true personal preference.
+    Fig~\ref{Fig5}, where the favorite categories are obtained from Facebook API.  
+    %It shows that SAGs consisting of shared interests,
+    %activity, television, and books are on average most predictive, while 
+    %music, movies, favourite teams, sports and athletes are on average
+    %least predictive.  
+    We can see that contents in the ``long-tail'', i.e.,  
+    having a large number of occurrences far from the most popular choices, 
+    tend to have be the most predictive affinities. Examples of these include
+    music, books, movies. On the contrary, generic affinities (e.g. interests) and 
+    those with a smaller number of choices (e.g. sports or fav-teams) 
+    tend to be less predictive. 
+    %While favourite teams, sports and athletes may be
+    %too focused to offer much predictiveness vs. the other more diverse
+    %categories, it is interesting that movies and music favourites
+    %are not very predictive on average.  This may have to do with the fact that
+    %these are typically ephemeral favourites that may be heavily influenced
+    %by popularity as opposed to true personal preference.
 %\end{itemize}
 
 %In Fig~\ref{Fig4} we plot the average conditional entropy of top
