@@ -7,82 +7,82 @@
 \end{figure*}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-In this section, we wish to compare novel SAF-based methods with a
-variety of (social) collaborative filtering baselines.  For baselines,
-we examine the most likely class constant predictor (Const), and
-state-of-the-art collaborative filtering algorithms: Nearest Neighbor
-(NN)~\cite{bellkor}, Matrix Factorization (MF)~\cite{pmf} and Social
-MatchBox (SMB)~\cite{Noel2012NOF} -- an extension of matrix
+In this section, we compare novel SAF-based model trained on naive Bayes(NB), 
+logistic regression (LR) and support vector machine (SVM) to the variety of
+(social) collaborative filtering baselines. For baselines, we examine the most 
+likely class constant predictor (Const), and state-of-the-art collaborative 
+filtering algorithms: Nearest Neighbor (NN)~\cite{bellkor}, Matrix Factorization (MF)~\cite{pmf} 
+and Social MatchBox (SMB)~\cite{Noel2012NOF} -- an extension of matrix
 factorization that encourages more homophily for pairs of users with
-more interactions.  For SAF methods, we analyse variants using
-interaction features (ISAF) and activity features (ASAF) for each
-activity class: group memberships, page likes, and favourites.  We
-prefix the SAF method (ISAF or ASAF) according to the classifier used
-for training: na\"{i}ve Bayes (NB-ISAF/NB-ASAF), support vector
-machine (SVM-ISAF,SVM-ASAF), and logistic regression
-(LR-ISAF,LR-ASAF).  We report the average accuracy result using 10-fold cross
-validation and show standard error bars corresponding to 95\% confidence
-intervals on the accuracy.
+more interactions. To make a distinction between Interaction and Activity based SAF, 
+we add suffix ISAF and ASAF respectively to NB, LR and SVM models. We train model using
+10-fold cross validation and the error bars corresponds to 95\% confindence interval.
 
-Fig~\ref{Fig1} compares the accuracies of constant predictor and
-social matchbox with SAF based on na\"{i}ve Bayes, logistic regression
-and SVM classification for a range of interaction and activity (group,
+Fig~\ref{Fig1} compares the accuracies of the baseline methods 
+with the SAF based models for a range of interaction and activity (group,
 page, favourite) SAGs.  In all of our experiments SAF variants
-performed significantly better than Social Matchbox and the constant
-predictor except for na\"{i}ve Bayes, we conjecture this is due to the
-correlations between SAGs that cause na\"{i}ve Bayes to over- or
-under-estimate the true probability of likes.
-
-In general we note in Fig~\ref{Fig1} that activities appear to be
-more predictive than interactions, but we believe the reasons for this
-are quite simple: Interaction SAGs can only evaluate the friends of
-user $u$ whereas Activity SAGs are able to look at all users,
-independent of $u$'s friends.
-Hence, given the general sparsity of ``likes'' data in Facebook, 
-Activity SAGs appear to draw on a much larger group of SAGs
-with much more activity.
-
-Among activities, Fig \ref{Fig1} shows that activities are more
-predictive than interactions. Among the activities, page likes are the
-most predictive followed by group membership and favourites.
-Returning to our conjecture that data sparsity can hurt SAF, we note
-from Table~\ref{tab:interests} that page likes are more prevalent than
-groups and favourites.  Moreover, these results may indicate that
-there is more social affinity between co-members of inherently social
-activities like groups and pages than between users who simply have
-favourites in common.
-
-Comparing SAF to the state-of-the-art in social
+performed significantly better than state-of-the-art in social
 collaborative filtering (SCF) as represented by Social
-Matchbox~\cite{Noel2012NOF}, we observe that SAF consistently
-outperforms it.  We note that the key difference of SAF vs. SCF is
+Matchbox~\cite{Noel2012NOF} and other baselines except for na\"{i}ve Bayes, 
+we conjecture this is due to the correlations between SAGs that cause na\"{i}ve
+Bayes to over- or under-estimate the true probability of likes.
+
+
+Fig \ref{Fig1} shows that the page likes were the most predictive among
+the interaction and activities SAGs.Returning to our conjecture that data 
+sparsity can hurt SAF, we note from Table~\ref{tab:interests} that page 
+likes are more prevalent than groups and favourites. Moreover, these 
+results may indicate that there is more social affinity between users having same page likes
+than other activities.
+
+%In general we note in Fig~\ref{Fig1} that activities appear to be
+%more predictive than interactions, but we believe the reasons for this
+%are quite simple: Interaction SAGs can only evaluate the friends of
+%user $u$ whereas Activity SAGs are able to look at all users,
+%independent of $u$'s friends.
+%Hence, given the general sparsity of ``likes'' data in Facebook, 
+%Activity SAGs appear to draw on a much larger group of SAGs
+%with much more activity.
+
+
+
+%Among activities, Fig \ref{Fig1} shows that activities are more
+%predictive than interactions. Among the activities, page likes are the
+%most predictive followed by group membership and favourites.
+%Returning to our conjecture that data sparsity can hurt SAF, we note
+%from Table~\ref{tab:interests} that page likes are more prevalent than
+%groups and favourites.  Moreover, these results may indicate that
+%there is more social affinity between co-members of inherently social
+%activities like groups and pages than between users who simply have
+%favourites in common.
+
+We note that the key difference of SAF vs. SCF is
 that SAF exploits the predictiveness of fine-grained interactions ---
 it breaks down into groups, whereas most SCF
 approaches~\cite{Noel2012NOF,lla,socinf,sr,rrmf,sorec,ste} is that
 instead of collapsing a diverse set of interactions into aggregate
 statistics such as the number of interactions between user $u_1$ and
-user $u_2$, regardless of whether $u_1$ tagged $u_2$ in a photo or
-$u_1$ liked a photo on $u_2$'s wall.  Clearly there is a great deal of
-benefit deriving from the fine-grained interactions indicating why
-without modeling any latent space and using a simple linear
-classifier, SAF can outperform SCF methods based on matrix
+user $u_2$, regardless of different modality, action and direction.
+Clearly there is a great deal of benefit deriving from the fine-grained 
+interactions indicating why without modeling any latent space and using 
+a simple linear classifier, SAF can outperform SCF methods based on matrix
 factorization approaches that attempt to learn latent user and item
 features.
 
-On two final notes, we remark that SAF yields a computational and
-optimization advantage over SCF in that it is straightforward and
-efficient to find a globally optimal classifier with respect to certain training
-criteria (e.g., optimising log loss in logistic regression or hinge
-loss in SVMs) unlike SCF approaches that generally rely on
-computationally expensive matrix factorization techniques that lack
-optimality guarantees.  Further, we also note quite surprisingly that
-SAF inherently scales to a large number of users and generalizes to
-completely new users without suffering from the cold-start problem:
-this is simply because nothing SAF learns is user dependent, it learns
-to weight SAGs independent of any particular user.
+%On two final notes, we remark that SAF yields a computational and
+%optimization advantage over SCF in that it is straightforward and
+%efficient to find a globally optimal classifier with respect to certain training
+%criteria (e.g., optimising log loss in logistic regression or hinge
+%loss in SVMs) unlike SCF approaches that generally rely on
+%computationally expensive matrix factorization techniques that lack
+%optimality guarantees.  Further, we also note quite surprisingly that
+%SAF inherently scales to a large number of users and generalizes to
+%completely new users without suffering from the cold-start problem:
+%this is simply because nothing SAF learns is user dependent, it learns
+%to weight SAGs independent of any particular user.
 
 Given the clearly demonstrated benefits of SAF, we now proceed in the
-next two sections to analyse the two primary types of SAG features
+next section to analyse the two primary types of SAG features
 (interactions and activities) to better understand characteristics of
 both informative and uninformative SAGs in each context and the social
 phenomena that may be responsible for these characteristics.
