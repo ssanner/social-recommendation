@@ -52,13 +52,14 @@ Our work is not only inspired by these observations, we also quantifying the str
 of user interest with a large variety of user affinities -- namely, activities, and group preferences in different categories.
 
 The last group of related work is concerned with using social network and behavior information for recommendation. 
-Matrix factorization is one of the prevailing approaches for recommender systems~\cite{koren2009matrix,sorec}.
+Matrix factorization is one of the prevailing approaches for recommender systems~\cite{koren2009matrix}.
 Recent advances include extending matrix factorization to user social relation in regularization~\cite{sr,rrmf}, 
 %to take into account multiple relations~\cite{tf,Jiang2012SRA},  
 and to model social context~\cite{Jiang2012SCR}. 
 In particular, there are different designs for using social information to regularize objective functions~\cite{lla}, a trust
-ensemble~\cite{ste}, a low-rank factorization of the social
-interactions matrix~\cite{sorec}, or social-spectral regularization that takes into account user and item features~\cite{Noel2012NOF}.  These systems have shown very promising performance across a range of problems, but their all collapse social affinity (fine-grained interactions and group affinity) into one or a very low-dimensional representation. The point of departure of this work is to explore the rich affinity structure, we compared a recent matrix factorization approach~\cite{Noel2012NOF} and found SAF with simple classifiers outperform state-of-the-art.
+ensemble~\cite{ste}, 
+%a low-rank factorization of the social interactions matrix~\cite{sorec},
+or social-spectral regularization that takes into account user and item features~\cite{Noel2012NOF}.  These systems have shown very promising performance across a range of problems, but their all collapse social affinity (fine-grained interactions and group affinity) into one or a very low-dimensional representation. The point of departure of this work is to explore the rich affinity structure, we compared a recent matrix factorization approach~\cite{Noel2012NOF} and found SAF with simple classifiers outperform state-of-the-art.
 
 %In the context of recent work on social
 %recommendation~\cite{sorec,ste,lla} 
