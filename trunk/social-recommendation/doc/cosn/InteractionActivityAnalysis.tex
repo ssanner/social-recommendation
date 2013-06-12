@@ -86,8 +86,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 In this section we analyze the informativeness of Interaction SAGs,
 namely user interactions according to their modality, type, and direction, 
-as described in Section~\ref{sec:methodology}. Similarly, we analyze the relationship between
-informativeness of Activity SAGs and its size.
+as described in Section~\ref{sec:methodology}. Similarly, we analyze the 
+informativeness of Activity SAGs with respect to its size.
 
 %namely those SAGs that are built w.r.t. a user $u$'s interactions.
 A general method for measuring the amount of information that a 
@@ -187,13 +187,11 @@ than other modalities such as links, posts and photos.  This could be
 %entropy and size of groups, pages and favourites.
 
 Fig \ref{Fig3} shows the relationship between conditional
-    entropy versus the size of activity groups. 
-    Here the size of a {\em group}, {\em page} and {\em favorite} 
-    is the number of total users in the activity group.  
-    For {\em Pages} and {\em Favorites} this is the total number of Facebook users, 
-    while for {\em Groups} only the number of users in the App users' ego network 
-    is visible to our app. \ref{Fig3} shows that the activity groups of 
-    small size can be highly predictive whereas large groups are rarely predictive.
+    entropy and the size of activity groups. For public activity ({\em Pages} and 
+    {\em Favorites}) it is total number of facebook user in activity group, whereas
+    for {\em Groups}(which are generally private) its total number of user in App 
+    user's ego network. Fig \ref{Fig3} shows that the activity groups of small 
+    size can be highly predictive whereas large groups are rarely predictive.
 
 In Fig~\ref{Fig4} we plot the average conditional entropy of the top
     10\% of features cumulative up to the size of the activity group given on the
@@ -202,7 +200,7 @@ In Fig~\ref{Fig4} we plot the average conditional entropy of the top
     are incrementally added in.  This graph 
     distinctly shows that the small sized groups, pages and favourites
     have low average conditional entropy that transitions sharply to a
-    higher average once a size threshold has been met.From 
+    higher average once a size threshold has been met. From 
     Fig~\ref{Fig4} we can infer that the group sizes up to 50 and
     page/favourite sizes up to $10^{5}$ are most predictive.
     
