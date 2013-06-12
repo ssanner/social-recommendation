@@ -77,14 +77,13 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure*}[tbp!]
-\centering
-\includegraphics[height=50mm,width=160mm]{data/plots/vsk/ModalityActionsvsKFriends.eps}
-\caption{Conditional Entropy  of modalities/activities for incoming/outgoing interactions vs item liked by at least k friends}
-\label{Fig2} 
-\end{figure*}
+%\begin{figure*}[tbp!]
+%\centering
+%\includegraphics[height=50mm,width=160mm]{data/plots/vsk/ModalityActionsvsKFriends.eps}
+%\caption{Conditional Entropy  of modalities/activities for incoming/outgoing interactions vs item liked by at least k friends}
+%\label{Fig2} 
+%\end{figure*}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 In this section we analyze the informativeness of Interaction SAGs,
 namely user interactions according to their modality, type, and direction, 
 as described in Section~\ref{sec:methodology}. Similarly, we analyze the relationship between
@@ -145,20 +144,21 @@ than other modalities such as links, posts and photos.  This could be
 %   and video interactions are least informative.
 % \end{itemize}
 
-In figure \ref{Fig2} we plot conditional entropy of modality and
-action for incoming/outgoing interactions constrained to links
-liked by at least $k$ friends in the Interaction SAG.  Figure \ref{Fig2} reiterates
-many observations made above for various $k$.  In addition, we note that
-preference affinity with a SAG increases as more people in the SAG
-like the item --- then the more likely a user is to like an item.
-Note that these graphs are cumulative in $k$, different from the 
-exposure curve on exactly $k$ friends~\cite{Romero2011hashtag}. 
-Our observations on user preference on items like by a number of Facebook friends 
-suggest large cumulative number of friend interactions is more predictive 
--- this can be translated into recommender system design. 
-Further investigation is needed to pinpoint whether or not there is 
-diminishing returns on repeated exposures~\cite{ver2011stops,Romero2011hashtag} on $k$, 
-and how this could be leveraged to design recommendation algorithms.
+% In figure \ref{Fig2} we plot conditional entropy of modality and
+% action for incoming/outgoing interactions constrained to links
+% liked by at least $k$ friends in the Interaction SAG.  Figure \ref{Fig2} reiterates
+% many observations made above for various $k$.  In addition, we note that
+% preference affinity with a SAG increases as more people in the SAG
+% Note that these graphs are cumulative in $k$, different from the 
+% exposure curve on exactly $k$ friends~\cite{Romero2011hashtag}. 
+% Our observations on user preference on items like by a number of Facebook friends 
+% suggest large cumulative number of friend interactions is more predictive 
+% -- this can be translated into recommender system design. 
+% Further investigation is needed to pinpoint whether or not there is 
+% diminishing returns on repeated exposures~\cite{ver2011stops,Romero2011hashtag} on $k$, 
+% and how this could be leveraged to design recommendation algorithms.
+
+
 %We observed that 
 %\begin{itemize}
 %% NOTED ABOVE NOW
@@ -187,26 +187,33 @@ and how this could be leveraged to design recommendation algorithms.
 %entropy and size of groups, pages and favourites.
 
 Fig \ref{Fig3} shows the relationship between conditional
-    entropy and logistic regression weights versus the size of activity
-    groups. Here the size of a {\em group}, {\em page} and {\em favorite} 
-    is the number of total users in the activity group. 
+    entropy versus the size of activity groups. 
+    Here the size of a {\em group}, {\em page} and {\em favorite} 
+    is the number of total users in the activity group.  
     For {\em Pages} and {\em Favorites} this is the total number of Facebook users, 
-    whether or not they are in the App users' ego network, while for 
-    {\em Groups} only the number of users in the App users' ego network is visible to our app.
-    Both scatter plots shows that the activity groups of small size can be
-    highly predictive (low conditional entropy or weights that deviate
-    extremely from zero) whereas large groups are rarely predictive.
+    while for {\em Groups} only the number of users in the App users' ego network 
+    is visible to our app. \ref{Fig3} shows that the activity groups of 
+    small size can be highly predictive whereas large groups are rarely predictive.
 
 In Fig~\ref{Fig4} we plot the average conditional entropy of the top
     10\% of features cumulative up to the size of the activity group given on the
     x-axis; this allows us to determine the marginal contribution of
     larger groups to the average conditional entropy as larger groups
     are incrementally added in.  This graph 
-    distinctly shows that the small sizes of groups, pages and favourites
+    distinctly shows that the small sized groups, pages and favourites
     have low average conditional entropy that transitions sharply to a
-    higher average once a size threshold has been met.  From 
+    higher average once a size threshold has been met.From 
     Fig~\ref{Fig4} we can infer that the group sizes up to 50 and
     page/favourite sizes up to $10^{5}$ are most predictive.
+    
+    
+    In Fig~\ref{Fig5}  we analyze the predictiveness of favourites by categories.
+    We can see that contents in the ``long-tail'', i.e.,  
+    having a large number of occurrences far from the most popular choices, 
+    tend to have be the most predictive affinities. Examples of these include
+    music, books, movies. On the contrary, generic affinities (e.g. interests) and 
+    those with a smaller number of choices (e.g. sports or fav-teams) 
+    tend to be less predictive. 
 
 % %{\bf TODO: make this consistent with earlier discussion regarding persistence,
 % %temporally sychronized.}
@@ -277,24 +284,40 @@ In Fig~\ref{Fig4} we plot the average conditional entropy of the top
 % \label {table:topGroupPagesFavs}
 % \end{table*}
 
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[tbp!]
 %\centering
-\hspace{-10mm}
-\begin{tabular}{ccc}
+\hspace{-8mm}
 \begin{tabular}{ccc}
 \subfloat[Fig:][]{\includegraphics[width=32mm, height=30mm]{data/plots/new/CEvsGroupSize.eps}}
 \subfloat[Fig:][]{\includegraphics[width=32mm, height=30mm]{data/plots/new/CEvsPageSize.eps}}
-\subfloat[Fig:][]{\includegraphics[width=32mm, height=30mm]{data/plots/new/CEvsFavSize.eps}} \\
-\subfloat[Fig:][]{\includegraphics[width=32mm, height=30mm]{data/plots/new/LRweightvsGroupSize.eps}}
-\subfloat[Fig:][]{\includegraphics[width=32mm, height=30mm]{data/plots/new/LRweightvsPageSize.eps}}
-\subfloat[Fig:][]{\includegraphics[width=32mm, height=30mm]{data/plots/new/LRweightvsFavSize.eps}} \\
+\subfloat[Fig:][]{\includegraphics[width=32mm, height=30mm]{data/plots/new/CEvsFavSize.eps}}
 \end{tabular}
-\end{tabular}
-\caption {Conditional entropy vs size (a-c); logistic regression feature weights vs size (d-f) }
+\caption {Conditional entropy vs size }
 \label{Fig3}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \begin{figure}[tbp!]
+% %\centering
+% \hspace{-10mm}
+% \begin{tabular}{ccc}
+% \begin{tabular}{ccc}
+% \subfloat[Fig:][]{\includegraphics[width=32mm, height=30mm]{data/plots/new/CEvsGroupSize.eps}}
+% \subfloat[Fig:][]{\includegraphics[width=32mm, height=30mm]{data/plots/new/CEvsPageSize.eps}}
+% \subfloat[Fig:][]{\includegraphics[width=32mm, height=30mm]{data/plots/new/CEvsFavSize.eps}} \\
+% \subfloat[Fig:][]{\includegraphics[width=32mm, height=30mm]{data/plots/new/LRweightvsGroupSize.eps}}
+% \subfloat[Fig:][]{\includegraphics[width=32mm, height=30mm]{data/plots/new/LRweightvsPageSize.eps}}
+% \subfloat[Fig:][]{\includegraphics[width=32mm, height=30mm]{data/plots/new/LRweightvsFavSize.eps}} \\
+% \end{tabular}
+% \end{tabular}
+% \caption {Conditional entropy vs size (a-c); logistic regression feature weights vs size (d-f) }
+% \label{Fig3}
+% \end{figure}
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure*}[tbp!]
@@ -306,10 +329,10 @@ In Fig~\ref{Fig4} we plot the average conditional entropy of the top
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\begin{figure*}[tbp!]
-%\centering
-%\includegraphics[width=180mm, height=40mm]{data/plots/boxPlots/CEvsFavTypes.eps}
-%\caption{Conditional entropy for top 1000 favourites breakdown by categories}
-%\label{Fig5}
-%\end{figure*}
+\begin{figure*}[tbp!]
+\centering
+\includegraphics[width=180mm, height=35mm]{data/plots/boxPlots/CEvsFavTypes.eps}
+\caption{Conditional entropy for top 1000 favourites breakdown by categories}
+\label{Fig5}
+\end{figure*}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

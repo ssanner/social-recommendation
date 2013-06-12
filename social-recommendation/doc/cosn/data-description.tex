@@ -1,62 +1,84 @@
 %!TEX root = document.tex
 
-We built a Facebook App\footnote{Name and link omitted
-for anonymity.} to collect detailed user
-interaction and activity history available through the Facebook Graph
-API to build the SAG information as defined in Sec~\ref{ssec:sag}
-along with user $u$'s preferences on recommended links $i$ solicited by the App on a daily basis
-to build the $\likes(u,i)$ relation required in Sec~\ref{ssec:SAfeature}.
-The data collection is performed with full permission from the user and in
-accordance with an approved Ethics Protocol\footnote{Link omitted for
-anonymity.}.
 
+We built a Facebook App\footnote{Name and link omitted
+for anonymity.} and  collect detailed user interaction and activity history. 
 Over 119 users installed the Facebook App during the evaluation
 period.\footnote{In order to collect full interactions among App users
 as required in our experimentation, our App requested to collect
 information posted to \emph{friends'} timelines.  With such expressive
 permissions concerning friend interactions, most potential users were
 hesitant to install the App; hence, after an intensive one month user drive period
-at our University, we were able to attract the pool of users used in the experiments.  The difficulty
-of collecting data with such expressive App permissions suggests the importance
-of identifying a small subset of social features and permissions required to 
-obtain them in order to encourage App adoption by a wide audience.}
+at our University, we were able to attract the pool of users used in the experiments}
 From these core App users, the App has access to their detailed
 Facebook profiles and their \emph{complete} interactions with a total of 38,259
 friends.
 
 Our App tracks app user's (and their friends') details and
-interactions on Facebook.  Interactions that occur through wall posts
-provide a rich variety of content and interaction data.  We
-distinguish four Facebook items from wall posts: general posts (e.g.,
-status updates, activity updates such as new friends), links, photos
-and videos. Four main interactions on these items are permitted by
-Facebook: posting an item to a friend's wall, commenting, liking, and
-tagging. Furthermore, Facebook allows user to interact with entities
+interactions on Facebook. We distinguish four Facebook items from wall posts:
+general posts (e.g.,status updates, activity updates such as new friends), 
+links, photos and videos. Facebook allows commenting, liking and tagging on these items.
+Furthermore, Facebook allows user to interact with entities
 (groups, pages and favourites) via membership and liking. The App also
 keep tracks of the information of user's group membership, page likes
-and favourites.  The App does not track deletions of these items,
-interactions (e.g., unlike) and memberships for performance reasons
-and we found very few deletions during an initial testing stage.  We
-summarise relevant basic statistics of the data in
+and favourites. We summarise relevant basic statistics of the data in
 Tables~\ref{tab:interactions}--\ref{tab:likeinfo}.
 Table~\ref{tab:interactions} summarizes the number of records for each
 item (row) and interaction (column)
 combination. Table \ref{tab:interests} shows the group membership,
 page like and favourites counts for users.
+
+%We built a Facebook App\footnote{Name and link omitted
+%for anonymity.} to collect detailed user
+%interaction and activity history available through the Facebook Graph
+%API to build the SAG information as defined in Sec~\ref{ssec:sag}
+%along with user $u$'s preferences on recommended links $i$ solicited by the App on a daily basis
+%to build the $\likes(u,i)$ relation required in Sec~\ref{ssec:SAfeature}.
+%The data collection is performed with full permission from the user and in
+%accordance with an approved Ethics Protocol\footnote{Link omitted for
+%anonymity.}.
+
+%Over 119 users installed the Facebook App during the evaluation
+%period.\footnote{In order to collect full interactions among App users
+%as required in our experimentation, our App requested to collect
+%information posted to \emph{friends'} timelines.  With such expressive
+%permissions concerning friend interactions, most potential users were
+%hesitant to install the App; hence, after an intensive one month user drive period
+%at our University, we were able to attract the pool of users used in the experiments.  The difficulty
+%of collecting data with such expressive App permissions suggests the importance
+%of identifying a small subset of social features and permissions required to 
+%obtain them in order to encourage App adoption by a wide audience.}
+%From these core App users, the App has access to their detailed
+%Facebook profiles and their \emph{complete} interactions with a total of 38,259
+%friends.
+
+% Our App tracks app user's (and their friends') details and
+% interactions on Facebook.  Interactions that occur through wall posts
+% provide a rich variety of content and interaction data.  We
+% distinguish four Facebook items from wall posts: general posts (e.g.,
+% status updates, activity updates such as new friends), links, photos
+% and videos. Four main interactions on these items are permitted by
+% Facebook: posting an item to a friend's wall, commenting, liking, and
+% tagging. Furthermore, Facebook allows user to interact with entities
+% (groups, pages and favourites) via membership and liking. The App also
+% keep tracks of the information of user's group membership, page likes
+% and favourites.  The App does not track deletions of these items,
+% interactions (e.g., unlike) and memberships for performance reasons
+% and we found very few deletions during an initial testing stage.  We
+% summarise relevant basic statistics of the data in
+% Tables~\ref{tab:interactions}--\ref{tab:likeinfo}.
+% Table~\ref{tab:interactions} summarizes the number of records for each
+% item (row) and interaction (column)
+% combination. Table \ref{tab:interests} shows the group membership,
+% page like and favourites counts for users.
 %Table~\ref{tab:demographics} shows some demographics from %user profiles. 
 
-
-Our app recommends three links to users every day, where the users may give
-their feedback on the links indicating whether they liked it or
-disliked it. Users are recommended links that are collected either
-from both friends and non-friends. Throughout this paper, App user rated
-link data is used to evaluate the recommendation algorithms.
+Our app recommends three links collected from friends or non-friends to users every day, 
+where the users may give their feedback on the links indicating whether they liked it or
+disliked it. Throughout this paper, App user rated link data is used to evaluate the recommendation algorithms.
 Table~\ref{tab:likeinfo} shows the statistics of the app user rating
 for friend and non-friend recommendations.  We chose to only display
-three links per day in order to avoid rank-bias with preferences;
-furthermore each link could be \emph{independently rated} and in general
-user's rated all three links on a given day that they viewed their
-recommendations.
+three links per day in order to avoid rank-bias with preferences.
 
 Crucially we note that all data used in the subsequent experiments
 is offline batch data that has been stored and analyzed after the four month
@@ -141,7 +163,7 @@ Like& 1392 & 1127 \\
 Dislike& 895 & 2111\\
 \hline
 \end{tabular}
-\caption{Dataset breakdown of prediction target $like(u,i)$, by the source of the link (friend/non-friend) and value (true/false).}
+\caption{Dataset breakdown of prediction target $like(u,i)$, by the source of the link (friend/non-friend) and value (like/dislike).}
 \label{tab:likeinfo}
 \end{table}
 
