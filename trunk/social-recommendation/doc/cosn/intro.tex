@@ -12,12 +12,11 @@ available a rich labeled graph structure of social interactions and
 content from which user preferences can be learned and new
 recommendations can be made.
 
-Existing recommendation methods for social networks aggregate this
+Existing social recommendater systems aggregate this
 rich social information into a simple measure of user-to-user interaction 
 that can be leveraged to model user homophily via social
-regularization~\cite{lla,socinf,sr,rrmf, Noel2012NOF}, a trust
-ensemble~\cite{ste}, or a low-rank factorization of the social
-interactions matrix~\cite{sorec}.  But in aggregating all of these
+regularization~\cite{lla,socinf,sr,rrmf, Noel2012NOF},or a trust
+ensemble~\cite{ste}.  But in aggregating all of these
 interactions and common activities into a single strength of
 interaction, we ask whether important preference information has been
 discarded?  Indeed, the point of departure for this work is the
@@ -45,20 +44,22 @@ API along with user preferences solicited by the App on a daily basis.
 Specifically, each day our App recommends three links to each App user 
 that are collected from the timeline of other users (both friends and
 non-friends) and we record users' explicit likes and dislikes of these
-recommended links.  Given this data, we define \emph{social affinity
+recommended links. Given this data, we define \emph{social affinity
 groups (SAGs)} of a target user by analysing their fine-grained
-interactions (e.g., users who have been tagged in the target user's
-video) and activities (e.g., users who have joined the same special
+interactions (e.g., users who have liked the link posted by target user)
+and activities (e.g., users who have joined the same
 interest group that the target user has joined).  Given these SAGS, we
-(a) learn to predict whether a user will like an item based on members
+(1) learn to predict whether a user will like an item based on members
 of other SAGs who have also liked the item using a novel
 recommendation method we call {\em social affinity filtering (SAF)},
 and (2) analyse the relative informativeness of different SAGs based
-on various properties such as type, size, and exposure.
+on type and size.
+
 
 In the four months that our App was active, we collected data for a set of 
-Facebook app users and their full interactions with 38,000+ friends along with 22
-distinct types of interaction and users activity for 3000+ groups, 4000+ favourites, and 10,000+ pages. 
+Facebook app users and their full interactions with 38,000+ friends
+%along with 22distinct types of interaction
+and users activity for 3000+ groups, 10,000+ pages and 4000+ favourites. 
 In subsequent sections that outline our experimental methodology and results in detail, 
 we make the following critical observations:
 \begin{itemize}
@@ -68,6 +69,7 @@ systems, by up to 6\% in accuracy -- in short, fine-grained
 interactions are very informative, bringing into question the efficacy of 
 previous social recommendation approaches that aggregate user-to-user interactions into 
 a single numerical value.
+
 % Also, what about combining all features?  Not enough data?  -SPS
 % Probably also much faster -- should we show a table of train and test times?  -SPS
 %\item We also found that groups, pages, and favourites make for more informative
@@ -76,9 +78,9 @@ a single numerical value.
 %rather than just a user's friends (where the data is considerably limited).
 
 \item Among the interactions, we found that those on videos are more predictive than those on other content types (photos, post, link), and that outgoing interactions (performed by the ego on the alter) 
-are more predictive than incoming ones (performed by alters on the ego's timeline),
-although the level of exposure of an ego to an alter's preferences is more 
-important than the directionality of the interaction with the alters.
+are more predictive than incoming ones (performed by alters on the ego's timeline).
+%although the level of exposure of an ego to an alter's preferences is more 
+%important than the directionality of the interaction with the alters.
 % Below: not sure I quite understand ``persistent'' and ``temporally synchronized'' here... 
 % are there better terms or can they be further (briefly) explained?  -SPS
 \item %{\bf TODO: see Latex comments.} 

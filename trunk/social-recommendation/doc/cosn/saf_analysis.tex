@@ -15,7 +15,7 @@ filtering algorithms: Nearest Neighbor (NN)~\cite{bellkor}, Matrix Factorization
 and Social MatchBox (SMB)~\cite{Noel2012NOF} -- an extension of matrix
 factorization that encourages more homophily for pairs of users with
 more interactions. To make a distinction between Interaction and Activity based SAF, 
-we add suffix ISAF and ASAF respectively to NB, LR and SVM models. We train model using
+we add a suffix ISAF and ASAF respectively to NB, LR and SVM. We train model using
 10-fold cross validation and the error bars corresponds to 95\% confindence interval.
 
 Fig~\ref{Fig1} compares the accuracies of the baseline methods 
@@ -27,13 +27,12 @@ Matchbox~\cite{Noel2012NOF} and other baselines except for na\"{i}ve Bayes,
 we conjecture this is due to the correlations between SAGs that cause na\"{i}ve
 Bayes to over- or under-estimate the true probability of likes.
 
-
 Fig \ref{Fig1} shows that the page likes were the most predictive among
-the interaction and activities SAGs.Returning to our conjecture that data 
+the interaction and activities SAGs. Furthermore, these results may indicate
+that there is more social affinity between users having same page likes
+than other activities. Returning to our conjecture that data 
 sparsity can hurt SAF, we note from Table~\ref{tab:interests} that page 
-likes are more prevalent than groups and favourites. Moreover, these 
-results may indicate that there is more social affinity between users having same page likes
-than other activities.
+likes are more prevalent than groups and favourites. 
 
 %In general we note in Fig~\ref{Fig1} that activities appear to be
 %more predictive than interactions, but we believe the reasons for this
@@ -57,17 +56,17 @@ than other activities.
 %favourites in common.
 
 We note that the key difference of SAF vs. SCF is
-that SAF exploits the predictiveness of fine-grained interactions ---
-it breaks down into groups, whereas most SCF
-approaches~\cite{Noel2012NOF,lla,socinf,sr,rrmf,sorec,ste} is that
-instead of collapsing a diverse set of interactions into aggregate
-statistics such as the number of interactions between user $u_1$ and
-user $u_2$, regardless of different modality, action and direction.
+that SAF exploits the predictiveness of fine-grained interactions, whereas most SCF
+approaches~\cite{Noel2012NOF,lla,socinf,sr,rrmf,sorec,ste} collapse a diverse set
+ of interactions into aggregate statistics such as the number of interactions 
+between user $u_1$ and user $u_2$, regardless of different modality, action and direction.
 Clearly there is a great deal of benefit deriving from the fine-grained 
 interactions indicating why without modeling any latent space and using 
 a simple linear classifier, SAF can outperform SCF methods based on matrix
 factorization approaches that attempt to learn latent user and item
-features.
+features. On a final note, we remark that SAF is more robust to cold start 
+problem: this is because SAF learns from the SAGs which are derived from 
+inherently available user's information (interactions and activities).
 
 %On two final notes, we remark that SAF yields a computational and
 %optimization advantage over SCF in that it is straightforward and
@@ -81,7 +80,7 @@ features.
 %this is simply because nothing SAF learns is user dependent, it learns
 %to weight SAGs independent of any particular user.
 
-Given the clearly demonstrated benefits of SAF, we now proceed in the
+Given the benefits of SAF, we now proceed in the
 next section to analyse the two primary types of SAG features
 (interactions and activities) to better understand characteristics of
 both informative and uninformative SAGs in each context and the social
