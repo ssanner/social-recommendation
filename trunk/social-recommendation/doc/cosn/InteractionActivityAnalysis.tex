@@ -164,8 +164,9 @@ informativeness of Activity SAGs with respect to its size.
 
 %namely those SAGs that are built w.r.t. a user $u$'s interactions.
 A general method for measuring the amount of information that a 
-feature $X$ provides w.r.t. predicting another variable $Y$ (in this
-case likes or dislikes) is to calculate its conditional entropy:
+feature $X$ provides w.r.t. predicting another variable $Y$ 
+%(in this case likes or dislikes) 
+is to calculate its conditional entropy:
 \begin{align*}
 H(Y&|X=True)\\
 & = -\sum_{y\in{(\like,\dislike)}} p(y|X=true) \ln( p(y|X=true))
@@ -181,7 +182,8 @@ occurrences of the feature (or $P(X=True)$), and give trivial results.
 %interactions: modality, action, and directionality. 
 Table~\ref{table:ce_interaction} shows the conditional entropy for Interactions based on modality, action and direction. Here we observe,
 \begin{itemize}
-\item Interaction on {\em videos} seem to have a stronger preferential affinity 
+\item 
+Interaction on {\em videos} seem to have a stronger preferential affinity 
 than other modalities such as links, posts and photos.  This could be
   due to the fact that video viewing is time-consuming and users
   inherently only watch the videos of those whose preferences they

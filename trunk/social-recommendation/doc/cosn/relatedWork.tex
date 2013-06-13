@@ -7,16 +7,18 @@
 %interactions and profile to user preference, 
 
 This work relates to many others in inferring user preferences on social and information networks. 
-We structure the discussion into three parts: the first is concerned with the nature and observations on user traits, interactions and diffusion mechanisms; the second is concerned with correlating these user traits and interactions to user preferences and interests; %and the strength of social ties.
-the third is concerned with methods that uses these observations for predicting user interest or recommending content on social networks.
+We structure the discussion into two parts: 
+%the first is concerned with the nature and observations on user traits, interactions and diffusion mechanisms;
+the first is concerned with correlating these user traits and interactions to user preferences and interests; %and the strength of social ties.
+the second is concerned with methods that uses these observations for predicting user interest or recommending content on social networks.
 
-The first group of related work studies the nature of user profile, interactions, and diffusion.
-Profile information and demographics is correlated with user behavior
-patterns. Chang et al.\cite{Chang2010ethnicity} showed that the tendency to
-initiate a Facebook friendship differs quite widely across ethnical
-groups, while Backstorm et al.\cite{backstrom2011center} have additionally showed that female and male users have opposite tendencies for dispersing attention for within-gender and across-gender communication.
-Two particular measurement studies on Facebook attention~\cite{wilson2009user,backstrom2011center} have inspired our work.  Although the average number of friends for a Facebook user is close to the human psychological limit, known as the Dunbar number~\cite{hill2003social}, the findings concur that a user's attention (i.e., interactions) are divided among a much smaller subset of Facebook friends. \cite{backstrom2011center} studied two types of attention: communication interaction and viewing attention (e.g. looking at profiles or photos). Users' communication attention is focused on small numbers of friends, but viewing attention is dispersed across all friends.
-This finding supports our approach of looking at many types of user interactions across all of a user's contact network, as a user's interest is driven by where he or she focuses attention on.
+%The first group of related work studies the nature of user profile, interactions, and diffusion.
+%Profile information and demographics is correlated with user behavior
+%patterns. Chang et al.\cite{Chang2010ethnicity} showed that the tendency to
+%initiate a Facebook friendship differs quite widely across ethnical
+%groups, while Backstorm et al.\cite{backstrom2011center} have additionally showed that female and male users have opposite tendencies for dispersing attention for within-gender and across-gender communication.
+%Two particular measurement studies on Facebook attention~\cite{wilson2009user,backstrom2011center} have inspired our work.  Although the average number of friends for a Facebook user is close to the human psychological limit, known as the Dunbar number~\cite{hill2003social}, the findings concur that a user's attention (i.e., interactions) are divided among a much smaller subset of Facebook friends. \cite{backstrom2011center} studied two types of attention: communication interaction and viewing attention (e.g. looking at profiles or photos). Users' communication attention is focused on small numbers of friends, but viewing attention is dispersed across all friends.
+%This finding supports our approach of looking at many types of user interactions across all of a user's contact network, as a user's interest is driven by where he or she focuses attention on.
 
 % The mechanisms of diffusion invites interesting mathematical and empirical investigations. 
 % %of diffusion has generated many interesting observations. 
@@ -40,18 +42,18 @@ This finding supports our approach of looking at many types of user interactions
 
 % The nature of social diffusion seem to be not only democratic~\cite{asur2011trends,Bakshy2011everyone}, but also broadening for users~\cite{Bakshy2012chamber}. While influential users are important for cascade generation~\cite{Bakshy2011everyone}, large active groups of users are needed to contribute for the cascade to sustain~\cite{asur2011trends}. Moreover, word-of-mouth diffusion can only be harnessed reliably by targeting large numbers of potential influencers, confirmed by observations on Twitter~\cite{Bakshy2011everyone} and online ads~\cite{influence}. In a study facilitated by A/B testing on Facebook links, \cite{Bakshy2012chamber} found that while people are more likely to share the information they were exposed to by their strong ties than by their weak ties, the bulk of information we consume and share comes from people with different perspectives (weak ties). Our Facebook App is intended to bridge this gap between insights from these observations and predicting user actions.
 
-The second group of related work tries to correlate from user interactions to preferences and tie strength. 
+The first group of related work tries to correlate from user interactions to preferences and tie strength. 
 Saez-Trumper et al~\cite{saez2011high} found that incoming and outgoing actives are
 highly correlated on broadcast platforms such as Facebook and Twitter.
 %and such correlation does not hold in one-to-one mode of communicationsuch as email.
-Multiple studies[~\cite{singla2008yes}, ] have found that online interactions
+Multiple studies  have found that online interactions
 tend to correlate more with interests than with user profile. Singla et al.~\cite{singla2008yes} found that user who frequently interact (via MSN chat) tend to share (web search) interests. 
 Anderson et al.~\cite{Anderson2012} concluded that the level of user activities correlate with the positive ratings that they give each other, i.e., it is less about what they say (content of posts) but more about who they interacted with. Such findings echo those by Brandtzag~\cite{brandtzag2011facebook}
 that real-world interactions (e.g., appearing in the same photo) further strengthens friendship on Facebook, while virtual interactions reveal interests. Furthermore, ratings of real-world friendship strength and trust~\cite{gilbert2009predicting} seems to be better predicted from the intimacy, intensity, and duration of interactions, than from social distance and network structure. 
 Our work is not only inspired by these observations, we also quantifying the strength of correlations 
 of user interest with a large variety of user affinities -- namely, activities, and group preferences in different categories.
 
-The last group of related work is concerned with using social network and behavior information for recommendation. 
+The second group of related work is concerned with using social network and behavior information for recommendation. 
 Matrix factorization is one of the prevailing approaches for recommender systems~\cite{koren2009matrix}.
 Recent advances include extending matrix factorization to user social relation in regularization~\cite{sr,rrmf}, 
 %to take into account multiple relations~\cite{tf,Jiang2012SRA},  
@@ -59,7 +61,12 @@ and to model social context~\cite{Jiang2012SCR}.
 In particular, there are different designs for using social information to regularize objective functions~\cite{lla}, a trust
 ensemble~\cite{ste}, 
 %a low-rank factorization of the social interactions matrix~\cite{sorec},
-or social-spectral regularization that takes into account user and item features~\cite{Noel2012NOF}.  These systems have shown very promising performance across a range of problems, but their all collapse social affinity (fine-grained interactions and group affinity) into one or a very low-dimensional representation. The point of departure of this work is to explore the rich affinity structure, we compared a recent matrix factorization approach~\cite{Noel2012NOF} and found SAF with simple classifiers outperform state-of-the-art.
+or social-spectral regularization that takes into account user and item features~\cite{Noel2012NOF}. 
+These systems have shown very promising performance across a range of problems, but their all collapse 
+social affinity (fine-grained interactions and group affinity) into one or a very low-dimensional 
+representation. The point of departure of this work is to explore the rich affinity structure, 
+we compared a recent matrix factorization approach~\cite{Noel2012NOF} and found SAF with simple 
+classifiers outperform the state-of-the-art.
 
 %In the context of recent work on social
 %recommendation~\cite{sorec,ste,lla} 
@@ -69,11 +76,11 @@ or social-spectral regularization that takes into account user and item features
 %actually reflective of common preferences.
 
 %Additional work on predicting user actions join multiple social networks, and explores logical representation of user actions. Nori et al.~\cite{nori2011exploiting} examines the predictability of user actions on Twitter from actions in both Twitter and Del.icio.us. The study uses both linear regression and an bipartite graph model that outperformed state-of-the-art models. Gomes et al.~\cite{gomes2011social} derived rules for Facebook interactions using a psychology-inspired formal symbolic language. 
-%Our affinity definition is based on direct interactions within a users' ego network, this is complementary to 
-%a recent alternative~\cite{Panigrahy2012ubr} that uses number of paths between two users encodes the resilience of network structure, 
-%as it was recently found~\cite{Goel2012structure} that the vast majority of information diffusion
-%happens within one step from the source node. 
-%These work are most closely related to ours, yet none has examined such a diverse set of user actions in the same context: one-on-one interactions (e.g. commenting), broadcast (e.g. posting, sharing), and co-preference (e.g. likes). 
+Finally, Our affinity definition is based on direct interactions within a users' ego network, this is complementary to 
+a recent alternative~\cite{Panigrahy2012ubr} that uses number of paths between two users encodes the resilience of network structure, 
+as it was recently found~\cite{Goel2012structure} that the vast majority of information diffusion
+happens within one step from the source node. 
+These work are most closely related to ours, yet none has examined such a diverse set of user actions in the same context: one-on-one interactions (e.g. commenting), broadcast (e.g. posting, sharing), and co-preference (e.g. likes). 
 %From data mining these rules, ranking them on confidence and support, the study found users are more likely to `like' another user's post or comment than to actively comment on it, and that the action of a `like' or `comment' by one user does not affect the involvement of other users in social interactions.
 
 %% No longer fits cleanly in the intro, should be moved into related
@@ -90,11 +97,12 @@ or social-spectral regularization that takes into account user and item features
 %that a user's attention (i.e., interactions) are divided among a small subset of Facebook friends~\cite{backstrom2011center}, and that ratings of real-world friendship strength seems to be more predictable from the intimacy, intensity, and duration of interactions, than from social distance and structural information~\cite{gilbert2009predicting}. 
 
 
-In summary, our study is motivated by overall utility of diverse and fine-grained user interactions.
-To the best of our knowledge, this is the first work that systematically analyze social affinity using
-fine-grained interaction and activities.  We show that rich affinity features outperform state-of-the-art
-recommendation approaches, and we observe that contents in the {\em long tail} tend to be more predictive,
-and quantified the correlation of a large variety of affinity traits with user preferences.
+%In summary, our study is motivated by overall utility of diverse and fine-grained user interactions.
+To the best of our knowledge, this is the first work on social recommender systems that systematically analyze social affinity using
+fine-grained interaction and activities.  
+%We show that rich affinity features outperform state-of-the-art
+%recommendation approaches, and we observe that contents in the {\em long tail} tend to be more predictive,
+%and quantified the correlation of a large variety of affinity traits with user preferences.
 %our observations confirm the effect of demising returns on repeated exposure, 
 
 %we confirm many of the observations made in the literature while shedding new light on some of these effects (and new causes of these effects) for a rich set of Facebook user and interaction data.
