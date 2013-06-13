@@ -2,32 +2,102 @@
 %!TEX root = document.tex
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \begin{table}
+% \hspace{-10mm}
+% \centering
+% {\footnotesize
+% 	%\begin{tabular}{ll}
+% 	%\hspace{7mm}
+%     \begin{tabular}{| >{\small}l | >{\small}r | }
+%         \hline
+%         \textbf{ Modality ($X$)} & $H(Y|X=true)$ \\
+%         \hline
+%         { video } & 0.850 \\
+%         \hline
+%         { link } & 0.915 \\
+%         \hline
+%         { post } & 0.918 \\
+%         \hline
+%         { photo } & 0.926 \\
+%         \hline
+%        % \end{tabular}
+%        % &
+% 		\multicolumn{2}{c}{}\\
+
+% 		%\begin{tabular}{| >{\small}l | >{\small}r | }
+%         \hline
+%         \textbf{Action ($X$)}  & $H(Y|X=true)$ \\
+%         \hline
+%         { tags }  &  0.920 \\
+%         \hline
+%         { comments }  &  0.921 \\
+%         \hline
+%         { likes }  &  0.924 \\
+%         \hline
+%         %\end{tabular}
+%    %\end{tabular}
+     
+ 		     
+% 		\multicolumn{2}{c}{}\\
+% 		%\vspace{2mm}
+%     	%\hspace{-36mm}
+%     	%\begin{tabular}{| >{\small}l | >{\small}r | }
+%         \hline
+%         \textbf{ Direction ($X$) } & $H(Y|X=true)$ \\
+%         \hline
+%         { outgoing }  &  0.928 \\
+%         \hline
+%         { incoming }  &  0.935 \\
+%         \hline
+% 	\end{tabular}}
+% 	\caption{Conditional entropy of various interactions (lower conditional
+% 	entropies are more informative).}
+% 	\label{table:ce_interaction}
+% 	\vspace{-2mm}
+% \end{table}
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{table}
-\centering
+\hspace{-10mm}
+%\centering
 {\footnotesize
-    \begin{tabular}{| >{\small}l | >{\small}r | }
-        \hline
-        \textbf{ Modality ($X$)} & $H(Y|X=true)$ \\
-        \hline
-        { video } & 0.850 \\
-        \hline
-        { link } & 0.915 \\
-        \hline
-        { post } & 0.918 \\
-        \hline
-        { photo } & 0.926 \\
-        \hline
-\multicolumn{2}{c}{}\\
-        \hline
-        \textbf{Action Type ($X$)}  & $H(Y|X=true)$ \\
-        \hline
-        { tags }  &  0.920 \\
-        \hline
-        { comments }  &  0.921 \\
-        \hline
-        { likes }  &  0.924 \\
-        \hline
-\multicolumn{2}{c}{}\\
+	\begin{tabular}{ll}
+		\hspace{7mm}
+    	\begin{tabular}{| >{\small}l | >{\small}r | }
+	        \hline
+	        \textbf{ Modality ($X$)} & $H(Y|X=true)$ \\
+	        \hline
+	        { video } & 0.850 \\
+	        \hline
+	        { link } & 0.915 \\
+	        \hline
+	        { post } & 0.918 \\
+	        \hline
+	        { photo } & 0.926 \\
+	        \hline
+	       \end{tabular}
+       % &
+		%\multicolumn{2}{c}{}\\
+
+			\begin{tabular}{| >{\small}l | >{\small}r | }
+	        \hline
+	        \textbf{Action ($X$)}  & $H(Y|X=true)$ \\
+	        \hline
+	        { tags }  &  0.920 \\
+	        \hline
+	        { comments }  &  0.921 \\
+	        \hline
+	        { likes }  &  0.924 \\
+	        \hline
+	        \end{tabular}
+	  \end{tabular}
+     
+ 		     
+		%\multicolumn{2}{c}{}\\
+		\vspace{2mm}
+    	%\hspace{-36mm}
+    	\begin{tabular}{| >{\small}l | >{\small}r | }
         \hline
         \textbf{ Direction ($X$) } & $H(Y|X=true)$ \\
         \hline
@@ -35,13 +105,16 @@
         \hline
         { incoming }  &  0.935 \\
         \hline
-	\end{tabular}}
+		\end{tabular}}
 	\caption{Conditional entropy of various interactions (lower conditional
 	entropies are more informative).}
 	\label{table:ce_interaction}
 	\vspace{-2mm}
 \end{table}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
 %   
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % %\begin{table*}
@@ -117,7 +190,8 @@ than other modalities such as links, posts and photos.  This could be
   commenting and liking, likely because the majority of tags contains 
   person name(s) on Facebook, indicating a direct social interaction. 
   % indicating that tagging.
-\item A user is more likely to share preferences with someone who she
+\item Outgoing interactions are more predictive than incoming interactions.
+  It indicates that a user is more likely to share preferences with someone who she
   initiates the interaction with (outgoing) vs. with someone who
   initiates the interaction with her (incoming).  
 \end{itemize}
@@ -188,8 +262,8 @@ than other modalities such as links, posts and photos.  This could be
 
 Fig \ref{Fig3} shows the relationship between conditional
     entropy and the size of activity groups. For public activity ({\em Pages} and 
-    {\em Favorites}) it is total number of facebook user in activity group, whereas
-    for {\em Groups}(which are generally private) its total number of user in App 
+    {\em Favorites}) size refers to the total number of facebook user in activity group, whereas
+    for {\em Groups}(which are generally private) it's total number of user in App 
     user's ego network. Fig \ref{Fig3} shows that the activity groups of small 
     size can be highly predictive whereas large groups are rarely predictive.
 
@@ -320,7 +394,7 @@ In Fig~\ref{Fig4} we plot the average conditional entropy of the top
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure*}[tbp!]
 \centering
-\includegraphics[width=160mm,height=40mm]{data/plots/cumulativeEntropy/cumulative.eps}
+\includegraphics[width=160mm,height=35mm]{data/plots/cumulativeEntropy/cumulative.eps}
 \caption{Average conditional entropy of top 10\% groups, pages and favourites features cumulative over the size }
 \label{Fig4}
 \end{figure*}
@@ -329,7 +403,7 @@ In Fig~\ref{Fig4} we plot the average conditional entropy of the top
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure*}[tbp!]
 \centering
-\includegraphics[width=180mm, height=35mm]{data/plots/boxPlots/CEvsFavTypes.eps}
+\includegraphics[width=160mm, height=35mm]{data/plots/boxPlots/CEvsFavTypes.eps}
 \caption{Conditional entropy for top 1000 favourites breakdown by categories}
 \label{Fig5}
 \end{figure*}
