@@ -19,8 +19,8 @@ We call our recommendation algorithm \textit{Social Affinity Filtering (SAF)}, a
 $like(u,i)$ through the preference of their 
 \textit{ Social Affinity Groups (SAG)}, i.e. a set of users with known preferences to link $i$, and who has at least one interaction or activity in common with $u$. 
 
-\subsection{Action types on Facebook}
-On Facebook, We use the term {\em Interactions} and {\em Activities} to refer to the range of user-user and user-community actions, respectively.
+\subsection{Interactions and Activities on Facebook}
+On Facebook, we use the term {\em Interactions} and {\em Activities} to refer to the range of user-user and user-community actions, respectively.
 \noindent {\bf Interactions} describes the user-user communication in Facebook and can be defined in terms of modality, action and direction.
 \begin{itemize}
 \item \textbf{Modality:} (4 possibilities)
@@ -43,9 +43,14 @@ then this is an outgoing interactions for $u$, and an incoming interactions for 
 %affects user preferences differently is still an open question we wish to answer
 %in this work. 
 %then $u$ is in the set of incoming interactions for $v$
-%and $v$ is in the set of outgoing interactions for $u$.
-      								
+%and $v$ is in the set of outgoing interactions for $u$.							
 \end{itemize}
+ We define set of all possible interactions as cartesian product of modality, action and direction
+\begin{align*}
+  	\textit{Interactions} := \, & \{\link, \post, \photo, \video\} \\
+                                                & \times \{\like, \ttag, \comment\} \\
+                                                & \times \{\incoming, \outgoing\}
+  \end{align*}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \eat{
@@ -73,7 +78,7 @@ and analysed subsequently.}
 {\bf Activities} describes the user interactions with Facebook entities namely \textbf{Groups}\footnote{Facebook Blog (Groups/Pages): \surl{http://www.facebook.com/blog/blog.php?post=324706977130}\label{fn:fbblog}},
 \textbf{Pages}\textsuperscript{\ref{fn:fbblog}} and \textbf{Favourites}\footnote{Facebook Blog (Favourites): \surl{https://www.facebook.com/help/232262810142682}} .
 In general, facebook \textit{groups} are place for small group communication for people who share common interests whereas facebook \textit{pages} are publicly visible profiles for people, organization, events and
-topics where user can subscribe updates and engage in discussions. Facebook \texit{favourites} are the bookmarks created by users for various digital items such as books, music, facebook apps etc.
+topics where user can subscribe updates and engage in discussions. Facebook \textit{favourites} are the bookmarks created by users for various digital items such as books, music, facebook apps etc.
 
 
 %{\bf Activities} describes the user interactions with Facebook entities like groups, pages, favourites \footnote{Facebook Blog (Favourites): \surl{https://www.facebook.com/help/232262810142682}}.
@@ -130,30 +135,26 @@ analysis of the informativeness of Interactions and Activities.We divide our rec
 on Interactions and Activities of 
 }
 
-Based on the definitions of {\em interaction}  and {\em activities} above, 
-%\textit{ Social Affinity Groups (SAG)} with target item, 
-we define two types of {\em social affinity groups} of a user with a target item,
-namely \textit{Interaction  Social Affinity Groups (ISAG)} and \textit{Activity Social Affinity Groups (ASAG)}.
-
-\begin{itemize}
-  \item \textbf{Interaction  Social Affinity Groups}. First we define, interaction affinity classes as cartesian-product of 
-  Interaction modality, action and direction.
-  %\begin{quote}
-  \begin{align*}
-  	\textit{Interaction Affinity Classes} := \, & \{\link, \post, \photo, \video\} \\
-                                                & \times \{\like, \ttag, \comment\} \\
-                                                & \times \{\incoming, \outgoing\}
-  \end{align*}
-  %\end{quote}
-  %Additionally, we add friendship interaction affinity class. \\
-  We define,\\
-  \textit{ISAG(u, k)} $:=$ \textit{the set of the users who have interaction $k$ with user $u$}.\\
+We define  {\em social affinity groups} (SAG) for user $u$ as a set of other users based on their interactions and activity with user $u$.\\
+For Interaction we define SAG as,
+\begin{quote}
+	\textit{SAG(u, k)} $:=$ \textit{the set of the users who have interaction $k$ with user $u$}.\\
    For example,
-   %\begin{quote}
-   \textit{ISAG(u, link-like-incoming)}  is a set of users who have liked link posted by user $u$.
-   %\\
-   %\textit{ISAG(u, photo-comment-outgoing)} is the set of all users whose photos received at least one comment from $u$.
-   %\end{quote}
+   \textit{SAG(u, link-like-incoming)}  is a set of users who have liked link posted by user $u$.
+\end{quote}
+Similarly, for activities we define SAG as,
+\begin{quote}
+\textit{SAG(u, k)} $:=$
+							\begin{math} 
+							\begin{Bmatrix}
+								members(k) & if\ u \in members(k)\\ 	
+								\varnothing & otherwise
+							\end{Bmatrix}
+							\end{math}
+	where, 	\textit{members(k)} $:=$ set of users who joined, liked, or favourited activity k.
+\end{quote}	
+
+\eat{
 \item \textbf{Activity Social Affinity Groups}: We define activity social affinity groups based on group membership, page likes and user favourites.\\ \\
 	\textit{ASAG(u, k)} $:=$
 							\begin{math} 
@@ -166,8 +167,7 @@ namely \textit{Interaction  Social Affinity Groups (ISAG)} and \textit{Activity 
 	%\begin{quote}
 	%\textit{ASAG(u, k)} $:=$ the set of the users who have common preference for entity $k$ (group, page, favourite) with user $u$.   
 	%\end{quote}
-\end{itemize}
-
+}
 
 \subsection{Social Affinity Features}
 \label{ssec:SAfeature}
@@ -180,7 +180,7 @@ We define Interaction and Activity affinity features for target user $u$ and ite
    \end{Bmatrix}
   \end{equation*}
 
-SAG corresponds to ISAG and ASAG for Interaction and Activity features respectively. Furthermore, we add extra friend feature for interaction which encodes whether the target item $i$ is liked by friend or not.
+We append additional feature to Interaction features which encodes whether the target item $i$ is liked by friend or not.
 
 % \begin{itemize}
 %   \item   
