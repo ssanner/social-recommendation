@@ -168,15 +168,15 @@ feature $X$ provides w.r.t. predicting another variable $Y$
 %(in this case likes or dislikes) 
 is to calculate its conditional entropy:
 \begin{align*}
-H(Y&|X=True)\\
+H(Y&|X=true)\\
 & = -\sum_{y\in{(\like,\dislike)}} p(y|X=true) \ln( p(y|X=true))
 \end{align*}
 
 In general, a lower conditional entropy indicates a more informative
-feature. Here we use entropy conditioned on sparse features $X=True$ 
+feature. Here we use entropy conditioned on sparse features $X=true$ 
 instead of just $H(Y~|~X)$ or mutual information $I(Y; X)$, as we found 
 that the alternatives are highly correlated with (or dominated by) the number of 
-occurrences of the feature (or $P(X=True)$), and give trivial results. 
+occurrences of the feature (or $P(X=true)$), and give trivial results. 
 
 %As defined in Sec~\ref{sec:methodology}, we have three distinctions for user
 %interactions: modality, action, and directionality. 
@@ -187,10 +187,9 @@ Interaction on {\em videos} seem to have a stronger preferential affinity
 than other modalities such as links, posts and photos.  This could be
   due to the fact that video viewing is time-consuming and users
   inherently only watch the videos of those whose preferences they
-  often share.
-\item Tagging has a slightly lower conditional entropy than
-  commenting and liking, likely because the majority of tags contains 
-  person name(s) on Facebook, indicating a direct social interaction. 
+  often share. Similarly, \textit{tagging} has a slightly lower conditional entropy than
+  \textit{commenting} and \textit{liking}, likely because tagging indicates a direct
+  social interaction. 
   % indicating that tagging.
 \item Outgoing interactions are more predictive than incoming interactions.
   It indicates that a user is more likely to share preferences with someone who she
@@ -363,7 +362,7 @@ In Fig~\ref{Fig4} we plot the average conditional entropy of the top
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[tbp!]
 %\centering
-\hspace{-8mm}
+\hspace{-4mm}
 \begin{tabular}{ccc}
 \subfloat[Fig:][]{\includegraphics[width=32mm, height=30mm]{data/plots/new/CEvsGroupSize.eps}}
 \subfloat[Fig:][]{\includegraphics[width=32mm, height=30mm]{data/plots/new/CEvsPageSize.eps}}
