@@ -1,8 +1,9 @@
 %!TEX root = document.tex
 
 
-As illustrated in Fig~\ref{fig:overview}, the high-level objective of this paper is to predict whether or not a user $u$ will like a digital item $i$ (in our test case, a link). 
-We define user $u$'s preference for link $i$ as $like(u,i)$, this will be our prediction target. 
+%As illustrated in Fig~\ref{fig:overview}, 
+The high-level objective of our work is to predict whether or not a user $u$ will like a digital item $i$ (in our test case, a link). 
+We define user $u$'s preference for link $i$ as $likes(u,i)$ 
 \begin{quote}
 \begin{math}
 likes(u,i) =  \begin{Bmatrix}
@@ -47,6 +48,7 @@ then this is an outgoing interactions for $u$, and an incoming interactions for 
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\eat{
 \begin{figure}[t!]
 \centering
 \includegraphics[width=1\linewidth,height=50mm]{data/overview}
@@ -59,6 +61,7 @@ SAGs showing stronger affinity with an ego as learned by \emph{social affinity f
 and analysed subsequently.}
 \label{fig:overview}
 \end{figure}
+}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %There are a total of 22 interaction types. Namely the cross-product of modalities, actions and directions, minus {\em link-tag-\{incoming, outgoing\}} since links cannot be tagged in Facebook.
