@@ -135,11 +135,11 @@ analysis of the informativeness of Interactions and Activities.We divide our rec
 on Interactions and Activities of 
 }
 
-We define  {\em social affinity groups} (SAG) for user $u$ as a set of other users based on their interactions and activity with user $u$.\\
-For Interaction we define SAG as,
+{\em Social affinity groups} (SAG) for a user $u$ is a set of users with specified interactions or shared activity with user $u$.\\
+For Interaction, we define SAG as
 \begin{quote}
 	\textit{SAG(u, k)} $:=$ \textit{the set of the users who have interaction $k$ with user $u$}.\\
-   For example,
+   For example,\\
    \textit{SAG(u, link-like-incoming)}  is a set of users who have liked link posted by user $u$.
 \end{quote}
 Similarly, for activities we define SAG as,
@@ -151,7 +151,9 @@ Similarly, for activities we define SAG as,
 								\varnothing & otherwise
 							\end{Bmatrix}
 							\end{math}
-	where, 	\textit{members(k)} $:=$ set of users who joined, liked, or favourited activity k.
+	where, 	\textit{members(k)} $:=$ set of users who joined, liked, or favourited activity k.\\
+	For example,\\
+	SAG(u, \textit{The Economist Page}) $:=$ set of users who liked \textit{The Economist} page if user $u$ liked \textit{The Economist page} else empty set.
 \end{quote}	
 
 \eat{
@@ -180,7 +182,7 @@ We define Interaction and Activity affinity features for target user $u$ and ite
    \end{Bmatrix}
   \end{equation*}
 
-We append additional feature to Interaction features which encodes whether the target item $i$ is liked by friend or not.
+Furthermore, we append additional feature to Interaction features which encodes whether the target item $i$ is liked by any of $u$'s friend or not.
 
 % \begin{itemize}
 %   \item   
