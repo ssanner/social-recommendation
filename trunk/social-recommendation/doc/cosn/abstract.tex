@@ -3,34 +3,53 @@ learning user preferences from a rich set of avialable social information.
 %and complex set of interactions (e.g., likes, comments and tags for posts, photos and videos) and
 %activities (e.g., favourites, group memberships, page likes).  
 While many social collaborative filtering approaches learn from aggregate statistics over the
-social information, we propose a different approach: we first define
+social information, we propose a novel method, \textbf{\textit{social affinity filtering} (SAF)}, 
+that take into account the fine-grained social interactions (e.g., likes, comments and tags for 
+links, posts, photos and videos) and activites (eg, group memberships, page likes, favourites) 
+information. We show that SAF yields higher accuracy than than a range of state-of-the-art 
+(social) collaborative filtering approaches.
+\eat{
+we propose a different approach that leverages the fine grain-interactions(e.g., likes, comments and tags for links, posts, photos and videos) 
+and activites(eg, group memberships, page likes, favourites)
+: we first define
 social affinity groups (SAGs) of a target user by analysing their
 fine-grained interactions (e.g., likes, comments and tags for posts, photos and videos) 
 and activities (e.g., group memberships, page likes, favourites).  Then we define Social 
 affinity features based on SAGs and learn the target user's preferences
-in a method we term \textbf{\textit{social affinity filtering} (SAF)}.
+in a method we term \textbf{\textit{social affinity filtering} (SAF)}.}
 %Then we learn which SAGs are most predictive of the target user's preferences
-%in a method we term social affinity filtering (SAF). 
-We apply SAF to preference data from a set of Facebook users and their
-complete interactions with 38,000+ friends collected over a four month
-period.
+%in a method we term social affinity filtering (SAF).
+Furthermore, we provide an analysis of informativeness of interactions and activity (based
+on size). Our analysis shows that some interaction and activity are relatively predictive than others which 
+substantiate the advantage of learning through fine-grained social information than aggregate statistics.
+
+
+%from recommender system which can be very crucial in building recommender system without
+%much  . Our analysis shows that predictiveness varies over the directionality of interaction
+%and videos interaction are highly predictive. Moreover, we found that small activities can 
+%be highly predictive of user prefer
+
+
+%We apply SAF to preference data from a set of Facebook users and their
+%complete interactions with 38,000+ friends collected over a four month
+%period.
 %Our analysis demonstrates that SAF yields higher accuracy
 %than a range of state-of-the-art (social) collaborative filtering approaches and that not all
 %interactions and activities are equally predictive: among many insights, 
 %we show certain user-to-user interactions are more
 %informative than others  
-Our analysis demonstrates that SAF yields higher accuracy
-than a range of state-of-the-art (social) collaborative filtering approaches and 
-that not all interactions and activities are equally predictive: among many insights, 
-we show certain user-to-user interactions are more
-informative than others %(tagging is often more informative than
+%Our analysis demonstrates that SAF yields higher accuracy
+%than a range of state-of-the-art (social) collaborative filtering approaches and 
+%that not all interactions and activities are equally predictive: among many insights, 
+%we show certain user-to-user interactions are more
+%informative than others %(tagging is often more informative than
 %commenting, video interactions are more informative than wall post
 %interactions)
 %we analyse trends in the relationship between the
 %size of activity-based SAGs and informativeness
 % (small groups can be
 %highly informative while large groups are rarely informative).
-and we show that activity informativeness varies significantly with size.
+%and we show that activity informativeness varies significantly with size.
 %In summary, this work demonstrates the previously untapped
 %features and the novel method of SAF to leverage them for
 %state-of-the-art social recommender systems.
