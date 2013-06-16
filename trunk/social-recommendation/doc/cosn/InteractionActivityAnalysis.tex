@@ -60,10 +60,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{table}
 \hspace{-10mm}
-%\centering
+\centering
 {\footnotesize
-	\begin{tabular}{ll}
-		\hspace{7mm}
+	%\begin{tabular}{ll}
+		%\hspace{7mm}
     	\begin{tabular}{| >{\small}l | >{\small}r | }
 	        \hline
 	        \textbf{ Modality ($X$)} & $H(Y|X=true)$ \\
@@ -76,11 +76,10 @@
 	        \hline
 	        { photo } & 0.926 \\
 	        \hline
-	       \end{tabular}
-       % &
-		%\multicolumn{2}{c}{}\\
+	       %\end{tabular}
+		\multicolumn{2}{c}{}\\
 
-			\begin{tabular}{| >{\small}l | >{\small}r | }
+			%\begin{tabular}{| >{\small}l | >{\small}r | }
 	        \hline
 	        \textbf{Action ($X$)}  & $H(Y|X=true)$ \\
 	        \hline
@@ -90,14 +89,13 @@
 	        \hline
 	        { likes }  &  0.924 \\
 	        \hline
-	        \end{tabular}
-	  \end{tabular}
+	        %\end{tabular}
      
  		     
-		%\multicolumn{2}{c}{}\\
-		\vspace{2mm}
+		\multicolumn{2}{c}{}\\
+		%\vspace{2mm}
     	%\hspace{-36mm}
-    	\begin{tabular}{| >{\small}l | >{\small}r | }
+    	%\begin{tabular}{| >{\small}l | >{\small}r | }
         \hline
         \textbf{ Direction ($X$) } & $H(Y|X=true)$ \\
         \hline
@@ -159,7 +157,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 In this section we analyze the informativeness of Interaction SAGs,
 namely user interactions according to their modality, type, and direction, 
-as described in Section~\ref{sec:methodology}. Similarly, we analyze the 
+as described in Section~\ref{sec:methodology} describe the social phenomena
+that is responsible for the characterstics. Similarly, we analyze the 
 informativeness of Activity SAGs with respect to its size.
 
 %namely those SAGs that are built w.r.t. a user $u$'s interactions.
@@ -183,7 +182,7 @@ occurrences of the feature (or $P(X=true)$), and give trivial results.
 Table~\ref{table:ce_interaction} shows the conditional entropy for Interactions based on modality, action and direction. Here we observe,
 \begin{itemize}
 \item 
-Interaction on {\em videos} seem to have a stronger preferential affinity 
+Interaction on {\em videos} have a stronger preferential affinity 
 than other modalities such as links, posts and photos.  This could be
   due to the fact that video viewing is time-consuming and users
   inherently only watch the videos of those whose preferences they
@@ -263,7 +262,7 @@ than other modalities such as links, posts and photos.  This could be
 
 Fig \ref{Fig3} shows the relationship between conditional
     entropy and the size of activity groups. For public activity ({\em Pages} and 
-    {\em Favorites}) size refers to the total number of facebook user in activity group, whereas
+    {\em Favorites}), size refers to the total number of facebook user in activity group, whereas
     for {\em Groups}(which are generally private) it's total number of user in App 
     user's ego network. Fig \ref{Fig3} shows that the activity groups of small 
     size can be highly predictive whereas large groups are rarely predictive.
@@ -279,8 +278,7 @@ In Fig~\ref{Fig4} we plot the average conditional entropy of the top
     Fig~\ref{Fig4} we can infer that the group sizes up to 50 and
     page/favourite sizes up to $10^{5}$ are most predictive.
     
-    
-    In Fig~\ref{Fig5}  we analyze the predictiveness of favourites by categories.
+In Fig~\ref{Fig5}  we analyze the predictiveness of favourites by categories.
     We can see that contents in the ``long-tail'', i.e.,  
     having a large number of occurrences far from the most popular choices, 
     tend to have be the most predictive affinities. Examples of these include

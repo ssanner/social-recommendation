@@ -1,7 +1,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure*}[tbp!]
 %\centering
-\hspace{-6mm}\includegraphics[width=180mm,height=60mm]{data/plots/accuracy/accuracyLargeNew.eps}
+\hspace{-6mm}\includegraphics[width=180mm,height=60mm]{data/plots/accuracy/accuracy.eps}
 \caption{  Comparision of the standard collaborative filtering algorithms with proposed SAF based models.  SAF based models significantly outperforms standard collaborative filtering and social recommender systems, by up to 6 \% in accuracy. }
 \label{Fig1}
 \end{figure*}
@@ -14,9 +14,9 @@ likely class constant predictor (Const), and state-of-the-art collaborative
 filtering algorithms: Nearest Neighbor (NN)~\cite{bellkor}, Matrix Factorization (MF)~\cite{pmf} 
 and Social MatchBox (SMB)~\cite{Noel2012NOF} -- an extension of matrix
 factorization that encourages more homophily for pairs of users with
-more interactions. To make a distinction between Interaction and Activity based SAF, 
-we add a suffix ISAF and ASAF respectively to NB, LR and SVM as shown in Fig~\ref{Fig1}. We train model using
-10-fold cross validation and the error bars corresponds to 95\% confindence interval.
+more interactions. 
+%To make a distinction between Interaction and Activity based SAF, we add a suffix ISAF and ASAF respectively to NB, LR and SVM \eat{as shown in Fig~\ref{Fig1}}. 
+We train model using 10-fold cross validation and the error bars corresponds to 95\% confindence interval.
 
 Fig~\ref{Fig1} compares the accuracies of the baseline methods 
 with the SAF based models for a range of interaction and activity (group,
@@ -84,7 +84,5 @@ inherently available user's social network information (interactions and activit
 %to weight SAGs independent of any particular user.
 
 Given the benefits of SAF, we now proceed in the
-next section to analyse the two primary types of SAG features
-(interactions and activities) to better understand characteristics of
-both informative and uninformative SAGs in each context and the social
-phenomena that may be responsible for these characteristics.
+next section to systematically reinforce the advantage of learning via fine-grained 
+interactions and activiites by analysing the predictiveness of interactions and activity SAGs.
