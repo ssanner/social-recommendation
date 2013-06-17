@@ -261,13 +261,12 @@ than other modalities such as links, posts and photos.  This could be
 %entropy and size of groups, pages and favourites.
 
 Fig \ref{Fig3} shows the relationship between conditional
-    entropy and the size of activity groups. For public activity ({\em Pages} and 
+    entropy and the size\footnote{For public activities ({\em Pages} and 
     {\em Favorites}), size refers to the total number of facebook user in activity group, whereas
-    for {\em Groups}(which are generally private) it's total number of user in App 
-    user's ego network. Fig \ref{Fig3} shows that the activity groups of small 
+    for {\em Groups} (generally private) it is the total number of user in App 
+    user's ego network.} of activity groups. In Fig \ref{Fig3} we clearly observe that the activity groups of small 
     size can be highly predictive whereas large groups are rarely predictive.
-
-In Fig~\ref{Fig4} we plot the average conditional entropy of the top
+    Furthermore, In Fig~\ref{Fig4} we plot the average conditional entropy of the top
     10\% of features cumulative up to the size of the activity group given on the
     x-axis; this allows us to determine the marginal contribution of
     larger groups to the average conditional entropy as larger groups
@@ -285,6 +284,10 @@ In Fig~\ref{Fig5}  we analyze the predictiveness of favourites by categories.
     music, books, movies. On the contrary, generic affinities (e.g. interests) and 
     those with a smaller number of choices (e.g. sports or fav-teams) 
     tend to be less predictive. 
+
+Here we observe that the informativeness of features varies over interactions and activities.
+Unlike state-of-the art social recommenders, SAF classifiers captures this variation by 
+weighting the fine-grained features while making prediction 
 
 % %{\bf TODO: make this consistent with earlier discussion regarding persistence,
 % %temporally sychronized.}
@@ -393,7 +396,7 @@ In Fig~\ref{Fig5}  we analyze the predictiveness of favourites by categories.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure*}[tbp!]
 \centering
-\includegraphics[width=160mm,height=35mm]{data/plots/cumulativeEntropy/cumulative.eps}
+\includegraphics[width=160mm,height=35mm]{data/plots/cumulativeEntropy/CumulativeCEvsActivity.eps}
 \caption{Average conditional entropy of top 10\% groups, pages and favourites features cumulative over the size }
 \label{Fig4}
 \end{figure*}
@@ -402,7 +405,7 @@ In Fig~\ref{Fig5}  we analyze the predictiveness of favourites by categories.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure*}[tbp!]
 \centering
-\includegraphics[width=160mm, height=35mm]{data/plots/boxPlots/CEvsFavTypes.eps}
+\includegraphics[width=160mm, height=35mm]{data/plots/boxPlots/CEvsFavTypesLarge.eps}
 \caption{Conditional entropy for top 1000 favourites breakdown by categories}
 \label{Fig5}
 \end{figure*}

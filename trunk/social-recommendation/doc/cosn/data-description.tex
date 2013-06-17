@@ -5,7 +5,7 @@ We built a Facebook App\footnote{Name and link omitted
 for anonymity.} and  collect detailed user interaction and activity history. 
 Over 119 users installed the Facebook App during the evaluation
 period.\footnote{In order to collect full interactions among App users
-as required in our experimentation, our App requested to collect
+as required in our experimentation, our App requested extended permission to collect
 information posted to \emph{friends'} timelines.  With such expressive
 permissions concerning friend interactions, most potential users were
 hesitant to install the App; hence, after an intensive one month user drive period
@@ -80,27 +80,29 @@ Table~\ref{tab:likeinfo} shows the statistics of the app user rating
 for friend and non-friend recommendations.  We chose to only display
 three links per day in order to avoid rank-bias with preferences.
 
-%Crucially we note that all data used in the subsequent experiments
-%is offline batch data that has been stored and analyzed after the four month
-%data collection period.  
+Crucially we note that all data used in the subsequent experiments
+is offline batch data that has been stored and analyzed after the four month
+data collection period.  
       							
-%\begin{table}
-%\centering
-%\begin{tabular}{|>{\small}l|>{\small}r|>{\small}r|}
-%\hline
-%& \textbf{App Users} & \textbf{Ego network} \\
-%& & \textbf{of App Users} \\
-%\hline
-%Users & 119 & 38,378 \\
-%\hline
-%Male & 85 & 20,840 \\
-%\hline
-%Female & 33 & 17,032 \\
-%\hline
-%\end{tabular}
-%\caption{App user demographics}
-%\label{tab:demographics}
-%\end{table}
+\eat{
+\begin{table}
+\centering
+\begin{tabular}{|>{\small}l|>{\small}r|>{\small}r|}
+\hline
+& \textbf{App Users} & \textbf{Ego network} \\
+& & \textbf{of App Users} \\
+\hline
+Users & 119 & 38,378 \\
+\hline
+Male & 85 & 20,840 \\
+\hline
+Female & 33 & 17,032 \\
+\hline
+\end{tabular}
+\caption{App user demographics}
+\label{tab:demographics}
+\end{table}
+}
 
 \begin{table}
 \centering
@@ -133,6 +135,20 @@ three links per day in order to avoid rank-bias with preferences.
 \label{tab:interactions}
 \end{table}
 
+\begin{table}[t!]
+\centering
+\begin{tabular}{|>{\small}l|>{\small}r|>{\small}r|}\hline
+&\textbf{Friend}  & \textbf{Non-Friend} \\
+&\textbf{recommendation}  & \textbf{recommendation} \\
+\hline
+Like& 1392 & 1127 \\
+\hline
+Dislike& 895 & 2111\\
+\hline
+\end{tabular}
+\caption{Dataset breakdown of prediction target $like(u,i)$, by the source of the link (friend/non-friend) and value (like/dislike).}
+\label{tab:likeinfo}
+\end{table}
 
 \begin{table}[t!]
 \centering
@@ -152,20 +168,7 @@ Favourites & 4,284 & 892,820\\
 \label{tab:interests}
 \end{table}
 
-\begin{table}[t!]
-\centering
-\begin{tabular}{|>{\small}l|>{\small}r|>{\small}r|}\hline
-&\textbf{Friend}  & \textbf{Non-Friend} \\
-&\textbf{recommendation}  & \textbf{recommendation} \\
-\hline
-Like& 1392 & 1127 \\
-\hline
-Dislike& 895 & 2111\\
-\hline
-\end{tabular}
-\caption{Dataset breakdown of prediction target $like(u,i)$, by the source of the link (friend/non-friend) and value (like/dislike).}
-\label{tab:likeinfo}
-\end{table}
+
 
 
 \eat{ %% suvash's original table
