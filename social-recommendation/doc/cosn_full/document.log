@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012) (format=pdflatex 2012.6.30)  11 JUN 2013 11:33
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012) (format=pdflatex 2012.6.30)  18 JUN 2013 14:15
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -16,7 +16,7 @@ kurmanji, latin, latvian, lithuanian, mongolian, mongolianlmc, bokmal, nynorsk,
  polish, portuguese, romanian, romansh, russian, sanskrit, serbian, serbianc, s
 lovak, slovenian, spanish, swedish, turkish, turkmen, ukrainian, uppersorbian, 
 welsh, loaded.
-(./sig-alternate.cls
+(./sig-alternte-cosn.cls
 (/usr/local/texlive/2012/texmf-dist/tex/latex/graphics/epsfig.sty
 Package: epsfig 1999/02/16 v1.7a (e)psfig emulation (SPQR)
 
@@ -124,8 +124,7 @@ LaTeX Font Info:    Redeclaring font encoding OMS on input line 568.
 LaTeX Info: Redefining \[ on input line 2666.
 LaTeX Info: Redefining \] on input line 2667.
 )
-Document Class 'sig-alternate' <23rd. May '12>. Modified by G.K.M. Tobin/Gerry 
-Murray
+Document Class 'sig-alternate' <3rd January '07>. Hacked by Anja Feldmann
 Based in part upon document Style `acmconf' <22 May 89>. Hacked 4/91 by
 shivers@cs.cmu.edu, 4/93 by theobald@cs.mcgill.ca
 Excerpts were taken from (Journal Style) 'esub2acm.cls'.
@@ -152,7 +151,11 @@ Questions on the style, SIGS policies, etc. to Adrienne Griscti griscti@acm.org
 \c@table=\count99
 \titleboxnotes=\toks23
 \titleboxnoteflag=\count100
-Document Class: sig-alternate 2012/05/23 - V2.5 - based on acmproc.cls V1.3 <No
+
+LaTeX Warning: You have requested document class `sig-alternte-cosn',
+               but the document class provides `sig-alternate'.
+
+Document Class: sig-alternate 2007/03/01 - V1.9 - based on acmproc.cls V1.3 <No
 v. 30 '99>
 (/usr/local/texlive/2012/texmf-dist/tex/latex/base/latexsym.sty
 Package: latexsym 1998/08/17 v2.2e Standard LaTeX package (lasy symbols)
@@ -168,9 +171,8 @@ LaTeX Font Info:    Overwriting symbol font `lasy' in version `bold'
 \tntoksfour=\toks27
 \tntoksfive=\toks28
 \catcount=\count102
-\copyrightnotice=\toks29
-\conf=\toks30
-\confinfo=\toks31
+\conf=\toks29
+\confinfo=\toks30
 \c@part=\count103
 \c@section=\count104
 \c@subsection=\count105
@@ -178,27 +180,14 @@ LaTeX Font Info:    Overwriting symbol font `lasy' in version `bold'
 \c@paragraph=\count107
 
 Using 'Abbrev' bibliography style
-LaTeX Info: Redefining \cite on input line 1211.
 \bibindent=\dimen122
 \colcntr=\count108
-\saveb@x=\box29
-\copyrtyr=\toks32
-\acmcopyr=\toks33
-\boilerplate=\toks34
-\copyrightetc=\toks35
-(/usr/local/texlive/2012/texmf-dist/tex/latex/base/fontenc.sty
-Package: fontenc 2005/09/27 v1.99g Standard LaTeX package
-
-(/usr/local/texlive/2012/texmf-dist/tex/latex/base/t1enc.def
-File: t1enc.def 2005/09/27 v1.99g Standard LaTeX file
-LaTeX Font Info:    Redeclaring font encoding T1 on input line 43.
-)
-LaTeX Font Info:    Try loading font information for T1+aer on input line 100.
-
-(/usr/local/texlive/2012/texmf-dist/tex/latex/ae/t1aer.fd
-File: t1aer.fd 1997/11/16 Font definitions for T1/aer.
-)))
-(/usr/local/texlive/2012/texmf-dist/tex/latex/psnfss/times.sty
+\savebox=\box29
+\copyrtyr=\toks31
+\acmcopyr=\toks32
+\boilerplate=\toks33
+\copyrightetc=\toks34
+) (/usr/local/texlive/2012/texmf-dist/tex/latex/psnfss/times.sty
 Package: times 2005/04/12 PSNFSS-v9.2a (SPQR) 
 )
 (/usr/local/texlive/2012/texmf-dist/tex/latex/psnfss/helvet.sty
@@ -211,12 +200,34 @@ Package: courier 2005/04/12 PSNFSS-v9.2a (WaS)
 Package: array 2008/09/09 v2.4c Tabular extension package (FMi)
 \col@sep=\dimen123
 \extrarowheight=\dimen124
-\NC@list=\toks36
+\NC@list=\toks35
 \extratabsurround=\skip44
 \backup@length=\skip45
 )
 (/usr/local/texlive/2012/texmf-dist/tex/latex/subfig/subfig.sty
 Package: subfig 2005/06/28 ver: 1.3 subfig package
+
+
+Package subfig Warning: Your document class has a bad definition
+ of \endfigure, most likely
+ \let\endfigure=\end@float
+ which has now been changed to
+ \def\endfigure{\end@float}
+ because otherwise subsequent changes to \end@float
+ (like done by several packages changing float behaviour)
+ can't take effect on \endfigure.
+ Please complain to your document class author.
+
+
+Package subfig Warning: Your document class has a bad definition
+ of \endtable, most likely
+ \let\endtable=\end@float
+ which has now been changed to
+ \def\endtable{\end@float}
+ because otherwise subsequent changes to \end@float
+ (like done by several packages changing float behaviour)
+ can't take effect on \endtable.
+ Please complain to your document class author.
 
 (/usr/local/texlive/2012/texmf-dist/tex/latex/caption/caption.sty
 Package: caption 2012/02/19 v3.2f Customizing captions (AR)
@@ -395,21 +406,17 @@ Package hyperref Info: Link coloring with OCG OFF on input line 5798.
 Package hyperref Info: PDF/A mode OFF on input line 5803.
 LaTeX Info: Redefining \ref on input line 5843.
 LaTeX Info: Redefining \pageref on input line 5847.
-
-
-Package hyperref Warning: Option `pdfpagelabels' is turned off
-(hyperref)                because \thepage is undefined.
-
-\c@Item=\count122
-\c@Hfootnote=\count123
+\Hy@abspage=\count122
+\c@Item=\count123
+\c@Hfootnote=\count124
 )
 
 Package hyperref Message: Driver: hpdftex.
 
 (/usr/local/texlive/2012/texmf-dist/tex/latex/hyperref/hpdftex.def
 File: hpdftex.def 2012/05/13 v6.82q Hyperref driver for pdfTeX
-\Fld@listcount=\count124
-\c@bookmark@seq@number=\count125
+\Fld@listcount=\count125
+\c@bookmark@seq@number=\count126
 
 (/usr/local/texlive/2012/texmf-dist/tex/latex/oberdiek/rerunfilecheck.sty
 Package: rerunfilecheck 2011/04/15 v1.7 Rerun checks for auxiliary files (HO)
@@ -418,7 +425,7 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 )
 \Hy@SectionHShift=\skip53
 )
-No file document.aux.
+(./document.aux)
 \openout1 = `document.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 103.
@@ -435,23 +442,23 @@ LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 103.
 LaTeX Font Info:    ... okay on input line 103.
 LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 103.
 LaTeX Font Info:    ... okay on input line 103.
-LaTeX Font Info:    Try loading font information for T1+ptm on input line 103.
-(/usr/local/texlive/2012/texmf-dist/tex/latex/psnfss/t1ptm.fd
-File: t1ptm.fd 2001/06/04 font definitions for T1/ptm.
-)
-(/usr/local/texlive/2012/texmf-dist/tex/context/base/supp-pdf.mkii
+LaTeX Font Info:    Try loading font information for OT1+ptm on input line 103.
+
+ (/usr/local/texlive/2012/texmf-dist/tex/latex/psnfss/ot1ptm.fd
+File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
+) (/usr/local/texlive/2012/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count126
+\scratchcounter=\count127
 \scratchdimen=\dimen135
 \scratchbox=\box30
-\nofMPsegments=\count127
-\nofMParguments=\count128
-\everyMPshowfont=\toks37
-\MPscratchCnt=\count129
+\nofMPsegments=\count128
+\nofMParguments=\count129
+\everyMPshowfont=\toks36
+\MPscratchCnt=\count130
 \MPscratchDim=\dimen136
-\MPnumerator=\count130
-\makeMPintoPDFobject=\count131
-\everyMPtoPDFconversion=\toks38
+\MPnumerator=\count131
+\makeMPintoPDFobject=\count132
+\everyMPtoPDFconversion=\toks37
 )
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: subfig package v1.3 is loaded.
@@ -470,127 +477,105 @@ Package: nameref 2010/04/30 v2.40 Cross-referencing by name of section
 (/usr/local/texlive/2012/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
 Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 )
-\c@section@level=\count132
+\c@section@level=\count133
 )
 LaTeX Info: Redefining \ref on input line 103.
 LaTeX Info: Redefining \pageref on input line 103.
 LaTeX Info: Redefining \nameref on input line 103.
+
+(./document.out) (./document.out)
 \@outlinefile=\write3
 \openout3 = `document.out'.
 
-LaTeX Font Info:    Try loading font information for U+msa on input line 173.
+LaTeX Font Info:    Try loading font information for U+msa on input line 181.
 
 (/usr/local/texlive/2012/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2009/06/22 v3.00 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 173.
+LaTeX Font Info:    Try loading font information for U+msb on input line 181.
 
 (/usr/local/texlive/2012/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2009/06/22 v3.00 AMS symbols B
 )
-LaTeX Font Info:    Try loading font information for U+lasy on input line 173.
+LaTeX Font Info:    Try loading font information for U+lasy on input line 181.
 
 (/usr/local/texlive/2012/texmf-dist/tex/latex/base/ulasy.fd
 File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
-) (./abstract.tex
-Overfull \hbox (4.9237pt too wide) in paragraph at lines 1--31
-\T1/ptm/m/n/9 Content rec-om-men-da-tion in so-cial net-works poses the com-ple
-x prob-
+)
+Overfull \hbox (19.1822pt too wide) in paragraph at lines 181--181
+ []\eaddfnt suvash.sedhain@anu.edu.au| 
+ []
+
+
+Overfull \hbox (13.57802pt too wide) in paragraph at lines 181--181
+ []\eaddfnt Scott.Sanner@nicta.com.au| 
+ []
+
+
+Overfull \hbox (8.3819pt too wide) in paragraph at lines 181--181
+ []\eaddfnt peter.christen@anu.edu.au| 
+ []
+
+(./abstract.tex
+Overfull \hbox (1.5384pt too wide) in paragraph at lines 1--31
+\ninept over this so-cial in-for-ma-tion, we pro-pose a dif-fer-ent ap-proach:
+ []
+
+
+Overfull \hbox (5.01753pt too wide) in paragraph at lines 1--31
+\ninept are most pre-dic-tive of the tar-get user's pref-er-ences in a method
  []
 
 )
-LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <9> not available
-(Font)              Font shape `T1/ptm/b/n' tried instead on input line 181.
- (./intro.tex
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 189.
 
-LaTeX Warning: Citation `lla' on page \thepage  undefined on input line 18.
+Overfull \hbox (1.80963pt too wide) in paragraph at lines 189--189
+\OT1/ptm/m/n/10 H.3.3 [\OT1/ptm/b/n/10 Information Search and Re-trieval\OT1/pt
+m/m/n/10 ]: In-for-ma-tion Fil-
+ []
 
-
-LaTeX Warning: Citation `socinf' on page \thepage  undefined on input line 18.
-
-
-LaTeX Warning: Citation `sr' on page \thepage  undefined on input line 18.
-
-
-LaTeX Warning: Citation `rrmf' on page \thepage  undefined on input line 18.
-
-
-LaTeX Warning: Citation `Noel2012NOF' on page \thepage  undefined on input line
- 18.
+(./intro.tex
+Overfull \hbox (3.11717pt too wide) in paragraph at lines 40--58
+\OT1/ptm/m/n/10 de-tailed user in-ter-ac-tion and ac-tiv-ity his-tory avail-abl
+e through
+ []
 
 
-LaTeX Warning: Citation `ste' on page \thepage  undefined on input line 19.
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
-
-LaTeX Warning: Citation `sorec' on page \thepage  undefined on input line 20.
-
-[1{/usr/local/texlive/2012/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
+ [1{/usr/local/texlive/2012/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
 
 
 ]
-Overfull \hbox (7.33609pt too wide) in paragraph at lines 93--102
-\T1/ptm/m/n/9 As de-tailed in the sub-se-quent sec-tions, these find-ings not o
-nly demon-
+Overfull \hbox (3.99724pt too wide) in paragraph at lines 65--73
+\OT1/ptm/m/n/10 ous state-of-the-art col-lab-o-ra-tive fil-ter-ing and so-cial 
+rec-
  []
 
-) (./methodology.tex
-
-LaTeX Warning: Reference `fig:overview' on page \thepage  undefined on input li
-ne 4.
-
-
-Overfull \hbox (2.82642pt too wide) in paragraph at lines 24--25
-\T1/ptm/b/n/9 Interactions \T1/ptm/m/n/9 de-scribes the com-mu-ni-ca-tion be-tw
-een Face-book users.
- []
-
-
-LaTeX Warning: Citation `saez2011high' on page \thepage  undefined on input lin
-e 40.
-
-<data/overview.pdf, id=20, 687.56876pt x 468.75125pt>
+) (./methodology.tex <data/overview.pdf, id=93, 687.56876pt x 468.75125pt>
 File: data/overview.pdf Graphic file (type pdf)
- <use data/overview.pdf>
+
+<use data/overview.pdf>
 Package pdftex.def Info: data/overview.pdf used on input line 51.
 (pdftex.def)             Requested size: 240.0pt x 163.61478pt.
+LaTeX Font Info:    Try loading font information for OMS+ptm on input line 63.
 
-Overfull \hbox (2.79385pt too wide) in paragraph at lines 63--64
-[]\T1/ptm/m/n/9 There are a to-tal of 22 in-ter-ac-tion types. Namely the cross
--product
+(/usr/local/texlive/2012/texmf-dist/tex/latex/psnfss/omsptm.fd
+File: omsptm.fd 
+)
+LaTeX Font Info:    Font shape `OMS/ptm/m/it' in size <10> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 63.
+ [2]
+Overfull \hbox (2.78777pt too wide) in paragraph at lines 118--122
+[]\OT1/ptm/m/n/10 Based on the def-i-ni-tions of \OT1/ptm/m/it/10 in-ter-ac-tio
+n \OT1/ptm/m/n/10 and \OT1/ptm/m/it/10 ac-tiv-i-ties \OT1/ptm/m/n/10 above,
  []
 
 
-Overfull \hbox (2.12599pt too wide) in paragraph at lines 63--64
-\T1/ptm/m/n/9 of modal-i-ties, ac-tions and di-rec-tions, mi-nus \T1/ptm/m/it/9
- link-tag-{incoming, out-
- []
-
-
-LaTeX Warning: Reference `fig:overview' on page \thepage  undefined on input li
-ne 78.
-
-
-LaTeX Warning: Reference `fig:overview' on page \thepage  undefined on input li
-ne 83.
-
-
-LaTeX Warning: Reference `fig:overview' on page \thepage  undefined on input li
-ne 85.
-
-pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
-een already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.87 \end{itemize}
-                   [2 <./data/overview.pdf>]
-
-LaTeX Warning: Reference `sec:datadesc' on page \thepage  undefined on input li
-ne 90.
-
-
-Overfull \hbox (1.4135pt too wide) in paragraph at lines 124--127
-\T1/ptm/m/n/9 tion affin-ity classes be the cross-product of In-ter-ac-tion mod
-al-
+Overfull \hbox (1.1283pt too wide) in paragraph at lines 118--122
+\OT1/ptm/m/n/10 tar-get item, namely \OT1/ptm/m/it/10 In-ter-ac-tion So-cial Af
+fin-ity Groups (ISAG)
  []
 
 
@@ -599,9 +584,26 @@ Underfull \hbox (badness 10000) in paragraph at lines 141--144
  []
 
 
-Overfull \hbox (4.64166pt too wide) in paragraph at lines 147--148
-\T1/ptm/m/n/9 mon pref-er-ence for en-tity $\OML/cmm/m/it/9 k$ \T1/ptm/m/n/9 (g
-roup, page, favourite)
+Overfull \hbox (1.19023pt too wide) in paragraph at lines 147--148
+\OT1/ptm/m/n/10 com-mon pref-er-ence for en-tity $\OML/cmm/m/it/10 k$ \OT1/ptm/
+m/n/10 (group, page,
+ []
+
+
+Overfull \hbox (4.08397pt too wide) detected at line 164
+\OML/cmm/m/it/10 X[] \OT1/cmr/m/n/10 = []
+ []
+
+
+Overfull \hbox (12.958pt too wide) in paragraph at lines 164--167
+\OT1/ptm/m/n/10 Additionally we add friend fea-ture which en-codes whether
+ []
+
+
+Overfull \hbox (24.50114pt too wide) in paragraph at lines 167--169
+\OT1/ptm/m/n/10 affin-ity fea-tures for tar-get user $\OML/cmm/m/it/10 u$ \OT1/
+ptm/m/n/10 and item $\OML/cmm/m/it/10 i$  $\OMS/cmsy/m/n/10 h\OML/cmm/m/it/10 X
+[]; X[] [] ; X[]\OMS/cmsy/m/n/10 i$
  []
 
 
@@ -614,86 +616,67 @@ Underfull \hbox (badness 10000) in paragraph at lines 167--169
 
  []
 
-) (./affinity_filtering.tex
 
-LaTeX Warning: Reference `ssec:sag' on page \thepage  undefined on input line 8
-.
+Overfull \hbox (14.71098pt too wide) detected at line 174
+\OML/cmm/m/it/10 X[] \OT1/cmr/m/n/10 = []
+ []
 
-
-LaTeX Warning: Reference `fig:overview' on page \thepage  undefined on input li
-ne 10.
-
-
-LaTeX Warning: Citation `newsweeder' on page \thepage  undefined on input line 
-12.
+[3 <./data/overview.pdf>]) (./affinity_filtering.tex
+Overfull \hbox (4.67744pt too wide) in paragraph at lines 23--36
+\OT1/ptm/m/n/10 specif-i-cally cor-re-spond to boolean fea-tures in-di-cat-ing 
+whether
+ []
 
 
-LaTeX Warning: Reference `ssec:SAfeature' on page \thepage  undefined on input 
-line 26.
+Overfull \hbox (12.15268pt too wide) in paragraph at lines 23--36
+\OML/cmm/m/it/10 k$ \OT1/ptm/m/n/10 could be the SAG of $\OML/cmm/m/it/10 u$ \O
+T1/ptm/m/n/10 for the in-ter-ac-tion of $[]$
+ []
 
 
-LaTeX Warning: Reference `ssec:sag' on page \thepage  undefined on input line 2
-7.
+Overfull \hbox (10.40143pt too wide) in paragraph at lines 38--47
+\OT1/ptm/m/n/10 where $[]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 u; i\OT1/cmr/m/n/10 
+) \OMS/cmsy/m/n/10 2 f[]\OT1/cmr/m/n/10 ([])\OML/cmm/m/it/10 ; []\OT1/cmr/m/n/1
+0 ([])\OMS/cmsy/m/n/10 g$ \OT1/ptm/m/n/10 and $\OT1/cmr/bx/n/10 X\OT1/cmr/m/n/1
+0 (\OML/cmm/m/it/10 u; i\OT1/cmr/m/n/10 ) =
+ []
+
+
+Overfull \hbox (3.50226pt too wide) in paragraph at lines 38--47
+\OT1/ptm/m/n/10 pro-vides a dataset of his-tor-i-cal ob-ser-va-tions $\OML/cmm/
+m/it/10 D \OT1/cmr/m/n/10 = \OMS/cmsy/m/n/10 f\OT1/cmr/bx/n/10 X\OT1/cmr/m/n/10
+ (\OML/cmm/m/it/10 u; i\OT1/cmr/m/n/10 ) \OMS/cmsy/m/n/10 !
+ []
 
 ) (./data-description.tex
-
-LaTeX Warning: Reference `ssec:sag' on page \thepage  undefined on input line 6
-.
-
-
-LaTeX Warning: Reference `ssec:SAfeature' on page \thepage  undefined on input 
-line 8.
-
-pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
-een already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.13 O
-      ver 119 users installed the Facebook App during the evaluation [3]
-
-LaTeX Warning: Reference `tab:interactions' on page \thepage  undefined on inpu
-t line 41.
+Overfull \hbox (1.66711pt too wide) in paragraph at lines 3--12
+\OT1/ptm/m/n/10 Graph API to build the SAG in-for-ma-tion as de-fined in Sec []
+2.2[]
+ []
 
 
-LaTeX Warning: Reference `tab:likeinfo' on page \thepage  undefined on input li
-ne 41.
+Overfull \hbox (3.84128pt too wide) in paragraph at lines 27--47
+\OT1/ptm/m/n/10 in-ter-ac-tions on Face-book. In-ter-ac-tions that oc-cur throu
+gh wall
+ []
 
-
-LaTeX Warning: Reference `tab:interactions' on page \thepage  undefined on inpu
-t line 42.
-
-
-LaTeX Warning: Reference `tab:demographics' on page \thepage  undefined on inpu
-t line 44.
-
-
-LaTeX Warning: Reference `tab:interests' on page \thepage  undefined on input l
-ine 45.
-
-
-LaTeX Warning: Reference `tab:likeinfo' on page \thepage  undefined on input li
-ne 53.
-
-LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <8> not available
-(Font)              Font shape `T1/ptm/b/n' tried instead on input line 68.
+[4]
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <8> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 68.
 ) (./saf_analysis.tex
 Package epstopdf Info: Source file: <data/plots/accuracy/accuracyLargeNew.eps>
-(epstopdf)                    date: 2013-06-09 17:20:46
+(epstopdf)                    date: 2013-06-18 14:02:31
 (epstopdf)                    size: 72701 bytes
 (epstopdf)             Output file: <data/plots/accuracy/accuracyLargeNew-eps-c
 onverted-to.pdf>
+(epstopdf)                    date: 2013-06-18 14:02:31
+(epstopdf)                    size: 24517 bytes
 (epstopdf)             Command: <repstopdf --outfile=data/plots/accuracy/accura
 cyLargeNew-eps-converted-to.pdf data/plots/accuracy/accuracyLargeNew.eps>
 (epstopdf)             \includegraphics on input line 4.
-runsystem(repstopdf --outfile=data/plots/accuracy/accuracyLargeNew-eps-converte
-d-to.pdf data/plots/accuracy/accuracyLargeNew.eps)...executed safely (allowed).
+Package epstopdf Info: Output file is already uptodate.
 
-Package epstopdf Info: Result file: <data/plots/accuracy/accuracyLargeNew-eps-c
-onverted-to.pdf>
-(epstopdf)                    date: 2013-06-11 11:33:59
-(epstopdf)                    size: 24517 bytes.
-
-<data/plots/accuracy/accuracyLargeNew-eps-converted-to.pdf, id=121, 1445.4pt x 
+<data/plots/accuracy/accuracyLargeNew-eps-converted-to.pdf, id=239, 1445.4pt x 
 614.295pt>
 File: data/plots/accuracy/accuracyLargeNew-eps-converted-to.pdf Graphic file (t
 ype pdf)
@@ -707,86 +690,23 @@ Overfull \hbox (19.51846pt too wide) in paragraph at lines 4--5
  []
 
 
-LaTeX Warning: Citation `bellkor' on page \thepage  undefined on input line 14.
-
-
-
-LaTeX Warning: Citation `pmf' on page \thepage  undefined on input line 14.
-
-
-LaTeX Warning: Citation `Noel2012NOF' on page \thepage  undefined on input line
- 15.
-
-
-Overfull \hbox (5.34749pt too wide) in paragraph at lines 10--26
-\T1/ptm/m/n/9 and state-of-the-art col-lab-o-ra-tive fil-ter-ing al-go-rithms: 
-Near-est Neigh-
+Overfull \hbox (3.15854pt too wide) in paragraph at lines 10--26
+[]\OT1/ptm/m/n/10 In this sec-tion, we wish to com-pare novel SAF-based meth-
  []
 
 
-LaTeX Warning: Reference `Fig1' on page \thepage  undefined on input line 27.
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
-
-LaTeX Warning: Reference `Fig1' on page \thepage  undefined on input line 36.
-
-
-LaTeX Warning: Reference `Fig1' on page \thepage  undefined on input line 45.
-
-
-LaTeX Warning: Reference `tab:interests' on page \thepage  undefined on input l
-ine 49.
-
-
-Overfull \hbox (8.28987pt too wide) in paragraph at lines 45--54
-\T1/ptm/m/n/9 Ta-ble [] that page likes are more preva-lent than groups and fav
-ourites.
- []
-
-pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
-een already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.54 
-      [4]pdfTeX warning (ext4): destination with the same identifier (name{page
-.}) has been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.54 
-      [5 <./data/plots/accuracy/accuracyLargeNew-eps-converted-to.pdf>]
-
-LaTeX Warning: Citation `Noel2012NOF' on page \thepage  undefined on input line
- 57.
-
-
-LaTeX Warning: Citation `Noel2012NOF' on page \thepage  undefined on input line
- 61.
-
-
-LaTeX Warning: Citation `lla' on page \thepage  undefined on input line 61.
-
-
-LaTeX Warning: Citation `socinf' on page \thepage  undefined on input line 61.
-
-
-LaTeX Warning: Citation `sr' on page \thepage  undefined on input line 61.
-
-
-LaTeX Warning: Citation `rrmf' on page \thepage  undefined on input line 61.
-
-
-LaTeX Warning: Citation `sorec' on page \thepage  undefined on input line 61.
-
-
-LaTeX Warning: Citation `ste' on page \thepage  undefined on input line 61.
-
-) (./interaction_analysis.tex
+ [5]
+[6 <./data/plots/accuracy/accuracyLargeNew-eps-converted-to.pdf>])
+(./interaction_analysis.tex
 Package epstopdf Info: Source file: <data/plots/vsk/ModalityActionsvsKFriends.e
 ps>
-(epstopdf)                    date: 2013-06-09 17:20:40
+(epstopdf)                    date: 2013-06-18 14:02:44
 (epstopdf)                    size: 54962 bytes
 (epstopdf)             Output file: <data/plots/vsk/ModalityActionsvsKFriends-e
 ps-converted-to.pdf>
-(epstopdf)                    date: 2013-06-09 17:20:40
+(epstopdf)                    date: 2013-06-18 14:02:44
 (epstopdf)                    size: 26936 bytes
 (epstopdf)             Command: <repstopdf --outfile=data/plots/vsk/ModalityAct
 ionsvsKFriends-eps-converted-to.pdf data/plots/vsk/ModalityActionsvsKFriends.ep
@@ -794,7 +714,7 @@ s>
 (epstopdf)             \includegraphics on input line 81.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/vsk/ModalityActionsvsKFriends-eps-converted-to.pdf, id=181, 1483.54
+<data/plots/vsk/ModalityActionsvsKFriends-eps-converted-to.pdf, id=311, 1483.54
 25pt x 456.70625pt>
 File: data/plots/vsk/ModalityActionsvsKFriends-eps-converted-to.pdf Graphic fil
 e (type pdf)
@@ -809,68 +729,41 @@ Overfull \hbox (50.82875pt too wide) in paragraph at lines 81--82
  []
 
 
-LaTeX Warning: Reference `sec:methodology' on page \thepage  undefined on input
- line 89.
-
-
-Overfull \hbox (7.87549pt too wide) in paragraph at lines 87--90
-[]\T1/ptm/m/n/9 In this sec-tion we an-a-lyze the in-for-ma-tive-ness of In-ter
--ac-tion SAGS,
+Overfull \hbox (1.60359pt too wide) in paragraph at lines 98--98
+[] 
  []
 
 
-LaTeX Warning: Reference `table:ce_interaction' on page \thepage  undefined on 
-input line 110.
+Overfull \hbox (1.02151pt too wide) in paragraph at lines 98--104
+\OT1/ptm/m/n/10 for-ma-tive fea-ture. Here we use en-tropy con-di-tioned on spa
+rse
+ []
 
 
-LaTeX Warning: Reference `Fig2' on page \thepage  undefined on input line 129.
+Overfull \hbox (8.33714pt too wide) in paragraph at lines 107--111
+[]\OT1/ptm/m/n/10 First we an-a-lyze var-i-ous in-ter-ac-tions in-di-vid-u-ally
+ and jointly
+ []
 
-
-LaTeX Warning: Reference `Fig2' on page \thepage  undefined on input line 131.
-
-
-LaTeX Warning: Citation `Romero2011hashtag' on page \thepage  undefined on inpu
-t line 139.
-
-
-LaTeX Warning: Citation `ver2011stops' on page \thepage  undefined on input lin
-e 144.
-
-
-LaTeX Warning: Citation `Romero2011hashtag' on page \thepage  undefined on inpu
-t line 144.
-
-)pdfTeX warning (ext4): destination with the same identifier (name{page.}) has 
-been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.213 \subsection
-                 {Activity Analysis} [6] (./activity_analysis.tex
-
-LaTeX Warning: Reference `Fig3' on page \thepage  undefined on input line 11.
-
-
-LaTeX Warning: Reference `Fig4' on page \thepage  undefined on input line 22.
-
-
-LaTeX Warning: Reference `Fig4' on page \thepage  undefined on input line 30.
-
-
-LaTeX Warning: Reference `Fig5' on page \thepage  undefined on input line 37.
+) [7] (./activity_analysis.tex
+Overfull \hbox (1.6474pt too wide) in paragraph at lines 8--10
+[]\OT1/ptm/m/n/10 We an-a-lyze the in-for-ma-tive-ness of Ac-tiv-ity SAGS by lo
+ok-
+ []
 
 Package epstopdf Info: Source file: <data/plots/new/CEvsGroupSize.eps>
-(epstopdf)                    date: 2013-06-09 17:20:46
+(epstopdf)                    date: 2013-06-18 14:02:33
 (epstopdf)                    size: 202237 bytes
 (epstopdf)             Output file: <data/plots/new/CEvsGroupSize-eps-converted
 -to.pdf>
-(epstopdf)                    date: 2013-06-09 17:20:46
+(epstopdf)                    date: 2013-06-18 14:02:33
 (epstopdf)                    size: 178111 bytes
 (epstopdf)             Command: <repstopdf --outfile=data/plots/new/CEvsGroupSi
 ze-eps-converted-to.pdf data/plots/new/CEvsGroupSize.eps>
 (epstopdf)             \includegraphics on input line 104.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/new/CEvsGroupSize-eps-converted-to.pdf, id=192, 578.16pt x 433.62pt
+<data/plots/new/CEvsGroupSize-eps-converted-to.pdf, id=338, 578.16pt x 433.62pt
 >
 File: data/plots/new/CEvsGroupSize-eps-converted-to.pdf Graphic file (type pdf)
 
@@ -879,36 +772,36 @@ Package pdftex.def Info: data/plots/new/CEvsGroupSize-eps-converted-to.pdf used
  on input line 104.
 (pdftex.def)             Requested size: 128.03368pt x 99.58493pt.
 Package epstopdf Info: Source file: <data/plots/new/CEvsPageSize.eps>
-(epstopdf)                    date: 2013-06-09 17:20:46
+(epstopdf)                    date: 2013-06-18 14:02:33
 (epstopdf)                    size: 600246 bytes
 (epstopdf)             Output file: <data/plots/new/CEvsPageSize-eps-converted-
 to.pdf>
-(epstopdf)                    date: 2013-06-09 17:20:46
+(epstopdf)                    date: 2013-06-18 14:02:33
 (epstopdf)                    size: 602041 bytes
 (epstopdf)             Command: <repstopdf --outfile=data/plots/new/CEvsPageSiz
 e-eps-converted-to.pdf data/plots/new/CEvsPageSize.eps>
 (epstopdf)             \includegraphics on input line 105.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/new/CEvsPageSize-eps-converted-to.pdf, id=193, 578.16pt x 433.62pt>
+<data/plots/new/CEvsPageSize-eps-converted-to.pdf, id=339, 578.16pt x 433.62pt>
 File: data/plots/new/CEvsPageSize-eps-converted-to.pdf Graphic file (type pdf)
 <use data/plots/new/CEvsPageSize-eps-converted-to.pdf>
 Package pdftex.def Info: data/plots/new/CEvsPageSize-eps-converted-to.pdf used 
 on input line 105.
 (pdftex.def)             Requested size: 128.03368pt x 99.58493pt.
 Package epstopdf Info: Source file: <data/plots/new/CEvsFavSize.eps>
-(epstopdf)                    date: 2013-06-09 17:20:46
+(epstopdf)                    date: 2013-06-18 14:02:33
 (epstopdf)                    size: 240187 bytes
 (epstopdf)             Output file: <data/plots/new/CEvsFavSize-eps-converted-t
 o.pdf>
-(epstopdf)                    date: 2013-06-09 17:20:46
+(epstopdf)                    date: 2013-06-18 14:02:33
 (epstopdf)                    size: 239312 bytes
 (epstopdf)             Command: <repstopdf --outfile=data/plots/new/CEvsFavSize
 -eps-converted-to.pdf data/plots/new/CEvsFavSize.eps>
 (epstopdf)             \includegraphics on input line 106.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/new/CEvsFavSize-eps-converted-to.pdf, id=194, 578.16pt x 433.62pt>
+<data/plots/new/CEvsFavSize-eps-converted-to.pdf, id=340, 578.16pt x 433.62pt>
 File: data/plots/new/CEvsFavSize-eps-converted-to.pdf Graphic file (type pdf)
 
 <use data/plots/new/CEvsFavSize-eps-converted-to.pdf>
@@ -916,18 +809,18 @@ Package pdftex.def Info: data/plots/new/CEvsFavSize-eps-converted-to.pdf used o
 n input line 106.
 (pdftex.def)             Requested size: 128.03368pt x 99.58493pt.
 Package epstopdf Info: Source file: <data/plots/new/LRweightvsGroupSize.eps>
-(epstopdf)                    date: 2013-06-09 17:20:46
+(epstopdf)                    date: 2013-06-18 14:02:33
 (epstopdf)                    size: 199873 bytes
 (epstopdf)             Output file: <data/plots/new/LRweightvsGroupSize-eps-con
 verted-to.pdf>
-(epstopdf)                    date: 2013-06-09 17:20:46
+(epstopdf)                    date: 2013-06-18 14:02:33
 (epstopdf)                    size: 187584 bytes
 (epstopdf)             Command: <repstopdf --outfile=data/plots/new/LRweightvsG
 roupSize-eps-converted-to.pdf data/plots/new/LRweightvsGroupSize.eps>
 (epstopdf)             \includegraphics on input line 107.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/new/LRweightvsGroupSize-eps-converted-to.pdf, id=195, 578.16pt x 43
+<data/plots/new/LRweightvsGroupSize-eps-converted-to.pdf, id=341, 578.16pt x 43
 3.62pt>
 File: data/plots/new/LRweightvsGroupSize-eps-converted-to.pdf Graphic file (typ
 e pdf)
@@ -936,18 +829,18 @@ Package pdftex.def Info: data/plots/new/LRweightvsGroupSize-eps-converted-to.pd
 f used on input line 107.
 (pdftex.def)             Requested size: 128.03368pt x 99.58493pt.
 Package epstopdf Info: Source file: <data/plots/new/LRweightvsPageSize.eps>
-(epstopdf)                    date: 2013-06-09 17:20:46
+(epstopdf)                    date: 2013-06-18 14:02:33
 (epstopdf)                    size: 599206 bytes
 (epstopdf)             Output file: <data/plots/new/LRweightvsPageSize-eps-conv
 erted-to.pdf>
-(epstopdf)                    date: 2013-06-09 17:20:46
+(epstopdf)                    date: 2013-06-18 14:02:33
 (epstopdf)                    size: 625942 bytes
 (epstopdf)             Command: <repstopdf --outfile=data/plots/new/LRweightvsP
 ageSize-eps-converted-to.pdf data/plots/new/LRweightvsPageSize.eps>
 (epstopdf)             \includegraphics on input line 108.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/new/LRweightvsPageSize-eps-converted-to.pdf, id=196, 578.16pt x 433
+<data/plots/new/LRweightvsPageSize-eps-converted-to.pdf, id=342, 578.16pt x 433
 .62pt>
 File: data/plots/new/LRweightvsPageSize-eps-converted-to.pdf Graphic file (type
  pdf)
@@ -956,18 +849,18 @@ Package pdftex.def Info: data/plots/new/LRweightvsPageSize-eps-converted-to.pdf
  used on input line 108.
 (pdftex.def)             Requested size: 128.03368pt x 99.58493pt.
 Package epstopdf Info: Source file: <data/plots/new/LRweightvsFavSize.eps>
-(epstopdf)                    date: 2013-06-09 17:20:46
+(epstopdf)                    date: 2013-06-18 14:02:33
 (epstopdf)                    size: 240848 bytes
 (epstopdf)             Output file: <data/plots/new/LRweightvsFavSize-eps-conve
 rted-to.pdf>
-(epstopdf)                    date: 2013-06-09 17:20:46
+(epstopdf)                    date: 2013-06-18 14:02:33
 (epstopdf)                    size: 248763 bytes
 (epstopdf)             Command: <repstopdf --outfile=data/plots/new/LRweightvsF
 avSize-eps-converted-to.pdf data/plots/new/LRweightvsFavSize.eps>
 (epstopdf)             \includegraphics on input line 109.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/new/LRweightvsFavSize-eps-converted-to.pdf, id=197, 578.16pt x 433.
+<data/plots/new/LRweightvsFavSize-eps-converted-to.pdf, id=343, 578.16pt x 433.
 62pt>
 File: data/plots/new/LRweightvsFavSize-eps-converted-to.pdf Graphic file (type 
 pdf)
@@ -977,11 +870,11 @@ used on input line 109.
 (pdftex.def)             Requested size: 128.03368pt x 99.58493pt.
 Package epstopdf Info: Source file: <data/plots/cumulativeEntropy/cumulative.ep
 s>
-(epstopdf)                    date: 2013-06-09 17:20:40
+(epstopdf)                    date: 2013-06-18 14:02:32
 (epstopdf)                    size: 76804 bytes
 (epstopdf)             Output file: <data/plots/cumulativeEntropy/cumulative-ep
 s-converted-to.pdf>
-(epstopdf)                    date: 2013-06-09 17:20:40
+(epstopdf)                    date: 2013-06-18 14:02:32
 (epstopdf)                    size: 28264 bytes
 (epstopdf)             Command: <repstopdf --outfile=data/plots/cumulativeEntro
 py/cumulative-eps-converted-to.pdf data/plots/cumulativeEntropy/cumulative.eps>
@@ -989,7 +882,7 @@ py/cumulative-eps-converted-to.pdf data/plots/cumulativeEntropy/cumulative.eps>
 (epstopdf)             \includegraphics on input line 120.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/cumulativeEntropy/cumulative-eps-converted-to.pdf, id=198, 1630.09p
+<data/plots/cumulativeEntropy/cumulative-eps-converted-to.pdf, id=344, 1630.09p
 t x 514.92375pt>
 File: data/plots/cumulativeEntropy/cumulative-eps-converted-to.pdf Graphic file
  (type pdf)
@@ -999,18 +892,18 @@ Package pdftex.def Info: data/plots/cumulativeEntropy/cumulative-eps-converted-
 to.pdf used on input line 120.
 (pdftex.def)             Requested size: 456.42209pt x 144.17766pt.
 Package epstopdf Info: Source file: <data/plots/boxPlots/CEvsFavTypes.eps>
-(epstopdf)                    date: 2013-06-09 17:20:46
+(epstopdf)                    date: 2013-06-18 14:02:31
 (epstopdf)                    size: 31638 bytes
 (epstopdf)             Output file: <data/plots/boxPlots/CEvsFavTypes-eps-conve
 rted-to.pdf>
-(epstopdf)                    date: 2013-06-09 17:20:46
+(epstopdf)                    date: 2013-06-18 14:02:31
 (epstopdf)                    size: 19448 bytes
 (epstopdf)             Command: <repstopdf --outfile=data/plots/boxPlots/CEvsFa
 vTypes-eps-converted-to.pdf data/plots/boxPlots/CEvsFavTypes.eps>
 (epstopdf)             \includegraphics on input line 129.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/boxPlots/CEvsFavTypes-eps-converted-to.pdf, id=199, 1597.97pt x 434
+<data/plots/boxPlots/CEvsFavTypes-eps-converted-to.pdf, id=345, 1597.97pt x 434
 .62375pt>
 File: data/plots/boxPlots/CEvsFavTypes-eps-converted-to.pdf Graphic file (type 
 pdf)
@@ -1023,241 +916,154 @@ Overfull \hbox (8.14111pt too wide) in paragraph at lines 129--130
  [][] 
  []
 
-) (./relatedWork.tex
-
-LaTeX Warning: Citation `Chang2010ethnicity' on page \thepage  undefined on inp
-ut line 15.
-
-
-LaTeX Warning: Citation `backstrom2011center' on page \thepage  undefined on in
-put line 17.
-
-
-LaTeX Warning: Citation `wilson2009user' on page \thepage  undefined on input l
-ine 18.
-
-
-LaTeX Warning: Citation `backstrom2011center' on page \thepage  undefined on in
-put line 18.
-
-
-LaTeX Warning: Citation `hill2003social' on page \thepage  undefined on input l
-ine 18.
-
-
-LaTeX Warning: Citation `backstrom2011center' on page \thepage  undefined on in
-put line 18.
-
-
-LaTeX Warning: Citation `Golub2010selectionbiase' on page \thepage  undefined o
-n input line 26.
-
-
-LaTeX Warning: Citation `ver2011stops' on page \thepage  undefined on input lin
-e 28.
-
-
-LaTeX Warning: Citation `Romero2011hashtag' on page \thepage  undefined on inpu
-t line 31.
-
-
-LaTeX Warning: Citation `asur2011trends' on page \thepage  undefined on input l
-ine 41.
-
-
-LaTeX Warning: Citation `Bakshy2011everyone' on page \thepage  undefined on inp
-ut line 41.
-
-
-LaTeX Warning: Citation `Bakshy2012chamber' on page \thepage  undefined on inpu
-t line 41.
-
-
-LaTeX Warning: Citation `Bakshy2011everyone' on page \thepage  undefined on inp
-ut line 41.
-
-
-LaTeX Warning: Citation `asur2011trends' on page \thepage  undefined on input l
-ine 41.
-
-
-LaTeX Warning: Citation `Bakshy2011everyone' on page \thepage  undefined on inp
-ut line 41.
-
-
-LaTeX Warning: Citation `influence' on page \thepage  undefined on input line 4
-1.
-
-
-LaTeX Warning: Citation `Bakshy2012chamber' on page \thepage  undefined on inpu
-t line 41.
-
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
-een already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.42 
-      [7 <./data/plots/vsk/ModalityActionsvsKFriends-eps-converted-to.pdf>]pdfT
-eX warning (ext4): destination with the same identifier (name{page.}) has been 
-already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.42 
-      [8 <./data/plots/new/CEvsGroupSize-eps-converted-to.pdf> <./data/plots/ne
-w/CEvsPageSize-eps-converted-to.pdf> <./data/plots/new/CEvsFavSize-eps-converte
-d-to.pdf> <./data/plots/new/LRweightvsGroupSize-eps-converted-to.pdf> <./data/p
-lots/new/LRweightvsPageSize-eps-converted-to.pdf> <./data/plots/new/LRweightvsF
-avSize-eps-converted-to.pdf> <./data/plots/cumulativeEntropy/cumulative-eps-con
-verted-to.pdf>]
-
-LaTeX Warning: Citation `saez2011high' on page \thepage  undefined on input lin
-e 44.
-
-
-LaTeX Warning: Citation `singla2008yes' on page \thepage  undefined on input li
-ne 48.
-
-
-LaTeX Warning: Citation `Anderson2012' on page \thepage  undefined on input lin
-e 49.
-
-
-LaTeX Warning: Citation `brandtzag2011facebook' on page \thepage  undefined on 
-input line 49.
-
-
-LaTeX Warning: Citation `gilbert2009predicting' on page \thepage  undefined on 
-input line 50.
-
-
-LaTeX Warning: Citation `koren2009matrix' on page \thepage  undefined on input 
-line 55.
-
-
-LaTeX Warning: Citation `sorec' on page \thepage  undefined on input line 55.
-
-
-LaTeX Warning: Citation `sr' on page \thepage  undefined on input line 55.
-
-
-LaTeX Warning: Citation `rrmf' on page \thepage  undefined on input line 55.
-
-
-LaTeX Warning: Citation `tf' on page \thepage  undefined on input line 55.
-
-
-LaTeX Warning: Citation `Jiang2012SRA' on page \thepage  undefined on input lin
-e 55.
-
-
-LaTeX Warning: Citation `Jiang2012SCR' on page \thepage  undefined on input lin
-e 55.
-
-
-LaTeX Warning: Citation `lla' on page \thepage  undefined on input line 56.
-
-
-LaTeX Warning: Citation `ste' on page \thepage  undefined on input line 57.
-
-
-LaTeX Warning: Citation `sorec' on page \thepage  undefined on input line 58.
-
-
-LaTeX Warning: Citation `Noel2012NOF' on page \thepage  undefined on input line
- 58.
-
-
-LaTeX Warning: Citation `Noel2012NOF' on page \thepage  undefined on input line
- 58.
-
-
-LaTeX Warning: Citation `nori2011exploiting' on page \thepage  undefined on inp
-ut line 66.
-
-
-LaTeX Warning: Citation `gomes2011social' on page \thepage  undefined on input 
-line 66.
-
-
-LaTeX Warning: Citation `Panigrahy2012ubr' on page \thepage  undefined on input
- line 68.
-
-
-LaTeX Warning: Citation `Goel2012structure' on page \thepage  undefined on inpu
-t line 69.
-
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
 )
-(./conclusion.tex)pdfTeX warning (ext4): destination with the same identifier (
-name{page.}) has been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.225 
-       [9 <./data/plots/boxPlots/CEvsFavTypes-eps-converted-to.pdf>]
-(./document.bbl)
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 229.
-pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
-een already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.229 \end{document}
-                     [10]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 229.
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+(./relatedWork.tex
+Overfull \hbox (5.55116pt too wide) in paragraph at lines 13--20
+\OT1/ptm/m/n/10 de-mo-graph-ics is cor-re-lated with user be-hav-ior pat-terns.
+ Chang
+ []
+
+
+Overfull \hbox (9.70767pt too wide) in paragraph at lines 13--20
+\OT1/ptm/m/n/10 Two par-tic-u-lar mea-sure-ment stud-ies on Face-book at-ten-ti
+on [[]33[],
+ []
+
+
+Overfull \hbox (1.91087pt too wide) in paragraph at lines 21--40
+\OT1/ptm/m/n/10 mat-i-cal and em-pir-i-cal in-ves-ti-ga-tions. The Galton-Watso
+n epi-
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [8 <./data/plots/vsk/ModalityActionsvsKFriends-eps-converted-to.pdf>] [9 <./da
+ta/plots/new/CEvsGroupSize-eps-converted-to.pdf> <./data/plots/new/CEvsPageSize
+-eps-converted-to.pdf> <./data/plots/new/CEvsFavSize-eps-converted-to.pdf> <./d
+ata/plots/new/LRweightvsGroupSize-eps-converted-to.pdf> <./data/plots/new/LRwei
+ghtvsPageSize-eps-converted-to.pdf> <./data/plots/new/LRweightvsFavSize-eps-con
+verted-to.pdf> <./data/plots/cumulativeEntropy/cumulative-eps-converted-to.pdf>
+]
+Overfull \hbox (6.49084pt too wide) in paragraph at lines 43--53
+\OT1/ptm/m/n/10 user in-ter-ac-tions to pref-er-ences and tie strength. Saez-Tr
+umper
+ []
+
+
+Overfull \hbox (1.34807pt too wide) in paragraph at lines 43--53
+\OT1/ptm/m/n/10 et al [[]28[]] found that in-com-ing and out-go-ing ac-tives ar
+e highly
+ []
+
+
+Overfull \hbox (3.07787pt too wide) in paragraph at lines 43--53
+\OT1/ptm/m/n/10 cor-re-lated on broad-cast plat-forms such as Face-book and Twi
+t-
+ []
+
+
+Overfull \hbox (9.08807pt too wide) in paragraph at lines 43--53
+\OT1/ptm/m/n/10 in-spired by these ob-ser-va-tions, we also quan-ti-fy-ing the 
+strength
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+Overfull \hbox (6.30746pt too wide) in paragraph at lines 66--73
+\OT1/ptm/m/n/10 ac-tions on Twit-ter from ac-tions in both Twit-ter and Del.ici
+o.us.
+ []
+
+
+Overfull \hbox (25.1079pt too wide) in paragraph at lines 66--73
+\OT1/ptm/m/n/10 al. [[]13[]] de-rived rules for Face-book in-ter-ac-tions us-in
+g a psychology-
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [10 <./data/plots/boxPlots/CEvsFavTypes-eps-converted-to.pdf>]
+Overfull \hbox (1.13815pt too wide) in paragraph at lines 88--90
+\OT1/ptm/m/n/10 out-per-form state-of-the-art rec-om-men-da-tion ap-proaches, a
+nd
+ []
+
+) (./conclusion.tex)
+Overfull \hbox (11.88718pt too wide) in paragraph at lines 3--233
+[]\OT1/ptm/m/n/10 We pro-posed So-cial Affin-ity Fil-ter-ing (SAF) as a new met
+hod
+ []
+
+
+Overfull \hbox (1.46802pt too wide) in paragraph at lines 3--233
+\OT1/ptm/m/n/10 groups (SAGs) of a tar-get user by analysing their fine-grained
+
+ []
+
+
+Overfull \hbox (3.66112pt too wide) in paragraph at lines 3--233
+\OT1/ptm/m/n/10 in-ter-ac-tions and ac-tiv-i-ties. Then we learned which SAGs w
+ere
+ []
+
+(./document.bbl
+Missing character: There is no Â in font ptmr7t!
+Missing character: There is no ¾ in font ptmr7t!
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [11])
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 237.
+
+[12
+
+]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 237.
  (./document.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 229.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 229.
-
-
-Package rerunfilecheck Warning: File `document.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `document.out':
-(rerunfilecheck)             Before: <no file>
-(rerunfilecheck)             After:  A60B13263C07DCE46A5532B252C826EB;830.
-
-LaTeX Warning: There were undefined references.
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 229.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 237.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 237.
+Package rerunfilecheck Info: File `document.out' has not changed.
+(rerunfilecheck)             Checksum: 58A4283788D4A22DDE451AF0BBDA2BB1;884.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 237.
  ) 
 Here is how much of TeX's memory you used:
- 7722 strings out of 493488
- 115915 string characters out of 3141326
- 215901 words of memory out of 3000000
- 10768 multiletter control sequences out of 15000+200000
- 63695 words of font info for 81 fonts, out of 3000000 for 9000
+ 7583 strings out of 493488
+ 114811 string characters out of 3141326
+ 218718 words of memory out of 3000000
+ 10608 multiletter control sequences out of 15000+200000
+ 62545 words of font info for 99 fonts, out of 3000000 for 9000
  957 hyphenation exceptions out of 8191
- 44i,22n,46p,1057b,499s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 44i,22n,46p,1057b,500s stack positions out of 5000i,500n,10000p,200000b,50000s
 {/usr/local/texlive/2012/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
-exlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></usr/local/tex
-live/2012/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmex9.pfb></usr/local/
-texlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/local/te
-xlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texl
-ive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/local/texliv
-e/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/2
-012/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2012
-/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/2012/te
-xmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texlive/2012/texm
-f-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2012/texmf-
-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/local/texlive/2012/texmf-di
-st/fonts/type1/public/amsfonts/cm/cmti7.pfb></usr/local/texlive/2012/texmf-dist
-/fonts/type1/public/amsfonts/cm/cmti9.pfb></usr/local/texlive/2012/texmf-dist/f
-onts/type1/urw/helvetic/uhvb8a.pfb></usr/local/texlive/2012/texmf-dist/fonts/ty
-pe1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2012/texmf-dist/fonts/type1/urw
-/times/utmb8a.pfb></usr/local/texlive/2012/texmf-dist/fonts/type1/urw/times/utm
-r8a.pfb></usr/local/texlive/2012/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on document.pdf (10 pages, 3562582 bytes).
+exlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/te
+xlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/tex
+live/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texl
+ive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texliv
+e/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/
+2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/20
+12/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2012/
+texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2012/tex
+mf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2012/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2012/texmf-
+dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2012/texmf-di
+st/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2012/texmf-dis
+t/fonts/type1/public/amsfonts/cm/cmti7.pfb></usr/local/texlive/2012/texmf-dist/
+fonts/type1/urw/helvetic/uhvb8a.pfb></usr/local/texlive/2012/texmf-dist/fonts/t
+ype1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2012/texmf-dist/fonts/type1/ur
+w/times/utmb8a.pfb></usr/local/texlive/2012/texmf-dist/fonts/type1/urw/times/ut
+mr8a.pfb></usr/local/texlive/2012/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+
+Output written on document.pdf (12 pages, 3572845 bytes).
 PDF statistics:
- 661 PDF objects out of 1000 (max. 8388607)
- 269 compressed objects within 3 object streams
- 78 named destinations out of 1000 (max. 500000)
- 56 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 837 PDF objects out of 1000 (max. 8388607)
+ 441 compressed objects within 5 object streams
+ 89 named destinations out of 1000 (max. 500000)
+ 176 words of extra memory for PDF output out of 10000 (max. 10000000)
 
