@@ -1,0 +1,31 @@
+Content recommendation in social networks poses the complex problem of
+learning user preferences from a rich and complex set of interactions
+(e.g., likes, comments and tags for posts, photos and videos) and
+activities (e.g., favourites, group memberships, interests).  While
+many social collaborative filtering approaches learn from aggregate statistics over this
+social information, we propose a different approach: we first define
+social affinity groups (SAGs) of a target user by analysing their
+fine-grained interactions (e.g., users who have been tagged in the
+target user's video) and activities (e.g., users who have joined the
+same special interest group that the target user has joined).  Then we
+learn which SAGs are most predictive of the target user's preferences
+in a method we term social affinity filtering (SAF).  We apply SAF to
+preference data from a set of Facebook users and their
+complete interactions with 38,000+ friends collected over a four month
+period.  Our analysis demonstrates that SAF yields higher accuracy
+than a range of state-of-the-art (social) collaborative filtering approaches and that not all
+interactions and activities are equally predictive: among many insights, 
+we show certain user-to-user interactions are more
+informative than others %(tagging is often more informative than
+%commenting, video interactions are more informative than wall post
+%interactions)
+%we analyse trends in the relationship between the
+%size of activity-based SAGs and informativeness
+% (small groups can be
+%highly informative while large groups are rarely informative).
+and we show that activity informativeness varies drastically with type, size, 
+and exposure.  In summary, this work demonstrates the previously untapped
+predictive power of fine-grained social interaction and activity
+features and the novel method of SAF to leverage them for
+state-of-the-art social recommender systems.
+
