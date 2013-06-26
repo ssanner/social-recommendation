@@ -19,14 +19,19 @@ regularization~\cite{lla,socinf,sr,rrmf, Noel2012NOF}, a trust
 ensemble~\cite{ste}, or a low-rank factorization of the social
 interactions matrix~\cite{sorec}.  But in aggregating all of these
 interactions and common activities into a single strength of
-interaction, we ask whether important preference information has been
-discarded?  Indeed, the point of departure for this work is the
-hypothesis that different fine-grained interactions (e.g. commenting
-on a wall vs. getting tagged in a video) and activities (e.g., a
-university alumni group vs fans of a TV series) \emph{do} represent different
-preferential {\em affinities} between users, and moreover that effective
-{\em filtering} of this information will lead to better results in
-social recommendation.
+interaction, we 
+%show effectively that the signal present in this 
+%information gets drowned out in the noise --- some fine-grained
+%interactions and activities are highly informative, but most are not.
+ask whether important preference information has been discarded?
+Indeed, the point of departure for this work is the hypothesis that
+different fine-grained interactions (e.g. commenting on a wall or
+getting tagged in a video) and activities (e.g., being a member of a
+university alumni group or a fan of a TV series) \emph{do} represent
+different preferential {\em affinities} between users, and moreover
+that effective {\em filtering} of this information (i.e., learning
+which of these fine-grained interactions and activities are 
+informative) will lead to improved accuracy in social recommendation.
 
 %% No longer fits cleanly in the intro, should be moved into related
 %% work is not already mentioned there.  -SPS
@@ -42,50 +47,59 @@ informativeness of different fine-grained features for social
 recommendation, we have built a Facebook App to collect detailed user
 interaction and activity history available through the Facebook Graph
 API along with user preferences solicited by the App on a daily basis.
-Specifically, each day our App recommends three links to each App user 
+Specifically, each day our App recommends three links to each App user
 that are collected from the timeline of other users (both friends and
 non-friends) and we record users' explicit likes and dislikes of these
 recommended links.  Given this data, we define \emph{social affinity
-groups (SAGs)} of a target user by analysing their fine-grained
-interactions (e.g., users who have been tagged in the target user's
-video) and activities (e.g., users who have joined the same special
-interest group that the target user has joined).  Given these SAGS, we
-(a) learn to predict whether a user will like an item based on members
-of other SAGs who have also liked the item using a novel
-recommendation method we call {\em social affinity filtering (SAF)},
-and (2) analyse the relative informativeness of different SAGs based
-on various properties such as type, size, and exposure.
+groups (SAGs)} of a target user (ego) as sets of surrogate users
+(alters) serving as proxies for an ego's preferences; these SAGs are
+defined according to fine-grained
+\emph{interactions} (e.g., users who have been tagged in the target user's
+video) and \emph{activities} (e.g., users who have liked the same
+political party page that the target user has liked).  Given a set of
+SAGS for a user, (1) we learn to predict whether a user will like an
+item based on the surrogate item preferences of members of each SAG in
+a novel recommendation method we term {\em social affinity filtering
+(SAF)}, and (2) we analyse the relative informativeness of SAGs across
+a variety of dimensions such as type, size, and level of exposure.
 
-In the four months that our App was active, we collected data for a set of 
-Facebook app users and their full interactions with 38,000+ friends along with 22
-distinct types of interaction and users activity for 3000+ groups, 4000+ favourites, and 10,000+ pages. 
-In subsequent sections that outline our experimental methodology and results in detail, 
-we make the following critical observations:
+In the four months that our App was active, we collected data for a
+set of Facebook app users and their full interactions with 38,000+
+friends along with 22 distinct types of interaction and users activity
+for 3000+ groups, 4000+ favourites, and 10,000+ pages.  In subsequent
+sections that outline our experimental methodology and results in
+detail, we make the following critical observations:
 \begin{itemize}
 \item We found that SAF significantly 
 outperforms numerous state-of-the-art collaborative filtering and social recommender 
-systems, by up to 6\% in accuracy -- in short, fine-grained 
-interactions are very informative, bringing into question the efficacy of 
-previous social recommendation approaches that aggregate user-to-user interactions into 
-a single numerical value.
+systems, by up to 6\% in accuracy using just \emph{page} (like) features.
+Because the reluctance of a user to install an App increases with the number
+of permissions requested, this suggests a state-of-the-art social recommendation App 
+need only request permissions for a user's \emph{page} likes in order to achieve
+state-of-the-art recommendation accuracy.
+% -- in short, these fine-grained features can be very informative.
 % Also, what about combining all features?  Not enough data?  -SPS
 % Probably also much faster -- should we show a table of train and test times?  -SPS
-\item We also found that groups, pages, and favourites make for more informative
-SAGs than those defined by user-to-user interactions -- likely because the former can be
+\item We found that groups, pages, and favourites make for more informative
+SAGs than those defined by user-to-user interactions.  This is likely because the former can be
 applied to SAGs over the entire Facebook population 
 rather than just a user's friends (where the data is considerably limited).
-\item Among the interactions, we found that those on videos are more predictive than those on other content types (photos, post, link), and that outgoing interactions (performed by the ego on the alter) 
-are more predictive than incoming ones (performed by alters on the ego's timeline),
-although the level of exposure of an ego to an alter's preferences is more 
-important than the directionality of the interaction with the alters.
+\item Among the interactions, we found that those on videos are more predictive than those on other content types (photos, post, link), and that outgoing interactions (performed by the ego on the alter's timeline) 
+are more predictive than incoming ones (performed by alters on the
+ego's timeline), although the level of exposure of an ego to an
+alter's preferences is more important than the directionality of the
+interaction with the alters.
 % Below: not sure I quite understand ``persistent'' and ``temporally synchronized'' here... 
 % are there better terms or can they be further (briefly) explained?  -SPS
 \item %{\bf TODO: see Latex comments.} 
-Among {\em groups}, {\em pages} and {\em favourites}, we found that the most  
-predictive features have smaller membership size. We also found features
- corresponding to ``long-tailed'' content (such as music and books)
- tend to be more predictive than those without a large number of choices 
- (e.g. sports or favorite teams). 
+Among {\em groups}, {\em pages} and {\em favourites}, we found that only
+a small subset of the features were actually informative, bringing into question the efficacy of 
+previous social recommendation approaches that aggregate social information between
+two users into a single numerical value.  We found that the most  
+predictive features tend to have small memberships.  We also found features
+corresponding to ``long-tailed'' content (such as music and books)
+can be much more predictive than those with fewer choices 
+(e.g. interests or sports). 
  %to generic (such as interests) or activities that require 
  %simultaneous participation (such as sports) are less predictive of 
  %user interest than topics that are ongoing or persistent in time (such as TV, books).
@@ -93,12 +107,18 @@ predictive features have smaller membership size. We also found features
 As detailed in the subsequent sections, these findings not only
 demonstrate the power of leveraging fine-grained interaction and
 activity features but they also suggest which of these features are
-most important to collect when building SAF-based recommenders.  This
-latter point is quite important since as we note later -- the more
-permissions an App requests, the less likely a user is to grant
-permissions to the App, so choosing permissions (i.e., social
-features) well is crucial for achieving good recommendations with
-minimal intrusion into a user's privacy.
+most important to collect when building state-of-the-art
+SAF-based recommenders.
+%  This
+%latter point is quite important since as already noted, there is
+%a trade-off between the number of permissions a Facebook App requests
+%and user uptake.
+%
+%we note later -- the more
+%permissions an App requests, the less likely a user is to grant
+%permissions to the App, so choosing permissions (i.e., social
+%features) well is crucial for achieving good recommendations with
+%minimal intrusion into a user's privacy.
 
 \eat{
 To better understand these subtleties and to understand what

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012) (format=pdflatex 2012.6.30)  18 JUN 2013 14:15
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011/Cygwin) (format=pdflatex 2012.5.9)  26 JUN 2013 22:45
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -6,46 +6,45 @@ entering extended mode
 (./document.tex
 LaTeX2e <2011/06/27>
 Babel <v3.8m> and hyphenation patterns for english, dumylang, nohyphenation, ge
-rman-x-2012-05-30, ngerman-x-2012-05-30, afrikaans, ancientgreek, ibycus, arabi
+rman-x-2011-07-01, ngerman-x-2011-07-01, afrikaans, ancientgreek, ibycus, arabi
 c, armenian, basque, bulgarian, catalan, pinyin, coptic, croatian, czech, danis
 h, dutch, ukenglish, usenglishmax, esperanto, estonian, ethiopic, farsi, finnis
-h, french, friulan, galician, german, ngerman, swissgerman, monogreek, greek, h
-ungarian, icelandic, assamese, bengali, gujarati, hindi, kannada, malayalam, ma
-rathi, oriya, panjabi, tamil, telugu, indonesian, interlingua, irish, italian, 
-kurmanji, latin, latvian, lithuanian, mongolian, mongolianlmc, bokmal, nynorsk,
- polish, portuguese, romanian, romansh, russian, sanskrit, serbian, serbianc, s
-lovak, slovenian, spanish, swedish, turkish, turkmen, ukrainian, uppersorbian, 
-welsh, loaded.
-(./sig-alternte-cosn.cls
-(/usr/local/texlive/2012/texmf-dist/tex/latex/graphics/epsfig.sty
+h, french, galician, german, ngerman, swissgerman, monogreek, greek, hungarian,
+ icelandic, assamese, bengali, gujarati, hindi, kannada, malayalam, marathi, or
+iya, panjabi, tamil, telugu, indonesian, interlingua, irish, italian, kurmanji,
+ lao, latin, latvian, lithuanian, mongolian, mongolianlmc, bokmal, nynorsk, pol
+ish, portuguese, romanian, russian, sanskrit, serbian, serbianc, slovak, sloven
+ian, spanish, swedish, turkish, turkmen, ukrainian, uppersorbian, welsh, loaded
+.
+(./sig-alternte-cosn.cls (/usr/share/texmf-dist/tex/latex/graphics/epsfig.sty
 Package: epsfig 1999/02/16 v1.7a (e)psfig emulation (SPQR)
 
-(/usr/local/texlive/2012/texmf-dist/tex/latex/graphics/graphicx.sty
+(/usr/share/texmf-dist/tex/latex/graphics/graphicx.sty
 Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
 
-(/usr/local/texlive/2012/texmf-dist/tex/latex/graphics/keyval.sty
+(/usr/share/texmf-dist/tex/latex/graphics/keyval.sty
 Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
 \KV@toks@=\toks14
 )
-(/usr/local/texlive/2012/texmf-dist/tex/latex/graphics/graphics.sty
+(/usr/share/texmf-dist/tex/latex/graphics/graphics.sty
 Package: graphics 2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
 
-(/usr/local/texlive/2012/texmf-dist/tex/latex/graphics/trig.sty
+(/usr/share/texmf-dist/tex/latex/graphics/trig.sty
 Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
 )
-(/usr/local/texlive/2012/texmf-dist/tex/latex/latexconfig/graphics.cfg
+(/usr/share/texmf-dist/tex/latex/latexconfig/graphics.cfg
 File: graphics.cfg 2010/04/23 v1.9 graphics configuration of TeX Live
 )
 Package graphics Info: Driver file: pdftex.def on input line 91.
 
-(/usr/local/texlive/2012/texmf-dist/tex/latex/pdftex-def/pdftex.def
+(/usr/share/texmf-dist/tex/latex/pdftex-def/pdftex.def
 File: pdftex.def 2011/05/27 v0.06d Graphics/color for pdfTeX
 
-(/usr/local/texlive/2012/texmf-dist/tex/generic/oberdiek/infwarerr.sty
-Package: infwarerr 2010/04/08 v1.3 Providing info/warning/error messages (HO)
+(/usr/share/texmf-dist/tex/generic/oberdiek/infwarerr.sty
+Package: infwarerr 2010/04/08 v1.3 Providing info/warning/message (HO)
 )
-(/usr/local/texlive/2012/texmf-dist/tex/generic/oberdiek/ltxcmds.sty
-Package: ltxcmds 2011/11/09 v1.22 LaTeX kernel commands for general use (HO)
+(/usr/share/texmf-dist/tex/generic/oberdiek/ltxcmds.sty
+Package: ltxcmds 2011/04/18 v1.20 LaTeX kernel commands for general use (HO)
 )
 \Gread@gobject=\count79
 ))
@@ -55,10 +54,10 @@ Package: ltxcmds 2011/11/09 v1.22 LaTeX kernel commands for general use (HO)
 \epsfxsize=\dimen104
 \epsfysize=\dimen105
 )
-(/usr/local/texlive/2012/texmf-dist/tex/latex/amsfonts/amssymb.sty
+(/usr/share/texmf-dist/tex/latex/amsfonts/amssymb.sty
 Package: amssymb 2009/06/22 v3.00
 
-(/usr/local/texlive/2012/texmf-dist/tex/latex/amsfonts/amsfonts.sty
+(/usr/share/texmf-dist/tex/latex/amsfonts/amsfonts.sty
 Package: amsfonts 2009/06/22 v3.00 Basic AMSFonts support
 \@emptytoks=\toks15
 \symAMSa=\mathgroup4
@@ -66,24 +65,24 @@ Package: amsfonts 2009/06/22 v3.00 Basic AMSFonts support
 LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 (Font)                  U/euf/m/n --> U/euf/b/n on input line 96.
 ))
-(/usr/local/texlive/2012/texmf-dist/tex/latex/amsmath/amsmath.sty
+(/usr/share/texmf-dist/tex/latex/amsmath/amsmath.sty
 Package: amsmath 2000/07/18 v2.13 AMS math features
 \@mathmargin=\skip41
 
 For additional information on amsmath, use the `?' option.
-(/usr/local/texlive/2012/texmf-dist/tex/latex/amsmath/amstext.sty
+(/usr/share/texmf-dist/tex/latex/amsmath/amstext.sty
 Package: amstext 2000/06/29 v2.01
 
-(/usr/local/texlive/2012/texmf-dist/tex/latex/amsmath/amsgen.sty
+(/usr/share/texmf-dist/tex/latex/amsmath/amsgen.sty
 File: amsgen.sty 1999/11/30 v2.0
 \@emptytoks=\toks16
 \ex@=\dimen106
 ))
-(/usr/local/texlive/2012/texmf-dist/tex/latex/amsmath/amsbsy.sty
+(/usr/share/texmf-dist/tex/latex/amsmath/amsbsy.sty
 Package: amsbsy 1999/11/29 v1.2d
 \pmbraise@=\dimen107
 )
-(/usr/local/texlive/2012/texmf-dist/tex/latex/amsmath/amsopn.sty
+(/usr/share/texmf-dist/tex/latex/amsmath/amsopn.sty
 Package: amsopn 1999/12/14 v2.01 operator names
 )
 \inf@bad=\count80
@@ -157,7 +156,7 @@ LaTeX Warning: You have requested document class `sig-alternte-cosn',
 
 Document Class: sig-alternate 2007/03/01 - V1.9 - based on acmproc.cls V1.3 <No
 v. 30 '99>
-(/usr/local/texlive/2012/texmf-dist/tex/latex/base/latexsym.sty
+(/usr/share/texmf-dist/tex/latex/base/latexsym.sty
 Package: latexsym 1998/08/17 v2.2e Standard LaTeX package (lasy symbols)
 \symlasy=\mathgroup6
 LaTeX Font Info:    Overwriting symbol font `lasy' in version `bold'
@@ -187,16 +186,16 @@ Using 'Abbrev' bibliography style
 \acmcopyr=\toks32
 \boilerplate=\toks33
 \copyrightetc=\toks34
-) (/usr/local/texlive/2012/texmf-dist/tex/latex/psnfss/times.sty
+) (/usr/share/texmf-dist/tex/latex/psnfss/times.sty
 Package: times 2005/04/12 PSNFSS-v9.2a (SPQR) 
 )
-(/usr/local/texlive/2012/texmf-dist/tex/latex/psnfss/helvet.sty
+(/usr/share/texmf-dist/tex/latex/psnfss/helvet.sty
 Package: helvet 2005/04/12 PSNFSS-v9.2a (WaS) 
 )
-(/usr/local/texlive/2012/texmf-dist/tex/latex/psnfss/courier.sty
+(/usr/share/texmf-dist/tex/latex/psnfss/courier.sty
 Package: courier 2005/04/12 PSNFSS-v9.2a (WaS) 
 )
-(/usr/local/texlive/2012/texmf-dist/tex/latex/tools/array.sty
+(/usr/share/texmf-dist/tex/latex/tools/array.sty
 Package: array 2008/09/09 v2.4c Tabular extension package (FMi)
 \col@sep=\dimen123
 \extrarowheight=\dimen124
@@ -204,7 +203,7 @@ Package: array 2008/09/09 v2.4c Tabular extension package (FMi)
 \extratabsurround=\skip44
 \backup@length=\skip45
 )
-(/usr/local/texlive/2012/texmf-dist/tex/latex/subfig/subfig.sty
+(/usr/share/texmf-dist/tex/latex/subfig/subfig.sty
 Package: subfig 2005/06/28 ver: 1.3 subfig package
 
 
@@ -229,11 +228,11 @@ Package subfig Warning: Your document class has a bad definition
  can't take effect on \endtable.
  Please complain to your document class author.
 
-(/usr/local/texlive/2012/texmf-dist/tex/latex/caption/caption.sty
-Package: caption 2012/02/19 v3.2f Customizing captions (AR)
+(/usr/share/texmf-dist/tex/latex/caption/caption.sty
+Package: caption 2011/11/10 v3.2e Customizing captions (AR)
 
-(/usr/local/texlive/2012/texmf-dist/tex/latex/caption/caption3.sty
-Package: caption3 2012/01/12 v1.4b caption3 kernel (AR)
+(/usr/share/texmf-dist/tex/latex/caption/caption3.sty
+Package: caption3 2011/11/01 v1.4a caption3 kernel (AR)
 \captionmargin=\dimen125
 \captionmargin@=\dimen126
 \captionwidth=\dimen127
@@ -268,28 +267,28 @@ tempboxa \hbox {\textbf {#1: #2}} \ifdim \wd \@tempboxa >\hsize \textbf {#1: #2
 \c@lotdepth=\count116
 \sf@top=\skip51
 \sf@bottom=\skip52
-) (/usr/local/texlive/2012/texmf-dist/tex/latex/oberdiek/epstopdf.sty
+) (/usr/share/texmf-dist/tex/latex/oberdiek/epstopdf.sty
 Package: epstopdf 2010/02/09 v2.5 Conversion with epstopdf on the fly (HO)
 
-(/usr/local/texlive/2012/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
+(/usr/share/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
 Package: epstopdf-base 2010/02/09 v2.5 Base part for package epstopdf
 
-(/usr/local/texlive/2012/texmf-dist/tex/latex/oberdiek/grfext.sty
-Package: grfext 2010/08/19 v1.1 Manage graphics extensions (HO)
+(/usr/share/texmf-dist/tex/latex/oberdiek/grfext.sty
+Package: grfext 2010/08/19 v1.1 Managing graphics extensions (HO)
 
-(/usr/local/texlive/2012/texmf-dist/tex/generic/oberdiek/kvdefinekeys.sty
-Package: kvdefinekeys 2011/04/07 v1.3 Define keys (HO)
+(/usr/share/texmf-dist/tex/generic/oberdiek/kvdefinekeys.sty
+Package: kvdefinekeys 2011/04/07 v1.3 Defining keys (HO)
 ))
-(/usr/local/texlive/2012/texmf-dist/tex/latex/oberdiek/kvoptions.sty
-Package: kvoptions 2011/06/30 v3.11 Key value format for package options (HO)
+(/usr/share/texmf-dist/tex/latex/oberdiek/kvoptions.sty
+Package: kvoptions 2010/12/23 v3.10 Keyval support for LaTeX options (HO)
 
-(/usr/local/texlive/2012/texmf-dist/tex/generic/oberdiek/kvsetkeys.sty
-Package: kvsetkeys 2012/04/25 v1.16 Key value parser (HO)
+(/usr/share/texmf-dist/tex/generic/oberdiek/kvsetkeys.sty
+Package: kvsetkeys 2011/04/07 v1.13 Key value parser (HO)
 
-(/usr/local/texlive/2012/texmf-dist/tex/generic/oberdiek/etexcmds.sty
-Package: etexcmds 2011/02/16 v1.5 Avoid name clashes with e-TeX commands (HO)
+(/usr/share/texmf-dist/tex/generic/oberdiek/etexcmds.sty
+Package: etexcmds 2011/02/16 v1.5 Prefix for e-TeX command names (HO)
 
-(/usr/local/texlive/2012/texmf-dist/tex/generic/oberdiek/ifluatex.sty
+(/usr/share/texmf-dist/tex/generic/oberdiek/ifluatex.sty
 Package: ifluatex 2010/03/01 v1.3 Provides the ifluatex switch (HO)
 Package ifluatex Info: LuaTeX not detected.
 )
@@ -298,11 +297,10 @@ Package etexcmds Info: Could not find \expanded.
 (etexcmds)             that some package has redefined \expanded.
 (etexcmds)             In the latter case, load this package earlier.
 )))
-(/usr/local/texlive/2012/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
-Package: pdftexcmds 2011/11/29 v0.20 Utility functions of pdfTeX for LuaTeX (HO
-)
+(/usr/share/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
+Package: pdftexcmds 2011/04/22 v0.16 Utilities of pdfTeX for LuaTeX (HO)
 
-(/usr/local/texlive/2012/texmf-dist/tex/generic/oberdiek/ifpdf.sty
+(/usr/share/texmf-dist/tex/generic/oberdiek/ifpdf.sty
 Package: ifpdf 2011/01/30 v2.3 Provides the ifpdf switch (HO)
 Package ifpdf Info: pdfTeX in PDF mode is detected.
 )
@@ -316,96 +314,93 @@ Package grfext Info: Graphics extension search list:
 G,.JBIG2,.JB2,.eps]
 (grfext)             \AppendGraphicsExtensions on input line 452.
 
-(/usr/local/texlive/2012/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+(/usr/share/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 )))
-(/usr/local/texlive/2012/texmf-dist/tex/latex/graphics/color.sty
+(/usr/share/texmf-dist/tex/latex/graphics/color.sty
 Package: color 2005/11/14 v1.0j Standard LaTeX Color (DPC)
 
-(/usr/local/texlive/2012/texmf-dist/tex/latex/latexconfig/color.cfg
+(/usr/share/texmf-dist/tex/latex/latexconfig/color.cfg
 File: color.cfg 2007/01/18 v1.5 color configuration of teTeX/TeXLive
 )
 Package color Info: Driver file: pdftex.def on input line 130.
 )
-(/usr/local/texlive/2012/texmf-dist/tex/latex/hyperref/hyperref.sty
-Package: hyperref 2012/05/13 v6.82q Hypertext links for LaTeX
+(/usr/share/texmf-dist/tex/latex/hyperref/hyperref.sty
+Package: hyperref 2012/02/06 v6.82o Hypertext links for LaTeX
 
-(/usr/local/texlive/2012/texmf-dist/tex/generic/oberdiek/hobsub-hyperref.sty
-Package: hobsub-hyperref 2012/05/28 v1.13 Bundle oberdiek, subset hyperref (HO)
+(/usr/share/texmf-dist/tex/generic/oberdiek/hobsub-hyperref.sty
+Package: hobsub-hyperref 2011/04/23 v1.4 Bundle oberdiek, subset hyperref (HO)
 
-
-(/usr/local/texlive/2012/texmf-dist/tex/generic/oberdiek/hobsub-generic.sty
-Package: hobsub-generic 2012/05/28 v1.13 Bundle oberdiek, subset generic (HO)
-Package: hobsub 2012/05/28 v1.13 Construct package bundles (HO)
+(/usr/share/texmf-dist/tex/generic/oberdiek/hobsub-generic.sty
+Package: hobsub-generic 2011/04/23 v1.4 Bundle oberdiek, subset generic (HO)
+Package: hobsub 2011/04/23 v1.4 Subsetting bundle oberdiek (HO)
 Package hobsub Info: Skipping package `infwarerr' (already loaded).
 Package hobsub Info: Skipping package `ltxcmds' (already loaded).
 Package hobsub Info: Skipping package `ifluatex' (already loaded).
-Package: ifvtex 2010/03/01 v1.5 Detect VTeX and its facilities (HO)
+Package: ifvtex 2010/03/01 v1.5 Switches for detecting VTeX and its modes (HO)
 Package ifvtex Info: VTeX not detected.
-Package: intcalc 2007/09/27 v1.1 Expandable calculations with integers (HO)
+Package: intcalc 2007/09/27 v1.1 Expandable integer calculations (HO)
 Package hobsub Info: Skipping package `ifpdf' (already loaded).
 Package hobsub Info: Skipping package `etexcmds' (already loaded).
 Package hobsub Info: Skipping package `kvsetkeys' (already loaded).
 Package hobsub Info: Skipping package `kvdefinekeys' (already loaded).
 Package hobsub Info: Skipping package `pdftexcmds' (already loaded).
-Package: pdfescape 2011/11/25 v1.13 Implements pdfTeX's escape features (HO)
-Package: bigintcalc 2012/04/08 v1.3 Expandable calculations on big integers (HO
-)
-Package: bitset 2011/01/30 v1.1 Handle bit-vector datatype (HO)
-Package: uniquecounter 2011/01/30 v1.2 Provide unlimited unique counter (HO)
+Package: pdfescape 2011/04/04 v1.12 Provides string conversions (HO)
+Package: bigintcalc 2011/01/30 v1.2 Expandable big integer calculations (HO)
+Package: bitset 2011/01/30 v1.1 Data type bit set (HO)
+Package: uniquecounter 2011/01/30 v1.2 Provides unlimited unique counter (HO)
 )
 Package hobsub Info: Skipping package `hobsub' (already loaded).
 Package: letltxmacro 2010/09/02 v1.4 Let assignment for LaTeX macros (HO)
-Package: hopatch 2012/05/28 v1.2 Wrapper for package hooks (HO)
+Package: hopatch 2011/01/30 v1.0 Wrapper for package hooks (HO)
 Package: xcolor-patch 2011/01/30 xcolor patch
-Package: atveryend 2011/06/30 v1.8 Hooks at the very end of document (HO)
-Package atveryend Info: \enddocument detected (standard20110627).
-Package: atbegshi 2011/10/05 v1.16 At begin shipout hook (HO)
-Package: refcount 2011/10/16 v3.4 Data extraction from label references (HO)
-Package: hycolor 2011/01/30 v1.7 Color options for hyperref/bookmark (HO)
+Package: atveryend 2011/04/23 v1.7 Hooks at very end of document (HO)
+Package: atbegshi 2011/01/30 v1.15 At begin shipout hook (HO)
+Package: refcount 2010/12/01 v3.2 Data extraction from references (HO)
+Package: hycolor 2011/01/30 v1.7 Color options of hyperref/bookmark (HO)
 )
-(/usr/local/texlive/2012/texmf-dist/tex/generic/ifxetex/ifxetex.sty
+(/usr/share/texmf-dist/tex/generic/ifxetex/ifxetex.sty
 Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
 )
 \@linkdim=\dimen132
 \Hy@linkcounter=\count117
 \Hy@pagecounter=\count118
 
-(/usr/local/texlive/2012/texmf-dist/tex/latex/hyperref/pd1enc.def
-File: pd1enc.def 2012/05/13 v6.82q Hyperref: PDFDocEncoding definition (HO)
+(/usr/share/texmf-dist/tex/latex/hyperref/pd1enc.def
+File: pd1enc.def 2012/02/06 v6.82o Hyperref: PDFDocEncoding definition (HO)
 )
 \Hy@SavedSpaceFactor=\count119
 
-(/usr/local/texlive/2012/texmf-dist/tex/latex/latexconfig/hyperref.cfg
+(/usr/share/texmf-dist/tex/latex/latexconfig/hyperref.cfg
 File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive
 )
-Package hyperref Info: Hyper figures OFF on input line 4062.
-Package hyperref Info: Link nesting OFF on input line 4067.
-Package hyperref Info: Hyper index ON on input line 4070.
-Package hyperref Info: Plain pages OFF on input line 4077.
-Package hyperref Info: Backreferencing OFF on input line 4082.
+Package hyperref Info: Hyper figures OFF on input line 4046.
+Package hyperref Info: Link nesting OFF on input line 4051.
+Package hyperref Info: Hyper index ON on input line 4054.
+Package hyperref Info: Plain pages OFF on input line 4061.
+Package hyperref Info: Backreferencing OFF on input line 4066.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
-Package hyperref Info: Bookmarks ON on input line 4300.
+Package hyperref Info: Bookmarks ON on input line 4284.
 \c@Hy@tempcnt=\count120
 
-(/usr/local/texlive/2012/texmf-dist/tex/latex/url/url.sty
+(/usr/share/texmf-dist/tex/latex/url/url.sty
 \Urlmuskip=\muskip11
 Package: url 2006/04/12  ver 3.3  Verb mode for urls, etc.
 )
-LaTeX Info: Redefining \url on input line 4653.
+LaTeX Info: Redefining \url on input line 4637.
 \Fld@menulength=\count121
 \Field@Width=\dimen133
 \Fld@charsize=\dimen134
-Package hyperref Info: Hyper figures OFF on input line 5773.
-Package hyperref Info: Link nesting OFF on input line 5778.
-Package hyperref Info: Hyper index ON on input line 5781.
-Package hyperref Info: backreferencing OFF on input line 5788.
-Package hyperref Info: Link coloring OFF on input line 5793.
-Package hyperref Info: Link coloring with OCG OFF on input line 5798.
-Package hyperref Info: PDF/A mode OFF on input line 5803.
-LaTeX Info: Redefining \ref on input line 5843.
-LaTeX Info: Redefining \pageref on input line 5847.
+Package hyperref Info: Hyper figures OFF on input line 5757.
+Package hyperref Info: Link nesting OFF on input line 5762.
+Package hyperref Info: Hyper index ON on input line 5765.
+Package hyperref Info: backreferencing OFF on input line 5772.
+Package hyperref Info: Link coloring OFF on input line 5777.
+Package hyperref Info: Link coloring with OCG OFF on input line 5782.
+Package hyperref Info: PDF/A mode OFF on input line 5787.
+LaTeX Info: Redefining \ref on input line 5827.
+LaTeX Info: Redefining \pageref on input line 5831.
 \Hy@abspage=\count122
 \c@Item=\count123
 \c@Hfootnote=\count124
@@ -413,19 +408,18 @@ LaTeX Info: Redefining \pageref on input line 5847.
 
 Package hyperref Message: Driver: hpdftex.
 
-(/usr/local/texlive/2012/texmf-dist/tex/latex/hyperref/hpdftex.def
-File: hpdftex.def 2012/05/13 v6.82q Hyperref driver for pdfTeX
+(/usr/share/texmf-dist/tex/latex/hyperref/hpdftex.def
+File: hpdftex.def 2012/02/06 v6.82o Hyperref driver for pdfTeX
 \Fld@listcount=\count125
 \c@bookmark@seq@number=\count126
 
-(/usr/local/texlive/2012/texmf-dist/tex/latex/oberdiek/rerunfilecheck.sty
+(/usr/share/texmf-dist/tex/latex/oberdiek/rerunfilecheck.sty
 Package: rerunfilecheck 2011/04/15 v1.7 Rerun checks for auxiliary files (HO)
 Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 82.
 )
 \Hy@SectionHShift=\skip53
-)
-(./document.aux)
+) (./document.aux)
 \openout1 = `document.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 103.
@@ -444,9 +438,10 @@ LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 103.
 LaTeX Font Info:    ... okay on input line 103.
 LaTeX Font Info:    Try loading font information for OT1+ptm on input line 103.
 
- (/usr/local/texlive/2012/texmf-dist/tex/latex/psnfss/ot1ptm.fd
+(/usr/share/texmf-dist/tex/latex/psnfss/ot1ptm.fd
 File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
-) (/usr/local/texlive/2012/texmf-dist/tex/context/base/supp-pdf.mkii
+)
+(/usr/share/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count127
 \scratchdimen=\dimen135
@@ -471,10 +466,10 @@ Package hyperref Warning: Height of page (\paperheight) is invalid (0.0pt),
 (hyperref)                using 11in.
 
 Package hyperref Info: Link coloring OFF on input line 103.
-(/usr/local/texlive/2012/texmf-dist/tex/latex/hyperref/nameref.sty
+(/usr/share/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2010/04/30 v2.40 Cross-referencing by name of section
 
-(/usr/local/texlive/2012/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
+(/usr/share/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
 Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 )
 \c@section@level=\count133
@@ -489,44 +484,24 @@ LaTeX Info: Redefining \nameref on input line 103.
 
 LaTeX Font Info:    Try loading font information for U+msa on input line 181.
 
-(/usr/local/texlive/2012/texmf-dist/tex/latex/amsfonts/umsa.fd
+(/usr/share/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2009/06/22 v3.00 AMS symbols A
 )
 LaTeX Font Info:    Try loading font information for U+msb on input line 181.
 
-(/usr/local/texlive/2012/texmf-dist/tex/latex/amsfonts/umsb.fd
+(/usr/share/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2009/06/22 v3.00 AMS symbols B
 )
 LaTeX Font Info:    Try loading font information for U+lasy on input line 181.
 
-(/usr/local/texlive/2012/texmf-dist/tex/latex/base/ulasy.fd
+(/usr/share/texmf-dist/tex/latex/base/ulasy.fd
 File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
 )
-Overfull \hbox (19.1822pt too wide) in paragraph at lines 181--181
- []\eaddfnt suvash.sedhain@anu.edu.au| 
- []
-
-
-Overfull \hbox (13.57802pt too wide) in paragraph at lines 181--181
- []\eaddfnt Scott.Sanner@nicta.com.au| 
- []
-
-
 Overfull \hbox (8.3819pt too wide) in paragraph at lines 181--181
  []\eaddfnt peter.christen@anu.edu.au| 
  []
 
-(./abstract.tex
-Overfull \hbox (1.5384pt too wide) in paragraph at lines 1--31
-\ninept over this so-cial in-for-ma-tion, we pro-pose a dif-fer-ent ap-proach:
- []
-
-
-Overfull \hbox (5.01753pt too wide) in paragraph at lines 1--31
-\ninept are most pre-dic-tive of the tar-get user's pref-er-ences in a method
- []
-
-)
+(./abstract.tex)
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 189.
 
@@ -536,19 +511,25 @@ m/m/n/10 ]: In-for-ma-tion Fil-
  []
 
 (./intro.tex
-Overfull \hbox (3.11717pt too wide) in paragraph at lines 40--58
+Overfull \hbox (3.11717pt too wide) in paragraph at lines 45--65
 \OT1/ptm/m/n/10 de-tailed user in-ter-ac-tion and ac-tiv-ity his-tory avail-abl
 e through
  []
 
 
+Overfull \hbox (3.70825pt too wide) in paragraph at lines 45--65
+\OT1/ptm/m/n/10 Given a set of SAGS for a user, (1) we learn to pre-dict whethe
+r
+ []
+
+
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [1{/usr/local/texlive/2012/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
+ [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
 
 
 ]
-Overfull \hbox (3.99724pt too wide) in paragraph at lines 65--73
+Overfull \hbox (3.99724pt too wide) in paragraph at lines 73--83
 \OT1/ptm/m/n/10 ous state-of-the-art col-lab-o-ra-tive fil-ter-ing and so-cial 
 rec-
  []
@@ -560,13 +541,13 @@ File: data/overview.pdf Graphic file (type pdf)
 Package pdftex.def Info: data/overview.pdf used on input line 51.
 (pdftex.def)             Requested size: 240.0pt x 163.61478pt.
 LaTeX Font Info:    Try loading font information for OMS+ptm on input line 63.
-
-(/usr/local/texlive/2012/texmf-dist/tex/latex/psnfss/omsptm.fd
+ (/usr/share/texmf-dist/tex/latex/psnfss/omsptm.fd
 File: omsptm.fd 
 )
 LaTeX Font Info:    Font shape `OMS/ptm/m/it' in size <10> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 63.
- [2]
+
+[2]
 Overfull \hbox (2.78777pt too wide) in paragraph at lines 118--122
 []\OT1/ptm/m/n/10 Based on the def-i-ni-tions of \OT1/ptm/m/it/10 in-ter-ac-tio
 n \OT1/ptm/m/n/10 and \OT1/ptm/m/it/10 ac-tiv-i-ties \OT1/ptm/m/n/10 above,
@@ -616,12 +597,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 167--169
 
  []
 
-
+[3 <./data/overview.pdf>]
 Overfull \hbox (14.71098pt too wide) detected at line 174
 \OML/cmm/m/it/10 X[] \OT1/cmr/m/n/10 = []
  []
 
-[3 <./data/overview.pdf>]) (./affinity_filtering.tex
+) (./affinity_filtering.tex
 Overfull \hbox (4.67744pt too wide) in paragraph at lines 23--36
 \OT1/ptm/m/n/10 specif-i-cally cor-re-spond to boolean fea-tures in-di-cat-ing 
 whether
@@ -665,18 +646,18 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <8> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 68.
 ) (./saf_analysis.tex
 Package epstopdf Info: Source file: <data/plots/accuracy/accuracyLargeNew.eps>
-(epstopdf)                    date: 2013-06-18 14:02:31
+(epstopdf)                    date: 2013-06-18 14:26:19
 (epstopdf)                    size: 72701 bytes
 (epstopdf)             Output file: <data/plots/accuracy/accuracyLargeNew-eps-c
 onverted-to.pdf>
-(epstopdf)                    date: 2013-06-18 14:02:31
+(epstopdf)                    date: 2013-06-18 14:26:19
 (epstopdf)                    size: 24517 bytes
 (epstopdf)             Command: <repstopdf --outfile=data/plots/accuracy/accura
 cyLargeNew-eps-converted-to.pdf data/plots/accuracy/accuracyLargeNew.eps>
 (epstopdf)             \includegraphics on input line 4.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/accuracy/accuracyLargeNew-eps-converted-to.pdf, id=239, 1445.4pt x 
+<data/plots/accuracy/accuracyLargeNew-eps-converted-to.pdf, id=220, 1445.4pt x 
 614.295pt>
 File: data/plots/accuracy/accuracyLargeNew-eps-converted-to.pdf Graphic file (t
 ype pdf)
@@ -702,11 +683,11 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 (./interaction_analysis.tex
 Package epstopdf Info: Source file: <data/plots/vsk/ModalityActionsvsKFriends.e
 ps>
-(epstopdf)                    date: 2013-06-18 14:02:44
+(epstopdf)                    date: 2013-06-18 14:25:40
 (epstopdf)                    size: 54962 bytes
 (epstopdf)             Output file: <data/plots/vsk/ModalityActionsvsKFriends-e
 ps-converted-to.pdf>
-(epstopdf)                    date: 2013-06-18 14:02:44
+(epstopdf)                    date: 2013-06-18 14:25:40
 (epstopdf)                    size: 26936 bytes
 (epstopdf)             Command: <repstopdf --outfile=data/plots/vsk/ModalityAct
 ionsvsKFriends-eps-converted-to.pdf data/plots/vsk/ModalityActionsvsKFriends.ep
@@ -714,7 +695,7 @@ s>
 (epstopdf)             \includegraphics on input line 81.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/vsk/ModalityActionsvsKFriends-eps-converted-to.pdf, id=311, 1483.54
+<data/plots/vsk/ModalityActionsvsKFriends-eps-converted-to.pdf, id=292, 1483.54
 25pt x 456.70625pt>
 File: data/plots/vsk/ModalityActionsvsKFriends-eps-converted-to.pdf Graphic fil
 e (type pdf)
@@ -745,25 +726,25 @@ Overfull \hbox (8.33714pt too wide) in paragraph at lines 107--111
  and jointly
  []
 
-) [7] (./activity_analysis.tex
+[7]) (./activity_analysis.tex
 Overfull \hbox (1.6474pt too wide) in paragraph at lines 8--10
 []\OT1/ptm/m/n/10 We an-a-lyze the in-for-ma-tive-ness of Ac-tiv-ity SAGS by lo
 ok-
  []
 
 Package epstopdf Info: Source file: <data/plots/new/CEvsGroupSize.eps>
-(epstopdf)                    date: 2013-06-18 14:02:33
+(epstopdf)                    date: 2013-06-18 14:26:18
 (epstopdf)                    size: 202237 bytes
 (epstopdf)             Output file: <data/plots/new/CEvsGroupSize-eps-converted
 -to.pdf>
-(epstopdf)                    date: 2013-06-18 14:02:33
+(epstopdf)                    date: 2013-06-18 14:26:18
 (epstopdf)                    size: 178111 bytes
 (epstopdf)             Command: <repstopdf --outfile=data/plots/new/CEvsGroupSi
 ze-eps-converted-to.pdf data/plots/new/CEvsGroupSize.eps>
 (epstopdf)             \includegraphics on input line 104.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/new/CEvsGroupSize-eps-converted-to.pdf, id=338, 578.16pt x 433.62pt
+<data/plots/new/CEvsGroupSize-eps-converted-to.pdf, id=317, 578.16pt x 433.62pt
 >
 File: data/plots/new/CEvsGroupSize-eps-converted-to.pdf Graphic file (type pdf)
 
@@ -772,36 +753,36 @@ Package pdftex.def Info: data/plots/new/CEvsGroupSize-eps-converted-to.pdf used
  on input line 104.
 (pdftex.def)             Requested size: 128.03368pt x 99.58493pt.
 Package epstopdf Info: Source file: <data/plots/new/CEvsPageSize.eps>
-(epstopdf)                    date: 2013-06-18 14:02:33
+(epstopdf)                    date: 2013-06-18 14:26:18
 (epstopdf)                    size: 600246 bytes
 (epstopdf)             Output file: <data/plots/new/CEvsPageSize-eps-converted-
 to.pdf>
-(epstopdf)                    date: 2013-06-18 14:02:33
+(epstopdf)                    date: 2013-06-18 14:26:18
 (epstopdf)                    size: 602041 bytes
 (epstopdf)             Command: <repstopdf --outfile=data/plots/new/CEvsPageSiz
 e-eps-converted-to.pdf data/plots/new/CEvsPageSize.eps>
 (epstopdf)             \includegraphics on input line 105.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/new/CEvsPageSize-eps-converted-to.pdf, id=339, 578.16pt x 433.62pt>
+<data/plots/new/CEvsPageSize-eps-converted-to.pdf, id=318, 578.16pt x 433.62pt>
 File: data/plots/new/CEvsPageSize-eps-converted-to.pdf Graphic file (type pdf)
 <use data/plots/new/CEvsPageSize-eps-converted-to.pdf>
 Package pdftex.def Info: data/plots/new/CEvsPageSize-eps-converted-to.pdf used 
 on input line 105.
 (pdftex.def)             Requested size: 128.03368pt x 99.58493pt.
 Package epstopdf Info: Source file: <data/plots/new/CEvsFavSize.eps>
-(epstopdf)                    date: 2013-06-18 14:02:33
+(epstopdf)                    date: 2013-06-18 14:26:18
 (epstopdf)                    size: 240187 bytes
 (epstopdf)             Output file: <data/plots/new/CEvsFavSize-eps-converted-t
 o.pdf>
-(epstopdf)                    date: 2013-06-18 14:02:33
+(epstopdf)                    date: 2013-06-18 14:26:18
 (epstopdf)                    size: 239312 bytes
 (epstopdf)             Command: <repstopdf --outfile=data/plots/new/CEvsFavSize
 -eps-converted-to.pdf data/plots/new/CEvsFavSize.eps>
 (epstopdf)             \includegraphics on input line 106.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/new/CEvsFavSize-eps-converted-to.pdf, id=340, 578.16pt x 433.62pt>
+<data/plots/new/CEvsFavSize-eps-converted-to.pdf, id=319, 578.16pt x 433.62pt>
 File: data/plots/new/CEvsFavSize-eps-converted-to.pdf Graphic file (type pdf)
 
 <use data/plots/new/CEvsFavSize-eps-converted-to.pdf>
@@ -809,18 +790,18 @@ Package pdftex.def Info: data/plots/new/CEvsFavSize-eps-converted-to.pdf used o
 n input line 106.
 (pdftex.def)             Requested size: 128.03368pt x 99.58493pt.
 Package epstopdf Info: Source file: <data/plots/new/LRweightvsGroupSize.eps>
-(epstopdf)                    date: 2013-06-18 14:02:33
+(epstopdf)                    date: 2013-06-18 14:26:18
 (epstopdf)                    size: 199873 bytes
 (epstopdf)             Output file: <data/plots/new/LRweightvsGroupSize-eps-con
 verted-to.pdf>
-(epstopdf)                    date: 2013-06-18 14:02:33
+(epstopdf)                    date: 2013-06-18 14:26:18
 (epstopdf)                    size: 187584 bytes
 (epstopdf)             Command: <repstopdf --outfile=data/plots/new/LRweightvsG
 roupSize-eps-converted-to.pdf data/plots/new/LRweightvsGroupSize.eps>
 (epstopdf)             \includegraphics on input line 107.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/new/LRweightvsGroupSize-eps-converted-to.pdf, id=341, 578.16pt x 43
+<data/plots/new/LRweightvsGroupSize-eps-converted-to.pdf, id=320, 578.16pt x 43
 3.62pt>
 File: data/plots/new/LRweightvsGroupSize-eps-converted-to.pdf Graphic file (typ
 e pdf)
@@ -829,18 +810,18 @@ Package pdftex.def Info: data/plots/new/LRweightvsGroupSize-eps-converted-to.pd
 f used on input line 107.
 (pdftex.def)             Requested size: 128.03368pt x 99.58493pt.
 Package epstopdf Info: Source file: <data/plots/new/LRweightvsPageSize.eps>
-(epstopdf)                    date: 2013-06-18 14:02:33
+(epstopdf)                    date: 2013-06-18 14:26:18
 (epstopdf)                    size: 599206 bytes
 (epstopdf)             Output file: <data/plots/new/LRweightvsPageSize-eps-conv
 erted-to.pdf>
-(epstopdf)                    date: 2013-06-18 14:02:33
+(epstopdf)                    date: 2013-06-18 14:26:18
 (epstopdf)                    size: 625942 bytes
 (epstopdf)             Command: <repstopdf --outfile=data/plots/new/LRweightvsP
 ageSize-eps-converted-to.pdf data/plots/new/LRweightvsPageSize.eps>
 (epstopdf)             \includegraphics on input line 108.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/new/LRweightvsPageSize-eps-converted-to.pdf, id=342, 578.16pt x 433
+<data/plots/new/LRweightvsPageSize-eps-converted-to.pdf, id=321, 578.16pt x 433
 .62pt>
 File: data/plots/new/LRweightvsPageSize-eps-converted-to.pdf Graphic file (type
  pdf)
@@ -849,18 +830,18 @@ Package pdftex.def Info: data/plots/new/LRweightvsPageSize-eps-converted-to.pdf
  used on input line 108.
 (pdftex.def)             Requested size: 128.03368pt x 99.58493pt.
 Package epstopdf Info: Source file: <data/plots/new/LRweightvsFavSize.eps>
-(epstopdf)                    date: 2013-06-18 14:02:33
+(epstopdf)                    date: 2013-06-18 14:26:18
 (epstopdf)                    size: 240848 bytes
 (epstopdf)             Output file: <data/plots/new/LRweightvsFavSize-eps-conve
 rted-to.pdf>
-(epstopdf)                    date: 2013-06-18 14:02:33
+(epstopdf)                    date: 2013-06-18 14:26:18
 (epstopdf)                    size: 248763 bytes
 (epstopdf)             Command: <repstopdf --outfile=data/plots/new/LRweightvsF
 avSize-eps-converted-to.pdf data/plots/new/LRweightvsFavSize.eps>
 (epstopdf)             \includegraphics on input line 109.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/new/LRweightvsFavSize-eps-converted-to.pdf, id=343, 578.16pt x 433.
+<data/plots/new/LRweightvsFavSize-eps-converted-to.pdf, id=322, 578.16pt x 433.
 62pt>
 File: data/plots/new/LRweightvsFavSize-eps-converted-to.pdf Graphic file (type 
 pdf)
@@ -870,11 +851,11 @@ used on input line 109.
 (pdftex.def)             Requested size: 128.03368pt x 99.58493pt.
 Package epstopdf Info: Source file: <data/plots/cumulativeEntropy/cumulative.ep
 s>
-(epstopdf)                    date: 2013-06-18 14:02:32
+(epstopdf)                    date: 2013-06-18 14:25:39
 (epstopdf)                    size: 76804 bytes
 (epstopdf)             Output file: <data/plots/cumulativeEntropy/cumulative-ep
 s-converted-to.pdf>
-(epstopdf)                    date: 2013-06-18 14:02:32
+(epstopdf)                    date: 2013-06-18 14:25:39
 (epstopdf)                    size: 28264 bytes
 (epstopdf)             Command: <repstopdf --outfile=data/plots/cumulativeEntro
 py/cumulative-eps-converted-to.pdf data/plots/cumulativeEntropy/cumulative.eps>
@@ -882,7 +863,7 @@ py/cumulative-eps-converted-to.pdf data/plots/cumulativeEntropy/cumulative.eps>
 (epstopdf)             \includegraphics on input line 120.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/cumulativeEntropy/cumulative-eps-converted-to.pdf, id=344, 1630.09p
+<data/plots/cumulativeEntropy/cumulative-eps-converted-to.pdf, id=323, 1630.09p
 t x 514.92375pt>
 File: data/plots/cumulativeEntropy/cumulative-eps-converted-to.pdf Graphic file
  (type pdf)
@@ -892,18 +873,18 @@ Package pdftex.def Info: data/plots/cumulativeEntropy/cumulative-eps-converted-
 to.pdf used on input line 120.
 (pdftex.def)             Requested size: 456.42209pt x 144.17766pt.
 Package epstopdf Info: Source file: <data/plots/boxPlots/CEvsFavTypes.eps>
-(epstopdf)                    date: 2013-06-18 14:02:31
+(epstopdf)                    date: 2013-06-18 14:26:20
 (epstopdf)                    size: 31638 bytes
 (epstopdf)             Output file: <data/plots/boxPlots/CEvsFavTypes-eps-conve
 rted-to.pdf>
-(epstopdf)                    date: 2013-06-18 14:02:31
-(epstopdf)                    size: 19448 bytes
+(epstopdf)                    date: 2013-06-25 23:49:26
+(epstopdf)                    size: 19474 bytes
 (epstopdf)             Command: <repstopdf --outfile=data/plots/boxPlots/CEvsFa
 vTypes-eps-converted-to.pdf data/plots/boxPlots/CEvsFavTypes.eps>
 (epstopdf)             \includegraphics on input line 129.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/boxPlots/CEvsFavTypes-eps-converted-to.pdf, id=345, 1597.97pt x 434
+<data/plots/boxPlots/CEvsFavTypes-eps-converted-to.pdf, id=324, 1597.97pt x 434
 .62375pt>
 File: data/plots/boxPlots/CEvsFavTypes-eps-converted-to.pdf Graphic file (type 
 pdf)
@@ -916,11 +897,7 @@ Overfull \hbox (8.14111pt too wide) in paragraph at lines 129--130
  [][] 
  []
 
-)
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-
-(./relatedWork.tex
+) (./relatedWork.tex
 Overfull \hbox (5.55116pt too wide) in paragraph at lines 13--20
 \OT1/ptm/m/n/10 de-mo-graph-ics is cor-re-lated with user be-hav-ior pat-terns.
  Chang
@@ -932,6 +909,12 @@ Overfull \hbox (9.70767pt too wide) in paragraph at lines 13--20
 on [[]33[],
  []
 
+[8 <./data/plots/vsk/ModalityActionsvsKFriends-eps-converted-to.pdf>] [9 <./dat
+a/plots/new/CEvsGroupSize-eps-converted-to.pdf> <./data/plots/new/CEvsPageSize-
+eps-converted-to.pdf> <./data/plots/new/CEvsFavSize-eps-converted-to.pdf> <./da
+ta/plots/new/LRweightvsGroupSize-eps-converted-to.pdf> <./data/plots/new/LRweig
+htvsPageSize-eps-converted-to.pdf> <./data/plots/new/LRweightvsFavSize-eps-conv
+erted-to.pdf> <./data/plots/cumulativeEntropy/cumulative-eps-converted-to.pdf>]
 
 Overfull \hbox (1.91087pt too wide) in paragraph at lines 21--40
 \OT1/ptm/m/n/10 mat-i-cal and em-pir-i-cal in-ves-ti-ga-tions. The Galton-Watso
@@ -939,15 +922,6 @@ n epi-
  []
 
 
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [8 <./data/plots/vsk/ModalityActionsvsKFriends-eps-converted-to.pdf>] [9 <./da
-ta/plots/new/CEvsGroupSize-eps-converted-to.pdf> <./data/plots/new/CEvsPageSize
--eps-converted-to.pdf> <./data/plots/new/CEvsFavSize-eps-converted-to.pdf> <./d
-ata/plots/new/LRweightvsGroupSize-eps-converted-to.pdf> <./data/plots/new/LRwei
-ghtvsPageSize-eps-converted-to.pdf> <./data/plots/new/LRweightvsFavSize-eps-con
-verted-to.pdf> <./data/plots/cumulativeEntropy/cumulative-eps-converted-to.pdf>
-]
 Overfull \hbox (6.49084pt too wide) in paragraph at lines 43--53
 \OT1/ptm/m/n/10 user in-ter-ac-tions to pref-er-ences and tie strength. Saez-Tr
 umper
@@ -1019,51 +993,47 @@ Missing character: There is no ¾ in font ptmr7t!
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [11])
+ [11]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+)
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 237.
-
-[12
-
-]
+ [12]
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 237.
- (./document.aux)
+
+(./document.aux)
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 237.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 237.
 Package rerunfilecheck Info: File `document.out' has not changed.
 (rerunfilecheck)             Checksum: 58A4283788D4A22DDE451AF0BBDA2BB1;884.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 237.
  ) 
 Here is how much of TeX's memory you used:
- 7583 strings out of 493488
- 114811 string characters out of 3141326
- 218718 words of memory out of 3000000
- 10608 multiletter control sequences out of 15000+200000
+ 7529 strings out of 493629
+ 112274 string characters out of 3148772
+ 213718 words of memory out of 3000000
+ 10551 multiletter control sequences out of 15000+200000
  62545 words of font info for 99 fonts, out of 3000000 for 9000
- 957 hyphenation exceptions out of 8191
- 44i,22n,46p,1057b,500s stack positions out of 5000i,500n,10000p,200000b,50000s
-{/usr/local/texlive/2012/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
-exlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/te
-xlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/tex
-live/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texl
-ive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texliv
-e/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/
-2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/20
-12/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2012/
-texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2012/tex
-mf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2012/texm
-f-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2012/texmf-
-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2012/texmf-di
-st/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2012/texmf-dis
-t/fonts/type1/public/amsfonts/cm/cmti7.pfb></usr/local/texlive/2012/texmf-dist/
-fonts/type1/urw/helvetic/uhvb8a.pfb></usr/local/texlive/2012/texmf-dist/fonts/t
-ype1/urw/helvetic/uhvr8a.pfb></usr/local/texlive/2012/texmf-dist/fonts/type1/ur
-w/times/utmb8a.pfb></usr/local/texlive/2012/texmf-dist/fonts/type1/urw/times/ut
-mr8a.pfb></usr/local/texlive/2012/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-
-Output written on document.pdf (12 pages, 3572845 bytes).
+ 831 hyphenation exceptions out of 8191
+ 44i,22n,46p,1057b,502s stack positions out of 5000i,500n,10000p,200000b,50000s
+{/usr/share/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texmf-dist/fon
+ts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texmf-dist/fonts/type1/publi
+c/amsfonts/cm/cmex10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/
+cmmi10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></us
+r/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texmf-d
+ist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-dist/fonts/type1
+/public/amsfonts/cm/cmr7.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts
+/cm/cmr8.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><
+/usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texmf-dist/fonts/ty
+pe1/public/amsfonts/cm/cmti10.pfb></usr/share/texmf-dist/fonts/type1/public/ams
+fonts/cm/cmti7.pfb></usr/share/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb><
+/usr/share/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/share/texmf-dis
+t/fonts/type1/urw/times/utmb8a.pfb></usr/share/texmf-dist/fonts/type1/urw/times
+/utmr8a.pfb></usr/share/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on document.pdf (12 pages, 3572743 bytes).
 PDF statistics:
- 837 PDF objects out of 1000 (max. 8388607)
- 441 compressed objects within 5 object streams
+ 818 PDF objects out of 1000 (max. 8388607)
+ 422 compressed objects within 5 object streams
  89 named destinations out of 1000 (max. 500000)
  176 words of extra memory for PDF output out of 10000 (max. 10000000)
 
