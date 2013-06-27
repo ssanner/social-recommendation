@@ -19,22 +19,28 @@ As illustrated in Fig~\ref{fig:overview}, the high-level objective of
 this work is to predict whether or not a user $u$ will like an item
 $i$ (in our test case, a link posted on Facebook that may correspond
 to a Youtube video, news or blog item, etc.).  Since the Facebook App
-we have used for our experimental analysis collects explicit like and
+we have built for our experimental analysis collects explicit like and
 dislike feedback, we define our prediction target of user $u$'s
 preference for link $i$ as follows:
 \begin{align*}
-\likes(u,i) & :=  \begin{Bmatrix}
-	  \true & \text{user $u$ clicks like for item $i$}\\
-	  \false & \text{user $u$ clicks dislike for item $i$}
-	  \end{Bmatrix}
+\likes(u,i) & :=  
+          \begin{cases}
+	  \true & \text{$u$ clicked \emph{like} for $i$}\\
+	  \false & \text{$u$ clicked \emph{dislike} for $i$}\\
+          \unknown & \text{$u$'s preference for $i$ is unknown}
+	  \end{cases}
 \end{align*}
-We learn to predict $\like(u,i)$ based on the surrogate item
-preferences of members of \textit{Social Affinity Groups (SAG)},
-defined by sets of users with known preferences to link $i$ who have
-at least one interaction or activity in common with $u$.  SAGs for our
-specific Facebook setting are defined in detail in the next section.
+From the observed data (instances of $\likes(u,i)$ evaluating to
+$\true$ or $\false$)
+%\footnote{$\likes(u,i)$ is not fully observed
+%for all users $u$ and all links $i$.}, 
+we learn to predict $\like(u,i)$ based on the surrogate link
+preferences $\like(v,i)$ of sets of other Facebook users $v$ who have
+at least one interaction or activity in common with $u$.  On Facebook,
+there are many ways to define such sets of alters for the ego's
+preferences as detailed in the next section.
 
-\subsection{SAGs for Facebook}
+\subsection{Interactions and Activities on Facebook}
 
 On Facebook, we use the term {\em interactions} and {\em activities}
 to refer to the range of user-user and user-community actions,
@@ -76,7 +82,7 @@ There are a total of 22 interaction types. Namely the cross-product of modalitie
 \begin{itemize}
   \item \textbf{Groups} on Facebook 
 \footnote{From Facebook Blog: 
-\surl{http://www.facebook.com/blog/blog.php?post=324706977130}, ``Groups are the place for small group communication and for people to share their common interests and express their opinion. Groups allow people to come together around a common cause, issue or activity to organise, express objectives, discuss issues, post photos and share related content''. 
+\surl{http://www.facebook.com/blog/blog.php?post=324706977130}, ``Groups are the place for small group communication and for people to share their common interests and express their opinion. Groups allow people to come together around a common cause, issue or activity to organise, express objectives, discuss issues, post photos and share related content.'' 
 \label{fn:fbblog}}
 are analogous to community organisations in the real-world. It allows
   users to declare membership and supports people to organise
@@ -89,7 +95,7 @@ are analogous to community organisations in the real-world. It allows
   ``Facebook Pages enable public figures, businesses, organisations
   and other entities to create an authentic and public presence on
   Facebook. Facebook Pages are visible to everyone on the internet by
-  default. Facebook user can connect with these Pages by becoming a
+  default. Facebook users can connect with these Pages by becoming a
   fan and then receive their updates and interact with them.'' }
   %\footnotemark[\ref{fn:fbblog}] 
   are analogous to the homepages of people, organisations and events
@@ -110,11 +116,11 @@ are analogous to community organisations in the real-world. It allows
   (Activities, Favorite Athletes, Books, Interests, Movies, Music,
   Sports, Favorite Teams, Television). These favourites allow a user
   to associate themselves with other people who share their same
-  favourite tendencies.}
+  favourite tendencies.''}
 \end{itemize} 
 
 Our evaluation includes 3000+ {\em group}, 4000+ {\em page} and
-10,000+ {\em favourite} features as detailed in
+10000+ {\em favourite} features as detailed in
 Sec~\ref{sec:datadesc}.
 
 %% This is good text, but probably better in related work.  We have CIKM reviewers here who are
@@ -153,35 +159,45 @@ recommendation algorithm into two categories based on Interactions and
 Activities of }
 
 Based on the definitions of {\em interaction} and {\em activities}
-above, we define two types of {\em social affinity groups} of a user
-with a target item, namely \textit{Interaction Social Affinity Groups
-(ISAG)} and \textit{Activity Social Affinity Groups (ASAG)}.
+above, we define two types of {\em social affinity groups (SAGs)} of a user $u$,
+namely \textit{interaction social affinity groups
+(ISAG)} and \textit{activity social affinity groups (ASAG)}.
 
 \begin{itemize}
-  \item \textbf{Interaction Social Affinity Groups}: Let the set of
-  interaction affinity classes be the cross-product of Interaction
+  \item \textbf{Interaction Social Affinity Groups (ISAGs)}: Let the set of
+  interaction affinity classes be the cross-product of interaction
   modality, action and direction:
   \begin{align*}
-  	\textit{Interaction Affinity Classes} := \, & \{\link, \post, \photo, \video\} \\
+  	\textit{Interaction-Affinity-Classes} := \, & \{\link, \post, \photo, \video\} \\
                                                 & \times \{\like, \ttag, \comment\} \\
                                                 & \times \{\incoming, \outgoing\}
   \end{align*}
-  Then we define 
+  Then for $k \in \textit{Interaction-Affinity-Classes}$ we define 
   \begin{quote}
      \textit{ISAG(u, k)} $:=$ the set of the users who have interaction $k$ with user $u$.
      \end{quote}
   For example,
   \begin{quote}
      \textit{ISAG(u, link-like-incoming)} is the set of all users who
-     have liked link posted by user $u$. \\ 
+     have liked a link posted by user $u$. \\ 
      \\ 
      \textit{ISAG(u,photo-comment-outgoing)} is the set of all users whose photos
      received at least one comment from $u$.  
   \end{quote}
-\item \textbf{Activity Social Affinity Groups}: We define activity affinity groups based on group membership, page likes and user favourites.
+%% Mathematical definition
+%% Do we need u for ASAGs?
+\item \textbf{Activity Social Affinity Groups (ASAGs)}: We define activity affinity groups based on group membership, page likes and user favourites (of which there are 17000 in our dataset).  For one
+of these activities $k$ we define:
   \begin{quote} \textit{ASAG(u, k)} $:=$ the set of the users
 	who have common preference for entity $k$ (group, page,
-	favourite) with user $u$.  \end{quote}
+	favourite) with user $u$.  
+  \end{quote}
+  For example,
+  \begin{quote}
+     \textit{ASAG(u, favourite-FC Barcelona)} is the set of all users $v$ who 
+     have favourited \emph{FC Barcelona}
+     have liked a link posted by user $u$.
+  \end{quote}
 \end{itemize}
 
 
@@ -189,16 +205,14 @@ with a target item, namely \textit{Interaction Social Affinity Groups
 \label{ssec:SAfeature}
 
 \begin{itemize}
-  \item \textbf{Interaction Social Affinity Features} : We define Interaction affinity features for target user $u$ and item $i$ for ISAG's classes 
+  \item \textbf{Interaction Social Affinity Features} : We define interaction affinity features for target user $u$ and item $i$ for ISAG's classes 
   $ \langle X_{1},X_{2}\ldots,X_{k}\rangle$ as
-  %\begin{quote}
   \begin{equation*}
    X_{k,u,i} = \begin{Bmatrix}
    		\mathit{true} & \text{if}\ \exists v\in ISAG(u,k) \wedge likes(v,i)\\ \\
    		\mathit{false} & \text{otherwise}
    \end{Bmatrix}
   \end{equation*}
-  %\end{quote}
   Additionally we add friend feature which encodes whether the target item $i$ is liked by friend or not.
   \item \textbf{Activity Social Affinity Features} : We define activity affinity features for target user $u$ and item $i$   \
   $ \langle X_{1},X_{2}\ldots,X_{k}\rangle$ as\\ \\
@@ -208,17 +222,22 @@ with a target item, namely \textit{Interaction Social Affinity Groups
    		\mathit{false} & otherwise
    \end{Bmatrix}
   \end{equation*}
-	In our analysis we use only those features (groups, pages and favourites) that are joined/liked by at least one of our app users.
+	In our analysis we use only those features (groups, pages and
+	favourites) that are joined/liked by at least one of our app
+	users.
 \end{itemize}
 
+
+
 \eat{
-%% SCOTT already covered these elsewhere
-%% Hmmm... maybe I forgot to :)  -SPS
-We train naive bayes, Logistic Regression(LR) and Support Vector Machine(SVM) model with affinity features.
-Logistic Regression and SVM algorithm was implemented using \textit{LIBLINER} \cite{liblinear} package. 
-We define Constant predictor as baseline predictor. Constant predictor predicts the most common outcome in our datase ie disliket.
-We compare the performance of Social Affinity Filtering with the state of the art social collaborative filtering technique 
-Social MatchBox(SMB)\cite{SMB}.
+We train naive bayes, Logistic Regression(LR) and Support Vector
+Machine(SVM) model with affinity features.  Logistic Regression and
+SVM algorithm was implemented using \textit{LIBLINER} \cite{liblinear}
+package.  We define Constant predictor as baseline predictor. Constant
+predictor predicts the most common outcome in our datase ie disliket.
+We compare the performance of Social Affinity Filtering with the state
+of the art social collaborative filtering technique Social
+MatchBox(SMB)\cite{SMB}.
 
 In real world social networks activity features grows very quickly as number of user in social network increases. This motivates the fine grained
 analysis of informativeness of social affinity features. Furthermore, fine grained analysis of interactions helps to understand the nature of user-user 
