@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011/Cygwin) (format=pdflatex 2012.5.9)  26 JUN 2013 22:45
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011/Cygwin) (format=pdflatex 2012.5.9)  27 JUN 2013 16:41
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -501,7 +501,13 @@ Overfull \hbox (8.3819pt too wide) in paragraph at lines 181--181
  []\eaddfnt peter.christen@anu.edu.au| 
  []
 
-(./abstract.tex)
+(./abstract.tex
+Overfull \hbox (7.04675pt too wide) in paragraph at lines 9--39
+\ninept in-ter-ac-tions and ac-tiv-i-ties are pre-dic-tive and \OT1/ptm/m/it/10
+ out-per-forms \ninept state-
+ []
+
+)
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 189.
 
@@ -511,15 +517,15 @@ m/m/n/10 ]: In-for-ma-tion Fil-
  []
 
 (./intro.tex
-Overfull \hbox (3.11717pt too wide) in paragraph at lines 45--65
+Overfull \hbox (3.11717pt too wide) in paragraph at lines 45--66
 \OT1/ptm/m/n/10 de-tailed user in-ter-ac-tion and ac-tiv-ity his-tory avail-abl
 e through
  []
 
 
-Overfull \hbox (3.70825pt too wide) in paragraph at lines 45--65
-\OT1/ptm/m/n/10 Given a set of SAGS for a user, (1) we learn to pre-dict whethe
-r
+Overfull \hbox (4.05794pt too wide) in paragraph at lines 45--66
+\OT1/ptm/m/n/10 SAG, and (2) we anal-yse the rel-a-tive in-for-ma-tive-ness of 
+SAGs
  []
 
 
@@ -529,7 +535,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 ]
-Overfull \hbox (3.99724pt too wide) in paragraph at lines 73--83
+Overfull \hbox (3.99724pt too wide) in paragraph at lines 74--84
 \OT1/ptm/m/n/10 ous state-of-the-art col-lab-o-ra-tive fil-ter-ing and so-cial 
 rec-
  []
@@ -1030,7 +1036,7 @@ fonts/cm/cmti7.pfb></usr/share/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb><
 /usr/share/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/share/texmf-dis
 t/fonts/type1/urw/times/utmb8a.pfb></usr/share/texmf-dist/fonts/type1/urw/times
 /utmr8a.pfb></usr/share/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on document.pdf (12 pages, 3572743 bytes).
+Output written on document.pdf (12 pages, 3572717 bytes).
 PDF statistics:
  818 PDF objects out of 1000 (max. 8388607)
  422 compressed objects within 5 object streams
