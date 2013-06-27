@@ -30,7 +30,7 @@ getting tagged in a video) and activities (e.g., being a member of a
 university alumni group or a fan of a TV series) \emph{do} represent
 different preferential {\em affinities} between users, and moreover
 that effective {\em filtering} of this information (i.e., learning
-which of these fine-grained interactions and activities are 
+which of these myriad fine-grained interactions and activities are 
 informative) will lead to improved accuracy in social recommendation.
 
 %% No longer fits cleanly in the intro, should be moved into related
@@ -58,11 +58,11 @@ defined according to fine-grained
 video) and \emph{activities} (e.g., users who have liked the same
 political party page that the target user has liked).  Given a set of
 SAGS for a user, (1) we define a novel recommendation method called
-{\em social affinity filtering (SAF)} where we learn to predict
+{\em social affinity filtering (SAF)}, where we learn to predict
 whether a user will like an item based on the surrogate item
 preferences of members of each SAG, and (2) we analyse the relative
 informativeness of SAGs across a variety of dimensions such as type,
-frequency of friend preferences, and activity membership size.
+exposure to friends' preferences, and activity membership size.
 
 In the four months that our App was active, we collected data for a
 set of Facebook app users and their full interactions with 38,000+
@@ -74,18 +74,18 @@ detail, we make the following critical observations:
 \item We found that SAF significantly 
 outperforms numerous state-of-the-art collaborative filtering and social recommender 
 systems, by up to 6\% in accuracy using just \emph{page} (like) features.
-Because the reluctance of a user to install an App increases with the number
+Because we have observed that the reluctance of a user to install an App increases with the number
 of permissions requested, this suggests a state-of-the-art social recommendation App 
 need only request permissions for a user's \emph{page} likes in order to achieve
 state-of-the-art recommendation accuracy.
 % -- in short, these fine-grained features can be very informative.
 % Also, what about combining all features?  Not enough data?  -SPS
 % Probably also much faster -- should we show a table of train and test times?  -SPS
-\item We found that groups, pages, and favourites make for more informative
+\item We found that \emph{groups}, \emph{pages}, and \emph{favourites} make for more informative
 SAGs than those defined by user-to-user interactions.  This is likely because the former can be
 applied to SAGs over the entire Facebook population 
-rather than just a user's friends (where the data is considerably limited).
-\item Among the interactions, we found that those on videos are more predictive than those on other content types (photos, post, link), and that outgoing interactions (performed by the ego on the alter's timeline) 
+rather than just a user's friends (where the available preference data is considerably more sparse).
+\item Among the \emph{interactions}, we found that those on videos are more predictive than those on other content types (photos, post, link), and that outgoing interactions (performed by the ego on the alter's timeline) 
 are more predictive than incoming ones (performed by alters on the
 ego's timeline), although the level of exposure of an ego to an
 alter's preferences is more important than the directionality of the
