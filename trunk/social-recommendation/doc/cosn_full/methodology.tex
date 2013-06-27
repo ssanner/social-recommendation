@@ -1,50 +1,5 @@
 %!TEX root = document.tex
 
-
-As illustrated in Fig~\ref{fig:overview}, the high-level objective of this paper is to predict whether or not a user $u$ will like an item $i$ (in our test case, a link). 
-We define user $u$'s preference for link $i$ as $like(u,i)$, this will be our prediction target. 
-\begin{quote}
-\begin{math}
-likes(u,i) =  \begin{Bmatrix}
-	  \true & \text{if user $u$ likes item $i$}\\
-	  \false & \text{otherwise}
-	  \end{Bmatrix}
-\end{math}
-\end{quote}
-
-We define the social affinity between two users via their direct {\em interactions}
-on various digital items, and their shared {\em activities} in different communities of the social network. 
-We call our recommendation algorithm \textit{Social Affinity Filtering (SAF)}, as it infers 
-$like(u,i)$ through the preference of their 
-\textit{ Social Affinity Groups (SAG)}, i.e. a set of users with known preferences to link $i$, and who has at least one interaction or activity in common with $u$. 
-
-\subsection{Action types on Facebook}
-On Facebook, We use the term {\em Interactions} and {\em Activities} to refer to the range of user-user and user-community actions, respectively.
-
-\noindent {\bf Interactions} describes the communication between Facebook users. There are a few dozen different interaction types that have distinct item modality, action and direction.
-\begin{itemize}
-\item \textbf{Modality:} (4 possibilities)
-User $u$ can interact with another user $v$ via \textit{links, posts, photos} and \textit{videos} that appear in either user's timeline.
-
-\item \textbf{Action type:} (3 possibilities)
-A user $u$ can \textit{comment} or \textit{like} 
-user $v$'s item. He/she can also \textit{tag} user $v$ on an 
-item, often indicating that user $v$ is present when the content is created (for photo/video/post), 
-or to explicitly raise user $v$'s attention for a post -- with one exception in Facebook that $u$ cannot tag a link with users $v$ since the link is created by third parties and merely shared on Facebook.
-
-\item \textbf{Directionality:} (2 possibilities)
-We look at \textit{incoming} and \textit{outgoing} interactions, i.e.,
-if user $u$ comments on, tags, or likes user $v$'s item,
-then this is an outgoing interactions for $u$, and an incoming interactions for $v$.
-Although high correlation between \textit{incoming} and \textit{outgoing} interactions 
-is recently observed~\cite{saez2011high}, whether or not interaction direction 
-affects user preferences differently is still an open question we wish to answer
-in this work. 
-%then $u$ is in the set of incoming interactions for $v$
-%and $v$ is in the set of outgoing interactions for $u$.
-      								
-\end{itemize}
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[t!]
 \centering
@@ -60,6 +15,56 @@ and analysed subsequently.}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+As illustrated in Fig~\ref{fig:overview}, the high-level objective of
+this work is to predict whether or not a user $u$ will like an item
+$i$ (in our test case, a link posted on Facebook that may correspond
+to a Youtube video, news or blog item, etc.).  Since the Facebook App
+we have used for our experimental analysis collects explicit like and
+dislike feedback, we define our prediction target of user $u$'s
+preference for link $i$ as follows:
+\begin{align*}
+\likes(u,i) & :=  \begin{Bmatrix}
+	  \true & \text{user $u$ clicks like for item $i$}\\
+	  \false & \text{user $u$ clicks dislike for item $i$}
+	  \end{Bmatrix}
+\end{align*}
+We learn to predict $\like(u,i)$ based on the surrogate item
+preferences of members of \textit{Social Affinity Groups (SAG)},
+defined by sets of users with known preferences to link $i$ who have
+at least one interaction or activity in common with $u$.  SAGs for our
+specific Facebook setting are defined in detail in the next section.
+
+\subsection{SAGs for Facebook}
+
+On Facebook, we use the term {\em interactions} and {\em activities}
+to refer to the range of user-user and user-community actions,
+respectively.
+
+{\bf Interactions} describes the communication between Facebook users. There are a few dozen different interaction types that have distinct item modality, action and direction defined
+as follows:
+\begin{itemize}
+\item \textbf{Modality:} (4 possibilities)
+User $u$ can interact with another user $v$ via \textit{links, posts, photos} and \textit{videos} that appear in either user's timeline.
+
+\item \textbf{Action type:} (3 possibilities)
+A user $u$ can \textit{comment} or \textit{like} 
+user $v$'s item. He/she can also \textit{tag} user $v$ on an 
+item, often indicating that user $v$ is present when the content is created (for photo/video/post), 
+or to explicitly raise user $v$'s attention for a post -- with one exception in Facebook that $u$ cannot tag a link with users $v$ since the link is created by third parties and merely shared on Facebook.
+
+\item \textbf{Directionality:} (2 possibilities)
+We look at \textit{incoming} and \textit{outgoing} interactions, i.e.,
+if user $u$ comments on, tags, or likes user $v$'s item,
+then this is an outgoing interaction for $u$, and an incoming interaction for $v$.
+Although high correlation between \textit{incoming} and \textit{outgoing} interactions 
+is recently observed~\cite{saez2011high}, whether or not interaction direction 
+affects user preferences differently is still an open question we wish to answer
+in this work. 
+%then $u$ is in the set of incoming interactions for $v$
+%and $v$ is in the set of outgoing interactions for $u$.
+      								
+\end{itemize}
+
 There are a total of 22 interaction types. Namely the cross-product of modalities, actions and directions, minus {\em link-tag-\{incoming, outgoing\}} since links cannot be tagged in Facebook.
 
 %\subsection{Activities}
@@ -67,40 +72,71 @@ There are a total of 22 interaction types. Namely the cross-product of modalitie
 % Can we insert more specific links to Facebook blog?  -SPS
 
 
-{\bf Activities} describes the user interactions with Facebook communities like groups, pages, favourites.
+{\bf Activities} describes the user interactions with Facebook communities like groups, pages, favourites defined as follows:
 \begin{itemize}
-  %@SCOTT/LEXING following defination are taken from facebook blog. I am confused how to cite it %
   \item \textbf{Groups} on Facebook 
-% I didnt find facebook favourites defination in facebook blog - Suvash
 \footnote{From Facebook Blog: 
-\surl{http://www.facebook.com/blog/blog.php?post=324706977130}, ``Groups are the place for small group communication and for people to share their common interests and express their opinion. Groups allow people to come together around a common cause, issue or activity to organize, express objectives, discuss issues, post photos and share related content''. 
+\surl{http://www.facebook.com/blog/blog.php?post=324706977130}, ``Groups are the place for small group communication and for people to share their common interests and express their opinion. Groups allow people to come together around a common cause, issue or activity to organise, express objectives, discuss issues, post photos and share related content''. 
 \label{fn:fbblog}}
-are analogous to community organizations in the real-world. It allows users to declare membership and supports people to organize activities, to post related content, and to have recurring discussions about them.  Examples of groups include {\em Stanford Thai} (Fig~\ref{fig:overview} bottom left), or {\em Harvard Debate Club}.
-  \item \textbf{Pages} on Facebook
-  \footnote{From Facebook Blog: 
-(\surl{http://www.facebook.com/blog/blog.php?post=324706977130} ``Facebook Pages enable public figures, businesses, organizations and other entities to create an authentic and public presence on Facebook. Facebook Pages are visible to everyone on the internet by default. Facebook user can connect with these Pages by becoming a fan and then receive their updates and interact with them.'' }
+are analogous to community organisations in the real-world. It allows
+  users to declare membership and supports people to organise
+  activities, to post related content, and to have recurring
+  discussions about them.  Examples of groups include {\em Stanford
+  Thai} (Fig~\ref{fig:overview} bottom left), or {\em Harvard Debate
+  Club}.  \item \textbf{Pages} on Facebook \footnote{From Facebook
+  Blog:
+  (\surl{http://www.facebook.com/blog/blog.php?post=324706977130}
+  ``Facebook Pages enable public figures, businesses, organisations
+  and other entities to create an authentic and public presence on
+  Facebook. Facebook Pages are visible to everyone on the internet by
+  default. Facebook user can connect with these Pages by becoming a
+  fan and then receive their updates and interact with them.'' }
   %\footnotemark[\ref{fn:fbblog}] 
-  are analogous to the homepages of people, organizations and events on the world-wide-web. They are publicly visible, and users can subscribe to the updates on the page, and also engage in discussions. Example pages include {\em DARPA} (an organization, Fig~\ref{fig:overview} bottom middle), or {\em Beyonce} (a singer).
+  are analogous to the homepages of people, organisations and events
+  on the world-wide-web. They are publicly visible, and users can
+  subscribe to the updates on the page, and also engage in
+  discussions. Example pages include {\em DARPA} (an organisation,
+  Fig~\ref{fig:overview} bottom middle), or {\em Beyonce} (a singer).
 
-  \item \textbf{Favourites} are analogous to bookmarks (on physical books or on the web browser). It it is a user-created list containing various digital items such as Facebook apps, books, music, and many other types of items to indicate their interest. Example favourite items include {\em Big Bang Theory} (TV series), or {\em FC Barcelona} (soccer club). Fig~\ref{fig:overview} bottom right show a Facebook screenshot when a user adds a favourite.
-  \footnote{According to Facebook Blog, (\surl{https://www.facebook.com/help/232262810142682} ``Facebook facilitates a wide variety of user selected favourites (Activities, Favorite Athletes, Books, Interests, Movies, Music, Sports, Favorite Teams, Television). These favourites allow a user to associate themselves with other people who share their same favourite tendencies.}
+  \item \textbf{Favourites} are analogous to bookmarks (on physical
+  books or on the web browser). It is a user-created list containing
+  various items such as Facebook apps, books, music, and many other
+  types of items to indicate their interest. Example favourite items
+  include {\em Big Bang Theory} (TV series), or {\em FC Barcelona}
+  (soccer club). Fig~\ref{fig:overview} bottom right shows a Facebook
+  screenshot when a user adds a favourite.  \footnote{According to
+  Facebook Blog, (\surl{https://www.facebook.com/help/232262810142682}
+  ``Facebook facilitates a wide variety of user selected favourites
+  (Activities, Favorite Athletes, Books, Interests, Movies, Music,
+  Sports, Favorite Teams, Television). These favourites allow a user
+  to associate themselves with other people who share their same
+  favourite tendencies.}
 \end{itemize} 
 
-Our evaluation includes 3000+ {\em group}, 4000+ {\em page} and 10,000+ {\em favourite} 
-features as detailed in Sec~\ref{sec:datadesc}.
+Our evaluation includes 3000+ {\em group}, 4000+ {\em page} and
+10,000+ {\em favourite} features as detailed in
+Sec~\ref{sec:datadesc}.
 
 %% This is good text, but probably better in related work.  We have CIKM reviewers here who are
 %% just skimming and trying to follow the technical setup in the initial sections... this
 %% serves as a bit of a digression that detracts from some of the more important quantitative
 %% points that we want to drive home with the reader as early as possible.  -SPS
 \eat{
-Note that the notion of affinity we adopt is based on direct user {\em actions}, rather than
-static profile information, or structural information of the social graph. 
-We believe this is a useful view into the social network, as it was recently pointed out
-that a user's attention (i.e., interactions) are divided among a small subset of Facebook friends~\cite{backstrom2011center}, and that ratings of real-world friendship strength seems to be more predictable from the intimacy, intensity, and duration of interactions, than from social distance and structural information~\cite{gilbert2009predicting}. Our affinity definition is based on direct interactions within a users' ego network, this is complementary to 
-a recent alternative~\cite{Panigrahy2012ubr} that uses number of paths between two users encodes the resilience of network structure, 
-as it was recently found~\cite{Goel2012structure} that the vast majority of information diffusion
-happens within one step from the source node. }
+Note that the notion of affinity we adopt is based on direct user {\em
+actions}, rather than static profile information, or structural
+information of the social graph.  We believe this is a useful view
+into the social network, as it was recently pointed out that a user's
+attention (i.e., interactions) are divided among a small subset of
+Facebook friends~\cite{backstrom2011center}, and that ratings of
+real-world friendship strength seems to be more predictable from the
+intimacy, intensity, and duration of interactions, than from social
+distance and structural information~\cite{gilbert2009predicting}. Our
+affinity definition is based on direct interactions within a users'
+ego network, this is complementary to a recent
+alternative~\cite{Panigrahy2012ubr} that uses number of paths between
+two users to encode the resilience of network structure, as it was
+recently found~\cite{Goel2012structure} that the vast majority of
+information diffusion happens within one step from the source node. }
 % interactions
 %Our affinity
 %\cite{Wilson2012BSG}
@@ -110,42 +146,42 @@ happens within one step from the source node. }
 \label{ssec:sag}
 
 \eat{
-The major objective of this paper is to evaluate the effectiveness of \textit{Social Affinity Filtering (SAF)} and fine grained 
-analysis of the informativeness of Interactions and Activities.We divide our recommendation algorithm into two categories based 
-on Interactions and Activities of 
-}
+The major objective of this paper is to evaluate the effectiveness
+of \textit{Social Affinity Filtering (SAF)} and fine grained analysis
+of the informativeness of Interactions and Activities.We divide our
+recommendation algorithm into two categories based on Interactions and
+Activities of }
 
-Based on the definitions of {\em interaction}  and {\em activities} above, 
-%\textit{ Social Affinity Groups (SAG)} with target item, 
-we define two types of {\em social affinity groups} of a user with a target item,
-namely \textit{Interaction  Social Affinity Groups (ISAG)} and \textit{Activity Social Affinity Groups (ASAG)}.
+Based on the definitions of {\em interaction} and {\em activities}
+above, we define two types of {\em social affinity groups} of a user
+with a target item, namely \textit{Interaction Social Affinity Groups
+(ISAG)} and \textit{Activity Social Affinity Groups (ASAG)}.
 
 \begin{itemize}
-  \item \textbf{Interaction  Social Affinity Groups}. Let the set of interaction affinity classes be the cross-product of 
-  Interaction modality, action and direction:
-  %\begin{quote}
+  \item \textbf{Interaction Social Affinity Groups}: Let the set of
+  interaction affinity classes be the cross-product of Interaction
+  modality, action and direction:
   \begin{align*}
   	\textit{Interaction Affinity Classes} := \, & \{\link, \post, \photo, \video\} \\
                                                 & \times \{\like, \ttag, \comment\} \\
                                                 & \times \{\incoming, \outgoing\}
   \end{align*}
-  %\end{quote}
-  %Additionally, we add friendship interaction affinity class. \\
   Then we define 
   \begin{quote}
-  \textit{ISAG(u, k)} $:=$ the set of the users who have interaction $k$ with user $u$.
+     \textit{ISAG(u, k)} $:=$ the set of the users who have interaction $k$ with user $u$.
+     \end{quote}
+  For example,
+  \begin{quote}
+     \textit{ISAG(u, link-like-incoming)} is the set of all users who
+     have liked link posted by user $u$. \\ 
+     \\ 
+     \textit{ISAG(u,photo-comment-outgoing)} is the set of all users whose photos
+     received at least one comment from $u$.  
   \end{quote}
-   For example,
-   \begin{quote}
-   
-   \textit{ISAG(u, link-like-incoming)}  is the set of all users who have liked link posted by user $u$. \\
-   \\
-   \textit{ISAG(u, photo-comment-outgoing)} is the set of all users whose photos received at least one comment from $u$.
-   \end{quote}
 \item \textbf{Activity Social Affinity Groups}: We define activity affinity groups based on group membership, page likes and user favourites.
-	\begin{quote}
-	\textit{ASAG(u, k)} $:=$ the set of the users who have common preference for entity $k$ (group, page, favourite) with user $u$.   
-	\end{quote}
+  \begin{quote} \textit{ASAG(u, k)} $:=$ the set of the users
+	who have common preference for entity $k$ (group, page,
+	favourite) with user $u$.  \end{quote}
 \end{itemize}
 
 
