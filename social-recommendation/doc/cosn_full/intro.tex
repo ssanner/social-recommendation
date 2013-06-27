@@ -57,11 +57,12 @@ defined according to fine-grained
 \emph{interactions} (e.g., users who have been tagged in the target user's
 video) and \emph{activities} (e.g., users who have liked the same
 political party page that the target user has liked).  Given a set of
-SAGS for a user, (1) we learn to predict whether a user will like an
-item based on the surrogate item preferences of members of each SAG in
-a novel recommendation method we term {\em social affinity filtering
-(SAF)}, and (2) we analyse the relative informativeness of SAGs across
-a variety of dimensions such as type, size, and level of exposure.
+SAGS for a user, (1) we define a novel recommendation method called
+{\em social affinity filtering (SAF)} where we learn to predict
+whether a user will like an item based on the surrogate item
+preferences of members of each SAG, and (2) we analyse the relative
+informativeness of SAGs across a variety of dimensions such as type,
+frequency of friend preferences, and activity membership size.
 
 In the four months that our App was active, we collected data for a
 set of Facebook app users and their full interactions with 38,000+
@@ -96,7 +97,7 @@ Among {\em groups}, {\em pages} and {\em favourites}, we found that only
 a small subset of the features were actually informative, bringing into question the efficacy of 
 previous social recommendation approaches that aggregate social information between
 two users into a single numerical value.  We found that the most  
-predictive features tend to have small memberships.  We also found features
+predictive activity SAGs tend to have small memberships.  We also found features
 corresponding to ``long-tailed'' content (such as music and books)
 can be much more predictive than those with fewer choices 
 (e.g. interests or sports). 
@@ -106,8 +107,8 @@ can be much more predictive than those with fewer choices
 \end{itemize}
 As detailed in the subsequent sections, these findings not only
 demonstrate the power of leveraging fine-grained interaction and
-activity features but they also suggest which of these features are
-most important to collect when building state-of-the-art
+activity features but they also suggest which of these features can
+be most informative when building state-of-the-art
 SAF-based recommenders.
 %  This
 %latter point is quite important since as already noted, there is
