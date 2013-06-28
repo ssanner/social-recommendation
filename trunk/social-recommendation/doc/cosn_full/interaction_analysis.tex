@@ -84,23 +84,24 @@ entropies are more informative).}
 \end{figure*}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-In this section we analyze the informativeness of Interaction SAGS,
-namely user interactions according to their modality, type, and direction, 
-as described in Section~\ref{sec:methodology}.
+In this section we analyze the informativeness of Interaction Social
+Affinity Features (ISAFs), namely user interactions according to their
+modality, type, and direction, as described in
+Sec~\ref{sec:methodology}.
 
 %namely those SAGs that are built w.r.t. a user $u$'s interactions.
 A general method for measuring the amount of information that a 
-feature $X$ provides w.r.t. predicting another variable $Y$ (in this
-case likes or dislikes) is to calculate its conditional entropy:
+feature $X^{u,i}_k$ provides w.r.t. predicting a user preference $\likes(u,i)$ (in this
+case, just $\true$ or $\false$) is to calculate its conditional entropy:
 \begin{align*}
-H(Y&|X=True)\\
-& = -\sum_{y\in{(\like,\dislike)}} p(y|X=true) \ln( p(y|X=true))
+H(\likes(u,i) &| X^{u,i}_k=\true)\\
+& = -\sum_{y\in{(\true,\false)}} p(\likes(u,i)=y|X^{u,i}_k=\true) \ln( p(\likes(u,i)|X^{u,i}_k=\true))
 \end{align*}
 In general, a lower conditional entropy indicates a more informative
-feature. Here we use entropy conditioned on sparse features $X=True$ 
-instead of just $H(Y~|~X)$ or mutual information $I(Y; X)$, as we found 
-that the alternatives are highly correlated with (or dominated by) the number of 
-occurrences of the feature (or $P(X=True)$), and give trivial results. 
+feature. Here we measure conditional entropy $H(\likes(u,i)| X^{u,i}_k=\true)$
+rather than mutual information $I(\likes(u,i); X^{u,i}_k)$, as we found 
+that mutual information is highly correlated with (and dominated by) the 
+frequency of the feature $X^{u,i}_k=\true$ in the dataset.
 
 %As defined in Sec~\ref{sec:methodology}, we have three distinctions for user
 %interactions: modality, action, and directionality.  
