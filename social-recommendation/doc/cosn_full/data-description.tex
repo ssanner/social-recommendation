@@ -1,28 +1,27 @@
 %!TEX root = document.tex
 
-We built a Facebook App\footnote{Name and link omitted
-for anonymity.} to collect detailed user
-interaction and activity history available through the Facebook Graph
-API to build the SAG information as defined in Sec~\ref{ssec:sag}
-along with user $u$'s preferences on recommended links $i$ solicited by the App on a daily basis
-to build the $\likes(u,i)$ relation required in Sec~\ref{ssec:SAfeature}.
-The data collection is performed with full permission from the user and in
-accordance with an approved Ethics Protocol\footnote{Link omitted for
-anonymity.}.
+We built a Facebook App to collect detailed user interaction and
+activity history available through the Facebook Graph API.  The
+purpose of the App was twofold: (1) to build the SAG information as
+defined in Sec~\ref{ssec:sag}, and (2) to collect a user $u$'s preferences on
+recommended links $i$ solicited by the App on a daily basis to build
+the $\likes(u,i)$ relation required in Sec~\ref{ssec:SAfeature}.  The
+data collection is performed with full permission from the user and in
+accordance with an approved Ethics Protocol\footnote{Ethics approval 
+\#2011/142 from the Australian National University.}
 
-Over 119 users installed the Facebook App during the evaluation
-period.\footnote{In order to collect full interactions among App users
-as required in our experimentation, our App requested to collect
-information posted to \emph{friends'} timelines.  With such expressive
-permissions concerning friend interactions, most potential users were
-hesitant to install the App; hence, after an intensive one month user drive period
-at our University, we were able to attract the pool of users used in the experiments.  The difficulty
-of collecting data with such expressive App permissions suggests the importance
-of identifying a small subset of social features and permissions required to 
-obtain them in order to encourage App adoption by a wide audience.}
-From these core App users, the App has access to their detailed
-Facebook profiles and their \emph{complete} interactions with a total of 38,259
-friends.
+In order to collect full interactions among App users as required in
+our experimentation, our App requested to collect information posted
+to \emph{friends'} timelines.  With such expressive permissions
+concerning friend interactions, most potential users were hesitant to
+install the App; after an intensive one month user drive period at our
+University, we were able to attract 119 App users.  From these core
+App users, the App has access to their detailed Facebook profiles and
+their \emph{complete} interactions with a total of 38,259 friends.
+The difficulty of collecting data with such expressive App permissions
+suggests the importance of identifying informative SAGs for social
+recommendation and the \emph{minimal} permissions required to populate these
+SAGs to increase uptake of the App by the general public.
 
 Our App tracks app user's (and their friends') details and
 interactions on Facebook.  Interactions that occur through wall posts
@@ -43,23 +42,20 @@ Table~\ref{tab:interactions} summarizes the number of records for each
 item (row) and interaction (column)
 combination. Table~\ref{tab:demographics} shows some demographics from
 user profiles. Table \ref{tab:interests} shows the group membership,
-page like and favourites counts for users.
+page like and favourite counts for users.
 
-Our app recommends three links to users every day, where the users may give
-their feedback on the links indicating whether they liked it or
-disliked it. Users are recommended links that are collected either
-from both friends and non-friends. Throughout this paper, App user rated
-link data is used to evaluate the recommendation algorithms.
-Table~\ref{tab:likeinfo} shows the statistics of the app user rating
-for friend and non-friend recommendations.  We chose to only display
-three links per day in order to avoid rank-bias with preferences;
-furthermore each link could be \emph{independently rated} and in general
-user's rated all three links on a given day that they viewed their
-recommendations.
-
-Crucially we note that all data used in the subsequent experiments
-is offline batch data that has been stored and analyzed after the four month
-data collection period.  
+Our App recommends three links to users every day, where the users may
+give their feedback on the links indicating whether they liked or
+disliked it. Users are recommended links that are collected
+from \emph{both} friends and non-friends timelines.  We chose to only
+display three links per day in order to avoid rank-bias with
+preferences; each link could be \emph{independently rated} and in
+general we observed that a user rated all three links on a given day
+that they viewed their recommendations.  Table~\ref{tab:likeinfo}
+shows the statistics of the App user rating for links taken from the
+walls of friends and non-friends.  All data used in the experiments is
+offline batch data that has been stored and analyzed \emph{after} the
+four month data collection period.
       							
 \begin{table}
 \centering
