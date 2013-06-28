@@ -2,46 +2,47 @@
 
 \subsection{Social Affinity filtering}
 
-\emph{Social affinity filtering (SAF)} is based on the idea that
-affinity between users expressed in social networks via interactions
-and activities captured by SAGs is predictive of user preferences.
-With SAGs now defined as in Sec~\ref{ssec:sag}, the task of SAF is
-simply one of classification of a user $u$'s preference for a link $i$
-as outlined in Fig~\ref{fig:overview}.  While a classification
-approach to recommendation might evoke comparisons to standard
-\emph{content-based filtering} (CBF)~\cite{newsweeder}, we remark that
-CBF is not a social recommendation approach and unlike CBF, SAF does
-not require explicit user features (e.g., age, gender, location, etc.)
-or item descriptors (link text, link genre, etc.); in contrast, SAF
-requires only social interactions and learns the affinities between a
-user (ego) and the different set of alters as represented by SAGs that
-the user interacts or shares common activities with.  SAF represents a
-simple and efficient yet nonetheless novel approach to \emph{social
-  recommendation} using fine-grained interaction and activity features
-that has not been previously proposed in the literature.
-
-Our task in SAF is to predict for a given user $u$ and item $i$
-whether $\likes(u,i)$ is $\true$ or $\false$.  For this purpose,
-we have the social affinity features $X_{k,u,i}$ defined in 
-Sec~\ref{ssec:SAfeature} based on the various SAGs $k$ defined in 
-Sec~\ref{ssec:sag}; the $X_{k,u,i}$ specifically correspond to boolean 
-features indicating whether any users in the $k$th SAG of
-user $u$ also liked $i$.  For example, $k$ could be the SAG of $u$ for
-the interaction of $\textit{link-like-incoming}$ or the activity of
-liking the {\em Obama Re-Election Headquarters} Facebook page.  Then knowing whether
-anyone in each SAG $k$ for user $u$ likes item $i$ provides a rich set
-of fine-grained features for prediction.  It is up to SAF to learn how
-to weight each SAG $k$ to aggregate all SAF preferences into one final
-prediction, which is done by training a classifier on historical data.
+\emph{Social affinity filtering (SAF)} is a novel social
+recommendation method that \emph{learns} which sets of social network
+users --- defined via their fine-grained interactions and shared
+activities with user $u$ --- are good proxies for $u$'s preference
+over item $i$.  With the social affinity features as defined in
+Sec~\ref{ssec:SAfeature} relying on SAGs as defined in
+Sec~\ref{ssec:sag}, the task of SAF reduces to one of binary
+classification.
 
 Formally, given a user $u$ and item $i$, a SAF classifier is simply a
-function $$f: \x(u,i) \to \likes(u,i)$$ where $\likes(u,i) \in \{ \true
-(\like), \dislike (\false) \}$ and $\x(u,i) = \langle
-\cdots,X_{k,u,i},\cdots \rangle$ for all SAG's $k$.  To train $f$, one
-simply provides a dataset of historical observations $D = \{ 
-\x(u,i) \to \likes(u,i) \}$ where $f$ could be a linear
-classifier trained by an SVM, logistic regression, or na\"{i}ve Bayes.
-Then for future predictions, we simply are given a new user $u$ and
-item $i$ to predict for and build the feature vector $\x(u,i)$ and 
-predict $\likes(u,i)$ using the trained $f(\x(u,i))$.
+function 
+\begin{equation*}
+f: \x(u,i) \to \likes(u,i)
+\end{equation*}
+where we restrict $\likes(u,i) \in \{ \true, \false \}$\footnote{For
+  training purposes, we omit any unobserved cases for which the class
+  label $\likes(u,i)=\unknown$.  At prediction time, the binary
+  classifier must always select a class label of $\true$ or $\false$.}
+and specify a feature vector $\x(u,i) = \langle
+\cdots,X^{u,i}_{k},\cdots \rangle$ over social affinity features
+$k$.  To train $f$, one simply provides a dataset of historical
+observations $D = \{ \x(u,i) \to \likes(u,i) \}$ where $f$ could be a
+linear classifier trained by an SVM, logistic regression, or na\"{i}ve
+Bayes.  For future predictions, we are simply given a new user $u$ and
+item $i$ to predict for and build the feature vector $\x(u,i)$ from
+which we can predict $\likes(u,i) = f(\x(u,i))$ using the trained
+classifier $f$.
+
+While a classification approach to recommendation might evoke
+comparisons to \emph{content-based filtering} (CBF)~\cite{newsweeder},
+we remark that CBF is not a \emph{social} recommendation approach and
+unlike CBF, SAF does not require explicit user features (e.g., age,
+gender, location, etc.) or item descriptors (link text, link genre,
+etc.); in contrast, SAF uses interaction and/or activity data for
+social network users to define SAGs and learns the affinities between
+a user (ego) and the different set of alters as defined by these SAGs.
+Additionally, unlike state-of-the-art \emph{social collaborative filtering} 
+approaches~\cite{socinf,rrmf,ste,sorec,sr,Noel2012NOF,lla}, SAF does
+not aggregate user-user interaction and shared activity data into a
+single aggregate statistic, instead it uses fine-grained distinctions
+in this social data to define a large number of SAGs and learns which
+of these SAGs are informative for recommendation.
+
 

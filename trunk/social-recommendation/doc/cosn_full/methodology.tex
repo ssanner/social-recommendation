@@ -23,11 +23,11 @@ we have built for our experimental analysis collects explicit like and
 dislike feedback, we define our prediction target of user $u$'s
 preference for link $i$ as follows:
 \begin{align*}
-\likes(u,i) & :=  
+\likes(u,i) & \! := \! 
           \begin{cases}
-	  \true    \!\!\! & \!\!\! \text{$u$ clicked \emph{like} for $i$}\\
-	  \false   \!\!\! & \!\!\! \text{$u$ clicked \emph{dislike} for $i$}\\
-          \unknown \!\!\! & \!\!\! \text{$u$'s preference for $i$ is unobserved}
+	  \true    \!\! & \!\! \text{$u$ clicked \emph{like} for $i$}\\
+	  \false   \!\! & \!\! \text{$u$ clicked \emph{dislike} for $i$}\\
+          \unknown \!\! & \!\! \text{$u$'s preference for $i$ is unobserved}
 	  \end{cases}
 \end{align*}
 From the observed data (i.e., instances of $\likes(u,i)$ evaluating to
@@ -63,7 +63,7 @@ We look at \textit{incoming} and \textit{outgoing} interactions, i.e.,
 if user $u$ comments on, tags, or likes user $v$'s item,
 then this is an outgoing interaction for $u$, and an incoming interaction for $v$.
 Although high correlation between \textit{incoming} and \textit{outgoing} interactions 
-is recently observed~\cite{saez2011high}, whether or not interaction direction 
+has been observed~\cite{saez2011high}, whether interaction direction 
 affects user preferences differently is still an open question we wish to answer
 in this work. 
 %then $u$ is in the set of incoming interactions for $v$
@@ -78,7 +78,8 @@ There are a total of 22 interaction types. Namely the cross-product of modalitie
 % Can we insert more specific links to Facebook blog?  -SPS
 
 
-{\bf Activities} describes the user interactions with Facebook communities like groups, pages, favourites defined as follows:
+{\bf Activities} describes the user interactions with Facebook
+communities like groups, pages, and favourites defined as follows:
 \begin{itemize}
   \item \textbf{Groups} on Facebook 
 \footnote{From Facebook Blog: 
@@ -166,13 +167,13 @@ namely \textit{interaction social affinity groups
 \begin{itemize}
   \item \textbf{Interaction Social Affinity Groups (ISAGs)}: Let the set of
   interaction affinity classes be the cross-product of interaction
-  modality, action and direction:
+  modality, action, and direction:
   \begin{align*}
-  	\textit{Interaction-Affinity-Classes} := \, & \{\link, \post, \photo, \video\} \\
-                                                & \times \{\like, \ttag, \comment\} \\
-                                                & \times \{\incoming, \outgoing\}
+  	\textit{Interaction-Classes} := \, & \{\link, \post, \photo, \video\} \\
+                                           & \times \{\like, \ttag, \comment\} \\
+                                           & \times \{\incoming, \outgoing\}
   \end{align*}
-  Then for $k \in \textit{Interaction-Affinity-Classes}$ we define 
+  Then for $k \in \textit{Interaction-Classes}$ we define 
   \begin{align*}
      \textit{ISAG(u, k)} := \{ v | \textrm{user $v$ has had interaction $k$ with $u$} \}
   \end{align*}
@@ -185,10 +186,10 @@ namely \textit{interaction social affinity groups
   \end{itemize}
 %% Mathematical definition
 %% Do we need u for ASAGs?
-\item \textbf{Activity Social Affinity Groups (ASAGs)}: We define activity affinity groups based on group membership, page likes and user favourites (of which there are over 17000 in our data).  For any one
-of these activities $k$ we define:
+\item \textbf{Activity Social Affinity Groups (ASAGs)}: We define activity affinity groups based on group membership, page likes and user favourites (of which there are over 17000 distinct activities in the set \textit{Activity-Groups} collected from our data).  For any one
+of these activities $k \in \textit{Activity-Groups}$ we define:
   \begin{align*}
-     \textit{ASAG(k)} := \{ v | \textrm{user $v$ has expressed a preference for $k$} \}
+     \textit{ASAG(k)} := \{ v | \textrm{user $v$ has taken part in activity $k$} \}
   \end{align*}
 %  \begin{quote} \textit{ASAG(u, k)} $:=$ the set of the users
 %	who have common preference for entity $k$ (group, page,
@@ -206,35 +207,43 @@ of these activities $k$ we define:
 
 \subsection{Social Affinity Features}
 
-Given the previous definition of SAGs, we can now define two
-classes of \emph{social affinity features (SAFs)} that can be used to train
-classifiers for the purpose of social recommendation:
 \label{ssec:SAfeature}
 
-\begin{itemize}
-  \item \textbf{Interaction Social Affinity Features (ISAFs)}
-$X^{u,i}_k$ for user $u$, item $i$ and interaction
-$k \in \textit{Interaction-Affinity-Classes}$ are defined as : We
-define interaction affinity features for target user $u$ and item $i$
-for ISAG's classes *** $ \langle X_{1},X_{2}\ldots,X_{k}\rangle$ as
+Given the previous definition of SAGs, we can now define two
+sets of \emph{social affinity features} that can be used to train
+classifiers for the purpose of social recommendation:
+
+\begin{itemize} 
+\item \textbf{Interaction Social Affinity Features (ISAFs)}: 
+We define feature $X^{u,i}_k \in \{ \true, \false \}$ for user $u$, item $i$ and interaction
+$k \in \textit{Interaction-Classes}$ as
   \begin{equation*}
-   X_{k,u,i} = \begin{Bmatrix}
-   		\mathit{true} & \text{if}\ \exists v\in ISAG(u,k) \wedge likes(v,i)\\ \\
-   		\mathit{false} & \text{otherwise}
-   \end{Bmatrix}
+   X^{u,i}_{k} \! := \!
+      \begin{cases}
+   		\true  \!\!\! & \exists v \in \mathit{ISAG}(u,k) \wedge \likes(v,i)\!=\!\true\\ 
+   		\false \!\!\! & \text{otherwise}
+      \end{cases}
   \end{equation*}
-  Additionally we add friend feature which encodes whether the target item $i$ is liked by friend or not.
-  \item \textbf{Activity Social Affinity Features (ASAFs)} : We define activity affinity features for target user $u$ and item $i$   \
-  $ \langle X_{1},X_{2}\ldots,X_{k}\rangle$ as\\ \\
+   In short, $X^{u,i}_{k}$ is $\true$ if any user sharing interaction $k$ with $u$ liked $i$.
+   Here we note that $v$ is implicitly limited to $u$'s Facebook friends (with whom $u$
+   may interact with).
+%  Additionally we add friend feature which encodes whether the target 
+%  item $i$ is liked by friend or not.
+\item \textbf{Activity Social Affinity Features (ASAFs)}: 
+We define feature $X^{u,i}_k \in \{ \true, \false \}$ for user $u$, item $i$ and activity
+$k \in \textit{Activity-Groups}$ as
   \begin{equation*}
-   X_{k,u,i} = \begin{Bmatrix}
-   		\mathit{true} & if\ \exists\ v\in \ ASAG(u,k) \wedge likes(v,i)\\ \\
-   		\mathit{false} & otherwise
-   \end{Bmatrix}
+   X^{u,i}_{k} \! := \! 
+      \begin{cases}
+   		\true  \!\!\! & u \in \mathit{ASAG}(k) \wedge \\
+                              & \exists v \in \mathit{ASAG}(k) \wedge \likes(v,i)\!=\!\true\\
+   		\false \!\!\! & \text{otherwise}
+      \end{cases}
   \end{equation*}
-	In our analysis we use only those features (groups, pages and
-	favourites) that are joined/liked by at least one of our app
-	users.
+  In short, $X^{u,i}_{k}$ is $\true$ if both $u$ and some other $v$ are a member of activity $k$
+  and $v$ has liked $i$.  Here we note that $v$ may range over all Facebook users (for which
+  data has been collected), i.e., $v$ need not be a friend of $u$ to share the same activity $k$
+  since activites are public.
 \end{itemize}
 
 
