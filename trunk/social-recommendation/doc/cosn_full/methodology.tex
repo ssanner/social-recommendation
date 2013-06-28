@@ -25,12 +25,12 @@ preference for link $i$ as follows:
 \begin{align*}
 \likes(u,i) & :=  
           \begin{cases}
-	  \true & \text{$u$ clicked \emph{like} for $i$}\\
-	  \false & \text{$u$ clicked \emph{dislike} for $i$}\\
-          \unknown & \text{$u$'s preference for $i$ is unknown}
+	  \true    \!\!\! & \!\!\! \text{$u$ clicked \emph{like} for $i$}\\
+	  \false   \!\!\! & \!\!\! \text{$u$ clicked \emph{dislike} for $i$}\\
+          \unknown \!\!\! & \!\!\! \text{$u$'s preference for $i$ is unobserved}
 	  \end{cases}
 \end{align*}
-From the observed data (instances of $\likes(u,i)$ evaluating to
+From the observed data (i.e., instances of $\likes(u,i)$ evaluating to
 $\true$ or $\false$)
 %\footnote{$\likes(u,i)$ is not fully observed
 %for all users $u$ and all links $i$.}, 
@@ -173,40 +173,50 @@ namely \textit{interaction social affinity groups
                                                 & \times \{\incoming, \outgoing\}
   \end{align*}
   Then for $k \in \textit{Interaction-Affinity-Classes}$ we define 
-  \begin{quote}
-     \textit{ISAG(u, k)} $:=$ the set of the users who have interaction $k$ with user $u$.
-     \end{quote}
+  \begin{align*}
+     \textit{ISAG(u, k)} := \{ v | \textrm{user $v$ has had interaction $k$ with $u$} \}
+  \end{align*}
   For example,
-  \begin{quote}
-     \textit{ISAG(u, link-like-incoming)} is the set of all users who
-     have liked a link posted by user $u$. \\ 
-     \\ 
-     \textit{ISAG(u,photo-comment-outgoing)} is the set of all users whose photos
-     received at least one comment from $u$.  
-  \end{quote}
+  \begin{itemize}
+     \item \textit{ISAG(u, link-like-incoming)} is the set of all users who
+     have liked a link posted \emph{by} user $u$, and 
+     \item \textit{ISAG(u, photo-comment-outgoing)} is the set of all users whose photos
+     user $u$ has commented \emph{on}.
+  \end{itemize}
 %% Mathematical definition
 %% Do we need u for ASAGs?
-\item \textbf{Activity Social Affinity Groups (ASAGs)}: We define activity affinity groups based on group membership, page likes and user favourites (of which there are 17000 in our dataset).  For one
+\item \textbf{Activity Social Affinity Groups (ASAGs)}: We define activity affinity groups based on group membership, page likes and user favourites (of which there are over 17000 in our data).  For any one
 of these activities $k$ we define:
-  \begin{quote} \textit{ASAG(u, k)} $:=$ the set of the users
-	who have common preference for entity $k$ (group, page,
-	favourite) with user $u$.  
-  \end{quote}
+  \begin{align*}
+     \textit{ASAG(k)} := \{ v | \textrm{user $v$ has expressed a preference for $k$} \}
+  \end{align*}
+%  \begin{quote} \textit{ASAG(u, k)} $:=$ the set of the users
+%	who have common preference for entity $k$ (group, page,
+%	favourite) with user $u$.  
+%  \end{quote}
   For example,
-  \begin{quote}
-     \textit{ASAG(u, favourite-FC Barcelona)} is the set of all users $v$ who 
-     have favourited \emph{FC Barcelona}
-     have liked a link posted by user $u$.
-  \end{quote}
+  \begin{itemize}
+     \item \textit{ASAG(page-Beyonce)} is the set of all users $v$ who 
+     have liked \emph{Beyonce}'s Facebook \emph{page}, and 
+     \item \textit{ASAG(group-Harvard Debate Club)} is the set of all users $v$ who 
+     have joined the \emph{Harvard Debate Club}'s Facebook \emph{group}.
+  \end{itemize}
 \end{itemize}
 
 
 \subsection{Social Affinity Features}
+
+Given the previous definition of SAGs, we can now define two
+classes of \emph{social affinity features (SAFs)} that can be used to train
+classifiers for the purpose of social recommendation:
 \label{ssec:SAfeature}
 
 \begin{itemize}
-  \item \textbf{Interaction Social Affinity Features} : We define interaction affinity features for target user $u$ and item $i$ for ISAG's classes 
-  $ \langle X_{1},X_{2}\ldots,X_{k}\rangle$ as
+  \item \textbf{Interaction Social Affinity Features (ISAFs)}
+$X^{u,i}_k$ for user $u$, item $i$ and interaction
+$k \in \textit{Interaction-Affinity-Classes}$ are defined as : We
+define interaction affinity features for target user $u$ and item $i$
+for ISAG's classes *** $ \langle X_{1},X_{2}\ldots,X_{k}\rangle$ as
   \begin{equation*}
    X_{k,u,i} = \begin{Bmatrix}
    		\mathit{true} & \text{if}\ \exists v\in ISAG(u,k) \wedge likes(v,i)\\ \\
@@ -214,7 +224,7 @@ of these activities $k$ we define:
    \end{Bmatrix}
   \end{equation*}
   Additionally we add friend feature which encodes whether the target item $i$ is liked by friend or not.
-  \item \textbf{Activity Social Affinity Features} : We define activity affinity features for target user $u$ and item $i$   \
+  \item \textbf{Activity Social Affinity Features (ASAFs)} : We define activity affinity features for target user $u$ and item $i$   \
   $ \langle X_{1},X_{2}\ldots,X_{k}\rangle$ as\\ \\
   \begin{equation*}
    X_{k,u,i} = \begin{Bmatrix}
