@@ -6,7 +6,7 @@
 Online social networks such as Facebook record a rich set of user
 preferences (likes of links, posts, photos, videos), user traits,
 interactions and activities (conversation streams, tagging, group
-memberships, interests, personal history and demographic data).  This
+memberships, interests, personal history, and demographic data).  This
 presents myriad new dimensions to the recommendation problem by making
 available a rich labeled graph structure of social interactions and
 content from which user preferences can be learned and new
@@ -15,7 +15,7 @@ recommendations can be made.
 Existing recommendation methods for social networks aggregate this
 rich social information into a simple measure of user-to-user interaction 
 that can be leveraged to model user homophily via social
-regularization~\cite{lla,socinf,sr,rrmf, Noel2012NOF}, a trust
+regularization~\cite{socinf,rrmf,sr,Noel2012NOF,lla}, a trust
 ensemble~\cite{ste}, or a low-rank factorization of the social
 interactions matrix~\cite{sorec}.  But in aggregating all of these
 interactions and common activities into a single strength of
@@ -57,7 +57,7 @@ defined according to fine-grained
 \emph{interactions} (e.g., users who have been tagged in the target user's
 video) and \emph{activities} (e.g., users who have liked the same
 political party page that the target user has liked).  Given a set of
-SAGS for a user, (1) we define a novel recommendation method called
+SAGs for a user, (1) we define a novel recommendation method called
 {\em social affinity filtering (SAF)}, where we learn to predict
 whether a user will like an item based on the surrogate item
 preferences of members of each SAG, and (2) we analyse the relative
@@ -73,7 +73,7 @@ detail, we make the following critical observations:
 \begin{itemize}
 \item We found that SAF significantly 
 outperforms numerous state-of-the-art collaborative filtering and social recommender 
-systems, by up to 6\% in accuracy using just \emph{page} (like) features.
+systems by over 6\% in accuracy using just \emph{page} (like) features.
 Because we have observed that the reluctance of a user to install an App increases with the number
 of permissions requested, this suggests a state-of-the-art social recommendation App 
 need only request permissions for a user's \emph{page} likes in order to achieve
@@ -98,9 +98,9 @@ a small subset of the features were actually informative, bringing into question
 previous social recommendation approaches that aggregate social information between
 two users into a single numerical value.  We found that the most  
 predictive activity SAGs tend to have small memberships.  We also found features
-corresponding to ``long-tailed'' content (such as music and books)
-can be much more predictive than those with fewer choices 
-(e.g. interests or sports). 
+corresponding to ``long-tailed'' dynamic content (such as music and books)
+can be much more predictive than those with fewer choices that 
+add little new content over time (e.g. interests or sports). 
  %to generic (such as interests) or activities that require 
  %simultaneous participation (such as sports) are less predictive of 
  %user interest than topics that are ongoing or persistent in time (such as TV, books).

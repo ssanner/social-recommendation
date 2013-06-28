@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011/Cygwin) (format=pdflatex 2012.5.9)  28 JUN 2013 11:29
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011/Cygwin) (format=pdflatex 2012.5.9)  29 JUN 2013 02:26
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -502,7 +502,7 @@ Overfull \hbox (8.3819pt too wide) in paragraph at lines 183--183
  []
 
 (./abstract.tex
-Overfull \hbox (1.82666pt too wide) in paragraph at lines 9--41
+Overfull \hbox (1.82666pt too wide) in paragraph at lines 9--39
 \OT1/ptm/m/it/10 per-forms \ninept state-of-the-art (so-cial) col-lab-o-ra-tive
  fil-ter-ing meth-
  []
@@ -559,82 +559,28 @@ File: omsptm.fd
 LaTeX Font Info:    Font shape `OMS/ptm/m/it' in size <10> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 74.
 
-Overfull \hbox (1.48878pt too wide) in paragraph at lines 107--120
+Overfull \hbox (1.48878pt too wide) in paragraph at lines 108--121
 \OT1/ptm/m/n/10 con-tain-ing var-i-ous items such as Face-book apps, books,
  []
 
 
-Overfull \hbox (3.33138pt too wide) in paragraph at lines 107--120
+Overfull \hbox (3.33138pt too wide) in paragraph at lines 108--121
 \OT1/ptm/m/n/10 in-ter-est. Ex-am-ple favourite items in-clude \OT1/ptm/m/it/10
  Big Bang The-
  []
 
 
-Overfull \hbox (2.78777pt too wide) in paragraph at lines 161--165
+Overfull \hbox (2.78777pt too wide) in paragraph at lines 162--166
 []\OT1/ptm/m/n/10 Based on the def-i-ni-tions of \OT1/ptm/m/it/10 in-ter-ac-tio
 n \OT1/ptm/m/n/10 and \OT1/ptm/m/it/10 ac-tiv-i-ties \OT1/ptm/m/n/10 above,
  []
 
 [3]
-Overfull \hbox (38.74059pt too wide) in paragraph at lines 215--220
-\OT1/ptm/m/n/10 for user $\OML/cmm/m/it/10 u$\OT1/ptm/m/n/10 , item $\OML/cmm/m
-/it/10 i$ \OT1/ptm/m/n/10 and in-ter-ac-tion $\OML/cmm/m/it/10 k \OMS/cmsy/m/n/
-10 2 []$
+Overfull \hbox (2.56337pt too wide) detected at line 226
+\OML/cmm/m/it/10 X[]  \OT1/cmr/m/n/10 :=  []
  []
 
-
-Overfull \hbox (4.08397pt too wide) detected at line 225
-\OML/cmm/m/it/10 X[] \OT1/cmr/m/n/10 = []
- []
-
-
-Overfull \hbox (12.958pt too wide) in paragraph at lines 225--227
-\OT1/ptm/m/n/10 Additionally we add friend fea-ture which en-codes whether
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 227--229
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 227--229
-
- []
-
-
-Overfull \hbox (14.71098pt too wide) detected at line 234
-\OML/cmm/m/it/10 X[] \OT1/cmr/m/n/10 = []
- []
-
-) (./affinity_filtering.tex
-Overfull \hbox (4.67744pt too wide) in paragraph at lines 23--36
-\OT1/ptm/m/n/10 specif-i-cally cor-re-spond to boolean fea-tures in-di-cat-ing 
-whether
- []
-
-
-Overfull \hbox (12.15268pt too wide) in paragraph at lines 23--36
-\OML/cmm/m/it/10 k$ \OT1/ptm/m/n/10 could be the SAG of $\OML/cmm/m/it/10 u$ \O
-T1/ptm/m/n/10 for the in-ter-ac-tion of $[]$
- []
-
-
-Overfull \hbox (14.55972pt too wide) in paragraph at lines 38--47
-\OT1/ptm/m/n/10 where $[]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 u; i\OT1/cmr/m/n/10 
-) \OMS/cmsy/m/n/10 2 f[]\OT1/cmr/m/n/10 ([])\OML/cmm/m/it/10 ; []\OT1/cmr/m/n/1
-0 ([])\OMS/cmsy/m/n/10 g$ \OT1/ptm/m/n/10 and $\OT1/cmr/bx/n/10 X\OT1/cmr/m/n/1
-0 (\OML/cmm/m/it/10 u; i\OT1/cmr/m/n/10 ) =
- []
-
-
-Overfull \hbox (3.50226pt too wide) in paragraph at lines 38--47
-\OT1/ptm/m/n/10 pro-vides a dataset of his-tor-i-cal ob-ser-va-tions $\OML/cmm/
-m/it/10 D \OT1/cmr/m/n/10 = \OMS/cmsy/m/n/10 f\OT1/cmr/bx/n/10 X\OT1/cmr/m/n/10
- (\OML/cmm/m/it/10 u; i\OT1/cmr/m/n/10 ) \OMS/cmsy/m/n/10 !
- []
-
-) (./data-description.tex
+) (./affinity_filtering.tex) (./data-description.tex
 Overfull \hbox (1.66711pt too wide) in paragraph at lines 3--12
 \OT1/ptm/m/n/10 Graph API to build the SAG in-for-ma-tion as de-fined in Sec []
 2.2[]
@@ -662,7 +608,7 @@ cyLargeNew-eps-converted-to.pdf data/plots/accuracy/accuracyLargeNew.eps>
 (epstopdf)             \includegraphics on input line 4.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/accuracy/accuracyLargeNew-eps-converted-to.pdf, id=216, 1445.4pt x 
+<data/plots/accuracy/accuracyLargeNew-eps-converted-to.pdf, id=225, 1445.4pt x 
 614.295pt>
 File: data/plots/accuracy/accuracyLargeNew-eps-converted-to.pdf Graphic file (t
 ype pdf)
@@ -696,7 +642,7 @@ s>
 (epstopdf)             \includegraphics on input line 81.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/vsk/ModalityActionsvsKFriends-eps-converted-to.pdf, id=292, 1483.54
+<data/plots/vsk/ModalityActionsvsKFriends-eps-converted-to.pdf, id=301, 1483.54
 25pt x 456.70625pt>
 File: data/plots/vsk/ModalityActionsvsKFriends-eps-converted-to.pdf Graphic fil
 e (type pdf)
@@ -721,19 +667,18 @@ Overfull \hbox (1.02151pt too wide) in paragraph at lines 98--104
 rse
  []
 
-[7]
+
 Overfull \hbox (8.33714pt too wide) in paragraph at lines 107--111
 []\OT1/ptm/m/n/10 First we an-a-lyze var-i-ous in-ter-ac-tions in-di-vid-u-ally
  and jointly
  []
 
-) (./activity_analysis.tex
+[7]) (./activity_analysis.tex
 Overfull \hbox (1.6474pt too wide) in paragraph at lines 8--10
 []\OT1/ptm/m/n/10 We an-a-lyze the in-for-ma-tive-ness of Ac-tiv-ity SAGS by lo
 ok-
  []
 
-[8 <./data/plots/vsk/ModalityActionsvsKFriends-eps-converted-to.pdf>]
 Package epstopdf Info: Source file: <data/plots/new/CEvsGroupSize.eps>
 (epstopdf)                    date: 2013-06-18 14:26:18
 (epstopdf)                    size: 202237 bytes
@@ -746,7 +691,7 @@ ze-eps-converted-to.pdf data/plots/new/CEvsGroupSize.eps>
 (epstopdf)             \includegraphics on input line 104.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/new/CEvsGroupSize-eps-converted-to.pdf, id=371, 578.16pt x 433.62pt
+<data/plots/new/CEvsGroupSize-eps-converted-to.pdf, id=325, 578.16pt x 433.62pt
 >
 File: data/plots/new/CEvsGroupSize-eps-converted-to.pdf Graphic file (type pdf)
 
@@ -766,7 +711,7 @@ e-eps-converted-to.pdf data/plots/new/CEvsPageSize.eps>
 (epstopdf)             \includegraphics on input line 105.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/new/CEvsPageSize-eps-converted-to.pdf, id=372, 578.16pt x 433.62pt>
+<data/plots/new/CEvsPageSize-eps-converted-to.pdf, id=326, 578.16pt x 433.62pt>
 File: data/plots/new/CEvsPageSize-eps-converted-to.pdf Graphic file (type pdf)
 <use data/plots/new/CEvsPageSize-eps-converted-to.pdf>
 Package pdftex.def Info: data/plots/new/CEvsPageSize-eps-converted-to.pdf used 
@@ -784,7 +729,7 @@ o.pdf>
 (epstopdf)             \includegraphics on input line 106.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/new/CEvsFavSize-eps-converted-to.pdf, id=373, 578.16pt x 433.62pt>
+<data/plots/new/CEvsFavSize-eps-converted-to.pdf, id=327, 578.16pt x 433.62pt>
 File: data/plots/new/CEvsFavSize-eps-converted-to.pdf Graphic file (type pdf)
 
 <use data/plots/new/CEvsFavSize-eps-converted-to.pdf>
@@ -803,7 +748,7 @@ roupSize-eps-converted-to.pdf data/plots/new/LRweightvsGroupSize.eps>
 (epstopdf)             \includegraphics on input line 107.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/new/LRweightvsGroupSize-eps-converted-to.pdf, id=374, 578.16pt x 43
+<data/plots/new/LRweightvsGroupSize-eps-converted-to.pdf, id=328, 578.16pt x 43
 3.62pt>
 File: data/plots/new/LRweightvsGroupSize-eps-converted-to.pdf Graphic file (typ
 e pdf)
@@ -823,7 +768,7 @@ ageSize-eps-converted-to.pdf data/plots/new/LRweightvsPageSize.eps>
 (epstopdf)             \includegraphics on input line 108.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/new/LRweightvsPageSize-eps-converted-to.pdf, id=375, 578.16pt x 433
+<data/plots/new/LRweightvsPageSize-eps-converted-to.pdf, id=329, 578.16pt x 433
 .62pt>
 File: data/plots/new/LRweightvsPageSize-eps-converted-to.pdf Graphic file (type
  pdf)
@@ -843,7 +788,7 @@ avSize-eps-converted-to.pdf data/plots/new/LRweightvsFavSize.eps>
 (epstopdf)             \includegraphics on input line 109.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/new/LRweightvsFavSize-eps-converted-to.pdf, id=376, 578.16pt x 433.
+<data/plots/new/LRweightvsFavSize-eps-converted-to.pdf, id=330, 578.16pt x 433.
 62pt>
 File: data/plots/new/LRweightvsFavSize-eps-converted-to.pdf Graphic file (type 
 pdf)
@@ -865,7 +810,7 @@ py/cumulative-eps-converted-to.pdf data/plots/cumulativeEntropy/cumulative.eps>
 (epstopdf)             \includegraphics on input line 120.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/cumulativeEntropy/cumulative-eps-converted-to.pdf, id=377, 1630.09p
+<data/plots/cumulativeEntropy/cumulative-eps-converted-to.pdf, id=331, 1630.09p
 t x 514.92375pt>
 File: data/plots/cumulativeEntropy/cumulative-eps-converted-to.pdf Graphic file
  (type pdf)
@@ -886,7 +831,7 @@ vTypes-eps-converted-to.pdf data/plots/boxPlots/CEvsFavTypes.eps>
 (epstopdf)             \includegraphics on input line 129.
 Package epstopdf Info: Output file is already uptodate.
 
-<data/plots/boxPlots/CEvsFavTypes-eps-converted-to.pdf, id=378, 1597.97pt x 434
+<data/plots/boxPlots/CEvsFavTypes-eps-converted-to.pdf, id=332, 1597.97pt x 434
 .62375pt>
 File: data/plots/boxPlots/CEvsFavTypes-eps-converted-to.pdf Graphic file (type 
 pdf)
@@ -899,7 +844,13 @@ Overfull \hbox (8.14111pt too wide) in paragraph at lines 129--130
  [][] 
  []
 
-) (./relatedWork.tex
+) [8 <./data/plots/vsk/ModalityActionsvsKFriends-eps-converted-to.pdf>]
+[9 <./data/plots/new/CEvsGroupSize-eps-converted-to.pdf> <./data/plots/new/CEvs
+PageSize-eps-converted-to.pdf> <./data/plots/new/CEvsFavSize-eps-converted-to.p
+df> <./data/plots/new/LRweightvsGroupSize-eps-converted-to.pdf> <./data/plots/n
+ew/LRweightvsPageSize-eps-converted-to.pdf> <./data/plots/new/LRweightvsFavSize
+-eps-converted-to.pdf> <./data/plots/cumulativeEntropy/cumulative-eps-converted
+-to.pdf>] (./relatedWork.tex
 Overfull \hbox (5.55116pt too wide) in paragraph at lines 13--20
 \OT1/ptm/m/n/10 de-mo-graph-ics is cor-re-lated with user be-hav-ior pat-terns.
  Chang
@@ -944,13 +895,7 @@ strength
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [9]
-[10 <./data/plots/new/CEvsGroupSize-eps-converted-to.pdf> <./data/plots/new/CEv
-sPageSize-eps-converted-to.pdf> <./data/plots/new/CEvsFavSize-eps-converted-to.
-pdf> <./data/plots/new/LRweightvsGroupSize-eps-converted-to.pdf> <./data/plots/
-new/LRweightvsPageSize-eps-converted-to.pdf> <./data/plots/new/LRweightvsFavSiz
-e-eps-converted-to.pdf> <./data/plots/cumulativeEntropy/cumulative-eps-converte
-d-to.pdf>]
+ [10 <./data/plots/boxPlots/CEvsFavTypes-eps-converted-to.pdf>]
 Overfull \hbox (6.30746pt too wide) in paragraph at lines 66--73
 \OT1/ptm/m/n/10 ac-tions on Twit-ter from ac-tions in both Twit-ter and Del.ici
 o.us.
@@ -968,7 +913,11 @@ Overfull \hbox (1.13815pt too wide) in paragraph at lines 88--90
 nd
  []
 
-) (./conclusion.tex
+)
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+(./conclusion.tex
 Overfull \hbox (11.88718pt too wide) in paragraph at lines 3--25
 []\OT1/ptm/m/n/10 We pro-posed So-cial Affin-ity Fil-ter-ing (SAF) as a new met
 hod
@@ -986,11 +935,10 @@ Overfull \hbox (3.66112pt too wide) in paragraph at lines 3--25
 ere
  []
 
-) (./document.bbl [11 <./data/plots/boxPlots/CEvsFavTypes-eps-converted-to.pdf>
-]
+) (./document.bbl
 Missing character: There is no Â in font ptmr7t!
 Missing character: There is no ¾ in font ptmr7t!
-
+ [11]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 )
@@ -1003,34 +951,41 @@ Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 239.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 239.
 Package rerunfilecheck Info: File `document.out' has not changed.
 (rerunfilecheck)             Checksum: B04135EC210B500920E3CE4FBDE78BB9;916.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
  ) 
 Here is how much of TeX's memory you used:
- 7531 strings out of 493629
- 112300 string characters out of 3148772
- 213751 words of memory out of 3000000
+ 7532 strings out of 493629
+ 112311 string characters out of 3148772
+ 214751 words of memory out of 3000000
  10553 multiletter control sequences out of 15000+200000
  62545 words of font info for 99 fonts, out of 3000000 for 9000
  831 hyphenation exceptions out of 8191
- 44i,22n,46p,1057b,504s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 44i,22n,46p,1057b,502s stack positions out of 5000i,500n,10000p,200000b,50000s
 {/usr/share/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texmf-dist/fon
 ts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texmf-dist/fonts/type1/publi
 c/amsfonts/cm/cmex10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/
 cmmi10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></us
 r/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texmf-d
-ist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-dist/fonts/type1
-/public/amsfonts/cm/cmr7.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts
-/cm/cmr8.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><
-/usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texm
-f-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texmf-dist/fonts/ty
-pe1/public/amsfonts/cm/cmti10.pfb></usr/share/texmf-dist/fonts/type1/public/ams
-fonts/cm/cmti7.pfb></usr/share/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb><
-/usr/share/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/share/texmf-dis
-t/fonts/type1/urw/times/utmb8a.pfb></usr/share/texmf-dist/fonts/type1/urw/times
-/utmr8a.pfb></usr/share/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on document.pdf (12 pages, 3573177 bytes).
+ist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/share/texmf-dist/fonts/type1
+/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfont
+s/cm/cmr7.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></
+usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texmf-
+dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-dist/fonts/typ
+e1/public/amsfonts/cm/cmsy7.pfb></usr/share/texmf-dist/fonts/type1/public/amsfo
+nts/cm/cmsy8.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.p
+fb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmti7.pfb></usr/share/
+texmf-dist/fonts/type1/public/amsfonts/cm/cmti9.pfb></usr/share/texmf-dist/font
+s/type1/urw/helvetic/uhvb8a.pfb></usr/share/texmf-dist/fonts/type1/urw/helvetic
+/uhvr8a.pfb></usr/share/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share
+/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texmf-dist/fonts/type1
+/urw/times/utmri8a.pfb>
+Output written on document.pdf (12 pages, 3596686 bytes).
 PDF statistics:
- 818 PDF objects out of 1000 (max. 8388607)
- 422 compressed objects within 5 object streams
- 89 named destinations out of 1000 (max. 500000)
+ 837 PDF objects out of 1000 (max. 8388607)
+ 438 compressed objects within 5 object streams
+ 90 named destinations out of 1000 (max. 500000)
  176 words of extra memory for PDF output out of 10000 (max. 10000000)
 
