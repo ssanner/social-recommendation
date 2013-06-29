@@ -137,8 +137,8 @@ SVM-ASAF perform comparably to each other and learn quite well despite
 the large size of this ASAF feature set.  Overall, \emph{LR-ASAF
   performs 6\% better than the best baseline for page likes}.  We
 combined all four features sets in a fifth experiment (not shown) and
-remark that it performed indistinguishably from LR-ASAF over page
-likes as shown.  Hence, page likes would be the most informative
+remark that it did not outperform LR-ASAF over page
+likes.  Hence, page likes would be the most informative
 feature set to collect if one wanted to minimise the permissions that
 an App was requesting.  On the other hand, we note that even if only
 ISAF features were available, the performance of all ISAF variants is
@@ -146,7 +146,7 @@ still sufficient to statistically significantly outperform all
 (social) collaborative filtering baselines.
 
 It is important to consider why ASAF outperforms ISAF.  We conjecture
-the reasons for this are quite simple: ISAFs can only evaluate the
+the reasons for this are quite simple: ISAFs can only see the
 \emph{friends} of user $u$ whereas ASAFs are able to look at all
 users, independent of $u$'s friends.  Hence, given the relative
 sparsity of friend-only data in Facebook compared to the greater
@@ -183,11 +183,11 @@ log loss in logistic regression or hinge loss in SVMs) unlike (social)
 collaborative filtering approaches that generally rely on
 computationally expensive nearest neighbor or matrix factorization
 techniques that lack training optimality guarantees.  Further, we also
-note quite surprisingly that SAF inherently scales to a large number
+note that SAF inherently scales to a large number
 of users and generalizes to completely new users without suffering
 from the cold-start problem: this is simply because nothing SAF learns
-is user-dependent, it learns to weight SAGs independent of any
-particular user.
+is user-dependent, it learns to weight SAGs independent of individual  
+users. % and does not require the target user's preference data.
 
 Given the clearly demonstrated benefits of SAF, we now proceed in the
 next two sections to analyse the two primary types of SAG features

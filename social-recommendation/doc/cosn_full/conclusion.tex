@@ -1,27 +1,45 @@
 %!TEX root = document.tex
 
-We proposed Social Affinity Filtering (SAF) as a new method for social
-recommendation.  We first defined social affinity groups (SAGs) of a
-target user by analysing their fine-grained interactions and
-activities.  Then we learned which SAGs were most predictive of the
-target user's preferences leading to SAF.  We evaluated the proposed
-algorithm on a dataset collected from a Facebook App we built, showing
-that SAF yields 6\% absolute improvement in accuracy with respect to a
-state-of-the-art social recommendation engine.  This is an important
-result given that SAF is built on standard supervised classification
-techniques unlike more complex matrix factorization approaches
-typically used in social collaborative filtering.  Furthermore, we
-quantified the relative importance of interactions and activities for
-recommendation and we analysed what properties made some SAGs
-more predictive than others.  Among many insights, our results show
-that video and photo interactions are more predictive than other
-modalities, and outgoing interactions are more predictive than
-incoming, and that smaller social groups are more predictive than
-larger ones.  Future directions of research can investigate the nature
-of interactions by measuring the level of user engagement -- e.g. if
-videos are inherently more engaging, or examine the nature of social
-groups via additional metrics -- e.g. the social network within
-members of the group, or activity level of the group.
+We proposed Social Affinity Filtering (SAF) as a novel method for social
+recommendation that analyses a user's fine-grained interactions and
+activities to learn which subset of social groups have the highest affinity with
+a user's preferences.  We evaluated SAF on a dataset collected from a
+Facebook App, showing that SAF yields 6\% absolute improvement in
+accuracy over state-of-the-art (social) recommendation engines just
+using knowledge of users' page likes.  This is an important result
+given that SAF is built on standard supervised linear classification
+techniques (which support strong training guarantees and fast learning
+algorithms) and would be fairly robust in an online setting 
+in contrast to some more complex matrix factorization optimisation approaches
+often proposed for (social) collaborative filtering.
+
+In addition to the strong social recommendation accuracy improvements
+offered by SAF, we quantified the relative importance of interaction
+and activity groups for recommendation and we analysed what properties
+made some social affinity groups more informative than others.  Among
+many insights, our results show that video interactions are more
+predictive than other modalities and outgoing interactions are more
+predictive than incoming ones, but both can be superceded by the
+number of preferences expressed by a group.  Furthermore, for
+activities, we showed that smaller social groups are more predictive
+than larger ones and long-tailed categories with many specialised
+choices (dynamically increasing over time) tend to contain some of
+the most predictive affinity groups.  Knowing what subset of features
+are informative allows one to design an effective recommendation tool
+that requires minimal permissions from a user --- a key property for
+general user uptake.
+
+Future directions of research can 
+%investigate the nature of
+%interactions by measuring the level of user engagement --- e.g. if
+%videos are inherently more engaging, or 
+examine the nature of social groups via additional metrics --- e.g.,
+the social network within members of the group, or activity level of
+the group.  Other work might explore the cold-start advantages of SAF, 
+improved feature engineering to better incorporate
+preference frequency, or even combinations of SAF with
+orthogonal (social) collaborative filtering approaches like nearest
+neighbor or even matrix factorization.
 
 %% Latent projections of affinity groups!
 %% Exploit quantity in features and interactions/nonlinearity

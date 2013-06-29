@@ -5,16 +5,17 @@
 %In this section we evaluate the correlation between the conditional
 %entropy and size of groups, pages and favourites.
 
-We analyze the informativeness of Activity SAGS by looking at the correlation 
-between the size and type of groups, pages and favourites.
+Now we analyse the informativeness of Activity Social Affinity
+Features (ASAFs) by looking at the correlation between the size and
+type of groups, pages and favourites.
 
-Fig \ref{Fig3} shows the relationship between conditional
-    entropy and logistic regression weights versus the size of activity
-    groups. Here the size of a {\em group}, {\em page} and {\em favorite} 
+Fig \ref{Fig3} shows the relationship between both the conditional
+    entropy and logistic regression weights vs. the size of activity
+    groups. Here the size of a {\em group}, {\em page} and {\em favourite} 
     is the number of total users in the activity group. 
-    For {\em Pages} and {\em Favorites} this is the total number of Facebook users, 
+    For {\em pages} and {\em pavorites} this is the total number of Facebook users, 
     whether or not they are in the App users' ego network, while for 
-    {\em Groups} only the number of users in the App users' ego network is visible to our app.
+    {\em groups} only the number of users in the App users' ego network is visible to our app.
     Both scatter plots shows that the activity groups of small size can be
     highly predictive (low conditional entropy or weights that deviate
     extremely from zero) whereas large groups are rarely predictive.
@@ -33,18 +34,27 @@ In Fig~\ref{Fig4} we plot the average conditional entropy of the top
 %{\bf TODO: make this consistent with earlier discussion regarding persistence,
 %temporally sychronized.}
 
- We also analyze predictiveness of favourites by categories in
-    Fig~\ref{Fig5}, where the favorite categories are obtained from Facebook API.  
+ We also analyse predictiveness of favourites by categories in
+    Fig~\ref{Fig5}, where the favorite category labels are obtained from the Facebook API.  
     %It shows that SAGs consisting of shared interests,
     %activity, television, and books are on average most predictive, while 
     %music, movies, favourite teams, sports and athletes are on average
     %least predictive.  
     We can see that contents in the ``long-tail'', i.e.,  
     having a large number of occurrences far from the most popular choices, 
-    tend to have be the most predictive affinities. Examples of these include
+    tend to have some of the most predictive indidividual affinities. Examples of these include
     music, books, movies. On the contrary, generic affinities (e.g. interests) and 
     those with a smaller number of choices (e.g. sports or fav-teams) 
-    tend to be less predictive. 
+    tend to be less predictive since they represent less specialised interests than 
+    the long tail of music, book, or movie preferences.  
+
+    These observations of Fig~\ref{Fig5} are also reiterated by the
+    examples provided in Table~\ref{table:fav_examples} where uninformative favourites
+    tend to have a broad appeal whereas informative favourites generally appear much
+    more specialised.  This also reinforces the point that not all SAGs are predictive,
+    but some are very predictive and it is important to learn which SAGs are informative
+    rather than nai\"{i}ly aggregate their content, where on average, the features are
+    clearly not informative.
     %While favourite teams, sports and athletes may be
     %too focused to offer much predictiveness vs. the other more diverse
     %categories, it is interesting that movies and music favourites
@@ -69,6 +79,82 @@ In Fig~\ref{Fig4} we plot the average conditional entropy of the top
 
 %\TODO{add a table of top 5-10 groups/pages/favs}
 
+\begin{table*}[t!] \centering 
+
+{\small
+\begin{tabular}{|c|c|c|c|c|}
+\hline 
+\multicolumn{5}{|c|}{\textbf{Median Informative Favourites by Category}}\\
+\hline 
+\textbf{Books} & \textbf{Movies} & \textbf{Music} & \textbf{Television} & \textbf{Interests} \\
+\hline \hline
+Harry Potter series&Forrest Gump&John Lennon&Futurama&Travel\\
+\hline
+A Song of Ice and Fire&Pretty Woman&U2&Star Trek&Music\\
+\hline
+Discworld&Napoleon Dynamite&AC/DC&The Trap Door&Literature\\
+\hline
+Hitchhiker's Guide To The Galaxy&Harry Potter&The Smashing Pumpkins&Drawn Together&Painting\\
+\hline
+The Hobbit&Toy Story 3&Gotye&Sherlock&Running\\
+\hline
+The Magician's Guild&The Godfather&The Rolling Stones&Hitchhiker's Guide to the Galaxy&Sports\\
+\hline
+Ranger's Apprentice&Mulan&All Axess&Buffy The Vampire Slayer&Films\\
+\hline
+Cosmos&How to Train Your Dragon&Steve Aoki&South Park&Genetics\\
+\hline
+Foundation and Earth&The Princess Bride&Rihanna&24&Travelling\\
+\hline
+Deception Point&Watchmen&Billy Joel&The Daily Show&Internet\\
+\hline
+%5 point someone&Black Swan&Queens of the Stone Age&Monty Python's Flying Circus&Psychology\\
+%\hline
+%Freakonomics&Inception&Depeche Mode&Top Chef&Math\\
+%\hline
+%Alex Rider Series&Donnie Darko&Oasis&The Inbetweeners&Lambda\\
+%\hline
+%The Elenium&Kung Fu Panda&Justice&Firefly&Computer Science\\
+%\hline
+%Watchmen&American Psycho&Gorillaz&Red Dwarf&Skepticism\\
+%\hline
+\multicolumn{5}{c}{}\\
+\hline 
+\multicolumn{5}{|c|}{\textbf{Most Informative Favourites by Category}}\\
+\hline
+\textbf{Books} & \textbf{Movies} & \textbf{Music} & \textbf{Television} & \textbf{Interests} \\
+\hline \hline
+Calvin and Hobbes & Billy Madison & Avascular Necrosis & Metalocalypse & Computers\\
+\hline
+Tomorrow when the War Began & Team America: World Police & Tortured & Beast Wars & Texas HoldEm \\
+\hline
+I really like ceilings  & Pan's Labyrinth & Elysian & Hey Arnold! & Programming\\
+\hline
+Angels and demons  & Pirates of the Caribbean & Anno Domini & Sherlock & Economics\\
+\hline
+Magician  & Aladdin & Darker Half & Hey Hey It's Saturday & Martial arts\\
+\hline
+Digital Fortress  & Starship Troopers & Hellbringer & Neil Buchanan and Art Attack! & Graphic design\\
+\hline
+The Bible  & Happy Gilmore & Johnny Roadkill & Breaking Bad & Cooking\\
+\hline
+Interview with the Vampire  & Timon and Pumbaa & Aeon of Horus & Red vs. Blue & Klingon language\\
+\hline
+The Discworld Series  & Ferris Buellers Day Off & Katabasis & Stargate Universe & Politics\\
+\hline
+The Da Vinci Code  & Peter Griffin & Bane Of Isildur & Chaser's War on Everything & Science\\
+\hline
+\end{tabular}}
+\caption{(top) Examples of 10 items per Favourite category near the \emph{median} conditional entropy (\emph{median informativeness}).
+(bottom) Examples of top 10 items with the lowest conditional entropy (\emph{most informative}).
+A general trend is that more informative favourite category ASAGs tend to be more specialised in
+appeal, e.g. ``Avascular Necrosis'' is an informative music group favourite --- it's members
+tend to share common preferences --- while ``John Lennon'' and ``U2'' have a broader audience with
+more diverse preferences.}
+\label{table:fav_examples}
+\end{table*}
+
+\eat{
 \begin{table*}[tbp!]
 \centering
 \begin{tabular}{| >{\small}l | >{\small}r | >{\small}r |}
@@ -94,7 +180,7 @@ Robert The Bruce (Band) & Metalocalypse & Aeon of Horus \\
 \end{tabular}
 \caption{Top 10 Groups/Pages/Favourites ranked by Conditional Entropy. The city name where our institution and many Facebook users resides is anonymized.}
 \label {table:topGroupPagesFavs}
-\end{table*}
+\end{table*}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure*}[tbp!]
@@ -104,30 +190,45 @@ Robert The Bruce (Band) & Metalocalypse & Aeon of Horus \\
 \subfloat[Fig:][]{\includegraphics[width=45mm, height=35mm]{data/plots/new/CEvsGroupSize.eps}}
 \subfloat[Fig:][]{\includegraphics[width=45mm, height=35mm]{data/plots/new/CEvsPageSize.eps}}
 \subfloat[Fig:][]{\includegraphics[width=45mm, height=35mm]{data/plots/new/CEvsFavSize.eps}} \\
+%\vspace{-10mm}
 \subfloat[Fig:][]{\includegraphics[width=45mm, height=35mm]{data/plots/new/LRweightvsGroupSize.eps}}
 \subfloat[Fig:][]{\includegraphics[width=45mm, height=35mm]{data/plots/new/LRweightvsPageSize.eps}}
 \subfloat[Fig:][]{\includegraphics[width=45mm, height=35mm]{data/plots/new/LRweightvsFavSize.eps}} \\
 \end{tabular}
 \end{tabular}
-\caption {Conditional entropy vs size (a-c); logistic regression feature weights vs size (d-f) }
+\vspace{-2mm}
+\caption {Conditional entropy vs size (a-c); logistic regression feature weights vs size (d-f).
+In (a-c) we observe that the large membership ASAGs are rarely informative while the most
+informative SAGs tend to have low memberships.  Similarly in (d-f) we see that the most
+predictive features with the most extreme weights are concentrated toward small ASAGs. }
 \label{Fig3}
 \end{figure*}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\vspace{-5mm}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure*}[tbp!]
 \centering
 \includegraphics[scale=0.28]{data/plots/cumulativeEntropy/cumulative.eps}
-\caption{Average conditional entropy of top 10\% groups, pages and favourites features cumulative over the size }
+\vspace{-3mm}
+\caption{Average conditional entropy of top 10\% groups, pages and favourite features \emph{cumulative} over the size.  Here we see that as we add in larger membership ASAGs, the average informativeness
+decreases substantially (entropy increases).}
 \label{Fig4}
 \end{figure*}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%\vspace{-7mm}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure*}[tbp!]
-\centering
-\includegraphics[width=180mm, height=40mm]{data/plots/boxPlots/CEvsFavTypes.eps}
-\caption{Conditional entropy for top 1000 favourites breakdown by categories}
+\hspace{-12mm}\includegraphics[width=200mm]{data/plots/boxPlots/CEvsFavTypes.eps}
+\vspace{-7mm}
+\caption{Conditional entropy for top 1000 favourites breakdown by categories.  While ASAG categories
+with many options like music are not informative on average, we see
+that some of the most informative ASAGs are music.  This reiterates
+the point that it is crucial to \emph{learn} which ASAGs (or ISAGs)
+are informative rather than aggregating average information.}
 \label{Fig5}
 \end{figure*}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
