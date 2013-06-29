@@ -72,7 +72,6 @@
 \newlabel{Fig1}{{2}{6}{Comparision of a simple baseline (Const), two collaborative filtering baselines (NN and MF), a social collaborative filtering baseline (SMB) and novel SAF recommenders using different feature sets (one ISAF and three ASAF sets) and classifiers (NB,LR,SVM). The best SAF-based model (LR-ASAF) --- for Page likes --- significantly outperforms all baselines by at least 6\%. Combining all four feature sets (not shown) does not lead to improvement over Page likes features alone.\relax \relax }{figure.caption.9}{}}
 \citation{Romero2011hashtag}
 \citation{ver2011stops}
-\citation{Romero2011hashtag}
 \@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Conditional entropy of various interactions (lower conditional entropies are more informative).\relax }}{7}{table.caption.10}}
 \newlabel{table:ce_interaction}{{5}{7}{Conditional entropy of various interactions (lower conditional entropies are more informative).\relax \relax }{table.caption.10}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Interaction Analysis}{7}{subsection.3.3}}
@@ -81,13 +80,28 @@
 \newlabel{sec:activity_analysis}{{3.4}{7}{Activity Analysis\relax }{subsection.3.4}{}}
 \citation{Chang2010ethnicity}
 \citation{backstrom2011center}
-\citation{wilson2009user}
 \citation{backstrom2011center}
+\citation{wilson2009user}
 \citation{hill2003social}
 \citation{backstrom2011center}
 \citation{Golub2010selectionbiase}
 \citation{ver2011stops}
 \citation{Romero2011hashtag}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Conditional Entropy of modalities/activities for incoming/outgoing interactions vs. item liked by at least $k$ friends. Increasing $k$ generally has a stronger influence on informativeness than other features of interaction SAGs (modality, action, or direction), with the exception of the outgoing-modality.\relax }}{8}{figure.caption.11}}
+\newlabel{Fig2}{{3}{8}{Conditional Entropy of modalities/activities for incoming/outgoing interactions vs. item liked by at least $k$ friends. Increasing $k$ generally has a stronger influence on informativeness than other features of interaction SAGs (modality, action, or direction), with the exception of the outgoing-modality.\relax \relax }{figure.caption.11}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Related Work}{8}{section.4}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Conditional entropy vs size (a-c); logistic regression feature weights vs size (d-f). In (a-c) we observe that the large membership ASAGs are rarely informative while the most informative SAGs tend to have low memberships. Similarly in (d-f) we see that the most predictive features with the most extreme weights are concentrated toward small ASAGs. \relax }}{9}{figure.caption.13}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces Fig:}}{9}{subfigure.4.1}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces Fig:}}{9}{subfigure.4.2}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces Fig:}}{9}{subfigure.4.3}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(d)}{\ignorespaces Fig:}}{9}{subfigure.4.4}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(e)}{\ignorespaces Fig:}}{9}{subfigure.4.5}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(f)}{\ignorespaces Fig:}}{9}{subfigure.4.6}}
+\newlabel{Fig3}{{4}{9}{Conditional entropy vs size (a-c); logistic regression feature weights vs size (d-f). In (a-c) we observe that the large membership ASAGs are rarely informative while the most informative SAGs tend to have low memberships. Similarly in (d-f) we see that the most predictive features with the most extreme weights are concentrated toward small ASAGs. \relax \relax }{figure.caption.13}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Average conditional entropy of top 10\% groups, pages and favourite features \emph  {cumulative} over the size. Here we see that as we add in larger membership ASAGs, the average informativeness decreases substantially (entropy increases).\relax }}{9}{figure.caption.14}}
+\newlabel{Fig4}{{5}{9}{Average conditional entropy of top 10\% groups, pages and favourite features \emph {cumulative} over the size. Here we see that as we add in larger membership ASAGs, the average informativeness decreases substantially (entropy increases).\relax \relax }{figure.caption.14}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Conditional entropy for top 1000 favourites breakdown by categories. While ASAG categories with many options like music are not informative on average, we see that some of the most informative ASAGs are music. This reiterates the point that it is crucial to \emph  {learn} which ASAGs (or ISAGs) are informative rather than aggregating average information.\relax }}{9}{figure.caption.15}}
+\newlabel{Fig5}{{6}{9}{Conditional entropy for top 1000 favourites breakdown by categories. While ASAG categories with many options like music are not informative on average, we see that some of the most informative ASAGs are music. This reiterates the point that it is crucial to \emph {learn} which ASAGs (or ISAGs) are informative rather than aggregating average information.\relax \relax }{figure.caption.15}{}}
 \citation{asur2011trends}
 \citation{Bakshy2011everyone}
 \citation{Bakshy2012chamber}
@@ -96,26 +110,13 @@
 \citation{Bakshy2011everyone}
 \citation{influence}
 \citation{Bakshy2012chamber}
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Conditional Entropy of modalities/activities for incoming/outgoing interactions vs item liked by at least k friends\relax }}{8}{figure.caption.11}}
-\newlabel{Fig2}{{3}{8}{Conditional Entropy of modalities/activities for incoming/outgoing interactions vs item liked by at least k friends\relax \relax }{figure.caption.11}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {4}Related Work}{8}{section.4}}
-\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces Top 10 Groups/Pages/Favourites ranked by Conditional Entropy. The city name where our institution and many Facebook users resides is anonymized.\relax }}{9}{table.caption.12}}
-\newlabel{table:topGroupPagesFavs}{{6}{9}{Top 10 Groups/Pages/Favourites ranked by Conditional Entropy. The city name where our institution and many Facebook users resides is anonymized.\relax \relax }{table.caption.12}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Conditional entropy vs size (a-c); logistic regression feature weights vs size (d-f) \relax }}{9}{figure.caption.13}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces Fig:}}{9}{subfigure.4.1}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces Fig:}}{9}{subfigure.4.2}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces Fig:}}{9}{subfigure.4.3}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(d)}{\ignorespaces Fig:}}{9}{subfigure.4.4}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(e)}{\ignorespaces Fig:}}{9}{subfigure.4.5}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(f)}{\ignorespaces Fig:}}{9}{subfigure.4.6}}
-\newlabel{Fig3}{{4}{9}{Conditional entropy vs size (a-c); logistic regression feature weights vs size (d-f) \relax \relax }{figure.caption.13}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Average conditional entropy of top 10\% groups, pages and favourites features cumulative over the size \relax }}{9}{figure.caption.14}}
-\newlabel{Fig4}{{5}{9}{Average conditional entropy of top 10\% groups, pages and favourites features cumulative over the size \relax \relax }{figure.caption.14}{}}
 \citation{saez2011high}
 \citation{singla2008yes}
 \citation{Anderson2012}
 \citation{brandtzag2011facebook}
 \citation{gilbert2009predicting}
+\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces (top) Examples of 10 items per Favourite category near the \emph  {median} conditional entropy (\emph  {median informativeness}). (bottom) Examples of top 10 items with the lowest conditional entropy (\emph  {most informative}). A general trend is that more informative favourite category ASAGs tend to be more specialised in appeal, e.g. ``Avascular Necrosis'' is an informative music group favourite --- it's members tend to share common preferences --- while ``John Lennon'' and ``U2'' have a broader audience with more diverse preferences.\relax }}{10}{table.caption.12}}
+\newlabel{table:fav_examples}{{6}{10}{(top) Examples of 10 items per Favourite category near the \emph {median} conditional entropy (\emph {median informativeness}). (bottom) Examples of top 10 items with the lowest conditional entropy (\emph {most informative}). A general trend is that more informative favourite category ASAGs tend to be more specialised in appeal, e.g. ``Avascular Necrosis'' is an informative music group favourite --- it's members tend to share common preferences --- while ``John Lennon'' and ``U2'' have a broader audience with more diverse preferences.\relax \relax }{table.caption.12}{}}
 \citation{koren2009matrix}
 \citation{sorec}
 \citation{sr}
@@ -132,14 +133,15 @@
 \citation{gomes2011social}
 \citation{Panigrahy2012ubr}
 \citation{Goel2012structure}
-\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Conditional entropy for top 1000 favourites breakdown by categories\relax }}{10}{figure.caption.15}}
-\newlabel{Fig5}{{6}{10}{Conditional entropy for top 1000 favourites breakdown by categories\relax \relax }{figure.caption.15}{}}
 \bibdata{bibliography}
 \bibcite{Anderson2012}{1}
 \bibcite{asur2011trends}{2}
 \bibcite{backstrom2011center}{3}
 \bibcite{Bakshy2011everyone}{4}
 \bibcite{Bakshy2012chamber}{5}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Conclusions}{11}{section.5}}
+\@writefile{toc}{\contentsline {section}{\numberline {6}Additional Authors}{11}{section.6}}
+\@writefile{toc}{\contentsline {section}{\numberline {7}References}{11}{section.7}}
 \bibcite{bellkor}{6}
 \bibcite{brandtzag2011facebook}{7}
 \bibcite{Chang2010ethnicity}{8}
@@ -159,9 +161,6 @@
 \bibcite{sr}{22}
 \bibcite{Noel2012NOF}{23}
 \bibcite{nori2011exploiting}{24}
-\@writefile{toc}{\contentsline {section}{\numberline {5}Conclusions}{11}{section.5}}
-\@writefile{toc}{\contentsline {section}{\numberline {6}Additional Authors}{11}{section.6}}
-\@writefile{toc}{\contentsline {section}{\numberline {7}References}{11}{section.7}}
 \bibcite{Panigrahy2012ubr}{25}
 \bibcite{tf}{26}
 \bibcite{Romero2011hashtag}{27}

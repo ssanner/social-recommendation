@@ -79,12 +79,14 @@ entropies are more informative).}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure*}[tbp!]
 \hspace{-15mm}\includegraphics[width=210mm]{data/plots/vsk/ModalityActionsvsKFriends.eps}
-\caption{Conditional Entropy  of modalities/activities for incoming/outgoing interactions vs item liked by at least k friends}
+\caption{Conditional Entropy  of modalities/activities for incoming/outgoing interactions vs. item liked by at least $k$ friends.  Increasing $k$ generally has a stronger influence on informativeness
+than other features of interaction SAGs (modality, action, or direction), with the
+exception of the outgoing-modality.}
 \label{Fig2}
 \end{figure*}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-In this section we analyze the informativeness of Interaction Social
+In this section we analyse the informativeness of Interaction Social
 Affinity Features (ISAFs), namely user interactions according to their
 modality, type, and direction, as described in
 Sec~\ref{sec:methodology}.
@@ -94,19 +96,20 @@ A general method for measuring the amount of information that a
 feature $X^{u,i}_k$ provides w.r.t. predicting a user preference $\likes(u,i)$ (in this
 case, just $\true$ or $\false$) is to calculate its conditional entropy:
 \begin{align*}
-H(\likes(u,i) &| X^{u,i}_k=\true)\\
-& = -\sum_{y\in{(\true,\false)}} p(\likes(u,i)=y|X^{u,i}_k=\true) \ln( p(\likes(u,i)|X^{u,i}_k=\true))
+&H(\likes(u,i) | X^{u,i}_k=\true)\\
+& = -\sum_{y\in{(\true,\false)}} p(\likes(u,i)=y|X^{u,i}_k=\true) \\
+& \qquad \qquad \qquad \;\;\;\; \cdot \ln( p(\likes(u,i)=y|X^{u,i}_k=\true))
 \end{align*}
 In general, a lower conditional entropy indicates a more informative
-feature. Here we measure conditional entropy $H(\likes(u,i)| X^{u,i}_k=\true)$
+feature. Here we measure the conditional entropy $H(\likes(u,i)| X^{u,i}_k=\true)$
 rather than mutual information $I(\likes(u,i); X^{u,i}_k)$, as we found 
 that mutual information is highly correlated with (and dominated by) the 
 frequency of the feature $X^{u,i}_k=\true$ in the dataset.
 
 %As defined in Sec~\ref{sec:methodology}, we have three distinctions for user
 %interactions: modality, action, and directionality.  
-First we analyze various interactions individually and jointly to understand what
-interactions define SAGs with a high social affinity for a user $u$'s
+First we analyse various interactions to understand what
+interactions define SAGs with a high affinity for a user $u$'s
 preferences.  To this end, we make a few observations from the
 conditional entropy analysis of Table~\ref{table:ce_interaction}:
 \begin{itemize}
@@ -115,35 +118,47 @@ than other modalities such as links, posts and photos.  This could be
   due to the fact that video viewing is time-consuming and users
   inherently only watch the videos of those whose preferences they
   often share.
-\item Tagging has a slightly lower conditional entropy than
-  commenting and liking, likely because the majority of tags contains 
-  person name(s) on Facebook, indicating a direct social interaction. 
+\item Tagging has a slightly better conditional entropy than
+  commenting and liking, potentially because tagging a user
+  often indicates a direct social interaction (appearing in a photo
+  or video together) that provides evidence of affinity between two
+  users. 
   % indicating that tagging.
 \item A user is more likely to share preferences with someone who she
   initiates the interaction with (outgoing) vs. with someone who
   initiates the interaction with her (incoming).  As an extreme
   instance of this, we note that while outgoing photo and video
-  interactions are most informative, it appears that incoming photo
-  and video interactions are least informative.
+  interactions are \emph{most} informative in the last table of
+  Table~\ref{table:ce_interaction}, it appears that incoming photo and
+  video interactions are \emph{least} informative.
 \end{itemize}
 
-In figure \ref{Fig2} we plot conditional entropy of modality and
+In Fig~\ref{Fig2} we plot the conditional entropy of modality and
 action for incoming/outgoing interactions constrained to links
-liked by at least $k$ friends in the SAG.  Figure \ref{Fig2} reiterates
-many observations made above for various $k$.  In addition, we note that
+liked by at least $k$ friends in the SAG (measuring the implicit or explicit
+exposure of a user to their friends preferences via a SAG).  Fig~\ref{Fig2} reiterates
+many observations above for various values of fixed $k$.  In addition, we note that
 preference affinity with a SAG increases as more people in the SAG
-like the item --- then the more likely a user is to like an item.
+like the item. 
 While incoming interactions were not as predictive as outgoing
 interactions for the same $k$, we note that higher $k$ for an incoming
-interaction can be more predictive than lower $k$ for an outgoing
-interaction.  Note that these graphs are cumulative in $k$, different from the 
-exposure curve on exactly $k$ friends~\cite{Romero2011hashtag}. 
-Our observations on user preference on items like by a number of Facebook friends 
-suggest large cumulative number of friend interactions is more predictive 
--- this can be translated into recommender system design. 
-Further investigation is needed to pinpoint whether or not there is 
-diminishing returns on repeated exposures~\cite{ver2011stops,Romero2011hashtag} on $k$, 
-and how this could be leveraged to design recommendation algorithms.
+interaction \emph{can be more predictive} than lower $k$ for an outgoing
+interaction.  Similar principles hold for modality and action vs. $k$ --- a larger $k$
+is generally more predictive than the individual variation among modality and action,
+the one exception being the modality-outgoing analysis.
+%Note that these graphs are cumulative in $k$, different from the 
+%exposure curve on exactly $k$ friends~\cite{Romero2011hashtag}. 
+Overall, these observations 
+suggest a large cumulative number of friend preferences in an interaction SAG can be more predictive
+than other features of the interaction SAG.
+%which can be translated into future feature engineering in SAF-based recommender system design. 
+Further investigation is needed to pinpoint whether or not there are
+diminishing returns on repeated
+exposures~\cite{Romero2011hashtag,ver2011stops} on $k$, and how this
+could be leveraged into future feature engineering in SAF-based
+recommender system design.
+%to design SAF-based recommendation algorithms
+%and their features
 %We observed that 
 %\begin{itemize}
 %% NOTED ABOVE NOW
