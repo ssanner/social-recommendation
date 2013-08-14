@@ -142,9 +142,76 @@ public class BaselineRecommender extends Recommender
 		//do nothing
 	}
 	
+	public Map<Long, Double> recommendForUser(Long userId, Set<Long> possibleLinks, int numberOfLinks)
+	{
+		Map<Long, Double> recommendations = new HashMap<Long, Double>();
+		Map<Long, Double> friends = friendships.get(userId);
+		
+		double total = 0;
+		for (long friendId : friends.keySet()) {
+			total += friends.get(friendId);
+		}
+		
+		for (long friendId : friends.keySet()) {
+			double val = friends.get(friendId);
+			val /= total;
+			friends.put(friendId, val);
+		}
+		
+		for (long linkId : possibleLinks) {	
+			double score = 0;
+				
+			for (long friendId : friends.keySet()) {
+				if (linkLikes.containsKey(linkId) && linkLikes.get(linkId).contains(friendId)) {
+					score += friends.get(friendId);
+				}
+			}
+			
+			//If the recommended links are more than the max number, recommend only the highest scoring links.
+			if (recommendations.size() < numberOfLinks) {
+				recommendations.put(linkId, score);
+			}
+			else {
+				//Get the lowest scoring recommended link and replace it with the current link
+				//if this one has a better score.
+				long lowestKey = 0;
+				double lowestValue = Double.MAX_VALUE;
+					
+				for (long id : recommendations.keySet()) {
+					if (recommendations.get(id) < lowestValue) {
+						lowestKey = id;
+						lowestValue = recommendations.get(id);
+					}
+				}
+					
+				if (score > lowestValue) {
+					recommendations.remove(lowestKey);
+					recommendations.put(linkId, score);
+				}
+			}
+		}
+		
+		return recommendations;
+	}
+	
 	public Map<Long, Map<Long, Double>> recommend(Map<Long, Set<Long>> linksToRecommend)
 	{
-		//Will never be used for online recommendatons
-		return null;
+		if (userMax == null) {
+			try {
+				userMax = getUserMax(linksToRecommend.keySet());
+			}
+			catch (SQLException ex) {
+				ex.printStackTrace();
+			}
+		}
+		
+		Map<Long, Map<Long, Double>> recommendations = new HashMap<Long, Map<Long, Double>>();
+		
+		for (long userId : linksToRecommend.keySet()) {
+			Set<Long> userLinks = linksToRecommend.get(userId);
+			recommendations.put(userId, recommendForUser(userId, userLinks, userMax.get(userId)));
+		}
+		
+		return recommendations;
 	}
 }

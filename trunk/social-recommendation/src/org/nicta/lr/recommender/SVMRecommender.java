@@ -208,6 +208,102 @@ public class SVMRecommender extends Recommender
 		return model;
 	}
 	
+	public Map<Long, Double> recommendForUser(Long userId, Set<Long> possibleLinks, int numberOfLinks)
+	{
+		Map<Long, Double> recommendations = new HashMap<Long, Double>();
+		
+		Set<Long> userFriends;
+		if (friendships.containsKey(userId)) {
+			userFriends = friendships.get(userId).keySet();
+		}
+		else {
+			userFriends = new HashSet<Long>();
+		}
+	
+		for (long linkId : possibleLinks) {
+			if (!linkFeatures.containsKey(linkId)) {
+				continue;
+			}
+			
+			double[] features = combineFeatures(userFeatures.get(userId), linkFeatures.get(linkId));
+			ArrayList<svm_node> nodeList = new ArrayList<svm_node>();
+			
+			for (int x = 0; x < features.length; x++) {
+				svm_node node = new svm_node();
+				node.index = x + 1;
+				node.value = features[x];
+				
+				nodeList.add(node);
+			}
+			
+			for (int x = 0; x < userIds.length; x++) {
+				if (userIds[x].equals(userId)) {
+					svm_node node = new svm_node();
+					node.index = features.length + x + 1;
+					node.value = 1;
+					
+					nodeList.add(node);
+				}
+				else if (userFriends.contains(userIds[x]) && linkLikes.containsKey(linkId) && linkLikes.get(linkId).contains(userIds[x])) {
+					svm_node node = new svm_node();
+					node.index = features.length + userIds.length + x + 1;
+					node.value = 1;
+					
+					nodeList.add(node);
+				}
+			}
+			
+			for (int x = 0; x < linkIds.length; x++) {
+				if (linkIds[x].equals(linkId)) {
+					svm_node node = new svm_node();
+					node.index = features.length + userIds.length + userIds.length + x + 1;
+					node.value = 1;
+					
+					nodeList.add(node);
+					break;
+				}
+			}
+			
+			svm_node nodes[] = new svm_node[nodeList.size()];
+			
+			for (int x = 0; x < nodes.length; x++) {
+				nodes[x] = nodeList.get(x);
+			}
+			
+			double[] dbl = new double[1]; 
+			svm.svm_predict_values(model, nodes, dbl);
+			double prediction = dbl[0];
+			
+			System.out.println("Prediction: " + prediction + " ID: " + userId);
+	
+			//We recommend only a set number of links per day/run. 
+			//If the recommended links are more than the max number, recommend only the highest scoring links.
+			if (recommendations.size() < numberOfLinks) {
+				recommendations.put(linkId, prediction);
+			}
+			else {
+				//Get the lowest scoring recommended link and replace it with the current link
+				//if this one has a better score.
+				long lowestKey = 0;
+				double lowestValue = Double.MAX_VALUE;
+	
+				for (long id : recommendations.keySet()) {
+					if (recommendations.get(id) < lowestValue) {
+						lowestKey = id;
+						lowestValue = recommendations.get(id);
+					}
+				}
+	
+				if (prediction > lowestValue) {
+					recommendations.remove(lowestKey);
+					recommendations.put(linkId, prediction);
+				}
+			}
+		}
+		
+		return recommendations;
+	}
+	
 	public Map<Long, Map<Long, Double>> recommend(Map<Long, Set<Long>> linksToRecommend)
 	{	
 		if (userMax == null) {

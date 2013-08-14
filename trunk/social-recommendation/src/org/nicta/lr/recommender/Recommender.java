@@ -183,6 +183,8 @@ public abstract class Recommender
 	
 	public abstract Map<Long, Map<Long, Double>> recommend(Map<Long, Set<Long>> linksToRecommend);
 	
+	public abstract Map<Long, Double> recommendForUser(Long userId, Set<Long> possibleLinks, int numberToRecommend);
+	
 	public abstract void saveModel() throws SQLException;
 	
 	public double getUserAP(Object[] sorted, long userId)
