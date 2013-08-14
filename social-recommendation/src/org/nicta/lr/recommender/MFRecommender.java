@@ -751,6 +751,44 @@ public abstract class MFRecommender extends Recommender
 		idColumns.putAll(newColumns);
 	}
 
+	public Map<Long, Double> recommendForUser(Long userId, Set<Long> possibleLinks, int numberOfLinks)
+	{
+		Map<Long, Double> recommendations = new HashMap<Long, Double>();
+		Map<Long, Double[]> userTraits = getUserTraitVectors(userFeatureMatrix, userIdColumns, userFeatures);
+		Map<Long, Double[]> linkTraits = getLinkTraitVectors(linkFeatureMatrix, linkIdColumns, linkFeatures);
+		
+		for (long linkId : possibleLinks) {
+			if (!linkTraits.containsKey(linkId)) continue;
+			
+			double prediction = dot(userTraits.get(userId), linkTraits.get(linkId));
+		
+			//If the recommended links are more than the max number, recommend only the highest scoring links.
+			if (recommendations.size() < numberOfLinks) {
+				recommendations.put(linkId, prediction);
+			}
+			else {
+				//Get the lowest scoring recommended link and replace it with the current link
+				//if this one has a better score.
+				long lowestKey = 0;
+				double lowestValue = Double.MAX_VALUE;
+					
+				for (long id : recommendations.keySet()) {
+					if (recommendations.get(id) < lowestValue) {
+						lowestKey = id;
+						lowestValue = recommendations.get(id);
+					}
+				}
+					
+				if (prediction > lowestValue) {
+					recommendations.remove(lowestKey);
+					recommendations.put(linkId, prediction);
+				}
+			}
+		}
+		
+		return recommendations;
+	}
+	
 	public Map<Long, Map<Long, Double>> recommend(Map<Long, Set<Long>> linksToRecommend)
 	{	
 		if (userMax == null) {

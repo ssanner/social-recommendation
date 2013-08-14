@@ -100,6 +100,96 @@ public class NNRecommender extends Recommender
 		return predictions;
 	}
 	
+	public Map<Long, Double> recommendForUser(Long userId, Set<Long> possibleLinks, int numberOfLinks)
+	{
+		Double[] userFeature = userFeatures.get(userId);	
+		Map<Long, Double> recommendations = new HashMap<Long, Double>();
+		
+		for (long recommendId : possibleLinks) {
+			Set<Long> likedUsers = linkLikes.get(recommendId);
+			
+			if (likedUsers == null) {
+				System.out.println("Nobody liked");
+				continue;
+			}
+			
+			//Holds the k=10 nearest neighbors
+			HashMap<Long, Double> kClosestDistance = new HashMap<Long, Double>();
+			
+			double biggestKDistance = 0;			
+			long biggestId = 0;
+			
+			for (long user : likedUsers) {
+				if (user == userId || !userFeatures.containsKey(user)) continue;
+				
+				Double[] likedFeature = userFeatures.get(user);
+				
+				double distance = getDistance(userFeature, likedFeature);
+				
+				if (kClosestDistance.size() < K) {
+					kClosestDistance.put(user, distance);
+					
+					if (distance > biggestKDistance) {
+						biggestKDistance = distance;
+						biggestId = user;
+					}
+				}
+				else if (distance < biggestKDistance) {
+					kClosestDistance.remove(biggestId);
+					kClosestDistance.put(user, distance);
+					
+					biggestKDistance = 0;
+					
+					//reset the biggest distance again
+					for (long id : kClosestDistance.keySet()) {
+						double d = kClosestDistance.get(id);
+						
+						if (d > biggestKDistance) {
+							biggestKDistance = distance;
+							biggestId = id;
+						}
+					}
+				}
+			}
+			
+			
+			double prediction = 0;
+			for (long neighborId : kClosestDistance.keySet()) {				
+				prediction += 1 / kClosestDistance.get(neighborId);
+			}
+			
+			System.out.println("Prediction: " + prediction + " Liked: " + likedUsers.size() + " Closest: " + kClosestDistance.size());
+			//Recommend only if prediction score is greater or equal than the boundary
+			//if (prediction > BOUNDARY) {
+				//We recommend only a set number of links per day/run. 
+				//If the recommended links are more than the max number, recommend only the highest scoring links.
+				if (recommendations.size() < numberOfLinks) {
+					recommendations.put(recommendId, prediction);
+				}
+				else {
+					//Get the lowest scoring recommended link and replace it with the current link
+					//if this one has a better score.
+					long lowestKey = 0;
+					double lowestValue = Double.MAX_VALUE;
+					
+					for (long id : recommendations.keySet()) {
+						if (recommendations.get(id) < lowestValue) {
+							lowestKey = id;
+							lowestValue = recommendations.get(id);
+						}
+					}
+	
+					if (prediction > lowestValue) {
+						recommendations.remove(lowestKey);
+						recommendations.put(recommendId, prediction);
+					}
+				}
+			//}
+		}
+		
+		return  recommendations;
+	}
+	
 	public Map<Long, Map<Long, Double>> recommend(Map<Long, Set<Long>> linksToRecommend)
 	{	
 		if (userMax == null) {
