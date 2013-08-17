@@ -106,7 +106,12 @@ classes of SAF recommenders evaluated in our experiments:
 
 In all experiments, we report average accuracy using 10-fold cross
 validation and provide standard error bars corresponding to 95\% confidence
-intervals on the accuracy.
+intervals on the accuracy. 
+%#suvash#
+Accuracy is defined as  
+\begin{align*}
+accuracy = \frac{\#\ correct\ predictions}{\#\ predictions}
+\end{align*}
 
 Fig~\ref{Fig1} compares the above baselines and SAF algorithms.  In
 all of these experiments, SAF variants performed statistically
@@ -164,8 +169,9 @@ filtering as represented by Social Matchbox (SMB)~\cite{Noel2012NOF},
 we observe that SAF consistently outperforms it.  We note that the key
 difference of SAF vs. SMB is that SAF exploits the predictiveness of
 fine-grained interactions and activities --- it breaks them down into
-small subgroups, whereas most SCF
-approaches~\cite{socinf,rrmf,ste,sorec,sr,Noel2012NOF,lla} instead
+small subgroups, whereas most 
+%#suvash#
+social collaborative filtering approaches~\cite{socinf,rrmf,ste,sorec,sr,Noel2012NOF,lla} instead
 collapse the diverse set of interactions into aggregate statistics
 such as the number of interactions between user $u_1$ and user $u_2$,
 regardless of whether $u_1$ tagged $u_2$ in a photo or $u_1$ liked a
