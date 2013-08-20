@@ -7,8 +7,9 @@ Hence, unlike standard (social) collaborative filtering , SCF is robust to user
 cold-start problem.  For user cold-start analysis, we train two SAF models by 
 including (non cold-start) and holding out (cold-start) test users from the 
 training set and then evaluate the performance of predictor on test set. 
-Table ~\ref{tab:coldstart} shows that the accuracy of the SAF predictor for 
-cold-start is comparable to the non cold-start case.  
+Table ~\ref{tab:coldstart} clearly shows that the accuracy of  SAF predictor for 
+cold-start is comparable to non cold-start case, which tells us that the SAF
+perform well for cold-start users where most of the existing methods fail.
 
 \begin{table}[t!]
 \centering
