@@ -1,16 +1,20 @@
 %#suvash#
 Collaborative filtering algorithms suffer from the user cold-start problem,
 where no historical information about user is available. One of the advantage of SAF is that 
-the learning is indepenant of an individual user. Each social affinity feature for user-item is
+the learning is independent of an individual user. Each social affinity feature for a user-item is
 defined by affinity group(ASAG/ISAG) members feedback on given item. 
-Hence, unlike standard (social) collaborative filtering , SCF is robust to user 
-cold-start problem.  For user cold-start analysis, we train two SAF models by 
-including (non cold-start) and holding out (cold-start) test users from the 
-training set and then evaluate the performance of predictor on test set. 
-Table ~\ref{tab:coldstart} clearly shows that the accuracy of  SAF predictor for 
-cold-start is comparable to non cold-start case, which signifies that SAF
-performs well for cold-start users where most of the existing methods fail.
 
+For user cold-start analysis, we create 10 fold train and test set where each test set
+consists of 10\% of total user. Also, user in each train and test set are mutually exclusive.
+We hold out 30\% of each user's data from the test set and train two SAF predictors cold-start and non cold-start.
+We train Cold-start predictor using training set  and non cold-start predictor by including held out data from test
+set to training set. We then evaluate the performance of cold-start and non cold-start predictor on remaining 70% 
+of test data. Table ~\ref{tab:coldstart} clearly shows that the accuracy of  SAF predictor for cold-start is comparable
+to non cold-start case, which signifies that SAF performs well for cold-start users where most of the
+existing methods fail. Hence, unlike standard (social) collaborative filtering , SCF is robust to user 
+cold-start problem.  
+
+ 
 \begin{table}[t!]
 \centering
 \begin{tabular}{|>{\small}l|>{\small}r|>{\small}r|}
