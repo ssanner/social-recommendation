@@ -55,6 +55,13 @@ In Fig~\ref{Fig4} we plot the average conditional entropy of the top
     but some are very predictive and it is important to learn which SAGs are informative
     rather than nai\"{v}ly aggregate their content, where on average, the features are
     clearly not informative.
+   
+    %#suvash#
+    In Fig~\ref{fig:AccuracyVsactiveFeats} we analyse the relationship between accuracy and
+    number of active features i.e. features that are true. We can see that accuracy increase as number of
+    active features increases but then starts to decrese sharply. This may be due to the fact that items
+    with large number of active features are likely to be general items, liked by wide variety of users,
+    which makes it hard for SAF to make personalised prediction. 
     %While favourite teams, sports and athletes may be
     %too focused to offer much predictiveness vs. the other more diverse
     %categories, it is interesting that movies and music favourites
@@ -152,7 +159,7 @@ appeal, e.g. ``Avascular Necrosis'' is an informative music group favourite --- 
 tend to share common preferences --- while ``John Lennon'' and ``U2'' have a broader audience with
 more diverse preferences. 
 %#suvash#
-''Sherlock''  appears in both most and median informative table but the median informative is
+Interestingly, ''Sherlock''  appears in both most and median informative table but the median informative is
 an official page with wide range of fans, whereas the most informative is a duplicate fan page with few number of fans.}
 \label{table:fav_examples}
 \end{table*}
@@ -235,3 +242,14 @@ are informative rather than aggregating average information.}
 \label{Fig5}
 \end{figure*}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%#suvash#
+\begin{figure*}[tbp!]
+\centering
+\includegraphics[width=180mm, height=60mm]{data/plots/new/accuracyVsactiveFeatures.eps}
+\vspace{-3mm}
+\caption{Accuracy increases as the number of active features increases, but then, after reaching a certain limit, it starts to decrease sharply.
+}
+\label{fig:AccuracyVsactiveFeats}
+\end{figure*}
+
