@@ -210,7 +210,7 @@ of these activities $k \in \textit{Activity-Groups}$ we define:
 \label{ssec:SAfeature}
 
 Given the previous definition of SAGs, we can now define two
-sets of \emph{social affinity features} that can be used to train
+sets of \emph{social affinity features}, as shown in Fig~\ref{fig:features_overview}, that can be used to train
 classifiers for the purpose of social recommendation:
 
 \begin{itemize} 
@@ -250,9 +250,17 @@ $k \in \textit{Activity-Groups}$ as
 \begin{figure}[t!]
 \centering
 \includegraphics[width=1\linewidth]{data/plots/features/saf_features}
-\label{fig:Features}
-\caption{For each user-item, social affinity features\textit{(ASAF/ISAF)} are binary valued features 
-which indicates whether anyone from user's social affinity group\textit{(ISAG/ASAG)} liked the given item or not.}
+\caption{For each user-item, social affinity features\textit{(ASAF/ISAF)} are binary valued features which indicates
+whether anyone from user's social affinity group\textit{(ISAG/ASAG)} liked the given item or not.}
+\label{fig:features_overview}
+\end{figure}
+
+\begin{figure}[t!]
+\centering
+\includegraphics[width=1\linewidth]{data/plots/features/saf_features}
+\caption{For each user-item, social affinity features\textit{(ASAF/ISAF)} are binary valued features which indicates
+whether anyone from user's social affinity group\textit{(ISAG/ASAG)} liked the given item or not.}
+\label{fig:features_overview}
 \end{figure}
 %#suvash#
 

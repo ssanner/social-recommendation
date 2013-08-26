@@ -13,7 +13,7 @@ Fig \ref{Fig3} shows the relationship between both the conditional
     entropy and logistic regression weights vs. the size of activity
     groups. Here the size of a {\em group}, {\em page} and {\em favourite} 
     is the number of total users in the activity group. 
-    For {\em pages} and {\em pavorites} this is the total number of Facebook users, 
+    For {\em pages} and {\em favorites} this is the total number of Facebook users, 
     whether or not they are in the App users' ego network, while for 
     {\em groups} only the number of users in the App users' ego network is visible to our app.
     Both scatter plots shows that the activity groups of small size can be
@@ -42,7 +42,7 @@ In Fig~\ref{Fig4} we plot the average conditional entropy of the top
     %least predictive.  
     We can see that contents in the ``long-tail'', i.e.,  
     having a large number of occurrences far from the most popular choices, 
-    tend to have some of the most predictive indidividual affinities. Examples of these include
+    tend to have some of the most predictive individual affinities. Examples of these include
     music, books, movies. On the contrary, generic affinities (e.g. interests) and 
     those with a smaller number of choices (e.g. sports or fav-teams) 
     tend to be less predictive since they represent less specialised interests than 
@@ -59,9 +59,13 @@ In Fig~\ref{Fig4} we plot the average conditional entropy of the top
     %#suvash#
     In Fig~\ref{fig:AccuracyVsactiveFeats} we analyse the relationship between accuracy and
     number of active features i.e. features that are true. We can see that accuracy increase as number of
-    active features increases but then starts to decrese sharply. This may be due to the fact that items
+    active features increases but then starts to decrease sharply. This is due to the fact that items
     with large number of active features are likely to be general items, liked by wide variety of users,
-    which makes it hard for SAF to make personalised prediction. 
+    which makes it hard for SAF to make correct prediction. In Fig~\ref{AccuracyVsmembership} we can see that
+    , in general, accuracy of SAF increases as number of group memebership, page likes and favourites increase. 
+    This indicates that SAF can make better recommendation to those users who actively express their preferences 
+    in a social network via group memebership, page likes and favourites.
+    
     %While favourite teams, sports and athletes may be
     %too focused to offer much predictiveness vs. the other more diverse
     %categories, it is interesting that movies and music favourites
@@ -246,10 +250,18 @@ are informative rather than aggregating average information.}
 %#suvash#
 \begin{figure*}[tbp!]
 \centering
-\includegraphics[width=180mm, height=60mm]{data/plots/new/accuracyVsactiveFeatures.eps}
+\includegraphics[width=180mm, height=55mm]{data/plots/new/accuracyVsactiveFeatures.eps}
 \vspace{-3mm}
 \caption{Accuracy increases as the number of active features increases, but then, after reaching a certain limit, it starts to decrease sharply.
 }
 \label{fig:AccuracyVsactiveFeats}
+\end{figure*}
+
+\begin{figure*}[tbp!]
+\centering
+\includegraphics[width=180mm, height=55mm]{data/plots/new/accuracyVsmembership.eps}
+\vspace{-3mm}
+\caption{Accuracy of the SAF increases as user becomes more active in social network by joining more groups/pages/favourites.}
+\label{AccuracyVsmembership}
 \end{figure*}
 
