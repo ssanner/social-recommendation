@@ -6,14 +6,14 @@ defined as whether any members from user's affinity group(ASAG/ISAG) liked the c
 
 For user cold-start analysis, we create 10 fold train-test folds where users in train and test set are mutually exclusive
 and each test set consists of 10\% of the total users. We hold out 30\% of each user's data from the test set 
-and train two SAF predictors namely: cold-start and non cold-start predictor.
-We train cold-start predictor using training set, whereas cold-start predictor is trained with additional 
+and train two SAF predictors namely: \textit{cold-start} and \textit{non cold-start} predictor.
+We train cold-start predictor using training set, whereas non cold-start predictor is trained with additional 
 held out data from test set. Finally, we evaluate the performance of cold-start and non cold-start predictor on remaining 70\% 
-of test data. In fig ~\ref{fig:coldstart} we clearly see\footnote{ The slight decrease in accuracy for non cold-start case compared to 
+of test data. In fig ~\ref{fig:coldstart} \footnote{ The slight decrease in accuracy for non cold-start case compared to 
 fig~\ref{Fig1} is due to the fact that the training set consists of only 30\% of test set users data and test 
-set is biased to small set of test users.}that the accuracy of  SAF predictor for cold-start is comparable
+set is biased to small set of test users.} we clearly see that the accuracy of  SAF predictor for cold-start is comparable
 to non cold-start case, which indicates that SAF performs quite well for cold-start users where most of the
-existing methods fail. Hence, unlike standard (social) collaborative filtering, SAF is robust to user 
+existing methods fail. Hence, unlike standard (social) collaborative filtering techniques, SAF is robust to user 
 cold-start problem.  
 
 
