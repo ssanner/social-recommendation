@@ -1,46 +1,62 @@
 %!TEX root = document.tex
 
-\subsection{Social Affinity filtering}
+%\subsection{Social Affinity Filtering}
+
+Concatenating these ISAFs and ASAFs into 
+feature vector $\x(u,i) = \langle
+\cdots,X^{u,i}_{k},\cdots \rangle$ for 
+$k \in \textit{Interaction-Classes} \cup \textit{Activity-Groups}$
+(or any subset thereof), a SAF classifier is then simply a function
+\begin{equation*}
+f: \x(u,i) \to \likes(u,i),
+\end{equation*}
+where we restrict $\likes(u,i) \in \{ \true, \false \}$.\footnote{For
+  training purposes, we omit any unobserved cases for which the class
+  label $\likes(u,i)=\unknown$.  At prediction time, the binary
+  classifier must always select a class label of $\true$ or $\false$.}  
+Given a dataset of historical
+observations $D = \{ \x(u,i) \to \likes(u,i) \}$, we can \emph{train} $f$
+using any existing classification method; 
+in this work we consider linear classifiers
+trained by an SVM, logistic regression, or na\"{i}ve
+Bayes.  For \emph{prediction}, given user $u$ and
+item $i$, we build the feature vector $\x(u,i)$ and 
+predict $\likes(u,i) = f(\x(u,i))$ using the trained
+classifier $f$.\footnote{Since almost all classification
+methods provide a score (or probability) of a classification, we
+can also generate the top-$n$ item recommendations for a user $u$ by
+sorting items by their score.}
+%\footnote{In a \emph{recommendation} setting,
+%one may not just want \emph{all} items $i$ that a user $u$ might
+%like, rather one might want the top-$n$ items $i$ that a user $u$ is
+%\emph{most likely} to like.  Fortunately, almost all classification
+%methods provide a score or probability of a classification and hence
+%items can be sorted by this score to extract the top-$n$.}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %#suvash#
 \begin{figure}[t!]
 \centering
 \includegraphics[width=1\linewidth]{data/plots/features/saf_features}
-\caption{For each user-item, social affinity features\textit{(ASAF/ISAF)} are binary valued features which indicates
-whether anyone from user's social affinity group\textit{(ISAG/ASAG)} liked the given item or not.}
+\caption{SAF training data example: each row corresponds to a training
+  data sample for a specific user-item pair $(u,i)$ for which the
+  prediction target $\like(u,i)$ is observed (last column).  All other
+  columns represent the value of ISAF or ASAF features
+  evaluated relative to the $(u,i)$ label of each row.
+  All columns are binary-valued ($0=\false,1=\true$).}
 \label{fig:features_overview}
 \end{figure}
 %#suvash#
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\emph{Social affinity filtering (SAF)} is a novel social
-recommendation method that \emph{learns} which sets of social network
-users --- defined via their fine-grained interactions and shared
-activities with user $u$ --- are good proxies for $u$'s preference
-over item $i$.  With the social affinity features as defined in
-Sec~\ref{ssec:SAfeature} relying on SAGs as defined in
-Sec~\ref{ssec:sag}, the task of SAF reduces to one of binary
-classification.
+To understand how SAF works, it helps to visualise the training data as shown
+in Fig~\ref{fig:features_overview}.  We remark that while other
+non-binary definitions of ISAFs and ASAFs are certainly possible
+(e.g., the number of fraction of members in a SAG who like the item),
+simple binary features provided the best performance in our
+experimental evaluation.
 
-Formally, given a user $u$ and item $i$, a SAF classifier is simply a
-function 
-\begin{equation*}
-f: \x(u,i) \to \likes(u,i)
-\end{equation*}
-where we restrict $\likes(u,i) \in \{ \true, \false \}$\footnote{For
-  training purposes, we omit any unobserved cases for which the class
-  label $\likes(u,i)=\unknown$.  At prediction time, the binary
-  classifier must always select a class label of $\true$ or $\false$.}
-and specify a feature vector $\x(u,i) = \langle
-\cdots,X^{u,i}_{k},\cdots \rangle$ over social affinity features
-$k$.  To train $f$, one simply provides a dataset of historical
-observations $D = \{ \x(u,i) \to \likes(u,i) \}$ where $f$ could be a
-linear classifier trained by an SVM, logistic regression, or na\"{i}ve
-Bayes.  For future predictions, we are simply given a new user $u$ and
-item $i$ to predict for and build the feature vector $\x(u,i)$ from
-which we can predict $\likes(u,i) = f(\x(u,i))$ using the trained
-classifier $f$.
+\subsection{SAF vs. Other Filtering Methods}
 
 While a classification approach to recommendation might evoke
 comparisons to \emph{content-based filtering} (CBF)~\cite{newsweeder},
