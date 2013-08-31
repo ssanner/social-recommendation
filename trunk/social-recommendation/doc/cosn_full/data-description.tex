@@ -1,70 +1,50 @@
 %!TEX root = document.tex
 
-We built a Facebook App to collect ***
+We built a Facebook App to collect explicit user like and dislike 
+preferences back for links posted on Facebook (e.g., Youtube video,
+news or blog item, etc.) as well as detailed user interaction and
+activity history available through the Facebook Graph API.
+%The purpose of the App was two-fold: (1) to build the SAG information
+%as defined in Sec~\ref{ssec:sag}, and (2) to collect a user $u$'s
+%preferences on recommended links $i$ solicited by the App on a daily
+%basis to build the $\likes(u,i)$ relation required in
+%Sec~\ref{ssec:SAfeature}.
+The data collection was performed with full permission from the user
+and in accordance with an approved Ethics Protocol 
+\#2011/142 from the Australian National University.
 
- detailed user interaction,
-activity history available through the Facebook Graph API.  The
-purpose of the App was two-fold: (1) to build the SAG information as
-defined in Sec~\ref{ssec:sag}, and (2) to collect a user $u$'s preferences on
-recommended links $i$ solicited by the App on a daily basis to build
-the $\likes(u,i)$ relation required in Sec~\ref{ssec:SAfeature}.  The
-data collection is performed with full permission from the user and in
-accordance with an approved Ethics Protocol\footnote{Ethics approval 
-\#2011/142 from the Australian National University.}.
+Our App requested to collect information on profiles (including
+activity memberships) and timelines (interactions) for the App
+users \emph{and} their friends as required by Sec~\ref{ssec:sag} and
+Sec~\ref{ssec:SAfeature}.  With such expressive permissions, many
+potential users were hesitant to install the App --- after an
+intensive one month user drive at our University, we were able to
+attract 119 App users allowing us to collect activity and interaction
+data for a combined 37,872 users.\footnote{The issue of low App user
+uptake with such expressive App permissions underscores the importance
+of identifying the \emph{minimal} set of permissions to obtain good
+recommendation performance --- a question we address in our subsequent
+analysis.}
 
-In order to collect full interactions among App users as required in
-our experimentation, our App requested to collect information posted
-to \emph{friends'} timelines.  With such expressive permissions
-concerning friend interactions, most potential users were hesitant to
-install the App; after an intensive one month user drive period at our
-University, we were able to attract 119 App users.  From these core
-App users, the App has access to their detailed Facebook profiles and
-their \emph{complete} interactions with a total of 37,872 friends.
-The difficulty of collecting data with such expressive App permissions
-suggests the importance of identifying informative SAGs for social
-recommendation and the \emph{minimal} set of permissions required to
-populate these SAGs to increase user uptake of a social network 
-App.
-
-Our App tracks user's (and their friends') details and interactions on
-Facebook.  Interactions that occur via wall posts provide a rich
-variety of content and interaction data.  We distinguish
-four \emph{modalities} for Facebook timeline post content defined previously:
-general wall posts (e.g., status updates, activity updates such as new
-friends), links, photos and videos. Four main \emph{actions} on these
-items are permitted by Facebook: posting an item to a friend's wall,
-commenting, liking, and tagging. Furthermore, Facebook allows users to
-engage in public \emph{activities} (groups, pages and favourites) via membership
-and liking. In addition to interactions, the App also tracks users'
-group membership, page likes, and favourites.
-%The App does not track deletions of these items,
-%interactions (e.g., unlike) and memberships for performance reasons
-%and we found very few deletions during an initial testing stage.  
-We summarise relevant basic statistics of the data in
+We summarise basic statistics of the data in
 Tables~\ref{tab:interactions}--\ref{tab:likeinfo}.
-Table~\ref{tab:demographics} shows some demographics from user
-profiles.  Table~\ref{tab:interactions} summarises the number of
+Table~\ref{tab:demographics} presents user and friend demographics.
+Table~\ref{tab:interactions} summarises the number of
 records for each item modality (row) and action (column)
-combination. Table \ref{tab:interests} shows the group membership,
+combination. Table~\ref{tab:interests} shows the group membership,
 page like and favourite counts for users.
 
-Our App recommends three links to users every day, where the users may
-give their feedback on the links indicating whether they liked or
-disliked it. 
-%#suvash#%
-Our app randomly recommends links that are collected
-from \emph{both} friends' and non-friends' timelines.  We chose to 
-display only three links per day in order to avoid rank-bias with
+Our App recommends three links to App users each day,
+which the users may optionally like or dislike.  Recommended links are
+harvested from
+\emph{both} friends' and non-friends' timelines.
+We display only three links per day in order to avoid rank-bias with
 preferences; each link could be independently rated.
-% and in
-%general we observed that a user rated all three links on a given day
-%that they viewed their recommendations.  
-Table~\ref{tab:likeinfo}
-shows the statistics of the App user evaluation for links taken from the
-timelines of friends and non-friends.  
+Table~\ref{tab:likeinfo} shows App user
+link preference statistics.
 
-Lastly, we remark that all data used in the experiments is offline
-batch data that has been stored and analysed \emph{after} the four
+All subsequent experimentats use offline
+batch data stored and analysed \emph{after} a four
 month data collection period.
       							
 \begin{table}[t!]
@@ -113,7 +93,9 @@ network of the App users.}
 \textbf{Video} & 904,604 & 486,677 & 332,619 \\
 \hline
 \end{tabular}
-\caption{Statistics on user {\em interactions}, grouped by item {\em modality} and {\em action type}.}
+\caption{Statistics on user {\em interactions}.
+%grouped by item {\em modality} and {\em action type}.
+}
 \label{tab:interactions}
 \end{table}
 
