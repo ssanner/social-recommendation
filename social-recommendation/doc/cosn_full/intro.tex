@@ -68,19 +68,6 @@ a simple linear classifier that
 can be used in conjunction with a variety of classification methods (e.g., naive
 Bayes, logistic regression, SVM) and online training algorithms
 amenable to real-time, big data settings.
-\item {\bf Social activity and item popularity vs. performance:} 
-We analyse \emph{how many} shared activities are needed for
-good performance and observe that increased activity membership correlates
-with increased recommendation accuracy, but that excessive item popularity
-coupled with high activity membership hurts the discriminative power
-of SAF to make good recommendations.
-\item {\bf Importance of social data beyond immediate friends:} 
-We found that \emph{groups}, \emph{pages}, and \emph{favourites} 
-make for more informative SAGs than those defined by user-to-user
-interactions.  This is likely because the former can be applied to
-SAGs \emph{over the entire Facebook population} rather than just a
-user's friends (where the available preference data is considerably
-more sparse).
 \item {\bf Interaction analysis:} 
 Among \emph{interactions}, we found that those on videos are more
 predictive than those on other content types (photos, post, link), and
@@ -96,6 +83,19 @@ specialised interests.  We also found features corresponding to
 ``long-tailed'' dynamic content (such as music and books) can be more
 predictive than those with fewer choices that add little new content
 over time (e.g. interests or sports).
+\item {\bf Importance of social data beyond friends:} 
+We found that \emph{groups}, \emph{pages}, and \emph{favourites} 
+make for more informative SAGs than those defined by user-to-user
+interactions.  This is likely because the former can be applied to
+SAGs \emph{over the entire Facebook population} rather than just a
+user's friends (where the available preference data is considerably
+more sparse).
+\item {\bf Social activity and item popularity vs. performance:} 
+We analyse \emph{how many} shared activities are needed for
+good performance and observe that increased activity membership correlates
+with increased recommendation accuracy, but that excessive item popularity
+coupled with high activity membership hurts the discriminative power
+of SAF to make good recommendations.
 \item {\bf Fine-grained vs. aggregate social data:}
 Among activity features, a small subset proved to be much more informative
 than the rest.  This suggests the value of
