@@ -147,8 +147,7 @@ recently found~\cite{Goel2012structure} that the vast majority of
 information diffusion happens within one step from the source node. }
 %Our affinity \cite{Wilson2012BSG}
 
-
-\subsection{Social Affinity Groups}
+\subsection{Social Affinity Groups (SAGs)}
 \label{ssec:sag}
 
 With {\em interactions} and {\em activities} now defined, we proceed to 
@@ -192,13 +191,17 @@ that will be used as proxies for $u$'s preferences:
 \end{itemize}
 
 
-\subsection{Social Affinity Features}
+\subsection{Social Affinity Filtering (SAF)}
 
 \label{ssec:SAfeature}
 
-Given the previous definition of SAGs, we can now define two
-sets of \emph{social affinity features}, as shown in Fig~\ref{fig:features_overview}, that can be used to train
-classifiers for the purpose of social recommendation:
+With SAGs now defined, we can use them to build features for a
+classification-based approach to social recommendation that we term
+\emph{social affinity filtering (SAF)}.  In SAF, our goal is to
+predict $\like(u,i)$ for user $u$ and item $i$.  As features
+$X^{u,i}_k$ for this classification task, we can use the observed
+preferences of members of each SAG $k$ as proxies for $\like(u,i)$.
+Formally, we define such features as follows:
 
 \begin{itemize} 
 \item \textbf{Interaction Social Affinity Features (ISAFs)}: 
@@ -212,10 +215,8 @@ $k \in \textit{Interaction-Classes}$ as
       \end{cases}
   \end{equation*}
    In short, $X^{u,i}_{k}$ is $\true$ if any user sharing interaction $k$ with $u$ liked $i$.
-   Here we note that $v$ is implicitly limited to $u$'s Facebook friends (with whom $u$
-   may interact with).
-%  Additionally we add friend feature which encodes whether the target 
-%  item $i$ is liked by friend or not.
+   Here, $v$ is implicitly limited to $u$'s Facebook friends (with whom $u$
+   may interact).
 \item \textbf{Activity Social Affinity Features (ASAFs)}: 
 We define feature $X^{u,i}_k \in \{ \true, \false \}$ for user $u$, item $i$ and activity
 $k \in \textit{Activity-Groups}$ as
@@ -228,9 +229,8 @@ $k \in \textit{Activity-Groups}$ as
       \end{cases}
   \end{equation*}
   In short, $X^{u,i}_{k}$ is $\true$ if both $u$ and some other $v$ are a member of activity $k$
-  and $v$ has liked $i$.  Here we note that $v$ may range over all Facebook users, 
-  i.e., $v$ need not be a friend of $u$ to share the same activity $k$
-  since activites are public.
+  and $v$ has liked $i$.  Here, $v$ may range over all Facebook users, 
+  i.e., $v$ need not be a friend of $u$ to share the same public activity $k$.
 \end{itemize}
 
 
