@@ -3,21 +3,18 @@
 \bibitem{Anderson2012}
 A.~Anderson, D.~Huttenlocher, J.~Kleinberg, and J.~Leskovec.
 \newblock {Effects of User Similarity in Social Media}.
-\newblock In {\em ACM International Conference on Web Search and Data Mining
-  (WSDM)}, 2012.
+\newblock In {\em WSDM}, 2012.
 
 \bibitem{asur2011trends}
 S.~Asur, B.~A. Huberman, G.~Szabo, and C.~Wang.
 \newblock Trends in social media: Persistence and decay.
-\newblock In {\em International AAAI Conference on Weblogs and Social Media},
-  2011.
+\newblock In {\em ICWSM}, 2011.
 
 \bibitem{backstrom2011center}
 L.~Backstrom, E.~Bakshy, J.~Kleinberg, T.~Lento, and I.~Rosenn.
 \newblock Center of attention: How facebook users allocate attention across
   friends.
-\newblock In {\em Proc. 5th International Conference on Weblogs and Social
-  Media (ICWSM)}, 2011.
+\newblock In {\em ICWSM}, 2011.
 
 \bibitem{Bakshy2011everyone}
 E.~Bakshy, J.~M. Hofman, W.~A. Mason, and D.~J. Watts.
@@ -49,31 +46,29 @@ J.~Chang, I.~Rosenn, L.~Backstrom, and C.~Marlow.
 P.~Cui, F.~Wang, S.~Liu, M.~Ou, and S.~Yang.
 \newblock Who should share what? item-level social influence prediction for
   users and posts ranking.
-\newblock In {\em International ACM SIGIR Conference (SIGIR)}, 2011.
+\newblock In {\em SIGIR}, 2011.
 
 \bibitem{gilbert2009predicting}
 E.~Gilbert and K.~Karahalios.
 \newblock Predicting tie strength with social media.
-\newblock In {\em Proc. CHI}, pages 211--220. ACM, 2009.
+\newblock In {\em Proc. CHI}. ACM, 2009.
 
 \bibitem{Goel2012structure}
 S.~Goel, D.~J. Watts, and D.~G. Goldstein.
 \newblock The structure of online diffusion networks.
-\newblock In {\em Proceedings of the 13th ACM Conference on Electronic
-  Commerce}, EC '12, pages 623--638, New York, NY, USA, 2012. ACM.
+\newblock In {\em EC}, EC '12, pages 623--638, New York, NY, USA, 2012. ACM.
 
 \bibitem{Golub2010selectionbiase}
 B.~Golub and M.~O. Jackson.
 \newblock Using selection bias to explain the observed structure of internet
   diffusions.
-\newblock {\em Proc. Nat. Academy Sci.}, 107(24):10833--10836, 2010.
+\newblock {\em Proc. Nat. Academy Sci.}, 107(24), 2010.
 
 \bibitem{gomes2011social}
 A.~Gomes and M.~da~Graca C~Pimentel.
 \newblock Social interactions representation as users behavioral contingencies
   and evaluation in social networks.
-\newblock In {\em Semantic Computing (ICSC), 2011 Fifth IEEE International
-  Conference on}, pages 275--278. IEEE, 2011.
+\newblock In {\em ICSC}. IEEE, 2011.
 
 \bibitem{hill2003social}
 R.~Hill and R.~Dunbar.
@@ -88,18 +83,17 @@ M.~Jiang, P.~Cui, R.~Liu, Q.~Yang, F.~Wang, W.~Zhu, and S.~Yang.
 \bibitem{Jiang2012SRA}
 M.~Jiang, P.~Cui, F.~Wang, Q.~Yang, W.~Zhu, and S.~Yang.
 \newblock Social recommendation across multiple relational domains.
-\newblock CIKM '12, pages 1422--1431, 2012.
+\newblock CIKM '12, 2012.
 
 \bibitem{koren2009matrix}
 Y.~Koren, R.~Bell, and C.~Volinsky.
 \newblock Matrix factorization techniques for recommender systems.
-\newblock {\em Computer}, 42(8):30--37, 2009.
+\newblock {\em Computer}, 42, 2009.
 
 \bibitem{newsweeder}
 K.~Lang.
 \newblock {NewsWeeder}: Learning to filter netnews.
-\newblock In {\em 12th International Conference on Machine Learning {ICML-95}},
-  pages 331--339, 1995.
+\newblock In {\em ICML-95}, 1995.
 
 \bibitem{rrmf}
 W.-J. Li and D.-Y. Yeung.
@@ -126,8 +120,7 @@ H.~Ma, D.~Zhou, C.~Liu, M.~R. Lyu, and I.~King.
 J.~Noel, S.~Sanner, K.-N. Tran, P.~Christen, L.~Xie, E.~V. Bonilla,
   E.~Abbasnejad, and N.~Della~Penna.
 \newblock New objective functions for social collaborative filtering.
-\newblock In {\em Proceedings of the 21st international conference on World
-  Wide Web}, WWW '12, pages 859--868, New York, NY, USA, 2012. ACM.
+\newblock In {\em WWW}, pages 859--868, New York, NY, USA, 2012. ACM.
 
 \bibitem{nori2011exploiting}
 N.~Nori, D.~Bollegala, and M.~Ishizuka.
@@ -138,7 +131,7 @@ N.~Nori, D.~Bollegala, and M.~Ishizuka.
 \bibitem{Panigrahy2012ubr}
 R.~Panigrahy, M.~Najork, and Y.~Xie.
 \newblock How user behavior is related to social affinity.
-\newblock WSDM '12, pages 713--722, 2012.
+\newblock WSDM '12, 2012.
 
 \bibitem{tf}
 S.~Rendle, L.~B. Marinho, A.~Nanopoulos, and L.~Schmidt-Thieme.
@@ -150,14 +143,13 @@ S.~Rendle, L.~B. Marinho, A.~Nanopoulos, and L.~Schmidt-Thieme.
 D.~M. Romero, B.~Meeder, and J.~Kleinberg.
 \newblock Differences in the mechanics of information diffusion across topics:
   idioms, political hashtags, and complex contagion on twitter.
-\newblock WWW '11, pages 695--704. ACM, 2011.
+\newblock WWW '11, 2011.
 
 \bibitem{saez2011high}
 D.~Saez-Trumper, D.~Nettleton, and R.~Baeza-Yates.
 \newblock High correlation between incoming and outgoing activity: A
   distinctive property of online social networks?
-\newblock In {\em Fifth International AAAI Conference on Weblogs and Social
-  Media}, ICWSM '11, 2011.
+\newblock In {\em ICWSM}, ICWSM '11, 2011.
 
 \bibitem{pmf}
 R.~Salakhutdinov and A.~Mnih.
@@ -168,7 +160,7 @@ R.~Salakhutdinov and A.~Mnih.
 P.~Singla and M.~Richardson.
 \newblock Yes, there is a correlation: - from social networks to personal
   behavior on the web.
-\newblock WWW '08, pages 655--664, New York, NY, USA, 2008. ACM.
+\newblock WWW '08, 2008.
 
 \bibitem{ver2011stops}
 G.~Ver~Steeg, R.~Ghosh, and K.~Lerman.
@@ -178,15 +170,15 @@ G.~Ver~Steeg, R.~Ghosh, and K.~Lerman.
 \bibitem{influence}
 D.~J. Watts and P.~S. Dodds.
 \newblock Influentials, networks, and public opinion formation.
-\newblock {\em Journal of Consumer Research}, 34(4):441--458, December 2007.
+\newblock {\em Journal of Consumer Research}, 2007.
 
 \bibitem{wilson2009user}
 C.~Wilson, B.~Boe, A.~Sala, K.~Puttaswamy, and B.~Zhao.
 \newblock User interactions in social networks and their implications.
-\newblock EuroSys'09, pages 205--218, 2009.
+\newblock EuroSys'09, 2009.
 
 \bibitem{lla}
-Yang, Long, Smola, Sadagopan, Zheng, and Zha.
+S.-H. Yang, B.~Long, A.~Smola, N.~Sadagopan, Z.~Zheng, and H.~Zha.
 \newblock Like like alike: Joint friendship and interest propagation in social
   networks.
 \newblock In {\em WWW-11}, 2011.
