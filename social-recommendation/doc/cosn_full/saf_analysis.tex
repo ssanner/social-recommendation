@@ -6,12 +6,11 @@ variety of (social) collaborative filtering baselines:
 \item {\bf Matrix Factorization (MF)}~\cite{pmf}
 \item {\bf Social Matchbox (SMB)}~\cite{Noel2012NOF}
 \end{enumerate}
-% HERE
 Here, Const serves as a lower bound on performance, NN and MF are two
 well-known state-of-the-art \emph{non-social} collaborative filtering
 algorithms, and SMB is a state-of-the-art \emph{social} collaborative
-filtering algorithm --- a social extension of matrix factorization that
-encourages more homophily for pairs of users with more interactions.
+filtering algorithm employing matrix factorization with social
+regularisation.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -103,32 +102,26 @@ classes of SAF recommenders evaluated in our experiments:
   \item {\bf Support Vector Machines (SVM-ISAF, SVM-ASAF)}
   \item {\bf Logistic Regression (LR-ISAF, LR-ASAF)}
 \end{enumerate}
+NB uses a standard Na\"{i}ve Bayes implementation, 
+SVM and LR are both implemented using \textit{LIBLINEAR}~\cite{liblinear}.
 
-%%%%%%%%
-% TO ADD
-%%%%%%%%
-
-%Logistic Regression and
-%SVM algorithm was implemented using \textit{LIBLINER} \cite{liblinear}
-%package.  
-
-In all experiments, we report average accuracy using 10-fold cross
-validation and provide standard error bars corresponding to 95\% confidence
-intervals on the accuracy. 
+In all experiments, we report average classification accuracy
+(fraction of correct classifications over held-out test data) using
+10-fold cross validation and provide standard error bars corresponding
+to 95\% confidence intervals on the accuracy.
 %#suvash#
-Accuracy is defined as  
-\begin{align*}
-accuracy = \frac{\#\ correct\ predictions}{\#\ predictions}
-\end{align*}
+%Accuracy is defined as  
+%\begin{align*}
+%accuracy = \frac{\#\ correct\ predictions}{\#\ predictions}
+%\end{align*}
 
 Fig~\ref{Fig1} compares the above baselines and SAF algorithms.  In
 all of these experiments, SAF variants performed statistically
 significantly better than the best baseline (SMB), except for NB-ASAF
 which we conjecture is due to violation of feature independence
 assumptions that become more pronounced as the number of features
-increases by two orders of magnitude when moving from the NB-ISAF
-feature set (22 features) to any of the NB-ASAF feature sets (1000's
-of features).
+increases (n.b., NB-ISAF uses 22 features while NB-ASAF uses 1000's of
+features).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure*}[tbp!]
@@ -144,6 +137,8 @@ of features).
 \label{Fig1}
 \end{figure*}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%% HERE
 
 In terms of the best recommenders, we observe that LR-ASAF and
 SVM-ASAF perform comparably to each other and learn quite well despite
