@@ -48,6 +48,11 @@ P.~Cui, F.~Wang, S.~Liu, M.~Ou, and S.~Yang.
   users and posts ranking.
 \newblock In {\em SIGIR}, 2011.
 
+\bibitem{liblinear}
+R.-E. Fan, K.-W. Chang, C.-J. Hsieh, X.-R. Wang, and C.-J. Lin.
+\newblock Liblinear: A library for large linear classification.
+\newblock {\em Journal of Machine Learning Research}, pages 1871--1874, 2008.
+
 \bibitem{gilbert2009predicting}
 E.~Gilbert and K.~Karahalios.
 \newblock Predicting tie strength with social media.

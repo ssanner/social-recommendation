@@ -1,30 +1,40 @@
 %#suvash#
-Collaborative filtering algorithms suffer from the user cold-start
-problem, where no historical information about user is available. One
-of the advantage of SAF is that the social affinity features for a
-user-item are defined in terms of the user's affinity
-groups(ASAG/ISAG).  Hence, the SAF learning is not highly dependent of
-individual user's data.
 
-For user cold-start analysis, we create 10 fold train-test set where
-users in train and test set are mutually exclusive and each test set
-consists of 10\% of the total users. We hold out 30\% of each user's
-data from the test set and train two SAF predictors
-namely: \textit{cold-start} and \textit{non cold-start} predictor.  We
-train cold-start predictor using training set and non cold-start
-predictor with additional held out data from test set. Finally, we
-evaluate the performance of cold-start and non cold-start predictor on
-remaining 70\% of test data. In fig~\ref{fig:coldstart} we clearly see
-that the accuracy\footnote{ The slight decrease in accuracy for non
-cold-start case compared to fig~\ref{Fig1} is due to the fact that the
-training set consists of only 30\% of test set users data and test set
-is biased to small set of test users.}  of SAF predictor for
-cold-start is significantly better than constant
-predictor. Furthermore, the accuracy of cold-start predictor is
-comparable to non cold-start predictor, which indicates that SAF
-performs quite well for cold-start users where most of the existing
-methods fail.  Hence, unlike standard (social) collaborative filtering
-techniques, SAF is robust to user cold-start problem.
+Many collaborative filtering algorithms (e.g., NN and MF) suffer from
+the user \emph{cold-start} problem, i.e., when no preference data is
+available for a user, these algorithms cannot perform better than the
+constant (most likely class) predictor since they have no way of
+generalising to a new unseen user.  Since SAF trains a single model
+for all users and does \emph{not} require a user's preferences in
+order to recommend for them, SAF can be used in a \emph{cold-start}
+setting to recommend for users \emph{without} expressed item
+preferences as long as those users have interactions or shared
+activities with users who have expressed item preferences.
+
+To quantitatively evaluate the cold-start performance of SAF, we run
+10-fold cross validation with specially constructed folds.
+For \textit{cold-start} evaluation, in each fold, we hold out a random
+10\% subset of the users for testing and train on the remaining 90\%
+of users.  In the test set, we further hold out 30\% of the test user
+data.  In the \textit{non cold-start} evaluation, we test on the same
+data as in the \textit{cold-start} evaluation, but we add in the 30\%
+of held-out test user data to the \textit{cold-start} training set
+thus allowing the \textit{non cold-start} setting to train on some of
+the test user data.  In Fig~\ref{fig:coldstart}, we clearly see that
+the accuracy\footnote{The slight decrease in accuracy for non
+cold-start case compared to Fig~\ref{Fig1} is due to the decreased
+amount of test user data present in the training set for this set of
+experiments.}  of the SAF predictor for cold-start is significantly
+better than the baseline Constant predictor.  Furthermore, the
+accuracy of the cold-start predictor is actually comparable to the non
+cold-start predictor, indicating that SAF exhibits strong
+cold-start performance.
+
+%Given the clearly demonstrated benefits of SAF, we now proceed in the
+%next two subsections to analyse the two primary types of SAG features
+%(interactions and activities) to better understand characteristics of
+%both informative and uninformative SAGs in each context and the social
+%phenomena that may be responsible for these characteristics.
 
 %% SPS: Figure moved to saf_analysis.tex for positioning reasons.
 

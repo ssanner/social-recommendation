@@ -57,17 +57,18 @@ number of permissions requested, the above results suggest that an
 SAF-based social recommendation App need only request permissions for
 a user's \emph{page} likes in order to achieve state-of-the-art
 recommendation accuracy.
-\item {\bf Cold-start performance:}
-Since SAF does not condition its predictions on individual
-user IDs, we show that it exhibits strong \emph{cold-start}
+\item {\bf Big data scalability:} We implement SAF as 
+a simple linear classifier that can be globally optimised
+with a variety of classification methods (e.g., naive
+Bayes, logistic regression, SVM) and online training algorithms
+amenable to real-time, big data settings.
+\item {\bf Cold-start capable:}
+Since SAF trains a single model for all users and does not 
+require a user's preferences in order to recommend for them,
+we show that SAF exhibits strong \emph{cold-start}
 performance for users \emph{without} expressed item preferences as long as those users
 have interactions or shared activities with users who have
 expressed item preferences.
-\item {\bf Big data scalability:} We implement SAF as 
-a simple linear classifier that
-can be used in conjunction with a variety of classification methods (e.g., naive
-Bayes, logistic regression, SVM) and online training algorithms
-amenable to real-time, big data settings.
 \item {\bf Interaction analysis:} 
 Among \emph{interactions}, we found that those on videos are more
 predictive than those on other content types (photos, post, link), and

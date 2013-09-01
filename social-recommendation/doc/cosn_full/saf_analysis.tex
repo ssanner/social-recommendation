@@ -106,9 +106,9 @@ NB uses a standard Na\"{i}ve Bayes implementation,
 SVM and LR are both implemented using \textit{LIBLINEAR}~\cite{liblinear}.
 
 In all experiments, we report average classification accuracy
-(fraction of correct classifications over held-out test data) using
+(fraction of correct classifications in held-out test data) using
 10-fold cross validation and provide standard error bars corresponding
-to 95\% confidence intervals on the accuracy.
+to 95\% confidence intervals.
 %#suvash#
 %Accuracy is defined as  
 %\begin{align*}
@@ -127,6 +127,7 @@ features).
 \begin{figure*}[tbh!]
 %\centering
 \hspace{-6mm}\includegraphics[width=190mm]{data/plots/accuracy/accuracyLargeNew.eps}
+\vspace{-6mm}
 \caption{Comparision of a simple baseline (Const), two collaborative
   filtering baselines (NN and MF), a social collaborative filtering
   baseline (SMB) and novel SAF recommenders using different feature
@@ -142,7 +143,7 @@ features).
 \begin{figure*}[tbh!]
 \centering
 \includegraphics[width=180mm,height=50mm]{data/plots/new/cold_start.eps}
-\vspace{-3mm}
+\vspace{-6mm}
 \caption{Comparision of the SAF for user cold-start and non cold-start cases. Accuracy of SAF predictor evaluated on
 cold-start users outperforms constant predictor baseline and is
 comparable to the non cold-start SAF predictor.}
@@ -192,33 +193,17 @@ collapse the diverse set of interactions into a single aggregate
 statistic for each pair of users.  The performance of SAF-based
 recommenders suggests that the aggregation of all social information
 into aggregate statistics (without learning which interactions or
-activities are most informative) may lose valuable parts of the social
-signal among the noise.
+activities are most informative) may not distinguish informative 
+parts of the social signal from the noise.
 
-On three final notes, we remark that SAF yields a computational and
-optimization advantage over (social) collaborative filtering in that
-it is straightforward and efficient to find a globally optimal linear
-classifier with respect to a variety of training criteria (e.g., 
-log loss in logistic regression, or hinge loss in SVMs) unlike (social)
-collaborative filtering approaches that generally rely on
-computationally expensive nearest neighbour or matrix factorization
-techniques that lack training optimality guarantees.  Further, we also
-note that SAF inherently scales to real-time, big data settings 
-since linear classifiers can be effectively trained online 
-and are highly scalable.online training algorithms
-amenable to real-time, big data settings
+On the computational side, we remark that SAF is implemented as a
+simple linear classifier that can be used in conjunction with a
+variety of classification methods (e.g., na\"{i}ve Bayes, logistic
+regression, SVM) and online training algorithms amenable to real-time,
+big data settings.  Furthermore, the linear classification methods
+used in SAF admit global convex optimisation w.r.t.\ a variety of
+training objectives (e.g., log loss in logistic regression, or hinge
+loss in SVMs) unlike (social) collaborative filtering approaches based
+on matrix factorization that use non-convex objectives and lack training
+optimality guarantees.
 
-%%% Where does cold-start come in?  End with a final observation
-%%% of cold-start.
-
-(i.e., a large number
-of users and items) ** generalizes to completely new users without suffering
-from the cold-start problem: this is simply because nothing SAF learns
-is user-dependent, it learns to weight SAGs independent of individual  
-users. % and does not require the target user's preference data.
-
-Given the clearly demonstrated benefits of SAF, we now proceed in the
-next two sections to analyse the two primary types of SAG features
-(interactions and activities) to better understand characteristics of
-both informative and uninformative SAGs in each context and the social
-phenomena that may be responsible for these characteristics.
