@@ -1,31 +1,33 @@
 %#suvash#
-Collaborative filtering algorithms suffer from the user cold-start problem,
-where no historical information about user is available. One of the advantage of SAF is that 
-the social affinity features for a user-item are defined in terms of the user's affinity groups(ASAG/ISAG).
-Hence, the SAF learning is not highly dependent of individual user's data. 
+Collaborative filtering algorithms suffer from the user cold-start
+problem, where no historical information about user is available. One
+of the advantage of SAF is that the social affinity features for a
+user-item are defined in terms of the user's affinity
+groups(ASAG/ISAG).  Hence, the SAF learning is not highly dependent of
+individual user's data.
 
-For user cold-start analysis, we create 10 fold train-test set where users in train and test set are mutually exclusive
-and each test set consists of 10\% of the total users. We hold out 30\% of each user's data from the test set 
-and train two SAF predictors namely: \textit{cold-start} and \textit{non cold-start} predictor.
-We train cold-start predictor using training set and non cold-start predictor with additional 
-held out data from test set. Finally, we evaluate the performance of cold-start and non cold-start predictor on remaining 70\% 
-of test data. In fig~\ref{fig:coldstart} we clearly see that the accuracy\footnote{ The slight decrease in accuracy for non cold-start case compared to 
-fig~\ref{Fig1} is due to the fact that the training set consists of only 30\% of test set users data and test 
-set is biased to small set of test users.}  of  SAF predictor for cold-start is significantly better than constant predictor. Furthermore, the accuracy
-of cold-start predictor is comparable to non cold-start predictor, which indicates that SAF performs quite well for cold-start users where most of the
-existing methods fail.  Hence, unlike standard (social) collaborative filtering techniques, SAF is robust to user 
-cold-start problem.  
+For user cold-start analysis, we create 10 fold train-test set where
+users in train and test set are mutually exclusive and each test set
+consists of 10\% of the total users. We hold out 30\% of each user's
+data from the test set and train two SAF predictors
+namely: \textit{cold-start} and \textit{non cold-start} predictor.  We
+train cold-start predictor using training set and non cold-start
+predictor with additional held out data from test set. Finally, we
+evaluate the performance of cold-start and non cold-start predictor on
+remaining 70\% of test data. In fig~\ref{fig:coldstart} we clearly see
+that the accuracy\footnote{ The slight decrease in accuracy for non
+cold-start case compared to fig~\ref{Fig1} is due to the fact that the
+training set consists of only 30\% of test set users data and test set
+is biased to small set of test users.}  of SAF predictor for
+cold-start is significantly better than constant
+predictor. Furthermore, the accuracy of cold-start predictor is
+comparable to non cold-start predictor, which indicates that SAF
+performs quite well for cold-start users where most of the existing
+methods fail.  Hence, unlike standard (social) collaborative filtering
+techniques, SAF is robust to user cold-start problem.
 
+%% SPS: Figure moved to saf_analysis.tex for positioning reasons.
 
-\begin{figure*}[tbp!]
-\centering
-\includegraphics[width=180mm,height=50mm]{data/plots/new/cold_start.eps}
-\vspace{-3mm}
-\caption{Comparision of the SAF for user cold-start and non cold-start cases. Accuracy of SAF predictor evaluated on
-cold-start users outperforms constant predictor baseline and is comparable to the non cold-start SAF predictor.}
-\label{fig:coldstart}
-\end{figure*}
- 
 %\begin{table}[t!]
 %\centering
 %\begin{tabular}{|>{\small}l|>{\small}r|>{\small}r|}

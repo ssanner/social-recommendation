@@ -124,7 +124,7 @@ increases (n.b., NB-ISAF uses 22 features while NB-ASAF uses 1000's of
 features).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure*}[tbp!]
+\begin{figure*}[tbh!]
 %\centering
 \hspace{-6mm}\includegraphics[width=190mm]{data/plots/accuracy/accuracyLargeNew.eps}
 \caption{Comparision of a simple baseline (Const), two collaborative
@@ -138,62 +138,81 @@ features).
 \end{figure*}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%%% HERE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure*}[tbh!]
+\centering
+\includegraphics[width=180mm,height=50mm]{data/plots/new/cold_start.eps}
+\vspace{-3mm}
+\caption{Comparision of the SAF for user cold-start and non cold-start cases. Accuracy of SAF predictor evaluated on
+cold-start users outperforms constant predictor baseline and is
+comparable to the non cold-start SAF predictor.}
+\label{fig:coldstart}
+\end{figure*}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
 
 In terms of the best recommenders, we observe that LR-ASAF and
 SVM-ASAF perform comparably to each other and learn quite well despite
 the large size of this ASAF feature set.  Overall, \emph{LR-ASAF
   performs 6\% better than the best baseline for page likes}.  We
 combined all four features sets in a fifth experiment (not shown) and
-remark that it did not outperform LR-ASAF over page
-likes.  Hence, page likes would be the most informative
-feature set to collect if one wanted to minimise the permissions that
-an App was requesting.  On the other hand, we note that even if only
-ISAF features were available, the performance of all ISAF variants is
-still sufficient to statistically significantly outperform all
-(social) collaborative filtering baselines.
+remark that none of NB, LR, or SVM with all features outperformed
+LR-ASAF with just page likes.  We also note that all ISAF variants
+statistically significantly outperform all (social) collaborative
+filtering baselines.  Hence, w.r.t.\ this Facebook dataset, we
+conclude that (a) \emph{SAF with any available feature set} is sufficient
+to outperform existing (social) collaborative filtering baselines and
+that (b) if one wanted to minimise the permissions an App requests
+then it seems \emph{SAF with page likes} alone is sufficient to
+outperform all other feature sets (alone or combined).
 
-It is important to consider why ASAF outperforms ISAF.  We conjecture
+It is important to consider why ASAFs outperform ISAFs.  We conjecture
 the reasons for this are quite simple: ISAFs can only see the
 \emph{friends} of user $u$ whereas ASAFs are able to look at all
 users, independent of $u$'s friends.  Hence, given the relative
 sparsity of friend-only data in Facebook compared to the greater
-Facebook population (at least the population that the App collected)
-and also the relative number of interaction SAGs compared to
-activity SAGs, ASAFs appear to draw on a much larger set of SAGs that
-in turn draw on a much larger user population.  Among ASAF activities,
-page likes are the most predictive followed by group membership and
-favourites.  This reinforces our conjecture that data sparsity 
-can hurt SAF since we note from Table~\ref{tab:interests} that page likes are
-more prevalent than groups and favourites.
+Facebook population (at least the subset of the population the App
+collected) and also the relative number of ISAFs compared to ASAFs,
+ASAFs appear to draw on a much larger set of SAGs that in turn draw on
+a much larger user population.  Among ASAFs, page likes are the most
+predictive followed by group membership and favourites.  This
+reinforces our conjecture that data sparsity can hurt SAF since we
+note from Table~\ref{tab:interests} that page likes are more prevalent
+than groups and favourites.
 
 Comparing SAF to the state-of-the-art in social collaborative
 filtering as represented by Social Matchbox (SMB)~\cite{Noel2012NOF},
 we observe that SAF consistently outperforms it.  We note that the key
 difference of SAF vs. SMB is that SAF exploits the predictiveness of
-fine-grained interactions and activities --- it breaks them down into
-small subgroups, whereas most 
+fine-grained interactions and activities, whereas most
 %#suvash#
-social collaborative filtering approaches~\cite{socinf,rrmf,ste,sorec,sr,Noel2012NOF,lla} instead
-collapse the diverse set of interactions into aggregate statistics
-such as the number of interactions between user $u_1$ and user $u_2$,
-regardless of whether $u_1$ tagged $u_2$ in a photo or $u_1$ liked a
-photo on $u_2$'s wall.  Clearly there is a great deal of benefit to be
-derived from these fine-grained interactions and it suggests that one
-might rethink existing social collaborative filtering approaches that
-do aggregate interaction and activity information into aggregate
-statistics.
+social collaborative filtering
+approaches~\cite{socinf,rrmf,ste,sorec,sr,Noel2012NOF,lla} instead
+collapse the diverse set of interactions into a single aggregate
+statistic for each pair of users.  The performance of SAF-based
+recommenders suggests that the aggregation of all social information
+into aggregate statistics (without learning which interactions or
+activities are most informative) may lose valuable parts of the social
+signal among the noise.
 
-On two final notes, we remark that SAF yields a computational and
+On three final notes, we remark that SAF yields a computational and
 optimization advantage over (social) collaborative filtering in that
-it is straightforward and efficient to find a globally optimal
-classifier with respect to certain training criteria (e.g., optimising
-log loss in logistic regression or hinge loss in SVMs) unlike (social)
+it is straightforward and efficient to find a globally optimal linear
+classifier with respect to a variety of training criteria (e.g., 
+log loss in logistic regression, or hinge loss in SVMs) unlike (social)
 collaborative filtering approaches that generally rely on
-computationally expensive nearest neighbor or matrix factorization
+computationally expensive nearest neighbour or matrix factorization
 techniques that lack training optimality guarantees.  Further, we also
-note that SAF inherently scales to a large number
-of users and generalizes to completely new users without suffering
+note that SAF inherently scales to real-time, big data settings 
+since linear classifiers can be effectively trained online 
+and are highly scalable.online training algorithms
+amenable to real-time, big data settings
+
+%%% Where does cold-start come in?  End with a final observation
+%%% of cold-start.
+
+(i.e., a large number
+of users and items) ** generalizes to completely new users without suffering
 from the cold-start problem: this is simply because nothing SAF learns
 is user-dependent, it learns to weight SAGs independent of individual  
 users. % and does not require the target user's preference data.
