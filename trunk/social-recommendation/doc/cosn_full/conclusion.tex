@@ -1,5 +1,8 @@
 %!TEX root = document.tex
 
+% SPS: Don't really need a conclusions section... the intro section
+% already did this.
+\eat{
 We proposed Social Affinity Filtering (SAF) as a novel method for social
 recommendation that analyses a user's fine-grained interactions and
 activities to learn which subset of social groups have the highest affinity with
@@ -28,17 +31,18 @@ the most predictive affinity groups.  Knowing what subset of features
 are informative allows one to design an effective recommendation tool
 that requires minimal permissions from a user --- a key property for
 general user uptake.
+}
 
-Future directions of research can 
-%investigate the nature of
-%interactions by measuring the level of user engagement --- e.g. if
-%videos are inherently more engaging, or 
-examine the nature of social groups via additional metrics --- e.g.,
-the social network within members of the group, or activity level of
-the group.  Other work might explore the feature engineering to better incorporate
-preference frequency, or even combinations of SAF with
-orthogonal (social) collaborative filtering approaches like nearest
-neighbor or even matrix factorization.
+For a summary of the key contributions and insights from this work, we
+refer the reader back to the points outlined in
+Sec~\ref{sec:introduction}.  Future directions of research along the
+lines of SAF can examine the nature of social groups via additional
+metrics --- e.g., the social network within members of the group, or
+activity level of the group.  Other work might explore non-binary
+representations of ASAFs and ISAFs that enhance the predictive power
+of SAF, or extensions of (social) collaborative filtering approaches
+like nearest neighbor or matrix factorization to better exploit
+fine-grained social interaction and activity features as in SAF.
 
 %% Latent projections of affinity groups!  (for social regularization)
 %% Exploit quantity in features and interactions/nonlinearity
