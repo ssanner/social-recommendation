@@ -79,9 +79,8 @@ entropies are more informative).}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure*}[tbp!]
 \hspace{-15mm}\includegraphics[width=210mm]{data/plots/vsk/ModalityActionsvsKFriends.eps}
-\caption{Conditional Entropy  of modalities/activities for incoming/outgoing interactions vs. item liked by at least $k$ friends.  Increasing $k$ generally has a stronger influence on informativeness
-than other features of interaction SAGs (modality, action, or direction), with the
-exception of the outgoing-modality.}
+\vspace{-6mm}
+\caption{Conditional Entropy  of modalities/activities for incoming/outgoing interactions vs. item liked by at least $k$ friends.  Increasing $k$ generally has a stronger influence on informativeness than other features of interaction SAGs.}
 \label{Fig2}
 \end{figure*}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -95,11 +94,11 @@ Sec~\ref{sec:methodology}.
 A general method for measuring the amount of information that a 
 feature $X^{u,i}_k$ provides w.r.t. predicting a user preference $\likes(u,i)$ (in this
 case, just $\true$ or $\false$) is to calculate its conditional entropy:
-\begin{align*}
+{\small \begin{align*}
 &H(\likes(u,i) | X^{u,i}_k=\true)\\
 & = -\sum_{y\in{(\true,\false)}} p(\likes(u,i)=y|X^{u,i}_k=\true) \\
 & \qquad \qquad \qquad \;\;\;\; \cdot \ln( p(\likes(u,i)=y|X^{u,i}_k=\true))
-\end{align*}
+\end{align*}}
 In general, a lower conditional entropy indicates a more informative
 feature. Here we measure the conditional entropy $H(\likes(u,i)| X^{u,i}_k=\true)$
 rather than mutual information $I(\likes(u,i); X^{u,i}_k)$, as we found 
@@ -109,43 +108,45 @@ frequency of the feature $X^{u,i}_k=\true$ in the dataset.
 %As defined in Sec~\ref{sec:methodology}, we have three distinctions for user
 %interactions: modality, action, and directionality.  
 First we analyse various interactions to understand what
-interactions define SAGs with a high affinity for a user $u$'s
+interaction-defined SAGs have a high affinity with a user's 
 preferences.  To this end, we make a few observations from the
 conditional entropy analysis of Table~\ref{table:ce_interaction}:
 \begin{itemize}
-\item Interaction on {\em videos} seem to have a stronger preferential affinity 
-than other modalities such as links, posts and photos.  This could be
-  due to the fact that video viewing is time-consuming and users
-  inherently only watch the videos of those whose preferences they
-  often share.
+\item Interaction on {\em videos} indicates a stronger preferential
+  affinity between users than other modalities (links, posts
+  and photos).  We conjecture this is because videos are 
+  time-consuming to view and hence users mainly watch the videos of those
+  users whose preferences they share.
 \item Tagging has a slightly better conditional entropy than
-  commenting and liking, potentially because tagging a user
-  often indicates a direct social interaction (appearing in a photo
-  or video together) that provides evidence of affinity between two
-  users. 
-  % indicating that tagging.
+  commenting and liking, potentially since tagging 
+  often results from direct social interaction (appearing in a photo
+  or video together) indicating common interests.
 \item A user is more likely to share preferences with someone who she
   initiates the interaction with (outgoing) vs. with someone who
-  initiates the interaction with her (incoming).  As an extreme
-  instance of this, we note that while outgoing photo and video
-  interactions are \emph{most} informative in the last table of
-  Table~\ref{table:ce_interaction}, it appears that incoming photo and
-  video interactions are \emph{least} informative.
+  initiates the interaction with her (incoming).  E.g., we note that
+  while outgoing photo and video interactions are \emph{most}
+  informative in the last table of Table~\ref{table:ce_interaction},
+  it appears that incoming photo and video interactions are
+  \emph{least} informative.
 \end{itemize}
 
 In Fig~\ref{Fig2} we plot the conditional entropy of modality and
-action for incoming/outgoing interactions constrained to links
-liked by at least $k$ friends in the SAG (measuring the implicit or explicit
-exposure of a user to their friends preferences via a SAG).  Fig~\ref{Fig2} reiterates
-many observations above for various values of fixed $k$.  In addition, we note that
-preference affinity with a SAG increases as more people in the SAG
-like the item. 
-While incoming interactions were not as predictive as outgoing
-interactions for the same $k$, we note that higher $k$ for an incoming
-interaction \emph{can be more predictive} than lower $k$ for an outgoing
-interaction.  Similar principles hold for modality and action vs. $k$ --- a larger $k$
-is generally more predictive than the individual variation among modality and action,
-the one exception being the modality-outgoing analysis.
+action for incoming/outgoing interactions constrained to links liked
+by at least $k$ friends in the SAG (measuring the implicit or explicit
+\emph{exposure} of a user to their friends' preferences via a SAG).
+%Fig~\ref{Fig2} reiterates many observations above for various values
+%of fixed $k$.  
+We note that preference affinity with any 
+SAG increases as more people in the SAG like the item.  E.g., while incoming
+interactions were not as predictive as outgoing interactions for the
+same $k$, we note that higher $k$ for an incoming interaction
+\emph{can be more predictive} than lower $k$ for an outgoing
+interaction.  Similar principles hold for modality and action vs. $k$
+--- a larger $k$ is generally more predictive than the individual
+variation among modality and action at a fixed $k$, an exception
+being the modality-outgoing analysis.
+
+\eat{
 %Note that these graphs are cumulative in $k$, different from the 
 %exposure curve on exactly $k$ friends~\cite{Romero2011hashtag}. 
 Overall, these observations 
@@ -177,5 +178,5 @@ recommender system design.
 %This exhibits repeated exposure properties of epidemic
 %models for social networks~\cite{Golub2010selectionbiase}.
 %\end{itemize}
-
+}
 

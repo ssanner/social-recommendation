@@ -9,74 +9,73 @@ Now we analyse the informativeness of Activity Social Affinity
 Features (ASAFs) by looking at the correlation between the size and
 type of groups, pages and favourites.
 
-Fig \ref{Fig3} shows the relationship between both the conditional
-    entropy and logistic regression weights vs. the size of activity
-    groups. Here the size of a {\em group}, {\em page} and {\em favourite} 
-    is the number of total users in the activity group. 
-    For {\em pages} and {\em favorites} this is the total number of Facebook users, 
-    whether or not they are in the App users' ego network, while for 
-    {\em groups} only the number of users in the App users' ego network is visible to our app.
-    Both scatter plots shows that the activity groups of small size can be
-    highly predictive (low conditional entropy or weights that deviate
-    extremely from zero) whereas large groups are rarely predictive.
+Fig~\ref{Fig3} provides scatter plots of conditional
+entropies and logistic regression weights vs. activity group 
+size.\footnote{Here the size of a {\em group}, {\em page} and {\em favourite}
+is the number of total users in the activity group.  For {\em pages}
+and {\em favorites} this is the total number of Facebook users,
+whether or not they are in the App users' ego network, while for {\em
+groups} only the number of users in the App users' ego network is
+visible to our app.}  Both plots show that small activity groups
+\emph{can} be highly predictive (low conditional entropy or
+weights that deviate extremely from zero) whereas large groups are
+\emph{rarely} predictive.
 
 In Fig~\ref{Fig4} we plot the average conditional entropy of the top
-    10\% of features cumulative up to the size of the activity group given on the
-    x-axis; this allows us to determine the marginal contribution of
-    larger groups to the average conditional entropy as larger groups
-    are incrementally added in.  This graph 
-    distinctly shows that the small sizes of groups, pages and favourites
-    have low average conditional entropy that transitions sharply to a
-    higher average once a size threshold has been met.  From 
-    Fig~\ref{Fig4} we can infer that the group sizes up to 50 and
-    page/favourite sizes up to $10^{5}$ are most predictive.
+10\% of features cumulative up to the size of the activity group given
+on the x-axis.
+%; this allows us to determine the marginal contribution
+%of larger groups to the average conditional entropy as they 
+%are incrementally added in.  
+This graph distinctly shows that the
+small sizes of groups, pages and favourites have low average
+conditional entropy that transitions sharply to a higher average 
+at about 50 for groups and $10^{5}$ for pages/favourites.
 
 %{\bf TODO: make this consistent with earlier discussion regarding persistence,
 %temporally sychronized.}
 
- We also analyse predictiveness of favourites by categories in
-    Fig~\ref{Fig5}, where the favorite category labels are obtained from the Facebook API.  
-    %It shows that SAGs consisting of shared interests,
-    %activity, television, and books are on average most predictive, while 
-    %music, movies, favourite teams, sports and athletes are on average
-    %least predictive.  
-    We can see that contents in the ``long-tail'', i.e.,  
-    having a large number of occurrences far from the most popular choices, 
-    tend to have some of the most predictive individual affinities. Examples of these include
-    music, books, movies. On the contrary, generic affinities (e.g. interests) and 
-    those with a smaller number of choices (e.g. sports or fav-teams) 
-    tend to be less predictive since they represent less specialised interests than 
-    the long tail of music, book, or movie preferences.  
+We also analyse predictiveness of favourites by categories obtained
+from the Facebook API in Fig~\ref{Fig5}.
+We can see that categories like movie, books, or movies with
+``long-tail'' (less widely popular) content may not be
+the most predictive on average, but %%% HERE
+least popular content in the 
+is often most informative.  On the contrary, generic affinities
+(e.g. interests) and those with a smaller number of choices
+(e.g. sports or fav-teams) tend to be less predictive since they
+represent less specialised interests than the long tail of music,
+book, or movie preferences.
 
-    These observations of Fig~\ref{Fig5} are also reiterated by the
-    examples provided in Table~\ref{table:fav_examples} where uninformative favourites
-    tend to have a broad appeal whereas informative favourites generally appear much
-    more specialised.  This also reinforces the point that not all SAGs are predictive,
-    but some are very predictive and it is important to learn which SAGs are informative
-    rather than nai\"{v}ly aggregate their content, where on average, the features are
-    clearly not informative.
+These observations of Fig~\ref{Fig5} are also reiterated by the
+examples provided in Table~\ref{table:fav_examples} where
+uninformative favourites tend to have a broad appeal whereas
+informative favourites generally appear much more specialised.  This
+also reinforces the point that not all SAGs are predictive, but some
+are very predictive and it is important to learn which SAGs are
+informative rather than nai\"{v}ly aggregate their content, where on
+average, the features are clearly not informative.
    
-    %#suvash#
-    In Fig~\ref{fig:AccuracyVsactiveFeats} we analyse the relationship
-    between accuracy and number of active features i.e. features that
-    are true. We can see that accuracy increase as number of active
-    features increases but then starts to decrease sharply. This is
-    due to the fact that items with large number of active features
-    are likely to be general items, liked by wide variety of users,
-    which makes it hard for SAF to make correct prediction. In
-    Fig~\ref{AccuracyVsmembership} we can see that , in general,
-    accuracy of SAF increases as number of group memebership, page
-    likes and favourites increase.  This indicates that SAF can make
-    better recommendation to those users who actively express their
-    preferences in a social network via group memebership, page likes
-    and favourites.
+%#suvash#
+In Fig~\ref{fig:AccuracyVsactiveFeats} we analyse the relationship
+between accuracy and number of active features i.e. features that are
+true. We can see that accuracy increase as number of active features
+increases but then starts to decrease sharply. This is due to the fact
+that items with large number of active features are likely to be
+general items, liked by wide variety of users, which makes it hard for
+SAF to make correct prediction. In Fig~\ref{AccuracyVsmembership} we
+can see that , in general, accuracy of SAF increases as number of
+group memebership, page likes and favourites increase.  This indicates
+that SAF can make better recommendation to those users who actively
+express their preferences in a social network via group memebership,
+page likes and favourites.
     
-    %While favourite teams, sports and athletes may be
-    %too focused to offer much predictiveness vs. the other more diverse
-    %categories, it is interesting that movies and music favourites
-    %are not very predictive on average.  This may have to do with the fact that
-    %these are typically ephemeral favourites that may be heavily influenced
-    %by popularity as opposed to true personal preference.
+%While favourite teams, sports and athletes may be
+%too focused to offer much predictiveness vs. the other more diverse
+%categories, it is interesting that movies and music favourites
+%are not very predictive on average.  This may have to do with the fact that
+%these are typically ephemeral favourites that may be heavily influenced
+%by popularity as opposed to true personal preference.
 %\end{itemize}
 
 %In Fig~\ref{Fig4} we plot the average conditional entropy of top
@@ -120,10 +119,11 @@ Ranger's Apprentice&Mulan&All Axess&Buffy The Vampire Slayer&Films\\
 \hline
 Cosmos&How to Train Your Dragon&Steve Aoki&South Park&Genetics\\
 \hline
-Foundation and Earth&The Princess Bride&Rihanna&24&Travelling\\
-\hline
-Deception Point&Watchmen&Billy Joel&The Daily Show&Internet\\
-\hline
+%Foundation and Earth&The Princess Bride&Rihanna&24&Travelling\\
+%\hline
+%Deception Point&Watchmen&Billy Joel&The Daily Show&Internet\\
+%\hline
+%%%%%%
 %5 point someone&Black Swan&Queens of the Stone Age&Monty Python's Flying Circus&Psychology\\
 %\hline
 %Freakonomics&Inception&Depeche Mode&Top Chef&Math\\
@@ -156,20 +156,25 @@ The Bible  & Happy Gilmore & Johnny Roadkill & Breaking Bad & Cooking\\
 \hline
 Interview with the Vampire  & Timon and Pumbaa & Aeon of Horus & Red vs. Blue & Klingon language\\
 \hline
-The Discworld Series  & Ferris Buellers Day Off & Katabasis & Stargate Universe & Politics\\
-\hline
-The Da Vinci Code  & Peter Griffin & Bane Of Isildur & Chaser's War on Everything & Science\\
-\hline
+%The Discworld Series  & Ferris Buellers Day Off & Katabasis & Stargate Universe & Politics\\
+%\hline
+%The Da Vinci Code  & Peter Griffin & Bane Of Isildur & Chaser's War on Everything & Science\\
+%\hline
 \end{tabular}}
-\caption{(top) Examples of 10 items per Favourite category near the \emph{median} conditional entropy (\emph{median informativeness}).
-(bottom) Examples of top 10 items with the lowest conditional entropy (\emph{most informative}).
-A general trend is that more informative favourite category ASAGs tend to be more specialised in
-appeal, e.g. ``Avascular Necrosis'' is an informative music group favourite --- its members
-tend to share common preferences --- while ``John Lennon'' and ``U2'' have a broader audience with
-more diverse preferences. 
+
+\caption{(top) Examples of 8 items per Favourite category near the \emph{median} conditional entropy (\emph{median informativeness}).
+(bottom) Examples of top 8 items with the lowest conditional entropy
+(\emph{most informative}).  A general trend is that more informative
+favourite category ASAGs tend to be more specialised in appeal,
+e.g. ``Avascular Necrosis'' is an informative music group favourite
+--- its members tend to share common preferences --- while ``John
+Lennon'' and ``U2'' have a broader audience with more diverse
+preferences.
 %#suvash#
-Interestingly, ''Sherlock''  appears in both most and median informative table but the median informative is
-an official page with wide range of fans, whereas the most informative is a duplicate fan page with few number of fans.}
+Interestingly, ''Sherlock'' appears in both most and median
+informative table but the median informative is an official page with
+wide range of fans, whereas the most informative is a duplicate fan
+page with few fans.}
 \label{table:fav_examples}
 \end{table*}
 
@@ -255,7 +260,7 @@ are informative rather than aggregating average information.}
 %#suvash#
 \begin{figure*}[tbh!]
 \centering
-\includegraphics[width=180mm, height=55mm]{data/plots/new/accuracyVsactiveFeatures.eps}
+\includegraphics[width=180mm, height=50mm]{data/plots/new/accuracyVsactiveFeatures.eps}
 \vspace{-6mm}
 \caption{Accuracy increases as the number of active features increases, but then, after reaching a certain limit, it starts to decrease sharply.
 }
@@ -264,7 +269,7 @@ are informative rather than aggregating average information.}
 
 \begin{figure*}[tbh!]
 \centering
-\includegraphics[width=180mm, height=55mm]{data/plots/new/accuracyVsmembership.eps}
+\includegraphics[width=180mm, height=50mm]{data/plots/new/accuracyVsmembership.eps}
 \vspace{-6mm}
 \caption{Accuracy of the SAF increases as user becomes more active in social network by joining more groups/pages/favourites.}
 \label{AccuracyVsmembership}
