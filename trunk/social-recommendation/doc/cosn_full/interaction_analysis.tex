@@ -2,12 +2,18 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{table}
-\caption{Conditional entropy of various interactions (lower conditional
-entropies are more informative).}
+\caption{Conditional entropy of various interactions (lower
+  conditional entropies are more informative).  We observe that
+  interactions on videos are more informative than other modalities
+  (link, post, photo), tagging is marginally more informative than
+  commenting and liking, and outgoing interactions are slightly more
+  informative than incoming ones.  Breaking down the analysis by
+  modality-direction and action-direction reveals finer-grained
+  distinctions.}
 \label{table:ce_interaction}
-\vspace{-2mm}
+%\vspace{-2mm}
 \centering
-{\footnotesize
+{
 	\begin{tabular}{| >{\small}l | >{\small}r | }
 		\hline
 		\textbf{ Modality ($X$)} & $H(Y|X=true)$ \\
@@ -99,15 +105,13 @@ case, just $\true$ or $\false$) is to calculate its conditional entropy:
 & = -\sum_{y\in{(\true,\false)}} p(\likes(u,i)=y|X^{u,i}_k=\true) \\
 & \qquad \qquad \qquad \;\;\;\; \cdot \ln( p(\likes(u,i)=y|X^{u,i}_k=\true))
 \end{align*}}
-In general, a lower conditional entropy indicates a more informative
-feature. Here we measure the conditional entropy $H(\likes(u,i)| X^{u,i}_k=\true)$
+Lower conditional entropies generally indicate more informative
+features.  We use conditional entropy $H(\likes(u,i)| X^{u,i}_k=\true)$
 rather than mutual information $I(\likes(u,i); X^{u,i}_k)$, as we found 
 that mutual information is highly correlated with (and dominated by) the 
 frequency of the feature $X^{u,i}_k=\true$ in the dataset.
 
-%As defined in Sec~\ref{sec:methodology}, we have three distinctions for user
-%interactions: modality, action, and directionality.  
-First we analyse various interactions to understand what
+First we analyse various interactions to better understand what
 interaction-defined SAGs have a high affinity with a user's 
 preferences.  To this end, we make a few observations from the
 conditional entropy analysis of Table~\ref{table:ce_interaction}:
@@ -118,9 +122,9 @@ conditional entropy analysis of Table~\ref{table:ce_interaction}:
   time-consuming to view and hence users mainly watch the videos of those
   users whose preferences they share.
 \item Tagging has a slightly better conditional entropy than
-  commenting and liking, potentially since tagging 
-  often results from direct social interaction (appearing in a photo
-  or video together) indicating common interests.
+  commenting and liking, potentially since tagging often results from
+  direct social interaction (appearing in a photo or video together)
+  indicating common interests.
 \item A user is more likely to share preferences with someone who she
   initiates the interaction with (outgoing) vs. with someone who
   initiates the interaction with her (incoming).  E.g., we note that
@@ -132,19 +136,19 @@ conditional entropy analysis of Table~\ref{table:ce_interaction}:
 
 In Fig~\ref{Fig2} we plot the conditional entropy of modality and
 action for incoming/outgoing interactions constrained to links liked
-by at least $k$ friends in the SAG (measuring the implicit or explicit
-\emph{exposure} of a user to their friends' preferences via a SAG).
+by at least $k$ friends in the SAG
+ (measuring the implicit or explicit
+ \emph{exposure} of a user to their friends' preferences via a SAG).
 %Fig~\ref{Fig2} reiterates many observations above for various values
 %of fixed $k$.  
-We note that preference affinity with any 
-SAG increases as more people in the SAG like the item.  E.g., while incoming
-interactions were not as predictive as outgoing interactions for the
-same $k$, we note that higher $k$ for an incoming interaction
-\emph{can be more predictive} than lower $k$ for an outgoing
-interaction.  Similar principles hold for modality and action vs. $k$
+We note that preference affinity with any SAG increases as more people
+in the SAG like the item.  E.g., while incoming interactions were not
+as predictive as outgoing interactions for the same $k$, we note that
+higher $k$ on incoming \emph{can be more predictive} than lower $k$
+for outgoing.  Similar principles hold for modality and action vs. $k$
 --- a larger $k$ is generally more predictive than the individual
-variation among modality and action at a fixed $k$, an exception
-being the modality-outgoing analysis.
+variation among modality and action at a fixed $k$, an exception being
+the modality-outgoing analysis.
 
 \eat{
 %Note that these graphs are cumulative in $k$, different from the 

@@ -1,10 +1,5 @@
 %!TEX root = document.tex
 
-% Note: activity SAGs can go beyond friends.
-
-%In this section we evaluate the correlation between the conditional
-%entropy and size of groups, pages and favourites.
-
 Now we analyse the informativeness of Activity Social Affinity
 Features (ASAFs) by looking at the correlation between the size and
 type of groups, pages and favourites.
@@ -16,7 +11,7 @@ is the number of total users in the activity group.  For {\em pages}
 and {\em favorites} this is the total number of Facebook users,
 whether or not they are in the App users' ego network, while for {\em
 groups} only the number of users in the App users' ego network is
-visible to our app.}  Both plots show that small activity groups
+visible to our App.}  Both plots show that small activity groups
 \emph{can} be highly predictive (low conditional entropy or
 weights that deviate extremely from zero) whereas large groups are
 \emph{rarely} predictive.
@@ -32,67 +27,32 @@ small sizes of groups, pages and favourites have low average
 conditional entropy that transitions sharply to a higher average 
 at about 50 for groups and $10^{5}$ for pages/favourites.
 
-%{\bf TODO: make this consistent with earlier discussion regarding persistence,
-%temporally sychronized.}
-
 We also analyse predictiveness of favourites by categories obtained
-from the Facebook API in Fig~\ref{Fig5}.
-We can see that categories like movie, books, or movies with
-``long-tail'' (less widely popular) content may not be
-the most predictive on average, but %%% HERE
-least popular content in the 
-is often most informative.  On the contrary, generic affinities
-(e.g. interests) and those with a smaller number of choices
-(e.g. sports or fav-teams) tend to be less predictive since they
-represent less specialised interests than the long tail of music,
-book, or movie preferences.
-
+from the Facebook API in Fig~\ref{Fig5}.  While half of category
+instances in movie, books, or movies with ``long-tail'' (less popular,
+specialised) content may not be highly predictive (judging by median
+informativess), these categories do contain some highly predictive
+instances (as evidenced by the top two quartiles).  On the contrary,
+highly generic categories (e.g. interests) and those with fewer
+choices (e.g. sports or fav-teams) tend to be less predictive overall.
 These observations of Fig~\ref{Fig5} are also reiterated by the
 examples provided in Table~\ref{table:fav_examples} where
 uninformative favourites tend to have a broad appeal whereas
 informative favourites generally appear much more specialised.  This
-also reinforces the point that not all SAGs are predictive, but some
-are very predictive and it is important to learn which SAGs are
-informative rather than nai\"{v}ly aggregate their content, where on
-average, the features are clearly not informative.
+reinforces the insight of SAF that it is important to learn
+which SAGs are predictive.
    
 %#suvash#
-In Fig~\ref{fig:AccuracyVsactiveFeats} we analyse the relationship
-between accuracy and number of active features i.e. features that are
-true. We can see that accuracy increase as number of active features
-increases but then starts to decrease sharply. This is due to the fact
-that items with large number of active features are likely to be
-general items, liked by wide variety of users, which makes it hard for
-SAF to make correct prediction. In Fig~\ref{AccuracyVsmembership} we
-can see that , in general, accuracy of SAF increases as number of
-group memebership, page likes and favourites increase.  This indicates
-that SAF can make better recommendation to those users who actively
-express their preferences in a social network via group memebership,
-page likes and favourites.
-    
-%While favourite teams, sports and athletes may be
-%too focused to offer much predictiveness vs. the other more diverse
-%categories, it is interesting that movies and music favourites
-%are not very predictive on average.  This may have to do with the fact that
-%these are typically ephemeral favourites that may be heavily influenced
-%by popularity as opposed to true personal preference.
-%\end{itemize}
-
-%In Fig~\ref{Fig4} we plot the average conditional entropy of top
-%    10\% features cumulative over the size of activity group. It
-%    distinctly shows that the small sized group, pages and favourites
-%    have low average conditional entropy. Furthermore, it explains
-%    average conditional entropy decreases as size increases. From the
-%    figure \ref{Fig4} we can infer that the group size upto 50 and
-%    page/favourite size upto $10^{5}$ can be highly predictive.
-%
-%We also analyze predictiveness of favourites by categories in
-%    Fig \ref{Fig5}. It shows that television, books, music and movies
-%    are predictive whereas favourite teams, sports and athletes are
-%    less predictive.
-%\end{itemize}
-
-%\TODO{add a table of top 5-10 groups/pages/favs}
+One might ask how the number of activities a user joins affects
+recommendation performance.  In Fig~\ref{AccuracyVsmembership}, we see
+that on average, more user activities generally leads to higher
+accuracy.  As an alternative analysis, Fig~\ref{fig:features_overview}
+shows performance vs.  the number of \emph{active features}, i.e., for
+any (user,item) recommendation in a row of
+Fig~\ref{fig:features_overview}, the active features are those that
+are true (1).  Here we see that excessive item popularity among
+activities hurts the discriminative power of SAF to make good
+recommendations.
 
 \begin{table*}[t!] \centering 
 
@@ -207,7 +167,7 @@ Robert The Bruce (Band) & Metalocalypse & Aeon of Horus \\
 \end{table*}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure*}[tbp!]
+\begin{figure*}[tbph!]
 \centering
 \begin{tabular}{ccc}
 \begin{tabular}{ccc}
@@ -221,10 +181,12 @@ Robert The Bruce (Band) & Metalocalypse & Aeon of Horus \\
 \end{tabular}
 \end{tabular}
 \vspace{-2mm}
-\caption {Conditional entropy vs size (a-c); logistic regression feature weights vs size (d-f).
-In (a-c) we observe that the large membership ASAGs are rarely informative while the most
-informative SAGs tend to have low memberships.  Similarly in (d-f) we see that the most
-predictive features with the most extreme weights are concentrated toward small ASAGs. }
+\caption {Conditional entropy vs. size (a-c); logistic regression feature weights vs size (d-f).
+In (a-c) we observe that the large membership ASAGs are rarely
+informative while the most informative SAGs tend to have low
+memberships.  Similarly in (d-f) we see that the most predictive
+features with the largest weights (positive or negative) are
+concentrated toward small ASAGs. }
 \label{Fig3}
 \end{figure*}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -232,7 +194,7 @@ predictive features with the most extreme weights are concentrated toward small 
 %\vspace{-5mm}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure*}[tbp!]
+\begin{figure*}[tbph!]
 \centering
 \includegraphics[scale=0.28]{data/plots/cumulativeEntropy/cumulative.eps}
 \vspace{-3mm}
@@ -245,33 +207,37 @@ decreases substantially (entropy increases).}
 %\vspace{-7mm}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure*}[tbp!]
+\begin{figure*}[tbph!]
 \hspace{-12mm}\includegraphics[width=200mm]{data/plots/boxPlots/CEvsFavTypes.eps}
 \vspace{-7mm}
-\caption{Conditional entropy for top 1000 favourites breakdown by categories.  While ASAG categories
-with many options like music are not informative on average, we see
-that some of the most informative ASAGs are music.  This reiterates
-the point that it is crucial to \emph{learn} which ASAGs (or ISAGs)
+\caption{Conditional entropy for top 1000 favourites breakdown by categories.  While
+at least half of ASAG categories
+with many options like music are not informative (judging by median values), 
+some of the most informative ASAGs are music.  This reiterates
+the point that it is crucial to \emph{learn} which ASAGs 
 are informative rather than aggregating average information.}
 \label{Fig5}
 \end{figure*}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %#suvash#
-\begin{figure*}[tbh!]
-\centering
-\includegraphics[width=180mm, height=50mm]{data/plots/new/accuracyVsactiveFeatures.eps}
-\vspace{-6mm}
-\caption{Accuracy increases as the number of active features increases, but then, after reaching a certain limit, it starts to decrease sharply.
-}
-\label{fig:AccuracyVsactiveFeats}
-\end{figure*}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure*}[tbh!]
 \centering
 \includegraphics[width=180mm, height=50mm]{data/plots/new/accuracyVsmembership.eps}
 \vspace{-6mm}
-\caption{Accuracy of the SAF increases as user becomes more active in social network by joining more groups/pages/favourites.}
+\caption{Accuracy of the SAF increases as users become more active in social network by joining more groups/pages/favourites.  It does not appear too many activities hurts --- SAF learns to discriminate when activities are predctive.}
 \label{AccuracyVsmembership}
 \end{figure*}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure*}[tbh!]
+\centering
+\includegraphics[width=180mm, height=50mm]{data/plots/new/accuracyVsactiveFeatures.eps}
+\vspace{-6mm}
+\caption{Accuracy increases as the number of active features increases, but then, after reaching a certain limit, it starts to decrease, i.e., excessive item popularity among activities hurts the discriminative power of SAF to make good recommendations.}
+\label{fig:AccuracyVsactiveFeats}
+\end{figure*}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
