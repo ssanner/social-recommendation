@@ -1,0 +1,53 @@
+%!TEX root = document.tex
+
+% SPS: Don't really need a conclusions section... the intro section
+% already did this.
+\eat{
+We proposed Social Affinity Filtering (SAF) as a novel method for social
+recommendation that analyses a user's fine-grained interactions and
+activities to learn which subset of social groups have the highest affinity with
+a user's preferences.  We evaluated SAF on a dataset collected from a
+Facebook App, showing that SAF yields 6\% absolute improvement in
+accuracy over state-of-the-art (social) recommendation engines just
+using knowledge of users' page likes.  This is an important result
+given that SAF is built on standard supervised linear classification
+techniques (which support strong training guarantees and fast learning
+algorithms) and would be fairly robust in an online setting 
+in contrast to some more complex matrix factorization optimisation approaches
+often proposed for (social) collaborative filtering.
+
+In addition to the strong social recommendation accuracy improvements
+offered by SAF, we quantified the relative importance of interaction
+and activity groups for recommendation and we analysed what properties
+made some social affinity groups more informative than others.  Among
+many insights, our results show that video interactions are more
+predictive than other modalities and outgoing interactions are more
+predictive than incoming ones, but both can be superceded by the
+number of preferences expressed by a group.  Furthermore, for
+activities, we showed that smaller social groups are more predictive
+than larger ones and long-tailed categories with many specialised
+choices (dynamically increasing over time) tend to contain some of
+the most predictive affinity groups.  Knowing what subset of features
+are informative allows one to design an effective recommendation tool
+that requires minimal permissions from a user --- a key property for
+general user uptake.
+}
+
+For a summary of the key contributions and insights from this work, we
+refer the reader back to the points outlined at the end of 
+Sec~\ref{sec:introduction}.  
+Future research directions can examine the
+nature of social groups via additional metrics --- e.g., properties
+of the social network within SAGs or the activity level of SAGs.
+Other work might explore non-binary representations of ASAFs and ISAFs
+or SAF-influenced extensions of (social) collaborative filtering approaches like
+nearest neighbor or matrix factorization to better exploit
+informative fine-grained social interaction and activity features.
+
+%% Latent projections of affinity groups!  (for social regularization)
+%% Exploit quantity in features and interactions/nonlinearity
+%% Cold-start
+
+%% Explore beyond one link out... two links, three links... how?
+%% Try latent factorization approach?
+%% Taxonomic features?

@@ -1,0 +1,55 @@
+This is BibTeX, Version 0.99d (TeX Live 2012)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: cosn084-sedhain.aux
+The style file: abbrv.bst
+Database file #1: bibliography.bib
+Warning--empty booktitle in Bakshy2011everyone
+Warning--empty booktitle in brandtzag2011facebook
+Warning--empty booktitle in Jiang2012SCR
+Warning--empty booktitle in Jiang2012SRA
+Warning--empty booktitle in Romero2011hashtag
+Warning--empty booktitle in singla2008yes
+Warning--empty booktitle in ver2011stops
+Warning--empty booktitle in wilson2009user
+You've used 32 entries,
+            2118 wiz_defined-function locations,
+            655 strings with 8446 characters,
+and the built_in function-call counts, 11132 in all, are:
+= -- 984
+> -- 680
+< -- 5
++ -- 268
+- -- 234
+* -- 722
+:= -- 1868
+add.period$ -- 99
+call.type$ -- 32
+change.case$ -- 213
+chr.to.int$ -- 0
+cite$ -- 40
+duplicate$ -- 461
+empty$ -- 884
+format.name$ -- 234
+if$ -- 2331
+int.to.chr$ -- 0
+int.to.str$ -- 32
+missing$ -- 32
+newline$ -- 163
+num.names$ -- 64
+pop$ -- 293
+preamble$ -- 1
+purify$ -- 181
+quote$ -- 0
+skip$ -- 299
+stack$ -- 0
+substring$ -- 329
+swap$ -- 91
+text.length$ -- 5
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 128
+warning$ -- 8
+while$ -- 80
+width$ -- 34
+write$ -- 337
+(There were 8 warnings)
