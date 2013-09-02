@@ -1,0 +1,175 @@
+
+\begin{thebibliography}{10}
+
+\bibitem{Anderson2012}
+A.~Anderson, D.~Huttenlocher, J.~Kleinberg, and J.~Leskovec.
+\newblock {Effects of User Similarity in Social Media}.
+\newblock In {\em WSDM}, 2012.
+
+\bibitem{asur2011trends}
+S.~Asur, B.~A. Huberman, G.~Szabo, and C.~Wang.
+\newblock Trends in social media: Persistence and decay.
+\newblock In {\em ICWSM}, 2011.
+
+\bibitem{backstrom2011center}
+L.~Backstrom, E.~Bakshy, J.~Kleinberg, T.~Lento, and I.~Rosenn.
+\newblock Center of attention: How facebook users allocate attention across
+  friends.
+\newblock In {\em ICWSM}, 2011.
+
+\bibitem{Bakshy2011everyone}
+E.~Bakshy, J.~M. Hofman, W.~A. Mason, and D.~J. Watts.
+\newblock Everyone's an influencer: quantifying influence on twitter.
+\newblock In {\em WSDM}, 2011.
+
+\bibitem{Bakshy2012chamber}
+E.~Bakshy, I.~Rosenn, C.~Marlow, and L.~Adamic.
+\newblock The role of social networks in information diffusion.
+\newblock {\em Facebook Report, http://www.scribd.com/facebook}, 2012.
+
+\bibitem{bellkor}
+R.~M. Bell and Y.~Koren.
+\newblock Scalable collaborative filtering with jointly derived neighborhood
+  interpolation weights.
+\newblock In {\em ICDM}, 2007.
+
+\bibitem{brandtzag2011facebook}
+P.~B. Brandtzaeg and O.~Nov.
+\newblock Facebook use and social capital --- a longitudinal study.
+\newblock In {\em ICWSM}, 2011.
+
+\bibitem{Chang2010ethnicity}
+J.~Chang, I.~Rosenn, L.~Backstrom, and C.~Marlow.
+\newblock epluribus: Ethnicity on social networks.
+\newblock In {\em ICWSM}, 2010.
+
+\bibitem{socinf}
+P.~Cui, F.~Wang, S.~Liu, M.~Ou, and S.~Yang.
+\newblock Who should share what? item-level social influence prediction for
+  users and posts ranking.
+\newblock In {\em SIGIR}, 2011.
+
+\bibitem{liblinear}
+R.-E. Fan, K.-W. Chang, C.-J. Hsieh, X.-R. Wang, and C.-J. Lin.
+\newblock Liblinear: A library for large linear classification.
+\newblock {\em JMLR}, pages 1871--1874, 2008.
+
+\bibitem{gilbert2009predicting}
+E.~Gilbert and K.~Karahalios.
+\newblock Predicting tie strength with social media.
+\newblock In {\em Proc. CHI}. ACM, 2009.
+
+\bibitem{Goel2012structure}
+S.~Goel, D.~J. Watts, and D.~G. Goldstein.
+\newblock The structure of online diffusion networks.
+\newblock In {\em EC}, 2012. 
+
+\bibitem{Golub2010selectionbiase}
+B.~Golub and M.~O. Jackson.
+\newblock Using selection bias to explain the observed structure of internet
+  diffusions.
+\newblock {\em Proc. Nat. Academy Sci.}, 107(24), 2010.
+
+\bibitem{hill2003social}
+R.~Hill and R.~Dunbar.
+\newblock Social network size in humans.
+\newblock {\em Human Nature}, 14(1):53--72, 2003.
+
+\bibitem{Jiang2012SCR}
+M.~Jiang, P.~Cui, R.~Liu, Q.~Yang, F.~Wang, W.~Zhu, and S.~Yang.
+\newblock Social contextual recommendation.
+\newblock In {\em CIKM}, 2012.
+
+\bibitem{Jiang2012SRA}
+M.~Jiang, P.~Cui, F.~Wang, Q.~Yang, W.~Zhu, and S.~Yang.
+\newblock Social recommendation across multiple relational domains.
+\newblock In {\em CIKM}, 2012.
+
+\bibitem{koren2009matrix}
+Y.~Koren, R.~Bell, and C.~Volinsky.
+\newblock Matrix factorization techniques for recommender systems.
+\newblock {\em Computer}, 42, 2009.
+
+\bibitem{newsweeder}
+K.~Lang.
+\newblock {NewsWeeder}: Learning to filter netnews.
+\newblock In {\em ICML}, 1995.
+
+\bibitem{rrmf}
+W.-J. Li and D.-Y. Yeung.
+\newblock Relation regularized matrix factorization.
+\newblock In {\em IJCAI}, 2009.
+
+\bibitem{ste}
+Ma, King, and Lyu.
+\newblock Learning to recommend with social trust ensemble.
+\newblock In {\em SIGIR}, 2009.
+
+\bibitem{sorec}
+H.~Ma, H.~Yang, M.~R. Lyu, and I.~King.
+\newblock Sorec: Social recommendation using probabilistic matrix
+  factorization.
+\newblock In {\em CIKM}, 2008.
+
+\bibitem{sr}
+H.~Ma, D.~Zhou, C.~Liu, M.~R. Lyu, and I.~King.
+\newblock Recommender systems with social regularization.
+\newblock In {\em WSDM}, 2011.
+
+\bibitem{Noel2012NOF}
+J.~Noel, S.~Sanner, K.-N. Tran, P.~Christen, L.~Xie, E.~V. Bonilla,
+  E.~Abbasnejad, and N.~Della~Penna.
+\newblock New objective functions for social collaborative filtering.
+\newblock In {\em WWW}, 2012.
+
+\bibitem{tf}
+S.~Rendle, L.~B. Marinho, A.~Nanopoulos, and L.~Schmidt-Thieme.
+\newblock Learning optimal ranking with tensor factorization for tag
+  recommendation.
+\newblock In {\em KDD}, 2009.
+
+\bibitem{Romero2011hashtag}
+D.~M. Romero, B.~Meeder, and J.~Kleinberg.
+\newblock Differences in the mechanics of information diffusion across topics:
+  idioms, political hashtags, and complex contagion on twitter.
+\newblock In {\em WWW}, 2011.
+
+\bibitem{saez2011high}
+D.~Saez-Trumper, D.~Nettleton, and R.~Baeza-Yates.
+\newblock High correlation between incoming and outgoing activity: A
+  distinctive property of online social networks?
+\newblock In {\em ICWSM}, 2011.
+
+\bibitem{pmf}
+R.~Salakhutdinov and A.~Mnih.
+\newblock Probabilistic matrix factorization.
+\newblock In {\em {NIPS}}, 2008.
+
+\bibitem{singla2008yes}
+P.~Singla and M.~Richardson.
+\newblock Yes, there is a correlation: - from social networks to personal
+  behavior on the web.
+\newblock In {\em WWW}, 2008.
+
+\bibitem{ver2011stops}
+G.~Ver~Steeg, R.~Ghosh, and K.~Lerman.
+\newblock What stops social epidemics?
+\newblock In {\em ICWSM}, 2011.
+
+\bibitem{influence}
+D.~J. Watts and P.~S. Dodds.
+\newblock Influentials, networks, and public opinion formation.
+\newblock {\em Journal of Consumer Research}, 2007.
+
+\bibitem{wilson2009user}
+C.~Wilson, B.~Boe, A.~Sala, K.~Puttaswamy, and B.~Zhao.
+\newblock User interactions in social networks and their implications.
+\newblock In {\em EuroSys}, 2009.
+
+\bibitem{lla}
+S.-H. Yang, B.~Long, A.~Smola, N.~Sadagopan, Z.~Zheng, and H.~Zha.
+\newblock Like like alike: Joint friendship and interest propagation in social
+  networks.
+\newblock In {\em WWW}, 2011.
+
+\end{thebibliography}
