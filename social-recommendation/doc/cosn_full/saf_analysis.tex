@@ -12,77 +12,6 @@ algorithms, and SMB is a state-of-the-art \emph{social} collaborative
 filtering algorithm employing matrix factorization with social
 regularisation.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\begin{table}[t!]
-\centering
-\begin{tabular}{|>{\small}l|>{\small}r|>{\small}r|}
-\hline
-& \textbf{App Users} & \textbf{Ego Network} \\
-& & \textbf{of App Users} \\
-\hline
-Groups & 3,469 & 373,608 \\
-\hline
-Page Likes & 10,771 & 825,452 \\
-\hline
-Favourites & 4,284 & 892,820\\
-\hline
-\end{tabular}
-\caption{Statistics on user {\em actions}, counted for {\em Groups, Pages} and {\em Favourites} over the App users and their ego network.}
-\label{tab:interests}
-\end{table}
-
-\begin{table}[t!]
-\centering
-\begin{tabular}{|>{\small}l|>{\small}r|>{\small}r|}\hline
-&\textbf{Friend}  & \textbf{Non-Friend} \\
-&\textbf{recommendation}  & \textbf{recommendation} \\
-\hline
-Like& 1392 & 1127 \\
-\hline
-Dislike& 895 & 2111\\
-\hline
-\end{tabular}
-\caption{Dataset breakdown of prediction target $like(u,i)$ by the source of the link (Friend/Non-friend) and rating (Like=$\true$, Dislike=$\false$).}
-\label{tab:likeinfo}
-\end{table}
-
-
-\eat{ %% suvash's original table
-\begin{table}[t!]
-\centering
-\begin{tabular}{|>{\small}l|>{\small}r|>{\small}r|>{\small}r|>{\small}r|}
-\hline
-\textbf{App Users} & \textbf{Posts} & \textbf{Tags} & \textbf{Comments} & \textbf{Likes} \\
-\hline
-\textbf{Wall} & 36,359 & 7,711 & 22,388 & 15,999 \\
-\hline
-\textbf{Link} & 5,304 & --- & 7,483 & 6,566 \\
-\hline
-\textbf{Photo} & 4,933 & 28,341 & 10,976 & 8,612 \\
-\hline
-\textbf{Video} & 245 & 2,525 & 1,970 & 843 \\
-\hline
-\hline
-\textbf{App Users} & \textbf{Posts} & \textbf{Tags} & \textbf{Comments} & \textbf{Likes} \\
-\textbf{and Friends} & & & & \\
-\hline
-\textbf{Wall} & 4,301,306 & 1,215,382 & 3,122,019 & 1,887,497 \\
-\hline
-\textbf{Link} & 678,612 & --- & 891,986 & 995,214 \\
-\hline
-\textbf{Photo} & 1,268,816 & 9,620,708 & 3,431,321 & 2,469,859 \\
-\hline
-\textbf{Video} & 59,244 & 904,604 & 486,677 & 332,619 \\
-\hline
-\end{tabular}
-\caption{The number of interactions. Rows represent the Facebook \emph{modality} and columns represent the Facebook \emph{action}.}
-\label{tab:interactions}
-\end{table}
-}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 Among the novel SAF methods, we analyse four different sets of 
 social affinity features:
 \begin{enumerate}
@@ -144,9 +73,10 @@ features).
 \centering
 \includegraphics[width=180mm,height=50mm]{data/plots/new/cold_start.eps}
 \vspace{-6mm}
-\caption{Comparision of the SAF for user cold-start and non cold-start cases. Accuracy of SAF predictor evaluated on
-cold-start users outperforms constant predictor baseline and is
-comparable to the non cold-start SAF predictor.}
+\caption{Cold-start evaluation of SAF: accuracy evaluated on cold-start users 
+  outperforms the most likely class (Constant) predictor baseline and is
+  somewhat comparable to the non cold-start case when all test user data is \emph{not}
+  withheld from training.}
 \label{fig:coldstart}
 \end{figure*}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

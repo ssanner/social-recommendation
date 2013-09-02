@@ -26,27 +26,8 @@ of identifying the \emph{minimal} set of permissions to obtain good
 recommendation performance --- a question we address in our subsequent
 analysis.}
 
-We summarise basic statistics of the data in
-Tables~\ref{tab:interactions}--\ref{tab:likeinfo}.
-Table~\ref{tab:demographics} presents user and friend demographics.
-Table~\ref{tab:interactions} summarises the number of
-records for each item modality (row) and action (column)
-combination. Table~\ref{tab:interests} shows the group membership,
-page like and favourite counts for users.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Our App recommends three links to App users each day,
-which the users may optionally like or dislike.  Recommended links are
-harvested from
-\emph{both} friends' and non-friends' timelines.
-We display only three links per day in order to avoid rank-bias with
-preferences; each link could be independently rated.
-Table~\ref{tab:likeinfo} shows App user
-link preference statistics.
-
-All subsequent experimentats use offline
-batch data stored and analysed \emph{after} a four
-month data collection period.
-      							
 \begin{table}[t!]
 \centering
 \begin{tabular}{|>{\small}l|>{\small}r|>{\small}r|}
@@ -99,3 +80,59 @@ network of the App users.}
 \label{tab:interactions}
 \end{table}
 
+\begin{table}[t!]
+\centering
+\begin{tabular}{|>{\small}l|>{\small}r|>{\small}r|}
+\hline
+& \textbf{App Users} & \textbf{Ego Network} \\
+& & \textbf{of App Users} \\
+\hline
+Groups & 3,469 & 373,608 \\
+\hline
+Page Likes & 10,771 & 825,452 \\
+\hline
+Favourites & 4,284 & 892,820\\
+\hline
+\end{tabular}
+\caption{Statistics on user {\em actions}, counted for {\em Groups, Pages} and {\em Favourites} over the App users and their ego network.}
+\label{tab:interests}
+\end{table}
+
+\begin{table}[t!]
+\centering
+\begin{tabular}{|>{\small}l|>{\small}r|>{\small}r|}\hline
+&\textbf{Friend}  & \textbf{Non-Friend} \\
+&\textbf{recommendation}  & \textbf{recommendation} \\
+\hline
+Like& 1392 & 1127 \\
+\hline
+Dislike& 895 & 2111\\
+\hline
+\end{tabular}
+\caption{Dataset breakdown of prediction target $like(u,i)$ by the source of the link (Friend/Non-friend) and rating (Like=$\true$, Dislike=$\false$).}
+\label{tab:likeinfo}
+\end{table}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+We summarise basic statistics of the data in
+Tables~\ref{tab:demographics}--\ref{tab:likeinfo}.
+Table~\ref{tab:demographics} presents user and friend demographics.
+Table~\ref{tab:interactions} summarises the number of
+records for each item modality (row) and action (column)
+combination. Table~\ref{tab:interests} shows the group membership,
+page like and favourite counts for users.
+
+Our App recommends three links to App users each day,
+which the users may optionally like or dislike.  Recommended links are
+harvested from
+\emph{both} friends' and non-friends' timelines.
+We display only three links per day in order to avoid rank-bias with
+preferences; each link could be independently rated.
+Table~\ref{tab:likeinfo} shows App user
+link preference statistics.
+
+All subsequent experimentats use offline
+batch data stored and analysed \emph{after} a four
+month data collection period.
+      							

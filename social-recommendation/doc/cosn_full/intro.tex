@@ -33,7 +33,7 @@ recommendation, we have built a Facebook App to collect detailed user
 interaction and activity history available through the Facebook Graph
 API along with user preferences solicited by the App on a daily basis.
 Given this data, (1) we define a novel recommendation method called
-{\em social affinity filtering (SAF)}, where we learn to predict
+{\em social affinity filtering (SAF)} that learns to predict
 whether a user (ego) will like an item based on the surrogate item
 preferences of others (alters) who share fine-grained interactions or
 activities with the ego, and (2) we analyse the relative
@@ -92,11 +92,11 @@ SAGs \emph{over the entire Facebook population} rather than just a
 user's friends (where the available preference data is considerably
 more sparse).
 \item {\bf Social activity and item popularity vs. performance:} 
-We analyse \emph{how many} shared activities are needed for
-good performance and observe that increased activity membership correlates
-with increased recommendation accuracy, but that excessive item popularity
-coupled with high activity membership hurts the discriminative power
-of SAF to make good recommendations.
+We analyse \emph{how many} shared activities are needed for good
+performance and observe that increased activity membership correlates
+with increased recommendation accuracy.  However, excessive item
+popularity among activities hurts the discriminative power of SAF to
+make good recommendations.
 \item {\bf Fine-grained vs. aggregate social data:}
 Among activity features, a small subset proved to be much more informative
 than the rest.  This suggests the value of
