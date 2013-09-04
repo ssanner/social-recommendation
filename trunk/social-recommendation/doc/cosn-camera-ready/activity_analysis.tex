@@ -8,7 +8,7 @@ Fig~\ref{Fig3} provides scatter plots of conditional
 entropies and logistic regression weights vs. activity group 
 size.\footnote{Here the size of a {\em group}, {\em page} and {\em favourite}
 is the number of total users in the activity group.  For {\em pages}
-and {\em favorites} this is the total number of Facebook users,
+and {\em favourites} this is the total number of Facebook users,
 whether or not they are in the App users' ego network, while for {\em
 groups} only the number of users in the App users' ego network is
 visible to our App.}  Both plots show that small activity groups
@@ -195,9 +195,9 @@ Robert The Bruce (Band) & Metalocalypse & Aeon of Horus \\
 \begin{figure*}[tbph!]
 \centering
 \begin{tabular}{ccc}
-\subfloat[Fig:][]{\includegraphics[width=140mm, height=37mm]{data/plots/new/CEvsSize.eps}}\\
+\hspace{3mm}\subfloat[Fig:][]{\includegraphics[width=140mm, height=40mm]{data/newPlots/CEvsSize.eps}}\\
 %\vspace{-10mm}
-\subfloat[Fig:][]{\includegraphics[width=140mm, height=37mm]{data/plots/new/LRWeightsvsSize.eps}}\\
+\subfloat[Fig:][]{\includegraphics[width=140mm, height=37mm]{data/newPlots/LRWeightsvsSize.eps}}\\
 \end{tabular}
 \vspace{-2mm}
 \caption {Conditional entropy vs. size (a); logistic regression feature weights vs size (b).
@@ -215,7 +215,7 @@ concentrated toward small ASAGs. }
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure*}[tbph!]
 \centering
-\includegraphics[scale=0.28]{data/plots/cumulativeEntropy/cumulative.eps}
+\includegraphics[height=50mm, width=160mm]{data/newPlots/cumulativeCEvsSize.eps}
 \vspace{-3mm}
 \caption{Average conditional entropy of top 10\% groups, pages and favourite features \emph{cumulative} over the size.  Here we see that as we add in larger membership ASAGs, the average informativeness
 decreases substantially (entropy increases).}
@@ -227,8 +227,9 @@ decreases substantially (entropy increases).}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure*}[tbph!]
-\hspace{-12mm}\includegraphics[width=200mm]{data/plots/boxPlots/CEvsFavTypes.eps}
-\vspace{-7mm}
+\centering
+\includegraphics[height=50mm, width=160mm]{data/newPlots/CEvsFavouriteTypes.eps}
+\vspace{-3mm}
 \caption{Conditional entropy for top 1000 favourites breakdown by categories.  While
 at least half of ASAG categories
 with many options like music are not informative (judging by median values), 
@@ -244,7 +245,7 @@ are informative rather than aggregating average information.}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure*}[tbh!]
 \centering
-\includegraphics[width=180mm, height=50mm]{data/plots/new/accuracyVsmembership.eps}
+\includegraphics[width=180mm, height=50mm]{data/newPlots/AccuracyVsMembership.eps}
 \vspace{-6mm}
 \caption{Accuracy of the SAF increases as users become more active in social network by joining more groups/pages/favourites.  It does not appear too many activities hurts --- SAF learns to discriminate when activities are predctive.}
 \label{AccuracyVsmembership}
@@ -254,7 +255,7 @@ are informative rather than aggregating average information.}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure*}[tbh!]
 \centering
-\includegraphics[width=180mm, height=50mm]{data/plots/new/accuracyVsactiveFeatures.eps}
+\includegraphics[width=180mm, height=50mm]{data/newPlots/AccuracyVsActiveFeatures.eps}
 \vspace{-6mm}
 \caption{Accuracy increases as the number of active features increases, but then, after reaching a certain limit, it starts to decrease, i.e., excessive item popularity among activities hurts the discriminative power of SAF to make good recommendations.}
 \label{fig:AccuracyVsactiveFeats}

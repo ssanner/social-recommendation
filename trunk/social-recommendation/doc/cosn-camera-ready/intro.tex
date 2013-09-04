@@ -1,0 +1,112 @@
+%!TEX root = document.tex
+
+\label{sec:introduction}
+
+% motivate socical recommendation 
+Online social networks such as Facebook record a rich set of user
+preferences (likes of links, posts, photos, videos), user traits,
+interactions and activities (conversation streams, tagging, group
+memberships, interests, personal history, and demographic data).  This
+presents myriad new dimensions to the recommendation problem by making
+available a rich labeled graph structure of social interactions and
+content from which user preferences can be learned and new
+recommendations can be made.
+
+Most existing recommendation methods for social networks aggregate
+this rich social information into a simple measure of user-to-user
+interaction ~\cite{socinf,rrmf,sr,Noel2012NOF,lla,ste,sorec}.  But in
+aggregating all of these interactions and common activities into a
+\emph{single} strength of interaction, we
+ask whether important preference information has been discarded?
+Indeed, the point of departure for this work is the hypothesis that
+different fine-grained interactions (e.g. commenting on a wall or
+getting tagged in a video) and activities (e.g., being a member of a
+university alumni group or a fan of a TV series) \emph{do} represent
+different preferential {\em affinities} between users, and moreover
+that effective {\em filtering} of this information (i.e., learning
+which of these myriad fine-grained interactions and activities are 
+informative) will lead to improved accuracy in social recommendation.
+
+To quantitatively validate our hypotheses and evaluate the
+informativeness of different fine-grained features for social
+recommendation, we have built a Facebook App to collect detailed user
+interaction and activity history available through the Facebook Graph
+API along with user preferences solicited by the App on a daily basis.
+Given this data, (1) we define a novel recommendation method called
+{\em social affinity filtering (SAF)} that learns to predict
+whether a user (ego) will like an item based on the surrogate item
+preferences of others (alters) who share fine-grained interactions or
+activities with the ego, and (2) we analyse the relative
+informativeness of these fine-grained interaction and activity
+features across a variety of dimensions.
+
+In the four months that our App was active, we collected data for a
+set of Facebook app users and their full interactions with 37,000+
+friends along with 22 distinct types of interaction and users activity
+for 3000+ groups, 4000+ favourites, and 10,000+ pages.  In subsequent
+sections that outline our experimental methodology and results in
+detail, we make the following critical observations:
+\begin{itemize}
+\item {\bf Overall performance:} We found that SAF significantly 
+outperforms numerous state-of-the-art collaborative filtering and
+social recommender systems by over 6\% in accuracy using
+just \emph{page} (like) features.  
+\item {\bf Privacy vs. performance:} 
+Because the reluctance of a user to install an App increases with the
+number of permissions requested, the above results suggest that an
+SAF-based social recommendation App need only request permissions for
+a user's \emph{page} likes in order to achieve state-of-the-art
+recommendation accuracy.
+\item {\bf Big data scalability:} We implement SAF as 
+a simple linear classifier that can be globally optimised
+with a variety of classification methods (e.g., naive
+Bayes, logistic regression, SVM) and online training algorithms
+amenable to real-time, big data settings.
+\item {\bf Cold-start capable:}
+Since SAF trains a single model for all users and does not 
+require a user's preferences in order to recommend for them,
+we show that SAF exhibits strong \emph{cold-start}
+performance for users \emph{without} expressed item preferences as long as those users
+have interactions or shared activities with users who have
+expressed item preferences.
+\item {\bf Interaction analysis:} 
+Among \emph{interactions}, we found that those on videos are more
+predictive than those on other content types (photos, post, link), and
+that outgoing interactions (performed by the ego on the alter's
+timeline) are more predictive than incoming ones (performed by alters
+on the ego's timeline), although the level of exposure of an ego to an
+alter's preferences is often more important than the directionality,
+modality, or action underlying the interaction with the alters.
+\item {\bf Activity analysis:}
+The most predictive activity SAGs tend to have small memberships
+indicating that these informative activities represent highly
+specialised interests.  We also found features corresponding to
+``long-tailed'' dynamic content (such as music and books) can be more
+predictive than those with fewer choices that add little new content
+over time (e.g. interests or sports).
+\item {\bf Importance of social data beyond friends:} 
+We found that \emph{groups}, \emph{pages}, and \emph{favourites} 
+make for more informative SAGs than those defined by user-to-user
+interactions.  This is likely because the former can be applied to
+SAGs \emph{over the entire Facebook population} rather than just a
+user's friends (where the available preference data is considerably
+more sparse).
+\item {\bf Social activity and item popularity vs. performance:} 
+We analyse \emph{how many} shared activities are needed for good
+performance and observe that increased activity membership correlates
+with increased recommendation accuracy.  However, excessive item
+popularity among activities hurts the discriminative power of SAF to
+make good recommendations.
+\item {\bf Fine-grained vs. aggregate social data:}
+Among activity features, a small subset proved to be much more informative
+than the rest.  This suggests the value of
+learning \emph{which} fine-grained features are predictive and sheds
+doubt on the efficacy of existing social recommendation methods that
+aggregate social information between two users into a single numerical
+value.
+\end{itemize}
+Subsequent sections demonstrate these findings in detail.
+
+
+
+
