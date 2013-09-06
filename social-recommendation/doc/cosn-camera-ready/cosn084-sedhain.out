@@ -1,16 +1,1 @@
 \BOOKMARK [1][-]{section.1}{Introduction}{}% 1
-\BOOKMARK [1][-]{section.2}{Social Affinity Filtering}{}% 2
-\BOOKMARK [2][-]{subsection.2.1}{Interactions and Activities on Facebook}{section.2}% 3
-\BOOKMARK [2][-]{subsection.2.2}{Social Affinity Groups \(SAGs\)}{section.2}% 4
-\BOOKMARK [2][-]{subsection.2.3}{Social Affinity Filtering \(SAF\)}{section.2}% 5
-\BOOKMARK [2][-]{subsection.2.4}{SAF vs. Other Filtering Methods}{section.2}% 6
-\BOOKMARK [1][-]{section.3}{Evaluation}{}% 7
-\BOOKMARK [2][-]{subsection.3.1}{Data Description}{section.3}% 8
-\BOOKMARK [2][-]{subsection.3.2}{SAF Comparison}{section.3}% 9
-\BOOKMARK [2][-]{subsection.3.3}{Cold-start Evaluation}{section.3}% 10
-\BOOKMARK [2][-]{subsection.3.4}{Interaction Analysis}{section.3}% 11
-\BOOKMARK [2][-]{subsection.3.5}{Activity Analysis}{section.3}% 12
-\BOOKMARK [1][-]{section.4}{Related Work}{}% 13
-\BOOKMARK [1][-]{section.5}{Future Work}{}% 14
-\BOOKMARK [1][-]{section.6}{Acknowledgements}{}% 15
-\BOOKMARK [1][-]{section.7}{References}{}% 16
